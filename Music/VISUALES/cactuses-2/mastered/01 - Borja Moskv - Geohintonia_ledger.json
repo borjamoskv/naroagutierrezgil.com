@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-01",
+  "track": "01 - Borja Moskv - Geohintonia",
+  "reality": "C5-REAL",
+  "duration_s": 51.02,
+  "source_sha256": "0fca76f2f12fe67e4fc2be6652eb61eded7f9711996958c71dc0528a3bbb1790",
+  "output_sha256": "b15468593d54b00365c8495b9de3144129d365396d9edebb4995c8cecbb097be",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -19.52,
+    "lufs": -16.95,
+    "true_peak_dbtp": -3.73,
+    "crest_db": 15.78,
+    "dc_offset": -1.18e-05
+  },
+  "analysis_after": {
+    "peak_db": -2.96,
+    "rms_db": -13.6,
+    "lufs": -11.0,
+    "true_peak_dbtp": -1.56,
+    "crest_db": 10.64,
+    "dc_offset": 0.0009868
+  },
+  "timestamp": "2026-05-19T23:36:51+0200"
+}

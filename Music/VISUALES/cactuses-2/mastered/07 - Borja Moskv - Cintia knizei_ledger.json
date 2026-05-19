@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-07",
+  "track": "07 - Borja Moskv - Cintia knizei",
+  "reality": "C5-REAL",
+  "duration_s": 837.02,
+  "source_sha256": "bf43bb6140935e3735a91432a929b743b33656ac5649cae59e099a6164e1b67d",
+  "output_sha256": "aaf1815c4943f95ab874c67cbae9cafcdda3684f290827568bac58d790b52853",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -19.37,
+    "lufs": -16.86,
+    "true_peak_dbtp": -3.74,
+    "crest_db": 15.63,
+    "dc_offset": 6.49e-05
+  },
+  "analysis_after": {
+    "peak_db": -3.08,
+    "rms_db": -13.4,
+    "lufs": -11.0,
+    "true_peak_dbtp": -2.76,
+    "crest_db": 10.32,
+    "dc_offset": 0.0010559
+  },
+  "timestamp": "2026-05-19T23:49:57+0200"
+}

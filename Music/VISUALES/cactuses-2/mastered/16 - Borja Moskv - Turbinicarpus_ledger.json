@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-16",
+  "track": "16 - Borja Moskv - Turbinicarpus",
+  "reality": "C5-REAL",
+  "duration_s": 1419.04,
+  "source_sha256": "e4286232145bf5abf959536b41298198b117f1d2c362a017bc7d27ccfaea6817",
+  "output_sha256": "dcdeec56b3f5dacd116a2de2bc16fe40aa0d6c1f9de6d55fe5231035a6a0a0f5",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -18.89,
+    "lufs": -16.55,
+    "true_peak_dbtp": -3.73,
+    "crest_db": 15.15,
+    "dc_offset": 2.2e-05
+  },
+  "analysis_after": {
+    "peak_db": -2.93,
+    "rms_db": -13.24,
+    "lufs": -11.0,
+    "true_peak_dbtp": -1.53,
+    "crest_db": 10.31,
+    "dc_offset": 0.0010311
+  },
+  "timestamp": "2026-05-19T23:59:39+0200"
+}

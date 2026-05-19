@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-10",
+  "track": "10 - Borja Moskv - Lasiocereus",
+  "reality": "C5-REAL",
+  "duration_s": 1277.22,
+  "source_sha256": "5c18866b863e317d1d489979845bb1845b026f49357b9867ac7cbf871ae83848",
+  "output_sha256": "952044fbe170633efec0ce74c73453b04cee30ebefe66ee539f907604166a25a",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -18.66,
+    "lufs": -16.14,
+    "true_peak_dbtp": -3.74,
+    "crest_db": 14.92,
+    "dc_offset": -4.41e-05
+  },
+  "analysis_after": {
+    "peak_db": -3.37,
+    "rms_db": -14.01,
+    "lufs": -11.63,
+    "true_peak_dbtp": -0.85,
+    "crest_db": 10.64,
+    "dc_offset": 0.0010932
+  },
+  "timestamp": "2026-05-19T23:57:17+0200"
+}

@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-19",
+  "track": "19 - Borja Moskv - Echinocactus grusonii",
+  "reality": "C5-REAL",
+  "duration_s": 1695.56,
+  "source_sha256": "32627b074bb5f84b0e544a4b17912cf25b5410469ac9a5597246592e771123a9",
+  "output_sha256": "b2ddae7657241b53eda226042cfffb67bd8252cf559a5fcae0959ae5101f1f33",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -19.25,
+    "lufs": -16.46,
+    "true_peak_dbtp": -3.73,
+    "crest_db": 15.5,
+    "dc_offset": 0.0001175
+  },
+  "analysis_after": {
+    "peak_db": -3.41,
+    "rms_db": -13.9,
+    "lufs": -11.0,
+    "true_peak_dbtp": -3.1,
+    "crest_db": 10.49,
+    "dc_offset": 0.0008975
+  },
+  "timestamp": "2026-05-20T00:04:16+0200"
+}

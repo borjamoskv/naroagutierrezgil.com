@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-09",
+  "track": "09 - Borja Moskv - Yavia cryptocarpa",
+  "reality": "C5-REAL",
+  "duration_s": 973.54,
+  "source_sha256": "a29f93a89b23684c73b6a849dce12afe5b1db5c14fd0f16c303f000bbac601e7",
+  "output_sha256": "48efb29d7dbbb920db27a0b93bb03ab77b84ebb4b8409e905c01abbc3488c0b3",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -19.37,
+    "lufs": -15.45,
+    "true_peak_dbtp": -3.72,
+    "crest_db": 15.63,
+    "dc_offset": 6.44e-05
+  },
+  "analysis_after": {
+    "peak_db": -3.44,
+    "rms_db": -14.95,
+    "lufs": -11.0,
+    "true_peak_dbtp": -2.59,
+    "crest_db": 11.51,
+    "dc_offset": 0.0007828
+  },
+  "timestamp": "2026-05-19T23:52:15+0200"
+}

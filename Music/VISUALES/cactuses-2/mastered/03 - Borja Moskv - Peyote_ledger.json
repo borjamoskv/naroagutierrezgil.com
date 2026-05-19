@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-03",
+  "track": "03 - Borja Moskv - Peyote",
+  "reality": "C5-REAL",
+  "duration_s": 51.5,
+  "source_sha256": "9350ba171752784409bd2ce1a5d46e8594c7343572792f895cc2416fe5e990c6",
+  "output_sha256": "e273b43b721c0e618fee02383ef54dbb0cf5f34772cfa447ed7cb2fee32e6b0b",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -18.37,
+    "lufs": -15.13,
+    "true_peak_dbtp": -3.66,
+    "crest_db": 14.62,
+    "dc_offset": -1.21e-05
+  },
+  "analysis_after": {
+    "peak_db": -3.26,
+    "rms_db": -14.19,
+    "lufs": -11.0,
+    "true_peak_dbtp": -1.21,
+    "crest_db": 10.93,
+    "dc_offset": 0.00103
+  },
+  "timestamp": "2026-05-19T23:36:52+0200"
+}

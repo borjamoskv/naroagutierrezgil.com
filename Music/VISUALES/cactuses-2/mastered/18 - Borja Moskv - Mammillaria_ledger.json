@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-18",
+  "track": "18 - Borja Moskv - Mammillaria",
+  "reality": "C5-REAL",
+  "duration_s": 1643.72,
+  "source_sha256": "4cb57ed4ff54074955ad803f27767f748e5a7f1849a0718d4e1e671b54b8a200",
+  "output_sha256": "1f0a4c5831464a7474c64e7722eda11ddcbbfbc9e29721257d1f759c0309ee6a",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -20.2,
+    "lufs": -17.89,
+    "true_peak_dbtp": -3.73,
+    "crest_db": 16.46,
+    "dc_offset": 1.21e-05
+  },
+  "analysis_after": {
+    "peak_db": -3.0,
+    "rms_db": -13.4,
+    "lufs": -11.0,
+    "true_peak_dbtp": -2.56,
+    "crest_db": 10.4,
+    "dc_offset": 0.0009604
+  },
+  "timestamp": "2026-05-20T00:03:24+0200"
+}

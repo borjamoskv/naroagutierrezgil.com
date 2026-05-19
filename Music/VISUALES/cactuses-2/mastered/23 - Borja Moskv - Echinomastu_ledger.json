@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-23",
+  "track": "23 - Borja Moskv - Echinomastu",
+  "reality": "C5-REAL",
+  "duration_s": 1974.06,
+  "source_sha256": "be5807da4dfc6f36f445f8c4191cc4a065f18fe33d6d1f3af9096c06576a15ce",
+  "output_sha256": "c316bcacda32ea551d23b986b736b3f41662a78ea9d7c15b3001785b6fdef06d",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -17.13,
+    "lufs": -13.83,
+    "true_peak_dbtp": -3.7,
+    "crest_db": 13.39,
+    "dc_offset": 2.79e-05
+  },
+  "analysis_after": {
+    "peak_db": -3.61,
+    "rms_db": -14.44,
+    "lufs": -11.0,
+    "true_peak_dbtp": -3.33,
+    "crest_db": 10.82,
+    "dc_offset": 0.0009516
+  },
+  "timestamp": "2026-05-20T00:08:54+0200"
+}

@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-14",
+  "track": "14 - Borja Moskv - Uebelmannia",
+  "reality": "C5-REAL",
+  "duration_s": 1527.46,
+  "source_sha256": "9353d52532a71216908214da546cc05cd05636a76b2e23432afa5358db6e8bfa",
+  "output_sha256": "3fa75e34e607ddfe62a5b5aca9b81c0578c3858ba6d6645b3812e4d2065f08a4",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -18.61,
+    "lufs": -15.57,
+    "true_peak_dbtp": -3.73,
+    "crest_db": 14.87,
+    "dc_offset": 7.6e-06
+  },
+  "analysis_after": {
+    "peak_db": -3.42,
+    "rms_db": -14.16,
+    "lufs": -11.0,
+    "true_peak_dbtp": -2.65,
+    "crest_db": 10.74,
+    "dc_offset": 0.0009815
+  },
+  "timestamp": "2026-05-20T00:01:28+0200"
+}

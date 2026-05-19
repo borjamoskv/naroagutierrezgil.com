@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-12",
+  "track": "12 - Borja Moskv - Echinopsis",
+  "reality": "C5-REAL",
+  "duration_s": 1423.56,
+  "source_sha256": "2496eee22fa5efd38c4d3a6fecb7686777b0bec125f8bf650c9db5e21c89a42a",
+  "output_sha256": "40532f82b5c14af055e7268f8031d8f779f2b2db4e8e29876a6b0d21d6cf71ad",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -21.34,
+    "lufs": -18.92,
+    "true_peak_dbtp": -3.65,
+    "crest_db": 17.6,
+    "dc_offset": 5.54e-05
+  },
+  "analysis_after": {
+    "peak_db": -3.83,
+    "rms_db": -14.87,
+    "lufs": -12.66,
+    "true_peak_dbtp": -0.85,
+    "crest_db": 11.04,
+    "dc_offset": 0.0007625
+  },
+  "timestamp": "2026-05-19T23:59:44+0200"
+}

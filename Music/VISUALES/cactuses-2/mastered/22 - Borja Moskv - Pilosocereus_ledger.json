@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-22",
+  "track": "22 - Borja Moskv - Pilosocereus",
+  "reality": "C5-REAL",
+  "duration_s": 1983.61,
+  "source_sha256": "67557b81fb8ae5092126b08ac46d452133e20bca65886017f93f42cd2d4898e3",
+  "output_sha256": "1956efbc8c35736ef5926373b30a180561968aa13ae0a101560101845b4eba7a",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -18.64,
+    "lufs": -14.88,
+    "true_peak_dbtp": -3.74,
+    "crest_db": 14.9,
+    "dc_offset": 6.89e-05
+  },
+  "analysis_after": {
+    "peak_db": -3.58,
+    "rms_db": -14.77,
+    "lufs": -11.0,
+    "true_peak_dbtp": -1.36,
+    "crest_db": 11.19,
+    "dc_offset": 0.0010506
+  },
+  "timestamp": "2026-05-20T00:09:04+0200"
+}

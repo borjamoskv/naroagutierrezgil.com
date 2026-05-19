@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-06",
+  "track": "06 - Borja Moskv - Neoraimondia",
+  "reality": "C5-REAL",
+  "duration_s": 595.02,
+  "source_sha256": "8f659b210e5aa751c90542bea11e7ae7ed780c2dc2eccc7785f65fbdb65d00ae",
+  "output_sha256": "d846b27b9950a055c80de541194986998a3a3c2b27e2fc57d9cf4388126a0bbe",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -17.38,
+    "lufs": -13.88,
+    "true_peak_dbtp": -3.72,
+    "crest_db": 13.64,
+    "dc_offset": 7.09e-05
+  },
+  "analysis_after": {
+    "peak_db": -3.8,
+    "rms_db": -14.62,
+    "lufs": -11.0,
+    "true_peak_dbtp": -2.39,
+    "crest_db": 10.82,
+    "dc_offset": 0.0010134
+  },
+  "timestamp": "2026-05-19T23:45:55+0200"
+}

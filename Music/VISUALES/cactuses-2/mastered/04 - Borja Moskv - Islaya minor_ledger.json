@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-04",
+  "track": "04 - Borja Moskv - Islaya minor",
+  "reality": "C5-REAL",
+  "duration_s": 257.35,
+  "source_sha256": "64ebe99238d9b233f554218d69f0a8fb6daa04f754066771356813cf0591b3df",
+  "output_sha256": "6d8c16b65e1ce77300f9c72c4bc18a1b8871ef7b9beb716c66af53de46314e0a",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -17.31,
+    "lufs": -14.24,
+    "true_peak_dbtp": -3.64,
+    "crest_db": 13.57,
+    "dc_offset": -0.00045
+  },
+  "analysis_after": {
+    "peak_db": -3.79,
+    "rms_db": -14.34,
+    "lufs": -11.0,
+    "true_peak_dbtp": -3.22,
+    "crest_db": 10.56,
+    "dc_offset": 0.000883
+  },
+  "timestamp": "2026-05-19T23:40:18+0200"
+}

@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-08",
+  "track": "08 - Borja Moskv - Gymnocalycium",
+  "reality": "C5-REAL",
+  "duration_s": 764.81,
+  "source_sha256": "abbdd6a1c5633c0b9f7a90a43d850f8f732a57b9a95813f4e6a77a1783954b14",
+  "output_sha256": "0d85f57a49ff870f4623d8e0e308d225b6d599e3e8e5574929517cda52c08f6b",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -17.87,
+    "lufs": -15.61,
+    "true_peak_dbtp": -3.74,
+    "crest_db": 14.13,
+    "dc_offset": 5.64e-05
+  },
+  "analysis_after": {
+    "peak_db": -3.16,
+    "rms_db": -13.31,
+    "lufs": -11.0,
+    "true_peak_dbtp": -2.44,
+    "crest_db": 10.16,
+    "dc_offset": 0.0009444
+  },
+  "timestamp": "2026-05-19T23:48:45+0200"
+}

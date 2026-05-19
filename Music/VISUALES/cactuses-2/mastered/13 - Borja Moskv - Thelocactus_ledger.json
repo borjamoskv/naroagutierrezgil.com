@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-13",
+  "track": "13 - Borja Moskv - Thelocactus",
+  "reality": "C5-REAL",
+  "duration_s": 1177.26,
+  "source_sha256": "b3553928b99ede68f3270058121f5c7bdf44518c9e889e71fd8623e721cbfd48",
+  "output_sha256": "a04a2bdc63e04bf97c3d64dec4310a952f663c797767b064ebe1b656e2947629",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -17.37,
+    "lufs": -14.96,
+    "true_peak_dbtp": -3.74,
+    "crest_db": 13.63,
+    "dc_offset": 7.7e-06
+  },
+  "analysis_after": {
+    "peak_db": -3.08,
+    "rms_db": -13.39,
+    "lufs": -11.0,
+    "true_peak_dbtp": -2.99,
+    "crest_db": 10.3,
+    "dc_offset": 0.0010384
+  },
+  "timestamp": "2026-05-19T23:55:37+0200"
+}

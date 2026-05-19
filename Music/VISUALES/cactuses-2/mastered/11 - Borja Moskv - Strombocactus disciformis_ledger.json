@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-11",
+  "track": "11 - Borja Moskv - Strombocactus disciformis",
+  "reality": "C5-REAL",
+  "duration_s": 987.99,
+  "source_sha256": "6cb6e99d70c1ab71f2d3ca13b784663bcd3f86f438fefaf89120105a6c85052e",
+  "output_sha256": "09c6e5357e5fb895bdbd5ad76a6d066cb6923863fcf17b13550348cf35834897",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -19.64,
+    "lufs": -17.34,
+    "true_peak_dbtp": -3.7,
+    "crest_db": 15.9,
+    "dc_offset": 0.0012835
+  },
+  "analysis_after": {
+    "peak_db": -3.04,
+    "rms_db": -13.41,
+    "lufs": -11.0,
+    "true_peak_dbtp": -2.29,
+    "crest_db": 10.37,
+    "dc_offset": 0.0011517
+  },
+  "timestamp": "2026-05-19T23:52:28+0200"
+}

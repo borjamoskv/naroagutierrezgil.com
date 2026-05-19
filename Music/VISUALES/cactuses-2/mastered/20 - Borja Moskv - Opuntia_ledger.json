@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-20",
+  "track": "20 - Borja Moskv - Opuntia",
+  "reality": "C5-REAL",
+  "duration_s": 1743.4,
+  "source_sha256": "a892cd26bee8c88bbcd75e80071301b4e1c6d22bf88f45b7b2b41061e915ebf8",
+  "output_sha256": "8c74ae197f1bfa181f48943341b6e2833a5cfa44cf3fe15ece705a996658d3ec",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -18.19,
+    "lufs": -15.18,
+    "true_peak_dbtp": -3.62,
+    "crest_db": 14.45,
+    "dc_offset": 0.0003667
+  },
+  "analysis_after": {
+    "peak_db": -3.56,
+    "rms_db": -14.09,
+    "lufs": -11.0,
+    "true_peak_dbtp": -2.55,
+    "crest_db": 10.52,
+    "dc_offset": 0.0009295
+  },
+  "timestamp": "2026-05-20T00:05:04+0200"
+}

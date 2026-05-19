@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-17",
+  "track": "17 - Borja Moskv - Ferocactus",
+  "reality": "C5-REAL",
+  "duration_s": 1602.06,
+  "source_sha256": "981dae5683028fee491dd74425e7a9da39bcd20f54f7e635e54ba1cd7f447740",
+  "output_sha256": "0437a038c93cb78b57a061a122930132c667ade648a7639954ee1fe9b348a6cd",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -17.93,
+    "lufs": -15.07,
+    "true_peak_dbtp": -3.74,
+    "crest_db": 14.19,
+    "dc_offset": 7.71e-05
+  },
+  "analysis_after": {
+    "peak_db": -3.21,
+    "rms_db": -13.83,
+    "lufs": -11.0,
+    "true_peak_dbtp": -3.07,
+    "crest_db": 10.62,
+    "dc_offset": 0.0009855
+  },
+  "timestamp": "2026-05-20T00:02:42+0200"
+}

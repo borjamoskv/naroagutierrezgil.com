@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-21",
+  "track": "21 - Borja Moskv - Rhipsalis",
+  "reality": "C5-REAL",
+  "duration_s": 1825.59,
+  "source_sha256": "3ed8694ad5fc16d75bda4ec63708bed07f34a3977fcb166c74db00dd189b51a3",
+  "output_sha256": "9e29ae401f573b1f49469560554329c4fd2f3f1876c17f7009dd71c0ee515430",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -19.79,
+    "lufs": -16.75,
+    "true_peak_dbtp": -3.73,
+    "crest_db": 16.05,
+    "dc_offset": -1.2e-06
+  },
+  "analysis_after": {
+    "peak_db": -2.68,
+    "rms_db": -13.78,
+    "lufs": -11.0,
+    "true_peak_dbtp": -1.75,
+    "crest_db": 11.1,
+    "dc_offset": 0.0009812
+  },
+  "timestamp": "2026-05-20T00:06:26+0200"
+}

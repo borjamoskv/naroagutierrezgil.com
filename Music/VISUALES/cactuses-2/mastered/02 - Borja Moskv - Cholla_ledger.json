@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-02",
+  "track": "02 - Borja Moskv - Cholla",
+  "reality": "C5-REAL",
+  "duration_s": 239.43,
+  "source_sha256": "ce0410cdfa199d88123ae5ff23e8723a647ecc273e124f51fb3321cd801d1ac6",
+  "output_sha256": "84fbe6e03406672918e1e105744fb75186e533a75a1590fa817a171a29456222",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -18.31,
+    "lufs": -15.19,
+    "true_peak_dbtp": -3.74,
+    "crest_db": 14.57,
+    "dc_offset": 0.0003896
+  },
+  "analysis_after": {
+    "peak_db": -3.49,
+    "rms_db": -14.25,
+    "lufs": -11.0,
+    "true_peak_dbtp": -3.24,
+    "crest_db": 10.77,
+    "dc_offset": 0.0008797
+  },
+  "timestamp": "2026-05-19T23:40:00+0200"
+}

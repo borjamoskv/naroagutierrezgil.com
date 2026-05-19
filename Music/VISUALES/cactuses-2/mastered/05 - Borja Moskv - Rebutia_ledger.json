@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-05",
+  "track": "05 - Borja Moskv - Rebutia",
+  "reality": "C5-REAL",
+  "duration_s": 581.7,
+  "source_sha256": "24f6a91a1cd1999e891edb7097a63b1a154260d5918fe15cfd5aa27f4a76b2cb",
+  "output_sha256": "ec3dc3065ff98895c80f9c2b6faef0365aabd6c86ebb0f3460f7e13c8c39929a",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -19.36,
+    "lufs": -16.4,
+    "true_peak_dbtp": -3.72,
+    "crest_db": 15.62,
+    "dc_offset": 6.7e-06
+  },
+  "analysis_after": {
+    "peak_db": -3.17,
+    "rms_db": -14.02,
+    "lufs": -11.0,
+    "true_peak_dbtp": -2.59,
+    "crest_db": 10.86,
+    "dc_offset": 0.0009152
+  },
+  "timestamp": "2026-05-19T23:45:42+0200"
+}

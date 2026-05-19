@@ -1,0 +1,25 @@
+{
+  "agent": "Agent-Cactus-15",
+  "track": "15 - Borja Moskv - Coryphantha",
+  "reality": "C5-REAL",
+  "duration_s": 1513.9,
+  "source_sha256": "25642c120006402ac2ab2855ef9bc07b348bbd91808af0f14968422ab35cd034",
+  "output_sha256": "61c6e447313a6dbe5865520dbe872d05ab89f6c5eb9f42f7645cf123723181e2",
+  "analysis_before": {
+    "peak_db": -3.74,
+    "rms_db": -17.49,
+    "lufs": -14.95,
+    "true_peak_dbtp": -3.74,
+    "crest_db": 13.74,
+    "dc_offset": -3.49e-05
+  },
+  "analysis_after": {
+    "peak_db": -3.01,
+    "rms_db": -13.51,
+    "lufs": -11.0,
+    "true_peak_dbtp": -2.82,
+    "crest_db": 10.5,
+    "dc_offset": 0.0010532
+  },
+  "timestamp": "2026-05-20T00:01:14+0200"
+}
