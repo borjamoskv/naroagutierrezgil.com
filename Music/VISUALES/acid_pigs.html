@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACID PIGS — TB-303 Generator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    color: #39ff14;
+    font-family: 'Press Start 2P', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  #main {
+    text-align: center;
+    z-index: 2;
+    position: relative;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    color: #ffff00;
+    text-shadow: 0 0 20px #ffff00, 0 0 40px #ff6600;
+    margin-bottom: 1rem;
+    animation: glow 1.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    from { text-shadow: 0 0 20px #ffff00, 0 0 40px #ff6600; }
+    to { text-shadow: 0 0 40px #39ff14, 0 0 80px #00ff00; }
+  }
+
+  #startBtn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1.2rem;
+    padding: 20px 40px;
+    background: linear-gradient(135deg, #ff6600, #ffff00);
+    color: #0a0a0a;
+    border: 4px solid #39ff14;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    margin: 20px;
+  }
+
+  #startBtn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px #39ff14;
+  }
+
+  #startBtn:active { transform: scale(0.95); }
+
+  #controls {
+    display: none;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .knob-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .knob-group label {
+    font-size: 0.5rem;
+    color: #ff6600;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 120px;
+    height: 8px;
+    background: #333;
+    border-radius: 4px;
+    outline: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #39ff14;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px #39ff14;
+  }
+
+  #viz {
+    width: 100%;
+    height: 200px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
+
+  #status {
+    font-size: 0.6rem;
+    color: #666;
+    margin-top: 15px;
+  }
+
+  .smiley {
+    position: fixed;
+    font-size: 3rem;
+    opacity: 0;
+    pointer-events: none;
+    animation: float 3s ease-out forwards;
+  }
+
+  @keyframes float {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-300px) scale(0.3) rotate(360deg); }
+  }
+
+  #bpm-display {
+    font-size: 1.5rem;
+    color: #ff6600;
+    margin: 10px 0;
+  }
+
+  .flash {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #39ff14;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.05s;
+  }
+</style>
+</head>
+<body>
+
+<div class="flash" id="flash"></div>
+
+<div id="main">
+  <h1>🐷 ACID PIGS 🐷</h1>
+  <div id="bpm-display">BPM: 133</div>
+  <button id="startBtn" onclick="initAcid()">🎵 OINK OINK 🎵</button>
+
+  <div id="controls">
+    <div class="knob-group">
+      <label>BPM</label>
+      <input type="range" id="bpm" min="100" max="160" value="133" oninput="updateBPM(this.value)">
+    </div>
+    <div class="knob-group">
+      <label>303 CUTOFF</label>
+      <input type="range" id="cutoff" min="100" max="4000" value="800">
+    </div>
+    <div class="knob-group">
+      <label>303 RESO</label>
+      <input type="range" id="resonance" min="1" max="30" value="15">
+    </div>
+    <div class="knob-group">
+      <label>303 ENVMOD</label>
+      <input type="range" id="envmod" min="0" max="8000" value="4000">
+    </div>
+    <div class="knob-group">
+      <label>303 DECAY</label>
+      <input type="range" id="decay" min="0.05" max="0.8" value="0.3" step="0.01">
+    </div>
+    <div class="knob-group">
+      <label>DISTORTION</label>
+      <input type="range" id="dist" min="0" max="100" value="30">
+    </div>
+    <div class="knob-group">
+      <label>DELAY MIX</label>
+      <input type="range" id="delaymix" min="0" max="0.8" value="0.35" step="0.01">
+    </div>
+    <div class="knob-group">
+      <label>KICK VOL</label>
+      <input type="range" id="kickvol" min="0" max="1" value="0.8" step="0.01">
+    </div>
+    <div class="knob-group">
+      <label>HAT VOL</label>
+      <input type="range" id="hatvol" min="0" max="1" value="0.4" step="0.01">
+    </div>
+  </div>
+
+  <div id="status"></div>
+</div>
+
+<canvas id="viz"></canvas>
+
+<script>
+let ctx, masterGain, analyser, analyserData;
+let bpm = 133;
+let stepIndex = 0;
+let intervalId = null;
+let isPlaying = false;
+
+// --- ACID BASSLINE PATTERN (classic 303 style) ---
+// Notes in semitones from C2, null = rest, negative = slide
+const PATTERNS = [
+  [0, null, 12, 0, 7, null, 3, 0, 5, null, 12, 7, 0, null, 3, 5],
+  [0, 0, null, 12, 0, 3, 5, null, 7, 12, null, 0, 5, 3, null, 0],
+  [0, 12, 7, 5, 3, 0, null, 12, 0, 7, 5, 3, null, 0, 12, 7],
+  [0, null, null, 0, 12, null, 7, 0, null, 5, 3, null, 0, 12, null, 7],
+];
+const ACCENTS = [
+  [1,0,1,0,0,0,1,0,1,0,0,1,0,0,1,0],
+  [1,0,0,1,0,1,0,0,1,0,0,0,1,0,0,1],
+  [1,1,0,0,1,0,0,1,0,1,0,0,1,0,1,0],
+  [1,0,0,1,1,0,0,0,0,1,0,0,1,1,0,0],
+];
+let currentPattern = 0;
+
+function noteToFreq(semitones) {
+  // C2 = 65.41 Hz
+  return 65.41 * Math.pow(2, semitones / 12);
+}
+
+// --- DISTORTION CURVE ---
+function makeDistortionCurve(amount) {
+  const k = amount;
+  const samples = 44100;
+  const curve = new Float32Array(samples);
+  const deg = Math.PI / 180;
+  for (let i = 0; i < samples; i++) {
+    const x = (i * 2) / samples - 1;
+    curve[i] = ((3 + k) * x * 20 * deg) / (Math.PI + k * Math.abs(x));
+  }
+  return curve;
+}
+
+// --- 909 KICK ---
+function playKick(time) {
+  const vol = parseFloat(document.getElementById('kickvol').value);
+  if (vol === 0) return;
+
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(160, time);
+  osc.frequency.exponentialRampToValueAtTime(40, time + 0.08);
+  
+  gain.gain.setValueAtTime(vol, time);
+  gain.gain.exponentialRampToValueAtTime(0.001, time + 0.4);
+  
+  // Click transient
+  const click = ctx.createOscillator();
+  const clickGain = ctx.createGain();
+  click.type = 'square';
+  click.frequency.setValueAtTime(1000, time);
+  clickGain.gain.setValueAtTime(vol * 0.3, time);
+  clickGain.gain.exponentialRampToValueAtTime(0.001, time + 0.01);
+  
+  osc.connect(gain);
+  gain.connect(masterGain);
+  click.connect(clickGain);
+  clickGain.connect(masterGain);
+  
+  osc.start(time);
+  osc.stop(time + 0.5);
+  click.start(time);
+  click.stop(time + 0.02);
+}
+
+// --- HI-HAT ---
+function playHat(time, open = false) {
+  const vol = parseFloat(document.getElementById('hatvol').value);
+  if (vol === 0) return;
+
+  const bufferSize = ctx.sampleRate * (open ? 0.3 : 0.05);
+  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i++) {
+    data[i] = Math.random() * 2 - 1;
+  }
+  
+  const noise = ctx.createBufferSource();
+  noise.buffer = buffer;
+  
+  const hpf = ctx.createBiquadFilter();
+  hpf.type = 'highpass';
+  hpf.frequency.value = 7000;
+  
+  const bpf = ctx.createBiquadFilter();
+  bpf.type = 'bandpass';
+  bpf.frequency.value = 10000;
+  bpf.Q.value = 1;
+  
+  const gain = ctx.createGain();
+  gain.gain.setValueAtTime(vol, time);
+  gain.gain.exponentialRampToValueAtTime(0.001, time + (open ? 0.25 : 0.04));
+  
+  noise.connect(hpf);
+  hpf.connect(bpf);
+  bpf.connect(gain);
+  gain.connect(masterGain);
+  
+  noise.start(time);
+}
+
+// --- TB-303 BASSLINE ---
+let bassFilter, bassDistortion, delayNode, delayGain;
+
+function init303() {
+  // Filter
+  bassFilter = ctx.createBiquadFilter();
+  bassFilter.type = 'lowpass';
+  bassFilter.frequency.value = 800;
+  bassFilter.Q.value = 15;
+  
+  // Distortion
+  bassDistortion = ctx.createWaveShaper();
+  bassDistortion.curve = makeDistortionCurve(30);
+  bassDistortion.oversample = '4x';
+  
+  // Delay
+  delayNode = ctx.createDelay(1);
+  delayNode.delayTime.value = (60 / bpm) * 0.75; // dotted 8th
+  delayGain = ctx.createGain();
+  delayGain.gain.value = 0.35;
+  
+  const delayFilter = ctx.createBiquadFilter();
+  delayFilter.type = 'lowpass';
+  delayFilter.frequency.value = 2000;
+
+  // 303 -> Filter -> Distortion -> Master
+  // Also -> Delay -> DelayFilter -> Master
+  bassFilter.connect(bassDistortion);
+  bassDistortion.connect(masterGain);
+  bassDistortion.connect(delayNode);
+  delayNode.connect(delayFilter);
+  delayFilter.connect(delayGain);
+  delayGain.connect(masterGain);
+  delayGain.connect(delayNode); // feedback
+}
+
+function play303Note(time, note, accent) {
+  if (note === null) return;
+  
+  const cutoff = parseFloat(document.getElementById('cutoff').value);
+  const resonance = parseFloat(document.getElementById('resonance').value);
+  const envmod = parseFloat(document.getElementById('envmod').value);
+  const decayTime = parseFloat(document.getElementById('decay').value);
+  const distAmount = parseFloat(document.getElementById('dist').value);
+  const delayMix = parseFloat(document.getElementById('delaymix').value);
+  
+  // Update live params
+  bassFilter.Q.value = resonance;
+  bassDistortion.curve = makeDistortionCurve(distAmount);
+  delayGain.gain.value = delayMix;
+  delayNode.delayTime.value = (60 / bpm) * 0.75;
+  
+  const freq = noteToFreq(note);
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  
+  osc.type = 'sawtooth';
+  osc.frequency.setValueAtTime(freq, time);
+  
+  // Accent
+  const vol = accent ? 0.6 : 0.3;
+  gain.gain.setValueAtTime(vol, time);
+  gain.gain.exponentialRampToValueAtTime(0.001, time + decayTime + 0.1);
+  
+  // Filter envelope (the ACID sound)
+  const envPeak = cutoff + (accent ? envmod * 1.5 : envmod);
+  bassFilter.frequency.setValueAtTime(envPeak, time);
+  bassFilter.frequency.exponentialRampToValueAtTime(cutoff, time + decayTime);
+  
+  osc.connect(gain);
+  gain.connect(bassFilter);
+  
+  osc.start(time);
+  osc.stop(time + decayTime + 0.15);
+}
+
+// --- SEQUENCER ---
+function step() {
+  const time = ctx.currentTime + 0.05;
+  const pattern = PATTERNS[currentPattern];
+  const accents = ACCENTS[currentPattern];
+  const sixteenthIndex = stepIndex % 16;
+  
+  // Kick on 1, 5, 9, 13 (4 on the floor)
+  if (sixteenthIndex % 4 === 0) {
+    playKick(time);
+    flashScreen();
+  }
+  
+  // Hi-hat on every 16th, open on off-beats
+  const isOpen = sixteenthIndex % 4 === 2;
+  playHat(time, isOpen);
+  
+  // 303
+  const note = pattern[sixteenthIndex];
+  const accent = accents[sixteenthIndex];
+  play303Note(time, note, accent);
+  
+  // Spawn smiley on accents
+  if (accent && note !== null) spawnSmiley();
+  
+  stepIndex++;
+  
+  // Switch pattern every 2 bars
+  if (stepIndex % 32 === 0) {
+    currentPattern = (currentPattern + 1) % PATTERNS.length;
+    document.getElementById('status').textContent = 
+      `PATTERN ${currentPattern + 1}/${PATTERNS.length} | STEP ${stepIndex}`;
+  }
+}
+
+function flashScreen() {
+  const flash = document.getElementById('flash');
+  flash.style.opacity = '0.08';
+  setTimeout(() => { flash.style.opacity = '0'; }, 50);
+}
+
+function spawnSmiley() {
+  const el = document.createElement('div');
+  el.className = 'smiley';
+  el.textContent = '😃';
+  el.style.left = (Math.random() * 80 + 10) + '%';
+  el.style.top = (Math.random() * 60 + 20) + '%';
+  el.style.fontSize = (2 + Math.random() * 3) + 'rem';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+function updateBPM(val) {
+  bpm = parseInt(val);
+  document.getElementById('bpm-display').textContent = `BPM: ${bpm}`;
+  if (isPlaying) {
+    clearInterval(intervalId);
+    const msPerStep = (60000 / bpm) / 4;
+    intervalId = setInterval(step, msPerStep);
+  }
+}
+
+// --- VISUALIZER ---
+function initVisualizer() {
+  const canvas = document.getElementById('viz');
+  const c = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = 200;
+  
+  analyser = ctx.createAnalyser();
+  analyser.fftSize = 256;
+  analyserData = new Uint8Array(analyser.frequencyBinCount);
+  masterGain.connect(analyser);
+  
+  function draw() {
+    requestAnimationFrame(draw);
+    analyser.getByteFrequencyData(analyserData);
+    
+    c.fillStyle = 'rgba(10, 10, 10, 0.3)';
+    c.fillRect(0, 0, canvas.width, canvas.height);
+    
+    const barW = canvas.width / analyserData.length;
+    for (let i = 0; i < analyserData.length; i++) {
+      const h = (analyserData[i] / 255) * canvas.height;
+      const hue = (i / analyserData.length) * 120 + 60; // yellow -> green
+      c.fillStyle = `hsla(${hue}, 100%, 50%, 0.8)`;
+      c.fillRect(i * barW, canvas.height - h, barW - 1, h);
+    }
+  }
+  draw();
+  
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = 200;
+  });
+}
+
+// --- BOOT ---
+function initAcid() {
+  ctx = new (window.AudioContext || window.webkitAudioContext)();
+  masterGain = ctx.createGain();
+  masterGain.gain.value = 0.7;
+  masterGain.connect(ctx.destination);
+  
+  init303();
+  initVisualizer();
+  
+  const msPerStep = (60000 / bpm) / 4;
+  intervalId = setInterval(step, msPerStep);
+  isPlaying = true;
+  
+  document.getElementById('startBtn').textContent = '🔊 ACID IS PUMPING 🔊';
+  document.getElementById('startBtn').onclick = togglePlay;
+  document.getElementById('controls').style.display = 'flex';
+  document.getElementById('status').textContent = `PATTERN 1/${PATTERNS.length} | RUNNING`;
+}
+
+function togglePlay() {
+  if (isPlaying) {
+    clearInterval(intervalId);
+    isPlaying = false;
+    document.getElementById('startBtn').textContent = '▶ RESUME';
+  } else {
+    const msPerStep = (60000 / bpm) / 4;
+    intervalId = setInterval(step, msPerStep);
+    isPlaying = true;
+    document.getElementById('startBtn').textContent = '🔊 ACID IS PUMPING 🔊';
+  }
+}
+</script>
+</body>
+</html>
