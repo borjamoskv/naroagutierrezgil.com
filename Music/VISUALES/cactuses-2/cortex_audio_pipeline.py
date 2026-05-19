@@ -115,7 +115,7 @@ def k_weight_filter(sr):
     return (b, a), (b2, a2)
 
 def measure_lufs(audio, sr):
-    """ITU-R BS.1770-4 integrated LUFS loudness measurement."""
+    """ITU-R BS.1770-4 integrated LUFS loudness measurement optimized with vectorization."""
     (b1, a1), (b2, a2) = k_weight_filter(sr)
     channels = []
     
@@ -130,19 +130,22 @@ def measure_lufs(audio, sr):
 
     block_size = int(0.4 * sr)  # 400ms blocks
     step = int(0.1 * sr)        # 100ms step (75% overlap)
-    block_powers = []
     
-    for start in range(0, len(channels[0]) - block_size, step):
-        power = 0.0
-        for ch in channels:
-            block = ch[start:start + block_size]
-            power += np.mean(block ** 2)
-        block_powers.append(power)
+    # Vectorized block power calculation using prefix sums
+    num_blocks = len(range(0, len(channels[0]) - block_size, step))
+    block_powers = np.zeros(num_blocks)
+    
+    for ch in channels:
+        ch_sq = ch ** 2
+        cumsum = np.zeros(len(ch_sq) + 1)
+        np.cumsum(ch_sq, out=cumsum[1:])
+        sums = (cumsum[block_size:] - cumsum[:-block_size])[::step]
+        min_len = min(len(block_powers), len(sums))
+        block_powers[:min_len] += sums[:min_len] / block_size
 
-    if not block_powers:
+    if len(block_powers) == 0:
         return -70.0
 
-    block_powers = np.array(block_powers)
     # Absolute gate threshold: -70 LUFS
     abs_thresh = 10 ** ((-70 + 0.691) / 10.0)
     gated = block_powers[block_powers > abs_thresh]
@@ -159,15 +162,47 @@ def measure_lufs(audio, sr):
     return -0.691 + 10.0 * np.log10(np.mean(final))
 
 def true_peak_dbtp(audio, sr):
-    """Measures inter-sample true peak using 4x oversampling."""
+    """Measures inter-sample true peak using 4x oversampling on peak regions only."""
     if audio.ndim == 1:
         audio = audio.reshape(-1, 1)
+    
+    peak_val = np.max(np.abs(audio))
+    if peak_val < 1e-5:
+        return -70.0
+        
+    threshold = peak_val * 0.707
+    
     peaks = []
     for ch in range(audio.shape[1]):
-        up = signal.resample_poly(audio[:, ch], 4, 1)
-        peaks.append(np.max(np.abs(up)))
+        ch_data = audio[:, ch]
+        abs_data = np.abs(ch_data)
+        indices = np.where(abs_data > threshold)[0]
+        
+        if len(indices) == 0:
+            peaks.append(peak_val)
+            continue
+            
+        segments = []
+        start_idx = indices[0]
+        prev_idx = indices[0]
+        for idx in indices[1:]:
+            if idx - prev_idx > 120:
+                segments.append((max(0, start_idx - 48), min(len(ch_data), prev_idx + 48)))
+                start_idx = idx
+            prev_idx = idx
+        segments.append((max(0, start_idx - 48), min(len(ch_data), prev_idx + 48)))
+            
+        ch_max = peak_val
+        for s, e in segments:
+            segment = ch_data[s:e]
+            if len(segment) > 4:
+                up = signal.resample_poly(segment, 4, 1)
+                ch_max = max(ch_max, np.max(np.abs(up)))
+        peaks.append(ch_max)
+        
     tp = max(peaks)
     return 20 * np.log10(tp + 1e-10)
+
 
 def analyze_audio(audio, sr):
     peak = np.max(np.abs(audio))
@@ -197,8 +232,8 @@ def from_ms(mid, side):
 # CORE PIPELINE PROCESSES
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-def clean_and_remix_stems(stems_dir, output_mix_path, sr_target=44100):
-    """Loads 4 Demucs stems, cleans AI frequencies, and remixes them."""
+def clean_and_remix_stems(stems_dir, output_mix_path, agent_id="Agent", sr_target=44100):
+    """Loads 4 Demucs stems, performs track-by-track analysis, and remixes for Shoegaze."""
     # 1. Load stems
     stems = {}
     stems_to_load = ["vocals", "drums", "bass", "other"]
@@ -212,40 +247,83 @@ def clean_and_remix_stems(stems_dir, output_mix_path, sr_target=44100):
         
     sr = stems["vocals"][1]
     
-    # 2. DSP Cleaning of AI Artifacts
-    # Vocals: Gate out silence bleed, HPF low rumble, notch vocal resonances
+    # Measure RMS of each stem to build a dynamic profile
     vocals_data = stems["vocals"][0]
-    vocals_cleaned = Pedalboard([
-        NoiseGate(threshold_db=-42, release_ms=180),
-        HighpassFilter(cutoff_frequency_hz=110),
-        PeakFilter(cutoff_frequency_hz=5800, gain_db=-2.5, q=1.6)
-    ])(vocals_data.T, sr).T
-    
-    # Drums: Protect transient punch, high-cut watery aliasing
     drums_data = stems["drums"][0]
-    drums_cleaned = Pedalboard([
-        HighpassFilter(cutoff_frequency_hz=28),
-        LowpassFilter(cutoff_frequency_hz=16500),
-        Compressor(threshold_db=-14, ratio=3.5, attack_ms=8, release_ms=100),
-        Gain(gain_db=1.2)
-    ])(drums_data.T, sr).T
-    
-    # Bass: Dynamic brickwall, strict lowpass to cut high bleeding
     bass_data = stems["bass"][0]
+    other_data = stems["other"][0]
+    
+    vocals_rms = float(np.sqrt(np.mean(vocals_data ** 2)))
+    drums_rms = float(np.sqrt(np.mean(drums_data ** 2)))
+    bass_rms = float(np.sqrt(np.mean(bass_data ** 2)))
+    other_rms = float(np.sqrt(np.mean(other_data ** 2)))
+    
+    print(f"[{agent_id}] Stem Analysis -> Vocals RMS: {vocals_rms:.5f}, Drums RMS: {drums_rms:.5f}, Bass RMS: {bass_rms:.5f}, Other (Guitars/Synths) RMS: {other_rms:.5f}")
+    
+    # 2. Dynamic weights and parameters based on Shoegaze / Ambient profile
+    # Vocals detection
+    if vocals_rms < 1e-4:
+        print(f"[{agent_id}] Profile: INSTRUMENTAL (Bypassing vocals)")
+        vocals_w = 0.0
+        vocals_cleaned = np.zeros_like(vocals_data)
+        vocals_remix = np.zeros_like(vocals_data)
+    else:
+        vocals_w = 1.05 if vocals_rms < 0.04 else 0.95
+        print(f"[{agent_id}] Profile: VOCAL | Summing Weight: {vocals_w:.2f}")
+        # Clean Vocals: Gate, Highpass, notch resonant frequency
+        vocals_cleaned = Pedalboard([
+            NoiseGate(threshold_db=-45, release_ms=200),
+            HighpassFilter(cutoff_frequency_hz=100),
+            PeakFilter(cutoff_frequency_hz=5800, gain_db=-2.0, q=1.6)
+        ])(vocals_data.T, sr).T
+        vocals_remix = Pedalboard([
+            Chorus(rate_hz=0.6, depth=0.15, mix=0.10),
+            Reverb(room_size=0.55, wet_level=0.15, dry_level=0.85)
+        ])(vocals_cleaned.T, sr).T
+        
+    # Other (Shoegaze Wall of Sound)
+    if other_rms > 0.12:
+        other_w = 1.00
+        other_eq_gain = -1.2
+        print(f"[{agent_id}] Profile: HEAVY WALL-OF-SOUND | Guitars Weight: {other_w:.2f}")
+    else:
+        other_w = 1.08
+        other_eq_gain = -0.5
+        print(f"[{agent_id}] Profile: AMBIENT/LIGHT GUITARS | Guitars Weight: {other_w:.2f}")
+        
+    # Clean Other: Lower HPF to preserve low-mid body, gentle EQ cut to preserve sheen
+    other_cleaned = Pedalboard([
+        HighpassFilter(cutoff_frequency_hz=75),  # Preserve low-mids of shoegaze guitars
+        PeakFilter(cutoff_frequency_hz=9200, gain_db=other_eq_gain, q=1.2),
+        Phaser(rate_hz=0.12, depth=0.20, feedback=0.08, mix=0.06)
+    ])(other_data.T, sr).T
+    other_remix = Pedalboard([
+        Reverb(room_size=0.78, wet_level=0.20, dry_level=0.80)
+    ])(other_cleaned.T, sr).T
+    
+    # Drums
+    if drums_rms > 0.15:
+        drums_w = 0.96  # Sit back inside the wall
+    else:
+        drums_w = 1.02
+        
+    drums_cleaned = Pedalboard([
+        HighpassFilter(cutoff_frequency_hz=26),
+        LowpassFilter(cutoff_frequency_hz=17500),
+        Compressor(threshold_db=-15, ratio=3.2, attack_ms=10, release_ms=120),
+        Gain(gain_db=1.0)
+    ])(drums_data.T, sr).T
+    drums_remix = Pedalboard([
+        Distortion(drive_db=0.8)
+    ])(drums_cleaned.T, sr).T
+    
+    # Bass
+    bass_w = 0.95
     bass_cleaned = Pedalboard([
-        LowpassFilter(cutoff_frequency_hz=250),
-        Compressor(threshold_db=-18, ratio=6.0, attack_ms=4, release_ms=220),
+        LowpassFilter(cutoff_frequency_hz=220),
+        Compressor(threshold_db=-18, ratio=5.5, attack_ms=5, release_ms=200),
         Gain(gain_db=0.8)
     ])(bass_data.T, sr).T
-    
-    # Other: Spatial widening, HPF, notch watery artifacts (8k-10k)
-    other_data = stems["other"][0]
-    other_cleaned = Pedalboard([
-        HighpassFilter(cutoff_frequency_hz=140),
-        PeakFilter(cutoff_frequency_hz=9200, gain_db=-3.5, q=1.2),
-        HighShelfFilter(cutoff_frequency_hz=12500, gain_db=-1.5),
-        Phaser(rate_hz=0.15, depth=0.25, feedback=0.1, mix=0.10)
-    ])(other_data.T, sr).T
     
     # Export cleaned stems if needed (for transparency)
     cleaned_stems_dir = CLEANED_DIR / stems_dir.name
@@ -254,30 +332,10 @@ def clean_and_remix_stems(stems_dir, output_mix_path, sr_target=44100):
                             ("bass", bass_cleaned), ("other", other_cleaned)]:
         sf.write(cleaned_stems_dir / f"{stem_name}.wav", data, sr, subtype='PCM_24')
 
-    # 3. Creative Remixing & Spacing
-    drums_remix = Pedalboard([
-        Distortion(drive_db=1.0)
-    ])(drums_cleaned.T, sr).T
-    
-    vocals_remix = Pedalboard([
-        Chorus(rate_hz=0.7, depth=0.12, mix=0.08),
-        Reverb(room_size=0.45, wet_level=0.12, dry_level=0.88)
-    ])(vocals_cleaned.T, sr).T
-    
-    other_remix = Pedalboard([
-        Reverb(room_size=0.75, wet_level=0.18, dry_level=0.82)
-    ])(other_cleaned.T, sr).T
-    
     # Align sample length
     min_len = min(len(drums_remix), len(bass_cleaned), len(vocals_remix), len(other_remix))
     
-    # Mixdown summing with gain balancing
-    # Kick & Bass hold the core; Vocals stay clear; Atmosphere supports
-    drums_w = 1.05
-    bass_w = 0.95
-    vocals_w = 0.90
-    other_w = 0.85
-    
+    # Mixdown summing with calculated gains
     mix = (drums_remix[:min_len] * drums_w + 
            bass_cleaned[:min_len] * bass_w + 
            vocals_remix[:min_len] * vocals_w + 
@@ -400,27 +458,24 @@ def master_audio(input_mix_path, output_master_path, preset):
         gain_db = P['target_lufs'] - current_lufs
         audio *= 10 ** (gain_db / 20.0)
         
-    # Stage 11: True-Peak-Safe Brickwall Limiting (Convergent feedback loop)
+    # Stage 11: True-Peak-Safe Brickwall Limiting (Optimized LUFS matching)
     ceiling = P['ceiling_db']
     target_lufs = P['target_lufs']
     
-    for i in range(8):
-        curr_l = measure_lufs(audio, sr)
-        diff = target_lufs - curr_l
-        if abs(diff) > 0.05:
-            audio *= 10 ** (diff / 20.0)
-            
-        lim = Pedalboard([Limiter(threshold_db=ceiling - 0.1)])
-        audio = lim(audio.T, sr).T
-        
-        tp = true_peak_dbtp(audio, sr)
-        if tp > ceiling:
-            reduction = tp - ceiling + 0.02
-            audio *= 10 ** (-reduction / 20.0)
-            
-        final_check = measure_lufs(audio, sr)
-        if abs(final_check - target_lufs) < 0.1:
-            break
+    # 1. Squeeze dynamics with a limiter set to -1.5 dB threshold
+    lim = Pedalboard([Limiter(threshold_db=-1.5)])
+    audio = lim(audio.T, sr).T
+    
+    # 2. Gain staging to target LUFS
+    curr_l = measure_lufs(audio, sr)
+    gain_db = target_lufs - curr_l
+    audio *= 10 ** (gain_db / 20.0)
+    
+    # 3. Final True-Peak safety verification and gain scaler
+    tp_db = true_peak_dbtp(audio, sr)
+    if tp_db > ceiling:
+        reduction = tp_db - ceiling + 0.05  # Extra safety margin
+        audio *= 10 ** (-reduction / 20.0)
             
     # Stage 12: 24-bit TPDF Dither
     q = 1.0 / (2 ** (24 - 1))
@@ -436,13 +491,15 @@ def master_audio(input_mix_path, output_master_path, preset):
 
 def generate_spec_plot(original, mastered, sr, output_img_path):
     fig, axes = plt.subplots(2, 1, figsize=(12, 6), facecolor='#0A0A0A')
+    factor = 6
     for idx, (data, label) in enumerate([(original, "BEFORE (Cleaned Mix)"), (mastered, "AFTER (Remastered)")]):
         ax = axes[idx]
         mono = np.mean(data, axis=1) if data.ndim == 2 else data
-        ax.specgram(mono, NFFT=2048, Fs=sr, noverlap=1024, cmap='inferno', vmin=-110, vmax=0)
+        mono_down = mono[::factor]
+        ax.specgram(mono_down, NFFT=512, Fs=sr/factor, noverlap=256, cmap='inferno', vmin=-110, vmax=0)
         ax.set_ylabel('Hz', color='#CCCCCC', fontsize=9)
         ax.set_title(label, color='#2B3BE5', fontsize=10, fontweight='bold', pad=5)
-        ax.set_ylim(0, 20000)
+        ax.set_ylim(0, 20000 / factor)  # Adjust limit to match downsampled rate
         ax.tick_params(colors='#888888')
         ax.set_facecolor('#0A0A0A')
         for spine in ax.spines.values():
@@ -485,7 +542,7 @@ def run_agent_task(track_idx, track_path):
     print(f"[{agent_id}] Cleaning AI frequencies and remixing...")
     remix_path = REMIXED_DIR / f"{track_name}_remix.wav"
     try:
-        mix_data, sr = clean_and_remix_stems(stems_dir, remix_path)
+        mix_data, sr = clean_and_remix_stems(stems_dir, remix_path, agent_id=agent_id)
     except Exception as e:
         print(f"[{agent_id}] ❌ CLEAN/REMIX PROCESS FAILED: {str(e)}")
         return False
