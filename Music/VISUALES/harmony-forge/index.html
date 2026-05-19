@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ДЕКОДЕР-9 // HARMONY FORGE RELIC</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Outfit:wght@800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="crt-overlay"></div>
+    <div class="tape-glitch"></div>
+    
+    <header class="app-header">
+        <div class="soviet-seal">
+            <span class="star">★</span>
+            <div class="seal-text">
+                <h2>ДЕКОДЕР-9</h2>
+                <span class="sub-label">АРХИВ СИБИРЬ • СЕРИЯ 1989</span>
+            </div>
+        </div>
+        <div class="archive-metadata">
+            <span class="hash-label">FILE HASH:</span>
+            <span class="hash-val" id="file-hash">SHA-256: 0x9f8b4e7a2c3d10a9f0e8d7c6b5a4f3e2</span>
+        </div>
+        <div class="tape-counter" id="tape-counter">00:00:00</div>
+    </header>
+
+    <main class="app-container">
+        <!-- Control Panel (Decaying Nicotine Case) -->
+        <section class="control-panel glass">
+            <div class="nicotine-stain"></div>
+            
+            <div class="panel-header">
+                <h2>СПОРТ-СИНТЕЗАТОР</h2>
+                <span class="serial-number">Nº 89-02-1989</span>
+            </div>
+            
+            <div class="control-group">
+                <button id="play-btn" class="btn-primary">START TAPE / ПУСК</button>
+            </div>
+
+            <div class="divider-double"></div>
+
+            <div class="control-group">
+                <label for="root-select">ROOT KEY / ТОНАЛЬНОСТЬ</label>
+                <div class="select-wrapper">
+                    <select id="root-select">
+                        <option value="A">A (ЛЯ)</option>
+                        <option value="C">C (ДО)</option>
+                        <option value="D">D (РЕ)</option>
+                        <option value="E">E (МИ)</option>
+                        <option value="G">G (СОЛЬ)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label for="scale-select">HARMONIC ALGORITHM / ГАРМОНИЯ</label>
+                <div class="select-wrapper">
+                    <select id="scale-select">
+                        <option value="pentatonic_minor">PENTATONIC MINOR (СЛЕЗЫ)</option>
+                        <option value="pentatonic_major">PENTATONIC MAJOR (ТРИУМФ)</option>
+                        <option value="dorian">DORIAN MODE (КОСМОС)</option>
+                        <option value="phrygian_dominant">PHRYGIAN DOMINANT (СТЕПЬ)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="label-val">
+                    <label for="tempo-slider">MOTOR SPEED / ТЕМП (BPM)</label>
+                    <span id="tempo-val">90</span>
+                </div>
+                <input type="range" id="tempo-slider" min="50" max="150" value="90">
+            </div>
+
+            <div class="divider-double"></div>
+
+            <h2>TAPE CORRUPTION / ИЗНОС</h2>
+            
+            <div class="control-group">
+                <div class="label-val">
+                    <label for="wow-flutter-slider">WOW & FLUTTER / ДЕТОНАЦИЯ</label>
+                    <span id="wow-flutter-val">25%</span>
+                </div>
+                <input type="range" id="wow-flutter-slider" min="0" max="100" value="25">
+            </div>
+
+            <div class="control-group">
+                <div class="label-val">
+                    <label for="tape-wear-slider">TAPE DUST & CRACKLE / ШУМ И ПЫЛЬ</label>
+                    <span id="tape-wear-val">35%</span>
+                </div>
+                <input type="range" id="tape-wear-slider" min="0" max="100" value="35">
+            </div>
+
+            <div class="control-group">
+                <div class="label-val">
+                    <label for="filter-cutoff-slider">DECAY LPF / СРЕЗ ВЧ</label>
+                    <span id="filter-cutoff-val">800 Hz</span>
+                </div>
+                <input type="range" id="filter-cutoff-slider" min="150" max="3000" value="800">
+            </div>
+
+            <div class="divider-double"></div>
+
+            <h2>CHANNELS / КАНАЛЫ</h2>
+            
+            <div class="channel-toggle-group">
+                <div class="channel-toggle">
+                    <label class="switch">
+                        <input type="checkbox" id="enable-pad" checked>
+                        <span class="slider-switch"></span>
+                    </label>
+                    <span>Soviet Ambient Pad / ГУЛ</span>
+                </div>
+                <div class="channel-toggle">
+                    <label class="switch">
+                        <input type="checkbox" id="enable-pluck" checked>
+                        <span class="slider-switch"></span>
+                    </label>
+                    <span>Sport Pluck Arpeggiator / РИТМ</span>
+                </div>
+                <div class="channel-toggle">
+                    <label class="switch">
+                        <input type="checkbox" id="enable-bell">
+                        <span class="slider-switch"></span>
+                    </label>
+                    <span>FM Relic Bells / КОЛОКОЛ</span>
+                </div>
+            </div>
+
+            <div class="divider-double"></div>
+
+            <div class="control-group">
+                <div class="label-val">
+                    <label for="delay-slider">TAPE ECHO / ЭХО</label>
+                    <span id="delay-val">40%</span>
+                </div>
+                <input type="range" id="delay-slider" min="0" max="100" value="40">
+            </div>
+
+            <div class="control-group">
+                <div class="label-val">
+                    <label for="reverb-slider">RUINED CAVE SPACE / РЕВЕРБ</label>
+                    <span id="reverb-val">50%</span>
+                </div>
+                <input type="range" id="reverb-slider" min="0" max="100" value="50">
+            </div>
+        </section>
+
+        <!-- Main Display (VHS Video feedback & CRT Visualizer) -->
+        <section class="main-display">
+            <div class="sandbox-container glass">
+                <div class="nicotine-stain"></div>
+                <div class="canvas-header">
+                    <h2>ГРАВИТАЦИОННАЯ СЕТКА // GRAVITY GRID</h2>
+                    <span class="tracking-indicator" id="tracking-text">PLAYING • TAPE OK</span>
+                </div>
+                <canvas id="sandbox-canvas"></canvas>
+                <div class="sandbox-actions">
+                    <button id="clear-nodes" class="btn-secondary">RESET TAPE NODES</button>
+                    <button id="preset-slow" class="btn-secondary">AMBIENT TAPE LOOP</button>
+                    <button id="preset-fast" class="btn-secondary">PROPAGANDA ANTHEM</button>
+                </div>
+            </div>
+
+            <div class="visualizer-container glass">
+                <div class="nicotine-stain"></div>
+                <div class="canvas-header">
+                    <h2>СИГНАЛ-ОСЦИЛЛОГРАФ // SIGNAL</h2>
+                    <span class="vhs-time" id="vhs-timestamp">19-МАЙ-1989</span>
+                </div>
+                <canvas id="visualizer-canvas"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <!-- Newspaper Overlay Elements (Corroded Artifact Detail) -->
+    <div class="newspaper-ad">
+        <span class="stamp">РАССЕКРЕЧЕНО (CLASSIFIED/REDACTED)</span>
+        <p class="manifesto">
+            ВНИМАНИЕ: Электронный синтезатор «ДЕКОДЕР-9» разработан для генерации безупречных гармоник. Наша цель — оптимизация exergy-баланса социалистического звука. Потери исключены.
+        </p>
+    </div>
+
+    <footer class="app-footer">
+        <p>ДЕКОДЕР-9 • SHA-256 HASH COMPLIANT • RECOVERY SWARM • FREE DISTRIBUTION</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
