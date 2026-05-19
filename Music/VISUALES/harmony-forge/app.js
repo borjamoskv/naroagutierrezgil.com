@@ -109,8 +109,36 @@ let analyser = null;
 let dataArray = null;
 
 // Presets
-document.getElementById("preset-slow").addEventListener("click", () => applyPreset("slow"));
-document.getElementById("preset-fast").addEventListener("click", () => applyPreset("fast"));
+// Presets & Reels selection
+const leftReel = document.getElementById("left-reel");
+const rightReel = document.getElementById("right-reel");
+
+const presetSlow = document.getElementById("preset-slow");
+const presetFast = document.getElementById("preset-fast");
+const presetEntropy = document.getElementById("preset-entropy");
+
+presetSlow.addEventListener("click", () => {
+    setActivePreset(presetSlow);
+    applyPreset("slow");
+});
+presetFast.addEventListener("click", () => {
+    setActivePreset(presetFast);
+    applyPreset("fast");
+});
+if (presetEntropy) {
+    presetEntropy.addEventListener("click", () => {
+        setActivePreset(presetEntropy);
+        applyPreset("entropy");
+    });
+}
+
+function setActivePreset(selectedEl) {
+    [presetSlow, presetFast, presetEntropy].forEach(el => {
+        if (el) el.classList.remove("active");
+    });
+    selectedEl.classList.add("active");
+}
+
 document.getElementById("clear-nodes").addEventListener("click", () => { balls = []; });
 
 function applyPreset(type) {
@@ -124,7 +152,13 @@ function applyPreset(type) {
         enablePadCheckbox.checked = true;
         enablePluckCheckbox.checked = false;
         enableBellCheckbox.checked = true;
-    } else {
+        enableTrumpetCheckbox.checked = false;
+        enableThereminCheckbox.checked = true;
+        enableGuitarCheckbox.checked = true;
+        enableDrumsCheckbox.checked = false;
+        negativeHarmonyCheckbox.checked = false;
+        fractalModeCheckbox.checked = false;
+    } else if (type === "fast") {
         tempoSlider.value = 120;
         wowFlutterSlider.value = 15;
         tapeWearSlider.value = 15;
@@ -134,7 +168,38 @@ function applyPreset(type) {
         enablePadCheckbox.checked = true;
         enablePluckCheckbox.checked = true;
         enableBellCheckbox.checked = true;
+        enableTrumpetCheckbox.checked = true;
+        enableThereminCheckbox.checked = false;
+        enableGuitarCheckbox.checked = false;
+        enableDrumsCheckbox.checked = true;
+        negativeHarmonyCheckbox.checked = false;
+        fractalModeCheckbox.checked = false;
+    } else if (type === "entropy") {
+        tempoSlider.value = 55;
+        wowFlutterSlider.value = 85;
+        tapeWearSlider.value = 90;
+        filterCutoffSlider.value = 280;
+        delaySlider.value = 85;
+        reverbSlider.value = 95;
+        enablePadCheckbox.checked = true;
+        enablePluckCheckbox.checked = true;
+        enableBellCheckbox.checked = false;
+        enableTrumpetCheckbox.checked = true;
+        enableThereminCheckbox.checked = true;
+        enableGuitarCheckbox.checked = true;
+        enableDrumsCheckbox.checked = true;
+        negativeHarmonyCheckbox.checked = true;
+        fractalModeCheckbox.checked = true;
     }
+    
+    // Sync variables with checkboxes
+    enableTrumpet = enableTrumpetCheckbox.checked;
+    enableTheremin = enableThereminCheckbox.checked;
+    enableGuitar = enableGuitarCheckbox.checked;
+    enableDrums = enableDrumsCheckbox.checked;
+    isNegativeHarmony = negativeHarmonyCheckbox.checked;
+    isFractalMode = fractalModeCheckbox.checked;
+    
     updateSliderValues();
 }
 
@@ -155,7 +220,6 @@ function updateSliderValues() {
     reverbVal.textContent = reverbSlider.value + "%";
     
     if (audioCtx) {
-        // Dynamic node adjustments
         if (delayNode) {
             delayNode.gainNode.gain.setTargetAtTime(parseInt(delaySlider.value) / 100 * 0.5, audioCtx.currentTime, 0.1);
         }
@@ -165,6 +229,11 @@ function updateSliderValues() {
         if (noiseNode) {
             noiseNode.gain.gain.setTargetAtTime(tapeWearAmount * 0.15, audioCtx.currentTime, 0.2);
         }
+    }
+
+    // Dynamic drum speed restart
+    if (isPlaying && enableDrums) {
+        startDrumSequencer();
     }
 }
 
@@ -217,7 +286,6 @@ function initAudio() {
     lowpass.connect(analyser);
     analyser.connect(audioCtx.destination);
     
-    // Route signals: Synth nodes -> delay/reverb inputs -> lowpass
     // Procedural tape hiss/noise generator
     setupTapeNoise(lowpass);
 
@@ -231,7 +299,7 @@ function initAudio() {
     return lowpass;
 }
 
-// Procedural Algorithmic Reverb (Feedback Delay Network approximation)
+// Procedural Algorithmic Reverb
 function setupFX() {
     // Delay Line
     const delay = audioCtx.createDelay(1.0);
@@ -249,8 +317,8 @@ function setupFX() {
         delayPanner.pan.setValueAtTime(0, audioCtx.currentTime);
         const delayLfo = audioCtx.createOscillator();
         const delayLfoGain = audioCtx.createGain();
-        delayLfo.frequency.setValueAtTime(0.2, audioCtx.currentTime); // slow sweep
-        delayLfoGain.gain.setValueAtTime(0.85, audioCtx.currentTime); // deep depth
+        delayLfo.frequency.setValueAtTime(0.2, audioCtx.currentTime);
+        delayLfoGain.gain.setValueAtTime(0.85, audioCtx.currentTime);
         delayLfo.connect(delayLfoGain);
         delayLfoGain.connect(delayPanner.pan);
         delayLfo.start();
@@ -270,8 +338,7 @@ function setupFX() {
         feedback: delayFeedback
     };
 
-    // Reverb: Algorithmic Feedback Comb Reverb (decaying spaces)
-    // Parallel delays representing early reflections and late decay
+    // Reverb: Algorithmic Feedback Comb Reverb
     const revInput = audioCtx.createGain();
     const revOutput = audioCtx.createGain();
     revOutput.gain.setValueAtTime(0.4, audioCtx.currentTime);
@@ -281,7 +348,7 @@ function setupFX() {
         const d = audioCtx.createDelay();
         d.delayTime.setValueAtTime(t, audioCtx.currentTime);
         const g = audioCtx.createGain();
-        g.gain.setValueAtTime(0.78, audioCtx.currentTime); // High decay feedback
+        g.gain.setValueAtTime(0.78, audioCtx.currentTime);
         
         revInput.connect(d);
         d.connect(g);
@@ -290,9 +357,6 @@ function setupFX() {
     });
 
     reverbNode = revOutput;
-
-    // Connect to Master lowpass filter
-    // We will pass `lowpass` object in synth trigger calls
 }
 
 // Procedural Tape Noise & Crackle
@@ -301,12 +365,10 @@ function setupTapeNoise(destination) {
     const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
     const output = noiseBuffer.getChannelData(0);
     
-    // Generate white noise + occasional impulses (dirt, dust pops)
     for (let i = 0; i < bufferSize; i++) {
         let white = Math.random() * 2 - 1;
         let crackle = 0;
         
-        // Random clicks & nicotine box dirt pops
         if (Math.random() < 0.00008) {
             crackle = (Math.random() * 2 - 1) * 0.8;
         }
@@ -339,12 +401,9 @@ function setupTapeNoise(destination) {
 
 // --- SYNTH GENERATORS WITH WOW & FLUTTER ---
 
-// Calculate EDO 21 frequency with detune / wow & flutter wobble
 function getWobblyFreq(baseFreq, stepOffset) {
-    // Step offset represents the number of EDO-21 steps from base frequency
     const cleanFreq = baseFreq * Math.pow(2, stepOffset / 21);
     
-    // Wow (0.6Hz slow pitch variation) + Flutter (12Hz fast pitch wobble)
     const time = audioCtx.currentTime;
     const wow = Math.sin(time * 2 * Math.PI * 0.5) * 0.008 * wowFlutterAmount;
     const flutter = Math.sin(time * 2 * Math.PI * 12) * 0.004 * wowFlutterAmount;
@@ -353,31 +412,27 @@ function getWobblyFreq(baseFreq, stepOffset) {
     return cleanFreq * wobble;
 }
 
-// Get scale frequency based on root, scale type, and scale degree in EDO-21
 function getScaleFreq(scaleDegree, octave) {
     const baseFreq = ROOT_FREQS[currentRoot] || 220.00;
     const scale = SCALES[currentScaleType];
     const degreeIndex = scaleDegree % scale.length;
     
-    // We want 'octave' offset relative to octave 4 as base.
-    // So octaveMultiplier = octave - 4.
     const octaveMultiplier = Math.floor(scaleDegree / scale.length) + (octave - 4);
     
     const stepOffset = scale[degreeIndex] + (21 * octaveMultiplier);
     return getWobblyFreq(baseFreq, stepOffset);
 }
 
-// 1. Soviet Detuned Pad (Super-saw / Square mix)
+// 1. Soviet Detuned Pad
 function triggerSovietPad(freqs, dest) {
     if (!enablePadCheckbox.checked) return;
 
     const oscs = [];
     const padGain = audioCtx.createGain();
     padGain.gain.setValueAtTime(0, audioCtx.currentTime);
-    padGain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 1.5); // long attack
+    padGain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 1.5);
     
     freqs.forEach((freq, idx) => {
-        // detuned pair for lush movement
         const osc1 = audioCtx.createOscillator();
         const osc2 = audioCtx.createOscillator();
         
@@ -397,9 +452,8 @@ function triggerSovietPad(freqs, dest) {
     });
 
     padGain.connect(dest);
-    padGain.connect(reverbNode); // Send pad straight to reverb
+    padGain.connect(reverbNode);
 
-    // Long release fadeout
     return {
         stop: () => {
             const stopTime = audioCtx.currentTime + 2.0;
@@ -416,7 +470,7 @@ function triggerSovietPad(freqs, dest) {
     };
 }
 
-// 2. Sport Pluck Synth (Classic subtractive)
+// 2. Sport Pluck Synth
 function triggerPluck(freq, dest) {
     if (!enablePluckCheckbox.checked) return;
 
@@ -427,12 +481,10 @@ function triggerPluck(freq, dest) {
     osc.type = "square";
     osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
 
-    // Fast decay envelope filter
     filter.type = "lowpass";
     filter.frequency.setValueAtTime(1500, audioCtx.currentTime);
     filter.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.3);
 
-    // Amp Envelope
     gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
     gainNode.gain.linearRampToValueAtTime(0.25, audioCtx.currentTime + 0.005);
     gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
@@ -441,7 +493,6 @@ function triggerPluck(freq, dest) {
     filter.connect(gainNode);
     gainNode.connect(dest);
 
-    // Send to FX loop
     gainNode.connect(delayNode.delay);
     gainNode.connect(reverbNode);
 
@@ -449,7 +500,7 @@ function triggerPluck(freq, dest) {
     osc.stop(audioCtx.currentTime + 0.45);
 }
 
-// 3. FM Relic Glass Bell (Frequency Modulation)
+// 3. FM Relic Glass Bell
 function triggerFMBell(freq, dest) {
     if (!enableBellCheckbox.checked) return;
 
@@ -462,23 +513,20 @@ function triggerFMBell(freq, dest) {
     modulator.type = "sine";
 
     carrier.frequency.setValueAtTime(freq, audioCtx.currentTime);
-    modulator.frequency.setValueAtTime(freq * 3.5, audioCtx.currentTime); // Metallic bell ratio
+    modulator.frequency.setValueAtTime(freq * 3.5, audioCtx.currentTime);
 
-    // Modulator Index envelope
     modGain.gain.setValueAtTime(freq * 4, audioCtx.currentTime);
     modGain.gain.exponentialRampToValueAtTime(1, audioCtx.currentTime + 0.6);
 
-    // Amp Envelope
     gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
     gainNode.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.002);
     gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
 
     modulator.connect(modGain);
-    modGain.connect(carrier.frequency); // frequency modulation
+    modGain.connect(carrier.frequency);
     carrier.connect(gainNode);
     gainNode.connect(dest);
 
-    // Send to reverb & delay
     gainNode.connect(delayNode.delay);
     gainNode.connect(reverbNode);
 
@@ -489,11 +537,10 @@ function triggerFMBell(freq, dest) {
     carrier.stop(audioCtx.currentTime + 1.3);
 }
 
-// 4. Vocoder Trumpet (ТРУБА) - Desafinada con vocoder + voces gratinadas
+// 4. Vocoder Trumpet
 function triggerTrumpet(freq, dest) {
     if (!enableTrumpet) return;
 
-    // Carrier
     const osc1 = audioCtx.createOscillator();
     const osc2 = audioCtx.createOscillator();
     const vibrato = audioCtx.createOscillator();
@@ -502,24 +549,20 @@ function triggerTrumpet(freq, dest) {
     osc1.type = "sawtooth";
     osc2.type = "sawtooth";
     
-    // Very detuned (desafinada)
     osc1.frequency.setValueAtTime(freq * 0.98, audioCtx.currentTime);
     osc2.frequency.setValueAtTime(freq * 1.02, audioCtx.currentTime);
     
-    // Vibrato (pitch wobble)
-    vibrato.frequency.setValueAtTime(6.8, audioCtx.currentTime); // 6.8 Hz
-    vibratoGain.gain.setValueAtTime(20, audioCtx.currentTime); // cents pitch wobble
+    vibrato.frequency.setValueAtTime(6.8, audioCtx.currentTime);
+    vibratoGain.gain.setValueAtTime(20, audioCtx.currentTime);
     vibrato.connect(vibratoGain);
     vibratoGain.connect(osc1.frequency);
     vibratoGain.connect(osc2.frequency);
     
-    // Amp Env
     const mainGain = audioCtx.createGain();
     mainGain.gain.setValueAtTime(0, audioCtx.currentTime);
-    mainGain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.08); // soft brass attack
+    mainGain.gain.linearRampToValueAtTime(0.2, audioCtx.currentTime + 0.08);
     mainGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.1);
     
-    // Gratinada vocal crunch (formant parallel filters)
     const filter1 = audioCtx.createBiquadFilter();
     const filter2 = audioCtx.createBiquadFilter();
     const filter3 = audioCtx.createBiquadFilter();
@@ -528,7 +571,6 @@ function triggerTrumpet(freq, dest) {
     filter2.type = "bandpass";
     filter3.type = "bandpass";
     
-    // Soviet gratinada vowel formants (approx "A" / "O")
     filter1.frequency.setValueAtTime(650, audioCtx.currentTime);
     filter1.Q.setValueAtTime(10, audioCtx.currentTime);
     
@@ -551,10 +593,9 @@ function triggerTrumpet(freq, dest) {
     filter2.connect(filterMix);
     filter3.connect(filterMix);
     
-    // Add a vocal crunch modulator (AM ring modulation at high speed)
     const crunchOsc = audioCtx.createOscillator();
     const crunchGain = audioCtx.createGain();
-    crunchOsc.frequency.setValueAtTime(130, audioCtx.currentTime); // gratinada voice buzz frequency
+    crunchOsc.frequency.setValueAtTime(130, audioCtx.currentTime);
     crunchOsc.type = "sawtooth";
     
     const ringMod = audioCtx.createGain();
@@ -566,7 +607,6 @@ function triggerTrumpet(freq, dest) {
     filterMix.connect(ringMod);
     ringMod.connect(mainGain);
     
-    // Connect to destination & FX
     mainGain.connect(dest);
     mainGain.connect(delayNode.delay);
     mainGain.connect(reverbNode);
@@ -583,7 +623,7 @@ function triggerTrumpet(freq, dest) {
     crunchOsc.stop(stopTime);
 }
 
-// 5. Happy Theremin (ТЕРЕМИН) - High-energy portamento sine/triangle
+// 5. Happy Theremin
 let lastThereminFreq = 440;
 function triggerTheremin(freq, dest) {
     if (!enableTheremin) return;
@@ -595,21 +635,18 @@ function triggerTheremin(freq, dest) {
     
     osc.type = "triangle";
     
-    // Portamento glide from last triggered theremin frequency
     const startFreq = lastThereminFreq;
     lastThereminFreq = freq;
     
     osc.frequency.setValueAtTime(startFreq, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(freq, audioCtx.currentTime + 0.18); // glide
+    osc.frequency.exponentialRampToValueAtTime(freq, audioCtx.currentTime + 0.18);
     
-    // Active happy vibrato
     vibrato.frequency.setValueAtTime(6.2, audioCtx.currentTime);
-    vibratoGain.gain.setValueAtTime(30, audioCtx.currentTime); // cents wobble depth
+    vibratoGain.gain.setValueAtTime(30, audioCtx.currentTime);
     
     vibrato.connect(vibratoGain);
     vibratoGain.connect(osc.frequency);
     
-    // Envelope: slow attack, long expressive tail
     gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
     gainNode.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 0.08);
     gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.6);
@@ -628,19 +665,16 @@ function triggerTheremin(freq, dest) {
     vibrato.stop(stopTime);
 }
 
-// 6. Sad Guitar (ГИТАРА) - Karplus-Strong physical modeling string pluck
+// 6. Sad Guitar
 function triggerGuitar(freq, dest) {
     if (!enableGuitar) return;
     
     const delayTime = 1 / freq;
-    
-    // Short noise burst to excite the delay line
-    const noiseLength = 0.025; // 25ms pluck
+    const noiseLength = 0.025;
     const bufferSize = audioCtx.sampleRate * noiseLength;
     const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
     const data = noiseBuffer.getChannelData(0);
     
-    // Generate noise decay simulation
     for (let i = 0; i < bufferSize; i++) {
         data[i] = (Math.random() * 2 - 1) * Math.exp(-5 * i / bufferSize);
     }
@@ -649,21 +683,18 @@ function triggerGuitar(freq, dest) {
     noiseSource.buffer = noiseBuffer;
     
     const noiseGain = audioCtx.createGain();
-    noiseGain.gain.setValueAtTime(0.25, audioCtx.currentTime); // pluck level
+    noiseGain.gain.setValueAtTime(0.25, audioCtx.currentTime);
     
-    // Loop nodes
     const delay = audioCtx.createDelay(1.0);
     delay.delayTime.setValueAtTime(delayTime, audioCtx.currentTime);
     
     const feedback = audioCtx.createGain();
-    // Decay factor (feedback) - slightly damp for a sad acoustic guitar pluck
     feedback.gain.setValueAtTime(0.985, audioCtx.currentTime);
     
     const dampFilter = audioCtx.createBiquadFilter();
     dampFilter.type = "lowpass";
-    dampFilter.frequency.setValueAtTime(1800, audioCtx.currentTime); // damp higher frequencies
+    dampFilter.frequency.setValueAtTime(1800, audioCtx.currentTime);
     
-    // Connect string loop
     noiseSource.connect(noiseGain);
     noiseGain.connect(delay);
     
@@ -671,7 +702,6 @@ function triggerGuitar(freq, dest) {
     dampFilter.connect(feedback);
     feedback.connect(delay);
     
-    // Envelope for decay
     const outputGain = audioCtx.createGain();
     outputGain.gain.setValueAtTime(1.0, audioCtx.currentTime);
     outputGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.8);
@@ -684,7 +714,6 @@ function triggerGuitar(freq, dest) {
     
     noiseSource.start();
     
-    // Cleanup nodes
     setTimeout(() => {
         try {
             noiseSource.stop();
@@ -696,6 +725,101 @@ function triggerGuitar(freq, dest) {
             outputGain.disconnect();
         } catch(e) {}
     }, 2200);
+}
+
+// 7. Interactive Drums Synthesis
+function triggerKick(time) {
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(lowpassNode || audioCtx.destination);
+    
+    osc.frequency.setValueAtTime(150, time);
+    osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.15);
+    
+    gain.gain.setValueAtTime(0.5, time);
+    gain.gain.exponentialRampToValueAtTime(0.01, time + 0.15);
+    
+    osc.start(time);
+    osc.stop(time + 0.16);
+}
+
+function triggerSnare(time) {
+    if (!audioCtx) return;
+    const bufferSize = audioCtx.sampleRate * 0.15;
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1;
+    }
+    
+    const noise = audioCtx.createBufferSource();
+    noise.buffer = buffer;
+    
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = "bandpass";
+    filter.frequency.value = 1000;
+    
+    const gain = audioCtx.createGain();
+    
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(lowpassNode || audioCtx.destination);
+    
+    gain.gain.setValueAtTime(0.3, time);
+    gain.gain.exponentialRampToValueAtTime(0.01, time + 0.15);
+    
+    noise.start(time);
+    noise.stop(time + 0.16);
+}
+
+function triggerHiHat(time) {
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const filter = audioCtx.createBiquadFilter();
+    const gain = audioCtx.createGain();
+    
+    osc.type = "triangle";
+    osc.frequency.value = 10000;
+    
+    filter.type = "highpass";
+    filter.frequency.value = 7000;
+    
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(lowpassNode || audioCtx.destination);
+    
+    gain.gain.setValueAtTime(0.15, time);
+    gain.gain.exponentialRampToValueAtTime(0.01, time + 0.05);
+    
+    osc.start(time);
+    osc.stop(time + 0.06);
+}
+
+function startDrumSequencer() {
+    if (drumIntervalId) clearInterval(drumIntervalId);
+    
+    const tickTimeMs = (60000 / currentBpm) / 4;
+    drumIntervalId = setInterval(() => {
+        if (!isPlaying || !enableDrums || !audioCtx) return;
+        
+        const time = audioCtx.currentTime;
+        const beat = drumTickCount % 16;
+        
+        if (beat === 0 || beat === 8) {
+            triggerKick(time);
+        } else if (beat === 4 || beat === 12) {
+            triggerSnare(time);
+            triggerKick(time);
+        }
+        
+        if (beat % 2 === 0) {
+            triggerHiHat(time);
+        }
+        
+        drumTickCount++;
+    }, tickTimeMs);
 }
 
 // --- SEQUENCER & CHORD AUTOMATOR ---
@@ -710,13 +834,11 @@ function updatePadChord(dest) {
     const isMinor = currentScaleType.includes("minor") || currentScaleType.includes("dorian") || currentScaleType.includes("phrygian");
     const prog = isMinor ? PROGRESSIONS.minor : PROGRESSIONS.major;
     
-    // Pick chord notes from current progression index
     const chordOffsets = prog[activeChordIdx];
     activeChordIdx = (activeChordIdx + 1) % prog.length;
     
     const chordFreqs = chordOffsets.map(offset => {
         const degree = scale[offset % scale.length];
-        // We want pad in octave 3, so octaveOffset = -1 relative to octave 4.
         const totalSteps = degree + 21 * -1;
         return getWobblyFreq(baseFreq, totalSteps);
     });
@@ -726,12 +848,11 @@ function updatePadChord(dest) {
     }
     
     currentPad = triggerSovietPad(chordFreqs, dest);
-    activePadNotes = chordOffsets; // Store chord offsets for lead bias
+    activePadNotes = chordOffsets;
 }
 
 // --- GRAVITATIONAL SOUNDBOX (PHYSICS CANVAS) ---
 
-// Sound Node Class
 class SoundNode {
     constructor(x, y) {
         this.x = x;
@@ -740,30 +861,27 @@ class SoundNode {
         this.vy = (Math.random() - 0.5) * 5;
         this.radius = 12 + Math.random() * 8;
         
-        // Pick dynamic scale degree mapping
-        this.scaleDegree = Math.floor(Math.random() * 10); // scale degrees
+        this.scaleDegree = Math.floor(Math.random() * 10);
         this.lastTriggerTime = 0;
         this.trail = [];
 
-        // Random instrument type
         const types = ["pluck", "bell", "trumpet", "theremin", "guitar"];
         this.instrumentType = types[Math.floor(Math.random() * types.length)];
         
-        // Color-coding based on instrument type (Aesthetic-Omega palette matching)
         if (this.instrumentType === "pluck") {
-            this.color = "rgba(229, 178, 43, 0.75)"; // amber nicotine yellow
+            this.color = "rgba(229, 178, 43, 0.75)";
             this.trailColor = "rgba(229, 178, 43, 0.1)";
         } else if (this.instrumentType === "bell") {
-            this.color = "rgba(0, 200, 255, 0.75)"; // glass cold cyan
+            this.color = "rgba(0, 200, 255, 0.75)";
             this.trailColor = "rgba(0, 200, 255, 0.1)";
         } else if (this.instrumentType === "trumpet") {
-            this.color = "rgba(255, 68, 68, 0.75)"; // vocoder red
+            this.color = "rgba(255, 68, 68, 0.75)";
             this.trailColor = "rgba(255, 68, 68, 0.1)";
         } else if (this.instrumentType === "theremin") {
-            this.color = "rgba(100, 255, 100, 0.75)"; // happy radio neon green
+            this.color = "rgba(100, 255, 100, 0.75)";
             this.trailColor = "rgba(100, 255, 100, 0.1)";
         } else {
-            this.color = "rgba(200, 100, 255, 0.75)"; // guitar sad purple/brown
+            this.color = "rgba(200, 100, 255, 0.75)";
             this.trailColor = "rgba(200, 100, 255, 0.1)";
         }
     }
@@ -776,7 +894,6 @@ class SoundNode {
         this.x += this.vx;
         this.y += this.vy;
 
-        // Trail logic
         this.trail.push({x: this.x, y: this.y});
         if (this.trail.length > 8) {
             this.trail.shift();
@@ -784,7 +901,6 @@ class SoundNode {
     }
 
     draw(ctx) {
-        // Draw trail
         this.trail.forEach((p, idx) => {
             ctx.beginPath();
             ctx.arc(p.x, p.y, this.radius * (idx / this.trail.length), 0, Math.PI * 2);
@@ -792,24 +908,20 @@ class SoundNode {
             ctx.fill();
         });
 
-        // Core node
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         
-        // Pulsing glow on trigger
         const isTriggered = Date.now() - this.lastTriggerTime < 150;
         ctx.fillStyle = isTriggered ? `rgba(255, 255, 255, 0.95)` : this.color;
-        ctx.strokeStyle = isTriggered ? `#2B3BE5` : `var(--border-color)`;
+        ctx.strokeStyle = isTriggered ? `#D11919` : `var(--border-color)`;
         ctx.lineWidth = 2;
         ctx.fill();
         ctx.stroke();
 
-        // Node ID mark (VHS look)
         ctx.fillStyle = "#000000";
         ctx.font = "8px monospace";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        // Show instrument shorthand prefix + degree
         const short = this.instrumentType.substring(0, 2).toUpperCase();
         ctx.fillText(`${short}-${this.scaleDegree}`, this.x, this.y);
     }
@@ -837,22 +949,19 @@ class SoundNode {
             bounced = true;
         }
 
-        if (bounced && isPlaying) {
+        if (bounced && isPlaying && dest) {
             this.lastTriggerTime = Date.now();
             
-            // Generate harmonious tone biased toward active pad chord notes
             let targetDegree = this.scaleDegree;
             if (activePadNotes && Math.random() < 0.7) {
-                // Bias notes to fit current chord notes perfectly
                 const padOffset = activePadNotes[Math.floor(Math.random() * activePadNotes.length)];
-                targetDegree = padOffset + (Math.random() < 0.5 ? 0 : 5); // higher octave or base chord tones
+                targetDegree = padOffset + (Math.random() < 0.5 ? 0 : 5);
             }
 
-            const freq = getScaleFreq(targetDegree, 4); // Pluck/Guitar octaves
-            const highFreq = getScaleFreq(targetDegree, 5); // High octaves
-            const subFreq = getScaleFreq(targetDegree, 3); // Bass/Trumpet octaves
+            const freq = getScaleFreq(targetDegree, 4);
+            const highFreq = getScaleFreq(targetDegree, 5);
+            const subFreq = getScaleFreq(targetDegree, 3);
             
-            // Dynamic routing based on ball instrument type
             if (this.instrumentType === "pluck") {
                 triggerPluck(freq, dest);
             } else if (this.instrumentType === "bell") {
@@ -870,11 +979,14 @@ class SoundNode {
 
 // Init Canvas dimensions
 function resizeCanvases() {
-    sandboxCanvas.width = sandboxCanvas.parentElement.clientWidth;
-    sandboxCanvas.height = sandboxCanvas.parentElement.clientHeight - 100;
-    
-    visualizerCanvas.width = visualizerCanvas.parentElement.clientWidth;
-    visualizerCanvas.height = visualizerCanvas.parentElement.clientHeight - 50;
+    if (sandboxCanvas.parentElement) {
+        sandboxCanvas.width = sandboxCanvas.parentElement.clientWidth;
+        sandboxCanvas.height = 300;
+    }
+    if (visualizerCanvas.parentElement) {
+        visualizerCanvas.width = visualizerCanvas.parentElement.clientWidth;
+        visualizerCanvas.height = 100;
+    }
 }
 
 window.addEventListener("resize", resizeCanvases);
@@ -894,24 +1006,143 @@ sandboxCanvas.addEventListener("click", (e) => {
 // Setup default nodes
 function seedNodes() {
     balls = [];
-    const w = sandboxCanvas.width;
-    const h = sandboxCanvas.height;
+    const w = sandboxCanvas.width || 400;
+    const h = sandboxCanvas.height || 300;
     for (let i = 0; i < 6; i++) {
         balls.push(new SoundNode(w * 0.2 + w * 0.15 * i, h * 0.3 + Math.random() * h * 0.2));
     }
 }
 seedNodes();
 
+// Reels animation toggling
+function startReelsAnimation() {
+    if (leftReel) leftReel.classList.add("spinning");
+    if (rightReel) rightReel.classList.add("spinning");
+}
+
+function stopReelsAnimation() {
+    if (leftReel) leftReel.classList.remove("spinning", "spinning-fast", "spinning-reverse-fast");
+    if (rightReel) rightReel.classList.remove("spinning", "spinning-fast", "spinning-reverse-fast");
+}
+
+function updateCounterDisplay() {
+    const hrs = String(Math.floor(tapeCounterSecs / 3600)).padStart(2, '0');
+    const mins = String(Math.floor((tapeCounterSecs % 3600) / 60)).padStart(2, '0');
+    const secs = String(tapeCounterSecs % 60).padStart(2, '0');
+    if (tapeCounter) tapeCounter.textContent = `${hrs}:${mins}:${secs}`;
+}
+
+// Tape control deck listeners
+const rewBtn = document.getElementById("rew-btn");
+const ffBtn = document.getElementById("ff-btn");
+const ejectBtn = document.getElementById("eject-btn");
+const playerPlayBtn = document.getElementById("player-play-btn");
+
+if (rewBtn) {
+    rewBtn.addEventListener("click", () => {
+        if (!leftReel) return;
+        leftReel.classList.add("spinning-reverse-fast");
+        rightReel.classList.add("spinning-reverse-fast");
+        leftReel.classList.remove("spinning", "spinning-fast");
+        rightReel.classList.remove("spinning", "spinning-fast");
+        
+        trackingText.textContent = "REWIND TAPE...";
+        statusText.textContent = "DECODER REWIND";
+        
+        let count = 0;
+        const interval = setInterval(() => {
+            if (tapeCounterSecs > 0) {
+                tapeCounterSecs = Math.max(0, tapeCounterSecs - 8);
+                updateCounterDisplay();
+            }
+            count++;
+            if (count > 15 || tapeCounterSecs === 0) {
+                clearInterval(interval);
+                restoreReelsAfterAction();
+            }
+        }, 100);
+    });
+}
+
+if (ffBtn) {
+    ffBtn.addEventListener("click", () => {
+        if (!leftReel) return;
+        leftReel.classList.add("spinning-fast");
+        rightReel.classList.add("spinning-fast");
+        leftReel.classList.remove("spinning", "spinning-reverse-fast");
+        rightReel.classList.remove("spinning", "spinning-reverse-fast");
+        
+        trackingText.textContent = "FAST FORWARD...";
+        statusText.textContent = "DECODER FF";
+        
+        let count = 0;
+        const interval = setInterval(() => {
+            tapeCounterSecs += 8;
+            updateCounterDisplay();
+            count++;
+            if (count > 15) {
+                clearInterval(interval);
+                restoreReelsAfterAction();
+            }
+        }, 100);
+    });
+}
+
+if (ejectBtn) {
+    ejectBtn.addEventListener("click", () => {
+        balls = [];
+        if (isPlaying) {
+            playBtn.click();
+        }
+        if (leftReel) {
+            leftReel.classList.add("spinning-fast");
+            rightReel.classList.add("spinning-fast");
+        }
+        statusText.textContent = "TAPE EJECTED // АРХИВ";
+        trackingText.textContent = "NO TAPE INSIDE";
+        tapeCounterSecs = 0;
+        updateCounterDisplay();
+        
+        setTimeout(() => {
+            stopReelsAnimation();
+        }, 600);
+    });
+}
+
+function restoreReelsAfterAction() {
+    if (isPlaying) {
+        startReelsAnimation();
+        trackingText.textContent = "PLAYING • SYSTEM OK";
+        statusText.textContent = "DECODER SYSTEM ACTIVE // 1989-REAL";
+    } else {
+        stopReelsAnimation();
+        trackingText.textContent = "TAPE PAUSED";
+        statusText.textContent = "SYSTEM STANDBY";
+    }
+}
+
+// Master Gain Volume Control scrubber interaction
+const volumeBar = document.querySelector(".volume-slider-bar");
+const volumeProgress = document.querySelector(".volume-progress");
+if (volumeBar && volumeProgress) {
+    volumeBar.addEventListener("click", (e) => {
+        const rect = volumeBar.getBoundingClientRect();
+        const percent = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+        volumeProgress.style.width = `${percent * 100}%`;
+        if (masterGain && audioCtx) {
+            masterGain.gain.setTargetAtTime(percent * 0.8, audioCtx.currentTime, 0.05);
+        }
+    });
+}
+
 // --- ANIMATION / DSP PROCESSING LOOPS ---
 
 let lowpassNode = null;
 
 function animate() {
-    // 1. Draw Physics Sandbox
-    ctxSandbox.fillStyle = "#090807"; // grimy tint
+    ctxSandbox.fillStyle = "#090807";
     ctxSandbox.fillRect(0, 0, sandboxCanvas.width, sandboxCanvas.height);
 
-    // Draw horizontal scanline noise on sandbox
     if (Math.random() < 0.03) {
         ctxSandbox.fillStyle = "rgba(229, 178, 43, 0.05)";
         ctxSandbox.fillRect(0, Math.random() * sandboxCanvas.height, sandboxCanvas.width, 4);
@@ -923,7 +1154,6 @@ function animate() {
         ball.draw(ctxSandbox);
     });
 
-    // 2. Draw CRT Oscilloscope visualizer
     ctxVisualizer.fillStyle = "#070605";
     ctxVisualizer.fillRect(0, 0, visualizerCanvas.width, visualizerCanvas.height);
 
@@ -931,7 +1161,7 @@ function animate() {
         analyser.getByteTimeDomainData(dataArray);
         
         ctxVisualizer.lineWidth = 2;
-        ctxVisualizer.strokeStyle = "#00FF66"; // phosphorous green
+        ctxVisualizer.strokeStyle = "#00FF66";
         ctxVisualizer.shadowBlur = 4;
         ctxVisualizer.shadowColor = "#00FF66";
         
@@ -953,16 +1183,13 @@ function animate() {
         ctxVisualizer.lineTo(visualizerCanvas.width, visualizerCanvas.height / 2);
         ctxVisualizer.stroke();
         
-        // Reset shadow
         ctxVisualizer.shadowBlur = 0;
 
-        // Overlay horizontal corrupt line
         if (Math.random() < 0.02) {
             ctxVisualizer.fillStyle = "rgba(209, 25, 25, 0.25)";
             ctxVisualizer.fillRect(0, Math.random() * visualizerCanvas.height, visualizerCanvas.width, 2);
         }
     } else {
-        // Draw flat line
         ctxVisualizer.lineWidth = 1;
         ctxVisualizer.strokeStyle = "rgba(229, 178, 43, 0.3)";
         ctxVisualizer.beginPath();
@@ -977,11 +1204,14 @@ function animate() {
         if (time > 1000) {
             tapeCounterSecs++;
             lastProgressTime = Date.now();
+            updateCounterDisplay();
             
-            const hrs = String(Math.floor(tapeCounterSecs / 3600)).padStart(2, '0');
-            const mins = String(Math.floor((tapeCounterSecs % 3600) / 60)).padStart(2, '0');
-            const secs = String(tapeCounterSecs % 60).padStart(2, '0');
-            tapeCounter.textContent = `${hrs}:${mins}:${secs}`;
+            // Progress Bar playhead sync (assuming 120s loop)
+            const playheadProgress = document.getElementById("playhead-progress");
+            if (playheadProgress) {
+                const percent = (tapeCounterSecs % 120) / 120 * 100;
+                playheadProgress.style.width = `${percent}%`;
+            }
         }
     }
 
@@ -991,11 +1221,8 @@ function animate() {
 // Start/Stop engine toggle
 playBtn.addEventListener("click", () => {
     if (!isPlaying) {
-        // Init Web Audio
         if (!audioCtx) {
             lowpassNode = initAudio();
-            
-            // Connect Reverb & Delay Node output to lowpass destination
             delayNode.gainNode.connect(lowpassNode);
             reverbNode.connect(lowpassNode);
         }
@@ -1009,18 +1236,25 @@ playBtn.addEventListener("click", () => {
         playBtn.style.background = "#E5B22B";
         playBtn.style.boxShadow = "0 4px 0px #A0740A, 0 6px 10px rgba(0,0,0,0.6)";
         
+        if (playerPlayBtn) playerPlayBtn.textContent = "⏸";
+        
         statusText.textContent = "DECODER SYSTEM ACTIVE // 1989-REAL";
         pulseDot.classList.add("active");
         trackingText.textContent = "PLAYING • SYSTEM OK";
         
         lastProgressTime = Date.now();
+        startReelsAnimation();
 
         // Start Ambient Pad Chord Loops
         updatePadChord(lowpassNode);
         padIntervalId = setInterval(() => {
-            // Chord transition matches tempo settings
             updatePadChord(lowpassNode);
-        }, (60 / currentBpm) * 4000); // changes chord every 4 beats
+        }, (60 / currentBpm) * 4000);
+
+        // Start Drum sequencer if active
+        if (enableDrums) {
+            startDrumSequencer();
+        }
         
     } else {
         isPlaying = false;
@@ -1028,15 +1262,22 @@ playBtn.addEventListener("click", () => {
         playBtn.style.background = "var(--accent)";
         playBtn.style.boxShadow = "0 4px 0px #700B0B, 0 6px 10px rgba(0,0,0,0.6)";
         
+        if (playerPlayBtn) playerPlayBtn.textContent = "▶";
+        
         statusText.textContent = "SYSTEM STANDBY";
         pulseDot.classList.remove("active");
         trackingText.textContent = "TAPE PAUSED";
+        stopReelsAnimation();
 
         if (currentPad) {
             currentPad.stop();
             currentPad = null;
         }
         clearInterval(padIntervalId);
+        if (drumIntervalId) {
+            clearInterval(drumIntervalId);
+            drumIntervalId = null;
+        }
         
         if (audioCtx) {
             audioCtx.suspend();
@@ -1044,6 +1285,13 @@ playBtn.addEventListener("click", () => {
     }
 });
 
+if (playerPlayBtn) {
+    playerPlayBtn.addEventListener("click", () => {
+        playBtn.click();
+    });
+}
+
 // Kick off animation rendering
 requestAnimationFrame(animate);
 updateSliderValues();
+
