@@ -38,7 +38,7 @@ let masterGain = null;
 let delayNode = null;
 let reverbNode = null;
 let noiseNode = null;
-let isPlaying = false;
+let isPlaying = true;
 let currentBpm = 90;
 let currentRoot = "A";
 let currentScaleType = "pentatonic_minor";
@@ -201,6 +201,10 @@ function applyPreset(type) {
     isFractalMode = fractalModeCheckbox.checked;
     
     updateSliderValues();
+    
+    if (isPlaying && audioCtx && lowpassNode) {
+        updatePadChord(lowpassNode);
+    }
 }
 
 function updateSliderValues() {
@@ -430,7 +434,7 @@ function triggerSovietPad(freqs, dest) {
     const oscs = [];
     const padGain = audioCtx.createGain();
     padGain.gain.setValueAtTime(0, audioCtx.currentTime);
-    padGain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + 1.5);
+    padGain.gain.linearRampToValueAtTime(0.20, audioCtx.currentTime + 1.0);
     
     freqs.forEach((freq, idx) => {
         const osc1 = audioCtx.createOscillator();
@@ -456,7 +460,7 @@ function triggerSovietPad(freqs, dest) {
 
     return {
         stop: () => {
-            const stopTime = audioCtx.currentTime + 2.0;
+            const stopTime = audioCtx.currentTime + 2.5;
             padGain.gain.cancelScheduledValues(audioCtx.currentTime);
             padGain.gain.setValueAtTime(padGain.gain.value, audioCtx.currentTime);
             padGain.gain.linearRampToValueAtTime(0, stopTime);
@@ -465,7 +469,7 @@ function triggerSovietPad(freqs, dest) {
                 oscs.forEach(osc => {
                     try { osc.stop(); } catch(e) {}
                 });
-            }, 2500);
+            }, 3000);
         }
     };
 }
@@ -1157,33 +1161,61 @@ function animate() {
     ctxVisualizer.fillStyle = "#070605";
     ctxVisualizer.fillRect(0, 0, visualizerCanvas.width, visualizerCanvas.height);
 
-    if (isPlaying && analyser) {
-        analyser.getByteTimeDomainData(dataArray);
-        
-        ctxVisualizer.lineWidth = 2;
-        ctxVisualizer.strokeStyle = "#00FF66";
-        ctxVisualizer.shadowBlur = 4;
-        ctxVisualizer.shadowColor = "#00FF66";
-        
-        ctxVisualizer.beginPath();
-        const sliceWidth = visualizerCanvas.width / analyser.frequencyBinCount;
-        let x = 0;
-        
-        for (let i = 0; i < analyser.frequencyBinCount; i++) {
-            const v = dataArray[i] / 128.0;
-            const y = v * visualizerCanvas.height / 2;
+    if (isPlaying) {
+        if (analyser) {
+            analyser.getByteTimeDomainData(dataArray);
             
-            if (i === 0) {
-                ctxVisualizer.moveTo(x, y);
-            } else {
-                ctxVisualizer.lineTo(x, y);
+            ctxVisualizer.lineWidth = 2;
+            ctxVisualizer.strokeStyle = "#00FF66";
+            ctxVisualizer.shadowBlur = 4;
+            ctxVisualizer.shadowColor = "#00FF66";
+            
+            ctxVisualizer.beginPath();
+            const sliceWidth = visualizerCanvas.width / analyser.frequencyBinCount;
+            let x = 0;
+            
+            for (let i = 0; i < analyser.frequencyBinCount; i++) {
+                const v = dataArray[i] / 128.0;
+                const y = v * visualizerCanvas.height / 2;
+                
+                if (i === 0) {
+                    ctxVisualizer.moveTo(x, y);
+                } else {
+                    ctxVisualizer.lineTo(x, y);
+                }
+                x += sliceWidth;
             }
-            x += sliceWidth;
+            ctxVisualizer.lineTo(visualizerCanvas.width, visualizerCanvas.height / 2);
+            ctxVisualizer.stroke();
+            ctxVisualizer.shadowBlur = 0;
+        } else {
+            // Draw premium simulated glowing analog scope wave before user gesture
+            ctxVisualizer.lineWidth = 2;
+            ctxVisualizer.strokeStyle = "#00FF66";
+            ctxVisualizer.shadowBlur = 4;
+            ctxVisualizer.shadowColor = "#00FF66";
+            ctxVisualizer.beginPath();
+            
+            const time = Date.now() * 0.006;
+            const sliceWidth = 2;
+            const count = visualizerCanvas.width / sliceWidth;
+            
+            for (let i = 0; i < count; i++) {
+                const x = i * sliceWidth;
+                const wave1 = Math.sin(i * 0.08 + time) * 16;
+                const wave2 = Math.sin(i * 0.04 - time * 1.3) * 8;
+                const noise = (Math.random() - 0.5) * 3;
+                const y = (visualizerCanvas.height / 2) + wave1 + wave2 + noise;
+                
+                if (i === 0) {
+                    ctxVisualizer.moveTo(x, y);
+                } else {
+                    ctxVisualizer.lineTo(x, y);
+                }
+            }
+            ctxVisualizer.stroke();
+            ctxVisualizer.shadowBlur = 0;
         }
-        ctxVisualizer.lineTo(visualizerCanvas.width, visualizerCanvas.height / 2);
-        ctxVisualizer.stroke();
-        
-        ctxVisualizer.shadowBlur = 0;
 
         if (Math.random() < 0.02) {
             ctxVisualizer.fillStyle = "rgba(209, 25, 25, 0.25)";
@@ -1222,9 +1254,8 @@ function animate() {
 playBtn.addEventListener("click", () => {
     if (!isPlaying) {
         if (!audioCtx) {
-            lowpassNode = initAudio();
-            delayNode.gainNode.connect(lowpassNode);
-            reverbNode.connect(lowpassNode);
+            autoStartAudio();
+            return;
         }
         
         if (audioCtx.state === "suspended") {
@@ -1257,6 +1288,19 @@ playBtn.addEventListener("click", () => {
         }
         
     } else {
+        if (!audioCtx) {
+            isPlaying = false;
+            playBtn.textContent = "START TAPE / ПУСК";
+            playBtn.style.background = "var(--accent)";
+            playBtn.style.boxShadow = "0 4px 0px #700B0B, 0 6px 10px rgba(0,0,0,0.6)";
+            if (playerPlayBtn) playerPlayBtn.textContent = "▶";
+            statusText.textContent = "SYSTEM STANDBY";
+            pulseDot.classList.remove("active");
+            trackingText.textContent = "TAPE PAUSED";
+            stopReelsAnimation();
+            return;
+        }
+        
         isPlaying = false;
         playBtn.textContent = "START TAPE / ПУСК";
         playBtn.style.background = "var(--accent)";
@@ -1291,7 +1335,51 @@ if (playerPlayBtn) {
     });
 }
 
+// Auto-unlock Web Audio context on first user gesture
+function autoStartAudio() {
+    if (isPlaying && !audioCtx) {
+        lowpassNode = initAudio();
+        if (delayNode && delayNode.gainNode) {
+            delayNode.gainNode.connect(lowpassNode);
+        }
+        if (reverbNode) {
+            reverbNode.connect(lowpassNode);
+        }
+        
+        // Start Ambient Pad Chord Loops
+        updatePadChord(lowpassNode);
+        padIntervalId = setInterval(() => {
+            updatePadChord(lowpassNode);
+        }, (60 / currentBpm) * 4000);
+
+        // Start Drum sequencer if active
+        if (enableDrums) {
+            startDrumSequencer();
+        }
+    }
+    // Remove gesture listeners to prevent double initialization
+    document.removeEventListener("click", autoStartAudio);
+    document.removeEventListener("keydown", autoStartAudio);
+}
+
+// Add user gesture audio activation listeners
+document.addEventListener("click", autoStartAudio);
+document.addEventListener("keydown", autoStartAudio);
+
 // Kick off animation rendering
 requestAnimationFrame(animate);
 updateSliderValues();
+
+// Start page in active visualizer mode by default
+lastProgressTime = Date.now();
+startReelsAnimation();
+if (pulseDot) pulseDot.classList.add("active");
+if (playBtn) {
+    playBtn.textContent = "STOP TAPE / СТОП";
+    playBtn.style.background = "#E5B22B";
+    playBtn.style.boxShadow = "0 4px 0px #A0740A, 0 6px 10px rgba(0,0,0,0.6)";
+}
+if (playerPlayBtn) playerPlayBtn.textContent = "⏸";
+if (statusText) statusText.textContent = "DECODER SYSTEM ACTIVE // 1989-REAL";
+if (trackingText) trackingText.textContent = "PLAYING • SYSTEM OK";
 
