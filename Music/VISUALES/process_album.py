@@ -179,7 +179,7 @@ def process_track(track_path):
         "arch", "-arm64", "/Users/borjafernandezangulo/Music/JaranaEngine/jarana_env/bin/python3", SYMPHONY_PATH,
         str(mix_path), str(mastered_file),
         "--lufs", "-14.0",
-        "--profile", "streaming"
+        "--profile", "club"
     ]
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:

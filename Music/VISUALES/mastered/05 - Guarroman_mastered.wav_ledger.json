@@ -1,7 +1,7 @@
 {
   "input_file": "/Users/borjafernandezangulo/Music/VISUALES/stems/htdemucs/05 - Guarroman/05 - Guarroman_mix.wav",
   "output_file": "/Users/borjafernandezangulo/Music/VISUALES/mastered/05 - Guarroman_mastered.wav",
-  "profile": "streaming",
+  "profile": "club",
   "target_lufs": -14.0,
   "stats_before": {
     "peak_db": -3.74,
@@ -11,11 +11,11 @@
     "crest_db": 18.83
   },
   "stats_after": {
-    "peak_db": -3.69,
-    "rms_db": -17.85,
+    "peak_db": -3.57,
+    "rms_db": -18.4,
     "lufs": -14.0,
-    "true_peak_dbtp": -3.49,
-    "crest_db": 14.16
+    "true_peak_dbtp": -3.34,
+    "crest_db": 14.83
   },
-  "timestamp": "2026-05-20T21:44:53+0200"
+  "timestamp": "2026-05-21T10:31:42+0200"
 }

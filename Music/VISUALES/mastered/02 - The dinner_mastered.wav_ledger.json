@@ -1,7 +1,7 @@
 {
   "input_file": "/Users/borjafernandezangulo/Music/VISUALES/stems/htdemucs/02 - The dinner/02 - The dinner_mix.wav",
   "output_file": "/Users/borjafernandezangulo/Music/VISUALES/mastered/02 - The dinner_mastered.wav",
-  "profile": "streaming",
+  "profile": "club",
   "target_lufs": -14.0,
   "stats_before": {
     "peak_db": -3.74,
@@ -11,11 +11,11 @@
     "crest_db": 15.76
   },
   "stats_after": {
-    "peak_db": -4.81,
-    "rms_db": -16.63,
+    "peak_db": -4.69,
+    "rms_db": -16.7,
     "lufs": -14.0,
-    "true_peak_dbtp": -4.11,
-    "crest_db": 11.82
+    "true_peak_dbtp": -3.96,
+    "crest_db": 12.01
   },
-  "timestamp": "2026-05-20T21:41:17+0200"
+  "timestamp": "2026-05-21T10:31:06+0200"
 }

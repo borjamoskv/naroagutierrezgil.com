@@ -1,7 +1,7 @@
 {
   "input_file": "/Users/borjafernandezangulo/Music/VISUALES/stems/htdemucs/09 - The abundance awaits us in every furrow/09 - The abundance awaits us in every furrow_mix.wav",
   "output_file": "/Users/borjafernandezangulo/Music/VISUALES/mastered/09 - The abundance awaits us in every furrow_mastered.wav",
-  "profile": "streaming",
+  "profile": "club",
   "target_lufs": -14.0,
   "stats_before": {
     "peak_db": -3.74,
@@ -11,11 +11,11 @@
     "crest_db": 17.8
   },
   "stats_after": {
-    "peak_db": -4.04,
-    "rms_db": -16.72,
+    "peak_db": -3.88,
+    "rms_db": -16.77,
     "lufs": -14.0,
-    "true_peak_dbtp": -3.99,
-    "crest_db": 12.68
+    "true_peak_dbtp": -3.82,
+    "crest_db": 12.89
   },
-  "timestamp": "2026-05-20T21:50:54+0200"
+  "timestamp": "2026-05-21T10:32:59+0200"
 }

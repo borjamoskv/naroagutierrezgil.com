@@ -1,7 +1,7 @@
 {
   "input_file": "/Users/borjafernandezangulo/Music/VISUALES/stems/htdemucs/08 - Ecstasy/08 - Ecstasy_mix.wav",
   "output_file": "/Users/borjafernandezangulo/Music/VISUALES/mastered/08 - Ecstasy_mastered.wav",
-  "profile": "streaming",
+  "profile": "club",
   "target_lufs": -14.0,
   "stats_before": {
     "peak_db": -3.74,
@@ -11,11 +11,11 @@
     "crest_db": 16.88
   },
   "stats_after": {
-    "peak_db": -4.1,
-    "rms_db": -16.85,
+    "peak_db": -3.64,
+    "rms_db": -16.94,
     "lufs": -14.0,
-    "true_peak_dbtp": -2.8,
-    "crest_db": 12.75
+    "true_peak_dbtp": -2.81,
+    "crest_db": 13.3
   },
-  "timestamp": "2026-05-20T21:49:45+0200"
+  "timestamp": "2026-05-21T10:32:48+0200"
 }
