@@ -888,6 +888,59 @@ class SoundNode {
             this.color = "rgba(200, 100, 255, 0.75)";
             this.trailColor = "rgba(200, 100, 255, 0.1)";
         }
+
+        this.normalCanvas = null;
+        this.triggeredCanvas = null;
+        this.prerender();
+    }
+
+    prerender() {
+        const size = Math.ceil((this.radius + 4) * 2);
+        const center = size / 2;
+
+        this.normalCanvas = document.createElement("canvas");
+        this.normalCanvas.width = size;
+        this.normalCanvas.height = size;
+        const ctxN = this.normalCanvas.getContext("2d");
+
+        this.triggeredCanvas = document.createElement("canvas");
+        this.triggeredCanvas.width = size;
+        this.triggeredCanvas.height = size;
+        const ctxT = this.triggeredCanvas.getContext("2d");
+
+        const style = getComputedStyle(document.documentElement || document.body);
+        const borderColor = style.getPropertyValue('--border-color').trim() || "#2B3BE5";
+        const short = this.instrumentType.substring(0, 2).toUpperCase();
+
+        // Draw Normal State
+        ctxN.beginPath();
+        ctxN.arc(center, center, this.radius, 0, Math.PI * 2);
+        ctxN.fillStyle = this.color;
+        ctxN.strokeStyle = borderColor;
+        ctxN.lineWidth = 2;
+        ctxN.fill();
+        ctxN.stroke();
+
+        ctxN.fillStyle = "#000000";
+        ctxN.font = "8px monospace";
+        ctxN.textAlign = "center";
+        ctxN.textBaseline = "middle";
+        ctxN.fillText(`${short}-${this.scaleDegree}`, center, center);
+
+        // Draw Triggered State
+        ctxT.beginPath();
+        ctxT.arc(center, center, this.radius, 0, Math.PI * 2);
+        ctxT.fillStyle = "rgba(255, 255, 255, 0.95)";
+        ctxT.strokeStyle = "#D11919";
+        ctxT.lineWidth = 2;
+        ctxT.fill();
+        ctxT.stroke();
+
+        ctxT.fillStyle = "#000000";
+        ctxT.font = "8px monospace";
+        ctxT.textAlign = "center";
+        ctxT.textBaseline = "middle";
+        ctxT.fillText(`${short}-${this.scaleDegree}`, center, center);
     }
 
     update() {
@@ -912,22 +965,12 @@ class SoundNode {
             ctx.fill();
         });
 
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        
         const isTriggered = Date.now() - this.lastTriggerTime < 150;
-        ctx.fillStyle = isTriggered ? `rgba(255, 255, 255, 0.95)` : this.color;
-        ctx.strokeStyle = isTriggered ? `#D11919` : `var(--border-color)`;
-        ctx.lineWidth = 2;
-        ctx.fill();
-        ctx.stroke();
-
-        ctx.fillStyle = "#000000";
-        ctx.font = "8px monospace";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        const short = this.instrumentType.substring(0, 2).toUpperCase();
-        ctx.fillText(`${short}-${this.scaleDegree}`, this.x, this.y);
+        const sourceCanvas = isTriggered ? this.triggeredCanvas : this.normalCanvas;
+        if (sourceCanvas) {
+            const offset = sourceCanvas.width / 2;
+            ctx.drawImage(sourceCanvas, this.x - offset, this.y - offset);
+        }
     }
 
     bounceCheck(width, height, dest) {
