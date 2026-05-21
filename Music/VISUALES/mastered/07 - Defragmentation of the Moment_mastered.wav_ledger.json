@@ -1,0 +1,21 @@
+{
+  "input_file": "/Users/borjafernandezangulo/Music/VISUALES/stems/htdemucs/07 - Defragmentation of the Moment/07 - Defragmentation of the Moment_mix.wav",
+  "output_file": "/Users/borjafernandezangulo/Music/VISUALES/mastered/07 - Defragmentation of the Moment_mastered.wav",
+  "profile": "streaming",
+  "target_lufs": -14.0,
+  "stats_before": {
+    "peak_db": -3.74,
+    "rms_db": -20.07,
+    "lufs": -17.78,
+    "true_peak_dbtp": -3.74,
+    "crest_db": 16.33
+  },
+  "stats_after": {
+    "peak_db": -4.5,
+    "rms_db": -16.23,
+    "lufs": -14.0,
+    "true_peak_dbtp": -4.4,
+    "crest_db": 11.73
+  },
+  "timestamp": "2026-05-20T21:48:30+0200"
+}

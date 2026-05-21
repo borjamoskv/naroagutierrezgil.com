@@ -1,0 +1,21 @@
+{
+  "input_file": "/Users/borjafernandezangulo/Music/VISUALES/stems/htdemucs/06 - Change/06 - Change_mix.wav",
+  "output_file": "/Users/borjafernandezangulo/Music/VISUALES/mastered/06 - Change_mastered.wav",
+  "profile": "streaming",
+  "target_lufs": -14.0,
+  "stats_before": {
+    "peak_db": -3.74,
+    "rms_db": -20.31,
+    "lufs": -17.61,
+    "true_peak_dbtp": -3.7,
+    "crest_db": 16.57
+  },
+  "stats_after": {
+    "peak_db": -4.01,
+    "rms_db": -16.43,
+    "lufs": -14.0,
+    "true_peak_dbtp": -2.5,
+    "crest_db": 12.41
+  },
+  "timestamp": "2026-05-20T21:46:59+0200"
+}

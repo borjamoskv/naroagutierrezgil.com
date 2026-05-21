@@ -1,0 +1,21 @@
+{
+  "input_file": "/Users/borjafernandezangulo/Music/VISUALES/stems/htdemucs/04 - Thunder rolls/04 - Thunder rolls_mix.wav",
+  "output_file": "/Users/borjafernandezangulo/Music/VISUALES/mastered/04 - Thunder rolls_mastered.wav",
+  "profile": "streaming",
+  "target_lufs": -14.0,
+  "stats_before": {
+    "peak_db": -3.74,
+    "rms_db": -19.78,
+    "lufs": -16.71,
+    "true_peak_dbtp": -3.73,
+    "crest_db": 16.04
+  },
+  "stats_after": {
+    "peak_db": -4.23,
+    "rms_db": -16.66,
+    "lufs": -14.0,
+    "true_peak_dbtp": -4.1,
+    "crest_db": 12.43
+  },
+  "timestamp": "2026-05-20T21:43:50+0200"
+}

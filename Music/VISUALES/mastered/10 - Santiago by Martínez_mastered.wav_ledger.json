@@ -1,0 +1,21 @@
+{
+  "input_file": "/Users/borjafernandezangulo/Music/VISUALES/stems/htdemucs/10 - Santiago by Mart\u00ednez/10 - Santiago by Mart\u00ednez_mix.wav",
+  "output_file": "/Users/borjafernandezangulo/Music/VISUALES/mastered/10 - Santiago by Mart\u00ednez_mastered.wav",
+  "profile": "streaming",
+  "target_lufs": -14.0,
+  "stats_before": {
+    "peak_db": -3.74,
+    "rms_db": -19.44,
+    "lufs": -16.43,
+    "true_peak_dbtp": -3.73,
+    "crest_db": 15.69
+  },
+  "stats_after": {
+    "peak_db": -4.55,
+    "rms_db": -17.05,
+    "lufs": -14.0,
+    "true_peak_dbtp": -4.21,
+    "crest_db": 12.5
+  },
+  "timestamp": "2026-05-20T21:52:12+0200"
+}

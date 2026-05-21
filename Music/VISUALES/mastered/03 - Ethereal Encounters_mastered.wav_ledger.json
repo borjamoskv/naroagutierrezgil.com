@@ -1,0 +1,21 @@
+{
+  "input_file": "/Users/borjafernandezangulo/Music/VISUALES/stems/htdemucs/03 - Ethereal Encounters/03 - Ethereal Encounters_mix.wav",
+  "output_file": "/Users/borjafernandezangulo/Music/VISUALES/mastered/03 - Ethereal Encounters_mastered.wav",
+  "profile": "streaming",
+  "target_lufs": -14.0,
+  "stats_before": {
+    "peak_db": -3.74,
+    "rms_db": -19.39,
+    "lufs": -16.67,
+    "true_peak_dbtp": -3.7,
+    "crest_db": 15.65
+  },
+  "stats_after": {
+    "peak_db": -4.48,
+    "rms_db": -16.7,
+    "lufs": -14.0,
+    "true_peak_dbtp": -1.95,
+    "crest_db": 12.22
+  },
+  "timestamp": "2026-05-20T21:42:21+0200"
+}
