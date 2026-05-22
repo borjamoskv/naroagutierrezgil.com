@@ -3,228 +3,779 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ACID PIGS — TB-303 Generator</title>
+<title>ACID PIGS — Sovereign TB-303 Synthesizer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+  :root {
+    --bg: #0A0A0A;
+    --panel: #141414;
+    --border: #2A2A2A;
+    --yinmn: #2B3BE5;
+    --amber: #FF9F1C;
+    --gold: #FFD700;
+    --text: #F3F4F6;
+    --muted: #666666;
+    --glow-yinmn: 0 0 15px rgba(43, 59, 229, 0.6);
+    --glow-gold: 0 0 15px rgba(255, 215, 0, 0.6);
+    --glow-amber: 0 0 15px rgba(255, 159, 28, 0.6);
+  }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: #0a0a0a;
-    color: #39ff14;
-    font-family: 'Press Start 2P', monospace;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-  }
-
-  #main {
-    text-align: center;
-    z-index: 2;
     position: relative;
   }
 
+  /* Analog grain overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 100;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  /* Header area */
+  header {
+    margin-bottom: 2rem;
+    text-align: center;
+    z-index: 10;
+  }
+
   h1 {
-    font-size: 2.5rem;
-    color: #ffff00;
-    text-shadow: 0 0 20px #ffff00, 0 0 40px #ff6600;
-    margin-bottom: 1rem;
-    animation: glow 1.5s ease-in-out infinite alternate;
-  }
-
-  @keyframes glow {
-    from { text-shadow: 0 0 20px #ffff00, 0 0 40px #ff6600; }
-    to { text-shadow: 0 0 40px #39ff14, 0 0 80px #00ff00; }
-  }
-
-  #startBtn {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 1.2rem;
-    padding: 20px 40px;
-    background: linear-gradient(135deg, #ff6600, #ffff00);
-    color: #0a0a0a;
-    border: 4px solid #39ff14;
-    cursor: pointer;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--text);
     text-transform: uppercase;
-    transition: all 0.2s;
-    margin: 20px;
-  }
-
-  #startBtn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 30px #39ff14;
-  }
-
-  #startBtn:active { transform: scale(0.95); }
-
-  #controls {
-    display: none;
-    gap: 20px;
-    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    margin-top: 20px;
+    gap: 0.5rem;
+    text-shadow: var(--glow-yinmn);
   }
 
-  .knob-group {
+  h1 span {
+    color: var(--gold);
+    text-shadow: var(--glow-gold);
+  }
+
+  /* Synthesizer Rack Chassis */
+  .synth-chassis {
+    width: 900px;
+    max-width: 95vw;
+    background: linear-gradient(180deg, #1C1C1C 0%, #121212 100%);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 2px 2px rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: relative;
+  }
+
+  /* Rack ears decorative details */
+  .synth-chassis::before, .synth-chassis::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 8px;
+    height: 60px;
+    background: #2E2E2E;
+    border: 1px solid #444;
+    border-radius: 2px;
+    transform: translateY(-50%);
+  }
+  .synth-chassis::before { left: -10px; }
+  .synth-chassis::after { right: -10px; }
+
+  /* LCD display panel */
+  .display-panel {
+    background: #060606;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.9);
+  }
+
+  .lcd-status {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .lcd-label {
+    font-size: 0.6rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .lcd-value {
+    font-size: 1.1rem;
+    color: var(--yinmn);
+    text-shadow: var(--glow-yinmn);
+    font-weight: 700;
+  }
+
+  .lcd-value.amber {
+    color: var(--amber);
+    text-shadow: var(--glow-amber);
+  }
+
+  /* Controls Grid */
+  .knobs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.02);
+  }
+
+  /* Knob Container styling */
+  .knob-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 0.75rem;
   }
 
-  .knob-group label {
-    font-size: 0.5rem;
-    color: #ff6600;
-  }
-
-  input[type="range"] {
-    -webkit-appearance: none;
-    width: 120px;
-    height: 8px;
-    background: #333;
-    border-radius: 4px;
-    outline: none;
-  }
-
-  input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    background: #39ff14;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 0 10px #39ff14;
-  }
-
-  #viz {
-    width: 100%;
-    height: 200px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-  }
-
-  #status {
+  .knob-container label {
     font-size: 0.6rem;
-    color: #666;
-    margin-top: 15px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: center;
   }
 
-  .smiley {
-    position: fixed;
-    font-size: 3rem;
-    opacity: 0;
+  /* The actual rotatable knob widget */
+  .knob-widget {
+    position: relative;
+    width: 54px;
+    height: 54px;
+    background: radial-gradient(circle, #333 30%, #1A1A1A 100%);
+    border: 2px solid #222;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.4), inset 0 2px 2px rgba(255,255,255,0.1);
+    cursor: ns-resize;
+    user-select: none;
+    touch-action: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .knob-indicator {
+    position: absolute;
+    width: 3px;
+    height: 18px;
+    background: var(--yinmn);
+    box-shadow: var(--glow-yinmn);
+    top: 6px;
+    left: 50%;
+    transform-origin: 50% 21px;
+    transform: translateX(-50%) rotate(0deg);
+    border-radius: 2px;
+  }
+
+  .knob-value-display {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text);
+    margin-top: 2px;
+  }
+
+  /* Sequencer Section */
+  .sequencer-panel {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .seq-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .seq-row-label {
+    width: 60px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .seq-steps {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    gap: 5px;
+  }
+
+  .seq-pad {
+    aspect-ratio: 1;
+    background: #1C1C1C;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .seq-pad:hover {
+    border-color: #444;
+  }
+
+  /* Active state */
+  .seq-pad.active {
+    background: rgba(43, 59, 229, 0.15);
+    border-color: var(--yinmn);
+    box-shadow: inset 0 0 6px rgba(43, 59, 229, 0.3);
+  }
+
+  .seq-pad.active::after {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%; width: 6px; height: 6px;
+    background: var(--yinmn);
+    box-shadow: var(--glow-yinmn);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  /* LED Highlight when playhead is on the step */
+  .seq-pad.playing {
+    border-color: var(--amber) !important;
+    background: rgba(255, 159, 28, 0.1) !important;
+  }
+
+  .seq-pad.playing::before {
+    content: "";
+    position: absolute;
+    top: 3px; right: 3px; width: 4px; height: 4px;
+    background: var(--amber);
+    box-shadow: var(--glow-amber);
+    border-radius: 50%;
+  }
+
+  /* Custom pitch configuration trigger inside pad */
+  .seq-pad-pitch-indicator {
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.45rem;
+    color: var(--muted);
+    font-weight: 700;
     pointer-events: none;
-    animation: float 3s ease-out forwards;
   }
 
-  @keyframes float {
-    0% { opacity: 1; transform: translateY(0) scale(1); }
-    100% { opacity: 0; transform: translateY(-300px) scale(0.3) rotate(360deg); }
+  .seq-pad.active .seq-pad-pitch-indicator {
+    color: var(--text);
   }
 
-  #bpm-display {
-    font-size: 1.5rem;
-    color: #ff6600;
-    margin: 10px 0;
+  /* Bottom controls */
+  .footer-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
   }
 
-  .flash {
+  /* Synth Trigger button */
+  .power-btn {
+    background: linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%);
+    border: 2px solid var(--border);
+    color: var(--text);
+    padding: 0.8rem 1.8rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .power-btn:hover {
+    border-color: var(--yinmn);
+    box-shadow: var(--glow-yinmn);
+    color: #fff;
+  }
+
+  .power-btn.active {
+    background: var(--yinmn);
+    border-color: var(--yinmn);
+    color: #fff;
+    box-shadow: var(--glow-yinmn);
+  }
+
+  /* Screen flashing */
+  .flash-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: #39ff14;
+    background: var(--yinmn);
     opacity: 0;
     pointer-events: none;
-    z-index: 1;
-    transition: opacity 0.05s;
+    z-index: 100;
+    transition: opacity 0.05s ease-out;
+  }
+
+  /* Floating visual assets */
+  .smiley, .pig {
+    position: fixed;
+    font-size: 2.5rem;
+    opacity: 0;
+    pointer-events: none;
+    animation: floatUp 2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    z-index: 5;
+  }
+
+  @keyframes floatUp {
+    0% { opacity: 0; transform: translateY(50px) scale(0.6) rotate(0deg); }
+    15% { opacity: 0.8; }
+    100% { opacity: 0; transform: translateY(-250px) scale(0.3) rotate(360deg); }
+  }
+
+  /* Osciloscopio */
+  canvas#viz {
+    width: 100%;
+    height: 140px;
+    background: #050505;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.9);
+  }
+
+  /* Modal for note selection */
+  .pitch-selector {
+    position: absolute;
+    background: #141414;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    padding: 0.5rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    z-index: 200;
+  }
+
+  .pitch-option {
+    padding: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text);
+    background: #222;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .pitch-option:hover {
+    background: var(--yinmn);
+    color: #fff;
   }
 </style>
 </head>
 <body>
 
-<div class="flash" id="flash"></div>
+<div class="flash-overlay" id="flash"></div>
 
-<div id="main">
-  <h1>🐷 ACID PIGS 🐷</h1>
-  <div id="bpm-display">BPM: 133</div>
-  <button id="startBtn" onclick="initAcid()">🎵 OINK OINK 🎵</button>
+<header>
+  <h1>🐷 ACID PIGS <span>303</span></h1>
+</header>
 
-  <div id="controls">
-    <div class="knob-group">
-      <label>BPM</label>
-      <input type="range" id="bpm" min="100" max="160" value="133" oninput="updateBPM(this.value)">
+<main class="synth-chassis">
+  <!-- LCD Panel display -->
+  <div class="display-panel">
+    <div class="lcd-status">
+      <span class="lcd-label">TEMPO</span>
+      <span class="lcd-value" id="lcd-bpm">133.0 BPM</span>
     </div>
-    <div class="knob-group">
-      <label>303 CUTOFF</label>
-      <input type="range" id="cutoff" min="100" max="4000" value="800">
+    <div class="lcd-status">
+      <span class="lcd-label">PATTERN</span>
+      <span class="lcd-value amber" id="lcd-pattern">PIG-RUN 1</span>
     </div>
-    <div class="knob-group">
-      <label>303 RESO</label>
-      <input type="range" id="resonance" min="1" max="30" value="15">
-    </div>
-    <div class="knob-group">
-      <label>303 ENVMOD</label>
-      <input type="range" id="envmod" min="0" max="8000" value="4000">
-    </div>
-    <div class="knob-group">
-      <label>303 DECAY</label>
-      <input type="range" id="decay" min="0.05" max="0.8" value="0.3" step="0.01">
-    </div>
-    <div class="knob-group">
-      <label>DISTORTION</label>
-      <input type="range" id="dist" min="0" max="100" value="30">
-    </div>
-    <div class="knob-group">
-      <label>DELAY MIX</label>
-      <input type="range" id="delaymix" min="0" max="0.8" value="0.35" step="0.01">
-    </div>
-    <div class="knob-group">
-      <label>KICK VOL</label>
-      <input type="range" id="kickvol" min="0" max="1" value="0.8" step="0.01">
-    </div>
-    <div class="knob-group">
-      <label>HAT VOL</label>
-      <input type="range" id="hatvol" min="0" max="1" value="0.4" step="0.01">
+    <div class="lcd-status">
+      <span class="lcd-label">CYCLES</span>
+      <span class="lcd-value" id="lcd-step">STEP 01</span>
     </div>
   </div>
 
-  <div id="status"></div>
-</div>
+  <!-- Rotary knobs grid -->
+  <div class="knobs-grid">
+    <div class="knob-container">
+      <label>TEMPO</label>
+      <div class="knob-widget" data-param="bpm" data-min="90" data-max="180" data-val="133">
+        <div class="knob-indicator"></div>
+      </div>
+      <span class="knob-value-display">133</span>
+    </div>
+    <div class="knob-container">
+      <label>CUTOFF</label>
+      <div class="knob-widget" data-param="cutoff" data-min="100" data-max="3000" data-val="800">
+        <div class="knob-indicator"></div>
+      </div>
+      <span class="knob-value-display">800</span>
+    </div>
+    <div class="knob-container">
+      <label>RESONANCE</label>
+      <div class="knob-widget" data-param="resonance" data-min="1" data-max="30" data-val="15">
+        <div class="knob-indicator"></div>
+      </div>
+      <span class="knob-value-display">15</span>
+    </div>
+    <div class="knob-container">
+      <label>ENV MOD</label>
+      <div class="knob-widget" data-param="envmod" data-min="0" data-max="6000" data-val="3500">
+        <div class="knob-indicator"></div>
+      </div>
+      <span class="knob-value-display">3500</span>
+    </div>
+    <div class="knob-container">
+      <label>DECAY</label>
+      <div class="knob-widget" data-param="decay" data-min="0.05" data-max="0.8" data-step="0.01" data-val="0.3">
+        <div class="knob-indicator"></div>
+      </div>
+      <span class="knob-value-display">0.30</span>
+    </div>
+    <div class="knob-container">
+      <label>DISTORT</label>
+      <div class="knob-widget" data-param="dist" data-min="0" data-max="100" data-val="30">
+        <div class="knob-indicator"></div>
+      </div>
+      <span class="knob-value-display">30</span>
+    </div>
+    <div class="knob-container">
+      <label>DELAY MIX</label>
+      <div class="knob-widget" data-param="delaymix" data-min="0" data-max="0.8" data-step="0.01" data-val="0.35">
+        <div class="knob-indicator"></div>
+      </div>
+      <span class="knob-value-display">0.35</span>
+    </div>
+    <div class="knob-container">
+      <label>KICK VOL</label>
+      <div class="knob-widget" data-param="kickvol" data-min="0" data-max="1.0" data-step="0.01" data-val="0.8">
+        <div class="knob-indicator"></div>
+      </div>
+      <span class="knob-value-display">0.80</span>
+    </div>
+    <div class="knob-container">
+      <label>HAT VOL</label>
+      <div class="knob-widget" data-param="hatvol" data-min="0" data-max="1.0" data-step="0.01" data-val="0.4">
+        <div class="knob-indicator"></div>
+      </div>
+      <span class="knob-value-display">0.40</span>
+    </div>
+    <div class="knob-container">
+      <label>BASS VOL</label>
+      <div class="knob-widget" data-param="bassvol" data-min="0" data-max="1.0" data-step="0.01" data-val="0.6">
+        <div class="knob-indicator"></div>
+      </div>
+      <span class="knob-value-display">0.60</span>
+    </div>
+  </div>
 
-<canvas id="viz"></canvas>
+  <!-- Sequencer Matrix -->
+  <div class="sequencer-panel">
+    <div class="seq-row" data-track="kick">
+      <div class="seq-row-label">🐷 KICK</div>
+      <div class="seq-steps" id="seq-kick"></div>
+    </div>
+    <div class="seq-row" data-track="hat">
+      <div class="seq-row-label">✨ HAT</div>
+      <div class="seq-steps" id="seq-hat"></div>
+    </div>
+    <div class="seq-row" data-track="bass">
+      <div class="seq-row-label">⚡ 303</div>
+      <div class="seq-steps" id="seq-bass"></div>
+    </div>
+  </div>
+
+  <!-- Footer, play buttons & visualizer -->
+  <div class="footer-controls">
+    <button class="power-btn" id="startBtn">
+      <span>▶ PLAY SYNTH</span>
+    </button>
+    <div style="flex: 1;">
+      <canvas id="viz"></canvas>
+    </div>
+  </div>
+</main>
 
 <script>
-let ctx, masterGain, analyser, analyserData;
-let bpm = 133;
-let stepIndex = 0;
-let intervalId = null;
+// Web Audio Context & Synthesizer State
+let ctx = null;
+let masterGain, analyser, analyserData;
 let isPlaying = false;
+let bpm = 133;
+let timerId = null;
+let current16thStep = 0;
+let nextStepTime = 0.0;
+const scheduleAheadTime = 0.1; // schedule steps 100ms in advance
+const lookahead = 25.0; // call scheduler every 25ms
 
-// --- ACID BASSLINE PATTERN (classic 303 style) ---
-// Notes in semitones from C2, null = rest, negative = slide
-const PATTERNS = [
-  [0, null, 12, 0, 7, null, 3, 0, 5, null, 12, 7, 0, null, 3, 5],
-  [0, 0, null, 12, 0, 3, 5, null, 7, 12, null, 0, 5, 3, null, 0],
-  [0, 12, 7, 5, 3, 0, null, 12, 0, 7, 5, 3, null, 0, 12, 7],
-  [0, null, null, 0, 12, null, 7, 0, null, 5, 3, null, 0, 12, null, 7],
-];
-const ACCENTS = [
-  [1,0,1,0,0,0,1,0,1,0,0,1,0,0,1,0],
-  [1,0,0,1,0,1,0,0,1,0,0,0,1,0,0,1],
-  [1,1,0,0,1,0,0,1,0,1,0,0,1,0,1,0],
-  [1,0,0,1,1,0,0,0,0,1,0,0,1,1,0,0],
-];
-let currentPattern = 0;
+// Acid Scale notes pentatonic (semitones offset from C2)
+const PENTATONIC_SCALE = [0, 2, 3, 5, 7, 9, 10, 12, 14, 15, 17, 19, 21, 22, 24];
+const NOTE_NAMES = ["C2", "D2", "Eb2", "F2", "G2", "A2", "Bb2", "C3", "D3", "Eb3", "F3", "G3", "A3", "Bb3", "C4"];
 
-function noteToFreq(semitones) {
-  // C2 = 65.41 Hz
-  return 65.41 * Math.pow(2, semitones / 12);
+// Sequences (16 steps grid)
+const grid = {
+  kick: Array(16).fill(false),
+  hat: Array(16).fill(false),
+  bass: Array(16).fill(false),
+  bassNotes: Array(16).fill(12) // default note index (C3)
+};
+
+// Seed default classic acid pattern
+grid.kick[0] = grid.kick[4] = grid.kick[8] = grid.kick[12] = true;
+grid.hat[2] = grid.hat[6] = grid.hat[10] = grid.hat[14] = true;
+[0, 12, 7, 5, 3, 0, 12, 0, 7, 5, 3, 12, 0, 10, 7, 3].forEach((v, i) => {
+  grid.bass[i] = v !== null;
+  const pentatonicIndex = PENTATONIC_SCALE.indexOf(v);
+  grid.bassNotes[i] = pentatonicIndex >= 0 ? pentatonicIndex : 7;
+});
+
+// Setup Matrix DOM elements
+function createSequencerDOM() {
+  const tracks = ['kick', 'hat', 'bass'];
+  tracks.forEach(track => {
+    const container = document.getElementById(`seq-${track}`);
+    container.innerHTML = '';
+    for (let s = 0; s < 16; s++) {
+      const pad = document.createElement('div');
+      pad.className = 'seq-pad';
+      if (grid[track][s]) pad.classList.add('active');
+      
+      // Pitch label for bass track
+      if (track === 'bass') {
+        const indicator = document.createElement('span');
+        indicator.className = 'seq-pad-pitch-indicator';
+        indicator.textContent = NOTE_NAMES[grid.bassNotes[s]];
+        pad.appendChild(indicator);
+      }
+
+      pad.addEventListener('click', (e) => {
+        if (track === 'bass' && grid.bass[s] && !e.shiftKey) {
+          // Open pitch selector if already active
+          openPitchSelector(pad, s);
+        } else {
+          grid[track][s] = !grid[track][s];
+          pad.classList.toggle('active', grid[track][s]);
+        }
+      });
+      container.appendChild(pad);
+    }
+  });
 }
 
-// --- DISTORTION CURVE ---
+function openPitchSelector(pad, stepIndex) {
+  // Remove existing selector
+  const existing = document.querySelector('.pitch-selector');
+  if (existing) existing.remove();
+
+  const rect = pad.getBoundingClientRect();
+  const selector = document.createElement('div');
+  selector.className = 'pitch-selector';
+  selector.style.left = `${rect.left + window.scrollX}px`;
+  selector.style.top = `${rect.top - 120 + window.scrollY}px`;
+
+  NOTE_NAMES.forEach((name, idx) => {
+    const opt = document.createElement('div');
+    opt.className = 'pitch-option';
+    opt.textContent = name;
+    opt.addEventListener('click', () => {
+      grid.bassNotes[stepIndex] = idx;
+      pad.querySelector('.seq-pad-pitch-indicator').textContent = name;
+      selector.remove();
+    });
+    selector.appendChild(opt);
+  });
+
+  document.body.appendChild(selector);
+  
+  // Close when clicking outside
+  setTimeout(() => {
+    const closeHandler = (e) => {
+      if (!selector.contains(e.target)) {
+        selector.remove();
+        document.removeEventListener('click', closeHandler);
+      }
+    };
+    document.addEventListener('click', closeHandler);
+  }, 10);
+}
+
+// Knob Widget Drag Logic (DAW style up/down dragging)
+const params = {
+  bpm: 133,
+  cutoff: 800,
+  resonance: 15,
+  envmod: 3500,
+  decay: 0.3,
+  dist: 30,
+  delaymix: 0.35,
+  kickvol: 0.8,
+  hatvol: 0.4,
+  bassvol: 0.6
+};
+
+function initKnobs() {
+  document.querySelectorAll('.knob-widget').forEach(knob => {
+    const param = knob.dataset.param;
+    const min = parseFloat(knob.dataset.min);
+    const max = parseFloat(knob.dataset.max);
+    const step = knob.dataset.step ? parseFloat(knob.dataset.step) : 1;
+    let initialY = 0;
+    let initialVal = parseFloat(knob.dataset.val);
+
+    // Initial position mapping
+    updateKnobRotation(knob, initialVal, min, max);
+
+    function onPointerDown(e) {
+      initialY = e.clientY;
+      initialVal = params[param];
+      knob.setPointerCapture(e.pointerId);
+      knob.addEventListener('pointermove', onPointerMove);
+      knob.addEventListener('pointerup', onPointerUp);
+    }
+
+    function onPointerMove(e) {
+      const deltaY = initialY - e.clientY; // drag up increases
+      const range = max - min;
+      // scale drag distance to knob range
+      const sensitivity = 0.005; 
+      let newVal = initialVal + (deltaY * range * sensitivity);
+      newVal = Math.max(min, Math.min(max, newVal));
+      
+      // rounding to step
+      newVal = Math.round(newVal / step) * step;
+      params[param] = newVal;
+
+      // Update widget UI
+      updateKnobRotation(knob, newVal, min, max);
+      const display = knob.parentElement.querySelector('.knob-value-display');
+      display.textContent = step < 0.1 ? newVal.toFixed(2) : Math.round(newVal);
+
+      // Trigger changes live
+      if (param === 'bpm') {
+        bpm = newVal;
+        document.getElementById('lcd-bpm').textContent = `${bpm.toFixed(1)} BPM`;
+      }
+      
+      applyLiveSynthParams();
+    }
+
+    function onPointerUp(e) {
+      knob.removeEventListener('pointermove', onPointerMove);
+      knob.removeEventListener('pointerup', onPointerUp);
+    }
+
+    knob.addEventListener('pointerdown', onPointerDown);
+  });
+}
+
+function updateKnobRotation(knob, val, min, max) {
+  const percent = (val - min) / (max - min);
+  // Rotational range: -135deg to +135deg
+  const deg = -135 + (percent * 270);
+  knob.querySelector('.knob-indicator').style.transform = `translateX(-50%) rotate(${deg}deg)`;
+}
+
+// --- WEB AUDIO SYNTH ENGINE ---
+let bassFilter, bassDistortion, delayNode, delayGain;
+
+function setupAudioGraph() {
+  ctx = new (window.AudioContext || window.webkitAudioContext)();
+  masterGain = ctx.createGain();
+  masterGain.gain.value = 0.7;
+  
+  // Visualizer Analyser
+  analyser = ctx.createAnalyser();
+  analyser.fftSize = 256;
+  analyserData = new Uint8Array(analyser.frequencyBinCount);
+  
+  // Wire modules
+  masterGain.connect(analyser);
+  analyser.connect(ctx.destination);
+
+  // Setup 303 Lowpass Filter
+  bassFilter = ctx.createBiquadFilter();
+  bassFilter.type = 'lowpass';
+  
+  // Distortion Node
+  bassDistortion = ctx.createWaveShaper();
+  bassDistortion.oversample = '4x';
+
+  // Delay Unit
+  delayNode = ctx.createDelay(1.0);
+  delayGain = ctx.createGain();
+  
+  const delayFilter = ctx.createBiquadFilter();
+  delayFilter.type = 'lowpass';
+  delayFilter.frequency.value = 2000;
+
+  // Signal path: Osc -> BassFilter -> BassDistortion -> MasterGain
+  // FX path: BassDistortion -> Delay -> DelayFilter -> DelayGain -> MasterGain
+  bassFilter.connect(bassDistortion);
+  bassDistortion.connect(masterGain);
+  bassDistortion.connect(delayNode);
+  
+  delayNode.connect(delayFilter);
+  delayFilter.connect(delayGain);
+  delayGain.connect(masterGain);
+  delayGain.connect(delayNode); // Feedback loop
+
+  applyLiveSynthParams();
+}
+
+function applyLiveSynthParams() {
+  if (!ctx) return;
+  bassFilter.Q.value = params.resonance;
+  bassDistortion.curve = makeDistortionCurve(params.dist);
+  delayGain.gain.value = params.delaymix;
+  delayNode.delayTime.value = (60 / bpm) * 0.75; // dotted eighth
+}
+
 function makeDistortionCurve(amount) {
   const k = amount;
   const samples = 44100;
@@ -237,28 +788,71 @@ function makeDistortionCurve(amount) {
   return curve;
 }
 
-// --- 909 KICK ---
+function noteToFreq(semitones) {
+  // C2 base note = 65.41 Hz
+  return 65.41 * Math.pow(2, semitones / 12);
+}
+
+// BASS Synth Trigger
+function play303Note(time, noteIndex) {
+  const vol = params.bassvol;
+  if (vol === 0) return;
+
+  const semitones = PENTATONIC_SCALE[noteIndex];
+  const freq = noteToFreq(semitones);
+
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  
+  // Classic 303 Sawtooth
+  osc.type = 'sawtooth';
+  osc.frequency.setValueAtTime(freq, time);
+  
+  // Accents trigger on specific step conditions
+  const accent = (current16thStep % 3 === 0);
+  const amplitude = accent ? vol * 0.9 : vol * 0.5;
+
+  gain.gain.setValueAtTime(amplitude, time);
+  gain.gain.exponentialRampToValueAtTime(0.001, time + params.decay + 0.1);
+  
+  // Filter Sweep Envelope
+  const envPeak = params.cutoff + (accent ? params.envmod * 1.5 : params.envmod);
+  bassFilter.frequency.setValueAtTime(envPeak, time);
+  bassFilter.frequency.exponentialRampToValueAtTime(params.cutoff, time + params.decay);
+  
+  osc.connect(gain);
+  gain.connect(bassFilter);
+  
+  osc.start(time);
+  osc.stop(time + params.decay + 0.15);
+  
+  if (accent) {
+    spawnAsset('😃');
+  }
+}
+
+// 909-style Kick synthesis
 function playKick(time) {
-  const vol = parseFloat(document.getElementById('kickvol').value);
+  const vol = params.kickvol;
   if (vol === 0) return;
 
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
   
   osc.type = 'sine';
-  osc.frequency.setValueAtTime(160, time);
-  osc.frequency.exponentialRampToValueAtTime(40, time + 0.08);
+  osc.frequency.setValueAtTime(150, time);
+  osc.frequency.exponentialRampToValueAtTime(45, time + 0.08);
   
   gain.gain.setValueAtTime(vol, time);
-  gain.gain.exponentialRampToValueAtTime(0.001, time + 0.4);
+  gain.gain.exponentialRampToValueAtTime(0.001, time + 0.35);
   
-  // Click transient
+  // Transient pitch click
   const click = ctx.createOscillator();
   const clickGain = ctx.createGain();
   click.type = 'square';
-  click.frequency.setValueAtTime(1000, time);
-  clickGain.gain.setValueAtTime(vol * 0.3, time);
-  clickGain.gain.exponentialRampToValueAtTime(0.001, time + 0.01);
+  click.frequency.setValueAtTime(800, time);
+  clickGain.gain.setValueAtTime(vol * 0.25, time);
+  clickGain.gain.exponentialRampToValueAtTime(0.001, time + 0.015);
   
   osc.connect(gain);
   gain.connect(masterGain);
@@ -266,19 +860,20 @@ function playKick(time) {
   clickGain.connect(masterGain);
   
   osc.start(time);
-  osc.stop(time + 0.5);
+  osc.stop(time + 0.4);
   click.start(time);
   click.stop(time + 0.02);
 }
 
-// --- HI-HAT ---
+// Hat Synthesis
 function playHat(time, open = false) {
-  const vol = parseFloat(document.getElementById('hatvol').value);
+  const vol = params.hatvol;
   if (vol === 0) return;
 
-  const bufferSize = ctx.sampleRate * (open ? 0.3 : 0.05);
+  const bufferSize = ctx.sampleRate * (open ? 0.25 : 0.04);
   const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
   const data = buffer.getChannelData(0);
+  // generate white noise
   for (let i = 0; i < bufferSize; i++) {
     data[i] = Math.random() * 2 - 1;
   }
@@ -288,16 +883,16 @@ function playHat(time, open = false) {
   
   const hpf = ctx.createBiquadFilter();
   hpf.type = 'highpass';
-  hpf.frequency.value = 7000;
+  hpf.frequency.value = 7500;
   
   const bpf = ctx.createBiquadFilter();
   bpf.type = 'bandpass';
-  bpf.frequency.value = 10000;
-  bpf.Q.value = 1;
+  bpf.frequency.value = 11000;
+  bpf.Q.value = 1.2;
   
   const gain = ctx.createGain();
   gain.gain.setValueAtTime(vol, time);
-  gain.gain.exponentialRampToValueAtTime(0.001, time + (open ? 0.25 : 0.04));
+  gain.gain.exponentialRampToValueAtTime(0.001, time + (open ? 0.22 : 0.035));
   
   noise.connect(hpf);
   hpf.connect(bpf);
@@ -307,211 +902,183 @@ function playHat(time, open = false) {
   noise.start(time);
 }
 
-// --- TB-303 BASSLINE ---
-let bassFilter, bassDistortion, delayNode, delayGain;
-
-function init303() {
-  // Filter
-  bassFilter = ctx.createBiquadFilter();
-  bassFilter.type = 'lowpass';
-  bassFilter.frequency.value = 800;
-  bassFilter.Q.value = 15;
-  
-  // Distortion
-  bassDistortion = ctx.createWaveShaper();
-  bassDistortion.curve = makeDistortionCurve(30);
-  bassDistortion.oversample = '4x';
-  
-  // Delay
-  delayNode = ctx.createDelay(1);
-  delayNode.delayTime.value = (60 / bpm) * 0.75; // dotted 8th
-  delayGain = ctx.createGain();
-  delayGain.gain.value = 0.35;
-  
-  const delayFilter = ctx.createBiquadFilter();
-  delayFilter.type = 'lowpass';
-  delayFilter.frequency.value = 2000;
-
-  // 303 -> Filter -> Distortion -> Master
-  // Also -> Delay -> DelayFilter -> Master
-  bassFilter.connect(bassDistortion);
-  bassDistortion.connect(masterGain);
-  bassDistortion.connect(delayNode);
-  delayNode.connect(delayFilter);
-  delayFilter.connect(delayGain);
-  delayGain.connect(masterGain);
-  delayGain.connect(delayNode); // feedback
+// --- SCHEDULER & PLAYHEAD LOGIC ---
+function scheduler() {
+  while (nextStepTime < ctx.currentTime + scheduleAheadTime) {
+    scheduleNextStep(current16thStep, nextStepTime);
+    advanceStep();
+  }
+  timerId = setTimeout(scheduler, lookahead);
 }
 
-function play303Note(time, note, accent) {
-  if (note === null) return;
-  
-  const cutoff = parseFloat(document.getElementById('cutoff').value);
-  const resonance = parseFloat(document.getElementById('resonance').value);
-  const envmod = parseFloat(document.getElementById('envmod').value);
-  const decayTime = parseFloat(document.getElementById('decay').value);
-  const distAmount = parseFloat(document.getElementById('dist').value);
-  const delayMix = parseFloat(document.getElementById('delaymix').value);
-  
-  // Update live params
-  bassFilter.Q.value = resonance;
-  bassDistortion.curve = makeDistortionCurve(distAmount);
-  delayGain.gain.value = delayMix;
-  delayNode.delayTime.value = (60 / bpm) * 0.75;
-  
-  const freq = noteToFreq(note);
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  
-  osc.type = 'sawtooth';
-  osc.frequency.setValueAtTime(freq, time);
-  
-  // Accent
-  const vol = accent ? 0.6 : 0.3;
-  gain.gain.setValueAtTime(vol, time);
-  gain.gain.exponentialRampToValueAtTime(0.001, time + decayTime + 0.1);
-  
-  // Filter envelope (the ACID sound)
-  const envPeak = cutoff + (accent ? envmod * 1.5 : envmod);
-  bassFilter.frequency.setValueAtTime(envPeak, time);
-  bassFilter.frequency.exponentialRampToValueAtTime(cutoff, time + decayTime);
-  
-  osc.connect(gain);
-  gain.connect(bassFilter);
-  
-  osc.start(time);
-  osc.stop(time + decayTime + 0.15);
-}
+function scheduleNextStep(step, time) {
+  // UI triggers must be queued in JS sync with Audio
+  const delay = time - ctx.currentTime;
+  setTimeout(() => {
+    highlightSequencerStep(step);
+  }, Math.max(0, delay * 1000));
 
-// --- SEQUENCER ---
-function step() {
-  const time = ctx.currentTime + 0.05;
-  const pattern = PATTERNS[currentPattern];
-  const accents = ACCENTS[currentPattern];
-  const sixteenthIndex = stepIndex % 16;
-  
-  // Kick on 1, 5, 9, 13 (4 on the floor)
-  if (sixteenthIndex % 4 === 0) {
+  // Audio Playback trigger
+  if (grid.kick[step]) {
     playKick(time);
-    flashScreen();
+    setTimeout(flashChassis, Math.max(0, delay * 1000));
   }
-  
-  // Hi-hat on every 16th, open on off-beats
-  const isOpen = sixteenthIndex % 4 === 2;
-  playHat(time, isOpen);
-  
-  // 303
-  const note = pattern[sixteenthIndex];
-  const accent = accents[sixteenthIndex];
-  play303Note(time, note, accent);
-  
-  // Spawn smiley on accents
-  if (accent && note !== null) spawnSmiley();
-  
-  stepIndex++;
-  
-  // Switch pattern every 2 bars
-  if (stepIndex % 32 === 0) {
-    currentPattern = (currentPattern + 1) % PATTERNS.length;
-    document.getElementById('status').textContent = 
-      `PATTERN ${currentPattern + 1}/${PATTERNS.length} | STEP ${stepIndex}`;
+  if (grid.hat[step]) {
+    // Open hat on off-beat steps, otherwise closed
+    const isOpen = (step % 4 === 2);
+    playHat(time, isOpen);
+  }
+  if (grid.bass[step]) {
+    play303Note(time, grid.bassNotes[step]);
   }
 }
 
-function flashScreen() {
-  const flash = document.getElementById('flash');
-  flash.style.opacity = '0.08';
-  setTimeout(() => { flash.style.opacity = '0'; }, 50);
+function advanceStep() {
+  const secondsPerBeat = 60.0 / bpm;
+  const secondsPerStep = secondsPerBeat / 4; // 16th notes
+  nextStepTime += secondsPerStep;
+
+  current16thStep = (current16thStep + 1) % 16;
 }
 
-function spawnSmiley() {
+function highlightSequencerStep(step) {
+  document.getElementById('lcd-step').textContent = `STEP ${String(step + 1).padStart(2, '0')}`;
+  
+  // Highlight currently playing pad column
+  document.querySelectorAll('.seq-pad').forEach(pad => pad.classList.remove('playing'));
+  
+  const tracks = ['kick', 'hat', 'bass'];
+  tracks.forEach(track => {
+    const parent = document.getElementById(`seq-${track}`);
+    const pads = parent.querySelectorAll('.seq-pad');
+    if (pads[step]) {
+      pads[step].classList.add('playing');
+    }
+  });
+
+  if (step === 0 && Math.random() < 0.15) {
+    spawnAsset('🐷');
+  }
+}
+
+// Visual asset generation
+function spawnAsset(char) {
   const el = document.createElement('div');
-  el.className = 'smiley';
-  el.textContent = '😃';
-  el.style.left = (Math.random() * 80 + 10) + '%';
-  el.style.top = (Math.random() * 60 + 20) + '%';
-  el.style.fontSize = (2 + Math.random() * 3) + 'rem';
+  el.className = char === '🐷' ? 'pig' : 'smiley';
+  el.textContent = char;
+  el.style.left = `${Math.random() * 80 + 10}%`;
+  el.style.top = `${Math.random() * 60 + 20}%`;
+  el.style.fontSize = `${2 + Math.random() * 3}rem`;
   document.body.appendChild(el);
-  setTimeout(() => el.remove(), 3000);
+  setTimeout(() => el.remove(), 2000);
 }
 
-function updateBPM(val) {
-  bpm = parseInt(val);
-  document.getElementById('bpm-display').textContent = `BPM: ${bpm}`;
-  if (isPlaying) {
-    clearInterval(intervalId);
-    const msPerStep = (60000 / bpm) / 4;
-    intervalId = setInterval(step, msPerStep);
-  }
+function flashChassis() {
+  const flash = document.getElementById('flash');
+  flash.style.opacity = '0.04';
+  setTimeout(() => flash.style.opacity = '0', 80);
 }
 
-// --- VISUALIZER ---
+// --- OSCILLOSCOPE RENDERER ---
 function initVisualizer() {
   const canvas = document.getElementById('viz');
   const c = canvas.getContext('2d');
-  canvas.width = window.innerWidth;
-  canvas.height = 200;
   
-  analyser = ctx.createAnalyser();
-  analyser.fftSize = 256;
-  analyserData = new Uint8Array(analyser.frequencyBinCount);
-  masterGain.connect(analyser);
-  
+  function resize() {
+    canvas.width = canvas.parentElement.clientWidth;
+    canvas.height = canvas.parentElement.clientHeight || 140;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
   function draw() {
     requestAnimationFrame(draw);
-    analyser.getByteFrequencyData(analyserData);
+    if (!isPlaying || !analyser) {
+      c.fillStyle = '#050505';
+      c.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw static flat vector line
+      c.strokeStyle = 'rgba(43, 59, 229, 0.2)';
+      c.lineWidth = 2;
+      c.beginPath();
+      c.moveTo(0, canvas.height / 2);
+      c.lineTo(canvas.width, canvas.height / 2);
+      c.stroke();
+      return;
+    }
+
+    analyser.getByteTimeDomainData(analyserData);
     
-    c.fillStyle = 'rgba(10, 10, 10, 0.3)';
+    // Abyssal overlay feedback
+    c.fillStyle = 'rgba(5, 5, 5, 0.25)';
     c.fillRect(0, 0, canvas.width, canvas.height);
     
-    const barW = canvas.width / analyserData.length;
+    // Draw vector glowing trace
+    c.strokeStyle = '#2B3BE5';
+    c.shadowColor = '#2B3BE5';
+    c.shadowBlur = 10;
+    c.lineWidth = 3;
+    c.beginPath();
+    
+    const sliceWidth = canvas.width / analyserData.length;
+    let x = 0;
+    
     for (let i = 0; i < analyserData.length; i++) {
-      const h = (analyserData[i] / 255) * canvas.height;
-      const hue = (i / analyserData.length) * 120 + 60; // yellow -> green
-      c.fillStyle = `hsla(${hue}, 100%, 50%, 0.8)`;
-      c.fillRect(i * barW, canvas.height - h, barW - 1, h);
+      const v = analyserData[i] / 128.0;
+      const y = v * canvas.height / 2;
+      
+      if (i === 0) {
+        c.moveTo(x, y);
+      } else {
+        c.lineTo(x, y);
+      }
+      x += sliceWidth;
     }
+    
+    c.lineTo(canvas.width, canvas.height / 2);
+    c.stroke();
+    
+    // Reset shadow properties for other elements
+    c.shadowBlur = 0;
   }
-  draw();
   
-  window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = 200;
-  });
+  draw();
 }
 
-// --- BOOT ---
-function initAcid() {
-  ctx = new (window.AudioContext || window.webkitAudioContext)();
-  masterGain = ctx.createGain();
-  masterGain.gain.value = 0.7;
-  masterGain.connect(ctx.destination);
-  
-  init303();
+// Toggle Playback
+function togglePlayback() {
+  const btn = document.getElementById('startBtn');
+  if (isPlaying) {
+    // Stop
+    clearTimeout(timerId);
+    isPlaying = false;
+    btn.classList.remove('active');
+    btn.querySelector('span').textContent = '▶ PLAY SYNTH';
+    document.getElementById('lcd-pattern').textContent = 'HALTED';
+  } else {
+    // Start
+    if (!ctx) {
+      setupAudioGraph();
+    }
+    ctx.resume();
+    isPlaying = true;
+    current16thStep = 0;
+    nextStepTime = ctx.currentTime + 0.05;
+    scheduler();
+    btn.classList.add('active');
+    btn.querySelector('span').textContent = '⏹ STOP SYNTH';
+    document.getElementById('lcd-pattern').textContent = 'PIG-RUN 1';
+  }
+}
+
+// Initialization Entry Points
+window.addEventListener('DOMContentLoaded', () => {
+  createSequencerDOM();
+  initKnobs();
   initVisualizer();
   
-  const msPerStep = (60000 / bpm) / 4;
-  intervalId = setInterval(step, msPerStep);
-  isPlaying = true;
-  
-  document.getElementById('startBtn').textContent = '🔊 ACID IS PUMPING 🔊';
-  document.getElementById('startBtn').onclick = togglePlay;
-  document.getElementById('controls').style.display = 'flex';
-  document.getElementById('status').textContent = `PATTERN 1/${PATTERNS.length} | RUNNING`;
-}
-
-function togglePlay() {
-  if (isPlaying) {
-    clearInterval(intervalId);
-    isPlaying = false;
-    document.getElementById('startBtn').textContent = '▶ RESUME';
-  } else {
-    const msPerStep = (60000 / bpm) / 4;
-    intervalId = setInterval(step, msPerStep);
-    isPlaying = true;
-    document.getElementById('startBtn').textContent = '🔊 ACID IS PUMPING 🔊';
-  }
-}
+  document.getElementById('startBtn').addEventListener('click', togglePlayback);
+});
 </script>
 </body>
 </html>

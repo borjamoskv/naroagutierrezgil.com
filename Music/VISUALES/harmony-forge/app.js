@@ -46,6 +46,13 @@ let wowFlutterAmount = 0.25;
 let tapeWearAmount = 0.35;
 let filterCutoff = 800;
 
+// Wow & Flutter Global Modulators
+let wowLfo = null;
+let wowLfoGain = null;
+let flutterLfo = null;
+let flutterLfoGain = null;
+let masterWowFlutterDelay = null;
+
 // Systems state variables
 let enableDrums = false;
 let enableTrumpet = true;
@@ -233,6 +240,12 @@ function updateSliderValues() {
         if (noiseNode) {
             noiseNode.gain.gain.setTargetAtTime(tapeWearAmount * 0.15, audioCtx.currentTime, 0.2);
         }
+        if (wowLfoGain) {
+            wowLfoGain.gain.setTargetAtTime(wowFlutterAmount * 0.003, audioCtx.currentTime, 0.1);
+        }
+        if (flutterLfoGain) {
+            flutterLfoGain.gain.setTargetAtTime(wowFlutterAmount * 0.0006, audioCtx.currentTime, 0.1);
+        }
     }
 
     // Dynamic drum speed restart
@@ -283,12 +296,40 @@ function initAudio() {
     analyser.fftSize = 512;
     dataArray = new Uint8Array(analyser.frequencyBinCount);
 
+    // Wow & Flutter Master Delay (Doppler tape emulation)
+    masterWowFlutterDelay = audioCtx.createDelay(1.0);
+    masterWowFlutterDelay.delayTime.setValueAtTime(0.015, audioCtx.currentTime);
+    
+    wowLfo = audioCtx.createOscillator();
+    wowLfo.type = "sine";
+    wowLfo.frequency.setValueAtTime(0.55, audioCtx.currentTime);
+    
+    wowLfoGain = audioCtx.createGain();
+    wowLfoGain.gain.setValueAtTime(wowFlutterAmount * 0.003, audioCtx.currentTime);
+    
+    wowLfo.connect(wowLfoGain);
+    wowLfoGain.connect(masterWowFlutterDelay.delayTime);
+    wowLfo.start();
+    
+    flutterLfo = audioCtx.createOscillator();
+    flutterLfo.type = "sine";
+    flutterLfo.frequency.setValueAtTime(12.5, audioCtx.currentTime);
+    
+    flutterLfoGain = audioCtx.createGain();
+    flutterLfoGain.gain.setValueAtTime(wowFlutterAmount * 0.0006, audioCtx.currentTime);
+    
+    flutterLfo.connect(flutterLfoGain);
+    flutterLfoGain.connect(masterWowFlutterDelay.delayTime);
+    flutterLfo.start();
+
     // Setup FX Chain
     setupFX();
 
-    // Connect Lowpass to Analyser and destination
-    lowpass.connect(analyser);
-    analyser.connect(audioCtx.destination);
+    // Connect Lowpass -> Wow & Flutter master delay -> Analyser -> Master Gain -> Output
+    lowpass.connect(masterWowFlutterDelay);
+    masterWowFlutterDelay.connect(analyser);
+    analyser.connect(masterGain);
+    masterGain.connect(audioCtx.destination);
     
     // Procedural tape hiss/noise generator
     setupTapeNoise(lowpass);
@@ -406,14 +447,7 @@ function setupTapeNoise(destination) {
 // --- SYNTH GENERATORS WITH WOW & FLUTTER ---
 
 function getWobblyFreq(baseFreq, stepOffset) {
-    const cleanFreq = baseFreq * Math.pow(2, stepOffset / 21);
-    
-    const time = audioCtx.currentTime;
-    const wow = Math.sin(time * 2 * Math.PI * 0.5) * 0.008 * wowFlutterAmount;
-    const flutter = Math.sin(time * 2 * Math.PI * 12) * 0.004 * wowFlutterAmount;
-    const wobble = 1 + wow + flutter;
-    
-    return cleanFreq * wobble;
+    return baseFreq * Math.pow(2, stepOffset / 21);
 }
 
 function getScaleFreq(scaleDegree, octave) {

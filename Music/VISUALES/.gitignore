@@ -1,0 +1,35 @@
+# Large Media Assets
+*.mp4
+*.webm
+*.m4a
+*.mp3
+*.wav
+*.flac
+*.ogg
+*.aac
+
+# Temporary Renders & Cache
+video-forge/output/
+video-forge/director_manifest.json
+video-forge/manifest_*.json
+.snapshots/
+.vscode/
+.DS_Store
+
+# Intermediate alignment data
+all_alignment_candidates.json
+audio_alignment_results.json
+greedy_draft_tracklist.json
+resolved_tracklist.json
+parsed_silences.json
+silence_detect.txt
+unresolved_report.txt
+true_audio_matches.json
+cleaned_transcript.txt
+subtitles.es-orig.vtt
+subtitles.es.vtt
+transcript_es.es.vtt
+video_comments.info.json
+video_info.description
+video_info.info.json
+video_info_rmz.json
