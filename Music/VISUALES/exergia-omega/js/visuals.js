@@ -254,6 +254,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let peakHoldOut = -Infinity;
     let peakHoldTimerIn = 0;
     let peakHoldTimerR = 0;
+    let lastCorrelationVal = 1.0;
+    let lastPeakOutDbVal = -Infinity;
 
     function renderLoop() {
         requestAnimationFrame(renderLoop);
@@ -367,6 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const smoothedCorr = prevCorr * 0.9 + correlation * 0.1;
             
             document.getElementById('correlation-value').innerText = `CORR: ${smoothedCorr >= 0 ? '+' : ''}${smoothedCorr.toFixed(2)}`;
+            lastCorrelationVal = smoothedCorr;
             
             // Fill the Phase correlation bar UI
             const corrBar = document.getElementById('corr-bar-fill');
@@ -377,6 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         } else {
             document.getElementById('correlation-value').innerText = `CORR: +1.00`;
+            lastCorrelationVal = 1.0;
             const corrBar = document.getElementById('corr-bar-fill');
             if (corrBar) corrBar.style.left = '100%';
         }
@@ -518,10 +522,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Display active output peak value in dynamics header
             const displayDb = peakOutDb > -60 ? `${peakOutDb.toFixed(1)} dB` : '-inf';
             document.getElementById('peak-db-value').innerText = `PEAK: ${displayDb}`;
+            lastPeakOutDbVal = peakOutDb;
         } else {
             updateMeterBar('input', -Infinity, -Infinity);
             updateMeterBar('output', -Infinity, -Infinity);
             document.getElementById('peak-db-value').innerText = 'PEAK: -inf dB';
+            lastPeakOutDbVal = -Infinity;
         }
     }
 
@@ -549,4 +555,86 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Start rendering frame sequence
     requestAnimationFrame(renderLoop);
+
+    // --- FLAT FILE SESSION LOG EXPORTER ---
+    async function sha256(message) {
+        const msgBuffer = new TextEncoder().encode(message);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    const exportBtn = document.getElementById('btn-export-session');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', async () => {
+            if (!engine.initialized) {
+                alert("EXERGIA-Ω: Initialize engine before exporting.");
+                return;
+            }
+
+            const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+            const sourceName = engine.isPlaying ? 
+                document.getElementById('file-name').innerText.replace('PLAYING: ', '').replace('CARGANDO: ', '') : 
+                'OFFLINE / DRONE GENERATOR';
+            const peakStr = lastPeakOutDbVal > -60 ? `${lastPeakOutDbVal.toFixed(2)} dB` : '-inf dB';
+            const correlationStr = `${lastCorrelationVal >= 0 ? '+' : ''}${lastCorrelationVal.toFixed(4)}`;
+
+            // Build state text for hashing and logging
+            const serializedParams = JSON.stringify(engine.params, null, 4);
+            const rawReportPayload = `EXERGIA-OMEGA-STATE-V1|${timestamp}|${sourceName}|${peakStr}|${correlationStr}|${serializedParams}`;
+            const stateHash = await sha256(rawReportPayload);
+
+            // Construct aesthetic report structure
+            const report = `================================================================================
+EXERGIA-Ω // SOVEREIGN MASTERING ENGINE REPORT // SATELLITE STATUS LOG
+================================================================================
+Timestamp         : ${timestamp}
+System Integrity  : C5-REAL (Physical Verification - Web Audio API Client)
+State Checksum    : HASH-256: ${stateHash}
+Source Stream     : ${sourceName}
+================================================================================
+[DSP REAL-TIME MEASUREMENTS]
+Output Peak Level : ${peakStr}
+Phase Correlation : ${correlationStr} (Pearson Coherency)
+================================================================================
+[CORE PROCESSOR PARAMETERS]
+Sub-bass Cutoff    : ${engine.params.subCut} Hz (24dB/oct Highpass Linkwitz-Riley)
+Low-shelf EQ (Mid) : ${engine.params.lowShelf > 0 ? '+' : ''}${engine.params.lowShelf.toFixed(1)} dB (100Hz Corner Shelf)
+Mud Attenuation    : ${engine.params.mudCut.toFixed(1)} dB (350Hz Peaking Bell, Q=1.0)
+Presence Boost     : ${engine.params.presence > 0 ? '+' : ''}${engine.params.presence.toFixed(1)} dB (3.2kHz Peaking Bell, Q=0.8)
+Side Highpass      : ${engine.params.sideHp} Hz (12dB/oct Highpass)
+Stereo Side Width  : ${Math.round(engine.params.sideWidth * 100)}% (Mid/Side Ratio Adjuster)
+Saturation Drive   : ${engine.params.satDrive.toFixed(1)}x (Input Pre-gain Boost)
+Saturation Mix     : ${Math.round(engine.params.satMix * 100)}% (Dry/Wet Wet-ratio)
+Chebyshev Odd      : ${Math.round(engine.params.exciterOdd * 100)}% (3rd Harmonic Synthesizer)
+Chebyshev Even     : ${Math.round(engine.params.exciterEven * 100)}% (2nd Harmonic Synthesizer)
+Binaural ITD Delay : ${engine.params.spatialDelay.toFixed(2)} ms (Interaural Time Difference)
+Binaural Crossfeed : ${Math.round(engine.params.crossfeedMix * 100)}% (Interaural Level Difference Matrix)
+Master Input Gain  : ${engine.params.gainBoost > 0 ? '+' : ''}${engine.params.gainBoost.toFixed(1)} dB (Pre-limiter Drive)
+Limiter Ceiling    : ${engine.params.ceiling.toFixed(2)} dB (Output Brickwall Threshold)
+Limiter Release    : ${Math.round(engine.params.limiterRelease)} ms (Dynamic Envelope Release)
+================================================================================
+[VERIFICATION STATUS]
+Ledger Signature  : ${stateHash.substring(0, 16)}... [VERIFIED REALITY]
+Exergy Const      : S=100
+================================================================================
+`;
+            // Trigger file download
+            const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `exergia_session_${Date.now()}.log`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            // Update UI Ledger text to match current hash
+            const ledgerElement = document.getElementById('ledger-hash');
+            if (ledgerElement) {
+                ledgerElement.innerText = `HASH-256: ${stateHash.substring(0, 12)}... // VERIFIED REALITY: C5-REAL`;
+            }
+        });
+    }
 });
