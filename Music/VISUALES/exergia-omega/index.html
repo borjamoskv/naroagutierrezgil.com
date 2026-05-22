@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXERGIA-Ω // Spatial Audio Mastering Substrate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Background Analog Grain -->
+    <div class="analog-grain"></div>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-logo">
+                <div class="logo-symbol">Ω</div>
+                <div class="logo-text">
+                    <h1>EXERGIA-Ω</h1>
+                    <span class="subtitle">SPATIAL BINAURAL MASTERING CORE</span>
+                </div>
+            </div>
+            <div class="system-status">
+                <div class="status-indicator-group">
+                    <span class="status-pulse"></span>
+                    <span class="status-text">C5-REAL // ACTIVE</span>
+                </div>
+                <div class="system-metric" id="sample-rate-metric">SR: -- kHz</div>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="workspace-grid">
+            <!-- Row 1: Visualizers -->
+            <section class="visualizer-row">
+                <!-- Goniometer / Vectorscope -->
+                <div class="panel visualizer-panel" id="vectorscope-container">
+                    <div class="panel-header">
+                        <h3>STEREOSPACE VECTORSCOPE</h3>
+                        <span class="metric" id="correlation-value">CORR: +1.00</span>
+                    </div>
+                    <div class="canvas-wrapper">
+                        <canvas id="goniometer-canvas"></canvas>
+                        <div class="vectorscope-grid">
+                            <span class="grid-label label-l">L</span>
+                            <span class="grid-label label-r">R</span>
+                            <span class="grid-label label-m">M</span>
+                            <span class="grid-label label-s">S</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dual Spectrum Analyzer -->
+                <div class="panel visualizer-panel" id="spectrum-container">
+                    <div class="panel-header">
+                        <h3>MID/SIDE SPECTRUM</h3>
+                        <div class="spectrum-legend">
+                            <span class="legend-item mid-legend">Mid</span>
+                            <span class="legend-item side-legend">Side</span>
+                        </div>
+                    </div>
+                    <div class="canvas-wrapper">
+                        <canvas id="spectrum-canvas"></canvas>
+                    </div>
+                </div>
+
+                <!-- LUFS & Dynamic Meters -->
+                <div class="panel visualizer-panel" id="meters-container">
+                    <div class="panel-header">
+                        <h3>DYNAMICS & LOUDNESS</h3>
+                        <span class="metric" id="peak-db-value">PEAK: -inf dB</span>
+                    </div>
+                    <div class="meters-wrapper">
+                        <div class="meter-channel">
+                            <span class="meter-label">INPUT</span>
+                            <div class="meter-bar-container">
+                                <div class="meter-bar" id="input-meter-bar"></div>
+                                <div class="meter-peak" id="input-meter-peak"></div>
+                            </div>
+                            <span class="meter-value" id="input-meter-val">-inf</span>
+                        </div>
+                        <div class="meter-channel">
+                            <span class="meter-label">OUTPUT</span>
+                            <div class="meter-bar-container">
+                                <div class="meter-bar" id="output-meter-bar"></div>
+                                <div class="meter-peak" id="output-meter-peak"></div>
+                            </div>
+                            <span class="meter-value" id="output-meter-val">-inf</span>
+                        </div>
+                        <div class="correlation-meter-group">
+                            <span class="meter-label">PHASE</span>
+                            <div class="correlation-bar-container">
+                                <div class="correlation-bar-fill" id="corr-bar-fill"></div>
+                                <div class="correlation-center-line"></div>
+                            </div>
+                            <div class="correlation-scale">
+                                <span>-1</span><span>0</span><span>+1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Row 2: Control Racks -->
+            <section class="control-row">
+                <!-- Source Control (Oscillators / File Upload) -->
+                <div class="panel control-panel" id="rack-source">
+                    <div class="panel-header">
+                        <span class="rack-num">01</span>
+                        <h3>SIGNAL SOURCE</h3>
+                    </div>
+                    <div class="control-group source-controls">
+                        <!-- File Upload -->
+                        <div class="file-uploader" id="drop-zone">
+                            <input type="file" id="audio-file" accept="audio/*" class="file-input">
+                            <div class="upload-prompt">
+                                <svg class="icon-upload" viewBox="0 0 24 24">
+                                    <path d="M12 16V8M12 8L9 11M12 8L15 11M3 15V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                                </svg>
+                                <span>ARRASATRA WAV / MP3</span>
+                                <span class="file-name" id="file-name">Ningún archivo cargado</span>
+                            </div>
+                        </div>
+
+                        <!-- Generator -->
+                        <div class="generator-group">
+                            <span class="sub-title">DRONE & BEAT GENERATOR</span>
+                            <div class="button-row">
+                                <button class="btn btn-secondary" id="btn-play-generator">PLAY SOURCE</button>
+                                <button class="btn btn-danger" id="btn-stop-audio">STOP</button>
+                            </div>
+                            <div class="slider-control">
+                                <div class="slider-header">
+                                    <span class="control-label">DRONE FREQ</span>
+                                    <span class="control-val" id="drone-freq-val">55 Hz</span>
+                                </div>
+                                <input type="range" id="drone-freq" min="40" max="120" step="1" value="55" class="slider-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Highpass & Mid EQ -->
+                <div class="panel control-panel" id="rack-eq">
+                    <div class="panel-header">
+                        <span class="rack-num">02</span>
+                        <h3>SUB-BASS & MID EQ</h3>
+                    </div>
+                    <div class="control-group knobs-grid">
+                        <div class="knob-control">
+                            <span class="control-label">SUB CUT</span>
+                            <div class="rotary-knob" data-param="subCut" data-min="20" data-max="80" data-value="30">
+                                <div class="knob-indicator"></div>
+                            </div>
+                            <span class="control-val" id="val-subCut">30 Hz</span>
+                        </div>
+
+                        <div class="knob-control">
+                            <span class="control-label">MID SHELF</span>
+                            <div class="rotary-knob" data-param="lowShelf" data-min="-6" data-max="6" data-value="1.0" data-step="0.1">
+                                <div class="knob-indicator"></div>
+                            </div>
+                            <span class="control-val" id="val-lowShelf">+1.0 dB</span>
+                        </div>
+
+                        <div class="knob-control">
+                            <span class="control-label">MUD CUT</span>
+                            <div class="rotary-knob" data-param="mudCut" data-min="-8" data-max="0" data-value="-2.0" data-step="0.1">
+                                <div class="knob-indicator"></div>
+                            </div>
+                            <span class="control-val" id="val-mudCut">-2.0 dB</span>
+                        </div>
+
+                        <div class="knob-control">
+                            <span class="control-label">PRESENCE</span>
+                            <div class="rotary-knob" data-param="presence" data-min="-3" data-max="6" data-value="1.5" data-step="0.1">
+                                <div class="knob-indicator"></div>
+                            </div>
+                            <span class="control-val" id="val-presence">+1.5 dB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saturation & Excitation -->
+                <div class="panel control-panel" id="rack-excitation">
+                    <div class="panel-header">
+                        <span class="rack-num">03</span>
+                        <h3>TAPE SAT & EXCITER</h3>
+                    </div>
+                    <div class="control-group knobs-grid">
+                        <div class="knob-control">
+                            <span class="control-label">DRIVE</span>
+                            <div class="rotary-knob" data-param="satDrive" data-min="1" data-max="6" data-value="2.0" data-step="0.1">
+                                <div class="knob-indicator"></div>
+                            </div>
+                            <span class="control-val" id="val-satDrive">2.0x</span>
+                        </div>
+
+                        <div class="knob-control">
+                            <span class="control-label">SAT MIX</span>
+                            <div class="rotary-knob" data-param="satMix" data-min="0" data-max="1" data-value="0.15" data-step="0.01">
+                                <div class="knob-indicator"></div>
+                            </div>
+                            <span class="control-val" id="val-satMix">15%</span>
+                        </div>
+
+                        <div class="knob-control">
+                            <span class="control-label">ODD HARM</span>
+                            <div class="rotary-knob" data-param="exciterOdd" data-min="0" data-max="1" data-value="0.1" data-step="0.01">
+                                <div class="knob-indicator"></div>
+                            </div>
+                            <span class="control-val" id="val-exciterOdd">10%</span>
+                        </div>
+
+                        <div class="knob-control">
+                            <span class="control-label">EVEN HARM</span>
+                            <div class="rotary-knob" data-param="exciterEven" data-min="0" data-max="1" data-value="0.08" data-step="0.01">
+                                <div class="knob-indicator"></div>
+                            </div>
+                            <span class="control-val" id="val-exciterEven">8%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spatial Spatialization & Crossfeed -->
+                <div class="panel control-panel" id="rack-spatial">
+                    <div class="panel-header">
+                        <span class="rack-num">04</span>
+                        <h3>BINAURAL & WIDENING</h3>
+                    </div>
+                    <div class="control-group knobs-grid">
+                        <div class="knob-control">
+                            <span class="control-label">ITD DELAY</span>
+                            <div class="rotary-knob" data-param="spatialDelay" data-min="0" data-max="1.5" data-value="0.3" data-step="0.05">
+                                <div class="knob-indicator"></div>
+                            </div>
+                            <span class="control-val" id="val-spatialDelay">0.30 ms</span>
+                        </div>
+
+                        <div class="knob-control">
+                            <span class="control-label">CROSSFEED</span>
+                            <div class="rotary-knob" data-param="crossfeedMix" data-min="0" data-max="0.8" data-value="0.35" data-step="0.01">
+                                <div class="knob-indicator"></div>
+                            </div>
+                            <span class="control-val" id="val-crossfeedMix">35%</span>
+                        </div>
+
+                        <div class="knob-control">
+                            <span class="control-label">SIDE WIDTH</span>
+                            <div class="rotary-knob" data-param="sideWidth" data-min="0.5" data-max="2.0" data-value="1.2" data-step="0.05">
+                                <div class="knob-indicator"></div>
+                            </div>
+                            <span class="control-val" id="val-sideWidth">120%</span>
+                        </div>
+
+                        <div class="knob-control">
+                            <span class="control-label">SIDE HP</span>
+                            <div class="rotary-knob" data-param="sideHp" data-min="80" data-max="200" data-value="120" data-step="5">
+                                <div class="knob-indicator"></div>
+                            </div>
+                            <span class="control-val" id="val-sideHp">120 Hz</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Limiter & Loudness -->
+                <div class="panel control-panel" id="rack-limiter">
+                    <div class="panel-header">
+                        <span class="rack-num">05</span>
+                        <h3>LIMITER & CEILING</h3>
+                    </div>
+                    <div class="control-group knobs-grid">
+                        <div class="knob-control">
+                            <span class="control-label">GAIN BOOST</span>
+                            <div class="rotary-knob" data-param="gainBoost" data-min="0" data-max="12" data-value="2.0" data-step="0.1">
+                                <div class="knob-indicator"></div>
+                            </div>
+                            <span class="control-val" id="val-gainBoost">+2.0 dB</span>
+                        </div>
+
+                        <div class="knob-control">
+                            <span class="control-label">CEILING</span>
+                            <div class="rotary-knob" data-param="ceiling" data-min="-3" data-max="-0.1" data-value="-0.5" data-step="0.05">
+                                <div class="knob-indicator"></div>
+                            </div>
+                            <span class="control-val" id="val-ceiling">-0.5 dB</span>
+                        </div>
+
+                        <div class="knob-control">
+                            <span class="control-label">RELEASE</span>
+                            <div class="rotary-knob" data-param="limiterRelease" data-min="10" data-max="200" data-value="50" data-step="5">
+                                <div class="knob-indicator"></div>
+                            </div>
+                            <span class="control-val" id="val-limiterRelease">50 ms</span>
+                        </div>
+
+                        <div class="knob-control toggle-control-group">
+                            <span class="control-label">MASTER BYPASS</span>
+                            <button class="btn btn-toggle" id="btn-bypass">BYPASS</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Technical Description & Architecture Notes -->
+        <footer class="app-footer-details">
+            <div class="tech-card">
+                <h4>EXERGIA-Ω // BIPHASAL SIGNAL METRIC</h4>
+                <p>Procesamiento de señal estructurado en dominio de frecuencia mediante matrices Mid/Side. La atenuación y retardo interaural (ITD/ILD) simula un campo de presión sonora binaural coherente para auriculares, aplicando decaimiento selectivo en alta frecuencia y desensibilización de fase sub-120Hz.</p>
+            </div>
+            <div class="tech-card text-right">
+                <h4>SYSTEM INTEGRITY Ledger</h4>
+                <p id="ledger-hash">HASH-256: 8a4c1f9d... // VERIFIED REALITY: C5-REAL</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/dsp.js"></script>
+    <script src="js/visuals.js"></script>
+</body>
+</html>
