@@ -653,7 +653,7 @@ function triggerTheremin(freq, dest) {
     
     gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
     gainNode.gain.linearRampToValueAtTime(0.12, audioCtx.currentTime + 0.08);
-    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.6);
+    gainNode.gain.setTargetAtTime(0, audioCtx.currentTime + 0.08, 0.3);
     
     osc.connect(gainNode);
     gainNode.connect(dest);
@@ -708,7 +708,7 @@ function triggerGuitar(freq, dest) {
     
     const outputGain = audioCtx.createGain();
     outputGain.gain.setValueAtTime(1.0, audioCtx.currentTime);
-    outputGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.8);
+    outputGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.35);
     
     dampFilter.connect(outputGain);
     outputGain.connect(dest);
