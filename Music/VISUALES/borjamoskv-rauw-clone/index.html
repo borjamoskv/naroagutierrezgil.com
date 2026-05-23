@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EXERGIA-Ω // BORJA MOSKV</title>
+    <meta name="description" content="EXERGIA-Ω: Experiencia sonora y visual binaural inmersiva por Borja Moskv." />
+    <meta name="author" content="BORJA MOSKV" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,15 L20,80 L80,80 Z' fill='none' stroke='%232B3BE5' stroke-width='8'/></svg>" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Film Grain Overlay -->
+    <div class="film-grain" aria-hidden="true"></div>
+
+    <!-- Liquid Hover SVG Filter -->
+    <svg style="position: absolute; width: 0; height: 0; pointer-events: none;" aria-hidden="true">
+      <defs>
+        <filter id="liquid-warp">
+          <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise" seed="1" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" id="liquid-disp-map" />
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- Interactive Aperture Loading Screen -->
+    <div class="aperture-loader" id="loader">
+      <div class="aperture-bg-grid" id="loader-grid"></div>
+      <div class="loader-content">
+        <div class="loader-glitch-title" data-text="EXERGIA-Ω">EXERGIA-Ω</div>
+        <div class="loader-status">INICIALIZANDO SISTEMA DE EXERGÍA...</div>
+        <div class="loader-bar-container">
+          <div class="loader-bar" id="loader-bar"></div>
+        </div>
+        <div class="loader-telemetry" id="loader-telemetry">SYS.BOOT // ADDR: 0x2B3BE5</div>
+      </div>
+    </div>
+
+    <!-- Background Ambient Video / Canvas System -->
+    <div class="backdrop" aria-hidden="true">
+      <div class="backdrop__radial"></div>
+      <div class="backdrop__grid"></div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="site-header" id="header">
+      <a class="brand" href="#inicio">
+        BORJA MOSKV <span class="brand-suffix">// EXERGIA-Ω</span>
+      </a>
+      <nav class="site-nav" aria-label="Navegación Principal">
+        <a href="#control-deck" class="nav-link is-active">DECK</a>
+        <a href="#discography" class="nav-link">OBRAS</a>
+        <a href="#stills-gallery" class="nav-link">GALERÍA</a>
+        <a href="#tour-dates" class="nav-link">TOUR</a>
+      </nav>
+      <div class="system-status">
+        <span class="status-indicator"></span>
+        <span class="status-text">C5-REAL</span>
+      </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="workspace" id="main-content">
+      <!-- Section 1: The Interactive Vinyl Control Deck -->
+      <section class="workspace-section active" id="control-deck" aria-label="Control Deck">
+        <div class="section-layout">
+          <!-- Left Panel: Info & Custom Crossover Controls -->
+          <div class="control-panel panel-left">
+            <div class="panel-header">
+              <span class="panel-num">01 /</span>
+              <h2>SEÑAL DE SALIDA</h2>
+            </div>
+            
+            <div class="track-details">
+              <span class="track-kicker">REPRODUCTOR DE VINILO INTERACTIVO</span>
+              <h3 id="current-track-title">NO SLEEP IN MY CITY</h3>
+              <p id="current-track-desc">Procesamiento binaural espacial con vector de fase a 120Hz.</p>
+            </div>
+
+            <!-- DSP & Space knobs -->
+            <div class="dsp-module">
+              <div class="module-title">PARÁMETROS BINAURALES</div>
+              
+              <div class="knob-grid">
+                <div class="knob-control" data-param="presence">
+                  <div class="knob-outer">
+                    <div class="knob-inner" style="transform: rotate(0deg);"></div>
+                  </div>
+                  <span class="knob-label">PRESENCE</span>
+                  <span class="knob-value" id="val-presence">0.0 dB</span>
+                </div>
+
+                <div class="knob-control" data-param="width">
+                  <div class="knob-outer">
+                    <div class="knob-inner" style="transform: rotate(45deg);"></div>
+                  </div>
+                  <span class="knob-label">M/S WIDTH</span>
+                  <span class="knob-value" id="val-width">100%</span>
+                </div>
+
+                <div class="knob-control" data-param="crossover">
+                  <div class="knob-outer">
+                    <div class="knob-inner" style="transform: rotate(-30deg);"></div>
+                  </div>
+                  <span class="knob-label">CROSSOVER</span>
+                  <span class="knob-value" id="val-crossover">120 Hz</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phase Correlation Vectorscope -->
+            <div class="vectorscope-module">
+              <div class="module-header">
+                <span>VECTORSCOPIO DE FASE</span>
+                <span class="telemetry-value text-neon-blue" id="val-correlation">+1.00</span>
+              </div>
+              <div class="canvas-container">
+                <canvas id="vectorscope-canvas" width="220" height="220"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Center Panel: Immersive Vinyl 3D Simulator -->
+          <div class="control-panel panel-center">
+            <div class="deck-container">
+              <div class="turntable">
+                <div class="turntable-platter"></div>
+                
+                <!-- Vinyl Sleeve / Jacket Mockup -->
+                <div class="vinyl-sleeve" id="vinyl-sleeve">
+                  <img src="https://images.unsplash.com/photo-1614680376593-902f74fa0d41?q=80&w=800&auto=format&fit=crop" alt="Album Cover" id="sleeve-cover" />
+                  <div class="sleeve-glow"></div>
+                </div>
+
+                <!-- Interactive Rotating Vinyl -->
+                <div class="vinyl-record" id="vinyl-record">
+                  <div class="vinyl-grooves"></div>
+                  <div class="vinyl-center">
+                    <div class="vinyl-label" id="vinyl-label">
+                      <div class="label-logo">Ω</div>
+                      <div class="label-track" id="label-track-name">NO SLEEP</div>
+                    </div>
+                    <div class="vinyl-spindle"></div>
+                  </div>
+                </div>
+
+                <!-- Interactive Tone Arm -->
+                <div class="tonearm" id="tonearm">
+                  <svg viewBox="0 0 100 300" width="80" height="240">
+                    <!-- Tonearm base -->
+                    <circle cx="50" cy="50" r="24" fill="#0A0A0A" stroke="#2B3BE5" stroke-width="4" />
+                    <circle cx="50" cy="50" r="10" fill="#2B3BE5" />
+                    <!-- Arm shaft -->
+                    <path d="M 50 50 Q 75 150 45 250" fill="none" stroke="#F3F4F6" stroke-width="6" stroke-linecap="round" />
+                    <!-- Counterweight -->
+                    <rect x="35" y="10" width="30" height="20" rx="3" fill="#374151" stroke="#2B3BE5" stroke-width="2" />
+                    <!-- Cartridge & Stylus -->
+                    <path d="M 40 250 L 50 275 L 45 285" fill="none" stroke="#2B3BE5" stroke-width="5" stroke-linecap="round" />
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Deck controls overlay -->
+              <div class="deck-controls">
+                <button type="button" class="deck-btn" id="btn-play" aria-label="Play Track">
+                  <svg viewBox="0 0 24 24" width="24" height="24"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+                </button>
+                <div class="deck-status-display">
+                  <div class="status-row">
+                    <span>STATE:</span>
+                    <strong id="deck-state-text" class="text-neon-amber">STOPPED</strong>
+                  </div>
+                  <div class="status-row">
+                    <span>PITCH:</span>
+                    <strong id="deck-pitch-text">1.00x</strong>
+                  </div>
+                </div>
+                <div class="scratch-helper">ARRASATRA EL VINILO PARA HACER SCRATCH</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Panel: Ledger Registry & Terminal -->
+          <div class="control-panel panel-right">
+            <div class="panel-header">
+              <span class="panel-num">02 /</span>
+              <h2>MONITOR DE EXERGÍA</h2>
+            </div>
+
+            <!-- Signal Output Gauge -->
+            <div class="gauge-module">
+              <div class="gauge-header">
+                <span>NIVEL DE SALIDA LUFS</span>
+                <span class="telemetry-value text-neon-amber" id="val-lufs">-11.2 LUFS</span>
+              </div>
+              <div class="gauge-bar-container">
+                <div class="gauge-bar" id="lufs-gauge" style="width: 72%;"></div>
+                <div class="gauge-peak" id="lufs-peak" style="left: 85%;"></div>
+              </div>
+            </div>
+
+            <!-- Ledger Activity Monitor -->
+            <div class="ledger-module">
+              <div class="module-title">SYSTEM INTEGRITY LEDGER</div>
+              <div class="ledger-terminal" id="ledger-terminal">
+                <div class="terminal-line"><span class="text-neon-blue">[INFO]</span> Canal C5-REAL establecido con la red.</div>
+                <div class="terminal-line"><span class="text-neon-green">[OK]</span> Algoritmo de Crossover calibrado a 120Hz.</div>
+              </div>
+              <button class="export-btn" id="btn-export-log">EXPORT EXERGY LOG</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Obras / Discography Grid -->
+      <section class="workspace-section" id="discography" aria-label="Discografía">
+        <div class="section-container">
+          <div class="section-header">
+            <span class="section-num">02 //</span>
+            <h2>COSA NUESTRA / EXERGÍA-Ω</h2>
+          </div>
+          
+          <div class="tracklist-grid">
+            <!-- Track Card 1 -->
+            <div class="track-card is-active" data-track-id="0" data-src="media/no-sleep-in-my-city.mp4" data-title="NO SLEEP IN MY CITY" data-desc="Procesamiento binaural espacial con vector de fase a 120Hz." data-cover="https://images.unsplash.com/photo-1614680376593-902f74fa0d41?q=80&w=800&auto=format&fit=crop">
+              <div class="card-cover">
+                <img src="https://images.unsplash.com/photo-1614680376593-902f74fa0d41?q=80&w=800&auto=format&fit=crop" alt="No Sleep In My City" />
+                <div class="cover-overlay">
+                  <div class="play-icon">
+                    <svg viewBox="0 0 24 24" width="32" height="32"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+                  </div>
+                </div>
+              </div>
+              <div class="card-info">
+                <span class="card-num">01.</span>
+                <div class="card-text">
+                  <h4>NO SLEEP IN MY CITY</h4>
+                  <p>Binaural DSP / Bilbao</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Track Card 2 -->
+            <div class="track-card" data-track-id="1" data-title="HIPOTENUSAS ILEGALES" data-desc="Geometría torcida, pulso seco y borde urbano del puerto de Bilbao." data-cover="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800&auto=format&fit=crop">
+              <div class="card-cover">
+                <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=800&auto=format&fit=crop" alt="Hipotenusas Ilegales" />
+                <div class="cover-overlay">
+                  <div class="play-icon">
+                    <svg viewBox="0 0 24 24" width="32" height="32"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+                  </div>
+                </div>
+              </div>
+              <div class="card-info">
+                <span class="card-num">02.</span>
+                <div class="card-text">
+                  <h4>HIPOTENUSAS ILEGALES</h4>
+                  <p>Industrial Minimal / Puerto</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Track Card 3 -->
+            <div class="track-card" data-track-id="2" data-title="PATADAS" data-desc="Ritmo físico descarnado, gesto corto y energía frontal analógica." data-cover="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800&auto=format&fit=crop">
+              <div class="card-cover">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=800&auto=format&fit=crop" alt="Patadas" />
+                <div class="cover-overlay">
+                  <div class="play-icon">
+                    <svg viewBox="0 0 24 24" width="32" height="32"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+                  </div>
+                </div>
+              </div>
+              <div class="card-info">
+                <span class="card-num">03.</span>
+                <div class="card-text">
+                  <h4>PATADAS</h4>
+                  <p>Raw Beats / Frontal</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Track Card 4 -->
+            <div class="track-card" data-track-id="3" data-title="COHERENCIA RARA 42" data-desc="Electrónica de ángulo extraño: repetición matemática y tensión sostenida." data-cover="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=800&auto=format&fit=crop">
+              <div class="card-cover">
+                <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=800&auto=format&fit=crop" alt="Coherencia Rara 42" />
+                <div class="cover-overlay">
+                  <div class="play-icon">
+                    <svg viewBox="0 0 24 24" width="32" height="32"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+                  </div>
+                </div>
+              </div>
+              <div class="card-info">
+                <span class="card-num">04.</span>
+                <div class="card-text">
+                  <h4>COHERENCIA RARA 42</h4>
+                  <p>IDM / Math Synth</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Premium Stills / Interactive Collage -->
+      <section class="workspace-section" id="stills-gallery" aria-label="Galería de Fotogramas">
+        <div class="section-container">
+          <div class="section-header">
+            <span class="section-num">03 //</span>
+            <h2>FOTOGRAMAS C5-REAL</h2>
+          </div>
+
+          <div class="gallery-grid">
+            <!-- Still Item 1 -->
+            <div class="gallery-item" data-src="https://images.unsplash.com/photo-1539683255143-73a6b838b106?q=80&w=800&auto=format&fit=crop">
+              <img src="https://images.unsplash.com/photo-1539683255143-73a6b838b106?q=80&w=800&auto=format&fit=crop" alt="Estética Industrial Noir" />
+              <div class="item-overlay">
+                <div class="item-meta">
+                  <span class="item-hash">SHA256: 0x93f6c5...</span>
+                  <span class="item-title">BOWL NOCTURNO</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Still Item 2 -->
+            <div class="gallery-item" data-src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=800&auto=format&fit=crop">
+              <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=800&auto=format&fit=crop" alt="Estética Synth" />
+              <div class="item-overlay">
+                <div class="item-meta">
+                  <span class="item-hash">SHA256: 0xe3b0c4...</span>
+                  <span class="item-title">SÍNTESIS VÍA ANALÓGICA</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Still Item 3 -->
+            <div class="gallery-item" data-src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop">
+              <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop" alt="Geometría puerto" />
+              <div class="item-overlay">
+                <div class="item-meta">
+                  <span class="item-hash">SHA256: 0x8f4b1d...</span>
+                  <span class="item-title">GEOMETRÍA DEL PUERTO</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Still Item 4 -->
+            <div class="gallery-item" data-src="https://images.unsplash.com/photo-1516280440614-37939bbacd6a?q=80&w=800&auto=format&fit=crop">
+              <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd6a?q=80&w=800&auto=format&fit=crop" alt="Micrófono y oscilador" />
+              <div class="item-overlay">
+                <div class="item-meta">
+                  <span class="item-hash">SHA256: 0x7c9c0f...</span>
+                  <span class="item-title">CAPTACIÓN MICROFÓNICA</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Cosa Nuestra Tour 2026 -->
+      <section class="workspace-section" id="tour-dates" aria-label="Fechas de Tour">
+        <div class="section-container">
+          <div class="section-header">
+            <span class="section-num">04 //</span>
+            <h2>COSA NUESTRA 2026 WORLD TOUR</h2>
+          </div>
+
+          <div class="tour-table">
+            <div class="tour-row">
+              <div class="tour-date">
+                <span class="day">12</span>
+                <span class="month">JUN</span>
+              </div>
+              <div class="tour-location">
+                <span class="city">BILBAO</span>
+                <span class="venue">SONORA / SALA CORE</span>
+              </div>
+              <div class="tour-status">
+                <span class="badge badge-amber">RESERVADO</span>
+              </div>
+              <div class="tour-action">
+                <a href="#" class="ticket-btn">ACCEDER</a>
+              </div>
+            </div>
+
+            <div class="tour-row">
+              <div class="tour-date">
+                <span class="day">18</span>
+                <span class="month">JUN</span>
+              </div>
+              <div class="tour-location">
+                <span class="city">BARCELONA</span>
+                <span class="venue">RAZZMATAZZ 1</span>
+              </div>
+              <div class="tour-status">
+                <span class="badge badge-blue">DISPONIBLE</span>
+              </div>
+              <div class="tour-action">
+                <a href="#" class="ticket-btn">ACCEDER</a>
+              </div>
+            </div>
+
+            <div class="tour-row">
+              <div class="tour-date">
+                <span class="day">25</span>
+                <span class="month">JUN</span>
+              </div>
+              <div class="tour-location">
+                <span class="city">MADRID</span>
+                <span class="venue">SALA INDUSTRIAL RIVIERA</span>
+              </div>
+              <div class="tour-status">
+                <span class="badge badge-blue">DISPONIBLE</span>
+              </div>
+              <div class="tour-action">
+                <a href="#" class="ticket-btn">ACCEDER</a>
+              </div>
+            </div>
+
+            <div class="tour-row">
+              <div class="tour-date">
+                <span class="day">02</span>
+                <span class="month">JUL</span>
+              </div>
+              <div class="tour-location">
+                <span class="city">LONDON</span>
+                <span class="venue">FABRIC / ROOM 2</span>
+              </div>
+              <div class="tour-status">
+                <span class="badge badge-red">AGOTADO</span>
+              </div>
+              <div class="tour-action">
+                <span class="ticket-btn sold-out">AGOTADO</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Lightbox for Image Zoom -->
+    <dialog class="lightbox" id="lightbox">
+      <button class="lightbox-close" id="lightbox-close-btn" type="button" aria-label="Cerrar">CERRAR</button>
+      <div class="lightbox-content">
+        <img src="" alt="" id="lightbox-img" />
+      </div>
+    </dialog>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
