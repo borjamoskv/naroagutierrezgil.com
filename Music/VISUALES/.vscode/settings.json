@@ -1,1 +1,21 @@
-{}
+{
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/stems/**": true,
+    "**/split_tracks/**": true,
+    "**/*.wav": true,
+    "**/*.mp3": true,
+    "**/*.aif": true,
+    "**/*.flac": true
+  },
+  "search.exclude": {
+    "**/stems": true,
+    "**/split_tracks": true,
+    "**/*.wav": true,
+    "**/*.mp3": true,
+    "**/*.aif": true,
+    "**/*.flac": true
+  }
+}
