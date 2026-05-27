@@ -1,8 +1,8 @@
-// AI Sentinel - Content Script (Auditoría en Tiempo Real)
+// AI Sentinel - Content Script (Monitoreo e Interacciones)
 
 (async () => {
   // Cargar toda la configuración desde el almacenamiento local
-  const allSettings = await chrome.storage.local.get(null);
+  let allSettings = await chrome.storage.local.get(null);
   
   if (allSettings.extensionEnabled === false) {
     console.log("AI Sentinel está desactivado globalmente.");
@@ -15,7 +15,10 @@
     return;
   }
 
-  console.log("AI Sentinel v1.1 activo. Vigilando divulgadores de IA en español...");
+  // Lista de hashes de publicaciones ignoradas (lista blanca local)
+  let ignoredElements = new Set(allSettings.ignoredElements || []);
+
+  console.log("AI Sentinel v1.2 activo. Vigilando divulgadores de IA en español...");
 
   // Inicializar elemento de Tooltip compartido en el Body
   let tooltipEl = document.getElementById("ai-sentinel-tooltip-root");
@@ -26,11 +29,16 @@
   }
 
   let tooltipTimeout = null;
+  let activeElementForTooltip = null;
+  let activeTextHashForTooltip = "";
 
   // Mostrar tooltip flotante
-  function showTooltip(event, influencerName, errorObj, badgeEl) {
+  function showTooltip(event, influencerName, errorObj, badgeEl, textHash, targetElement) {
     if (tooltipTimeout) clearTimeout(tooltipTimeout);
     
+    activeElementForTooltip = targetElement;
+    activeTextHashForTooltip = textHash;
+
     tooltipEl.innerHTML = `
       <div class="ai-sentinel-tooltip-header">
         <span class="ai-sentinel-tooltip-title">${escapeHTML(influencerName)}</span>
@@ -45,7 +53,32 @@
       <div class="ai-sentinel-tooltip-ref">
         <strong>Ref:</strong> ${escapeHTML(errorObj.reference)}
       </div>
+      <div class="ai-sentinel-tooltip-footer">
+        <button id="ai-sentinel-ignore-btn" class="ai-sentinel-ignore-btn">Omitir marca</button>
+      </div>
     `;
+
+    // Vincular evento de ignorar / lista blanca
+    tooltipEl.querySelector("#ai-sentinel-ignore-btn").addEventListener("click", async () => {
+      if (activeElementForTooltip && activeTextHashForTooltip) {
+        // Guardar en la lista blanca de almacenamiento local
+        ignoredElements.add(activeTextHashForTooltip);
+        const currentIgnored = await chrome.storage.local.get("ignoredElements");
+        const list = currentIgnored.ignoredElements || [];
+        if (!list.includes(activeTextHashForTooltip)) {
+          list.push(activeTextHashForTooltip);
+          await chrome.storage.local.set({ ignoredElements: list });
+        }
+
+        // Eliminar marca visual del elemento
+        activeElementForTooltip.classList.remove("ai-sentinel-highlighted");
+        const badge = activeElementForTooltip.querySelector(".ai-sentinel-badge");
+        if (badge) badge.remove();
+        
+        // Ocultar tooltip
+        tooltipEl.classList.remove("visible");
+      }
+    });
 
     const rect = badgeEl.getBoundingClientRect();
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -71,7 +104,7 @@
   function hideTooltip() {
     tooltipTimeout = setTimeout(() => {
       tooltipEl.classList.remove("visible");
-    }, 400);
+    }, 500);
   }
 
   tooltipEl.addEventListener("mouseenter", () => {
@@ -86,10 +119,48 @@
     );
   }
 
+  // Generar un hash determinista a partir del texto de la publicación para identificarlo de forma única
+  function generateTextHash(text) {
+    if (!text) return "";
+    // Limpiar texto para evitar fallos de formato y tomar los primeros 100 caracteres
+    const cleanStr = text.trim().substring(0, 120).replace(/[^a-zA-Z0-9íóúáéñ]/g, "").toLowerCase();
+    // Simular base64 seguro offline
+    try {
+      return btoa(unescape(encodeURIComponent(cleanStr)));
+    } catch (e) {
+      return cleanStr;
+    }
+  }
+
   // Comprobar si el creador específico está habilitado en Ajustes
   function isCreatorEnabled(creatorId) {
     const toggleKey = `creatorEnabled_${creatorId}`;
     return allSettings[toggleKey] !== false; // true por defecto
+  }
+
+  // Generar tono de audio sintético (Web Audio API)
+  function playAuditBeep() {
+    if (allSettings.audioAlertsEnabled === false) return;
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      oscillator.type = "sine";
+      // Tono A3 (220 Hz) suave y de baja frecuencia para evitar molestias
+      oscillator.frequency.setValueAtTime(220, audioCtx.currentTime);
+
+      gainNode.gain.setValueAtTime(0.06, audioCtx.currentTime); // Volumen suave
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35); // Apagado en 350ms
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      oscillator.start();
+      oscillator.stop(audioCtx.currentTime + 0.35);
+    } catch (e) {
+      console.warn("No se pudo reproducir la alerta sonora de auditoría:", e);
+    }
   }
 
   // Detección de Plataformas
@@ -97,10 +168,15 @@
   const isTwitter = hostname.includes("twitter.com") || hostname.includes("x.com");
   const isYouTube = hostname.includes("youtube.com");
   const isLinkedIn = hostname.includes("linkedin.com");
+  const isSubstack = hostname.includes("substack.com");
 
-  // Motor Core de Marcado en Páginas (Tweets / LinkedIn posts / YouTube títulos)
+  // Motor Core de Marcado en Páginas
   async function auditElement(element, textContent, influencer, errorObj, badgeParentSelector, placementFn) {
     if (!isCreatorEnabled(influencer.id)) return;
+
+    // Calcular hash del contenido para omitir si el usuario lo marcó en lista blanca
+    const textHash = generateTextHash(textContent);
+    if (ignoredElements.has(textHash)) return;
 
     const auditId = `${influencer.id}-${errorObj.id}`;
     const alreadyAudited = element.getAttribute("data-ai-sentinel-flagged") || "";
@@ -109,11 +185,13 @@
     element.setAttribute("data-ai-sentinel-flagged", alreadyAudited ? `${alreadyAudited},${auditId}` : auditId);
     element.classList.add("ai-sentinel-highlighted");
 
+    // Incrementar estadísticas en background con ID del creador
     try {
-      await chrome.runtime.sendMessage({ action: "incrementAuditCount" });
-    } catch (err) {
-      // Background worker inactivo temporalmente
-    }
+      await chrome.runtime.sendMessage({ 
+        action: "incrementAuditCount", 
+        influencerId: influencer.id 
+      });
+    } catch (err) {}
 
     await new Promise(resolve => requestAnimationFrame(() => {
       const badgeParent = badgeParentSelector ? element.querySelector(badgeParentSelector) : element;
@@ -137,7 +215,7 @@
         AI Sentinel Audit
       `;
 
-      badge.addEventListener("mouseenter", (e) => showTooltip(e, influencer.name, errorObj, badge));
+      badge.addEventListener("mouseenter", (e) => showTooltip(e, influencer.name, errorObj, badge, textHash, element));
       badge.addEventListener("mouseleave", hideTooltip);
 
       if (placementFn) {
@@ -258,6 +336,54 @@
     });
   }
 
+  // --- Substack ---
+  async function scanSubstack() {
+    // Buscar contenedores de artículos o cuerpo del post
+    const posts = document.querySelectorAll('.post:not([data-ai-sentinel-processed]), article:not([data-ai-sentinel-processed]), .post-page:not([data-ai-sentinel-processed])');
+    if (posts.length === 0) return;
+
+    // Obtener identificador del sitio desde el subdominio
+    const subdomain = window.location.hostname.split('.')[0].toLowerCase();
+    
+    // Buscar creador relacionado
+    const match = influencers.find(inf => 
+      inf.id === subdomain || 
+      inf.handles.twitter?.toLowerCase() === subdomain ||
+      (inf.id === "mafiaia" && subdomain.includes("mafiaia"))
+    );
+
+    if (!match || !isCreatorEnabled(match.id)) return;
+
+    await processBatch(posts, async (post) => {
+      post.setAttribute("data-ai-sentinel-processed", "true");
+
+      // Buscar texto del post (título + cuerpo)
+      const titleEl = post.querySelector('.post-title, h1');
+      const bodyEl = post.querySelector('.post-content, .markup, .body');
+      
+      const titleText = titleEl ? titleEl.textContent : "";
+      const bodyText = bodyEl ? bodyEl.textContent : "";
+      const combinedText = `${titleText} ${bodyText}`.toLowerCase();
+
+      for (const err of match.errors) {
+        const matchedKeyword = err.keywords.find(kw => combinedText.includes(kw.toLowerCase()));
+        if (matchedKeyword) {
+          // Flag el título o cabecera del artículo
+          await auditElement(
+            post,
+            combinedText,
+            match,
+            err,
+            '.post-header, h1',
+            (parent, badge) => {
+              parent.appendChild(badge);
+            }
+          );
+        }
+      }
+    });
+  }
+
   // --- YouTube Real-Time Caption & DOM ---
   let activeYouTubeInfluencer = null;
   let youtubeCaptionsObserver = null;
@@ -295,7 +421,6 @@
       return;
     }
 
-    // Guardar el creador activo para el módulo de subtítulos
     activeYouTubeInfluencer = match;
 
     // 1. Auditar Título y Descripción estática
@@ -327,11 +452,10 @@
 
   // Observer de subtítulos de YouTube
   function setupYouTubeCaptionsObserver() {
-    if (youtubeCaptionsObserver) return; // Ya en ejecución
+    if (youtubeCaptionsObserver) return;
 
     const captionsContainer = document.querySelector(".ytp-caption-window-container");
     if (!captionsContainer) {
-      // Reintentar si el contenedor de subtítulos aún no se ha cargado en el DOM
       setTimeout(setupYouTubeCaptionsObserver, 1500);
       return;
     }
@@ -344,16 +468,14 @@
 
       const captionText = Array.from(segments).map(s => s.textContent).join(" ").toLowerCase();
 
-      // Escanear errores del creador activo
       for (const err of activeYouTubeInfluencer.errors) {
         const matchedKeyword = err.keywords.find(kw => captionText.includes(kw.toLowerCase()));
         if (matchedKeyword) {
           const uniqueKey = `${activeYouTubeInfluencer.id}-${err.id}-${matchedKeyword}`;
-          // Evitar activar la alerta consecutivamente para el mismo tramo de subtítulos
+          
           if (recentAlertsMemory.has(uniqueKey)) continue;
           
           recentAlertsMemory.add(uniqueKey);
-          // Limpiar memoria de alertas a los 60 segundos
           setTimeout(() => recentAlertsMemory.delete(uniqueKey), 60000);
 
           showRealTimeCaptionAlert(activeYouTubeInfluencer, err);
@@ -371,7 +493,6 @@
 
   // Mostrar alerta interactiva en el reproductor de YouTube
   function showRealTimeCaptionAlert(influencer, errorObj) {
-    // Buscar el contenedor del reproductor de YouTube
     const playerEl = document.querySelector("#movie_player, .html5-video-player, #ytd-player");
     if (!playerEl) return;
 
@@ -396,20 +517,25 @@
       <div class="ai-sentinel-alert-ref">Ref: ${escapeHTML(errorObj.reference)}</div>
     `;
 
-    // Adjuntar evento de cierre
     alertEl.querySelector("#ai-sentinel-alert-close-btn").addEventListener("click", () => {
       alertEl.classList.remove("slide-in");
     });
 
-    // Deslizar hacia adentro
+    // Deslizar alerta
     alertEl.classList.add("slide-in");
 
-    // Registrar incremento estadístico
+    // Reproducir pitido de alerta sonora
+    playAuditBeep();
+
+    // Incrementar estadísticas locales con ID
     try {
-      chrome.runtime.sendMessage({ action: "incrementAuditCount" });
+      chrome.runtime.sendMessage({ 
+        action: "incrementAuditCount", 
+        influencerId: influencer.id 
+      });
     } catch (e) {}
 
-    // Ocultar automáticamente a los 8 segundos
+    // Ocultar a los 8 segundos
     alertTimeout = setTimeout(() => {
       alertEl.classList.remove("slide-in");
     }, 8000);
@@ -424,6 +550,8 @@
         await scanYouTube();
       } else if (isLinkedIn) {
         await scanLinkedIn();
+      } else if (isSubstack) {
+        await scanSubstack();
       }
     } catch (error) {
       console.error("AI Sentinel scan error:", error);
@@ -433,7 +561,7 @@
   // Ejecutar escaneo inicial
   await performScan();
 
-  // Escucha reactiva a cambios del DOM
+  // Escucha reactiva a cambios del DOM (Debounced)
   let debounceTimeout = null;
   const observer = new MutationObserver(() => {
     if (debounceTimeout) clearTimeout(debounceTimeout);

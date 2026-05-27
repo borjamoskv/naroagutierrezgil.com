@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Cargar estado y datos desde chrome.storage.local
   async function loadState() {
     try {
-      const data = await chrome.storage.local.get(["extensionEnabled", "auditCount", "influencers"]);
+      const data = await chrome.storage.local.get(["extensionEnabled", "auditCount", "influencers", "audioAlertsEnabled", "influencerStats"]);
       
       // 1. Interruptor Global
       const enabled = data.extensionEnabled !== false; // Por defecto true
@@ -54,11 +54,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       statInfluencers.textContent = influencersData.length;
 
       // 4. Renderizados y Formularios
-      renderInfluencersList(influencersData);
+      renderInfluencersList(influencersData, data.influencerStats || {});
       populateCreatorDropdown(influencersData);
       
       // 5. Ajustes
       await renderCreatorToggles(influencersData);
+
+      // 6. Alertas de Audio
+      const audioAlertsToggle = document.getElementById("audio-alerts-toggle");
+      audioAlertsToggle.checked = data.audioAlertsEnabled !== false;
     } catch (error) {
       console.error("Error al cargar la configuración local:", error);
     }
@@ -81,6 +85,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     await chrome.storage.local.set({ extensionEnabled: enabled });
     updateStatusUI(enabled);
     await reloadActiveTabs();
+  });
+
+  // Evento del Interruptor de Alertas de Audio
+  const audioAlertsToggle = document.getElementById("audio-alerts-toggle");
+  audioAlertsToggle.addEventListener("change", async (e) => {
+    await chrome.storage.local.set({ audioAlertsEnabled: e.target.checked });
   });
 
   // Recargar pestañas de redes sociales para aplicar cambios
@@ -134,7 +144,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Renderizar tarjetas de creadores (Tab 1)
-  function renderInfluencersList(influencers) {
+  function renderInfluencersList(influencers, stats = {}) {
     influencerList.innerHTML = "";
 
     if (influencers.length === 0) {
@@ -147,7 +157,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       card.className = "influencer-card";
       card.id = `creator-card-${inf.id}`;
 
-      // Cabecera de la tarjeta
+      // Obtener conteo de auditorías para este creador
+      const count = stats[inf.id] || 0;
+
+      // Cabecera de la tarjeta con badge dinámico
       const header = document.createElement("div");
       header.className = "influencer-header";
       header.innerHTML = `
@@ -156,6 +169,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           <div class="influencer-name">${escapeHTML(inf.name)}</div>
           <div class="influencer-handle">@${escapeHTML(inf.handles.twitter || inf.id)}</div>
         </div>
+        <span class="influencer-stat-badge ${count > 0 ? 'active' : ''}">${count}</span>
         <span class="collapse-indicator">▶</span>
       `;
 
@@ -420,13 +434,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       
       // Limpiar interruptores de almacenamiento
       const keysToRemove = influencersData.map(inf => `creatorEnabled_${inf.id}`);
-      keysToRemove.push("auditCount");
+      keysToRemove.push("auditCount", "influencerStats", "ignoredElements");
       await chrome.storage.local.remove(keysToRemove);
       
       // Restablecer configuraciones
       await chrome.storage.local.set({
         influencers: defaultInfluencers,
         extensionEnabled: true,
+        audioAlertsEnabled: true,
         auditCount: 0
       });
 

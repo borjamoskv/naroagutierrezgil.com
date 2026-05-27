@@ -10,7 +10,8 @@
     "*://*.twitter.com/*",
     "*://*.x.com/*",
     "*://*.youtube.com/*",
-    "*://*.linkedin.com/*"
+    "*://*.linkedin.com/*",
+    "*://*.substack.com/*"
   ],
   "action": {
     "default_popup": "popup/popup.html",
@@ -34,7 +35,8 @@
         "*://*.twitter.com/*",
         "*://*.x.com/*",
         "*://*.youtube.com/*",
-        "*://*.linkedin.com/*"
+        "*://*.linkedin.com/*",
+        "*://*.substack.com/*"
       ],
       "css": ["content.css"],
       "js": ["content.js"],

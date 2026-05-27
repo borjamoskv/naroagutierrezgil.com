@@ -235,3 +235,33 @@
   color: #6C757D !important;
   font-style: italic !important;
 }
+
+/* Pie del Tooltip con botón Omitir/Ignorar */
+.ai-sentinel-tooltip-footer {
+  margin-top: 10px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding-top: 8px !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+.ai-sentinel-ignore-btn {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #8E96A0 !important;
+  font-size: 9px !important;
+  font-weight: 700 !important;
+  padding: 3px 8px !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  transition: all 0.2s ease !important;
+  font-family: inherit !important;
+}
+
+.ai-sentinel-ignore-btn:hover {
+  background: rgba(224, 49, 49, 0.12) !important;
+  border-color: rgba(224, 49, 49, 0.3) !important;
+  color: #FFFFFF !important;
+}

@@ -656,3 +656,26 @@ label {
   background: rgba(224, 49, 49, 0.1);
   box-shadow: 0 0 8px var(--accent-red-glow);
 }
+
+/* Badge de estadísticas de auditorías en tarjetas de creador */
+.influencer-stat-badge {
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 18px;
+  text-align: center;
+  margin-right: 8px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.influencer-stat-badge.active {
+  color: #FFFFFF !important;
+  background: rgba(224, 49, 49, 0.2) !important;
+  border-color: var(--accent-red) !important;
+  box-shadow: 0 0 8px var(--accent-red-glow);
+}
