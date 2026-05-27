@@ -189,14 +189,15 @@ body {
 
 /* Panels styling */
 .panel {
-    background: linear-gradient(145deg, rgba(18, 18, 18, 0.85), rgba(10, 10, 10, 0.95));
-    border: 1px solid var(--color-border);
+    background: linear-gradient(145deg, rgba(18, 18, 18, 0.75), rgba(8, 8, 8, 0.9));
+    border: 1px solid rgba(43, 59, 229, 0.2);
     border-radius: var(--radius-fluid);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    backdrop-filter: blur(24px) saturate(150%);
     box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        0 15px 35px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        inset 0 0 20px rgba(43, 59, 229, 0.05);
     transition: border-color 0.4s var(--ease-sovereign), box-shadow 0.4s var(--ease-sovereign), transform 0.4s var(--ease-sovereign);
     display: flex;
     flex-direction: column;

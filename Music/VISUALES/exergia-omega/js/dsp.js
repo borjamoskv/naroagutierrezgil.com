@@ -46,6 +46,9 @@ class MasteringEngine {
 
         // UI update callback
         this.onStatsChange = null;
+        
+        // Modulator loop
+        this.modulateInterval = null;
     }
 
     init() {
@@ -62,6 +65,11 @@ class MasteringEngine {
         
         // Update hash metrics
         this.updateLedgerHash();
+        
+        // Start telemetry modulation loop
+        if (!this.modulateInterval) {
+            this.modulateInterval = setInterval(() => this.modulateFromTelemetry(), 100);
+        }
     }
 
     buildSignalChain() {
@@ -400,6 +408,38 @@ class MasteringEngine {
         this.shaper.curve = curve;
     }
 
+    applyShaperCurve(drive, odd, even) {
+        const n_samples = 44100;
+        const curve = new Float32Array(n_samples);
+        for (let i = 0; i < n_samples; ++i) {
+            const x = (i * 2) / n_samples - 1;
+            const sat = Math.tanh(x * drive);
+            const t2 = 2 * x * x - 1;
+            const t3 = 4 * x * x * x - 3 * x;
+            const harmonic = t2 * even + t3 * odd;
+            curve[i] = sat * 0.8 + harmonic * 0.2;
+        }
+        this.shaper.curve = curve;
+    }
+
+    modulateFromTelemetry() {
+        if (!this.initialized || this.bypassMode) return;
+        if (window.CORTEX_TELEMETRY && window.CORTEX_TELEMETRY.connected) {
+            const entropy = window.CORTEX_TELEMETRY.smoothedEntropy;
+            const cortisol = window.CORTEX_TELEMETRY.cortisol || 0;
+            
+            // Modulate Saturation Drive slightly based on system entropy and cortisol
+            const baseDrive = this.params.satDrive;
+            const modulatedDrive = baseDrive + (entropy * 0.5) + (cortisol * 1.2);
+            
+            // Apply immediately without updating UI knob directly to avoid jitter
+            const odd = this.params.exciterOdd + (entropy * 0.05);
+            const even = this.params.exciterEven + (entropy * 0.02) + (cortisol * 0.05);
+            
+            this.applyShaperCurve(modulatedDrive, odd, even);
+        }
+    }
+
     updateCrossfeedSettings() {
         const now = this.ctx.currentTime;
         const delayS = this.params.spatialDelay / 1000; // ms to seconds
@@ -602,6 +642,11 @@ class MasteringEngine {
         if (this.generatorInterval) {
             clearInterval(this.generatorInterval);
             this.generatorInterval = null;
+        }
+        
+        if (this.modulateInterval) {
+            clearInterval(this.modulateInterval);
+            this.modulateInterval = null;
         }
 
         if (this.generatorGain) {
