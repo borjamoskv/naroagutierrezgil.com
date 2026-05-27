@@ -5,14 +5,14 @@
  * Fully Audio-Reactive & Cursor Responsive Substrate
  */
 
-document.addEventListener('DOMContentLoaded', () => {
-    const canvas = document.getElementById('webgl-background');
-    if (!canvas) return;
-    const gl = canvas.getContext('webgl');
-    if (!gl) return;
+document.addEventListener("DOMContentLoaded", () => {
+  const canvas = document.getElementById("webgl-background");
+  if (!canvas) return;
+  const gl = canvas.getContext("webgl");
+  if (!gl) return;
 
-    // Vertex Shader: Pass through
-    const vsSource = `
+  // Vertex Shader: Pass through
+  const vsSource = `
         attribute vec2 position;
         varying vec2 vUv;
         void main() {
@@ -21,8 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     `;
 
-    // Fragment Shader: Industrial Noir Fluid Dynamics
-    const fsSource = `
+  // Fragment Shader: Industrial Noir Fluid Dynamics
+  const fsSource = `
         precision highp float;
         uniform vec2 u_resolution;
         uniform float u_time;
@@ -140,69 +140,67 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     `;
 
-    function compileShader(source, type) {
-        const shader = gl.createShader(type);
-        gl.shaderSource(shader, source);
-        gl.compileShader(shader);
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            console.error(gl.getShaderInfoLog(shader));
-            gl.deleteShader(shader);
-            return null;
-        }
-        return shader;
+  function compileShader(source, type) {
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      console.error(gl.getShaderInfoLog(shader));
+      gl.deleteShader(shader);
+      return null;
     }
+    return shader;
+  }
 
-    const vertexShader = compileShader(vsSource, gl.VERTEX_SHADER);
-    const fragmentShader = compileShader(fsSource, gl.FRAGMENT_SHADER);
+  const vertexShader = compileShader(vsSource, gl.VERTEX_SHADER);
+  const fragmentShader = compileShader(fsSource, gl.FRAGMENT_SHADER);
 
-    const program = gl.createProgram();
-    gl.attachShader(program, vertexShader);
-    gl.attachShader(program, fragmentShader);
-    gl.linkProgram(program);
-    gl.useProgram(program);
+  const program = gl.createProgram();
+  gl.attachShader(program, vertexShader);
+  gl.attachShader(program, fragmentShader);
+  gl.linkProgram(program);
+  gl.useProgram(program);
 
-    const positionBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    const positions = new Float32Array([
-        -1.0, -1.0,  1.0, -1.0,
-        -1.0,  1.0, -1.0,  1.0,
-         1.0, -1.0,  1.0,  1.0
-    ]);
-    gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
+  const positionBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+  const positions = new Float32Array([
+    -1.0, -1.0, 1.0, -1.0, -1.0, 1.0, -1.0, 1.0, 1.0, -1.0, 1.0, 1.0,
+  ]);
+  gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
 
-    const positionLocation = gl.getAttribLocation(program, 'position');
-    gl.enableVertexAttribArray(positionLocation);
-    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+  const positionLocation = gl.getAttribLocation(program, "position");
+  gl.enableVertexAttribArray(positionLocation);
+  gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
 
-    const uResolution = gl.getUniformLocation(program, 'u_resolution');
-    const uTime = gl.getUniformLocation(program, 'u_time');
-    const uEntropy = gl.getUniformLocation(program, 'u_entropy');
-    const uCortisol = gl.getUniformLocation(program, 'u_cortisol');
-    const uAudioRms = gl.getUniformLocation(program, 'u_audio_rms');
-    const uAudioPeak = gl.getUniformLocation(program, 'u_audio_peak');
-    const uAudioLow = gl.getUniformLocation(program, 'u_audio_low');
-    const uAudioHigh = gl.getUniformLocation(program, 'u_audio_high');
-    const uAudioCorr = gl.getUniformLocation(program, 'u_audio_corr');
-    const uMouse = gl.getUniformLocation(program, 'u_mouse');
+  const uResolution = gl.getUniformLocation(program, "u_resolution");
+  const uTime = gl.getUniformLocation(program, "u_time");
+  const uEntropy = gl.getUniformLocation(program, "u_entropy");
+  const uCortisol = gl.getUniformLocation(program, "u_cortisol");
+  const uAudioRms = gl.getUniformLocation(program, "u_audio_rms");
+  const uAudioPeak = gl.getUniformLocation(program, "u_audio_peak");
+  const uAudioLow = gl.getUniformLocation(program, "u_audio_low");
+  const uAudioHigh = gl.getUniformLocation(program, "u_audio_high");
+  const uAudioCorr = gl.getUniformLocation(program, "u_audio_corr");
+  const uMouse = gl.getUniformLocation(program, "u_mouse");
 
-    // Mouse coords state and lerp targets
-    let mouseX = 0.5;
-    let mouseY = 0.5;
-    let targetMouseX = 0.5;
-    let targetMouseY = 0.5;
+  // Mouse coords state and lerp targets
+  let mouseX = 0.5;
+  let mouseY = 0.5;
+  let targetMouseX = 0.5;
+  let targetMouseY = 0.5;
 
-    window.addEventListener('mousemove', (e) => {
-        targetMouseX = e.clientX / window.innerWidth;
-        targetMouseY = 1.0 - (e.clientY / window.innerHeight);
-    });
+  window.addEventListener("mousemove", (e) => {
+    targetMouseX = e.clientX / window.innerWidth;
+    targetMouseY = 1.0 - e.clientY / window.innerHeight;
+  });
 
-    // Touch support for mobile layouts
-    window.addEventListener('touchmove', (e) => {
-        if (e.touches.length > 0) {
-            targetMouseX = e.touches[0].clientX / window.innerWidth;
-            targetMouseY = 1.0 - (e.touches[0].clientY / window.innerHeight);
-        }
-    });
+  // Touch support for mobile layouts
+  window.addEventListener("touchmove", (e) => {
+    if (e.touches.length > 0) {
+      targetMouseX = e.touches[0].clientX / window.innerWidth;
+      targetMouseY = 1.0 - e.touches[0].clientY / window.innerHeight;
+    }
+  });
 
     function resize() {
         canvas.width = window.innerWidth;
@@ -210,36 +208,63 @@ document.addEventListener('DOMContentLoaded', () => {
         gl.viewport(0, 0, canvas.width, canvas.height);
         gl.uniform2f(uResolution, canvas.width, canvas.height);
     }
-    window.addEventListener('resize', resize);
+    // Debounced resize — prevents thrashing the WebGL viewport during window drag
+    let _glResizeTimer = null;
+    window.addEventListener('resize', () => {
+        if (_glResizeTimer) clearTimeout(_glResizeTimer);
+        _glResizeTimer = setTimeout(resize, 150);
+    });
     resize();
 
-    let startTime = performance.now();
-    function render() {
-        const time = (performance.now() - startTime) * 0.001;
-        gl.uniform1f(uTime, time);
-        
-        // Feed real-time telemetry entropy and cortisol to the shader
-        const entropy = (window.CORTEX_TELEMETRY && window.CORTEX_TELEMETRY.smoothedEntropy) ? window.CORTEX_TELEMETRY.smoothedEntropy : 0.0;
-        gl.uniform1f(uEntropy, entropy);
-        
-        const cortisol = (window.CORTEX_TELEMETRY && window.CORTEX_TELEMETRY.smoothedCortisol) ? window.CORTEX_TELEMETRY.smoothedCortisol : 0.0;
-        gl.uniform1f(uCortisol, cortisol);
-        
-        // Feed real-time audio analysis data
-        const audio = window.EXERGIA_AUDIO || { rms: 0, peak: 0, low: 0, high: 0, correlation: 1.0 };
-        gl.uniform1f(uAudioRms, audio.rms);
-        gl.uniform1f(uAudioPeak, audio.peak);
-        gl.uniform1f(uAudioLow, audio.low);
-        gl.uniform1f(uAudioHigh, audio.high);
-        gl.uniform1f(uAudioCorr, audio.correlation);
+    // Tab visibility gate
+    let _glVisible = true;
+    document.addEventListener('visibilitychange', () => {
+        _glVisible = !document.hidden;
+    });
 
-        // Smooth mouse coordinates LERP
-        mouseX += (targetMouseX - mouseX) * 0.08;
-        mouseY += (targetMouseY - mouseY) * 0.08;
-        gl.uniform2f(uMouse, mouseX, mouseY);
-        
-        gl.drawArrays(gl.TRIANGLES, 0, 6);
-        requestAnimationFrame(render);
-    }
-    render();
+  let startTime = performance.now();
+  function render() {
+    requestAnimationFrame(render);
+
+    // Skip GPU work entirely when tab is hidden
+    if (!_glVisible) return;
+    
+    const time = (performance.now() - startTime) * 0.001;
+    gl.uniform1f(uTime, time);
+
+    // Feed real-time telemetry entropy and cortisol to the shader
+    const entropy =
+      window.CORTEX_TELEMETRY && window.CORTEX_TELEMETRY.smoothedEntropy
+        ? window.CORTEX_TELEMETRY.smoothedEntropy
+        : 0.0;
+    gl.uniform1f(uEntropy, entropy);
+
+    const cortisol =
+      window.CORTEX_TELEMETRY && window.CORTEX_TELEMETRY.smoothedCortisol
+        ? window.CORTEX_TELEMETRY.smoothedCortisol
+        : 0.0;
+    gl.uniform1f(uCortisol, cortisol);
+
+    // Feed real-time audio analysis data
+    const audio = window.EXERGIA_AUDIO || {
+      rms: 0,
+      peak: 0,
+      low: 0,
+      high: 0,
+      correlation: 1.0,
+    };
+    gl.uniform1f(uAudioRms, audio.rms);
+    gl.uniform1f(uAudioPeak, audio.peak);
+    gl.uniform1f(uAudioLow, audio.low);
+    gl.uniform1f(uAudioHigh, audio.high);
+    gl.uniform1f(uAudioCorr, audio.correlation);
+
+    // Smooth mouse coordinates LERP
+    mouseX += (targetMouseX - mouseX) * 0.08;
+    mouseY += (targetMouseY - mouseY) * 0.08;
+    gl.uniform2f(uMouse, mouseX, mouseY);
+
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+  }
+  render();
 });
