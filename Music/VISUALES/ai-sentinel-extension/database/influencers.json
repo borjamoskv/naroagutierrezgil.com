@@ -1,0 +1,156 @@
+[
+  {
+    "id": "dotcsv",
+    "name": "DotCSV (Carlos Santana)",
+    "handles": {
+      "twitter": "DotCSV",
+      "youtube": "DotCSV",
+      "linkedin": "carlos-santana-dotcsv"
+    },
+    "description": "El divulgador de Inteligencia Artificial en español más grande, especializado en Machine Learning y Deep Learning.",
+    "avatar": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%232B3BE5'/><stop offset='100%' stop-color='%23E03131'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g1)'/><text x='50%' y='55%' font-family='sans-serif' font-size='32' fill='white' text-anchor='middle' dominant-baseline='middle' font-weight='bold'>CSV</text></svg>",
+    "errors": [
+      {
+        "id": "agi_2025",
+        "keywords": ["agi en 2025", "agi el año que viene", "inteligencia artificial general en 2025", "superinteligencia en 2025"],
+        "claim": "La Inteligencia Artificial General (AGI) llegará de manera inminente e indiscutible en 2025.",
+        "correction": "La mayoría de los científicos e investigadores serios (Yann LeCun, Rodney Brooks, etc.) estiman que la AGI tardará décadas o incluso siglos, ya que los LLMs actuales carecen de modelos del mundo real, razonamiento lógico formal y memoria persistente activa.",
+        "severity": "medium",
+        "reference": "Yann LeCun (Meta AI): 'LLMs cannot achieve human-level intelligence without sensory-motor grounding'."
+      },
+      {
+        "id": "llm_human_cognitive",
+        "keywords": ["razonan igual", "piensan como humanos", "razonamiento humano", "tienen consciencia"],
+        "claim": "Los LLMs razonan internamente igual que los humanos a nivel cognitivo y poseen pensamiento abstracto real.",
+        "correction": "Los LLMs son estimadores estadísticos de distribución de tokens (probabilidad condicional). Aunque muestran capacidades emergentes de asociación lógica, no razonan mediante hipótesis y validación como la mente humana.",
+        "reference": "Subbarao Kambhampati: 'LLMs are not reasoning engines; they are approximate retrievers'."
+      }
+    ]
+  },
+  {
+    "id": "pau_garcia_mila",
+    "name": "Pau Garcia-Milà",
+    "handles": {
+      "twitter": "pau",
+      "youtube": "PauGarciaMila",
+      "linkedin": "paugarciamila"
+    },
+    "description": "Emprendedor y creador de contenido de alta velocidad enfocado en herramientas de IA, productividad y automatización rápida.",
+    "avatar": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g2' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%2300F2FE'/><stop offset='100%' stop-color='%234FACFE'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g2)'/><text x='50%' y='55%' font-family='sans-serif' font-size='32' fill='white' text-anchor='middle' dominant-baseline='middle' font-weight='bold'>PAU</text></svg>",
+    "errors": [
+      {
+        "id": "prompt_millonario",
+        "keywords": ["hazte rico", "app en 5 minutos", "crea un negocio en 5 minutos", "ganar dinero con este prompt", "negocio automático"],
+        "claim": "Es posible crear un modelo de negocio millonario o una aplicación de producción funcional en solo 5 minutos usando un prompt de ChatGPT.",
+        "correction": "Este tipo de contenido es clickbait publicitario. Crear software y negocios reales requiere arquitectura técnica, validación de mercado (C5-REAL), gestión de fallos e infraestructura robusta, lo cual no es resoluble con un solo prompt.",
+        "severity": "high",
+        "reference": "Metodología Lean Startup y Principios de Ingeniería del Software Modernos."
+      }
+    ]
+  },
+  {
+    "id": "carlos_fenollosa",
+    "name": "Carlos Fenollosa",
+    "handles": {
+      "twitter": "cfenollosa",
+      "youtube": "carlosfenollosa",
+      "linkedin": "cfenollosa"
+    },
+    "description": "Divulgador técnico de IA, escritor y CEO de Optimus, con opiniones directas sobre el impacto social y laboral de la IA.",
+    "avatar": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g3' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23FAD961'/><stop offset='100%' stop-color='%23F76B1C'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g3)'/><text x='50%' y='55%' font-family='sans-serif' font-size='32' fill='white' text-anchor='middle' dominant-baseline='middle' font-weight='bold'>CF</text></svg>",
+    "errors": [
+      {
+        "id": "sentience_hidden",
+        "keywords": ["modelos con consciencia", "ocultando la ia", "gobiernos ocultan", "singularidad ya ha ocurrido", "ia sintiente"],
+        "claim": "Los laboratorios de IA o los gobiernos están ocultando modelos que ya han alcanzado la consciencia subjetiva o la autoconsciencia.",
+        "correction": "No hay evidencia científica ni teórica que soporte la existencia de modelos sintientes. Los modelos son redes neuronales estáticas una vez entrenadas. Su ilusión de personalidad es el resultado de alineación vía RLHF/DPO.",
+        "severity": "high",
+        "reference": "Philosophical Aspects of AI Sentience & Cognitive Science Foundations."
+      }
+    ]
+  },
+  {
+    "id": "mouredev",
+    "name": "Brais Moure (MoureDev)",
+    "handles": {
+      "twitter": "mouredev",
+      "youtube": "mouredev",
+      "linkedin": "mouredev"
+    },
+    "description": "Programador y creador de una de las mayores comunidades de desarrollo de software en español. Divulga sobre herramientas de IA para devs.",
+    "avatar": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g4' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23B15FFF'/><stop offset='100%' stop-color='%235A22FF'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g4)'/><text x='50%' y='55%' font-family='sans-serif' font-size='32' fill='white' text-anchor='middle' dominant-baseline='middle' font-weight='bold'>DEV</text></svg>",
+    "errors": [
+      {
+        "id": "copilot_no_bugs",
+        "keywords": ["copilot no comete errores", "código libre de bugs", "sin cometer errores", "no hace falta saber programar", "no hace falta saber sintaxis"],
+        "claim": "Las herramientas como GitHub Copilot generan código 100% libre de fallos y hacen innecesario que un programador entienda la sintaxis básica.",
+        "correction": "Copilot y otras herramientas autocompletan basándose en patrones estadísticos. Tienden a reintroducir vulnerabilidades conocidas y a fallar en lógica de negocio compleja, haciendo el code review humano riguroso y el conocimiento sintáctico fundamental.",
+        "severity": "medium",
+        "reference": "Estudios empíricos de seguridad de código (NYU Tandon School of Engineering: 'Asleep at the Keyboard?')."
+      }
+    ]
+  },
+  {
+    "id": "midudev",
+    "name": "Miguel Ángel Durán (midudev)",
+    "handles": {
+      "twitter": "midudev",
+      "youtube": "midudev",
+      "linkedin": "midudev"
+    },
+    "description": "Ingeniero de software, creador de contenido de desarrollo web frontend y divulgador de cómo la IA impacta al ecosistema JS/CSS.",
+    "avatar": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g5' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%23FF5E62'/><stop offset='100%' stop-color='%23FF9966'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g5)'/><text x='50%' y='55%' font-family='sans-serif' font-size='32' fill='white' text-anchor='middle' dominant-baseline='middle' font-weight='bold'>MIDU</text></svg>",
+    "errors": [
+      {
+        "id": "juniors_obsoletos",
+        "keywords": ["juniors obsoletos", "programadores junior van a desaparecer", "no estudies programación", "junior no tiene futuro"],
+        "claim": "La Inteligencia Artificial hará desaparecer por completo los puestos de programadores junior a corto plazo, cerrando las puertas del mercado laboral.",
+        "correction": "La IA aumenta la productividad del desarrollador. Aunque altera el perfil requerido para los juniors (exigiéndoles mayor habilidad con asistentes), no sustituye la necesidad de nuevo talento y el relevo generacional en la industria del software.",
+        "severity": "high",
+        "reference": "Informes de mercado laboral tecnológico e IEEE Software Engineering Outlook."
+      }
+    ]
+  },
+  {
+    "id": "nategentile",
+    "name": "Nate Gentile",
+    "handles": {
+      "twitter": "nategentile",
+      "youtube": "NateGentile7",
+      "linkedin": "nategentile"
+    },
+    "description": "Ingeniero de hardware y programador, creador de contenido tecnológico de alto impacto, hardware gaming e inteligencia artificial aplicada al código.",
+    "avatar": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g6' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%237F00FF'/><stop offset='100%' stop-color='%23FF007F'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g6)'/><text x='50%' y='55%' font-family='sans-serif' font-size='32' fill='white' text-anchor='middle' dominant-baseline='middle' font-weight='bold'>NATE</text></svg>",
+    "errors": [
+      {
+        "id": "devin_remplaces_seniors",
+        "keywords": ["programa mejor que el 99%", "programa mejor que un senior", "devin reemplaza", "despidos masivos de programadores"],
+        "claim": "Las herramientas de agentes de software autónomos (como Devin) programan mejor que el 99% de los ingenieros senior y provocarán despidos masivos.",
+        "correction": "Los agentes autónomos resuelven un pequeño porcentaje de issues simples (generalmente de nivel junior-bajo). Carecen de habilidades de razonamiento arquitectónico a largo plazo, depuración entre repositorios y toma de decisiones corporativas críticas.",
+        "severity": "high",
+        "reference": "Resultados oficiales en el benchmark de ingeniería de software SWE-bench."
+      }
+    ]
+  },
+  {
+    "id": "victoriano",
+    "name": "Victoriano Izquierdo",
+    "handles": {
+      "twitter": "victoriano",
+      "youtube": "victorianoizquierdo",
+      "linkedin": "victorianoizquierdo"
+    },
+    "description": "Co-fundador de Graphext. Divulgador analítico y escéptico empírico del hype comercial de los modelos de inteligencia artificial.",
+    "avatar": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g7' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='%2311998e'/><stop offset='100%' stop-color='%2338ef7d'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g7)'/><text x='50%' y='55%' font-family='sans-serif' font-size='32' fill='white' text-anchor='middle' dominant-baseline='middle' font-weight='bold'>VIC</text></svg>",
+    "errors": [
+      {
+        "id": "local_llm_perfect",
+        "keywords": ["llm local en el móvil", "llm en local sin pérdidas", "ejecutar en local sin perder"],
+        "claim": "Los LLMs cuantizados locales pueden correr en cualquier móvil sin pérdida apreciable de capacidades lógicas o limitaciones contextuales.",
+        "correction": "La cuantización (e.g. de 16-bit a 4-bit) reduce drásticamente la capacidad matemática y de razonamiento sutil en tareas complejas. Además, los móviles están severamente restringidos en el ancho de banda y tamaño de la ventana de contexto por límites de RAM.",
+        "severity": "medium",
+        "reference": "Research: 'The Impact of Quantization on LLM Reasoning Capabilities' (arXiv)."
+      }
+    ]
+  }
+]

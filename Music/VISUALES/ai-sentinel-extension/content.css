@@ -1,0 +1,237 @@
+/* AI Sentinel - Page Injection Styles */
+
+/* Highlight container for flagged tweets / posts */
+.ai-sentinel-highlighted {
+  border-left: 4px solid #E03131 !important;
+  background-color: rgba(224, 49, 49, 0.05) !important;
+  box-shadow: 0 0 15px rgba(224, 49, 49, 0.1) !important;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Audited text styling */
+.ai-sentinel-erroneous-text {
+  text-decoration: underline wavy #E03131 2px !important;
+  background-color: rgba(224, 49, 49, 0.1) !important;
+  cursor: help !important;
+  position: relative;
+  display: inline;
+}
+
+/* Sleek Audit Badge */
+.ai-sentinel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, #C92A2A, #E03131);
+  color: #FFFFFF !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  padding: 2px 8px !important;
+  border-radius: 12px !important;
+  margin-left: 8px !important;
+  vertical-align: middle !important;
+  cursor: pointer !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+  user-select: none !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  animation: ai-sentinel-pulse 2s infinite alternate;
+}
+
+.ai-sentinel-badge:hover {
+  background: #E03131 !important;
+  box-shadow: 0 0 8px rgba(224, 49, 49, 0.6) !important;
+}
+
+.ai-sentinel-badge svg {
+  width: 10px;
+  height: 10px;
+  fill: currentColor;
+}
+
+/* Global Tooltip Container (Injected in Body) */
+#ai-sentinel-tooltip-root {
+  position: absolute;
+  z-index: 999999999;
+  width: 320px;
+  background: #0A0A0A !important;
+  border: 1px solid rgba(43, 59, 229, 0.3) !important;
+  border-top: 3px solid #E03131 !important;
+  border-radius: 8px !important;
+  padding: 16px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(43, 59, 229, 0.05) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #E0E0E0 !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  pointer-events: none; /* Let user mouse leave easily */
+}
+
+#ai-sentinel-tooltip-root.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto; /* Active for click references */
+}
+
+.ai-sentinel-tooltip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  padding-bottom: 8px !important;
+  margin-bottom: 10px !important;
+}
+
+.ai-sentinel-tooltip-title {
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  font-size: 14px !important;
+}
+
+.ai-sentinel-tooltip-severity {
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  padding: 1px 6px !important;
+  border-radius: 4px !important;
+  color: #FFF !important;
+  letter-spacing: 0.5px !important;
+}
+
+.ai-sentinel-severity-high {
+  background-color: #E03131 !important;
+}
+
+.ai-sentinel-severity-medium {
+  background-color: #F76B1C !important;
+}
+
+.ai-sentinel-severity-low {
+  background-color: #FAD961 !important;
+  color: #111 !important;
+}
+
+.ai-sentinel-tooltip-claim {
+  font-style: italic !important;
+  color: #F1F3F5 !important;
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  border-left: 2px solid #E03131 !important;
+  padding: 6px 10px !important;
+  margin-bottom: 10px !important;
+  border-radius: 0 4px 4px 0 !important;
+}
+
+.ai-sentinel-tooltip-correction {
+  margin-bottom: 10px !important;
+}
+
+.ai-sentinel-tooltip-correction strong {
+  color: #4C6EF5 !important; /* Soft blue */
+}
+
+.ai-sentinel-tooltip-ref {
+  font-size: 11px !important;
+  color: #868E96 !important;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1) !important;
+  padding-top: 8px !important;
+  margin-top: 8px !important;
+}
+
+/* Animations */
+@keyframes ai-sentinel-pulse {
+  from {
+    box-shadow: 0 0 4px rgba(224, 49, 49, 0.4);
+  }
+  to {
+    box-shadow: 0 0 10px rgba(224, 49, 49, 0.8), 0 0 2px rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Superposición de Alerta de Subtítulos de YouTube (Real-Time) */
+#ai-sentinel-caption-alert {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  z-index: 2000 !important; /* Por encima de los controles de YouTube */
+  width: 320px;
+  background: rgba(10, 10, 10, 0.96) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(224, 49, 49, 0.3) !important;
+  border-left: 4px solid #E03131 !important;
+  border-radius: 6px !important;
+  padding: 12px 14px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(224, 49, 49, 0.15) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #E2E8F0 !important;
+  font-size: 12px !important;
+  line-height: 1.45 !important;
+  transform: translateX(360px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+#ai-sentinel-caption-alert.slide-in {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ai-sentinel-alert-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding-bottom: 4px !important;
+}
+
+.ai-sentinel-alert-tag {
+  color: #E03131 !important;
+  font-weight: 800 !important;
+  font-size: 9px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+}
+
+.ai-sentinel-alert-close {
+  cursor: pointer !important;
+  color: #8E96A0 !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
+  border: none !important;
+  background: none !important;
+  padding: 0 4px !important;
+  line-height: 1 !important;
+}
+
+.ai-sentinel-alert-close:hover {
+  color: #FFFFFF !important;
+}
+
+.ai-sentinel-alert-text {
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  margin-bottom: 4px !important;
+  font-size: 11px !important;
+}
+
+.ai-sentinel-alert-correction {
+  font-size: 11px !important;
+  color: #A0A5B1 !important;
+  margin-bottom: 6px !important;
+  border-left: 2px solid #2B3BE5 !important;
+  padding-left: 6px !important;
+}
+
+.ai-sentinel-alert-ref {
+  font-size: 9px !important;
+  color: #6C757D !important;
+  font-style: italic !important;
+}

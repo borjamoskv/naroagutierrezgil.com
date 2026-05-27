@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Sentinel Dashboard</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="sentinel-app">
+    <!-- Cabecera -->
+    <header class="app-header">
+      <div class="logo-area">
+        <div class="logo-dot"></div>
+        <div class="brand">
+          <h1>AI SENTINEL</h1>
+          <span class="sub-brand">SOVEREIGN AUDIT ENGINE</span>
+        </div>
+      </div>
+      <div class="toggle-control">
+        <label class="switch">
+          <input type="checkbox" id="power-toggle" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </header>
+
+    <!-- Barra de Estado Global -->
+    <div id="status-bar" class="status-bar active">
+      <span id="status-text">SISTEMA ACTIVO Y VIGILANDO</span>
+    </div>
+
+    <!-- Malla de Estadísticas -->
+    <section class="stats-grid">
+      <div class="stat-card audit-count-card">
+        <span class="stat-label">ERRORES DETECTADOS</span>
+        <span class="stat-value" id="stat-audits">0</span>
+      </div>
+      <div class="stat-card database-card">
+        <span class="stat-label">BASE DE INFLUENCERS</span>
+        <span class="stat-value" id="stat-influencers">0</span>
+      </div>
+    </section>
+
+    <!-- Navegación por Pestañas -->
+    <nav class="tab-nav">
+      <button class="tab-btn active" id="tab-btn-influencers">INFLUENCERS</button>
+      <button class="tab-btn" id="tab-btn-report">REPORTAR MITO</button>
+      <button class="tab-btn" id="tab-btn-settings">AJUSTES</button>
+    </nav>
+
+    <!-- Área de Contenido Principal -->
+    <main class="app-main">
+      
+      <!-- PESTAÑA: Lista de Influencers -->
+      <div id="tab-influencers" class="tab-content active">
+        <div class="search-wrapper">
+          <input type="text" id="influencer-search" placeholder="Buscar creador, mito o palabra clave..." class="search-input">
+        </div>
+        <div id="influencer-list" class="influencer-list">
+          <!-- Las tarjetas de influencers se inyectarán dinámicamente aquí -->
+        </div>
+      </div>
+
+      <!-- PESTAÑA: Reportar Mito -->
+      <div id="tab-report" class="tab-content">
+        <form id="report-form" class="report-form">
+          <div class="form-group">
+            <label for="report-creator">CREADOR DE IA</label>
+            <select id="report-creator" required class="form-select">
+              <!-- Creadores cargados dinámicamente -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="report-claim">AFIRMACIÓN ERRÓNEA (MITO)</label>
+            <textarea id="report-claim" placeholder="Ej. La AGI llegará en 2025 de forma indiscutible..." required class="form-textarea"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="report-correction">CORRECCIÓN TÉCNICA (REALIDAD)</label>
+            <textarea id="report-correction" placeholder="Ej. Los LLMs actuales no tienen razonamiento abstracto real..." required class="form-textarea"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group half-width">
+              <label for="report-keywords">PALABRAS CLAVE (Separadas por comas)</label>
+              <input type="text" id="report-keywords" placeholder="ej. agi, 2025, inminente" required class="form-input">
+            </div>
+            <div class="form-group half-width">
+              <label for="report-severity">GRAVEDAD</label>
+              <select id="report-severity" class="form-select">
+                <option value="low">Baja (Exageración leve)</option>
+                <option value="medium" selected>Media (Fallo técnico)</option>
+                <option value="high">Alta (Hype / Falso absoluto)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="report-reference">REFERENCIA / PUBLICACIÓN CIENTÍFICA</label>
+            <input type="text" id="report-reference" placeholder="Ej. Yann LeCun (Meta AI) / Paper SWE-bench..." required class="form-input">
+          </div>
+
+          <button type="submit" class="submit-btn">REGISTRAR AUDITORÍA LOCAL</button>
+        </form>
+      </div>
+
+      <!-- PESTAÑA: Ajustes -->
+      <div id="tab-settings" class="tab-content">
+        <div class="settings-panel">
+          <div class="settings-section">
+            <h3 class="section-title">DIVULGADORES ACTIVOS</h3>
+            <p class="section-desc">Desactiva creadores específicos para pausar el escaneo en sus publicaciones.</p>
+            <div id="creator-toggles-container" class="settings-list">
+              <!-- Checkboxes inyectados dinámicamente -->
+            </div>
+          </div>
+          
+          <div class="settings-section">
+            <h3 class="section-title">ADMINISTRAR BASE DE DATOS LOCAL</h3>
+            <div class="settings-buttons">
+              <button id="btn-export-db" class="settings-btn btn-blue">EXPORTAR BASE DE DATOS (JSON)</button>
+              <label for="import-file-input" class="settings-btn btn-green">
+                IMPORTAR BASE DE DATOS (JSON)
+                <input type="file" id="import-file-input" accept=".json" style="display: none;">
+              </label>
+              <button id="btn-reset-db" class="settings-btn btn-red">RESTABLECER POR DEFECTO</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="app-footer">
+      <div class="reality-level">NIVEL DE REALIDAD: <span class="highlight-real">C5-REAL</span></div>
+      <div class="author-credits">MOSKV v1.1</div>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
