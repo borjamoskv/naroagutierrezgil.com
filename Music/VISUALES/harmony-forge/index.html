@@ -435,6 +435,28 @@
                 </div>
             </div>
 
+            <!-- Cortex Memory: Archival State Persistence -->
+            <div class="lost-archives-section glass" style="margin-top: 0px; border-bottom: none;">
+                <div class="nicotine-stain"></div>
+                <h3 style="color: var(--accent-yellow);">CORTEX MEMORY INTERFACE // ДАННЫЕ</h3>
+                <p class="section-desc">Store or recall the active audio node settings in the pgvector database.</p>
+                
+                <div style="display: flex; gap: 8px; margin-top: 6px;">
+                    <input type="text" id="memory-preset-name" placeholder="PRESET_NAME (e.g. SIBERIAN_DECAY)" style="flex: 1; background: #0E0D0B; border: 1px solid var(--border-color); color: var(--text-primary); font-family: var(--font-mono); font-size: 0.65rem; padding: 6px 10px; outline: none; border-radius: 2px;">
+                    <button id="memory-save-btn" class="btn-primary" style="padding: 6px 12px; margin: 0; font-size: 0.65rem; box-shadow: 0 2px 0px #700B0B;">SAVE STATE</button>
+                </div>
+
+                <div style="display: flex; gap: 8px; margin-top: 6px;">
+                    <input type="text" id="memory-query-input" placeholder="SEARCH QUERY (e.g. ambient low wear)" style="flex: 1; background: #0E0D0B; border: 1px solid var(--border-color); color: var(--text-primary); font-family: var(--font-mono); font-size: 0.65rem; padding: 6px 10px; outline: none; border-radius: 2px;">
+                    <button id="memory-query-btn" class="btn-secondary" style="padding: 6px 12px; font-size: 0.65rem;">SEARCH</button>
+                </div>
+
+                <div id="memory-results-container" style="display: flex; flex-direction: column; gap: 4px; max-height: 120px; overflow-y: auto; margin-top: 4px; border-top: 1px dashed var(--border-color); padding-top: 6px;">
+                    <!-- Dynamically populated memory search results -->
+                    <div style="font-size: 0.55rem; color: var(--text-dim); text-align: center; padding: 4px 0;">No query execution completed.</div>
+                </div>
+            </div>
+
             <!-- Lost Archives / Presets Selection List -->
             <div class="lost-archives-section glass">
                 <div class="nicotine-stain"></div>

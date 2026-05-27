@@ -1469,4 +1469,195 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+// --- CORTEX MEMORY FRONTEND INTEGRATION ---
+const CORTEX_API_URL = "http://localhost:8009";
+
+const memoryPresetNameInput = document.getElementById("memory-preset-name");
+const memorySaveBtn = document.getElementById("memory-save-btn");
+const memoryQueryInput = document.getElementById("memory-query-input");
+const memoryQueryBtn = document.getElementById("memory-query-btn");
+const memoryResultsContainer = document.getElementById("memory-results-container");
+
+function getActiveSynthState() {
+    return {
+        root: rootSelect.value,
+        scale: scaleSelect.value,
+        bpm: parseInt(tempoSlider.value),
+        wowFlutter: parseInt(wowFlutterSlider.value),
+        tapeWear: parseInt(tapeWearSlider.value),
+        filterCutoff: parseInt(filterCutoffSlider.value),
+        delay: parseInt(delaySlider.value),
+        reverb: parseInt(reverbSlider.value),
+        enablePad: enablePadCheckbox.checked,
+        enablePluck: enablePluckCheckbox.checked,
+        enableBell: enableBellCheckbox.checked,
+        enableTrumpet: enableTrumpetCheckbox.checked,
+        enableTheremin: enableThereminCheckbox.checked,
+        enableGuitar: enableGuitarCheckbox.checked,
+        enableDrums: enableDrumsCheckbox.checked,
+        negativeHarmony: negativeHarmonyCheckbox.checked,
+        fractalMode: fractalModeCheckbox.checked
+    };
+}
+
+function applySynthState(state) {
+    if (!state) return;
+    
+    if (state.root) rootSelect.value = state.root;
+    if (state.scale) scaleSelect.value = state.scale;
+    if (state.bpm !== undefined) tempoSlider.value = state.bpm;
+    if (state.wowFlutter !== undefined) wowFlutterSlider.value = state.wowFlutter;
+    if (state.tapeWear !== undefined) tapeWearSlider.value = state.tapeWear;
+    if (state.filterCutoff !== undefined) filterCutoffSlider.value = state.filterCutoff;
+    if (state.delay !== undefined) delaySlider.value = state.delay;
+    if (state.reverb !== undefined) reverbSlider.value = state.reverb;
+    
+    if (state.enablePad !== undefined) enablePadCheckbox.checked = state.enablePad;
+    if (state.enablePluck !== undefined) enablePluckCheckbox.checked = state.enablePluck;
+    if (state.enableBell !== undefined) enableBellCheckbox.checked = state.enableBell;
+    if (state.enableTrumpet !== undefined) enableTrumpetCheckbox.checked = state.enableTrumpet;
+    if (state.enableTheremin !== undefined) enableThereminCheckbox.checked = state.enableTheremin;
+    if (state.enableGuitar !== undefined) enableGuitarCheckbox.checked = state.enableGuitar;
+    if (state.enableDrums !== undefined) enableDrumsCheckbox.checked = state.enableDrums;
+    if (state.negativeHarmony !== undefined) negativeHarmonyCheckbox.checked = state.negativeHarmony;
+    if (state.fractalMode !== undefined) fractalModeCheckbox.checked = state.fractalMode;
+    
+    // Sync state variables
+    currentRoot = rootSelect.value;
+    currentScaleType = scaleSelect.value;
+    enableTrumpet = enableTrumpetCheckbox.checked;
+    enableTheremin = enableThereminCheckbox.checked;
+    enableGuitar = enableGuitarCheckbox.checked;
+    enableDrums = enableDrumsCheckbox.checked;
+    isNegativeHarmony = negativeHarmonyCheckbox.checked;
+    isFractalMode = fractalModeCheckbox.checked;
+    
+    updateSliderValues();
+    
+    if (isPlaying && audioCtx && lowpassNode) {
+        updatePadChord(lowpassNode);
+    }
+}
+
+if (memorySaveBtn) {
+    memorySaveBtn.addEventListener("click", async () => {
+        const presetName = memoryPresetNameInput.value.trim() || `TAPE_STATE_${Date.now()}`;
+        const state = getActiveSynthState();
+        
+        const description = `Archival synth state preset named ${presetName} configured with Root ${state.root}, Algorithm ${state.scale}, BPM ${state.bpm}, Wow ${state.wowFlutter}%, Wear ${state.tapeWear}%, Cutoff ${state.filterCutoff}Hz, Reverb ${state.reverb}%, Delay ${state.delay}%. Channel configuration: Pad=${state.enablePad}, Pluck=${state.enablePluck}, Bell=${state.enableBell}, Trumpet=${state.enableTrumpet}, Theremin=${state.enableTheremin}, Guitar=${state.enableGuitar}, Drums=${state.enableDrums}, Negative=${state.negativeHarmony}, Fractal=${state.fractalMode}.`;
+        
+        // Add JSON payload inside content to deserialize on retrieval
+        const memoryContent = JSON.stringify({
+            preset_name: presetName,
+            description: description,
+            state: state
+        });
+        
+        try {
+            memorySaveBtn.disabled = true;
+            memorySaveBtn.textContent = "SAVING...";
+            const response = await fetch(`${CORTEX_API_URL}/memory/add`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    user_id: "borja",
+                    agent_id: "harmony-forge",
+                    content: memoryContent
+                })
+            });
+            if (response.ok) {
+                statusText.textContent = `TAPE STATE STORED // C5-REAL`;
+                trackingText.textContent = `MEMORIZED: ${presetName.substring(0, 15)}`;
+                memoryPresetNameInput.value = "";
+            } else {
+                statusText.textContent = "SAVE FAILURE // HTTP ERROR";
+            }
+        } catch (e) {
+            console.error(e);
+            statusText.textContent = "SAVE FAILURE // OFFLINE";
+        } finally {
+            memorySaveBtn.disabled = false;
+            memorySaveBtn.textContent = "SAVE STATE";
+        }
+    });
+}
+
+if (memoryQueryBtn) {
+    memoryQueryBtn.addEventListener("click", async () => {
+        const queryText = memoryQueryInput.value.trim();
+        if (!queryText) return;
+        
+        try {
+            memoryQueryBtn.disabled = true;
+            memoryQueryBtn.textContent = "SEARCHING...";
+            const response = await fetch(`${CORTEX_API_URL}/memory/query`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    user_id: "borja",
+                    query: queryText
+                })
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                memoryResultsContainer.innerHTML = "";
+                
+                const results = data.results || [];
+                if (results.length === 0) {
+                    memoryResultsContainer.innerHTML = `<div style="font-size: 0.55rem; color: var(--text-dim); text-align: center; padding: 4px 0;">No matching archival states found.</div>`;
+                    return;
+                }
+                
+                results.forEach((res, index) => {
+                    let parsedContent = null;
+                    try {
+                        parsedContent = JSON.parse(res.content);
+                    } catch (e) {
+                        // fallback to basic parser if text string only
+                    }
+                    
+                    const presetName = parsedContent ? parsedContent.preset_name : `MEM_${index+1}`;
+                    const details = parsedContent ? parsedContent.description : res.content;
+                    
+                    const item = document.createElement("div");
+                    item.className = "archive-item";
+                    item.style.padding = "6px 8px";
+                    item.style.marginBottom = "2px";
+                    item.innerHTML = `
+                        <div class="tape-mini-icon">💾</div>
+                        <div class="archive-info" style="flex: 1;">
+                            <span class="archive-name" style="font-size: 0.6rem;">${presetName} (MATCH: ${Math.round((1 - res.distance) * 100)}%)</span>
+                            <span class="archive-meta" style="font-size: 0.5rem; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${details}</span>
+                        </div>
+                    `;
+                    
+                    item.addEventListener("click", () => {
+                        if (parsedContent && parsedContent.state) {
+                            applySynthState(parsedContent.state);
+                            statusText.textContent = `TAPE RECALIBRATED: ${presetName}`;
+                            trackingText.textContent = `LOADED MEMORY // C5-REAL`;
+                            
+                            // Visual active state feedback
+                            document.querySelectorAll("#memory-results-container .archive-item").forEach(el => el.classList.remove("active"));
+                            item.classList.add("active");
+                        }
+                    });
+                    
+                    memoryResultsContainer.appendChild(item);
+                });
+            } else {
+                statusText.textContent = "QUERY FAILURE // HTTP ERROR";
+            }
+        } catch (e) {
+            console.error(e);
+            statusText.textContent = "QUERY FAILURE // OFFLINE";
+        } finally {
+            memoryQueryBtn.disabled = false;
+            memoryQueryBtn.textContent = "SEARCH";
+        }
+    });
+}
+
+
 
