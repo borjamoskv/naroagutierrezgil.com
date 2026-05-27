@@ -67,7 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Domain warping
             float q = snoise(pos + vec2(t, t * 0.8));
             float r = snoise(pos + vec2(q * 2.0 - t * 0.5, q * 1.5 + t * 0.3));
-            float n = snoise(pos + r * 2.0 + t);
+            float s = snoise(pos + vec2(r * 2.0 + t * 0.2, r * 1.5 - t * 0.6));
+            float n = snoise(pos + s * 2.5 + t);
 
             // Base color: Abyssal Black #0A0A0A
             vec3 color = vec3(0.039, 0.039, 0.039);
@@ -75,10 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Highlights: YInMn Blue #2B3BE5 & Sovereign Amber #FF9F1C
             vec3 colorBlue = vec3(0.169, 0.231, 0.898);
             vec3 colorAmber = vec3(1.0, 0.624, 0.110);
+            vec3 colorDeepBlue = vec3(0.05, 0.08, 0.35); // Added deep blue depth
             
             // Mix colors based on noise & entropy
-            color = mix(color, colorBlue, smoothstep(0.0, 0.85, n) * (0.45 + u_entropy * 0.2)); 
-            color = mix(color, colorAmber, smoothstep(0.7, 1.0, r) * (0.18 + u_entropy * 0.5)); 
+            color = mix(color, colorDeepBlue, smoothstep(-0.2, 0.5, q) * 0.5);
+            color = mix(color, colorBlue, smoothstep(0.0, 0.85, n) * (0.45 + u_entropy * 0.3)); 
+            color = mix(color, colorAmber, smoothstep(0.6, 1.0, r) * (0.18 + u_entropy * 0.6)); 
             
             // Vignette for focus
             vec2 center = gl_FragCoord.xy / u_resolution.xy - 0.5;

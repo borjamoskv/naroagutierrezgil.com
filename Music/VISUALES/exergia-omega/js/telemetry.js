@@ -9,6 +9,7 @@ window.CORTEX_TELEMETRY = {
     activeNodes: 0,
     ringBuffer: 0,
     exergy: 0,
+    cortisol: 0,
     smoothedEntropy: 0 // Used for WebGL shading
 };
 
@@ -41,15 +42,25 @@ document.addEventListener('DOMContentLoaded', () => {
             ws.onmessage = (event) => {
                 const payload = JSON.parse(event.data);
                 if (payload.metrics) {
-                    window.CORTEX_TELEMETRY.activeNodes = payload.metrics.active_nodes;
-                    window.CORTEX_TELEMETRY.throughput = payload.metrics.throughput_agents_sec;
-                    window.CORTEX_TELEMETRY.ringBuffer = payload.metrics.ring_buffer_utilization;
-                    window.CORTEX_TELEMETRY.exergy = payload.metrics.exergy_consumption_j;
+                    window.CORTEX_TELEMETRY.activeNodes = payload.metrics.active_nodes || 0;
+                    window.CORTEX_TELEMETRY.throughput = payload.metrics.throughput_agents_sec || 0;
+                    window.CORTEX_TELEMETRY.ringBuffer = payload.metrics.ring_buffer_utilization || 0;
+                    window.CORTEX_TELEMETRY.exergy = payload.metrics.exergy_consumption_j || 0;
+                    window.CORTEX_TELEMETRY.cortisol = payload.metrics.cortisol_level || 0;
                     
                     // Update DOM HUD
                     if(hudNodes) hudNodes.innerText = `NODES: ${window.CORTEX_TELEMETRY.activeNodes}`;
                     if(hudThroughput) hudThroughput.innerText = `TPUT: ${(window.CORTEX_TELEMETRY.throughput / 1000).toFixed(2)} k/s`;
                     if(hudExergy) hudExergy.innerText = `EXERGY: ${window.CORTEX_TELEMETRY.exergy.toFixed(4)} J`;
+                    
+                    // Update Cortisol with stress-based color grading
+                    const hudCortisolElements = document.querySelectorAll('#ctx-cortisol');
+                    hudCortisolElements.forEach(el => {
+                        el.innerText = `CORTISOL: ${window.CORTEX_TELEMETRY.cortisol.toFixed(2)}`;
+                        if(window.CORTEX_TELEMETRY.cortisol > 0.8) el.style.color = "#E52B50"; // Danger Red
+                        else if(window.CORTEX_TELEMETRY.cortisol > 0.4) el.style.color = "#FF9F1C"; // Amber
+                        else el.style.color = "#2B3BE5"; // YInMn Blue
+                    });
                 }
             };
             
