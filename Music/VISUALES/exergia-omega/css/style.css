@@ -1301,3 +1301,60 @@ body {
     color: var(--color-text-muted);
 }
 
+/* A/B Comparison Toggle */
+.btn-ab {
+    margin-top: 0.4rem;
+    background: rgba(255, 159, 28, 0.06);
+    border-color: rgba(255, 159, 28, 0.25);
+    color: var(--color-amber);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    transition: all 0.3s var(--ease-sovereign);
+}
+
+.btn-ab:hover {
+    background: rgba(255, 159, 28, 0.12);
+    border-color: rgba(255, 159, 28, 0.5);
+    box-shadow: 0 0 12px rgba(255, 159, 28, 0.15);
+}
+
+.btn-ab.active {
+    background: rgba(255, 159, 28, 0.15);
+    border-color: var(--color-amber);
+    color: var(--color-text);
+    box-shadow: 0 0 16px rgba(255, 159, 28, 0.2), inset 0 0 8px rgba(255, 159, 28, 0.1);
+}
+
+/* Knob interaction micro-animations */
+.rotary-knob.active .knob-indicator {
+    filter: drop-shadow(0 0 8px var(--color-cyber-cyan));
+}
+
+.rotary-knob:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s var(--ease-sovereign);
+}
+
+/* Spectral tilt indicator pulse when changing */
+.spectral-tilt-indicator {
+    transition: color 0.4s var(--ease-sovereign), text-shadow 0.4s var(--ease-sovereign);
+}
+
+.tilt-bright {
+    animation: tilt-pulse-bright 1.5s ease-in-out infinite;
+}
+
+.tilt-dark {
+    animation: tilt-pulse-dark 1.5s ease-in-out infinite;
+}
+
+@keyframes tilt-pulse-bright {
+    0%, 100% { text-shadow: 0 0 4px var(--color-cyber-cyan-glow); }
+    50% { text-shadow: 0 0 12px var(--color-cyber-cyan); }
+}
+
+@keyframes tilt-pulse-dark {
+    0%, 100% { text-shadow: 0 0 4px var(--color-amber-glow); }
+    50% { text-shadow: 0 0 12px var(--color-amber); }
+}
+

@@ -50,13 +50,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Debounced resize — avoids thrashing 6 canvas resets per pixel
+    let _resizeTimer = null;
     window.addEventListener('resize', () => {
-        resizeCanvas(goniometerCanvas);
-        resizeCanvas(spectrumCanvas);
-        resizeCanvas(shaperCanvas);
-        resizeCanvas(limiterCanvas);
-        resizeCanvas(radarCanvas);
-        resizeCanvas(eqCanvas);
+        if (_resizeTimer) clearTimeout(_resizeTimer);
+        _resizeTimer = setTimeout(() => {
+            resizeCanvas(goniometerCanvas);
+            resizeCanvas(spectrumCanvas);
+            resizeCanvas(shaperCanvas);
+            resizeCanvas(limiterCanvas);
+            resizeCanvas(radarCanvas);
+            resizeCanvas(eqCanvas);
+            // Invalidate cached objects after resize
+            _waterfallSlice = null;
+            _cachedSpecGrad = null;
+        }, 150);
     });
     resizeCanvas(goniometerCanvas);
     resizeCanvas(spectrumCanvas);
@@ -224,6 +232,67 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // --- A/B COMPARISON TOGGLE ---
+    const abBtn = document.getElementById('btn-ab');
+    let abStateA = null; // Snapshot A (captured on first click)
+    let abIsB = true;    // Currently showing B (live state)
+
+    if (abBtn) {
+        abBtn.addEventListener('click', () => {
+            engine.init();
+            if (!abStateA) {
+                // First click: capture current state as A
+                abStateA = { ...engine.params };
+                abBtn.classList.add('active');
+                abBtn.innerText = "A ← B";
+                addP0Log("A/B: State A captured. Click again to compare.", "system");
+            } else {
+                // Toggle between A and B
+                if (abIsB) {
+                    // Switch to A (snapshot)
+                    const currentB = { ...engine.params };
+                    for (const key in abStateA) {
+                        engine.updateParam(key, abStateA[key]);
+                        const knob = document.querySelector(`.rotary-knob[data-param="${key}"]`);
+                        if (knob) {
+                            const min = parseFloat(knob.getAttribute('data-min'));
+                            const max = parseFloat(knob.getAttribute('data-max'));
+                            updateKnobUI(knob, abStateA[key], min, max, key);
+                        }
+                    }
+                    // Store B for later recall
+                    abBtn._stateB = currentB;
+                    abBtn.innerText = "A → B";
+                    abIsB = false;
+                } else {
+                    // Switch back to B
+                    const stateB = abBtn._stateB || {};
+                    for (const key in stateB) {
+                        engine.updateParam(key, stateB[key]);
+                        const knob = document.querySelector(`.rotary-knob[data-param="${key}"]`);
+                        if (knob) {
+                            const min = parseFloat(knob.getAttribute('data-min'));
+                            const max = parseFloat(knob.getAttribute('data-max'));
+                            updateKnobUI(knob, stateB[key], min, max, key);
+                        }
+                    }
+                    abBtn.innerText = "A ← B";
+                    abIsB = true;
+                }
+            }
+        });
+
+        // Double-click to clear A/B state
+        abBtn.addEventListener('dblclick', () => {
+            abStateA = null;
+            abIsB = true;
+            abBtn.classList.remove('active');
+            abBtn.innerText = "A/B";
+            abBtn._stateB = null;
+            addP0Log("A/B: Comparison cleared.", "system");
+        });
+    }
+
     droneFreqInput.addEventListener('input', (e) => {
         const val = e.target.value;
         droneFreqVal.innerText = `${val} Hz`;
@@ -278,6 +347,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const grHistory = new Float32Array(150); // 150 scrolling points for Limiter GR
     let freqDataL = null; // Lazily allocated on first use
     let freqDataR = null;
+    let inputData = null; // Persistent input metering buffer
+
+    // Cached per-frame objects (avoid GC pressure)
+    let _waterfallSlice = null;   // ImageData(wSpec, 1)
+    let _cachedSpecGrad = null;   // CanvasGradient
+    let _cachedSpecGradH = 0;     // Height when gradient was created
 
     // EQ Curve analysis buffers
     const eqFreqs = new Float32Array(80);
@@ -514,9 +589,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Shift waterfall pixels down by 1px
             ctxWater.drawImage(waterfallCanvas, 0, 0, wSpec, hSpec - 1, 0, 1, wSpec, hSpec - 1);
 
-            // Create a 1px top row image data slice
-            const slice = ctxWater.createImageData(wSpec, 1);
-            const sliceData = slice.data;
+            // Reuse pre-allocated 1px top row ImageData (avoids per-frame allocation)
+            if (!_waterfallSlice || _waterfallSlice.width !== wSpec) {
+                _waterfallSlice = ctxWater.createImageData(wSpec, 1);
+            }
+            const sliceData = _waterfallSlice.data;
 
             for (let x = 0; x < wSpec; x++) {
                 const pct = x / wSpec;
@@ -542,16 +619,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 sliceData[pixelIdx + 2] = Math.min(255, b);
                 sliceData[pixelIdx + 3] = 255;
             }
-            ctxWater.putImageData(slice, 0, 0);
+            ctxWater.putImageData(_waterfallSlice, 0, 0);
 
             // Draw waterfall onto main spectrum canvas
             ctxSpec.drawImage(waterfallCanvas, 0, 0);
 
-            // Draw a subtle dark linear overlay to fade out older history at the bottom
-            const grad = ctxSpec.createLinearGradient(0, 0, 0, hSpec);
-            grad.addColorStop(0, 'rgba(10, 10, 10, 0.35)');
-            grad.addColorStop(1, 'rgba(10, 10, 10, 0.94)');
-            ctxSpec.fillStyle = grad;
+            // Cached gradient — only recreate if canvas height changed
+            if (!_cachedSpecGrad || _cachedSpecGradH !== hSpec) {
+                _cachedSpecGrad = ctxSpec.createLinearGradient(0, 0, 0, hSpec);
+                _cachedSpecGrad.addColorStop(0, 'rgba(10, 10, 10, 0.35)');
+                _cachedSpecGrad.addColorStop(1, 'rgba(10, 10, 10, 0.94)');
+                _cachedSpecGradH = hSpec;
+            }
+            ctxSpec.fillStyle = _cachedSpecGrad;
             ctxSpec.fillRect(0, 0, wSpec, hSpec);
         } else {
             ctxSpec.fillStyle = '#030303';
@@ -629,13 +709,40 @@ document.addEventListener('DOMContentLoaded', () => {
             // Reset global composite operation and shadow
             ctxSpec.globalCompositeOperation = 'source-over';
             ctxSpec.shadowBlur = 0;
+
+            // Calculate Spectral Tilt (bass vs treble energy ratio)
+            const tiltIndicator = document.getElementById('spectral-tilt');
+            if (tiltIndicator && freqDataL) {
+                const len = freqDataL.length;
+                let lowE = 0, highE = 0;
+                const lowBins = Math.min(16, len);
+                const highStart = Math.min(Math.floor(len * 0.6), len);
+                for (let i = 0; i < lowBins; i++) lowE += (freqDataL[i] + freqDataR[i]);
+                for (let i = highStart; i < len; i++) highE += (freqDataL[i] + freqDataR[i]);
+                lowE /= lowBins; highE /= Math.max(1, len - highStart);
+                const tiltRatio = lowE > 0.01 ? highE / lowE : 1.0;
+
+                if (tiltRatio > 1.3) {
+                    tiltIndicator.className = 'spectral-tilt-indicator tilt-bright';
+                    tiltIndicator.title = 'Spectral Tilt: BRIGHT';
+                } else if (tiltRatio < 0.7) {
+                    tiltIndicator.className = 'spectral-tilt-indicator tilt-dark';
+                    tiltIndicator.title = 'Spectral Tilt: DARK';
+                } else {
+                    tiltIndicator.className = 'spectral-tilt-indicator tilt-balanced';
+                    tiltIndicator.title = 'Spectral Tilt: BALANCED';
+                }
+            }
         }
 
 
         // 3. RMS & PEAK METERS (C5-REAL LEVEL METERS)
         if (engine.isPlaying) {
             // Get Input data for metering
-            const inputData = new Float32Array(bufferLength);
+            // Get Input data for metering (reuse persistent buffer)
+            if (!inputData || inputData.length !== bufferLength) {
+                inputData = new Float32Array(bufferLength);
+            }
             engine.inputAnalyser.getFloatTimeDomainData(inputData);
             
             // Input RMS & Peak calculation
@@ -1279,10 +1386,26 @@ Exergy Const      : S=100
         });
     });
 
-    function lerpLoop() {
-        requestAnimationFrame(lerpLoop);
+    // === MERGED LERP INTO RENDERLOOP ===
+    // Eliminates 2nd requestAnimationFrame loop.
+    // Cache knob DOM queries once (avoids per-frame querySelector)
+    const _knobCache = {};
+    document.querySelectorAll('.rotary-knob[data-param]').forEach(knob => {
+        _knobCache[knob.getAttribute('data-param')] = {
+            el: knob,
+            min: parseFloat(knob.getAttribute('data-min')),
+            max: parseFloat(knob.getAttribute('data-max'))
+        };
+    });
+
+    // Inject lerp into the main renderLoop post-hook
+    const _origRenderLoop = renderLoop;
+    renderLoop = function() {
+        _origRenderLoop();
+
+        // Lerp preset morphing (was separate rAF loop)
         if (targetParams && lerpProgress < 1.0) {
-            lerpProgress += 0.035; // smooth morph speed
+            lerpProgress += 0.035;
             if (lerpProgress > 1.0) lerpProgress = 1.0;
 
             for (const key in targetParams) {
@@ -1290,18 +1413,13 @@ Exergy Const      : S=100
                 const targetVal = targetParams[key];
                 const currentVal = startVal + (targetVal - startVal) * lerpProgress;
 
-                // 1. Update core DSP parameters
                 engine.updateParam(key, currentVal);
 
-                // 2. Smoothly rotate the physical knob UI
-                const knob = document.querySelector(`.rotary-knob[data-param="${key}"]`);
-                if (knob) {
-                    const min = parseFloat(knob.getAttribute('data-min'));
-                    const max = parseFloat(knob.getAttribute('data-max'));
-                    updateKnobUI(knob, currentVal, min, max, key);
+                const cached = _knobCache[key];
+                if (cached) {
+                    updateKnobUI(cached.el, currentVal, cached.min, cached.max, key);
                 }
             }
         }
-    }
-    lerpLoop();
+    };
 });

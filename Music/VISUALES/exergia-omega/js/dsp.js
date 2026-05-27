@@ -592,6 +592,7 @@ class MasteringEngine {
             this.sourceNode.connect(this.inputNode);
             
             this.sourceNode.start(now);
+            this._playStartTime = now;
             this.isPlaying = true;
             document.getElementById('file-name').innerText = `PLAYING: ${name}`;
 
