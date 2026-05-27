@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         precision highp float;
         uniform vec2 u_resolution;
         uniform float u_time;
+        uniform float u_entropy;
         varying vec2 vUv;
 
         // Simplex noise approximation
@@ -59,9 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
             vec2 st = gl_FragCoord.xy / u_resolution.xy;
             st.x *= u_resolution.x / u_resolution.y;
 
-            // Slow drifting coordinates
-            vec2 pos = st * 3.0;
-            float t = u_time * 0.15;
+            // Slow drifting coordinates, modulated by u_entropy
+            vec2 pos = st * (3.0 + u_entropy * 0.5);
+            float t = u_time * (0.15 + u_entropy * 1.5);
             
             // Domain warping
             float q = snoise(pos + vec2(t, t * 0.8));
@@ -75,18 +76,21 @@ document.addEventListener('DOMContentLoaded', () => {
             vec3 colorBlue = vec3(0.169, 0.231, 0.898);
             vec3 colorAmber = vec3(1.0, 0.624, 0.110);
             
-            // Mix colors based on noise
-            color = mix(color, colorBlue, smoothstep(0.1, 0.8, n) * 0.4); // Subtle blue fog
-            color = mix(color, colorAmber, smoothstep(0.6, 1.0, r) * 0.15); // Sparse amber flares
+            // Mix colors based on noise, adding depth to the fog
+            color = mix(color, colorBlue, smoothstep(0.0, 0.85, n) * 0.45); 
+            color = mix(color, colorAmber, smoothstep(0.7, 1.0, r) * 0.18); 
             
-            // Vignette
+            // Vignette for focus
             vec2 center = gl_FragCoord.xy / u_resolution.xy - 0.5;
             float dist = length(center);
-            color *= smoothstep(0.8, 0.3, dist); // Darken edges
+            color *= smoothstep(0.9, 0.25, dist); 
 
-            // Add scanlines
-            float scanline = sin(st.y * u_resolution.y * 0.8) * 0.04;
+            // CRT Scanline emulation
+            float scanline = sin(gl_FragCoord.y * 1.5) * 0.03;
             color -= scanline;
+            
+            // Phosphor glow bleed
+            color += colorBlue * 0.02;
 
             gl_FragColor = vec4(color, 1.0);
         }
@@ -128,6 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const uResolution = gl.getUniformLocation(program, 'u_resolution');
     const uTime = gl.getUniformLocation(program, 'u_time');
+    const uEntropy = gl.getUniformLocation(program, 'u_entropy');
 
     function resize() {
         canvas.width = window.innerWidth;
@@ -142,6 +147,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function render() {
         const time = (performance.now() - startTime) * 0.001;
         gl.uniform1f(uTime, time);
+        
+        // Feed real-time telemetry entropy to the shader
+        const entropy = (window.CORTEX_TELEMETRY && window.CORTEX_TELEMETRY.smoothedEntropy) ? window.CORTEX_TELEMETRY.smoothedEntropy : 0.0;
+        gl.uniform1f(uEntropy, entropy);
+        
         gl.drawArrays(gl.TRIANGLES, 0, 6);
         requestAnimationFrame(render);
     }

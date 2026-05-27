@@ -1,0 +1,88 @@
+/**
+ * EXERGIA-Ω // CORTEX SOVEREIGN TELEMETRY DAEMON
+ * Connects to ws://127.0.0.1:8081 for real-time 20Hz C5-REAL metrics
+ */
+
+window.CORTEX_TELEMETRY = {
+    connected: false,
+    throughput: 0,
+    activeNodes: 0,
+    ringBuffer: 0,
+    exergy: 0,
+    smoothedEntropy: 0 // Used for WebGL shading
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const wsUrl = "ws://127.0.0.1:8081";
+    let ws = null;
+    
+    // UI Elements
+    const hudStatus = document.getElementById('ctx-status');
+    const hudNodes = document.getElementById('ctx-nodes');
+    const hudThroughput = document.getElementById('ctx-throughput');
+    const hudExergy = document.getElementById('ctx-exergy');
+
+    function connect() {
+        try {
+            ws = new WebSocket(wsUrl);
+            
+            ws.onopen = () => {
+                window.CORTEX_TELEMETRY.connected = true;
+                if(hudStatus) {
+                    hudStatus.innerText = "LINKED: C5-REAL";
+                    hudStatus.style.color = "#2B3BE5"; // Sovereign Blue
+                }
+            };
+            
+            ws.onmessage = (event) => {
+                const payload = JSON.parse(event.data);
+                if (payload.metrics) {
+                    window.CORTEX_TELEMETRY.activeNodes = payload.metrics.active_nodes;
+                    window.CORTEX_TELEMETRY.throughput = payload.metrics.throughput_agents_sec;
+                    window.CORTEX_TELEMETRY.ringBuffer = payload.metrics.ring_buffer_utilization;
+                    window.CORTEX_TELEMETRY.exergy = payload.metrics.exergy_consumption_j;
+                    
+                    // Update DOM HUD
+                    if(hudNodes) hudNodes.innerText = `NODES: ${window.CORTEX_TELEMETRY.activeNodes}`;
+                    if(hudThroughput) hudThroughput.innerText = `TPUT: ${(window.CORTEX_TELEMETRY.throughput / 1000).toFixed(2)} k/s`;
+                    if(hudExergy) hudExergy.innerText = `EXERGY: ${window.CORTEX_TELEMETRY.exergy.toFixed(4)} J`;
+                }
+            };
+            
+            ws.onclose = () => {
+                window.CORTEX_TELEMETRY.connected = false;
+                if(hudStatus) {
+                    hudStatus.innerText = "OFFLINE / STANDBY";
+                    hudStatus.style.color = "#FF9F1C"; // Amber
+                }
+                setTimeout(connect, 3000); // Auto-reconnect
+            };
+            
+            ws.onerror = (err) => {
+                console.error("CORTEX Telemetry Socket Error:", err);
+                ws.close();
+            };
+        } catch (e) {
+            console.error("WebSocket init failed:", e);
+        }
+    }
+
+    connect();
+
+    // Lerp loop for WebGL uniform smoothing
+    function telemetryLoop() {
+        requestAnimationFrame(telemetryLoop);
+        
+        // Target entropy based on exergy and throughput
+        // Baseline exergy ~ 0.03, max ~ 0.1
+        let targetEntropy = window.CORTEX_TELEMETRY.connected ? 
+            (window.CORTEX_TELEMETRY.exergy * 20.0) : 0.1;
+        
+        // clamp
+        targetEntropy = Math.max(0.1, Math.min(3.0, targetEntropy));
+        
+        // LERP
+        window.CORTEX_TELEMETRY.smoothedEntropy += (targetEntropy - window.CORTEX_TELEMETRY.smoothedEntropy) * 0.05;
+    }
+    telemetryLoop();
+});
