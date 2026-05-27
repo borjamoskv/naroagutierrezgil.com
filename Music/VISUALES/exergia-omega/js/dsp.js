@@ -614,28 +614,28 @@ class MasteringEngine {
         if (!this.isPlaying) return;
 
         if (this.sourceNode) {
-            try { this.sourceNode.stop(); } catch(e){}
+            try { this.sourceNode.stop(); } catch(e){ console.warn("[DSP] sourceNode stop error:", e); }
             this.sourceNode = null;
         }
 
         if (this.oscDrone) {
-            try { this.oscDrone.stop(); } catch(e){}
+            try { this.oscDrone.stop(); } catch(e){ console.warn("[DSP] oscDrone stop error:", e); }
             this.oscDrone = null;
         }
         if (this.oscHarmonic1) {
-            try { this.oscHarmonic1.stop(); } catch(e){}
+            try { this.oscHarmonic1.stop(); } catch(e){ console.warn("[DSP] oscHarmonic1 stop error:", e); }
             this.oscHarmonic1 = null;
         }
         if (this.oscHarmonic2) {
-            try { this.oscHarmonic2.stop(); } catch(e){}
+            try { this.oscHarmonic2.stop(); } catch(e){ console.warn("[DSP] oscHarmonic2 stop error:", e); }
             this.oscHarmonic2 = null;
         }
         if (this.noiseNode) {
-            try { this.noiseNode.stop(); } catch(e){}
+            try { this.noiseNode.stop(); } catch(e){ console.warn("[DSP] noiseNode stop error:", e); }
             this.noiseNode = null;
         }
         if (this.lfoNode) {
-            try { this.lfoNode.stop(); } catch(e){}
+            try { this.lfoNode.stop(); } catch(e){ console.warn("[DSP] lfoNode stop error:", e); }
             this.lfoNode = null;
         }
 

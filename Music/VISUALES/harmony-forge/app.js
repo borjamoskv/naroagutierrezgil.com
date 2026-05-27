@@ -501,7 +501,7 @@ function triggerSovietPad(freqs, dest) {
             
             setTimeout(() => {
                 oscs.forEach(osc => {
-                    try { osc.stop(); } catch(e) {}
+                    try { osc.stop(); } catch(e) { console.warn("[DSP] osc stop error", e); }
                 });
             }, 3000);
         }
@@ -761,7 +761,7 @@ function triggerGuitar(freq, dest) {
             dampFilter.disconnect();
             feedback.disconnect();
             outputGain.disconnect();
-        } catch(e) {}
+        } catch(e) { console.warn("[DSP] cleanup error", e); }
     }, 2200);
 }
 
@@ -1464,7 +1464,7 @@ if (trackingText) trackingText.textContent = "PLAYING • SYSTEM OK";
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./service-worker.js')
-            .then(reg => console.log('ДЕКОДЕР-9 Service Worker registered successfully:', reg.scope))
+            .then(reg => { /* Service Worker registered successfully */ })
             .catch(err => console.error('ДЕКОДЕР-9 Service Worker registration failed:', err));
     });
 }

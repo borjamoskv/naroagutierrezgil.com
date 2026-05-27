@@ -12,7 +12,7 @@ const ASSETS = [
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      console.log('[Service Worker] Caching Decoder-9 assets');
+      // console.log removed (production leak)
       return cache.addAll(ASSETS);
     }).then(() => self.skipWaiting())
   );
@@ -25,7 +25,7 @@ self.addEventListener('activate', e => {
       return Promise.all(
         keys.map(key => {
           if (key !== CACHE_NAME) {
-            console.log('[Service Worker] Evicting stale cache');
+            // console.log removed (production leak)
             return caches.delete(key);
           }
         })
