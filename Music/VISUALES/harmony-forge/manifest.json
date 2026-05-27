@@ -1,0 +1,19 @@
+{
+  "name": "ДЕКОДЕР-9 // HARMONY FORGE RELIC",
+  "short_name": "ДЕКОДЕР-9",
+  "description": "Generative audio synthesizer with VHS tape degradation and Soviet constructivist aesthetics.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#070605",
+  "theme_color": "#070605",
+  "orientation": "any",
+  "categories": ["music", "entertainment"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23070605' width='100' height='100'/><text x='50' y='65' font-size='50' text-anchor='middle' fill='%23D11919'>★</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

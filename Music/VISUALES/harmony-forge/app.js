@@ -1460,3 +1460,13 @@ if (playerPlayBtn) playerPlayBtn.textContent = "⏸";
 if (statusText) statusText.textContent = "DECODER SYSTEM ACTIVE // 1989-REAL";
 if (trackingText) trackingText.textContent = "PLAYING • SYSTEM OK";
 
+// Register Service Worker for offline capabilities
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+            .then(reg => console.log('ДЕКОДЕР-9 Service Worker registered successfully:', reg.scope))
+            .catch(err => console.error('ДЕКОДЕР-9 Service Worker registration failed:', err));
+    });
+}
+
+

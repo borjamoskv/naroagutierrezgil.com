@@ -20,9 +20,25 @@
     --glow-yinmn: 0 0 15px rgba(43, 59, 229, 0.6);
     --glow-gold: 0 0 15px rgba(255, 215, 0, 0.6);
     --glow-amber: 0 0 15px rgba(255, 159, 28, 0.6);
+
+    /* 8px Baseline Spacing Grid & Motion Curves */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+    --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* Custom Focus Ring for Interactive Elements */
+  :focus-visible {
+    outline: 2px solid var(--yinmn);
+    outline-offset: 4px;
+  }
 
   body {
     background: var(--bg);
@@ -50,7 +66,7 @@
 
   /* Header area */
   header {
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-lg);
     text-align: center;
     z-index: 10;
   }
@@ -81,11 +97,11 @@
     border: 2px solid var(--border);
     border-radius: 16px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 2px 2px rgba(255, 255, 255, 0.05);
-    padding: 2rem;
+    padding: var(--space-lg);
     z-index: 10;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: var(--space-lg);
     position: relative;
   }
 
@@ -185,6 +201,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: transform 0.2s var(--ease-spring), border-color 0.2s var(--ease-out-expo), box-shadow 0.2s var(--ease-out-expo);
+  }
+
+  .knob-widget:hover {
+    border-color: #444;
+    transform: scale(1.05);
+  }
+
+  .knob-widget:active {
+    transform: scale(0.95);
+  }
+
+  .knob-widget:focus-visible {
+    border-color: var(--yinmn);
+    box-shadow: var(--glow-yinmn), inset 0 2px 2px rgba(255,255,255,0.1);
   }
 
   .knob-indicator {
@@ -250,11 +281,22 @@
     border-radius: 4px;
     cursor: pointer;
     position: relative;
-    transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.15s var(--ease-spring), border-color 0.15s var(--ease-out-expo), background-color 0.15s var(--ease-out-expo), box-shadow 0.15s var(--ease-out-expo);
   }
 
   .seq-pad:hover {
     border-color: #444;
+    transform: scale(1.08);
+    z-index: 2;
+  }
+
+  .seq-pad:active {
+    transform: scale(0.92);
+  }
+
+  .seq-pad:focus-visible {
+    border-color: var(--yinmn);
+    box-shadow: var(--glow-yinmn);
   }
 
   /* Active state */
@@ -328,7 +370,7 @@
     border-radius: 8px;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.2s var(--ease-spring), border-color 0.2s var(--ease-out-expo), box-shadow 0.2s var(--ease-out-expo);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -337,7 +379,12 @@
   .power-btn:hover {
     border-color: var(--yinmn);
     box-shadow: var(--glow-yinmn);
+    transform: scale(1.02);
     color: #fff;
+  }
+
+  .power-btn:active {
+    transform: scale(0.98);
   }
 
   .power-btn.active {
@@ -408,11 +455,38 @@
     border-radius: 4px;
     cursor: pointer;
     text-align: center;
+    transition: transform 0.1s var(--ease-spring), background-color 0.15s var(--ease-out-expo);
   }
 
   .pitch-option:hover {
     background: var(--yinmn);
     color: #fff;
+    transform: scale(1.05);
+  }
+
+  .pitch-option:active {
+    transform: scale(0.95);
+  }
+
+  .pitch-option:focus-visible {
+    border-color: var(--yinmn);
+    outline: none;
+    background: var(--yinmn);
+    color: #fff;
+  }
+
+  /* A11Y prefers-reduced-motion overrides */
+  @media (prefers-reduced-motion: reduce) {
+    .knob-widget, .seq-pad, .power-btn, .pitch-option {
+      transition: none !important;
+    }
+    .smiley, .pig {
+      display: none !important;
+      animation: none !important;
+    }
+    .flash-overlay {
+      display: none !important;
+    }
   }
 </style>
 </head>
@@ -584,6 +658,11 @@ function createSequencerDOM() {
     for (let s = 0; s < 16; s++) {
       const pad = document.createElement('div');
       pad.className = 'seq-pad';
+      pad.setAttribute('tabindex', '0');
+      pad.setAttribute('role', 'button');
+      pad.setAttribute('aria-label', `${track.toUpperCase()} Step ${s + 1}`);
+      pad.setAttribute('aria-pressed', grid[track][s] ? 'true' : 'false');
+
       if (grid[track][s]) pad.classList.add('active');
       
       // Pitch label for bass track
@@ -594,13 +673,22 @@ function createSequencerDOM() {
         pad.appendChild(indicator);
       }
 
-      pad.addEventListener('click', (e) => {
+      const togglePad = (e) => {
         if (track === 'bass' && grid.bass[s] && !e.shiftKey) {
           // Open pitch selector if already active
           openPitchSelector(pad, s);
         } else {
           grid[track][s] = !grid[track][s];
           pad.classList.toggle('active', grid[track][s]);
+          pad.setAttribute('aria-pressed', grid[track][s] ? 'true' : 'false');
+        }
+      };
+
+      pad.addEventListener('click', togglePad);
+      pad.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          togglePad(e);
         }
       });
       container.appendChild(pad);
@@ -616,22 +704,45 @@ function openPitchSelector(pad, stepIndex) {
   const rect = pad.getBoundingClientRect();
   const selector = document.createElement('div');
   selector.className = 'pitch-selector';
+  selector.setAttribute('role', 'listbox');
+  selector.setAttribute('aria-label', 'Select 303 note pitch');
   selector.style.left = `${rect.left + window.scrollX}px`;
   selector.style.top = `${rect.top - 120 + window.scrollY}px`;
 
   NOTE_NAMES.forEach((name, idx) => {
     const opt = document.createElement('div');
     opt.className = 'pitch-option';
+    opt.setAttribute('tabindex', '0');
+    opt.setAttribute('role', 'option');
+    opt.setAttribute('aria-selected', grid.bassNotes[stepIndex] === idx ? 'true' : 'false');
     opt.textContent = name;
-    opt.addEventListener('click', () => {
+
+    const selectNote = () => {
       grid.bassNotes[stepIndex] = idx;
       pad.querySelector('.seq-pad-pitch-indicator').textContent = name;
       selector.remove();
+      pad.focus(); // return focus to pad
+    };
+
+    opt.addEventListener('click', selectNote);
+    opt.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        selectNote();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        selector.remove();
+        pad.focus();
+      }
     });
     selector.appendChild(opt);
   });
 
   document.body.appendChild(selector);
+
+  // Focus current or first option
+  const firstOpt = selector.querySelector('.pitch-option');
+  if (firstOpt) firstOpt.focus();
   
   // Close when clicking outside
   setTimeout(() => {
@@ -668,6 +779,14 @@ function initKnobs() {
     let initialY = 0;
     let initialVal = parseFloat(knob.dataset.val);
 
+    // Set A11Y attributes for slider role
+    knob.setAttribute('tabindex', '0');
+    knob.setAttribute('role', 'slider');
+    knob.setAttribute('aria-valuemin', min);
+    knob.setAttribute('aria-valuemax', max);
+    knob.setAttribute('aria-valuenow', initialVal);
+    knob.setAttribute('aria-label', param.toUpperCase());
+
     // Initial position mapping
     updateKnobRotation(knob, initialVal, min, max);
 
@@ -690,6 +809,7 @@ function initKnobs() {
       // rounding to step
       newVal = Math.round(newVal / step) * step;
       params[param] = newVal;
+      knob.setAttribute('aria-valuenow', newVal);
 
       // Update widget UI
       updateKnobRotation(knob, newVal, min, max);
@@ -711,6 +831,47 @@ function initKnobs() {
     }
 
     knob.addEventListener('pointerdown', onPointerDown);
+
+    // Keyboard support for slider controls
+    knob.addEventListener('keydown', (e) => {
+      let val = params[param];
+      let change = 0;
+      const range = max - min;
+      const keyboardStep = step || range / 100;
+
+      if (e.key === 'ArrowUp' || e.key === 'ArrowRight') {
+        change = keyboardStep;
+      } else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') {
+        change = -keyboardStep;
+      } else if (e.key === 'PageUp') {
+        change = keyboardStep * 10;
+      } else if (e.key === 'PageDown') {
+        change = -keyboardStep * 10;
+      } else if (e.key === 'Home') {
+        val = min;
+      } else if (e.key === 'End') {
+        val = max;
+      }
+
+      if (change !== 0 || e.key === 'Home' || e.key === 'End') {
+        e.preventDefault();
+        if (change !== 0) {
+          val = Math.max(min, Math.min(max, val + change));
+        }
+        val = Math.round(val / step) * step;
+        params[param] = val;
+        knob.setAttribute('aria-valuenow', val);
+        updateKnobRotation(knob, val, min, max);
+        const display = knob.parentElement.querySelector('.knob-value-display');
+        display.textContent = step < 0.1 ? val.toFixed(2) : Math.round(val);
+        
+        if (param === 'bpm') {
+          bpm = val;
+          document.getElementById('lcd-bpm').textContent = `${bpm.toFixed(1)} BPM`;
+        }
+        applyLiveSynthParams();
+      }
+    });
   });
 }
 
@@ -1078,6 +1239,14 @@ window.addEventListener('DOMContentLoaded', () => {
   initVisualizer();
   
   document.getElementById('startBtn').addEventListener('click', togglePlayback);
+
+  // Global spacebar keypress listener for playback control
+  window.addEventListener('keydown', (e) => {
+    if (e.key === ' ' && !['BUTTON', 'INPUT', 'TEXTAREA'].includes(e.target.tagName) && !e.target.classList.contains('seq-pad') && !e.target.classList.contains('pitch-option')) {
+      e.preventDefault();
+      togglePlayback();
+    }
+  });
 });
 </script>
 </body>

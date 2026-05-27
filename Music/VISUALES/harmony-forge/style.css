@@ -1249,11 +1249,102 @@ canvas {
     }
 }
 
-@media(max-width: 1200px) {
+/* Skip Link — A11y keyboard navigation */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 16px;
+    background: var(--accent);
+    color: #fff;
+    padding: 8px 16px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    z-index: 99999;
+    text-decoration: none;
+    border-radius: 0 0 4px 4px;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Focus-visible indicators for keyboard users */
+*:focus-visible {
+    outline: 2px solid var(--accent-yellow);
+    outline-offset: 2px;
+}
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--accent-yellow);
+    outline-offset: 1px;
+    box-shadow: 0 0 8px var(--accent-yellow-glow);
+}
+
+/* Reduced Motion — kill all animations for vestibular sensitivity */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    .tape-glitch,
+    .horizontal-tear {
+        display: none;
+    }
+}
+
+/* Responsive — Tablet */
+@media (max-width: 1200px) {
     .app-wrapper {
         grid-template-columns: 1fr;
     }
     .console-panel {
         max-height: none;
+    }
+    .newspaper-column {
+        max-height: 400px;
+    }
+}
+
+/* Responsive — Mobile */
+@media (max-width: 768px) {
+    .app-header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 16px;
+    }
+    .archive-metadata {
+        display: none;
+    }
+    .app-wrapper {
+        grid-template-columns: 1fr;
+        padding: 10px;
+        gap: 12px;
+    }
+    .physical-deck-buttons {
+        grid-template-columns: 1fr 1fr;
+    }
+    .channel-toggle-grid {
+        grid-template-columns: 1fr;
+    }
+    .control-grid-2col {
+        grid-template-columns: 1fr;
+    }
+    .player-top-bar {
+        flex-direction: column;
+        gap: 6px;
+        align-items: flex-start;
+    }
+    .stream-info-pills {
+        flex-wrap: wrap;
+    }
+    .canvas-canvas-wrapper {
+        height: 200px;
     }
 }

@@ -3,20 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ДЕКОДЕР-9 // HARMONY FORGE RELIC</title>
+    <title>ДЕКОДЕР-9 // HARMONY FORGE RELIC — Borja Moskv</title>
+    <meta name="description" content="Generative audio synthesizer with VHS tape degradation, Soviet-era aesthetics, and procedural harmonic matrices. Built by Borja Moskv.">
+    <meta name="author" content="Borja Moskv">
+    <meta name="theme-color" content="#070605">
+    <link rel="canonical" href="https://borjamoskv.com/harmony-forge">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="ДЕКОДЕР-9 // HARMONY FORGE RELIC">
+    <meta property="og:description" content="Generative audio synthesizer with VHS tape degradation, Soviet constructivist aesthetics, and procedural harmonic matrices.">
+    <meta property="og:url" content="https://borjamoskv.com/harmony-forge">
+    <meta property="og:site_name" content="Borja Moskv">
+    <meta property="og:locale" content="es_ES">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ДЕКОДЕР-9 // HARMONY FORGE RELIC">
+    <meta name="twitter:description" content="Generative VHS audio synthesizer by Borja Moskv. Soviet aesthetics, tape degradation, procedural harmony.">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "ДЕКОДЕР-9 // HARMONY FORGE RELIC",
+      "description": "Generative audio synthesizer with VHS tape degradation and Soviet constructivist aesthetics.",
+      "url": "https://borjamoskv.com/harmony-forge",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Web Browser",
+      "author": {
+        "@type": "Person",
+        "name": "Borja Moskv",
+        "url": "https://portrait.so/borja",
+        "sameAs": [
+          "https://soundcloud.com/borja-moskv",
+          "https://borjamoskv.bandcamp.com"
+        ]
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      }
+    }
+    </script>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Outfit:wght@800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Skip link for keyboard navigation -->
+    <a href="#main-console" class="skip-link">Skip to synthesizer controls</a>
+
     <!-- Nicotine/Dirt stains & screen overlays -->
-    <div class="dirty-overlay"></div>
-    <div class="crt-overlay"></div>
-    <div class="tape-glitch"></div>
+    <div class="dirty-overlay" aria-hidden="true"></div>
+    <div class="crt-overlay" aria-hidden="true"></div>
+    <div class="tape-glitch" aria-hidden="true"></div>
     
     <!-- Top System Header -->
-    <header class="app-header">
+    <header class="app-header" role="banner">
         <a href="https://portrait.so/borja" target="_blank" class="logo-link">
             <div class="soviet-seal">
                 <span class="star">★</span>
@@ -111,7 +162,7 @@
         </aside>
 
         <!-- Center: Synthesis Control Console & VHS Slot -->
-        <main class="console-panel">
+        <main class="console-panel" id="main-console" role="main" aria-label="Synthesis Control Console">
             <div class="nicotine-stain"></div>
             
             <div class="panel-section">
@@ -313,7 +364,7 @@
         </main>
 
         <!-- Right: Corrupted Streaming Player Wrapper around Visualizer and Canvas -->
-        <section class="streaming-viewport-wrapper">
+        <section class="streaming-viewport-wrapper" aria-label="Audio Visualizer & Archives">
             
             <!-- Corrupted Streaming Frame (Mubi / VHS Hybrid look) -->
             <div class="streaming-player glass">
@@ -343,7 +394,7 @@
                             <span class="tracking-indicator" id="tracking-text">PLAYING • TAPE OK</span>
                         </div>
                         <div class="canvas-canvas-wrapper">
-                            <canvas id="sandbox-canvas"></canvas>
+                            <canvas id="sandbox-canvas" role="img" aria-label="Gravitational grid audio visualizer"></canvas>
                             <!-- Overlay Video Playhead Glitch Lines -->
                             <div class="horizontal-tear"></div>
                         </div>
@@ -356,7 +407,7 @@
                             <span class="signal-frequency">FS: 22050 HZ</span>
                         </div>
                         <div class="canvas-canvas-wrapper-small">
-                            <canvas id="visualizer-canvas"></canvas>
+                            <canvas id="visualizer-canvas" role="img" aria-label="Signal spectrum oscilloscope"></canvas>
                         </div>
                     </div>
                 </div>
@@ -418,7 +469,7 @@
     </div>
 
     <!-- Redacted Footer -->
-    <footer class="app-footer">
+    <footer class="app-footer" role="contentinfo">
         <p>ДЕКОДЕР-9 // VERIFIED BY DRUNNING-KRUGER-Ω // CALIBRATOR_SIGNATURE: 0x8f2d5e71bc9a80e1 // SHA-256 COMPLIANT</p>
         <div class="footer-links">
             <a href="https://soundcloud.com/borja-moskv" target="_blank" class="footer-link">SOUNDCLOUD</a>
