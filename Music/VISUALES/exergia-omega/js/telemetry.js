@@ -7,6 +7,7 @@ window.CORTEX_TELEMETRY = {
     connected: false,
     throughput: 0,
     activeNodes: 0,
+    activeTasks: 0,
     ringBuffer: 0,
     exergy: 0,
     cortisol: 0,
@@ -21,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hudStatus = document.getElementById('ctx-status');
     const hudPulse = document.getElementById('ctx-pulse');
     const hudNodes = document.getElementById('ctx-nodes');
+    const hudTasks = document.getElementById('ctx-tasks');
     const hudThroughput = document.getElementById('ctx-throughput');
     const hudExergy = document.getElementById('ctx-exergy');
 
@@ -43,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const payload = JSON.parse(event.data);
                 if (payload.metrics) {
                     window.CORTEX_TELEMETRY.activeNodes = payload.metrics.active_nodes || 0;
+                    window.CORTEX_TELEMETRY.activeTasks = payload.metrics.active_tasks || 0;
                     window.CORTEX_TELEMETRY.throughput = payload.metrics.throughput_agents_sec || 0;
                     window.CORTEX_TELEMETRY.ringBuffer = payload.metrics.ring_buffer_utilization || 0;
                     window.CORTEX_TELEMETRY.exergy = payload.metrics.exergy_consumption_j || 0;
@@ -50,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Update DOM HUD
                     if(hudNodes) hudNodes.innerText = `NODES: ${window.CORTEX_TELEMETRY.activeNodes}`;
+                    if(hudTasks) hudTasks.innerText = `TASKS: ${window.CORTEX_TELEMETRY.activeTasks}`;
                     if(hudThroughput) hudThroughput.innerText = `TPUT: ${(window.CORTEX_TELEMETRY.throughput / 1000).toFixed(2)} k/s`;
                     if(hudExergy) hudExergy.innerText = `EXERGY: ${window.CORTEX_TELEMETRY.exergy.toFixed(4)} J`;
                     
@@ -60,6 +64,31 @@ document.addEventListener('DOMContentLoaded', () => {
                         if(window.CORTEX_TELEMETRY.cortisol > 0.8) el.style.color = "#E52B50"; // Danger Red
                         else if(window.CORTEX_TELEMETRY.cortisol > 0.4) el.style.color = "#FF9F1C"; // Amber
                         else el.style.color = "#2B3BE5"; // YInMn Blue
+                    });
+
+                    // C5-REAL Convergence Falsation
+                    const isConverging = (window.CORTEX_TELEMETRY.activeNodes > 0 && window.CORTEX_TELEMETRY.cortisol < 0.25 && window.CORTEX_TELEMETRY.exergy > 0.01) || (payload.metrics.convergence_status === "CONVERGED");
+                    
+                    const hudContainer = document.querySelector('.cortex-telemetry-hud');
+                    if (hudContainer) {
+                        if (isConverging) hudContainer.classList.add('converging');
+                        else hudContainer.classList.remove('converging');
+                    }
+                    
+                    if (hudPulse) {
+                        if (isConverging) hudPulse.classList.add('converging-pulse');
+                        else hudPulse.classList.remove('converging-pulse');
+                    }
+                    
+                    const statusElements = document.querySelectorAll('#ctx-status');
+                    statusElements.forEach(el => {
+                        if (isConverging) {
+                            el.innerText = "C5-REAL // CONVERGED";
+                            el.style.color = "#F3F4F6";
+                        } else {
+                            el.innerText = "C5-REAL // NOMINAL";
+                            el.style.color = "#2B3BE5";
+                        }
                     });
                 }
             };
