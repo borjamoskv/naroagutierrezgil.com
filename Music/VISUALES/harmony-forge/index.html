@@ -51,6 +51,7 @@
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -68,7 +69,7 @@
     
     <!-- Top System Header -->
     <header class="app-header" role="banner">
-        <a href="https://portrait.so/borja" target="_blank" class="logo-link">
+        <a href="https://portrait.so/borja" target="_blank" rel="noopener" class="logo-link">
             <div class="soviet-seal">
                 <span class="star">★</span>
                 <div class="seal-text">
@@ -95,9 +96,9 @@
             <div class="meta-row links-row">
                 <span class="hash-label">EXT_LINKS:</span>
                 <span class="hash-val">
-                    <a href="https://soundcloud.com/borja-moskv" target="_blank" class="header-link">SOUNDCLOUD</a>
+                    <a href="https://soundcloud.com/borja-moskv" target="_blank" rel="noopener" class="header-link">SOUNDCLOUD</a>
                     <span class="divider">//</span>
-                    <a href="https://borjamoskv.bandcamp.com/album/far-ndula" target="_blank" class="header-link">BANDCAMP</a>
+                    <a href="https://borjamoskv.bandcamp.com/album/far-ndula" target="_blank" rel="noopener" class="header-link">BANDCAMP</a>
                 </span>
             </div>
         </div>
@@ -276,63 +277,63 @@
                 <div class="channel-toggle-grid">
                     <div class="channel-toggle">
                         <label class="switch">
-                            <input type="checkbox" id="enable-pad" checked>
+                            <input type="checkbox" id="enable-pad" checked title="Ambient Pad" aria-label="Ambient Pad">
                             <span class="slider-switch"></span>
                         </label>
                         <span>Ambient Pad / ГУЛ</span>
                     </div>
                     <div class="channel-toggle">
                         <label class="switch">
-                            <input type="checkbox" id="enable-pluck" checked>
+                            <input type="checkbox" id="enable-pluck" checked title="Arpeggiator" aria-label="Arpeggiator">
                             <span class="slider-switch"></span>
                         </label>
                         <span>Arpeggiator / РИТМ</span>
                     </div>
                     <div class="channel-toggle">
                         <label class="switch">
-                            <input type="checkbox" id="enable-bell">
+                            <input type="checkbox" id="enable-bell" title="FM Glass Bells" aria-label="FM Glass Bells">
                             <span class="slider-switch"></span>
                         </label>
                         <span>FM Glass Bells / КОЛОКОЛ</span>
                     </div>
                     <div class="channel-toggle">
                         <label class="switch">
-                            <input type="checkbox" id="enable-trumpet" checked>
+                            <input type="checkbox" id="enable-trumpet" checked title="Vocoder Trumpet" aria-label="Vocoder Trumpet">
                             <span class="slider-switch"></span>
                         </label>
                         <span>Vocoder Trumpet / ТРУБА</span>
                     </div>
                     <div class="channel-toggle">
                         <label class="switch">
-                            <input type="checkbox" id="enable-theremin" checked>
+                            <input type="checkbox" id="enable-theremin" checked title="Theremin" aria-label="Theremin">
                             <span class="slider-switch"></span>
                         </label>
                         <span>Theremin / ТЕРЕМИН</span>
                     </div>
                     <div class="channel-toggle">
                         <label class="switch">
-                            <input type="checkbox" id="enable-guitar" checked>
+                            <input type="checkbox" id="enable-guitar" checked title="Sad Guitar" aria-label="Sad Guitar">
                             <span class="slider-switch"></span>
                         </label>
                         <span>Sad Guitar / ГИТАРА</span>
                     </div>
                     <div class="channel-toggle">
                         <label class="switch">
-                            <input type="checkbox" id="enable-drums">
+                            <input type="checkbox" id="enable-drums" title="7/19 Drums" aria-label="7/19 Drums">
                             <span class="slider-switch"></span>
                         </label>
                         <span>7/19 Drums / БАРАБАНЫ</span>
                     </div>
                     <div class="channel-toggle">
                         <label class="switch">
-                            <input type="checkbox" id="negative-harmony">
+                            <input type="checkbox" id="negative-harmony" title="Negative Harmony" aria-label="Negative Harmony">
                             <span class="slider-switch"></span>
                         </label>
                         <span>Negative / ИНВЕРСИЯ</span>
                     </div>
                     <div class="channel-toggle">
                         <label class="switch">
-                            <input type="checkbox" id="fractal-mode">
+                            <input type="checkbox" id="fractal-mode" title="Fractal Mode" aria-label="Fractal Mode">
                             <span class="slider-switch"></span>
                         </label>
                         <span>Fractal / ФРАКТАЛ</span>
@@ -424,7 +425,7 @@
                             <div class="stream-volume-wrapper">
                                 <span class="volume-icon">🔊</span>
                                 <div class="volume-slider-bar">
-                                    <div class="volume-progress" style="width: 80%;"></div>
+                                    <div class="volume-progress volume-progress-default"></div>
                                 </div>
                             </div>
                         </div>
@@ -436,24 +437,24 @@
             </div>
 
             <!-- Cortex Memory: Archival State Persistence -->
-            <div class="lost-archives-section glass" style="margin-top: 0px; border-bottom: none;">
+            <div class="lost-archives-section glass cortex-memory-section">
                 <div class="nicotine-stain"></div>
-                <h3 style="color: var(--accent-yellow);">CORTEX MEMORY INTERFACE // ДАННЫЕ</h3>
+                <h3 class="cortex-memory-title">CORTEX MEMORY INTERFACE // ДАННЫЕ</h3>
                 <p class="section-desc">Store or recall the active audio node settings in the pgvector database.</p>
                 
-                <div style="display: flex; gap: 8px; margin-top: 6px;">
-                    <input type="text" id="memory-preset-name" placeholder="PRESET_NAME (e.g. SIBERIAN_DECAY)" style="flex: 1; background: #0E0D0B; border: 1px solid var(--border-color); color: var(--text-primary); font-family: var(--font-mono); font-size: 0.65rem; padding: 6px 10px; outline: none; border-radius: 2px;">
-                    <button id="memory-save-btn" class="btn-primary" style="padding: 6px 12px; margin: 0; font-size: 0.65rem; box-shadow: 0 2px 0px #700B0B;">SAVE STATE</button>
+                <div class="cortex-input-group">
+                    <input type="text" id="memory-preset-name" placeholder="PRESET_NAME (e.g. SIBERIAN_DECAY)" class="cortex-input-text">
+                    <button id="memory-save-btn" class="btn-primary cortex-btn-save">SAVE STATE</button>
                 </div>
 
-                <div style="display: flex; gap: 8px; margin-top: 6px;">
-                    <input type="text" id="memory-query-input" placeholder="SEARCH QUERY (e.g. ambient low wear)" style="flex: 1; background: #0E0D0B; border: 1px solid var(--border-color); color: var(--text-primary); font-family: var(--font-mono); font-size: 0.65rem; padding: 6px 10px; outline: none; border-radius: 2px;">
-                    <button id="memory-query-btn" class="btn-secondary" style="padding: 6px 12px; font-size: 0.65rem;">SEARCH</button>
+                <div class="cortex-input-group">
+                    <input type="text" id="memory-query-input" placeholder="SEARCH QUERY (e.g. ambient low wear)" class="cortex-input-text">
+                    <button id="memory-query-btn" class="btn-secondary cortex-btn-search">SEARCH</button>
                 </div>
 
-                <div id="memory-results-container" style="display: flex; flex-direction: column; gap: 4px; max-height: 120px; overflow-y: auto; margin-top: 4px; border-top: 1px dashed var(--border-color); padding-top: 6px;">
+                <div id="memory-results-container" class="cortex-results-container">
                     <!-- Dynamically populated memory search results -->
-                    <div style="font-size: 0.55rem; color: var(--text-dim); text-align: center; padding: 4px 0;">No query execution completed.</div>
+                    <div class="cortex-empty-result">No query execution completed.</div>
                 </div>
             </div>
 
@@ -494,11 +495,11 @@
     <footer class="app-footer" role="contentinfo">
         <p>ДЕКОДЕР-9 // VERIFIED BY DRUNNING-KRUGER-Ω // CALIBRATOR_SIGNATURE: 0x8f2d5e71bc9a80e1 // SHA-256 COMPLIANT</p>
         <div class="footer-links">
-            <a href="https://soundcloud.com/borja-moskv" target="_blank" class="footer-link">SOUNDCLOUD</a>
+            <a href="https://soundcloud.com/borja-moskv" target="_blank" rel="noopener" class="footer-link">SOUNDCLOUD</a>
             <span class="divider">//</span>
-            <a href="https://borjamoskv.bandcamp.com/album/far-ndula" target="_blank" class="footer-link">BANDCAMP</a>
+            <a href="https://borjamoskv.bandcamp.com/album/far-ndula" target="_blank" rel="noopener" class="footer-link">BANDCAMP</a>
             <span class="divider">//</span>
-            <a href="https://portrait.so/borja" target="_blank" class="footer-link">PORTRAIT</a>
+            <a href="https://portrait.so/borja" target="_blank" rel="noopener" class="footer-link">PORTRAIT</a>
         </div>
     </footer>
 

@@ -1348,3 +1348,70 @@ input:focus-visible {
         height: 200px;
     }
 }
+
+/* Cortex Memory UI Overrides to resolve inline style warnings */
+.lost-archives-section.cortex-memory-section {
+    margin-top: 0px;
+    border-bottom: none;
+}
+
+.cortex-memory-title {
+    color: var(--accent-yellow) !important;
+}
+
+.cortex-input-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.cortex-input-text {
+    flex: 1;
+    background: #0E0D0B;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    padding: 6px 10px;
+    outline: none;
+    border-radius: 2px;
+}
+
+.cortex-input-text:focus {
+    border-color: var(--accent-yellow);
+}
+
+.cortex-btn-save {
+    padding: 6px 12px;
+    margin: 0;
+    font-size: 0.65rem;
+    box-shadow: 0 2px 0px #700B0B;
+}
+
+.cortex-btn-search {
+    padding: 6px 12px;
+    font-size: 0.65rem;
+}
+
+.cortex-results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 120px;
+    overflow-y: auto;
+    margin-top: 4px;
+    border-top: 1px dashed var(--border-color);
+    padding-top: 6px;
+}
+
+.cortex-empty-result {
+    font-size: 0.55rem;
+    color: var(--text-dim);
+    text-align: center;
+    padding: 4px 0;
+}
+
+.volume-progress-default {
+    width: 80%;
+}
+

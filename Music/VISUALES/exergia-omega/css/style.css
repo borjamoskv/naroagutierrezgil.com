@@ -153,6 +153,7 @@ body {
     background: rgba(18, 18, 18, 0.8);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-fluid);
+    -webkit-backdrop-filter: blur(15px);
     backdrop-filter: blur(15px);
     transition: border-color 0.4s var(--ease-sovereign);
     display: flex;

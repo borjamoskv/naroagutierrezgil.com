@@ -1,0 +1,422 @@
+[
+    {
+        "track": "001",
+        "title": "Deep Sea Diver",
+        "raw": {
+            "input_i": "-14.67",
+            "input_tp": "-3.03",
+            "input_lra": "3.50",
+            "input_thresh": "-24.73",
+            "output_i": "-10.43",
+            "output_tp": "-1.00",
+            "output_lra": "2.60",
+            "output_thresh": "-20.46",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.57"
+        },
+        "mastered": {
+            "input_i": "-10.59",
+            "input_tp": "-0.95",
+            "input_lra": "2.50",
+            "input_thresh": "-20.64",
+            "output_i": "-11.09",
+            "output_tp": "-1.26",
+            "output_lra": "2.40",
+            "output_thresh": "-21.11",
+            "normalization_type": "dynamic",
+            "target_offset": "0.09"
+        }
+    },
+    {
+        "track": "002",
+        "title": "Screen Shot",
+        "raw": {
+            "input_i": "-13.61",
+            "input_tp": "-0.58",
+            "input_lra": "5.30",
+            "input_thresh": "-23.74",
+            "output_i": "-11.01",
+            "output_tp": "-1.00",
+            "output_lra": "4.90",
+            "output_thresh": "-21.06",
+            "normalization_type": "dynamic",
+            "target_offset": "0.01"
+        },
+        "mastered": {
+            "input_i": "-11.05",
+            "input_tp": "-0.92",
+            "input_lra": "2.70",
+            "input_thresh": "-21.11",
+            "output_i": "-11.06",
+            "output_tp": "-1.00",
+            "output_lra": "2.70",
+            "output_thresh": "-21.09",
+            "normalization_type": "dynamic",
+            "target_offset": "0.06"
+        }
+    },
+    {
+        "track": "003",
+        "title": "Zero",
+        "raw": {
+            "input_i": "-12.92",
+            "input_tp": "-1.06",
+            "input_lra": "9.00",
+            "input_thresh": "-23.15",
+            "output_i": "-9.47",
+            "output_tp": "-1.00",
+            "output_lra": "4.30",
+            "output_thresh": "-19.48",
+            "normalization_type": "dynamic",
+            "target_offset": "-1.53"
+        },
+        "mastered": {
+            "input_i": "-9.79",
+            "input_tp": "-0.83",
+            "input_lra": "3.90",
+            "input_thresh": "-19.80",
+            "output_i": "-10.46",
+            "output_tp": "-1.00",
+            "output_lra": "3.50",
+            "output_thresh": "-20.47",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.54"
+        }
+    },
+    {
+        "track": "004",
+        "title": "Gouge Away",
+        "raw": {
+            "input_i": "-10.37",
+            "input_tp": "0.09",
+            "input_lra": "3.20",
+            "input_thresh": "-20.42",
+            "output_i": "-10.20",
+            "output_tp": "-1.00",
+            "output_lra": "2.30",
+            "output_thresh": "-20.23",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.80"
+        },
+        "mastered": {
+            "input_i": "-10.49",
+            "input_tp": "-0.93",
+            "input_lra": "1.90",
+            "input_thresh": "-20.54",
+            "output_i": "-10.63",
+            "output_tp": "-1.00",
+            "output_lra": "1.60",
+            "output_thresh": "-20.66",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.37"
+        }
+    },
+    {
+        "track": "005",
+        "title": "Naa Er Druene Paa Sitt Beste",
+        "raw": {
+            "input_i": "-14.33",
+            "input_tp": "0.41",
+            "input_lra": "4.80",
+            "input_thresh": "-24.53",
+            "output_i": "-11.73",
+            "output_tp": "-1.00",
+            "output_lra": "5.00",
+            "output_thresh": "-21.81",
+            "normalization_type": "dynamic",
+            "target_offset": "0.73"
+        },
+        "mastered": {
+            "input_i": "-11.72",
+            "input_tp": "0.08",
+            "input_lra": "5.60",
+            "input_thresh": "-21.83",
+            "output_i": "-11.01",
+            "output_tp": "-1.00",
+            "output_lra": "5.00",
+            "output_thresh": "-21.04",
+            "normalization_type": "dynamic",
+            "target_offset": "0.01"
+        }
+    },
+    {
+        "track": "006",
+        "title": "The Mexican [Chico Fern\u00e1ndeZ!]",
+        "raw": {
+            "input_i": "-14.01",
+            "input_tp": "-3.17",
+            "input_lra": "2.80",
+            "input_thresh": "-24.07",
+            "output_i": "-10.62",
+            "output_tp": "-1.00",
+            "output_lra": "2.30",
+            "output_thresh": "-20.67",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.38"
+        },
+        "mastered": {
+            "input_i": "-10.85",
+            "input_tp": "-0.88",
+            "input_lra": "1.70",
+            "input_thresh": "-20.90",
+            "output_i": "-11.03",
+            "output_tp": "-1.00",
+            "output_lra": "1.70",
+            "output_thresh": "-21.06",
+            "normalization_type": "dynamic",
+            "target_offset": "0.03"
+        }
+    },
+    {
+        "track": "007",
+        "title": "Porque te vas",
+        "raw": {
+            "input_i": "-14.54",
+            "input_tp": "0.05",
+            "input_lra": "3.00",
+            "input_thresh": "-24.67",
+            "output_i": "-11.37",
+            "output_tp": "-1.00",
+            "output_lra": "2.20",
+            "output_thresh": "-21.41",
+            "normalization_type": "dynamic",
+            "target_offset": "0.37"
+        },
+        "mastered": {
+            "input_i": "-11.19",
+            "input_tp": "-0.37",
+            "input_lra": "5.00",
+            "input_thresh": "-21.25",
+            "output_i": "-10.99",
+            "output_tp": "-1.00",
+            "output_lra": "5.20",
+            "output_thresh": "-21.04",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.01"
+        }
+    },
+    {
+        "track": "008",
+        "title": "Perfidia",
+        "raw": {
+            "input_i": "-9.42",
+            "input_tp": "1.14",
+            "input_lra": "2.70",
+            "input_thresh": "-19.46",
+            "output_i": "-10.76",
+            "output_tp": "-1.00",
+            "output_lra": "2.10",
+            "output_thresh": "-20.77",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.24"
+        },
+        "mastered": {
+            "input_i": "-10.78",
+            "input_tp": "-0.98",
+            "input_lra": "1.10",
+            "input_thresh": "-20.79",
+            "output_i": "-10.88",
+            "output_tp": "-1.00",
+            "output_lra": "1.00",
+            "output_thresh": "-20.88",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.12"
+        }
+    },
+    {
+        "track": "009",
+        "title": "I have known love",
+        "raw": {
+            "input_i": "-14.89",
+            "input_tp": "-1.46",
+            "input_lra": "1.70",
+            "input_thresh": "-24.96",
+            "output_i": "-10.78",
+            "output_tp": "-1.00",
+            "output_lra": "1.60",
+            "output_thresh": "-20.82",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.22"
+        },
+        "mastered": {
+            "input_i": "-10.90",
+            "input_tp": "-0.88",
+            "input_lra": "1.00",
+            "input_thresh": "-20.98",
+            "output_i": "-10.97",
+            "output_tp": "-1.00",
+            "output_lra": "1.00",
+            "output_thresh": "-21.01",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.03"
+        }
+    },
+    {
+        "track": "010",
+        "title": "Eisbar",
+        "raw": {
+            "input_i": "-15.12",
+            "input_tp": "-3.92",
+            "input_lra": "5.50",
+            "input_thresh": "-25.19",
+            "output_i": "-10.65",
+            "output_tp": "-1.00",
+            "output_lra": "3.60",
+            "output_thresh": "-20.69",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.35"
+        },
+        "mastered": {
+            "input_i": "-11.03",
+            "input_tp": "-0.94",
+            "input_lra": "4.40",
+            "input_thresh": "-21.07",
+            "output_i": "-11.24",
+            "output_tp": "-1.00",
+            "output_lra": "3.60",
+            "output_thresh": "-21.26",
+            "normalization_type": "dynamic",
+            "target_offset": "0.24"
+        }
+    },
+    {
+        "track": "011",
+        "title": "The Chauffeur",
+        "raw": {
+            "input_i": "-18.11",
+            "input_tp": "-6.48",
+            "input_lra": "4.30",
+            "input_thresh": "-28.15",
+            "output_i": "-10.85",
+            "output_tp": "-1.00",
+            "output_lra": "3.60",
+            "output_thresh": "-20.87",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.15"
+        },
+        "mastered": {
+            "input_i": "-11.15",
+            "input_tp": "-0.88",
+            "input_lra": "4.30",
+            "input_thresh": "-21.19",
+            "output_i": "-11.15",
+            "output_tp": "-1.00",
+            "output_lra": "4.00",
+            "output_thresh": "-21.17",
+            "normalization_type": "dynamic",
+            "target_offset": "0.15"
+        }
+    },
+    {
+        "track": "012",
+        "title": "Last Time",
+        "raw": {
+            "input_i": "-8.77",
+            "input_tp": "-0.18",
+            "input_lra": "3.30",
+            "input_thresh": "-18.98",
+            "output_i": "-10.24",
+            "output_tp": "-1.00",
+            "output_lra": "2.10",
+            "output_thresh": "-20.34",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.76"
+        },
+        "mastered": {
+            "input_i": "-10.56",
+            "input_tp": "-0.93",
+            "input_lra": "2.00",
+            "input_thresh": "-20.69",
+            "output_i": "-11.17",
+            "output_tp": "-1.30",
+            "output_lra": "1.90",
+            "output_thresh": "-21.22",
+            "normalization_type": "dynamic",
+            "target_offset": "0.17"
+        }
+    },
+    {
+        "track": "013",
+        "title": "Waiting room",
+        "raw": {
+            "input_i": "-15.65",
+            "input_tp": "-5.49",
+            "input_lra": "3.50",
+            "input_thresh": "-25.69",
+            "output_i": "-10.16",
+            "output_tp": "-1.00",
+            "output_lra": "1.70",
+            "output_thresh": "-20.19",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.84"
+        },
+        "mastered": {
+            "input_i": "-10.56",
+            "input_tp": "-0.95",
+            "input_lra": "4.70",
+            "input_thresh": "-20.58",
+            "output_i": "-11.00",
+            "output_tp": "-1.00",
+            "output_lra": "4.60",
+            "output_thresh": "-21.02",
+            "normalization_type": "dynamic",
+            "target_offset": "0.00"
+        }
+    },
+    {
+        "track": "014",
+        "title": "Beggars",
+        "raw": {
+            "input_i": "-8.98",
+            "input_tp": "1.18",
+            "input_lra": "4.30",
+            "input_thresh": "-19.30",
+            "output_i": "-10.03",
+            "output_tp": "-1.00",
+            "output_lra": "2.60",
+            "output_thresh": "-20.21",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.97"
+        },
+        "mastered": {
+            "input_i": "-10.25",
+            "input_tp": "-0.74",
+            "input_lra": "2.80",
+            "input_thresh": "-20.45",
+            "output_i": "-10.82",
+            "output_tp": "-1.00",
+            "output_lra": "2.60",
+            "output_thresh": "-20.93",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.18"
+        }
+    },
+    {
+        "track": "015",
+        "title": "Opinion",
+        "raw": {
+            "input_i": "-10.36",
+            "input_tp": "0.36",
+            "input_lra": "4.00",
+            "input_thresh": "-20.42",
+            "output_i": "-10.55",
+            "output_tp": "-1.00",
+            "output_lra": "3.50",
+            "output_thresh": "-20.58",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.45"
+        },
+        "mastered": {
+            "input_i": "-10.77",
+            "input_tp": "-0.38",
+            "input_lra": "2.80",
+            "input_thresh": "-20.80",
+            "output_i": "-10.95",
+            "output_tp": "-1.00",
+            "output_lra": "2.90",
+            "output_thresh": "-20.97",
+            "normalization_type": "dynamic",
+            "target_offset": "-0.05"
+        }
+    }
+]
