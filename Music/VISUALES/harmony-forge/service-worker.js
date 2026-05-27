@@ -36,14 +36,25 @@ self.addEventListener('activate', e => {
 
 // Fetch Event
 self.addEventListener('fetch', e => {
-  // Static Cache-First strategy
+  // Only cache GET requests
+  if (e.request.method !== 'GET') {
+    return; // let browser handle it natively
+  }
+
+  // Bypass caching for CORTEX API and local server API requests
+  const url = new URL(e.request.url);
+  if (url.port === '8009' || url.pathname.includes('/memory/') || url.pathname.includes('/health/')) {
+    return; // let network handle it natively
+  }
+
+  // Static Cache-First strategy for assets
   e.respondWith(
     caches.match(e.request).then(cachedResponse => {
       if (cachedResponse) {
         return cachedResponse;
       }
       return fetch(e.request).then(networkResponse => {
-        if (!networkResponse || networkResponse.status !== 200) {
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
           return networkResponse;
         }
         const responseToCache = networkResponse.clone();
