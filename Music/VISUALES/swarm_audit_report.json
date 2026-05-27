@@ -1,18 +1,10 @@
 {
-  "timestamp": 1779910113.994682,
-  "elapsed_s": 127.16263699531555,
+  "timestamp": 1779913521.417738,
+  "elapsed_s": 50.38161516189575,
   "files_scanned": 2538,
   "active_agents": 437,
-  "total_redundancies_found": 89,
+  "total_redundancies_found": 87,
   "duplicates": {
-    "a4aeeff822a62415098b4ee6b23c4230": [
-      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/ramon_hates_matias_stems/htdemucs/Borja Moskv - Ramon hates Matias/other.flac",
-      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_Ramon_Hates_Matias/other.flac"
-    ],
-    "283e6588b54277d3acae166b5ca2e22f": [
-      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/ramon_hates_matias_stems/htdemucs/Borja Moskv - Ramon hates Matias/drums.flac",
-      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_Ramon_Hates_Matias/drums.flac"
-    ],
     "d41d8cd98f00b204e9800998ecf8427e": [
       "/Users/borjafernandezangulo/Music/VISUALES/Kuraia - Kea_pitch.mp3",
       "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/example.metadata.json"
