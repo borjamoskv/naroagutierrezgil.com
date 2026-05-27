@@ -21,12 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const shaperCanvas = document.getElementById('shaper-canvas');
     const limiterCanvas = document.getElementById('limiter-canvas');
     const radarCanvas = document.getElementById('radar-canvas');
+    const eqCanvas = document.getElementById('eq-canvas');
 
     const ctxGon = goniometerCanvas.getContext('2d');
     const ctxSpec = spectrumCanvas.getContext('2d');
     const ctxShaper = shaperCanvas ? shaperCanvas.getContext('2d') : null;
     const ctxLimiter = limiterCanvas ? limiterCanvas.getContext('2d') : null;
     const ctxRadar = radarCanvas ? radarCanvas.getContext('2d') : null;
+    const ctxEq = eqCanvas ? eqCanvas.getContext('2d') : null;
 
     // Handle High-DPI screens
     function resizeCanvas(canvas) {
@@ -43,12 +45,14 @@ document.addEventListener('DOMContentLoaded', () => {
         resizeCanvas(shaperCanvas);
         resizeCanvas(limiterCanvas);
         resizeCanvas(radarCanvas);
+        resizeCanvas(eqCanvas);
     });
     resizeCanvas(goniometerCanvas);
     resizeCanvas(spectrumCanvas);
     resizeCanvas(shaperCanvas);
     resizeCanvas(limiterCanvas);
     resizeCanvas(radarCanvas);
+    resizeCanvas(eqCanvas);
 
     // --- DSP ROTARY KNOBS LOGIC ---
     const knobs = document.querySelectorAll('.rotary-knob');
@@ -261,6 +265,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const timeDataR = new Float32Array(bufferLength);
     const freqData = new Uint8Array(512);
     const grHistory = new Float32Array(150); // 150 scrolling points for Limiter GR
+
+    // EQ Curve analysis buffers
+    const eqFreqs = new Float32Array(80);
+    for (let i = 0; i < 80; i++) {
+        // Logarithmic scale between 20Hz and 20kHz
+        eqFreqs[i] = 20 * Math.pow(1000, i / 79);
+    }
+    const magSub = new Float32Array(80);
+    const phaseSub = new Float32Array(80);
+    const magShelf = new Float32Array(80);
+    const phaseShelf = new Float32Array(80);
+    const magMud = new Float32Array(80);
+    const phaseMud = new Float32Array(80);
+    const magPres = new Float32Array(80);
+    const phasePres = new Float32Array(80);
 
     // Peak holding meters logic
     let peakIn = -Infinity;
@@ -860,6 +879,71 @@ document.addEventListener('DOMContentLoaded', () => {
             ctxRadar.moveTo(centerX, centerY);
             ctxRadar.lineTo(centerX + Math.cos(angle) * headRadius * 3, centerY + Math.sin(angle) * headRadius * 3);
             ctxRadar.stroke();
+        }
+
+        // 7. LIVE EQ COMPOSITE FREQUENCY RESPONSE
+        if (ctxEq && eqCanvas && engine.initialized) {
+            try {
+                // Get filter response data from engine nodes
+                engine.subHp.getFrequencyResponse(eqFreqs, magSub, phaseSub);
+                engine.midLowShelf.getFrequencyResponse(eqFreqs, magShelf, phaseShelf);
+                engine.midMudCut.getFrequencyResponse(eqFreqs, magMud, phaseMud);
+                engine.midPresence.getFrequencyResponse(eqFreqs, magPres, phasePres);
+            } catch (err) {
+                console.warn("[EQ Visualizer] getFrequencyResponse error:", err);
+            }
+
+            const w = eqCanvas.width;
+            const h = eqCanvas.height;
+            ctxEq.fillStyle = '#050505';
+            ctxEq.fillRect(0, 0, w, h);
+            
+            // Draw axis lines (Grid)
+            ctxEq.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+            ctxEq.lineWidth = 1;
+            ctxEq.beginPath();
+            
+            // Draw vertical log frequency lines
+            const gridFreqs = [100, 1000, 10000];
+            gridFreqs.forEach(f => {
+                const x = (Math.log10(f / 20) / Math.log10(20000 / 20)) * w;
+                ctxEq.moveTo(x, 0); ctxEq.lineTo(x, h);
+            });
+            
+            // Draw horizontal dB grid lines (+6dB, 0dB, -6dB)
+            const gridDbs = [6, 0, -6];
+            gridDbs.forEach(db => {
+                const y = h / 2 - (db / 12) * (h / 2);
+                ctxEq.moveTo(0, y); ctxEq.lineTo(w, y);
+            });
+            ctxEq.stroke();
+
+            // Label axes
+            ctxEq.fillStyle = 'rgba(255, 255, 255, 0.2)';
+            ctxEq.font = '7px Courier New';
+            ctxEq.fillText("1kHz", (Math.log10(1000 / 20) / Math.log10(20000 / 20)) * w + 3, h - 4);
+            ctxEq.fillText("0dB", 4, h / 2 - 2);
+
+            // Draw composite curve
+            ctxEq.strokeStyle = 'rgba(0, 255, 255, 0.95)'; // Cyber Cyan
+            ctxEq.shadowColor = '#00FFFF';
+            ctxEq.shadowBlur = 6;
+            ctxEq.lineWidth = 2.0;
+            ctxEq.beginPath();
+
+            for (let i = 0; i < 80; i++) {
+                const totalMag = magSub[i] * magShelf[i] * magMud[i] * magPres[i];
+                const db = 20 * Math.log10(Math.max(0.0001, totalMag));
+
+                // Map dB [+12, -12] to canvas Y
+                const y = h / 2 - (db / 12) * (h / 2);
+                const x = (Math.log10(eqFreqs[i] / 20) / Math.log10(20000 / 20)) * w;
+
+                if (i === 0) ctxEq.moveTo(x, y);
+                else ctxEq.lineTo(x, y);
+            }
+            ctxEq.stroke();
+            ctxEq.shadowBlur = 0;
         }
     }
 

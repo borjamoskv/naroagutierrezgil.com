@@ -829,8 +829,8 @@ body {
 
 .glass-panel-c5 { 
     background: rgba(10,10,10,0.65); 
-    backdrop-filter: blur(16px) saturate(180%); 
     -webkit-backdrop-filter: blur(16px) saturate(180%);
+    backdrop-filter: blur(16px) saturate(180%); 
     border: 1px solid rgba(43,59,229,0.25); 
     box-shadow: 0 4px 30px rgba(0,0,0,0.5); 
     border-radius: 4px;
@@ -967,5 +967,22 @@ body {
     width: 100%;
     height: 100%;
     display: block;
+}
+
+/* MCP Status & Recording Styles */
+.mcp-status-blue {
+    color: var(--color-yinmn) !important;
+}
+
+.btn-record-pink {
+    margin-left: 0.5rem !important;
+    background: rgba(255, 0, 127, 0.1) !important;
+    border-color: rgba(255, 0, 127, 0.3) !important;
+    transition: all 0.3s var(--ease-sovereign) !important;
+}
+.btn-record-pink:hover {
+    background: var(--color-neon-pink) !important;
+    border-color: var(--color-neon-pink) !important;
+    box-shadow: 0 0 15px var(--color-neon-pink-glow) !important;
 }
 

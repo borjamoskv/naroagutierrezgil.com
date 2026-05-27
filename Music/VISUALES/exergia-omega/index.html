@@ -28,7 +28,7 @@
             <div id="ctx-cortisol" class="metric-tabular telemetry-status-alert">CORTISOL: 0.00</div>
             <div id="ctx-entropy" class="metric-tabular">ENTROPY: 0.0000</div>
             <div id="ctx-compliance" class="metric-tabular telemetry-status-alert">SOC2/C5: 100% OK</div>
-            <div id="ctx-mcp-status" class="metric-tabular" style="color: var(--sov-blue);">MCP: RUST-NATIVE</div>
+            <div id="ctx-mcp-status" class="metric-tabular mcp-status-blue">MCP: RUST-NATIVE</div>
         </div>
 
         <!-- Header -->
@@ -52,7 +52,7 @@
                     <div class="system-metric" id="ctx-exergy">EXERGY: 0.0000 J</div>
                     <div class="system-metric metric-alert" id="ctx-cortisol">CORTISOL: 0.00</div>
                     <div class="system-metric" id="ctx-compliance">SOC2/C5: 100% OK</div>
-                    <div class="system-metric" id="ctx-mcp-status-header" style="color: var(--sov-blue);">MCP: O(1)</div>
+                    <div class="system-metric mcp-status-blue" id="ctx-mcp-status-header">MCP: O(1)</div>
                     <div class="system-metric" id="sample-rate-metric">SR: 48 kHz</div>
                 </div>
             </div>
@@ -146,7 +146,7 @@
                                 <svg class="icon-upload" viewBox="0 0 24 24">
                                     <path d="M12 16V8M12 8L9 11M12 8L15 11M3 15V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                                 </svg>
-                                <span>ARRASATRA WAV / MP3</span>
+                                <label for="audio-file" class="upload-prompt-label">ARRASATRA WAV / MP3</label>
                                 <span class="file-name" id="file-name">Ningún archivo cargado</span>
                             </div>
                         </div>
@@ -160,7 +160,7 @@
                             </div>
                             <div class="slider-control">
                                 <div class="slider-header">
-                                    <span class="control-label">DRONE FREQ</span>
+                                    <label for="drone-freq" class="control-label">DRONE FREQ</label>
                                     <span class="control-val" id="drone-freq-val">55 Hz</span>
                                 </div>
                                 <input type="range" id="drone-freq" min="40" max="120" step="1" value="55" class="slider-input" title="Frecuencia del Drone">
@@ -174,6 +174,9 @@
                     <div class="panel-header">
                         <span class="rack-num">02</span>
                         <h3>SUB-BASS & MID EQ</h3>
+                    </div>
+                    <div class="panel-canvas-wrapper">
+                        <canvas id="eq-canvas"></canvas>
                     </div>
                     <div class="control-group knobs-grid">
                         <div class="knob-control">
@@ -364,7 +367,7 @@
                 <h4>SYSTEM INTEGRITY Ledger</h4>
                 <p id="ledger-hash">HASH-256: 8a4c1f9d... // VERIFIED REALITY: C5-REAL</p>
                 <button class="btn btn-secondary btn-export" id="btn-export-session">EXPORT EXERGY LOG</button>
-                <button class="btn btn-secondary btn-export" id="btn-record-performance" style="margin-left: 0.5rem; background: rgba(255, 0, 127, 0.1); border-color: rgba(255, 0, 127, 0.3);">RECORD VIDEO</button>
+                <button class="btn btn-secondary btn-export btn-record-pink" id="btn-record-performance">RECORD VIDEO</button>
             </div>
         </footer>
     </div>
