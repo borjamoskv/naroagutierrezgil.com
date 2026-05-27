@@ -20,11 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const spectrumCanvas = document.getElementById('spectrum-canvas');
     const shaperCanvas = document.getElementById('shaper-canvas');
     const limiterCanvas = document.getElementById('limiter-canvas');
+    const radarCanvas = document.getElementById('radar-canvas');
 
     const ctxGon = goniometerCanvas.getContext('2d');
     const ctxSpec = spectrumCanvas.getContext('2d');
     const ctxShaper = shaperCanvas ? shaperCanvas.getContext('2d') : null;
     const ctxLimiter = limiterCanvas ? limiterCanvas.getContext('2d') : null;
+    const ctxRadar = radarCanvas ? radarCanvas.getContext('2d') : null;
 
     // Handle High-DPI screens
     function resizeCanvas(canvas) {
@@ -40,11 +42,13 @@ document.addEventListener('DOMContentLoaded', () => {
         resizeCanvas(spectrumCanvas);
         resizeCanvas(shaperCanvas);
         resizeCanvas(limiterCanvas);
+        resizeCanvas(radarCanvas);
     });
     resizeCanvas(goniometerCanvas);
     resizeCanvas(spectrumCanvas);
     resizeCanvas(shaperCanvas);
     resizeCanvas(limiterCanvas);
+    resizeCanvas(radarCanvas);
 
     // --- DSP ROTARY KNOBS LOGIC ---
     const knobs = document.querySelectorAll('.rotary-knob');
@@ -721,6 +725,141 @@ document.addEventListener('DOMContentLoaded', () => {
             ctxLimiter.lineTo(w, 0);
             ctxLimiter.closePath();
             ctxLimiter.fill();
+        }
+
+        // 6. BINAURAL CROSSFEED ORBIT RADAR
+        if (ctxRadar && radarCanvas) {
+            const w = radarCanvas.width;
+            const h = radarCanvas.height;
+            ctxRadar.fillStyle = '#050505';
+            ctxRadar.fillRect(0, 0, w, h);
+
+            const centerX = w / 2;
+            const centerY = h / 2 + 10;
+            const headRadius = Math.min(w, h) * 0.16;
+
+            // Draw clean background grid circles
+            ctxRadar.strokeStyle = 'rgba(255, 255, 255, 0.02)';
+            ctxRadar.lineWidth = 1;
+            ctxRadar.beginPath();
+            ctxRadar.arc(centerX, centerY, headRadius * 2.0, 0, Math.PI * 2);
+            ctxRadar.arc(centerX, centerY, headRadius * 3.0, 0, Math.PI * 2);
+            ctxRadar.stroke();
+
+            // Draw Head representation
+            ctxRadar.strokeStyle = 'rgba(43, 59, 229, 0.4)';
+            ctxRadar.fillStyle = 'rgba(43, 59, 229, 0.08)';
+            ctxRadar.lineWidth = 1.5;
+            
+            // Ears
+            ctxRadar.beginPath();
+            ctxRadar.arc(centerX - headRadius, centerY, headRadius * 0.3, 0, Math.PI * 2); // Left ear
+            ctxRadar.arc(centerX + headRadius, centerY, headRadius * 0.3, 0, Math.PI * 2); // Right ear
+            ctxRadar.fill();
+            ctxRadar.stroke();
+
+            // Main head circle
+            ctxRadar.beginPath();
+            ctxRadar.arc(centerX, centerY, headRadius, 0, Math.PI * 2);
+            ctxRadar.fill();
+            ctxRadar.stroke();
+
+            // Nose pointing UP
+            ctxRadar.fillStyle = 'rgba(43, 59, 229, 0.3)';
+            ctxRadar.beginPath();
+            ctxRadar.moveTo(centerX - headRadius * 0.2, centerY - headRadius * 0.9);
+            ctxRadar.lineTo(centerX, centerY - headRadius * 1.3);
+            ctxRadar.lineTo(centerX + headRadius * 0.2, centerY - headRadius * 0.9);
+            ctxRadar.closePath();
+            ctxRadar.fill();
+            ctxRadar.stroke();
+
+            // Calculate speaker locations based on sideWidth
+            const widthScale = engine.params.sideWidth || 1.0;
+            const delayMs = engine.params.spatialDelay || 0.3;
+            const crossfeedMix = engine.params.crossfeedMix || 0.0;
+
+            const spread = headRadius * 2.4 * widthScale;
+            const spkLeftX = centerX - spread;
+            const spkRightX = centerX + spread;
+            const spkY = centerY - headRadius * 1.5;
+
+            // Draw Speaker Nodes
+            ctxRadar.fillStyle = 'rgba(255, 159, 28, 0.8)'; // Amber
+            ctxRadar.beginPath();
+            ctxRadar.arc(spkLeftX, spkY, spread * 0.07, 0, Math.PI * 2);
+            ctxRadar.arc(spkRightX, spkY, spread * 0.07, 0, Math.PI * 2);
+            ctxRadar.fill();
+
+            // Real-time audio indicators (RMS and Low energy)
+            const rms = window.EXERGIA_AUDIO ? window.EXERGIA_AUDIO.rms : 0.0;
+            const low = window.EXERGIA_AUDIO ? window.EXERGIA_AUDIO.low : 0.0;
+
+            // Pulse rings from speaker sources
+            ctxRadar.strokeStyle = 'rgba(255, 159, 28, 0.2)';
+            ctxRadar.lineWidth = 1;
+            const ringCount = 3;
+            for (let r = 1; r <= ringCount; r++) {
+                const timeFactor = (Date.now() * 0.003 + r / ringCount) % 1;
+                const waveRadius = headRadius * 3.5 * timeFactor * (0.8 + low * 0.4);
+                
+                ctxRadar.beginPath();
+                ctxRadar.arc(spkLeftX, spkY, waveRadius, 0, Math.PI * 2);
+                ctxRadar.arc(spkRightX, spkY, waveRadius, 0, Math.PI * 2);
+                ctxRadar.stroke();
+            }
+
+            // Crossfeed crosstalk representation
+            if (crossfeedMix > 0.05) {
+                ctxRadar.strokeStyle = 'rgba(255, 0, 127, 0.4)'; // pink
+                ctxRadar.lineWidth = 1 + crossfeedMix * 2.0;
+                
+                ctxRadar.beginPath();
+                const segments = 20;
+                for (let s = 0; s <= segments; s++) {
+                    const t = s / segments;
+                    const x = spkLeftX + (centerX + headRadius - spkLeftX) * t;
+                    const y = spkY + (centerY - spkY) * t;
+                    const perpX = -(centerY - spkY);
+                    const perpY = (centerX + headRadius - spkLeftX);
+                    const perpLen = Math.sqrt(perpX * perpX + perpY * perpY);
+                    const waveAmp = Math.sin(t * Math.PI * 6 - Date.now() * 0.02 * (3.0 - delayMs)) * 3.0 * crossfeedMix * (1.0 + rms);
+                    
+                    const drawX = x + (perpX / perpLen) * waveAmp;
+                    const drawY = y + (perpY / perpLen) * waveAmp;
+                    
+                    if (s === 0) ctxRadar.moveTo(drawX, drawY);
+                    else ctxRadar.lineTo(drawX, drawY);
+                }
+                ctxRadar.stroke();
+
+                ctxRadar.beginPath();
+                for (let s = 0; s <= segments; s++) {
+                    const t = s / segments;
+                    const x = spkRightX + (centerX - headRadius - spkRightX) * t;
+                    const y = spkY + (centerY - spkY) * t;
+                    const perpX = -(centerY - spkY);
+                    const perpY = (centerX - headRadius - spkRightX);
+                    const perpLen = Math.sqrt(perpX * perpX + perpY * perpY);
+                    const waveAmp = Math.sin(t * Math.PI * 6 - Date.now() * 0.02 * (3.0 - delayMs)) * 3.0 * crossfeedMix * (1.0 + rms);
+                    
+                    const drawX = x + (perpX / perpLen) * waveAmp;
+                    const drawY = y + (perpY / perpLen) * waveAmp;
+                    
+                    if (s === 0) ctxRadar.moveTo(drawX, drawY);
+                    else ctxRadar.lineTo(drawX, drawY);
+                }
+                ctxRadar.stroke();
+            }
+
+            // Radar dynamic cursor marker sweep overlay
+            ctxRadar.strokeStyle = 'rgba(0, 255, 255, 0.08)'; // Cyber Cyan
+            ctxRadar.lineWidth = 1;
+            ctxRadar.beginPath();
+            const angle = (Date.now() * 0.002) % (Math.PI * 2);
+            ctxRadar.moveTo(centerX, centerY);
+            ctxRadar.lineTo(centerX + Math.cos(angle) * headRadius * 3, centerY + Math.sin(angle) * headRadius * 3);
+            ctxRadar.stroke();
         }
     }
 
