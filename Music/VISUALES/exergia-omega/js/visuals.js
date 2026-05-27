@@ -30,6 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctxRadar = radarCanvas ? radarCanvas.getContext('2d') : null;
     const ctxEq = eqCanvas ? eqCanvas.getContext('2d') : null;
 
+    // Offscreen waterfall sonogram canvas
+    const waterfallCanvas = document.createElement('canvas');
+    const ctxWater = waterfallCanvas ? waterfallCanvas.getContext('2d') : null;
+
     // Handle High-DPI screens
     function resizeCanvas(canvas) {
         if (!canvas) return;
@@ -37,6 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const dpr = window.devicePixelRatio || 1;
         canvas.width = rect.width * dpr;
         canvas.height = rect.height * dpr;
+
+        if (canvas === spectrumCanvas && waterfallCanvas && ctxWater) {
+            waterfallCanvas.width = canvas.width;
+            waterfallCanvas.height = canvas.height;
+            ctxWater.fillStyle = '#050505';
+            ctxWater.fillRect(0, 0, waterfallCanvas.width, waterfallCanvas.height);
+        }
     }
 
     window.addEventListener('resize', () => {
@@ -495,14 +506,63 @@ document.addEventListener('DOMContentLoaded', () => {
         const hSpec = spectrumCanvas.height;
         ctxSpec.clearRect(0, 0, wSpec, hSpec);
 
+        if (engine.isPlaying && freqDataL && freqDataR && ctxWater && waterfallCanvas) {
+            const len = freqDataL.length;
+
+            // Shift waterfall pixels down by 1px
+            ctxWater.drawImage(waterfallCanvas, 0, 0, wSpec, hSpec - 1, 0, 1, wSpec, hSpec - 1);
+
+            // Create a 1px top row image data slice
+            const slice = ctxWater.createImageData(wSpec, 1);
+            const sliceData = slice.data;
+
+            for (let x = 0; x < wSpec; x++) {
+                const pct = x / wSpec;
+                // Logarithmic frequency index mapping (20Hz to 20kHz)
+                const freq = 20 * Math.pow(1000, pct);
+                const nyquist = engine.ctx.sampleRate * 0.5;
+                const idx = Math.max(0, Math.min(len - 1, Math.floor((freq / nyquist) * len)));
+
+                const lVal = freqDataL[idx] / 255;
+                const rVal = freqDataR[idx] / 255;
+
+                const mid = (lVal + rVal) * 0.5;
+                const side = Math.max(0, Math.abs(lVal - rVal));
+
+                // Map colors: Mid is Cyan/Green, Side is Pink/Red
+                const r = Math.floor(side * 160);
+                const g = Math.floor(mid * 140);
+                const b = Math.floor((mid * 0.5 + side) * 160);
+
+                const pixelIdx = x * 4;
+                sliceData[pixelIdx] = Math.min(255, r);
+                sliceData[pixelIdx + 1] = Math.min(255, g);
+                sliceData[pixelIdx + 2] = Math.min(255, b);
+                sliceData[pixelIdx + 3] = 255;
+            }
+            ctxWater.putImageData(slice, 0, 0);
+
+            // Draw waterfall onto main spectrum canvas
+            ctxSpec.drawImage(waterfallCanvas, 0, 0);
+
+            // Draw a subtle dark linear overlay to fade out older history at the bottom
+            const grad = ctxSpec.createLinearGradient(0, 0, 0, hSpec);
+            grad.addColorStop(0, 'rgba(10, 10, 10, 0.35)');
+            grad.addColorStop(1, 'rgba(10, 10, 10, 0.94)');
+            ctxSpec.fillStyle = grad;
+            ctxSpec.fillRect(0, 0, wSpec, hSpec);
+        } else {
+            ctxSpec.fillStyle = '#030303';
+            ctxSpec.fillRect(0, 0, wSpec, hSpec);
+        }
+
         // Draw frequency grid lines
-        ctxSpec.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+        ctxSpec.strokeStyle = 'rgba(255, 255, 255, 0.035)';
         ctxSpec.lineWidth = 1;
         const gridFreqs = [100, 500, 1000, 5000, 10000];
         
         ctxSpec.beginPath();
         gridFreqs.forEach(freq => {
-            // Logarithmic mapping of frequency to X coord
             const x = Math.log10(freq / 20) / Math.log10(20000 / 20) * wSpec;
             ctxSpec.moveTo(x, 0);
             ctxSpec.lineTo(x, hSpec);
@@ -1156,4 +1216,90 @@ Exergy Const      : S=100
         recordBtn.style.background = "rgba(255, 0, 127, 0.1)";
         recordBtn.style.borderColor = "rgba(255, 0, 127, 0.3)";
     }
+
+    // --- PRESET VIBE MANAGEMENT & SMOOTH MORPH LERP ---
+    const PRESETS = {
+        nominal: {
+            subCut: 30, lowShelf: 1.0, mudCut: -2.0, presence: 1.5,
+            satDrive: 2.0, satMix: 0.15, exciterOdd: 0.10, exciterEven: 0.08,
+            spatialDelay: 0.3, crossfeedMix: 0.35, sideWidth: 1.2, sideHp: 120,
+            gainBoost: 2.0, ceiling: -0.5, limiterRelease: 50
+        },
+        'deep-exergy': {
+            subCut: 22, lowShelf: 4.5, mudCut: -4.5, presence: 0.5,
+            satDrive: 4.2, satMix: 0.40, exciterOdd: 0.25, exciterEven: 0.18,
+            spatialDelay: 0.6, crossfeedMix: 0.55, sideWidth: 1.55, sideHp: 100,
+            gainBoost: 4.5, ceiling: -0.2, limiterRelease: 80
+        },
+        'neon-transparency': {
+            subCut: 45, lowShelf: -1.0, mudCut: -1.0, presence: 3.5,
+            satDrive: 1.2, satMix: 0.02, exciterOdd: 0.0, exciterEven: 0.0,
+            spatialDelay: 0.2, crossfeedMix: 0.20, sideWidth: 1.4, sideHp: 140,
+            gainBoost: 1.0, ceiling: -0.8, limiterRelease: 30
+        },
+        'crt-glitch': {
+            subCut: 60, lowShelf: 2.5, mudCut: -6.0, presence: 4.5,
+            satDrive: 5.5, satMix: 0.60, exciterOdd: 0.45, exciterEven: 0.30,
+            spatialDelay: 0.9, crossfeedMix: 0.70, sideWidth: 0.8, sideHp: 180,
+            gainBoost: 6.0, ceiling: -1.5, limiterRelease: 120
+        },
+        'colonial-noir': {
+            subCut: 35, lowShelf: 3.0, mudCut: -3.5, presence: 1.0,
+            satDrive: 3.0, satMix: 0.25, exciterOdd: 0.18, exciterEven: 0.12,
+            spatialDelay: 0.45, crossfeedMix: 0.45, sideWidth: 1.1, sideHp: 110,
+            gainBoost: 3.0, ceiling: -0.4, limiterRelease: 60
+        }
+    };
+
+    let startParams = {};
+    let targetParams = null;
+    let lerpProgress = 1.0;
+
+    const presetButtons = document.querySelectorAll('.btn-preset');
+    presetButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const presetName = e.target.getAttribute('data-preset');
+            if (!presetName || !PRESETS[presetName]) return;
+
+            // Make sure DSP engine is active
+            engine.init();
+
+            // Set active class
+            presetButtons.forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+
+            // Capture start state and setup LERP target
+            startParams = { ...engine.params };
+            targetParams = PRESETS[presetName];
+            lerpProgress = 0.0;
+
+            addP0Log(`Morphing Vibe Profile to: ${presetName.toUpperCase()}...`, "system");
+        });
+    });
+
+    function lerpLoop() {
+        requestAnimationFrame(lerpLoop);
+        if (targetParams && lerpProgress < 1.0) {
+            lerpProgress += 0.035; // smooth morph speed
+            if (lerpProgress > 1.0) lerpProgress = 1.0;
+
+            for (const key in targetParams) {
+                const startVal = startParams[key];
+                const targetVal = targetParams[key];
+                const currentVal = startVal + (targetVal - startVal) * lerpProgress;
+
+                // 1. Update core DSP parameters
+                engine.updateParam(key, currentVal);
+
+                // 2. Smoothly rotate the physical knob UI
+                const knob = document.querySelector(`.rotary-knob[data-param="${key}"]`);
+                if (knob) {
+                    const min = parseFloat(knob.getAttribute('data-min'));
+                    const max = parseFloat(knob.getAttribute('data-max'));
+                    updateKnobUI(knob, currentVal, min, max, key);
+                }
+            }
+        }
+    }
+    lerpLoop();
 });

@@ -986,3 +986,48 @@ body {
     box-shadow: 0 0 15px var(--color-neon-pink-glow) !important;
 }
 
+/* Preset Vibe Bar Styling */
+.preset-selector-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-precise);
+}
+
+.preset-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    letter-spacing: 1.5px;
+}
+
+.btn-preset {
+    font-size: 0.65rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    background: rgba(43, 59, 229, 0.03);
+    border: 1px solid rgba(43, 59, 229, 0.15);
+    transition: all 0.3s var(--ease-sovereign);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    height: auto;
+    width: auto;
+}
+
+.btn-preset.active {
+    background: var(--color-yinmn) !important;
+    border-color: var(--color-yinmn) !important;
+    color: #FFF !important;
+    box-shadow: 0 0 12px var(--color-yinmn-glow) !important;
+}
+
+.btn-preset:hover:not(.active) {
+    border-color: var(--color-cyber-cyan) !important;
+    background: rgba(0, 255, 255, 0.05) !important;
+    box-shadow: 0 0 8px var(--color-cyber-cyan-glow) !important;
+    color: #FFF !important;
+}
+
