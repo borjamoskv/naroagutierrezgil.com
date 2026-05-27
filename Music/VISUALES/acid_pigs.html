@@ -357,6 +357,10 @@
     gap: 1.5rem;
   }
 
+  .viz-container {
+    flex: 1;
+  }
+
   /* Synth Trigger button */
   .power-btn {
     background: linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%);
@@ -611,7 +615,7 @@
     <button class="power-btn" id="startBtn">
       <span>▶ PLAY SYNTH</span>
     </button>
-    <div style="flex: 1;">
+    <div class="viz-container">
       <canvas id="viz"></canvas>
     </div>
   </div>
