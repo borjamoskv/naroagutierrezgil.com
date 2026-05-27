@@ -276,6 +276,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const timeDataR = new Float32Array(bufferLength);
     const freqData = new Uint8Array(512);
     const grHistory = new Float32Array(150); // 150 scrolling points for Limiter GR
+    let freqDataL = null; // Lazily allocated on first use
+    let freqDataR = null;
 
     // EQ Curve analysis buffers
     const eqFreqs = new Float32Array(80);
@@ -298,7 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let peakHoldIn = -Infinity;
     let peakHoldOut = -Infinity;
     let peakHoldTimerIn = 0;
-    let peakHoldTimerR = 0;
+    let peakHoldTimerOut = 0;
     let lastCorrelationVal = 1.0;
     let lastPeakOutDbVal = -Infinity;
 
@@ -342,8 +344,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let rmsOutDb = -Infinity;
         let peakOutDb = -Infinity;
-        let freqDataL = null;
-        let freqDataR = null;
 
         if (engine.isPlaying) {
             // Get stereospace time domain samples
@@ -366,10 +366,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const rmsLinear = Math.max(0.0, Math.min(1.0, Math.pow(10, rmsOutDb / 20)));
             const peakLinear = Math.max(0.0, Math.min(1.0, Math.pow(10, peakOutDb / 20)));
 
-            // Get frequency data
+            // Get frequency data (reuse pre-allocated buffers)
             const freqBinCount = engine.outAnalL.frequencyBinCount;
-            freqDataL = new Uint8Array(freqBinCount);
-            freqDataR = new Uint8Array(freqBinCount);
+            if (!freqDataL || freqDataL.length !== freqBinCount) {
+                freqDataL = new Uint8Array(freqBinCount);
+                freqDataR = new Uint8Array(freqBinCount);
+            }
             engine.outAnalL.getByteFrequencyData(freqDataL);
             engine.outAnalR.getByteFrequencyData(freqDataR);
 
@@ -666,9 +668,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (peakOutDb > peakHoldOut) {
                 peakHoldOut = peakOutDb;
-                peakHoldTimerR = 60;
+                peakHoldTimerOut = 60;
             } else {
-                if (peakHoldTimerR > 0) peakHoldTimerR--;
+                if (peakHoldTimerOut > 0) peakHoldTimerOut--;
                 else peakHoldOut = Math.max(-60, peakHoldOut - 0.4);
             }
 

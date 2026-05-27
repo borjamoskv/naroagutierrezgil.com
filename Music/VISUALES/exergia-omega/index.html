@@ -13,6 +13,15 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- Splash Init Screen -->
+    <div class="splash-init" id="splash-init">
+        <div class="splash-content">
+            <div class="splash-symbol">Ω</div>
+            <div class="splash-text">INITIALIZING EXERGIA-Ω SUBSTRATE</div>
+            <div class="splash-subtext">C5-REAL // SPATIAL BINAURAL MASTERING</div>
+        </div>
+    </div>
+
     <!-- Background Analog Grain & WebGL Shader -->
     <canvas id="webgl-background"></canvas>
     <div class="analog-grain"></div>
@@ -97,6 +106,7 @@
                             <span class="legend-item mid-legend">Mid</span>
                             <span class="legend-item side-legend">Side</span>
                         </div>
+                        <span class="spectral-tilt-indicator tilt-balanced" id="spectral-tilt" title="Spectral Balance">▲</span>
                     </div>
                     <div class="canvas-wrapper">
                         <canvas id="spectrum-canvas"></canvas>
@@ -135,6 +145,13 @@
                             <div class="correlation-scale">
                                 <span>-1</span><span>0</span><span>+1</span>
                             </div>
+                        </div>
+                        <div class="lufs-meter-group">
+                            <span class="meter-label">LUFS</span>
+                            <div class="lufs-bar-container">
+                                <div class="lufs-bar-fill" id="lufs-bar-fill"></div>
+                            </div>
+                            <span class="lufs-value-display metric-tabular" id="lufs-value">-inf</span>
                         </div>
                     </div>
                 </div>
@@ -176,6 +193,12 @@
                                 <input type="range" id="drone-freq" min="40" max="120" step="1" value="55" class="slider-input" title="Frecuencia del Drone">
                             </div>
                         </div>
+                    </div>
+                    <!-- Waveform Timeline (shown on file load) -->
+                    <div class="waveform-timeline-container" id="waveform-container" style="display:none;">
+                        <canvas id="waveform-canvas"></canvas>
+                        <div class="waveform-playhead" id="waveform-playhead"></div>
+                        <div class="waveform-time-display metric-tabular" id="waveform-time">00:00 / 00:00</div>
                     </div>
                 </div>
 
@@ -378,8 +401,23 @@
                 <p id="ledger-hash">HASH-256: 8a4c1f9d... // VERIFIED REALITY: C5-REAL</p>
                 <button class="btn btn-secondary btn-export" id="btn-export-session">EXPORT EXERGY LOG</button>
                 <button class="btn btn-secondary btn-export btn-record-pink" id="btn-record-performance">RECORD VIDEO</button>
+                <button class="btn btn-secondary btn-export" id="btn-show-shortcuts" style="margin-left:0.5rem;">? KEYS</button>
             </div>
         </footer>
+
+        <!-- Keyboard Shortcuts Overlay -->
+        <div class="shortcuts-overlay" id="shortcuts-overlay">
+            <div class="shortcuts-panel glass-panel-c5">
+                <button class="shortcuts-close" id="shortcuts-close">✕</button>
+                <h3 class="shortcuts-title">KEYBOARD SHORTCUTS</h3>
+                <div class="shortcut-row"><kbd class="shortcut-key">SPACE</kbd><span class="shortcut-desc">Play / Stop Generator</span></div>
+                <div class="shortcut-row"><kbd class="shortcut-key">B</kbd><span class="shortcut-desc">Toggle Bypass</span></div>
+                <div class="shortcut-row"><kbd class="shortcut-key">R</kbd><span class="shortcut-desc">Record Video</span></div>
+                <div class="shortcut-row"><kbd class="shortcut-key">E</kbd><span class="shortcut-desc">Export Exergy Log</span></div>
+                <div class="shortcut-row"><kbd class="shortcut-key">1–5</kbd><span class="shortcut-desc">Switch Vibe Preset</span></div>
+                <div class="shortcut-row"><kbd class="shortcut-key">?</kbd><span class="shortcut-desc">Show / Hide This Panel</span></div>
+            </div>
+        </div>
     </div>
 
     <!-- Scripts -->
@@ -387,5 +425,6 @@
     <script src="js/webgl-bg.js"></script>
     <script src="js/dsp.js"></script>
     <script src="js/visuals.js"></script>
+    <script src="js/controls.js"></script>
 </body>
 </html>

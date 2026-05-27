@@ -408,19 +408,7 @@ class MasteringEngine {
         this.shaper.curve = curve;
     }
 
-    applyShaperCurve(drive, odd, even) {
-        const n_samples = 44100;
-        const curve = new Float32Array(n_samples);
-        for (let i = 0; i < n_samples; ++i) {
-            const x = (i * 2) / n_samples - 1;
-            const sat = Math.tanh(x * drive);
-            const t2 = 2 * x * x - 1;
-            const t3 = 4 * x * x * x - 3 * x;
-            const harmonic = t2 * even + t3 * odd;
-            curve[i] = sat * 0.8 + harmonic * 0.2;
-        }
-        this.shaper.curve = curve;
-    }
+
 
     modulateFromTelemetry() {
         if (!this.initialized || this.bypassMode) return;
@@ -428,15 +416,22 @@ class MasteringEngine {
             const entropy = window.CORTEX_TELEMETRY.smoothedEntropy;
             const cortisol = window.CORTEX_TELEMETRY.cortisol || 0;
             
-            // Modulate Saturation Drive slightly based on system entropy and cortisol
-            const baseDrive = this.params.satDrive;
-            const modulatedDrive = baseDrive + (entropy * 0.5) + (cortisol * 1.2);
-            
-            // Apply immediately without updating UI knob directly to avoid jitter
+            // Modulate saturation based on system entropy and cortisol
+            const drive = this.params.satDrive + (entropy * 0.5) + (cortisol * 1.2);
             const odd = this.params.exciterOdd + (entropy * 0.05);
             const even = this.params.exciterEven + (entropy * 0.02) + (cortisol * 0.05);
             
-            this.applyShaperCurve(modulatedDrive, odd, even);
+            // Reuse updateShaperCurve logic inline to avoid duplicate method
+            const n_samples = 44100;
+            const curve = new Float32Array(n_samples);
+            for (let i = 0; i < n_samples; ++i) {
+                const x = (i * 2) / n_samples - 1;
+                const sat = Math.tanh(x * drive);
+                const t2 = 2 * x * x - 1;
+                const t3 = 4 * x * x * x - 3 * x;
+                curve[i] = sat * 0.8 + (t2 * even + t3 * odd) * 0.2;
+            }
+            this.shaper.curve = curve;
         }
     }
 
