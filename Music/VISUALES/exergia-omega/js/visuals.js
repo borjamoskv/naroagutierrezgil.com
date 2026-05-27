@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('audio-file');
     const droneFreqInput = document.getElementById('drone-freq');
     const droneFreqVal = document.getElementById('drone-freq-val');
+    const recordBtn = document.getElementById('btn-record-performance');
 
     // Canvas setups
     const goniometerCanvas = document.getElementById('goniometer-canvas');
@@ -295,10 +296,68 @@ document.addEventListener('DOMContentLoaded', () => {
         ctxGon.strokeStyle = 'rgba(43, 59, 229, 0.15)';
         ctxGon.stroke();
 
+        let rmsOutDb = -Infinity;
+        let peakOutDb = -Infinity;
+        let freqDataL = null;
+        let freqDataR = null;
+
         if (engine.isPlaying) {
             // Get stereospace time domain samples
             engine.outAnalL.getFloatTimeDomainData(timeDataL);
             engine.outAnalR.getFloatTimeDomainData(timeDataR);
+
+            // Compute output peak and rms
+            let maxOut = 0;
+            let sumOutSq = 0;
+            for (let i = 0; i < bufferLength; i++) {
+                const l = timeDataL[i];
+                const r = timeDataR[i];
+                sumOutSq += (l * l + r * r) / 2;
+                const maxChan = Math.max(Math.abs(l), Math.abs(r));
+                if (maxChan > maxOut) maxOut = maxChan;
+            }
+            rmsOutDb = 20 * Math.log10(Math.sqrt(sumOutSq / bufferLength));
+            peakOutDb = 20 * Math.log10(maxOut);
+
+            const rmsLinear = Math.max(0.0, Math.min(1.0, Math.pow(10, rmsOutDb / 20)));
+            const peakLinear = Math.max(0.0, Math.min(1.0, Math.pow(10, peakOutDb / 20)));
+
+            // Get frequency data
+            const freqBinCount = engine.outAnalL.frequencyBinCount;
+            freqDataL = new Uint8Array(freqBinCount);
+            freqDataR = new Uint8Array(freqBinCount);
+            engine.outAnalL.getByteFrequencyData(freqDataL);
+            engine.outAnalR.getByteFrequencyData(freqDataR);
+
+            let lowSum = 0;
+            const lowLimit = Math.min(12, freqBinCount);
+            for (let i = 0; i < lowLimit; i++) {
+                lowSum += (freqDataL[i] + freqDataR[i]) * 0.5;
+            }
+            const lowEnergy = lowLimit > 0 ? (lowSum / lowLimit) / 255.0 : 0.0;
+
+            let highSum = 0;
+            const highStart = Math.min(100, freqBinCount);
+            const highEnd = Math.min(256, freqBinCount);
+            for (let i = highStart; i < highEnd; i++) {
+                highSum += (freqDataL[i] + freqDataR[i]) * 0.5;
+            }
+            const highEnergy = (highEnd - highStart) > 0 ? (highSum / (highEnd - highStart)) / 255.0 : 0.0;
+
+            // Expose globally
+            window.EXERGIA_AUDIO = {
+                rms: rmsLinear,
+                peak: peakLinear,
+                low: lowEnergy,
+                high: highEnergy,
+                correlation: lastCorrelationVal
+            };
+
+            // Set document variables for CSS
+            document.documentElement.style.setProperty('--audio-rms', rmsLinear.toFixed(4));
+            document.documentElement.style.setProperty('--audio-low', lowEnergy.toFixed(4));
+            document.documentElement.style.setProperty('--audio-high', highEnergy.toFixed(4));
+            document.documentElement.style.setProperty('--audio-peak', peakLinear.toFixed(4));
 
             // Compute Pearson correlation (Phase Correlation)
             let sumL = 0;
@@ -308,10 +367,10 @@ document.addEventListener('DOMContentLoaded', () => {
             let sumR2 = 0;
 
             ctxGon.beginPath();
-            ctxGon.lineWidth = 1.8;
-            ctxGon.strokeStyle = '#2B3BE5'; // Sovereign Blue
-            ctxGon.shadowColor = '#2B3BE5';
-            ctxGon.shadowBlur = 6;
+            ctxGon.lineWidth = 2.0;
+            ctxGon.strokeStyle = '#00FFFF'; // Cyber Cyan
+            ctxGon.shadowColor = '#00FFFF';
+            ctxGon.shadowBlur = 15;
 
             const scale = Math.min(wGon, hGon) * 0.45;
             const centerX = wGon / 2;
@@ -379,6 +438,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 corrBar.style.left = `${Math.min(100, Math.max(0, pct))}%`;
             }
         } else {
+            window.EXERGIA_AUDIO = {
+                rms: 0,
+                peak: 0,
+                low: 0,
+                high: 0,
+                correlation: 1.0
+            };
+            document.documentElement.style.setProperty('--audio-rms', '0');
+            document.documentElement.style.setProperty('--audio-low', '0');
+            document.documentElement.style.setProperty('--audio-high', '0');
+            document.documentElement.style.setProperty('--audio-peak', '0');
+
             document.getElementById('correlation-value').innerText = `CORR: +1.00`;
             lastCorrelationVal = 1.0;
             const corrBar = document.getElementById('corr-bar-fill');
@@ -405,20 +476,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         ctxSpec.stroke();
 
-        if (engine.isPlaying) {
-            // We use outAnalL and outAnalR for Mid/Side calculation
-            const freqDataL = new Uint8Array(engine.outAnalL.frequencyBinCount);
-            const freqDataR = new Uint8Array(engine.outAnalR.frequencyBinCount);
-            engine.outAnalL.getByteFrequencyData(freqDataL);
-            engine.outAnalR.getByteFrequencyData(freqDataR);
-
+        if (engine.isPlaying && freqDataL && freqDataR) {
             const len = freqDataL.length;
 
             // Generate paths for Mid & Side spectrum curves
-            ctxSpec.lineWidth = 1.8;
+            ctxSpec.lineWidth = 2.2;
+            
+            // Neon Bloom Base
+            ctxSpec.globalCompositeOperation = 'lighter';
 
-            // Render Side spectrum curve (Deep violet accent `#8F2BE5` or neon side profile)
-            ctxSpec.strokeStyle = 'rgba(143, 43, 229, 0.75)';
+            // Render Side spectrum curve (Neon Pink)
+            ctxSpec.strokeStyle = 'rgba(255, 0, 127, 0.9)';
+            ctxSpec.shadowColor = '#FF007F';
+            ctxSpec.shadowBlur = 12;
             ctxSpec.beginPath();
             for (let i = 0; i < len; i++) {
                 const lVal = freqDataL[i] / 255;
@@ -439,8 +509,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             ctxSpec.stroke();
 
-            // Render Mid spectrum curve (Vibrant blue `#2B3BE5`)
-            ctxSpec.strokeStyle = 'rgba(43, 59, 229, 0.95)';
+            // Render Mid spectrum curve (Cyber Cyan)
+            ctxSpec.strokeStyle = 'rgba(0, 255, 255, 0.95)';
+            ctxSpec.shadowColor = '#00FFFF';
+            ctxSpec.shadowBlur = 12;
             ctxSpec.beginPath();
             for (let i = 0; i < len; i++) {
                 const lVal = freqDataL[i] / 255;
@@ -458,6 +530,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 else ctxSpec.lineTo(x, y);
             }
             ctxSpec.stroke();
+            
+            // Reset global composite operation and shadow
+            ctxSpec.globalCompositeOperation = 'source-over';
+            ctxSpec.shadowBlur = 0;
         }
 
 
@@ -479,19 +555,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const rmsInDb = 20 * Math.log10(Math.sqrt(sumInSq / bufferLength));
             const peakInDb = 20 * Math.log10(maxIn);
 
-            // Output Peak calculation (using timeDataL/R outputs)
-            let maxOut = 0;
-            let sumOutSq = 0;
-            for (let i = 0; i < bufferLength; i++) {
-                const l = timeDataL[i];
-                const r = timeDataR[i];
-                sumOutSq += (l * l + r * r) / 2;
-                const maxChan = Math.max(Math.abs(l), Math.abs(r));
-                if (maxChan > maxOut) maxOut = maxChan;
-            }
-            const rmsOutDb = 20 * Math.log10(Math.sqrt(sumOutSq / bufferLength));
-            const peakOutDb = 20 * Math.log10(maxOut);
-
+            // Output Peak calculation was already done at the top of renderLoop()
             // Decay peaks slowly (envelope follower)
             const decayFactor = 0.95; // fast decay for bar meter
             const peakHoldDecay = 0.99; // slow hold decay for dot indicator
@@ -636,5 +700,108 @@ Exergy Const      : S=100
                 ledgerElement.innerText = `HASH-256: ${stateHash.substring(0, 12)}... // VERIFIED REALITY: C5-REAL`;
             }
         });
+    }
+
+    // --- MULTIMEDIA PERFORMANCE RECORDING & CAPTURE ---
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let isRecording = false;
+
+    if (recordBtn) {
+        recordBtn.addEventListener('click', () => {
+            if (!engine.initialized) {
+                alert("EXERGIA-Ω: Initialize engine before recording.");
+                return;
+            }
+
+            if (!isRecording) {
+                startRecording();
+            } else {
+                stopRecording();
+            }
+        });
+    }
+
+    function startRecording() {
+        recordedChunks = [];
+        const webglCanvas = document.getElementById('webgl-background');
+        if (!webglCanvas) return;
+
+        let canvasStream;
+        try {
+            canvasStream = webglCanvas.captureStream(60);
+        } catch (e) {
+            canvasStream = webglCanvas.captureStream(30);
+        }
+
+        const audioCtx = engine.ctx;
+        // Create media stream destination to capture mastered Web Audio output
+        const dest = audioCtx.createMediaStreamDestination();
+        engine.outputNode.connect(dest);
+
+        // Combine video track and audio track
+        const combinedStream = new MediaStream([
+            ...canvasStream.getVideoTracks(),
+            ...dest.getAudioTracks()
+        ]);
+
+        let options = { mimeType: 'video/webm;codecs=vp9,opus' };
+        if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+            options = { mimeType: 'video/webm;codecs=vp8,opus' };
+        }
+        if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+            options = { mimeType: 'video/webm' };
+        }
+
+        try {
+            mediaRecorder = new MediaRecorder(combinedStream, options);
+        } catch (e) {
+            console.warn("[MediaRecorder] Failed using options, using default:", e);
+            mediaRecorder = new MediaRecorder(combinedStream);
+        }
+
+        mediaRecorder.ondataavailable = (e) => {
+            if (e.data && e.data.size > 0) {
+                recordedChunks.push(e.data);
+            }
+        };
+
+        mediaRecorder.onstop = () => {
+            try {
+                engine.outputNode.disconnect(dest);
+            } catch (err) {
+                console.warn("[MediaRecorder] Disconnection failed:", err);
+            }
+
+            const blob = new Blob(recordedChunks, { type: 'video/webm' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `exergia_perf_${Date.now()}.webm`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            addP0Log("Saved multimedia recording to visuales folder.", "success");
+        };
+
+        // Start recording
+        mediaRecorder.start(1000);
+        isRecording = true;
+        recordBtn.innerText = "STOP RECORDING";
+        recordBtn.style.background = "rgba(229, 43, 80, 0.25)";
+        recordBtn.style.borderColor = "#E52B50";
+        addP0Log("Recording Started. Capturing WebGL + Mastered Audio...", "system");
+    }
+
+    function stopRecording() {
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+            mediaRecorder.stop();
+        }
+        isRecording = false;
+        recordBtn.innerText = "RECORD VIDEO";
+        recordBtn.style.background = "rgba(255, 0, 127, 0.1)";
+        recordBtn.style.borderColor = "rgba(255, 0, 127, 0.3)";
     }
 });

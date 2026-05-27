@@ -9,13 +9,17 @@
     --color-surface: #121212;
     --color-surface-glow: #1a1a2e;
     --color-yinmn: #2B3BE5;
-    --color-yinmn-glow: rgba(43, 59, 229, 0.4);
+    --color-yinmn-glow: rgba(43, 59, 229, 0.5);
     --color-amber: #FF9F1C;
-    --color-amber-glow: rgba(255, 159, 28, 0.4);
+    --color-amber-glow: rgba(255, 159, 28, 0.5);
+    --color-neon-pink: #FF007F;
+    --color-neon-pink-glow: rgba(255, 0, 127, 0.5);
+    --color-cyber-cyan: #00FFFF;
+    --color-cyber-cyan-glow: rgba(0, 255, 255, 0.4);
     --color-text: #F3F4F6;
     --color-text-muted: #8892B0;
-    --color-border: rgba(43, 59, 229, 0.15);
-    --color-border-hover: rgba(43, 59, 229, 0.3);
+    --color-border: rgba(43, 59, 229, 0.2);
+    --color-border-hover: rgba(0, 255, 255, 0.4);
     
     --font-display: 'Outfit', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
@@ -112,8 +116,11 @@ body {
     font-size: 2.2rem;
     font-weight: 800;
     color: var(--color-yinmn);
-    text-shadow: 0 0 15px var(--color-yinmn-glow);
+    text-shadow: 0 0 calc(15px + var(--audio-rms, 0) * 20px) var(--color-yinmn-glow);
     font-family: var(--font-mono);
+    transform: scale(calc(1.0 + var(--audio-low, 0) * 0.15));
+    transition: transform 0.05s ease-out;
+    display: inline-block;
 }
 
 .logo-text h1 {
@@ -190,14 +197,14 @@ body {
 /* Panels styling */
 .panel {
     background: linear-gradient(145deg, rgba(18, 18, 18, 0.75), rgba(8, 8, 8, 0.9));
-    border: 1px solid rgba(43, 59, 229, 0.2);
+    border: 1px solid rgba(43, 59, 229, calc(0.2 + var(--audio-rms, 0) * 0.35));
     border-radius: var(--radius-fluid);
     -webkit-backdrop-filter: blur(24px) saturate(150%);
     backdrop-filter: blur(24px) saturate(150%);
     box-shadow: 
         0 15px 35px rgba(0, 0, 0, 0.6),
         inset 0 1px 0 rgba(255, 255, 255, 0.08),
-        inset 0 0 20px rgba(43, 59, 229, 0.05);
+        inset 0 0 calc(20px + var(--audio-rms, 0) * 15px) rgba(43, 59, 229, calc(0.05 + var(--audio-rms, 0) * 0.15));
     transition: border-color 0.4s var(--ease-sovereign), box-shadow 0.4s var(--ease-sovereign), transform 0.4s var(--ease-sovereign);
     display: flex;
     flex-direction: column;
@@ -229,9 +236,10 @@ body {
 .panel:hover {
     border-color: var(--color-border-hover);
     box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.6),
-        0 0 20px rgba(43, 59, 229, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        0 20px 40px rgba(0, 0, 0, 0.8),
+        0 0 25px var(--color-cyber-cyan-glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 0 15px var(--color-neon-pink-glow);
 }
 
 .panel-header {
@@ -374,9 +382,17 @@ body {
 .meter-bar {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, var(--color-yinmn), var(--color-amber));
+    background: linear-gradient(90deg, var(--color-yinmn), var(--color-neon-pink), var(--color-amber), var(--color-cyber-cyan));
+    background-size: 200% 100%;
+    animation: gradient-shift 3s ease infinite;
     transition: width 0.08s ease;
     border-radius: 3px 0 0 3px;
+}
+
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .meter-peak {

@@ -28,6 +28,7 @@
             <div id="ctx-cortisol" class="metric-tabular telemetry-status-alert">CORTISOL: 0.00</div>
             <div id="ctx-entropy" class="metric-tabular">ENTROPY: 0.0000</div>
             <div id="ctx-compliance" class="metric-tabular telemetry-status-alert">SOC2/C5: 100% OK</div>
+            <div id="ctx-mcp-status" class="metric-tabular" style="color: var(--sov-blue);">MCP: RUST-NATIVE</div>
         </div>
 
         <!-- Header -->
@@ -51,6 +52,7 @@
                     <div class="system-metric" id="ctx-exergy">EXERGY: 0.0000 J</div>
                     <div class="system-metric metric-alert" id="ctx-cortisol">CORTISOL: 0.00</div>
                     <div class="system-metric" id="ctx-compliance">SOC2/C5: 100% OK</div>
+                    <div class="system-metric" id="ctx-mcp-status-header" style="color: var(--sov-blue);">MCP: O(1)</div>
                     <div class="system-metric" id="sample-rate-metric">SR: 48 kHz</div>
                 </div>
             </div>
@@ -353,6 +355,7 @@
                 <h4>SYSTEM INTEGRITY Ledger</h4>
                 <p id="ledger-hash">HASH-256: 8a4c1f9d... // VERIFIED REALITY: C5-REAL</p>
                 <button class="btn btn-secondary btn-export" id="btn-export-session">EXPORT EXERGY LOG</button>
+                <button class="btn btn-secondary btn-export" id="btn-record-performance" style="margin-left: 0.5rem; background: rgba(255, 0, 127, 0.1); border-color: rgba(255, 0, 127, 0.3);">RECORD VIDEO</button>
             </div>
         </footer>
     </div>

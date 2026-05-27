@@ -2,6 +2,7 @@
  * EXERGIA-Ω // AESTHETIC-OMEGA WebGL Shader
  * Reality: C5-REAL (GPU Accelerated)
  * Aesthetic: Industrial Noir 2026 (#0A0A0A / #2B3BE5 / #FF9F1C)
+ * Fully Audio-Reactive & Cursor Responsive Substrate
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -27,6 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
         uniform float u_time;
         uniform float u_entropy;
         uniform float u_cortisol;
+        uniform float u_audio_rms;
+        uniform float u_audio_peak;
+        uniform float u_audio_low;
+        uniform float u_audio_high;
+        uniform float u_audio_corr;
+        uniform vec2 u_mouse;
         varying vec2 vUv;
 
         // Simplex noise approximation
@@ -61,9 +68,22 @@ document.addEventListener('DOMContentLoaded', () => {
             vec2 st = gl_FragCoord.xy / u_resolution.xy;
             st.x *= u_resolution.x / u_resolution.y;
 
-            // Slow drifting coordinates, modulated by u_entropy
+            // Aspect-ratio-corrected mouse tracking
+            vec2 mouseProj = u_mouse;
+            mouseProj.x *= u_resolution.x / u_resolution.y;
+            float mouseDist = length(st - mouseProj);
+            float mouseGlow = smoothstep(0.4, 0.0, mouseDist);
+
+            // Slow drifting coordinates, modulated by u_entropy, bass (u_audio_low), and mouse warp
             vec2 pos = st * (3.0 + u_entropy * 0.5);
-            float t = u_time * (0.15 + u_entropy * 1.5);
+            
+            // Local mouse gravitational warp
+            pos += (st - mouseProj) * mouseGlow * 0.35;
+            
+            // Sub-bass warping grid
+            pos += vec2(sin(st.y * 8.0 + u_time), cos(st.x * 8.0 - u_time)) * u_audio_low * 0.12;
+
+            float t = u_time * (0.15 + u_entropy * 1.5 + u_audio_rms * 0.5);
             
             // Domain warping
             float q = snoise(pos + vec2(t, t * 0.8));
@@ -74,15 +94,25 @@ document.addEventListener('DOMContentLoaded', () => {
             // Base color: Abyssal Black #0A0A0A
             vec3 color = vec3(0.039, 0.039, 0.039);
             
-            // Highlights: YInMn Blue #2B3BE5 & Sovereign Amber #FF9F1C
+            // Highlights: YInMn Blue, Sovereign Amber, Neon Pink, Cyber Cyan
             vec3 colorBlue = vec3(0.169, 0.231, 0.898);
             vec3 colorAmber = vec3(1.0, 0.624, 0.110);
-            vec3 colorDeepBlue = vec3(0.05, 0.08, 0.35); // Added deep blue depth
+            vec3 colorDeepBlue = vec3(0.05, 0.08, 0.35);
+            vec3 colorNeonPink = vec3(1.0, 0.0, 0.5);
+            vec3 colorCyberCyan = vec3(0.0, 1.0, 1.0);
             
-            // Mix colors based on noise & entropy
+            // Mix colors based on noise, entropy, time, and real-time audio levels
+            float pinkIntensity = 0.18 + u_audio_rms * 0.5 + u_audio_high * 0.4;
+            float cyanIntensity = 0.18 + u_audio_rms * 0.4 + u_audio_low * 0.3;
+            
             color = mix(color, colorDeepBlue, smoothstep(-0.2, 0.5, q) * 0.5);
-            color = mix(color, colorBlue, smoothstep(0.0, 0.85, n) * (0.45 + u_entropy * 0.3)); 
-            color = mix(color, colorAmber, smoothstep(0.6, 1.0, r) * (0.18 + u_entropy * 0.6)); 
+            color = mix(color, colorBlue, smoothstep(0.0, 0.85, n) * (0.4 + u_entropy * 0.2));
+            color = mix(color, colorAmber, smoothstep(0.7, 1.0, r) * (0.2 + u_entropy * 0.3));
+            color = mix(color, colorNeonPink, smoothstep(0.4, 0.9, sin(q * 5.0 + u_time)) * pinkIntensity);
+            color = mix(color, colorCyberCyan, smoothstep(0.5, 1.0, cos(r * 4.0 - u_time * 0.5)) * cyanIntensity); 
+            
+            // Add subtle interactive cursor trail aura
+            color = mix(color, colorCyberCyan * 0.5 + colorNeonPink * 0.3, mouseGlow * 0.25);
             
             // Vignette for focus
             vec2 center = gl_FragCoord.xy / u_resolution.xy - 0.5;
@@ -90,19 +120,20 @@ document.addEventListener('DOMContentLoaded', () => {
             color *= smoothstep(0.9, 0.25, dist); 
 
             // CRT Scanline emulation
-            float scanline = sin(gl_FragCoord.y * 1.5) * (0.03 + u_cortisol * 0.05);
+            float scanline = sin(gl_FragCoord.y * 1.5) * (0.03 + u_cortisol * 0.05 + u_audio_rms * 0.02);
             color -= scanline;
             
             // Phosphor glow bleed, shifting to Danger Red under high cortisol
             vec3 alertColor = mix(vec3(1.0, 0.624, 0.110), vec3(0.9, 0.17, 0.31), u_cortisol);
             color += mix(colorBlue * 0.02, alertColor * 0.08, u_cortisol);
             
-            // Chromatic aberration (Glitch) induced by cortisol stress
-            if (u_cortisol > 0.3) {
+            // Chromatic aberration (Glitch) induced by cortisol stress or audio transient peak hits
+            float totalGlitch = u_cortisol + u_audio_peak * 0.5;
+            if (totalGlitch > 0.3) {
                 float noise = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233)) + u_time) * 43758.5453);
-                float glitchLine = step(0.98 - u_cortisol * 0.05, noise);
-                color.r += glitchLine * u_cortisol * 0.15;
-                color.b -= glitchLine * u_cortisol * 0.1;
+                float glitchLine = step(0.98 - totalGlitch * 0.05, noise);
+                color.r += glitchLine * totalGlitch * 0.12;
+                color.b -= glitchLine * totalGlitch * 0.08;
             }
 
             gl_FragColor = vec4(color, 1.0);
@@ -147,6 +178,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const uTime = gl.getUniformLocation(program, 'u_time');
     const uEntropy = gl.getUniformLocation(program, 'u_entropy');
     const uCortisol = gl.getUniformLocation(program, 'u_cortisol');
+    const uAudioRms = gl.getUniformLocation(program, 'u_audio_rms');
+    const uAudioPeak = gl.getUniformLocation(program, 'u_audio_peak');
+    const uAudioLow = gl.getUniformLocation(program, 'u_audio_low');
+    const uAudioHigh = gl.getUniformLocation(program, 'u_audio_high');
+    const uAudioCorr = gl.getUniformLocation(program, 'u_audio_corr');
+    const uMouse = gl.getUniformLocation(program, 'u_mouse');
+
+    // Mouse coords state and lerp targets
+    let mouseX = 0.5;
+    let mouseY = 0.5;
+    let targetMouseX = 0.5;
+    let targetMouseY = 0.5;
+
+    window.addEventListener('mousemove', (e) => {
+        targetMouseX = e.clientX / window.innerWidth;
+        targetMouseY = 1.0 - (e.clientY / window.innerHeight);
+    });
+
+    // Touch support for mobile layouts
+    window.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+            targetMouseX = e.touches[0].clientX / window.innerWidth;
+            targetMouseY = 1.0 - (e.touches[0].clientY / window.innerHeight);
+        }
+    });
 
     function resize() {
         canvas.width = window.innerWidth;
@@ -162,13 +218,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const time = (performance.now() - startTime) * 0.001;
         gl.uniform1f(uTime, time);
         
-        // Feed real-time telemetry entropy to the shader
+        // Feed real-time telemetry entropy and cortisol to the shader
         const entropy = (window.CORTEX_TELEMETRY && window.CORTEX_TELEMETRY.smoothedEntropy) ? window.CORTEX_TELEMETRY.smoothedEntropy : 0.0;
         gl.uniform1f(uEntropy, entropy);
         
-        // Feed real-time telemetry cortisol to the shader
         const cortisol = (window.CORTEX_TELEMETRY && window.CORTEX_TELEMETRY.smoothedCortisol) ? window.CORTEX_TELEMETRY.smoothedCortisol : 0.0;
         gl.uniform1f(uCortisol, cortisol);
+        
+        // Feed real-time audio analysis data
+        const audio = window.EXERGIA_AUDIO || { rms: 0, peak: 0, low: 0, high: 0, correlation: 1.0 };
+        gl.uniform1f(uAudioRms, audio.rms);
+        gl.uniform1f(uAudioPeak, audio.peak);
+        gl.uniform1f(uAudioLow, audio.low);
+        gl.uniform1f(uAudioHigh, audio.high);
+        gl.uniform1f(uAudioCorr, audio.correlation);
+
+        // Smooth mouse coordinates LERP
+        mouseX += (targetMouseX - mouseX) * 0.08;
+        mouseY += (targetMouseY - mouseY) * 0.08;
+        gl.uniform2f(uMouse, mouseX, mouseY);
         
         gl.drawArrays(gl.TRIANGLES, 0, 6);
         requestAnimationFrame(render);
