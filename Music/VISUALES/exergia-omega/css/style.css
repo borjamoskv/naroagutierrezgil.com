@@ -904,6 +904,7 @@ body {
 .log-row {
     display: flex;
     flex-direction: column;
+    margin-top: 1rem;
 }
 
 .log-panel {
