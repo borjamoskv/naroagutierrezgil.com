@@ -18,12 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Canvas setups
     const goniometerCanvas = document.getElementById('goniometer-canvas');
     const spectrumCanvas = document.getElementById('spectrum-canvas');
+    const shaperCanvas = document.getElementById('shaper-canvas');
+    const limiterCanvas = document.getElementById('limiter-canvas');
 
     const ctxGon = goniometerCanvas.getContext('2d');
     const ctxSpec = spectrumCanvas.getContext('2d');
+    const ctxShaper = shaperCanvas ? shaperCanvas.getContext('2d') : null;
+    const ctxLimiter = limiterCanvas ? limiterCanvas.getContext('2d') : null;
 
     // Handle High-DPI screens
     function resizeCanvas(canvas) {
+        if (!canvas) return;
         const rect = canvas.getBoundingClientRect();
         const dpr = window.devicePixelRatio || 1;
         canvas.width = rect.width * dpr;
@@ -33,9 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', () => {
         resizeCanvas(goniometerCanvas);
         resizeCanvas(spectrumCanvas);
+        resizeCanvas(shaperCanvas);
+        resizeCanvas(limiterCanvas);
     });
     resizeCanvas(goniometerCanvas);
     resizeCanvas(spectrumCanvas);
+    resizeCanvas(shaperCanvas);
+    resizeCanvas(limiterCanvas);
 
     // --- DSP ROTARY KNOBS LOGIC ---
     const knobs = document.querySelectorAll('.rotary-knob');
@@ -247,6 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const timeDataL = new Float32Array(bufferLength);
     const timeDataR = new Float32Array(bufferLength);
     const freqData = new Uint8Array(512);
+    const grHistory = new Float32Array(150); // 150 scrolling points for Limiter GR
 
     // Peak holding meters logic
     let peakIn = -Infinity;
@@ -592,6 +602,125 @@ document.addEventListener('DOMContentLoaded', () => {
             updateMeterBar('output', -Infinity, -Infinity);
             document.getElementById('peak-db-value').innerText = 'PEAK: -inf dB';
             lastPeakOutDbVal = -Infinity;
+        }
+
+        // 4. SHAPER CURVE VISUALIZER
+        if (ctxShaper && shaperCanvas) {
+            const w = shaperCanvas.width;
+            const h = shaperCanvas.height;
+            ctxShaper.fillStyle = '#050505';
+            ctxShaper.fillRect(0, 0, w, h);
+            
+            // Draw axis lines
+            ctxShaper.strokeStyle = 'rgba(43, 59, 229, 0.15)';
+            ctxShaper.lineWidth = 1;
+            ctxShaper.beginPath();
+            ctxShaper.moveTo(w / 2, 0); ctxShaper.lineTo(w / 2, h);
+            ctxShaper.moveTo(0, h / 2); ctxShaper.lineTo(w, h / 2);
+            ctxShaper.stroke();
+            
+            // Draw transfer curve based on active engine parameters
+            ctxShaper.strokeStyle = engine.params.satMix > 0.05 ? 'rgba(255, 159, 28, 0.95)' : 'rgba(43, 59, 229, 0.85)';
+            ctxShaper.shadowColor = engine.params.satMix > 0.05 ? '#FF9F1C' : '#2B3BE5';
+            ctxShaper.shadowBlur = engine.params.satMix > 0.05 ? 6 : 0;
+            ctxShaper.lineWidth = 2.0;
+            ctxShaper.beginPath();
+            
+            const drive = engine.params.satDrive;
+            const odd = engine.params.exciterOdd;
+            const even = engine.params.exciterEven;
+            const mix = engine.params.satMix;
+            
+            for (let i = 0; i < w; i++) {
+                const x = (i / w) * 2.0 - 1.0;
+                const cleanY = x;
+                
+                // Shaped Y (tanh saturation + Chebyshev harmonics)
+                const sat = Math.tanh(x * drive);
+                const t2 = 2.0 * x * x - 1.0;
+                const t3 = 4.0 * x * x * x - 3.0 * x;
+                const shapedY = sat * 0.8 + (t2 * even + t3 * odd) * 0.2;
+                
+                // Blended Y based on dry/wet mix
+                const finalY = cleanY * (1.0 - mix) + shapedY * mix;
+                
+                const yCanvas = h - ((finalY + 1.0) * 0.5 * h);
+                
+                if (i === 0) ctxShaper.moveTo(i, yCanvas);
+                else ctxShaper.lineTo(i, yCanvas);
+            }
+            ctxShaper.stroke();
+            ctxShaper.shadowBlur = 0;
+        }
+
+        // 5. LIMITER GAIN REDUCTION SCROLLING HISTORY
+        let reductionDb = 0;
+        if (engine.initialized && engine.isPlaying && engine.limiter) {
+            reductionDb = engine.limiter.reduction;
+        }
+        
+        // Scroll buffer
+        for (let i = 0; i < grHistory.length - 1; i++) {
+            grHistory[i] = grHistory[i + 1];
+        }
+        grHistory[grHistory.length - 1] = reductionDb;
+
+        if (ctxLimiter && limiterCanvas) {
+            const w = limiterCanvas.width;
+            const h = limiterCanvas.height;
+            ctxLimiter.fillStyle = '#050505';
+            ctxLimiter.fillRect(0, 0, w, h);
+            
+            // Draw grid threshold marks
+            ctxLimiter.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+            ctxLimiter.lineWidth = 1;
+            ctxLimiter.beginPath();
+            const gridDbs = [-3, -6, -10];
+            gridDbs.forEach(db => {
+                const y = (db / -12) * h;
+                ctxLimiter.moveTo(0, y);
+                ctxLimiter.lineTo(w, y);
+            });
+            ctxLimiter.stroke();
+            
+            ctxLimiter.fillStyle = 'rgba(255, 255, 255, 0.2)';
+            ctxLimiter.font = '7px Courier New';
+            ctxLimiter.fillText("-3dB", 4, (-3 / -12) * h - 2);
+            ctxLimiter.fillText("-6dB", 4, (-6 / -12) * h - 2);
+            
+            // Draw reduction scrolling trace (Neon Pink)
+            ctxLimiter.strokeStyle = 'rgba(255, 0, 127, 0.95)';
+            ctxLimiter.lineWidth = 2.0;
+            ctxLimiter.shadowColor = '#FF007F';
+            ctxLimiter.shadowBlur = 8;
+            ctxLimiter.beginPath();
+            
+            for (let i = 0; i < grHistory.length; i++) {
+                const db = grHistory[i];
+                const clampedDb = Math.max(-12, Math.min(0, db));
+                const y = (clampedDb / -12) * h;
+                const x = (i / (grHistory.length - 1)) * w;
+                
+                if (i === 0) ctxLimiter.moveTo(x, y);
+                else ctxLimiter.lineTo(x, y);
+            }
+            ctxLimiter.stroke();
+            ctxLimiter.shadowBlur = 0;
+            
+            // Fill area below reduction curve
+            ctxLimiter.fillStyle = 'rgba(255, 0, 127, 0.06)';
+            ctxLimiter.beginPath();
+            ctxLimiter.moveTo(0, 0);
+            for (let i = 0; i < grHistory.length; i++) {
+                const db = grHistory[i];
+                const clampedDb = Math.max(-12, Math.min(0, db));
+                const y = (clampedDb / -12) * h;
+                const x = (i / (grHistory.length - 1)) * w;
+                ctxLimiter.lineTo(x, y);
+            }
+            ctxLimiter.lineTo(w, 0);
+            ctxLimiter.closePath();
+            ctxLimiter.fill();
         }
     }
 
