@@ -1114,6 +1114,25 @@ document.addEventListener('DOMContentLoaded', () => {
             ctxEq.stroke();
             ctxEq.shadowBlur = 0;
         }
+
+        // === MERGED PRESET LERP (was separate lerpLoop rAF) ===
+        if (targetParams && lerpProgress < 1.0) {
+            lerpProgress += 0.035;
+            if (lerpProgress > 1.0) lerpProgress = 1.0;
+
+            for (const key in targetParams) {
+                const startVal = startParams[key];
+                const targetVal = targetParams[key];
+                const currentVal = startVal + (targetVal - startVal) * lerpProgress;
+
+                engine.updateParam(key, currentVal);
+
+                const cached = _knobCache[key];
+                if (cached) {
+                    updateKnobUI(cached.el, currentVal, cached.min, cached.max, key);
+                }
+            }
+        }
     }
 
     function updateMeterBar(prefix, rmsVal, peakVal) {
@@ -1386,9 +1405,7 @@ Exergy Const      : S=100
         });
     });
 
-    // === MERGED LERP INTO RENDERLOOP ===
-    // Eliminates 2nd requestAnimationFrame loop.
-    // Cache knob DOM queries once (avoids per-frame querySelector)
+    // Cache knob DOM queries once (avoids per-frame querySelector in lerp)
     const _knobCache = {};
     document.querySelectorAll('.rotary-knob[data-param]').forEach(knob => {
         _knobCache[knob.getAttribute('data-param')] = {
@@ -1397,29 +1414,4 @@ Exergy Const      : S=100
             max: parseFloat(knob.getAttribute('data-max'))
         };
     });
-
-    // Inject lerp into the main renderLoop post-hook
-    const _origRenderLoop = renderLoop;
-    renderLoop = function() {
-        _origRenderLoop();
-
-        // Lerp preset morphing (was separate rAF loop)
-        if (targetParams && lerpProgress < 1.0) {
-            lerpProgress += 0.035;
-            if (lerpProgress > 1.0) lerpProgress = 1.0;
-
-            for (const key in targetParams) {
-                const startVal = startParams[key];
-                const targetVal = targetParams[key];
-                const currentVal = startVal + (targetVal - startVal) * lerpProgress;
-
-                engine.updateParam(key, currentVal);
-
-                const cached = _knobCache[key];
-                if (cached) {
-                    updateKnobUI(cached.el, currentVal, cached.min, cached.max, key);
-                }
-            }
-        }
-    };
 });
