@@ -1,0 +1,2 @@
+# Ignore large archive directories to keep repository lightweight
+COLD_STORAGE/_archive/

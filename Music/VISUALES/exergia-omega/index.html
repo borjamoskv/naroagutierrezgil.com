@@ -1,25 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EXERGIA-Ω // Spatial Audio Mastering Substrate</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="preload" href="css/style.css" as="style">
-    <link rel="preload" href="js/telemetry.js" as="script">
-    <link rel="preload" href="js/webgl-bg.js" as="script">
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Outfit:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preload" href="css/style.css" as="style" />
+    <link rel="preload" href="js/telemetry.js" as="script" />
+    <link rel="preload" href="js/webgl-bg.js" as="script" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
     <!-- Splash Init Screen -->
     <div class="splash-init" id="splash-init">
-        <div class="splash-content">
-            <div class="splash-symbol">Ω</div>
-            <div class="splash-text">INITIALIZING EXERGIA-Ω SUBSTRATE</div>
-            <div class="splash-subtext">C5-REAL // SPATIAL BINAURAL MASTERING</div>
-        </div>
+      <div class="splash-content">
+        <div class="splash-symbol">Ω</div>
+        <div class="splash-text">INITIALIZING EXERGIA-Ω SUBSTRATE</div>
+        <div class="splash-subtext">C5-REAL // SPATIAL BINAURAL MASTERING</div>
+      </div>
     </div>
 
     <!-- Background Analog Grain & WebGL Shader -->
@@ -27,399 +30,643 @@
     <div class="analog-grain"></div>
 
     <div class="app-container">
-        <!-- CORTEX Telemetry HUD Overlay -->
-        <div class="cortex-telemetry-hud glass-panel-c5 telemetry-hud-overlay">
-            <div class="telemetry-hud-title">CORTEX-PERSIST TELEMETRY</div>
-            <div id="ctx-status" class="metric-tabular telemetry-status-alert">CONNECTING...</div>
-            <div id="ctx-nodes" class="metric-tabular">NODES: 0</div>
-            <div id="ctx-throughput" class="metric-tabular">TPUT: 0.00 k/s</div>
-            <div id="ctx-exergy" class="metric-tabular">EXERGY: 0.0000 J</div>
-            <div id="ctx-cortisol" class="metric-tabular telemetry-status-alert">CORTISOL: 0.00</div>
-            <div id="ctx-entropy" class="metric-tabular">ENTROPY: 0.0000</div>
-            <div id="ctx-compliance" class="metric-tabular telemetry-status-alert">SOC2/C5: 100% OK</div>
-            <div id="ctx-mcp-status" class="metric-tabular mcp-status-blue">MCP: RUST-NATIVE</div>
+      <!-- CORTEX Telemetry HUD Overlay -->
+      <div class="cortex-telemetry-hud glass-panel-c5 telemetry-hud-overlay">
+        <div class="telemetry-hud-title">CORTEX-PERSIST TELEMETRY</div>
+        <div id="ctx-status" class="metric-tabular telemetry-status-alert">
+          CONNECTING...
         </div>
-
-        <!-- Header -->
-        <header class="app-header">
-            <div class="header-logo">
-                <div class="logo-symbol">Ω</div>
-                <div class="logo-text">
-                    <h1>EXERGIA-Ω</h1>
-                    <span class="subtitle">SPATIAL BINAURAL MASTERING CORE</span>
-                </div>
-            </div>
-            <div class="system-status">
-                <div class="status-indicator-group" id="ctx-status-group">
-                    <span class="status-pulse" id="ctx-pulse"></span>
-                    <span class="status-text" id="ctx-status">C5-REAL // STANDBY</span>
-                </div>
-                <div class="telemetry-metrics">
-                    <div class="system-metric" id="ctx-nodes">NODES: 0</div>
-                    <div class="system-metric" id="ctx-tasks">TASKS: 0</div>
-                    <div class="system-metric" id="ctx-throughput">TPUT: 0.00 k/s</div>
-                    <div class="system-metric" id="ctx-exergy">EXERGY: 0.0000 J</div>
-                    <div class="system-metric metric-alert" id="ctx-cortisol">CORTISOL: 0.00</div>
-                    <div class="system-metric" id="ctx-compliance">SOC2/C5: 100% OK</div>
-                    <div class="system-metric mcp-status-blue" id="ctx-mcp-status-header">MCP: O(1)</div>
-                    <div class="system-metric" id="sample-rate-metric">SR: 48 kHz</div>
-                </div>
-            </div>
-        </header>
-        
-        <!-- Preset Vibe Bar -->
-        <div class="preset-selector-bar glass-panel-c5">
-            <span class="preset-label">VIBE PROFILE:</span>
-            <button class="btn btn-preset active" data-preset="nominal">NOMINAL</button>
-            <button class="btn btn-preset" data-preset="deep-exergy">DEEP EXERGY</button>
-            <button class="btn btn-preset" data-preset="neon-transparency">NEON TRANSPARENCY</button>
-            <button class="btn btn-preset" data-preset="crt-glitch">CRT GLITCH</button>
-            <button class="btn btn-preset" data-preset="colonial-noir">COLONIAL NOIR</button>
+        <div id="ctx-nodes" class="metric-tabular">NODES: 0</div>
+        <div id="ctx-throughput" class="metric-tabular">TPUT: 0.00 k/s</div>
+        <div id="ctx-exergy" class="metric-tabular">EXERGY: 0.0000 J</div>
+        <div id="ctx-cortisol" class="metric-tabular telemetry-status-alert">
+          CORTISOL: 0.00
         </div>
-
-        <!-- Main Workspace -->
-        <main class="workspace-grid">
-            <!-- Row 1: Visualizers -->
-            <section class="visualizer-row">
-                <!-- Goniometer / Vectorscope -->
-                <div class="panel visualizer-panel glass-panel-c5" id="vectorscope-container">
-                    <div class="panel-header">
-                        <h3>STEREOSPACE VECTORSCOPE</h3>
-                        <span class="metric" id="correlation-value">CORR: +1.00</span>
-                    </div>
-                    <div class="canvas-wrapper">
-                        <canvas id="goniometer-canvas"></canvas>
-                        <div class="vectorscope-grid">
-                            <span class="grid-label label-l">L</span>
-                            <span class="grid-label label-r">R</span>
-                            <span class="grid-label label-m">M</span>
-                            <span class="grid-label label-s">S</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Dual Spectrum Analyzer -->
-                <div class="panel visualizer-panel glass-panel-c5" id="spectrum-container">
-                    <div class="panel-header">
-                        <h3>MID/SIDE SPECTRUM</h3>
-                        <div class="spectrum-legend">
-                            <span class="legend-item mid-legend">Mid</span>
-                            <span class="legend-item side-legend">Side</span>
-                        </div>
-                        <span class="spectral-tilt-indicator tilt-balanced" id="spectral-tilt" title="Spectral Balance">▲</span>
-                    </div>
-                    <div class="canvas-wrapper">
-                        <canvas id="spectrum-canvas"></canvas>
-                    </div>
-                </div>
-
-                <!-- LUFS & Dynamic Meters -->
-                <div class="panel visualizer-panel glass-panel-c5" id="meters-container">
-                    <div class="panel-header">
-                        <h3>DYNAMICS & LOUDNESS</h3>
-                        <span class="metric" id="peak-db-value">PEAK: -inf dB</span>
-                    </div>
-                    <div class="meters-wrapper">
-                        <div class="meter-channel">
-                            <span class="meter-label">INPUT</span>
-                            <div class="meter-bar-container">
-                                <div class="meter-bar" id="input-meter-bar"></div>
-                                <div class="meter-peak" id="input-meter-peak"></div>
-                            </div>
-                            <span class="meter-value" id="input-meter-val">-inf</span>
-                        </div>
-                        <div class="meter-channel">
-                            <span class="meter-label">OUTPUT</span>
-                            <div class="meter-bar-container">
-                                <div class="meter-bar" id="output-meter-bar"></div>
-                                <div class="meter-peak" id="output-meter-peak"></div>
-                            </div>
-                            <span class="meter-value" id="output-meter-val">-inf</span>
-                        </div>
-                        <div class="correlation-meter-group">
-                            <span class="meter-label">PHASE</span>
-                            <div class="correlation-bar-container">
-                                <div class="correlation-bar-fill" id="corr-bar-fill"></div>
-                                <div class="correlation-center-line"></div>
-                            </div>
-                            <div class="correlation-scale">
-                                <span>-1</span><span>0</span><span>+1</span>
-                            </div>
-                        </div>
-                        <div class="lufs-meter-group">
-                            <span class="meter-label">LUFS</span>
-                            <div class="lufs-bar-container">
-                                <div class="lufs-bar-fill" id="lufs-bar-fill"></div>
-                            </div>
-                            <span class="lufs-value-display metric-tabular" id="lufs-value">-inf</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Row 2: Control Racks -->
-            <section class="control-row">
-                <!-- Source Control (Oscillators / File Upload) -->
-                <div class="panel control-panel glass-panel-c5" id="rack-source">
-                    <div class="panel-header">
-                        <span class="rack-num">01</span>
-                        <h3>SIGNAL SOURCE</h3>
-                    </div>
-                    <div class="control-group source-controls">
-                        <!-- File Upload -->
-                        <div class="file-uploader" id="drop-zone">
-                            <input type="file" id="audio-file" accept="audio/*" class="file-input" title="Cargar archivo de audio">
-                            <div class="upload-prompt">
-                                <svg class="icon-upload" viewBox="0 0 24 24">
-                                    <path d="M12 16V8M12 8L9 11M12 8L15 11M3 15V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                                </svg>
-                                <label for="audio-file" class="upload-prompt-label">ARRASATRA WAV / MP3</label>
-                                <span class="file-name" id="file-name">Ningún archivo cargado</span>
-                            </div>
-                        </div>
-
-                        <!-- Generator -->
-                        <div class="generator-group">
-                            <span class="sub-title">DRONE & BEAT GENERATOR</span>
-                            <div class="button-row">
-                                <button class="btn btn-secondary" id="btn-play-generator">PLAY SOURCE</button>
-                                <button class="btn btn-danger" id="btn-stop-audio">STOP</button>
-                            </div>
-                            <div class="slider-control">
-                                <div class="slider-header">
-                                    <label for="drone-freq" class="control-label">DRONE FREQ</label>
-                                    <span class="control-val" id="drone-freq-val">55 Hz</span>
-                                </div>
-                                <input type="range" id="drone-freq" min="40" max="120" step="1" value="55" class="slider-input" title="Frecuencia del Drone">
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Waveform Timeline (shown on file load) -->
-                    <div class="waveform-timeline-container" id="waveform-container" style="display:none;">
-                        <canvas id="waveform-canvas"></canvas>
-                        <div class="waveform-playhead" id="waveform-playhead"></div>
-                        <div class="waveform-time-display metric-tabular" id="waveform-time">00:00 / 00:00</div>
-                    </div>
-                </div>
-
-                <!-- Highpass & Mid EQ -->
-                <div class="panel control-panel glass-panel-c5" id="rack-eq">
-                    <div class="panel-header">
-                        <span class="rack-num">02</span>
-                        <h3>SUB-BASS & MID EQ</h3>
-                    </div>
-                    <div class="panel-canvas-wrapper">
-                        <canvas id="eq-canvas"></canvas>
-                    </div>
-                    <div class="control-group knobs-grid">
-                        <div class="knob-control">
-                            <span class="control-label">SUB CUT</span>
-                            <div class="rotary-knob" data-param="subCut" data-min="20" data-max="80" data-value="30">
-                                <div class="knob-indicator"></div>
-                            </div>
-                            <span class="control-val" id="val-subCut">30 Hz</span>
-                        </div>
-
-                        <div class="knob-control">
-                            <span class="control-label">MID SHELF</span>
-                            <div class="rotary-knob" data-param="lowShelf" data-min="-6" data-max="6" data-value="1.0" data-step="0.1">
-                                <div class="knob-indicator"></div>
-                            </div>
-                            <span class="control-val" id="val-lowShelf">+1.0 dB</span>
-                        </div>
-
-                        <div class="knob-control">
-                            <span class="control-label">MUD CUT</span>
-                            <div class="rotary-knob" data-param="mudCut" data-min="-8" data-max="0" data-value="-2.0" data-step="0.1">
-                                <div class="knob-indicator"></div>
-                            </div>
-                            <span class="control-val" id="val-mudCut">-2.0 dB</span>
-                        </div>
-
-                        <div class="knob-control">
-                            <span class="control-label">PRESENCE</span>
-                            <div class="rotary-knob" data-param="presence" data-min="-3" data-max="6" data-value="1.5" data-step="0.1">
-                                <div class="knob-indicator"></div>
-                            </div>
-                            <span class="control-val" id="val-presence">+1.5 dB</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Saturation & Excitation -->
-                <div class="panel control-panel glass-panel-c5" id="rack-excitation">
-                    <div class="panel-header">
-                        <span class="rack-num">03</span>
-                        <h3>TAPE SAT & EXCITER</h3>
-                    </div>
-                    <div class="panel-canvas-wrapper">
-                        <canvas id="shaper-canvas"></canvas>
-                    </div>
-                    <div class="control-group knobs-grid">
-                        <div class="knob-control">
-                            <span class="control-label">DRIVE</span>
-                            <div class="rotary-knob" data-param="satDrive" data-min="1" data-max="6" data-value="2.0" data-step="0.1">
-                                <div class="knob-indicator"></div>
-                            </div>
-                            <span class="control-val" id="val-satDrive">2.0x</span>
-                        </div>
-
-                        <div class="knob-control">
-                            <span class="control-label">SAT MIX</span>
-                            <div class="rotary-knob" data-param="satMix" data-min="0" data-max="1" data-value="0.15" data-step="0.01">
-                                <div class="knob-indicator"></div>
-                            </div>
-                            <span class="control-val" id="val-satMix">15%</span>
-                        </div>
-
-                        <div class="knob-control">
-                            <span class="control-label">ODD HARM</span>
-                            <div class="rotary-knob" data-param="exciterOdd" data-min="0" data-max="1" data-value="0.1" data-step="0.01">
-                                <div class="knob-indicator"></div>
-                            </div>
-                            <span class="control-val" id="val-exciterOdd">10%</span>
-                        </div>
-
-                        <div class="knob-control">
-                            <span class="control-label">EVEN HARM</span>
-                            <div class="rotary-knob" data-param="exciterEven" data-min="0" data-max="1" data-value="0.08" data-step="0.01">
-                                <div class="knob-indicator"></div>
-                            </div>
-                            <span class="control-val" id="val-exciterEven">8%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Spatial Spatialization & Crossfeed -->
-                <div class="panel control-panel glass-panel-c5" id="rack-spatial">
-                    <div class="panel-header">
-                        <span class="rack-num">04</span>
-                        <h3>BINAURAL & WIDENING</h3>
-                    </div>
-                    <div class="panel-canvas-wrapper">
-                        <canvas id="radar-canvas"></canvas>
-                    </div>
-                    <div class="control-group knobs-grid">
-                        <div class="knob-control">
-                            <span class="control-label">ITD DELAY</span>
-                            <div class="rotary-knob" data-param="spatialDelay" data-min="0" data-max="1.5" data-value="0.3" data-step="0.05">
-                                <div class="knob-indicator"></div>
-                            </div>
-                            <span class="control-val" id="val-spatialDelay">0.30 ms</span>
-                        </div>
-
-                        <div class="knob-control">
-                            <span class="control-label">CROSSFEED</span>
-                            <div class="rotary-knob" data-param="crossfeedMix" data-min="0" data-max="0.8" data-value="0.35" data-step="0.01">
-                                <div class="knob-indicator"></div>
-                            </div>
-                            <span class="control-val" id="val-crossfeedMix">35%</span>
-                        </div>
-
-                        <div class="knob-control">
-                            <span class="control-label">SIDE WIDTH</span>
-                            <div class="rotary-knob" data-param="sideWidth" data-min="0.5" data-max="2.0" data-value="1.2" data-step="0.05">
-                                <div class="knob-indicator"></div>
-                            </div>
-                            <span class="control-val" id="val-sideWidth">120%</span>
-                        </div>
-
-                        <div class="knob-control">
-                            <span class="control-label">SIDE HP</span>
-                            <div class="rotary-knob" data-param="sideHp" data-min="80" data-max="200" data-value="120" data-step="5">
-                                <div class="knob-indicator"></div>
-                            </div>
-                            <span class="control-val" id="val-sideHp">120 Hz</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Limiter & Loudness -->
-                <div class="panel control-panel glass-panel-c5" id="rack-limiter">
-                    <div class="panel-header">
-                        <span class="rack-num">05</span>
-                        <h3>LIMITER & CEILING</h3>
-                    </div>
-                    <div class="panel-canvas-wrapper">
-                        <canvas id="limiter-canvas"></canvas>
-                    </div>
-                    <div class="control-group knobs-grid">
-                        <div class="knob-control">
-                            <span class="control-label">GAIN BOOST</span>
-                            <div class="rotary-knob" data-param="gainBoost" data-min="0" data-max="12" data-value="2.0" data-step="0.1">
-                                <div class="knob-indicator"></div>
-                            </div>
-                            <span class="control-val" id="val-gainBoost">+2.0 dB</span>
-                        </div>
-
-                        <div class="knob-control">
-                            <span class="control-label">CEILING</span>
-                            <div class="rotary-knob" data-param="ceiling" data-min="-3" data-max="-0.1" data-value="-0.5" data-step="0.05">
-                                <div class="knob-indicator"></div>
-                            </div>
-                            <span class="control-val" id="val-ceiling">-0.5 dB</span>
-                        </div>
-
-                        <div class="knob-control">
-                            <span class="control-label">RELEASE</span>
-                            <div class="rotary-knob" data-param="limiterRelease" data-min="10" data-max="200" data-value="50" data-step="5">
-                                <div class="knob-indicator"></div>
-                            </div>
-                            <span class="control-val" id="val-limiterRelease">50 ms</span>
-                        </div>
-
-                        <div class="knob-control toggle-control-group">
-                            <span class="control-label">MASTER BYPASS</span>
-                            <button class="btn btn-toggle" id="btn-bypass">BYPASS</button>
-                            <button class="btn btn-toggle btn-ab" id="btn-ab" title="A/B comparison: snapshot current state, toggle between A and B">A/B</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Row 3: P0 Path & Convergence Log -->
-            <section class="log-row">
-                <div class="panel log-panel glass-panel-c5">
-                    <div class="panel-header">
-                        <h3>P0 PATH // C5-REAL LOG PURGE</h3>
-                        <span class="metric" id="log-status">ANNIHILATION GATE: ACTIVE</span>
-                    </div>
-                    <div class="log-feed-container" id="p0-log-feed">
-                        <div class="log-entry system"><span class="log-time">[00:00:00]</span> <span class="log-msg">EXERGIA-Ω Substrate Initialized. Awaiting CORTEX Telemetry...</span></div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- Technical Description & Architecture Notes -->
-        <footer class="app-footer-details glass-panel-c5 footer-layout">
-            <div class="tech-card">
-                <h4 class="tech-card-title">EXERGIA-Ω // BIPHASAL SIGNAL METRIC</h4>
-                <p class="tech-card-text">Procesamiento de señal estructurado en dominio de frecuencia mediante matrices Mid/Side. La atenuación y retardo interaural (ITD/ILD) simula un campo de presión sonora binaural coherente para auriculares, aplicando decaimiento selectivo en alta frecuencia y desensibilización de fase sub-120Hz.</p>
-            </div>
-            <div class="tech-card text-right">
-                <h4>SYSTEM INTEGRITY Ledger</h4>
-                <p id="ledger-hash">HASH-256: 8a4c1f9d... // VERIFIED REALITY: C5-REAL</p>
-                <button class="btn btn-secondary btn-export" id="btn-export-session">EXPORT EXERGY LOG</button>
-                <button class="btn btn-secondary btn-export btn-record-pink" id="btn-record-performance">RECORD VIDEO</button>
-                <button class="btn btn-secondary btn-export" id="btn-show-shortcuts" style="margin-left:0.5rem;">? KEYS</button>
-            </div>
-        </footer>
-
-        <!-- Keyboard Shortcuts Overlay -->
-        <div class="shortcuts-overlay" id="shortcuts-overlay">
-            <div class="shortcuts-panel glass-panel-c5">
-                <button class="shortcuts-close" id="shortcuts-close">✕</button>
-                <h3 class="shortcuts-title">KEYBOARD SHORTCUTS</h3>
-                <div class="shortcut-row"><kbd class="shortcut-key">SPACE</kbd><span class="shortcut-desc">Play / Stop Generator</span></div>
-                <div class="shortcut-row"><kbd class="shortcut-key">B</kbd><span class="shortcut-desc">Toggle Bypass</span></div>
-                <div class="shortcut-row"><kbd class="shortcut-key">R</kbd><span class="shortcut-desc">Record Video</span></div>
-                <div class="shortcut-row"><kbd class="shortcut-key">E</kbd><span class="shortcut-desc">Export Exergy Log</span></div>
-                <div class="shortcut-row"><kbd class="shortcut-key">A</kbd><span class="shortcut-desc">A/B Comparison Toggle</span></div>
-                <div class="shortcut-row"><kbd class="shortcut-key">1–5</kbd><span class="shortcut-desc">Switch Vibe Preset</span></div>
-                <div class="shortcut-row"><kbd class="shortcut-key">?</kbd><span class="shortcut-desc">Show / Hide This Panel</span></div>
-            </div>
+        <div id="ctx-entropy" class="metric-tabular">ENTROPY: 0.0000</div>
+        <div id="ctx-compliance" class="metric-tabular telemetry-status-alert">
+          SOC2/C5: 100% OK
         </div>
+        <div id="ctx-mcp-status" class="metric-tabular mcp-status-blue">
+          MCP: RUST-NATIVE
+        </div>
+      </div>
+
+      <!-- Header -->
+      <header class="app-header">
+        <div class="header-logo">
+          <div class="logo-symbol">Ω</div>
+          <div class="logo-text">
+            <h1>EXERGIA-Ω</h1>
+            <span class="subtitle">SPATIAL BINAURAL MASTERING CORE</span>
+          </div>
+        </div>
+        <div class="system-status">
+          <div class="status-indicator-group" id="ctx-status-group">
+            <span class="status-pulse" id="ctx-pulse"></span>
+            <span class="status-text" id="ctx-status">C5-REAL // STANDBY</span>
+          </div>
+          <div class="telemetry-metrics">
+            <div class="system-metric" id="ctx-nodes">NODES: 0</div>
+            <div class="system-metric" id="ctx-tasks">TASKS: 0</div>
+            <div class="system-metric" id="ctx-throughput">TPUT: 0.00 k/s</div>
+            <div class="system-metric" id="ctx-exergy">EXERGY: 0.0000 J</div>
+            <div class="system-metric metric-alert" id="ctx-cortisol">
+              CORTISOL: 0.00
+            </div>
+            <div class="system-metric" id="ctx-compliance">
+              SOC2/C5: 100% OK
+            </div>
+            <div
+              class="system-metric mcp-status-blue"
+              id="ctx-mcp-status-header"
+            >
+              MCP: O(1)
+            </div>
+            <div class="system-metric" id="sample-rate-metric">SR: 48 kHz</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Preset Vibe Bar -->
+      <div class="preset-selector-bar glass-panel-c5">
+        <span class="preset-label">VIBE PROFILE:</span>
+        <button class="btn btn-preset active" data-preset="nominal">
+          NOMINAL
+        </button>
+        <button class="btn btn-preset" data-preset="deep-exergy">
+          DEEP EXERGY
+        </button>
+        <button class="btn btn-preset" data-preset="neon-transparency">
+          NEON TRANSPARENCY
+        </button>
+        <button class="btn btn-preset" data-preset="crt-glitch">
+          CRT GLITCH
+        </button>
+        <button class="btn btn-preset" data-preset="colonial-noir">
+          COLONIAL NOIR
+        </button>
+      </div>
+
+      <!-- Main Workspace -->
+      <main class="workspace-grid">
+        <!-- Row 1: Visualizers -->
+        <section class="visualizer-row">
+          <!-- Goniometer / Vectorscope -->
+          <div
+            class="panel visualizer-panel glass-panel-c5"
+            id="vectorscope-container"
+          >
+            <div class="panel-header">
+              <h3>STEREOSPACE VECTORSCOPE</h3>
+              <span class="metric" id="correlation-value">CORR: +1.00</span>
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="goniometer-canvas"></canvas>
+              <div class="vectorscope-grid">
+                <span class="grid-label label-l">L</span>
+                <span class="grid-label label-r">R</span>
+                <span class="grid-label label-m">M</span>
+                <span class="grid-label label-s">S</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dual Spectrum Analyzer -->
+          <div
+            class="panel visualizer-panel glass-panel-c5"
+            id="spectrum-container"
+          >
+            <div class="panel-header">
+              <h3>MID/SIDE SPECTRUM</h3>
+              <div class="spectrum-legend">
+                <span class="legend-item mid-legend">Mid</span>
+                <span class="legend-item side-legend">Side</span>
+              </div>
+              <span
+                class="spectral-tilt-indicator tilt-balanced"
+                id="spectral-tilt"
+                title="Spectral Balance"
+                >▲</span
+              >
+            </div>
+            <div class="canvas-wrapper">
+              <canvas id="spectrum-canvas"></canvas>
+            </div>
+          </div>
+
+          <!-- LUFS & Dynamic Meters -->
+          <div
+            class="panel visualizer-panel glass-panel-c5"
+            id="meters-container"
+          >
+            <div class="panel-header">
+              <h3>DYNAMICS & LOUDNESS</h3>
+              <span class="metric" id="peak-db-value">PEAK: -inf dB</span>
+            </div>
+            <div class="meters-wrapper">
+              <div class="meter-channel">
+                <span class="meter-label">INPUT</span>
+                <div class="meter-bar-container">
+                  <div class="meter-bar" id="input-meter-bar"></div>
+                  <div class="meter-peak" id="input-meter-peak"></div>
+                </div>
+                <span class="meter-value" id="input-meter-val">-inf</span>
+              </div>
+              <div class="meter-channel">
+                <span class="meter-label">OUTPUT</span>
+                <div class="meter-bar-container">
+                  <div class="meter-bar" id="output-meter-bar"></div>
+                  <div class="meter-peak" id="output-meter-peak"></div>
+                </div>
+                <span class="meter-value" id="output-meter-val">-inf</span>
+              </div>
+              <div class="correlation-meter-group">
+                <span class="meter-label">PHASE</span>
+                <div class="correlation-bar-container">
+                  <div class="correlation-bar-fill" id="corr-bar-fill"></div>
+                  <div class="correlation-center-line"></div>
+                </div>
+                <div class="correlation-scale">
+                  <span>-1</span><span>0</span><span>+1</span>
+                </div>
+              </div>
+              <div class="lufs-meter-group">
+                <span class="meter-label">LUFS</span>
+                <div class="lufs-bar-container">
+                  <div class="lufs-bar-fill" id="lufs-bar-fill"></div>
+                </div>
+                <span class="lufs-value-display metric-tabular" id="lufs-value"
+                  >-inf</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Row 2: Control Racks -->
+        <section class="control-row">
+          <!-- Source Control (Oscillators / File Upload) -->
+          <div class="panel control-panel glass-panel-c5" id="rack-source">
+            <div class="panel-header">
+              <span class="rack-num">01</span>
+              <h3>SIGNAL SOURCE</h3>
+            </div>
+            <div class="control-group source-controls">
+              <!-- File Upload -->
+              <div class="file-uploader" id="drop-zone">
+                <input
+                  type="file"
+                  id="audio-file"
+                  accept="audio/*"
+                  class="file-input"
+                  title="Cargar archivo de audio"
+                />
+                <div class="upload-prompt">
+                  <svg class="icon-upload" viewBox="0 0 24 24">
+                    <path
+                      d="M12 16V8M12 8L9 11M12 8L15 11M3 15V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V15"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      fill="none"
+                    />
+                  </svg>
+                  <label for="audio-file" class="upload-prompt-label"
+                    >ARRASATRA WAV / MP3</label
+                  >
+                  <span class="file-name" id="file-name"
+                    >Ningún archivo cargado</span
+                  >
+                </div>
+              </div>
+
+              <!-- Generator -->
+              <div class="generator-group">
+                <span class="sub-title">DRONE & BEAT GENERATOR</span>
+                <div class="button-row">
+                  <button class="btn btn-secondary" id="btn-play-generator">
+                    PLAY SOURCE
+                  </button>
+                  <button class="btn btn-danger" id="btn-stop-audio">
+                    STOP
+                  </button>
+                </div>
+                <div class="slider-control">
+                  <div class="slider-header">
+                    <label for="drone-freq" class="control-label"
+                      >DRONE FREQ</label
+                    >
+                    <span class="control-val" id="drone-freq-val">55 Hz</span>
+                  </div>
+                  <input
+                    type="range"
+                    id="drone-freq"
+                    min="40"
+                    max="120"
+                    step="1"
+                    value="55"
+                    class="slider-input"
+                    title="Frecuencia del Drone"
+                  />
+                </div>
+              </div>
+            </div>
+            <!-- Waveform Timeline (shown on file load) -->
+            <div
+              class="waveform-timeline-container"
+              id="waveform-container"
+              style="display: none"
+            >
+              <canvas id="waveform-canvas"></canvas>
+              <div class="waveform-playhead" id="waveform-playhead"></div>
+              <div
+                class="waveform-time-display metric-tabular"
+                id="waveform-time"
+              >
+                00:00 / 00:00
+              </div>
+            </div>
+          </div>
+
+          <!-- Highpass & Mid EQ -->
+          <div class="panel control-panel glass-panel-c5" id="rack-eq">
+            <div class="panel-header">
+              <span class="rack-num">02</span>
+              <h3>SUB-BASS & MID EQ</h3>
+            </div>
+            <div class="panel-canvas-wrapper">
+              <canvas id="eq-canvas"></canvas>
+            </div>
+            <div class="control-group knobs-grid">
+              <div class="knob-control">
+                <span class="control-label">SUB CUT</span>
+                <div
+                  class="rotary-knob"
+                  data-param="subCut"
+                  data-min="20"
+                  data-max="80"
+                  data-value="30"
+                >
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="control-val" id="val-subCut">30 Hz</span>
+              </div>
+
+              <div class="knob-control">
+                <span class="control-label">MID SHELF</span>
+                <div
+                  class="rotary-knob"
+                  data-param="lowShelf"
+                  data-min="-6"
+                  data-max="6"
+                  data-value="1.0"
+                  data-step="0.1"
+                >
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="control-val" id="val-lowShelf">+1.0 dB</span>
+              </div>
+
+              <div class="knob-control">
+                <span class="control-label">MUD CUT</span>
+                <div
+                  class="rotary-knob"
+                  data-param="mudCut"
+                  data-min="-8"
+                  data-max="0"
+                  data-value="-2.0"
+                  data-step="0.1"
+                >
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="control-val" id="val-mudCut">-2.0 dB</span>
+              </div>
+
+              <div class="knob-control">
+                <span class="control-label">PRESENCE</span>
+                <div
+                  class="rotary-knob"
+                  data-param="presence"
+                  data-min="-3"
+                  data-max="6"
+                  data-value="1.5"
+                  data-step="0.1"
+                >
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="control-val" id="val-presence">+1.5 dB</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Saturation & Excitation -->
+          <div class="panel control-panel glass-panel-c5" id="rack-excitation">
+            <div class="panel-header">
+              <span class="rack-num">03</span>
+              <h3>TAPE SAT & EXCITER</h3>
+            </div>
+            <div class="panel-canvas-wrapper">
+              <canvas id="shaper-canvas"></canvas>
+            </div>
+            <div class="control-group knobs-grid">
+              <div class="knob-control">
+                <span class="control-label">DRIVE</span>
+                <div
+                  class="rotary-knob"
+                  data-param="satDrive"
+                  data-min="1"
+                  data-max="6"
+                  data-value="2.0"
+                  data-step="0.1"
+                >
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="control-val" id="val-satDrive">2.0x</span>
+              </div>
+
+              <div class="knob-control">
+                <span class="control-label">SAT MIX</span>
+                <div
+                  class="rotary-knob"
+                  data-param="satMix"
+                  data-min="0"
+                  data-max="1"
+                  data-value="0.15"
+                  data-step="0.01"
+                >
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="control-val" id="val-satMix">15%</span>
+              </div>
+
+              <div class="knob-control">
+                <span class="control-label">ODD HARM</span>
+                <div
+                  class="rotary-knob"
+                  data-param="exciterOdd"
+                  data-min="0"
+                  data-max="1"
+                  data-value="0.1"
+                  data-step="0.01"
+                >
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="control-val" id="val-exciterOdd">10%</span>
+              </div>
+
+              <div class="knob-control">
+                <span class="control-label">EVEN HARM</span>
+                <div
+                  class="rotary-knob"
+                  data-param="exciterEven"
+                  data-min="0"
+                  data-max="1"
+                  data-value="0.08"
+                  data-step="0.01"
+                >
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="control-val" id="val-exciterEven">8%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Spatial Spatialization & Crossfeed -->
+          <div class="panel control-panel glass-panel-c5" id="rack-spatial">
+            <div class="panel-header">
+              <span class="rack-num">04</span>
+              <h3>BINAURAL & WIDENING</h3>
+            </div>
+            <div class="panel-canvas-wrapper">
+              <canvas id="radar-canvas"></canvas>
+            </div>
+            <div class="control-group knobs-grid">
+              <div class="knob-control">
+                <span class="control-label">ITD DELAY</span>
+                <div
+                  class="rotary-knob"
+                  data-param="spatialDelay"
+                  data-min="0"
+                  data-max="1.5"
+                  data-value="0.3"
+                  data-step="0.05"
+                >
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="control-val" id="val-spatialDelay">0.30 ms</span>
+              </div>
+
+              <div class="knob-control">
+                <span class="control-label">CROSSFEED</span>
+                <div
+                  class="rotary-knob"
+                  data-param="crossfeedMix"
+                  data-min="0"
+                  data-max="0.8"
+                  data-value="0.35"
+                  data-step="0.01"
+                >
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="control-val" id="val-crossfeedMix">35%</span>
+              </div>
+
+              <div class="knob-control">
+                <span class="control-label">SIDE WIDTH</span>
+                <div
+                  class="rotary-knob"
+                  data-param="sideWidth"
+                  data-min="0.5"
+                  data-max="2.0"
+                  data-value="1.2"
+                  data-step="0.05"
+                >
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="control-val" id="val-sideWidth">120%</span>
+              </div>
+
+              <div class="knob-control">
+                <span class="control-label">SIDE HP</span>
+                <div
+                  class="rotary-knob"
+                  data-param="sideHp"
+                  data-min="80"
+                  data-max="200"
+                  data-value="120"
+                  data-step="5"
+                >
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="control-val" id="val-sideHp">120 Hz</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Limiter & Loudness -->
+          <div class="panel control-panel glass-panel-c5" id="rack-limiter">
+            <div class="panel-header">
+              <span class="rack-num">05</span>
+              <h3>LIMITER & CEILING</h3>
+            </div>
+            <div class="panel-canvas-wrapper">
+              <canvas id="limiter-canvas"></canvas>
+            </div>
+            <div class="control-group knobs-grid">
+              <div class="knob-control">
+                <span class="control-label">GAIN BOOST</span>
+                <div
+                  class="rotary-knob"
+                  data-param="gainBoost"
+                  data-min="0"
+                  data-max="12"
+                  data-value="2.0"
+                  data-step="0.1"
+                >
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="control-val" id="val-gainBoost">+2.0 dB</span>
+              </div>
+
+              <div class="knob-control">
+                <span class="control-label">CEILING</span>
+                <div
+                  class="rotary-knob"
+                  data-param="ceiling"
+                  data-min="-3"
+                  data-max="-0.1"
+                  data-value="-0.5"
+                  data-step="0.05"
+                >
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="control-val" id="val-ceiling">-0.5 dB</span>
+              </div>
+
+              <div class="knob-control">
+                <span class="control-label">RELEASE</span>
+                <div
+                  class="rotary-knob"
+                  data-param="limiterRelease"
+                  data-min="10"
+                  data-max="200"
+                  data-value="50"
+                  data-step="5"
+                >
+                  <div class="knob-indicator"></div>
+                </div>
+                <span class="control-val" id="val-limiterRelease">50 ms</span>
+              </div>
+
+              <div class="knob-control toggle-control-group">
+                <span class="control-label">MASTER BYPASS</span>
+                <button class="btn btn-toggle" id="btn-bypass">BYPASS</button>
+                <button
+                  class="btn btn-toggle btn-ab"
+                  id="btn-ab"
+                  title="A/B comparison: snapshot current state, toggle between A and B"
+                >
+                  A/B
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Row 3: P0 Path & Convergence Log -->
+        <section class="log-row">
+          <div class="panel log-panel glass-panel-c5">
+            <div class="panel-header">
+              <h3>P0 PATH // C5-REAL LOG PURGE</h3>
+              <span class="metric" id="log-status"
+                >ANNIHILATION GATE: ACTIVE</span
+              >
+            </div>
+            <div class="log-feed-container" id="p0-log-feed">
+              <div class="log-entry system">
+                <span class="log-time">[00:00:00]</span>
+                <span class="log-msg"
+                  >EXERGIA-Ω Substrate Initialized. Awaiting CORTEX
+                  Telemetry...</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Technical Description & Architecture Notes -->
+      <footer class="app-footer-details glass-panel-c5 footer-layout">
+        <div class="tech-card">
+          <h4 class="tech-card-title">EXERGIA-Ω // BIPHASAL SIGNAL METRIC</h4>
+          <p class="tech-card-text">
+            Procesamiento de señal estructurado en dominio de frecuencia
+            mediante matrices Mid/Side. La atenuación y retardo interaural
+            (ITD/ILD) simula un campo de presión sonora binaural coherente para
+            auriculares, aplicando decaimiento selectivo en alta frecuencia y
+            desensibilización de fase sub-120Hz.
+          </p>
+        </div>
+        <div class="tech-card text-right">
+          <h4>SYSTEM INTEGRITY Ledger</h4>
+          <p id="ledger-hash">
+            HASH-256: 8a4c1f9d... // VERIFIED REALITY: C5-REAL
+          </p>
+          <button class="btn btn-secondary btn-export" id="btn-export-session">
+            EXPORT EXERGY LOG
+          </button>
+          <button
+            class="btn btn-secondary btn-export btn-record-pink"
+            id="btn-record-performance"
+          >
+            RECORD VIDEO
+          </button>
+          <button
+            class="btn btn-secondary btn-export"
+            id="btn-show-shortcuts"
+            style="margin-left: 0.5rem"
+          >
+            ? KEYS
+          </button>
+        </div>
+      </footer>
+
+      <!-- Keyboard Shortcuts Overlay -->
+      <div class="shortcuts-overlay" id="shortcuts-overlay">
+        <div class="shortcuts-panel glass-panel-c5">
+          <button class="shortcuts-close" id="shortcuts-close">✕</button>
+          <h3 class="shortcuts-title">KEYBOARD SHORTCUTS</h3>
+          <div class="shortcut-row">
+            <kbd class="shortcut-key">SPACE</kbd
+            ><span class="shortcut-desc">Play / Stop Generator</span>
+          </div>
+          <div class="shortcut-row">
+            <kbd class="shortcut-key">B</kbd
+            ><span class="shortcut-desc">Toggle Bypass</span>
+          </div>
+          <div class="shortcut-row">
+            <kbd class="shortcut-key">R</kbd
+            ><span class="shortcut-desc">Record Video</span>
+          </div>
+          <div class="shortcut-row">
+            <kbd class="shortcut-key">E</kbd
+            ><span class="shortcut-desc">Export Exergy Log</span>
+          </div>
+          <div class="shortcut-row">
+            <kbd class="shortcut-key">A</kbd
+            ><span class="shortcut-desc">A/B Comparison Toggle</span>
+          </div>
+          <div class="shortcut-row">
+            <kbd class="shortcut-key">1–5</kbd
+            ><span class="shortcut-desc">Switch Vibe Preset</span>
+          </div>
+          <div class="shortcut-row">
+            <kbd class="shortcut-key">?</kbd
+            ><span class="shortcut-desc">Show / Hide This Panel</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Scripts -->
@@ -428,5 +675,5 @@
     <script src="js/dsp.js"></script>
     <script src="js/visuals.js"></script>
     <script src="js/controls.js"></script>
-</body>
+  </body>
 </html>
