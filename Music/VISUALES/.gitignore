@@ -15,6 +15,9 @@ video-forge/manifest_*.json
 .snapshots/
 .vscode/
 .DS_Store
+.pw_session*
+*pw_session*
+
 
 # Intermediate alignment data
 all_alignment_candidates.json
