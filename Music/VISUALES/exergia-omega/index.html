@@ -34,11 +34,16 @@
                 </div>
             </div>
             <div class="system-status">
-                <div class="status-indicator-group">
-                    <span class="status-pulse"></span>
-                    <span class="status-text">C5-REAL // ACTIVE</span>
+                <div class="status-indicator-group" id="ctx-status-group">
+                    <span class="status-pulse" id="ctx-pulse"></span>
+                    <span class="status-text" id="ctx-status">C5-REAL // STANDBY</span>
                 </div>
-                <div class="system-metric" id="sample-rate-metric">SR: -- kHz</div>
+                <div class="telemetry-metrics">
+                    <div class="system-metric" id="ctx-nodes">NODES: 0</div>
+                    <div class="system-metric" id="ctx-throughput">TPUT: 0.00 k/s</div>
+                    <div class="system-metric" id="ctx-exergy">EXERGY: 0.0000 J</div>
+                    <div class="system-metric" id="sample-rate-metric">SR: 48 kHz</div>
+                </div>
             </div>
         </header>
 

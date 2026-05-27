@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // UI Elements
     const hudStatus = document.getElementById('ctx-status');
+    const hudPulse = document.getElementById('ctx-pulse');
     const hudNodes = document.getElementById('ctx-nodes');
     const hudThroughput = document.getElementById('ctx-throughput');
     const hudExergy = document.getElementById('ctx-exergy');
@@ -31,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(hudStatus) {
                     hudStatus.innerText = "LINKED: C5-REAL";
                     hudStatus.style.color = "#2B3BE5"; // Sovereign Blue
+                }
+                if(hudPulse) {
+                    hudPulse.classList.add('active');
                 }
             };
             
@@ -54,6 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(hudStatus) {
                     hudStatus.innerText = "OFFLINE / STANDBY";
                     hudStatus.style.color = "#FF9F1C"; // Amber
+                }
+                if(hudPulse) {
+                    hudPulse.classList.remove('active');
                 }
                 setTimeout(connect, 3000); // Auto-reconnect
             };

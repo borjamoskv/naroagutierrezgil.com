@@ -76,9 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
             vec3 colorBlue = vec3(0.169, 0.231, 0.898);
             vec3 colorAmber = vec3(1.0, 0.624, 0.110);
             
-            // Mix colors based on noise, adding depth to the fog
-            color = mix(color, colorBlue, smoothstep(0.0, 0.85, n) * 0.45); 
-            color = mix(color, colorAmber, smoothstep(0.7, 1.0, r) * 0.18); 
+            // Mix colors based on noise & entropy
+            color = mix(color, colorBlue, smoothstep(0.0, 0.85, n) * (0.45 + u_entropy * 0.2)); 
+            color = mix(color, colorAmber, smoothstep(0.7, 1.0, r) * (0.18 + u_entropy * 0.5)); 
             
             // Vignette for focus
             vec2 center = gl_FragCoord.xy / u_resolution.xy - 0.5;
