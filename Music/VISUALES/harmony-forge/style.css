@@ -1,19 +1,19 @@
 :root {
-    --bg-darkest: #070605;
-    --bg-dark: #0F0E0C;
-    --bg-card: rgba(18, 16, 14, 0.9);
+    --bg-darkest: #0A0A0A;
+    --bg-dark: #111111;
+    --bg-card: rgba(10, 10, 10, 0.6);
     
-    --border-color: #383126;
-    --border-hover: #D11919;
+    --border-color: #1A1A1A;
+    --border-hover: #2B3BE5;
     
-    --accent: #D11919; /* Soviet Crimson */
-    --accent-yellow: #E5B22B; /* Nicotine Yellow */
-    --accent-glow: rgba(209, 25, 25, 0.4);
-    --accent-yellow-glow: rgba(229, 178, 43, 0.3);
+    --accent: #2B3BE5; /* Moskv Blue */
+    --accent-yellow: #4A5AE5; /* Secondary blue */
+    --accent-glow: rgba(43, 59, 229, 0.4);
+    --accent-yellow-glow: rgba(74, 90, 229, 0.3);
     
-    --text-primary: #ECE9DC; /* Aged Paper White */
-    --text-secondary: #B5AE9E; /* Dust Gray */
-    --text-dim: #7C7463;
+    --text-primary: #FFFFFF; /* High contrast */
+    --text-secondary: #A0A0A0; /* Tech gray */
+    --text-dim: #666666;
     
     --font-mono: 'Space Mono', 'Courier Prime', monospace;
     --font-sans: 'Outfit', sans-serif;
@@ -44,8 +44,8 @@ body {
     width: 100vw;
     height: 100vh;
     background: 
-        radial-gradient(circle at 10% 20%, rgba(229, 178, 43, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 85% 75%, rgba(229, 178, 43, 0.1) 0%, transparent 45%),
+        radial-gradient(circle at 10% 20%, rgba(43, 59, 229, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 85% 75%, rgba(43, 59, 229, 0.1) 0%, transparent 45%),
         radial-gradient(circle at 50% 50%, rgba(58, 46, 26, 0.15) 0%, transparent 60%);
     pointer-events: none;
     z-index: 9997;
@@ -81,13 +81,13 @@ body {
 }
 
 @keyframes tracking-glitch {
-    0% { background: linear-gradient(transparent 90%, rgba(229, 178, 43, 0.2) 90%, rgba(229, 178, 43, 0.8) 93%, transparent 95%); }
+    0% { background: linear-gradient(transparent 90%, rgba(43, 59, 229, 0.1) 90%, rgba(43, 59, 229, 0.1) 93%, transparent 95%); }
     10% { background: none; }
     40% { background: linear-gradient(transparent 15%, rgba(209, 25, 25, 0.3) 15%, rgba(209, 25, 25, 0.7) 18%, transparent 20%); }
     45% { background: none; }
-    80% { background: linear-gradient(transparent 50%, rgba(229, 178, 43, 0.3) 50%, rgba(229, 178, 43, 0.6) 52%, transparent 55%); }
+    80% { background: linear-gradient(transparent 50%, rgba(43, 59, 229, 0.1) 50%, rgba(43, 59, 229, 0.1) 52%, transparent 55%); }
     90% { background: none; }
-    100% { background: linear-gradient(transparent 90%, rgba(229, 178, 43, 0.2) 90%, rgba(229, 178, 43, 0.8) 93%, transparent 95%); }
+    100% { background: linear-gradient(transparent 90%, rgba(43, 59, 229, 0.1) 90%, rgba(43, 59, 229, 0.1) 93%, transparent 95%); }
 }
 
 /* Nicotine Stains Overlay for Panels */
@@ -97,8 +97,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 80% 15%, rgba(229, 178, 43, 0.15) 0%, transparent 60%),
-                radial-gradient(circle at 20% 85%, rgba(229, 178, 43, 0.1) 0%, transparent 50%);
+    background: radial-gradient(circle at 80% 15%, rgba(43, 59, 229, 0.1) 0%, transparent 60%),
+                radial-gradient(circle at 20% 85%, rgba(43, 59, 229, 0.1) 0%, transparent 50%);
     pointer-events: none;
     border-radius: inherit;
     z-index: 1;
@@ -245,8 +245,8 @@ body {
 /* Column 1: Soviet Newspaper Relic Sidebar */
 .newspaper-column {
     position: relative;
-    background-color: #E2DAC4; /* Aged Soviet Newsprint */
-    color: #2E2920;
+    background-color: #141414; /* Aged Soviet Newsprint */
+    color: #FFFFFF;
     font-family: 'Courier Prime', serif;
     box-shadow: 3px 3px 20px rgba(0,0,0,0.5);
     display: flex;
@@ -287,7 +287,7 @@ body {
 
 .newspaper-header {
     text-align: center;
-    border-bottom: 2px solid #2E2920;
+    border-bottom: 2px solid #FFFFFF;
     padding-bottom: 6px;
 }
 
@@ -306,8 +306,8 @@ body {
 
 .newspaper-divider {
     height: 4px;
-    border-top: 1px solid #2E2920;
-    border-bottom: 1px solid #2E2920;
+    border-top: 1px solid #FFFFFF;
+    border-bottom: 1px solid #FFFFFF;
     margin: 4px 0 12px 0;
 }
 
@@ -337,8 +337,8 @@ body {
 
 /* Constructivist Sports Propaganda Snippet */
 .propaganda-poster {
-    background-color: #CFC2A7;
-    border: 1px solid #2E2920;
+    background-color: #1A1A1A;
+    border: 1px solid #FFFFFF;
     padding: 10px;
     position: relative;
     display: flex;
@@ -352,7 +352,7 @@ body {
     width: 100%;
     height: 60px;
     position: relative;
-    background-color: #E2DAC4;
+    background-color: #141414;
     overflow: hidden;
 }
 
@@ -361,7 +361,7 @@ body {
     width: 0; height: 0;
     border-top: 30px solid transparent;
     border-bottom: 30px solid transparent;
-    border-left: 90px solid #D11919;
+    border-left: 90px solid #2B3BE5;
     top: 0; left: -10px;
     transform: rotate(15deg);
 }
@@ -370,7 +370,7 @@ body {
     position: absolute;
     width: 120%;
     height: 8px;
-    background-color: #2E2920;
+    background-color: #FFFFFF;
     top: 25px; left: -10px;
     transform: rotate(-10deg);
 }
@@ -379,20 +379,20 @@ body {
     position: absolute;
     right: 15px; bottom: 2px;
     width: 25px; height: 50px;
-    background-color: #2E2920;
+    background-color: #FFFFFF;
     clip-path: polygon(40% 0%, 60% 0%, 70% 20%, 90% 40%, 60% 50%, 70% 100%, 30% 100%, 40% 50%, 10% 30%);
 }
 
 .propaganda-text {
     font-size: 0.65rem;
     font-weight: 700;
-    color: #D11919;
+    color: #2B3BE5;
     letter-spacing: 1px;
     text-align: center;
 }
 
 .redacted-box {
-    border: 1px dashed #D11919;
+    border: 1px dashed #2B3BE5;
     padding: 8px;
     background-color: rgba(209, 25, 25, 0.08);
     position: relative;
@@ -402,8 +402,8 @@ body {
 .stamp-redacted {
     font-size: 0.55rem;
     font-weight: 700;
-    color: #D11919;
-    border: 1px solid #D11919;
+    color: #2B3BE5;
+    border: 1px solid #2B3BE5;
     padding: 1px 4px;
     display: inline-block;
     margin-bottom: 4px;
@@ -447,14 +447,17 @@ body {
 .glass {
     position: relative;
     background: var(--bg-card);
-    border: 2px solid var(--border-color);
-    border-radius: 2px;
-    box-shadow: inset 0 0 15px rgba(0,0,0,0.7);
-    transition: border-color 0.3s ease;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 0 1px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .glass:hover {
-    border-color: var(--text-dim);
+    border-color: var(--border-hover);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 0 1px rgba(43, 59, 229, 0.5);
 }
 
 /* Column 2: Synthesis Control Console */
@@ -843,7 +846,7 @@ input:checked + .slider-switch:before {
 
 .btn-secondary:hover {
     border-color: var(--accent-yellow);
-    background: rgba(229, 178, 43, 0.08);
+    background: rgba(43, 59, 229, 0.1);
 }
 
 .margin-top-12 {
@@ -964,8 +967,8 @@ canvas {
     position: absolute;
     left: 0; width: 100%;
     height: 6px;
-    background: rgba(229, 178, 43, 0.12);
-    box-shadow: 0 0 10px rgba(229, 178, 43, 0.4);
+    background: rgba(43, 59, 229, 0.1);
+    box-shadow: 0 0 10px rgba(43, 59, 229, 0.1);
     opacity: 0.8;
     pointer-events: none;
     animation: tracking-slide 5s infinite linear;
