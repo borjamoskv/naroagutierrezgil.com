@@ -884,3 +884,41 @@ body {
     box-shadow: 0 0 15px #fff, 0 0 30px var(--color-yinmn) !important;
     animation: pulse-glow 0.5s infinite ease-in-out !important;
 }
+
+/* P0 PATH LOG PURGE */
+.log-row {
+    display: flex;
+    flex-direction: column;
+}
+
+.log-panel {
+    background: rgba(10, 10, 10, 0.9);
+}
+
+.log-feed-container {
+    padding: 1rem;
+    height: 150px;
+    overflow-y: auto;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.log-entry {
+    display: flex;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+}
+
+.log-entry.system { color: var(--color-yinmn); }
+.log-entry.alert { color: var(--color-amber); }
+.log-entry.purge { color: #E52B50; }
+.log-entry.success { color: #00FF66; }
+
+.log-time {
+    color: rgba(255, 255, 255, 0.3);
+    min-width: 65px;
+}
+

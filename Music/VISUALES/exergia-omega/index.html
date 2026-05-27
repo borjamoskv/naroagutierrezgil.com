@@ -19,12 +19,14 @@
 
     <div class="app-container">
         <!-- CORTEX Telemetry HUD Overlay -->
-        <div class="cortex-telemetry-hud glass-panel-c5 telemetry-hud-overlay">
-            <div class="telemetry-hud-title">CORTEX-PERSIST TELEMETRY</div>
-            <div id="ctx-status" class="metric-tabular telemetry-status-alert">CONNECTING...</div>
+        <div class="cortex-telemetry-hud glass-panel-c5 telemetry-hud-container">
+            <div class="telemetry-title">CORTEX-PERSIST TELEMETRY</div>
+            <div id="ctx-status" class="metric-tabular telemetry-status">CONNECTING...</div>
             <div id="ctx-nodes" class="metric-tabular">NODES: 0</div>
             <div id="ctx-throughput" class="metric-tabular">TPUT: 0.00 k/s</div>
             <div id="ctx-exergy" class="metric-tabular">EXERGY: 0.0000 J</div>
+            <div id="ctx-cortisol" class="metric-tabular telemetry-status">CORTISOL: 0.00</div>
+            <div id="ctx-entropy" class="metric-tabular">ENTROPY: 0.0000</div>
             <div id="ctx-cortisol" class="metric-tabular metric-alert">CORTISOL: 0.00</div>
         </div>
 
@@ -44,8 +46,10 @@
                 </div>
                 <div class="telemetry-metrics">
                     <div class="system-metric" id="ctx-nodes">NODES: 0</div>
+                    <div class="system-metric" id="ctx-tasks">TASKS: 0</div>
                     <div class="system-metric" id="ctx-throughput">TPUT: 0.00 k/s</div>
                     <div class="system-metric" id="ctx-exergy">EXERGY: 0.0000 J</div>
+                    <div class="system-metric" id="ctx-cortisol" style="color: var(--ctx-alert);">CORTISOL: 0.00</div>
                     <div class="system-metric metric-alert" id="ctx-cortisol">CORTISOL: 0.00</div>
                     <div class="system-metric" id="sample-rate-metric">SR: 48 kHz</div>
                 </div>
@@ -324,13 +328,70 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Row 3: P0 Path & Convergence Log -->
+            <section class="log-row" style="margin-top: 1rem;">
+                .glass-panel-c5 { 
+            background: rgba(10,10,10,0.65); 
+            backdrop-filter: blur(16px) saturate(180%); 
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(43,59,229,0.25); 
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5); 
+            border-radius: 4px;
+        }
+        .telemetry-hud-container {
+            position: absolute; 
+            top: 5rem; 
+            right: 1.5rem; 
+            padding: 1rem; 
+            z-index: 100; 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 0.75rem; 
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .telemetry-title {
+            color: var(--ctx-blue); 
+            font-weight: 700; 
+            margin-bottom: 0.5rem; 
+            letter-spacing: 1px; 
+            border-bottom: 1px solid rgba(43,59,229,0.3); 
+            padding-bottom: 0.25rem;
+        }
+        .telemetry-status {
+            color: var(--ctx-alert); 
+            margin-bottom: 0.5rem;
+        }
+        .footer-layout {
+            margin-top: 1.5rem; 
+            padding: 1rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+        }
+        .tech-card-title {
+            color: var(--ctx-blue); 
+            margin-bottom: 0.25rem;
+        }
+        .tech-card-text {
+            opacity: 0.8;
+        }
+                <div class="panel log-panel glass-panel-c5">
+                    <div class="panel-header">
+                        <h3>P0 PATH // C5-REAL LOG PURGE</h3>
+                        <span class="metric" id="log-status">ANNIHILATION GATE: ACTIVE</span>
+                    </div>
+                    <div class="log-feed-container" id="p0-log-feed">
+                        <div class="log-entry system"><span class="log-time">[00:00:00]</span> <span class="log-msg">EXERGIA-Ω Substrate Initialized. Awaiting CORTEX Telemetry...</span></div>
+                    </div>
+                </div>
+            </section>
         </main>
 
         <!-- Technical Description & Architecture Notes -->
-        <footer class="app-footer-details glass-panel-c5" style="margin-top: 1.5rem; padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
+        <footer class="app-footer-details glass-panel-c5 footer-layout">
             <div class="tech-card">
-                <h4 style="color: var(--ctx-blue); margin-bottom: 0.25rem;">EXERGIA-Ω // BIPHASAL SIGNAL METRIC</h4>
-                <p style="opacity: 0.8;">Procesamiento de señal estructurado en dominio de frecuencia mediante matrices Mid/Side. La atenuación y retardo interaural (ITD/ILD) simula un campo de presión sonora binaural coherente para auriculares, aplicando decaimiento selectivo en alta frecuencia y desensibilización de fase sub-120Hz.</p>
+                <h4 class="tech-card-title">EXERGIA-Ω // BIPHASAL SIGNAL METRIC</h4>
+                <p class="tech-card-text">Procesamiento de señal estructurado en dominio de frecuencia mediante matrices Mid/Side. La atenuación y retardo interaural (ITD/ILD) simula un campo de presión sonora binaural coherente para auriculares, aplicando decaimiento selectivo en alta frecuencia y desensibilización de fase sub-120Hz.</p>
             </div>
             <div class="tech-card text-right">
                 <h4>SYSTEM INTEGRITY Ledger</h4>

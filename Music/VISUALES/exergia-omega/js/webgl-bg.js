@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         uniform vec2 u_resolution;
         uniform float u_time;
         uniform float u_entropy;
+        uniform float u_cortisol;
         varying vec2 vUv;
 
         // Simplex noise approximation
@@ -89,11 +90,20 @@ document.addEventListener('DOMContentLoaded', () => {
             color *= smoothstep(0.9, 0.25, dist); 
 
             // CRT Scanline emulation
-            float scanline = sin(gl_FragCoord.y * 1.5) * 0.03;
+            float scanline = sin(gl_FragCoord.y * 1.5) * (0.03 + u_cortisol * 0.05);
             color -= scanline;
             
-            // Phosphor glow bleed
-            color += colorBlue * 0.02;
+            // Phosphor glow bleed, shifting to Danger Red under high cortisol
+            vec3 alertColor = mix(vec3(1.0, 0.624, 0.110), vec3(0.9, 0.17, 0.31), u_cortisol);
+            color += mix(colorBlue * 0.02, alertColor * 0.08, u_cortisol);
+            
+            // Chromatic aberration (Glitch) induced by cortisol stress
+            if (u_cortisol > 0.3) {
+                float noise = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233)) + u_time) * 43758.5453);
+                float glitchLine = step(0.98 - u_cortisol * 0.05, noise);
+                color.r += glitchLine * u_cortisol * 0.15;
+                color.b -= glitchLine * u_cortisol * 0.1;
+            }
 
             gl_FragColor = vec4(color, 1.0);
         }
@@ -136,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const uResolution = gl.getUniformLocation(program, 'u_resolution');
     const uTime = gl.getUniformLocation(program, 'u_time');
     const uEntropy = gl.getUniformLocation(program, 'u_entropy');
+    const uCortisol = gl.getUniformLocation(program, 'u_cortisol');
 
     function resize() {
         canvas.width = window.innerWidth;
@@ -154,6 +165,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Feed real-time telemetry entropy to the shader
         const entropy = (window.CORTEX_TELEMETRY && window.CORTEX_TELEMETRY.smoothedEntropy) ? window.CORTEX_TELEMETRY.smoothedEntropy : 0.0;
         gl.uniform1f(uEntropy, entropy);
+        
+        // Feed real-time telemetry cortisol to the shader
+        const cortisol = (window.CORTEX_TELEMETRY && window.CORTEX_TELEMETRY.smoothedCortisol) ? window.CORTEX_TELEMETRY.smoothedCortisol : 0.0;
+        gl.uniform1f(uCortisol, cortisol);
         
         gl.drawArrays(gl.TRIANGLES, 0, 6);
         requestAnimationFrame(render);
