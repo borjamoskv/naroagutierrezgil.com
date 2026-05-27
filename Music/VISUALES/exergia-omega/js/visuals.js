@@ -354,6 +354,29 @@ document.addEventListener("DOMContentLoaded", () => {
   let freqDataR = null;
   let inputData = null; // Persistent input metering buffer
 
+  // Cached DOM elements for the high-frequency animation loop
+  const domCorrelationValue = document.getElementById("correlation-value");
+  const domCorrBarFill = document.getElementById("corr-bar-fill");
+  const domSpectralTilt = document.getElementById("spectral-tilt");
+  const domPeakDbValue = document.getElementById("peak-db-value");
+
+  // Meter elements cache
+  const meterElements = {
+    input: {
+      bar: document.getElementById("input-meter-bar"),
+      peak: document.getElementById("input-meter-peak"),
+      val: document.getElementById("input-meter-val")
+    },
+    output: {
+      bar: document.getElementById("output-meter-bar"),
+      peak: document.getElementById("output-meter-peak"),
+      val: document.getElementById("output-meter-val")
+    }
+  };
+
+  // State variables for smoothing
+  let smoothedCorr = 1.0;
+
   // Cached per-frame objects (avoid GC pressure)
   let _waterfallSlice = null; // ImageData(wSpec, 1)
   let _cachedSpecGrad = null; // CanvasGradient
@@ -575,23 +598,25 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       if (isNaN(correlation)) correlation = 1.0;
 
-      // Smooth the correlation value for layout
-      const prevCorr =
-        parseFloat(
-          document.getElementById("correlation-value").innerText.split(": ")[1],
-        ) || 1.0;
-      const smoothedCorr = prevCorr * 0.9 + correlation * 0.1;
+      // Smooth the correlation value for layout (using local state instead of slow DOM read)
+      smoothedCorr = smoothedCorr * 0.9 + correlation * 0.1;
 
-      document.getElementById("correlation-value").innerText =
-        `CORR: ${smoothedCorr >= 0 ? "+" : ""}${smoothedCorr.toFixed(2)}`;
+      if (domCorrelationValue) {
+        const txt = `CORR: ${smoothedCorr >= 0 ? "+" : ""}${smoothedCorr.toFixed(2)}`;
+        if (domCorrelationValue.textContent !== txt) {
+          domCorrelationValue.textContent = txt;
+        }
+      }
       lastCorrelationVal = smoothedCorr;
 
       // Fill the Phase correlation bar UI
-      const corrBar = document.getElementById("corr-bar-fill");
-      if (corrBar) {
+      if (domCorrBarFill) {
         // Map [-1, +1] to [0%, 100%]
         const pct = (smoothedCorr + 1) * 50;
-        corrBar.style.left = `${Math.min(100, Math.max(0, pct))}%`;
+        const leftVal = `${Math.min(100, Math.max(0, pct))}%`;
+        if (domCorrBarFill.style.left !== leftVal) {
+          domCorrBarFill.style.left = leftVal;
+        }
       }
     } else {
       window.EXERGIA_AUDIO = {
@@ -606,10 +631,14 @@ document.addEventListener("DOMContentLoaded", () => {
       document.documentElement.style.setProperty("--audio-high", "0");
       document.documentElement.style.setProperty("--audio-peak", "0");
 
-      document.getElementById("correlation-value").innerText = `CORR: +1.00`;
+      smoothedCorr = 1.0;
+      if (domCorrelationValue && domCorrelationValue.textContent !== "CORR: +1.00") {
+        domCorrelationValue.textContent = "CORR: +1.00";
+      }
       lastCorrelationVal = 1.0;
-      const corrBar = document.getElementById("corr-bar-fill");
-      if (corrBar) corrBar.style.left = "100%";
+      if (domCorrBarFill && domCorrBarFill.style.left !== "100%") {
+        domCorrBarFill.style.left = "100%";
+      }
     }
 
     // 2. MID/SIDE FREQUENCY SPECTROGRAM
@@ -770,8 +799,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ctxSpec.shadowBlur = 0;
 
       // Calculate Spectral Tilt (bass vs treble energy ratio)
-      const tiltIndicator = document.getElementById("spectral-tilt");
-      if (tiltIndicator && freqDataL) {
+      if (domSpectralTilt && freqDataL) {
         const len = freqDataL.length;
         let lowE = 0,
           highE = 0;
@@ -784,15 +812,21 @@ document.addEventListener("DOMContentLoaded", () => {
         highE /= Math.max(1, len - highStart);
         const tiltRatio = lowE > 0.01 ? highE / lowE : 1.0;
 
+        let nextClass = "spectral-tilt-indicator tilt-balanced";
+        let nextTitle = "Spectral Tilt: BALANCED";
         if (tiltRatio > 1.3) {
-          tiltIndicator.className = "spectral-tilt-indicator tilt-bright";
-          tiltIndicator.title = "Spectral Tilt: BRIGHT";
+          nextClass = "spectral-tilt-indicator tilt-bright";
+          nextTitle = "Spectral Tilt: BRIGHT";
         } else if (tiltRatio < 0.7) {
-          tiltIndicator.className = "spectral-tilt-indicator tilt-dark";
-          tiltIndicator.title = "Spectral Tilt: DARK";
-        } else {
-          tiltIndicator.className = "spectral-tilt-indicator tilt-balanced";
-          tiltIndicator.title = "Spectral Tilt: BALANCED";
+          nextClass = "spectral-tilt-indicator tilt-dark";
+          nextTitle = "Spectral Tilt: DARK";
+        }
+
+        if (domSpectralTilt.className !== nextClass) {
+          domSpectralTilt.className = nextClass;
+        }
+        if (domSpectralTilt.title !== nextTitle) {
+          domSpectralTilt.title = nextTitle;
         }
       }
     }
@@ -847,13 +881,20 @@ document.addEventListener("DOMContentLoaded", () => {
       updateMeterBar("output", peakOut, peakHoldOut);
 
       // Display active output peak value in dynamics header
-      const displayDb = peakOutDb > -60 ? `${peakOutDb.toFixed(1)} dB` : "-inf";
-      document.getElementById("peak-db-value").innerText = `PEAK: ${displayDb}`;
+      if (domPeakDbValue) {
+        const displayDb = peakOutDb > -60 ? `${peakOutDb.toFixed(1)} dB` : "-inf";
+        const txt = `PEAK: ${displayDb}`;
+        if (domPeakDbValue.textContent !== txt) {
+          domPeakDbValue.textContent = txt;
+        }
+      }
       lastPeakOutDbVal = peakOutDb;
     } else {
       updateMeterBar("input", -Infinity, -Infinity);
       updateMeterBar("output", -Infinity, -Infinity);
-      document.getElementById("peak-db-value").innerText = "PEAK: -inf dB";
+      if (domPeakDbValue && domPeakDbValue.textContent !== "PEAK: -inf dB") {
+        domPeakDbValue.textContent = "PEAK: -inf dB";
+      }
       lastPeakOutDbVal = -Infinity;
     }
 
@@ -1232,9 +1273,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateMeterBar(prefix, rmsVal, peakVal) {
-    const bar = document.getElementById(`${prefix}-meter-bar`);
-    const peak = document.getElementById(`${prefix}-meter-peak`);
-    const valSpan = document.getElementById(`${prefix}-meter-val`);
+    const elements = meterElements[prefix];
+    if (!elements) return;
 
     // Map dB [-60, 0] to [0%, 100%]
     const mapDbToPct = (db) => {
@@ -1245,11 +1285,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const rmsPct = mapDbToPct(rmsVal);
     const peakPct = mapDbToPct(peakVal);
 
-    if (bar) bar.style.height = `${rmsPct}%`;
-    if (peak) peak.style.bottom = `${peakPct}%`;
+    const heightVal = `${rmsPct}%`;
+    const bottomVal = `${peakPct}%`;
 
-    if (valSpan) {
-      valSpan.innerText = rmsVal > -60 ? `${rmsVal.toFixed(1)} dB` : "-inf";
+    if (elements.bar && elements.bar.style.height !== heightVal) {
+      elements.bar.style.height = heightVal;
+    }
+    if (elements.peak && elements.peak.style.bottom !== bottomVal) {
+      elements.peak.style.bottom = bottomVal;
+    }
+
+    if (elements.val) {
+      const textVal = rmsVal > -60 ? `${rmsVal.toFixed(1)} dB` : "-inf";
+      if (elements.val.textContent !== textVal) {
+        elements.val.textContent = textVal;
+      }
     }
   }
 

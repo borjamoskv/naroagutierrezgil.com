@@ -33,20 +33,21 @@
       <!-- CORTEX Telemetry HUD Overlay -->
       <div class="cortex-telemetry-hud glass-panel-c5 telemetry-hud-overlay">
         <div class="telemetry-hud-title">CORTEX-PERSIST TELEMETRY</div>
-        <div id="ctx-status" class="metric-tabular telemetry-status-alert">
+        <div class="ctx-status metric-tabular telemetry-status-alert">
           CONNECTING...
         </div>
-        <div id="ctx-nodes" class="metric-tabular">NODES: 0</div>
-        <div id="ctx-throughput" class="metric-tabular">TPUT: 0.00 k/s</div>
-        <div id="ctx-exergy" class="metric-tabular">EXERGY: 0.0000 J</div>
-        <div id="ctx-cortisol" class="metric-tabular telemetry-status-alert">
+        <div class="ctx-nodes metric-tabular">NODES: 0</div>
+        <div class="ctx-throughput metric-tabular">TPUT: 0.00 k/s</div>
+        <div class="ctx-exergy metric-tabular">EXERGY: 0.0000 J</div>
+        <div class="ctx-cortisol metric-tabular telemetry-status-alert">
           CORTISOL: 0.00
         </div>
-        <div id="ctx-entropy" class="metric-tabular">ENTROPY: 0.0000</div>
-        <div id="ctx-compliance" class="metric-tabular telemetry-status-alert">
+        <div class="ctx-entropy metric-tabular">ENTROPY: 0.0000</div>
+        <div class="ctx-ontology metric-tabular">ONTOLOGY: 0.0000</div>
+        <div class="ctx-compliance metric-tabular telemetry-status-alert">
           SOC2/C5: 100% OK
         </div>
-        <div id="ctx-mcp-status" class="metric-tabular mcp-status-blue">
+        <div class="ctx-mcp-status metric-tabular mcp-status-blue">
           MCP: RUST-NATIVE
         </div>
       </div>
@@ -63,22 +64,24 @@
         <div class="system-status">
           <div class="status-indicator-group" id="ctx-status-group">
             <span class="status-pulse" id="ctx-pulse"></span>
-            <span class="status-text" id="ctx-status">C5-REAL // STANDBY</span>
+            <span class="status-text ctx-status">C5-REAL // STANDBY</span>
           </div>
           <div class="telemetry-metrics">
-            <div class="system-metric" id="ctx-nodes">NODES: 0</div>
-            <div class="system-metric" id="ctx-tasks">TASKS: 0</div>
-            <div class="system-metric" id="ctx-throughput">TPUT: 0.00 k/s</div>
-            <div class="system-metric" id="ctx-exergy">EXERGY: 0.0000 J</div>
-            <div class="system-metric metric-alert" id="ctx-cortisol">
+            <div class="system-metric ctx-nodes">NODES: 0</div>
+            <div class="system-metric ctx-tasks">TASKS: 0</div>
+            <div class="system-metric ctx-throughput">TPUT: 0.00 k/s</div>
+            <div class="system-metric ctx-exergy">EXERGY: 0.0000 J</div>
+            <div class="system-metric ctx-cortisol metric-alert">
               CORTISOL: 0.00
             </div>
-            <div class="system-metric" id="ctx-compliance">
+            <div class="system-metric ctx-ontology-header">
+              ONT: 0.00
+            </div>
+            <div class="system-metric ctx-compliance">
               SOC2/C5: 100% OK
             </div>
             <div
-              class="system-metric mcp-status-blue"
-              id="ctx-mcp-status-header"
+              class="system-metric ctx-mcp-status-header mcp-status-blue"
             >
               MCP: O(1)
             </div>

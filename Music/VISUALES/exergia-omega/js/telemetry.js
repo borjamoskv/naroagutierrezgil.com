@@ -35,16 +35,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const wsUrl = "ws://127.0.0.1:8081";
   let ws = null;
 
-  // UI Elements
-  const hudStatus = document.getElementById("ctx-status");
-  const hudPulse = document.getElementById("ctx-pulse");
-  const hudNodes = document.getElementById("ctx-nodes");
-  const hudTasks = document.getElementById("ctx-tasks");
-  const hudThroughput = document.getElementById("ctx-throughput");
-  const hudExergy = document.getElementById("ctx-exergy");
-  const hudOntology = document.getElementById("ctx-ontology");
-  const hudEntropy = document.getElementById("ctx-entropy");
-  const hudOntologyHeader = document.getElementById("ctx-ontology-header");
+  // UI Elements (selected via classes for multi-viewport sync)
+  const hudStatus = document.querySelectorAll(".ctx-status");
+  const hudPulse = document.getElementById("ctx-pulse"); // Unique
+  const hudNodes = document.querySelectorAll(".ctx-nodes");
+  const hudTasks = document.querySelectorAll(".ctx-tasks");
+  const hudThroughput = document.querySelectorAll(".ctx-throughput");
+  const hudExergy = document.querySelectorAll(".ctx-exergy");
+  const hudOntology = document.querySelectorAll(".ctx-ontology");
+  const hudEntropy = document.querySelectorAll(".ctx-entropy");
+  const hudOntologyHeader = document.querySelectorAll(".ctx-ontology-header");
+
+  function updateText(elements, text) {
+    elements.forEach(el => {
+      if (el.textContent !== text) {
+        el.textContent = text;
+      }
+    });
+  }
 
   function connect() {
     try {
@@ -52,10 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       ws.onopen = () => {
         window.CORTEX_TELEMETRY.connected = true;
-        if (hudStatus) {
-          hudStatus.innerText = "LINKED: C5-REAL";
-          hudStatus.style.color = "#2B3BE5"; // Sovereign Blue
-        }
+        updateText(hudStatus, "LINKED: C5-REAL");
+        hudStatus.forEach(el => el.style.color = "#2B3BE5"); // Sovereign Blue
         addP0Log("LINK ESTABLISHED: C5-REAL Telemetry Online", "success");
         if (hudPulse) {
           hudPulse.classList.add("active");
@@ -86,21 +92,14 @@ document.addEventListener("DOMContentLoaded", () => {
             payload.metrics.structural_entropy ||
             window.CORTEX_TELEMETRY.cortisol * 2.5;
 
-          // Update DOM HUD
-          if (hudNodes)
-            hudNodes.innerText = `NODES: ${window.CORTEX_TELEMETRY.activeNodes}`;
-          if (hudTasks)
-            hudTasks.innerText = `TASKS: ${window.CORTEX_TELEMETRY.activeTasks}`;
-          if (hudThroughput)
-            hudThroughput.innerText = `TPUT: ${(window.CORTEX_TELEMETRY.throughput / 1000).toFixed(2)} k/s`;
-          if (hudExergy)
-            hudExergy.innerText = `EXERGY: ${window.CORTEX_TELEMETRY.exergy.toFixed(4)} J`;
-          if (hudOntology)
-            hudOntology.innerText = `ONTOLOGY: ${window.CORTEX_TELEMETRY.ontology.toFixed(4)}`;
-          if (hudEntropy)
-            hudEntropy.innerText = `ENTROPY: ${window.CORTEX_TELEMETRY.entropy.toFixed(4)}`;
-          if (hudOntologyHeader)
-            hudOntologyHeader.innerText = `ONT: ${window.CORTEX_TELEMETRY.ontology.toFixed(2)}`;
+          // Update DOM HUD elements
+          updateText(hudNodes, `NODES: ${window.CORTEX_TELEMETRY.activeNodes}`);
+          updateText(hudTasks, `TASKS: ${window.CORTEX_TELEMETRY.activeTasks}`);
+          updateText(hudThroughput, `TPUT: ${(window.CORTEX_TELEMETRY.throughput / 1000).toFixed(2)} k/s`);
+          updateText(hudExergy, `EXERGY: ${window.CORTEX_TELEMETRY.exergy.toFixed(4)} J`);
+          updateText(hudOntology, `ONTOLOGY: ${window.CORTEX_TELEMETRY.ontology.toFixed(4)}`);
+          updateText(hudEntropy, `ENTROPY: ${window.CORTEX_TELEMETRY.entropy.toFixed(4)}`);
+          updateText(hudOntologyHeader, `ONT: ${window.CORTEX_TELEMETRY.ontology.toFixed(2)}`);
 
           // Occasional log feed injection
           if (Math.random() < 0.05) {
@@ -123,28 +122,31 @@ document.addEventListener("DOMContentLoaded", () => {
           }
 
           // Update Cortisol with stress-based color grading
-          const hudCortisolElements =
-            document.querySelectorAll("#ctx-cortisol");
+          const hudCortisolElements = document.querySelectorAll(".ctx-cortisol");
           hudCortisolElements.forEach((el) => {
-            el.innerText = `CORTISOL: ${window.CORTEX_TELEMETRY.cortisol.toFixed(2)}`;
-            if (window.CORTEX_TELEMETRY.cortisol > 0.8)
-              el.style.color = "#E52B50"; // Danger Red
-            else if (window.CORTEX_TELEMETRY.cortisol > 0.4)
-              el.style.color = "#FF9F1C"; // Amber
-            else el.style.color = "#2B3BE5"; // YInMn Blue
+            const textVal = `CORTISOL: ${window.CORTEX_TELEMETRY.cortisol.toFixed(2)}`;
+            let colorVal = "#2B3BE5"; // YInMn Blue
+            if (window.CORTEX_TELEMETRY.cortisol > 0.8) {
+              colorVal = "#E52B50"; // Danger Red
+            } else if (window.CORTEX_TELEMETRY.cortisol > 0.4) {
+              colorVal = "#FF9F1C"; // Amber
+            }
+            if (el.textContent !== textVal) el.textContent = textVal;
+            if (el.style.color !== colorVal) el.style.color = colorVal;
           });
 
           // Update Compliance / SOC2 / C5
-          const hudCompliance = document.getElementById("ctx-compliance");
-          if (hudCompliance) {
-            if (payload.jis_violations && payload.jis_violations.length > 0) {
-              hudCompliance.innerText = `SOC2/C5: ${payload.jis_violations.length} VIOLATIONS`;
-              hudCompliance.style.color = "#E52B50"; // Red for violations
-            } else {
-              hudCompliance.innerText = `SOC2/C5: 100% OK`;
-              hudCompliance.style.color = "#2B3BE5"; // Sovereign blue for compliant
-            }
-          }
+          const hudComplianceElements = document.querySelectorAll(".ctx-compliance");
+          hudComplianceElements.forEach((el) => {
+            const textVal = (payload.jis_violations && payload.jis_violations.length > 0)
+              ? `SOC2/C5: ${payload.jis_violations.length} VIOLATIONS`
+              : `SOC2/C5: 100% OK`;
+            const colorVal = (payload.jis_violations && payload.jis_violations.length > 0)
+              ? "#E52B50" // Red for violations
+              : "#2B3BE5"; // Sovereign blue for compliant
+            if (el.textContent !== textVal) el.textContent = textVal;
+            if (el.style.color !== colorVal) el.style.color = colorVal;
+          });
 
           // C5-REAL Convergence Falsation (Vector 19)
           const isConverging =
@@ -165,25 +167,19 @@ document.addEventListener("DOMContentLoaded", () => {
             else hudPulse.classList.remove("converging-pulse");
           }
 
-          const statusElements = document.querySelectorAll("#ctx-status");
-          statusElements.forEach((el) => {
-            if (isConverging) {
-              el.innerText = "C5-REAL // CONVERGED";
-              el.style.color = "#F3F4F6";
-            } else {
-              el.innerText = "C5-REAL // NOMINAL";
-              el.style.color = "#2B3BE5";
-            }
+          hudStatus.forEach((el) => {
+            const textVal = isConverging ? "C5-REAL // CONVERGED" : "C5-REAL // NOMINAL";
+            const colorVal = isConverging ? "#F3F4F6" : "#2B3BE5";
+            if (el.textContent !== textVal) el.textContent = textVal;
+            if (el.style.color !== colorVal) el.style.color = colorVal;
           });
         }
       };
 
       ws.onclose = () => {
         window.CORTEX_TELEMETRY.connected = false;
-        if (hudStatus) {
-          hudStatus.innerText = "OFFLINE / STANDBY";
-          hudStatus.style.color = "#FF9F1C"; // Amber
-        }
+        updateText(hudStatus, "OFFLINE / STANDBY");
+        hudStatus.forEach(el => el.style.color = "#FF9F1C"); // Amber
         addP0Log("C5-REAL Telemetry Offline. Connection lost.", "alert");
         if (hudPulse) {
           hudPulse.classList.remove("active");
