@@ -103,6 +103,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         else el.style.color = "#2B3BE5"; // YInMn Blue
                     });
 
+                    // Update Compliance / SOC2 / C5
+                    const hudCompliance = document.getElementById('ctx-compliance');
+                    if (hudCompliance) {
+                        if (payload.jis_violations && payload.jis_violations.length > 0) {
+                            hudCompliance.innerText = `SOC2/C5: ${payload.jis_violations.length} VIOLATIONS`;
+                            hudCompliance.style.color = "#E52B50"; // Red for violations
+                        } else {
+                            hudCompliance.innerText = `SOC2/C5: 100% OK`;
+                            hudCompliance.style.color = "#2B3BE5"; // Sovereign blue for compliant
+                        }
+                    }
+
                     // C5-REAL Convergence Falsation (Vector 19)
                     const isConverging = window.CORTEX_TELEMETRY.ontology >= 0.95 || (window.CORTEX_TELEMETRY.activeNodes > 0 && window.CORTEX_TELEMETRY.cortisol < 0.25 && window.CORTEX_TELEMETRY.exergy > 0.01) || (payload.metrics.convergence_status === "CONVERGED");
                     
@@ -171,6 +183,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // clamp
         targetEntropy = Math.max(0.1, Math.min(3.0, targetEntropy));
+        
+        // Predictive visual smoothing using ringBuffer
+        // Higher ring buffer utilization predicts incoming thermodynamic stress
+        const bufferFactor = window.CORTEX_TELEMETRY.ringBuffer > 0.8 ? 1.5 : 1.0;
+        targetEntropy *= bufferFactor;
         
         // LERP
         window.CORTEX_TELEMETRY.smoothedEntropy += (targetEntropy - window.CORTEX_TELEMETRY.smoothedEntropy) * 0.05;

@@ -27,7 +27,7 @@
             <div id="ctx-exergy" class="metric-tabular">EXERGY: 0.0000 J</div>
             <div id="ctx-cortisol" class="metric-tabular telemetry-status">CORTISOL: 0.00</div>
             <div id="ctx-entropy" class="metric-tabular">ENTROPY: 0.0000</div>
-            <div id="ctx-cortisol" class="metric-tabular metric-alert">CORTISOL: 0.00</div>
+            <div id="ctx-compliance" class="metric-tabular telemetry-status">SOC2/C5: 100% OK</div>
         </div>
 
         <!-- Header -->
@@ -331,50 +331,52 @@
 
             <!-- Row 3: P0 Path & Convergence Log -->
             <section class="log-row" style="margin-top: 1rem;">
+                <style>
                 .glass-panel-c5 { 
-            background: rgba(10,10,10,0.65); 
-            backdrop-filter: blur(16px) saturate(180%); 
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border: 1px solid rgba(43,59,229,0.25); 
-            box-shadow: 0 4px 30px rgba(0,0,0,0.5); 
-            border-radius: 4px;
-        }
-        .telemetry-hud-container {
-            position: absolute; 
-            top: 5rem; 
-            right: 1.5rem; 
-            padding: 1rem; 
-            z-index: 100; 
-            font-family: 'JetBrains Mono', monospace; 
-            font-size: 0.75rem; 
-            color: rgba(255, 255, 255, 0.9);
-        }
-        .telemetry-title {
-            color: var(--ctx-blue); 
-            font-weight: 700; 
-            margin-bottom: 0.5rem; 
-            letter-spacing: 1px; 
-            border-bottom: 1px solid rgba(43,59,229,0.3); 
-            padding-bottom: 0.25rem;
-        }
-        .telemetry-status {
-            color: var(--ctx-alert); 
-            margin-bottom: 0.5rem;
-        }
-        .footer-layout {
-            margin-top: 1.5rem; 
-            padding: 1rem; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-        }
-        .tech-card-title {
-            color: var(--ctx-blue); 
-            margin-bottom: 0.25rem;
-        }
-        .tech-card-text {
-            opacity: 0.8;
-        }
+                    background: rgba(10,10,10,0.65); 
+                    backdrop-filter: blur(16px) saturate(180%); 
+                    -webkit-backdrop-filter: blur(16px) saturate(180%);
+                    border: 1px solid rgba(43,59,229,0.25); 
+                    box-shadow: 0 4px 30px rgba(0,0,0,0.5); 
+                    border-radius: 4px;
+                }
+                .telemetry-hud-container {
+                    position: absolute; 
+                    top: 5rem; 
+                    right: 1.5rem; 
+                    padding: 1rem; 
+                    z-index: 100; 
+                    font-family: 'JetBrains Mono', monospace; 
+                    font-size: 0.75rem; 
+                    color: rgba(255, 255, 255, 0.9);
+                }
+                .telemetry-title {
+                    color: var(--ctx-blue); 
+                    font-weight: 700; 
+                    margin-bottom: 0.5rem; 
+                    letter-spacing: 1px; 
+                    border-bottom: 1px solid rgba(43,59,229,0.3); 
+                    padding-bottom: 0.25rem;
+                }
+                .telemetry-status {
+                    color: var(--ctx-alert); 
+                    margin-bottom: 0.5rem;
+                }
+                .footer-layout {
+                    margin-top: 1.5rem; 
+                    padding: 1rem; 
+                    display: flex; 
+                    justify-content: space-between; 
+                    align-items: center;
+                }
+                .tech-card-title {
+                    color: var(--ctx-blue); 
+                    margin-bottom: 0.25rem;
+                }
+                .tech-card-text {
+                    opacity: 0.8;
+                }
+                </style>
                 <div class="panel log-panel glass-panel-c5">
                     <div class="panel-header">
                         <h3>P0 PATH // C5-REAL LOG PURGE</h3>
