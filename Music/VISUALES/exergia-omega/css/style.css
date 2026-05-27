@@ -804,3 +804,47 @@ body {
         scroll-behavior: auto !important;
     }
 }
+
+/* EXERGIA-Ω OPTIMIZATION TOKENS // C5-REAL */
+.metric-tabular {
+    font-variant-numeric: tabular-nums;
+    will-change: contents;
+}
+
+.glass-panel-c5 { 
+    background: rgba(10,10,10,0.65) !important; 
+    backdrop-filter: blur(16px) saturate(180%) !important; 
+    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+    border: 1px solid rgba(43,59,229,0.25) !important; 
+    box-shadow: 0 4px 30px rgba(0,0,0,0.5) !important; 
+    border-radius: 4px;
+}
+
+.telemetry-hud-overlay {
+    position: absolute;
+    top: 5rem;
+    right: 1.5rem;
+    padding: 1rem;
+    z-index: 100;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text);
+}
+
+.telemetry-hud-title {
+    color: var(--color-yinmn);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(43,59,229,0.3);
+    padding-bottom: 0.25rem;
+}
+
+.telemetry-status-alert {
+    color: var(--color-amber);
+    margin-bottom: 0.5rem;
+}
+
+.metric-alert {
+    color: var(--color-amber);
+}

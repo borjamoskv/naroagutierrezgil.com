@@ -11,19 +11,6 @@
     <link rel="preload" href="js/telemetry.js" as="script">
     <link rel="preload" href="js/webgl-bg.js" as="script">
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        /* EXERGIA-Ω OPTIMIZATION TOKENS // C5-REAL */
-        :root { --ctx-blue: #2B3BE5; --ctx-dark: #0A0A0A; --ctx-alert: #FF9F1C; }
-        .metric-tabular { font-variant-numeric: tabular-nums; will-change: contents; }
-        .glass-panel-c5 { 
-            background: rgba(10,10,10,0.65) !important; 
-            backdrop-filter: blur(16px) saturate(180%) !important; 
-            -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
-            border: 1px solid rgba(43,59,229,0.25) !important; 
-            box-shadow: 0 4px 30px rgba(0,0,0,0.5) !important; 
-            border-radius: 4px;
-        }
-    </style>
 </head>
 <body>
     <!-- Background Analog Grain & WebGL Shader -->
@@ -32,13 +19,13 @@
 
     <div class="app-container">
         <!-- CORTEX Telemetry HUD Overlay -->
-        <div class="cortex-telemetry-hud glass-panel-c5" style="position: absolute; top: 5rem; right: 1.5rem; padding: 1rem; z-index: 100; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #fff;">
-            <div style="color: var(--ctx-blue); font-weight: 700; margin-bottom: 0.5rem; letter-spacing: 1px; border-bottom: 1px solid rgba(43,59,229,0.3); padding-bottom: 0.25rem;">CORTEX-PERSIST TELEMETRY</div>
-            <div id="ctx-status" class="metric-tabular" style="color: var(--ctx-alert); margin-bottom: 0.5rem;">CONNECTING...</div>
+        <div class="cortex-telemetry-hud glass-panel-c5 telemetry-hud-overlay">
+            <div class="telemetry-hud-title">CORTEX-PERSIST TELEMETRY</div>
+            <div id="ctx-status" class="metric-tabular telemetry-status-alert">CONNECTING...</div>
             <div id="ctx-nodes" class="metric-tabular">NODES: 0</div>
             <div id="ctx-throughput" class="metric-tabular">TPUT: 0.00 k/s</div>
             <div id="ctx-exergy" class="metric-tabular">EXERGY: 0.0000 J</div>
-            <div id="ctx-cortisol" class="metric-tabular" style="color: var(--ctx-alert);">CORTISOL: 0.00</div>
+            <div id="ctx-cortisol" class="metric-tabular metric-alert">CORTISOL: 0.00</div>
         </div>
 
         <!-- Header -->
@@ -59,7 +46,7 @@
                     <div class="system-metric" id="ctx-nodes">NODES: 0</div>
                     <div class="system-metric" id="ctx-throughput">TPUT: 0.00 k/s</div>
                     <div class="system-metric" id="ctx-exergy">EXERGY: 0.0000 J</div>
-                    <div class="system-metric" id="ctx-cortisol" style="color: #FF9F1C;">CORTISOL: 0.00</div>
+                    <div class="system-metric metric-alert" id="ctx-cortisol">CORTISOL: 0.00</div>
                     <div class="system-metric" id="sample-rate-metric">SR: 48 kHz</div>
                 </div>
             </div>
