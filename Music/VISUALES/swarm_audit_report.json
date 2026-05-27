@@ -1,0 +1,532 @@
+{
+  "timestamp": 1779910036.913485,
+  "elapsed_s": 85.97263312339783,
+  "files_scanned": 2537,
+  "active_agents": 433,
+  "total_redundancies_found": 113,
+  "duplicates": {
+    "12cac7b86338590d78243ce5bb91123b": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/ramon_hates_matias_stems/htdemucs/Borja Moskv - Ramon hates Matias/vocals.flac",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_Ramon_Hates_Matias/vocals.flac"
+    ],
+    "98139c5e15d3be1753648556503e87cf": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/ramon_hates_matias_stems/htdemucs/Borja Moskv - Ramon hates Matias/bass.flac",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_Ramon_Hates_Matias/bass.flac"
+    ],
+    "a4aeeff822a62415098b4ee6b23c4230": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/ramon_hates_matias_stems/htdemucs/Borja Moskv - Ramon hates Matias/other.flac",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_Ramon_Hates_Matias/other.flac"
+    ],
+    "283e6588b54277d3acae166b5ca2e22f": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/ramon_hates_matias_stems/htdemucs/Borja Moskv - Ramon hates Matias/drums.flac",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_Ramon_Hates_Matias/drums.flac"
+    ],
+    "cf089ae190269e7fd5b39e1ee4a8742d": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/socrates_stems/htdemucs/S\u00f3crates bebe cicuta/vocals.flac",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_Socrates_Bebe_Cicuta/vocals.flac"
+    ],
+    "ee66921cb853d306342b2ed31361dda2": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/socrates_stems/htdemucs/S\u00f3crates bebe cicuta/bass.flac",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_Socrates_Bebe_Cicuta/bass.flac"
+    ],
+    "4027da1748f09e466b6424e0caf53fe1": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/socrates_stems/htdemucs/S\u00f3crates bebe cicuta/other.flac",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_Socrates_Bebe_Cicuta/other.flac"
+    ],
+    "25c6bf35184121fbbbc85b8d86907c23": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/socrates_stems/htdemucs/S\u00f3crates bebe cicuta/drums.flac",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_Socrates_Bebe_Cicuta/drums.flac"
+    ],
+    "18ec2dece4f39e3d1bcde6bcd87e0991": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/edit_page.png",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/final_state.png"
+    ],
+    "75287cc5e83d02bb79fe7d1ab01d0bc8": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/pimiento_stems/htdemucs/Escaneas el pimiento con sufrimiento/vocals.flac",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_Escaneas_El_Pimiento/vocals.flac"
+    ],
+    "462eb4ced162bcf50e2e3c2e3737c29c": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/pimiento_stems/htdemucs/Escaneas el pimiento con sufrimiento/bass.flac",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_Escaneas_El_Pimiento/bass.flac"
+    ],
+    "b1578c67bbd29f565d67b68ec52562a2": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/pimiento_stems/htdemucs/Escaneas el pimiento con sufrimiento/other.flac",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_Escaneas_El_Pimiento/other.flac"
+    ],
+    "4990afcc715d0287aaadecab6d11308b": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/pimiento_stems/htdemucs/Escaneas el pimiento con sufrimiento/drums.flac",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_Escaneas_El_Pimiento/drums.flac"
+    ],
+    "6c8c22ac04eaa1d75a765446c0b47057": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/berghain_stems/htdemucs/i lost hy phone at berghain/vocals.flac",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_I_Lost_My_Phone_At_Berghain/vocals.flac"
+    ],
+    "e6b56e5a20aee039b18277e23240e569": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/berghain_stems/htdemucs/i lost hy phone at berghain/bass.flac",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_I_Lost_My_Phone_At_Berghain/bass.flac"
+    ],
+    "6d590c05a0091ee426d1f15eab77e41b": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/berghain_stems/htdemucs/i lost hy phone at berghain/other.flac",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_I_Lost_My_Phone_At_Berghain/other.flac"
+    ],
+    "536008747c2581eebb301aa6af3d9878": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/MOSKV_STEMS/berghain_stems/htdemucs/i lost hy phone at berghain/drums.flac",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/STEMS_I_Lost_My_Phone_At_Berghain/drums.flac"
+    ],
+    "d41d8cd98f00b204e9800998ecf8427e": [
+      "/Users/borjafernandezangulo/Music/VISUALES/Kuraia - Kea_pitch.mp3",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/example.metadata.json"
+    ],
+    "e6bfbbdd771e4c19e4ded4b769eefe77": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/devtools/config/sandbox/feelib-v1.eth.config.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/devtools/config/sandbox/feelib-v1.usdc.config.ts"
+    ],
+    "6b25ca832734dc61271d593f580bc9fa": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/blacklistable/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/tip20/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/asset/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/mintable/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/rescuable/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/credit-messaging/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/treasurer/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/staking/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/circleFiatToken/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/token-messaging/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/feeLib_v1/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/messaging/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/pausable/index.ts"
+    ],
+    "7deb50a308ff3cc462c7bdd58c156730": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/erc20/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/rewarder/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/oft-wrapper/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/pool/index.ts"
+    ],
+    "48aa3d985726beee75819a488517abaf": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/tsup.config.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/tsup.config.ts"
+    ],
+    "72606dedf49e3b8a5fc5ba4a07e1cdcd": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/src/tip20/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/src/asset/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/src/credit-messaging/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/src/treasurer/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/src/staking/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/src/circleFiatToken/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/src/token-messaging/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/src/feeLib_v1/index.ts"
+    ],
+    "cc63e500ebaf61514265820290d71c63": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/src/blacklistable/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/src/mintable/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/src/rescuable/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/src/pausable/index.ts"
+    ],
+    "d1211a2a95f98a850b282bc53c62ce55": [
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/src/erc20/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/src/rewarder/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/src/oft-wrapper/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-evm-hardhat-v2/src/pool/index.ts"
+    ],
+    "61ee2167eb32bfd15bd025a9c5aa8d85": [
+      "/Users/borjafernandezangulo/Music/VISUALES/instructions-for-flying/09_-_Borja Moskv - Groove.exe is corrupted.jpg",
+      "/Users/borjafernandezangulo/Music/VISUALES/instructions-for-flying/05_-_Borja Moskv - Instructions for flying.jpg",
+      "/Users/borjafernandezangulo/Music/VISUALES/instructions-for-flying/04_-_Borja Moskv - Stereo was never my format.jpg",
+      "/Users/borjafernandezangulo/Music/VISUALES/instructions-for-flying/03_-_Borja Moskv - Taa luu vaa naa shee dooo.jpg",
+      "/Users/borjafernandezangulo/Music/VISUALES/instructions-for-flying/08_-_Borja Moskv - MandAnguita.jpg",
+      "/Users/borjafernandezangulo/Music/VISUALES/instructions-for-flying/01_-_Borja Moskv - Emedemergencia.jpg",
+      "/Users/borjafernandezangulo/Music/VISUALES/instructions-for-flying/02_-_Borja Moskv - Smell of Broken Things.jpg",
+      "/Users/borjafernandezangulo/Music/VISUALES/instructions-for-flying/11_-_Borja Moskv - Jartista digital.jpg",
+      "/Users/borjafernandezangulo/Music/VISUALES/instructions-for-flying/10_-_Borja Moskv - Held Breath.jpg",
+      "/Users/borjafernandezangulo/Music/VISUALES/instructions-for-flying/07_-_Borja Moskv - Vaya a Lusaka.jpg"
+    ]
+  },
+  "code_hygiene_issues": [
+    {
+      "agent": "Agent-0050",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/sendCredit.ts",
+      "issues": [
+        "4 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0004",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/clean_vtt.py",
+      "issues": [
+        "1 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0006",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/resolve_audio_overlaps.py",
+      "issues": [
+        "4 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0007",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/model_router.py",
+      "issues": [
+        "28 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0008",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/process_album.py",
+      "issues": [
+        "28 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0010",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/swarm_redundancy_processor.py",
+      "issues": [
+        "1 console.log calls detected",
+        "18 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0012",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/borjamoskv-rauw-clone/main.js",
+      "issues": [
+        "1 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0015",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/video-forge/director.js",
+      "issues": [
+        "2 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0016",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/video-forge/pipeline.js",
+      "issues": [
+        "3 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0017",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_09.py",
+      "issues": [
+        "3 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0018",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/analyze_and_refine.py",
+      "issues": [
+        "11 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0019",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_hybrid_all_50.py",
+      "issues": [
+        "11 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0020",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_08.py",
+      "issues": [
+        "3 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0021",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_13.py",
+      "issues": [
+        "3 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0022",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_hybrid_continue.py",
+      "issues": [
+        "9 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0023",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_07.py",
+      "issues": [
+        "3 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0024",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_hybrid_replace.py",
+      "issues": [
+        "10 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0025",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_12.py",
+      "issues": [
+        "3 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0026",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_mac_replace.py",
+      "issues": [
+        "14 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0027",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_11.py",
+      "issues": [
+        "3 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0028",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_local_chrome.py",
+      "issues": [
+        "12 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0029",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_10.py",
+      "issues": [
+        "3 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0030",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_45.py",
+      "issues": [
+        "3 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0031",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_replace.py",
+      "issues": [
+        "28 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0032",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/direct_replace.py",
+      "issues": [
+        "12 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0033",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_publish.py",
+      "issues": [
+        "2 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0034",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_hybrid.py",
+      "issues": [
+        "18 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0039",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/create_youtube_video.py",
+      "issues": [
+        "20 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0040",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/cortex_audio_pipeline.py",
+      "issues": [
+        "31 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0049",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/hardhat.config.ts",
+      "issues": [
+        "1 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0050",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/printStargate.ts",
+      "issues": [
+        "20 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0052",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/mintMockToken.ts",
+      "issues": [
+        "5 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0053",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/addTreasuryFee.ts",
+      "issues": [
+        "2 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0054",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/printUser.ts",
+      "issues": [
+        "3 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0055",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/oftTransfer.ts",
+      "issues": [
+        "3 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0056",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/balances.ts",
+      "issues": [
+        "1 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0057",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/transferOwnership.ts",
+      "issues": [
+        "2 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0058",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/transfer.ts",
+      "issues": [
+        "6 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0059",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/redeemSend.ts",
+      "issues": [
+        "4 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0060",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/printMessaging.ts",
+      "issues": [
+        "12 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0061",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/setRewards.ts",
+      "issues": [
+        "3 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0062",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/send.ts",
+      "issues": [
+        "15 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0064",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/deposit.ts",
+      "issues": [
+        "8 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0065",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/redeem.ts",
+      "issues": [
+        "8 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0134",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/script/oneSig/migrate-to-onesig.ts",
+      "issues": [
+        "11 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0137",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/devtools/tasks/utils.ts",
+      "issues": [
+        "6 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0269",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/utils/logger.ts",
+      "issues": [
+        "1 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0383",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/generateNativeCurrencyConfig.ts",
+      "issues": [
+        "10 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0391",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/checkDeployment/utils.ts",
+      "issues": [
+        "3 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0396",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/checkDeployment/index.ts",
+      "issues": [
+        "2 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0407",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/common-utils/parallelProcessing.ts",
+      "issues": [
+        "1 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0422",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/FORGE_ORGANIZED/Code/20260105_COD_stubs_v1.ts",
+      "issues": [
+        "1 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0431",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/FRONTERA/scripts/deploy.js",
+      "issues": [
+        "13 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0432",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/FRONTERA/agent_daemon/agent_loop.py",
+      "issues": [
+        "26 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0433",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/FRONTERA/art_generator/generate.py",
+      "issues": [
+        "4 print statements detected"
+      ]
+    }
+  ]
+}
