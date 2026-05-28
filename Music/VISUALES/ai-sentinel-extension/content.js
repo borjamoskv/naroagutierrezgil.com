@@ -18,7 +18,17 @@
   // Lista de hashes de publicaciones ignoradas (lista blanca local)
   let ignoredElements = new Set(allSettings.ignoredElements || []);
 
-  console.log("AI Sentinel v1.2 activo. Vigilando divulgadores de IA en español...");
+  console.log("[C5-REAL] AI Sentinel v2.0-ULTRA activo. Vigilando divulgadores de IA en español con CORTEX-Guard NLP...");
+
+  // Motor NLP-Lite (Fuzzy Proximity Matcher)
+  function detectMyth(text, errorObj) {
+    return errorObj.keywords.find(kw => {
+      const words = kw.toLowerCase().trim().split(/\s+/);
+      // Allow up to 60 characters of noise between words in a keyword phrase
+      const pattern = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join(".{0,60}?");
+      return new RegExp(pattern, "i").test(text);
+    });
+  }
 
   // Inicializar elemento de Tooltip compartido en el Body
   let tooltipEl = document.getElementById("ai-sentinel-tooltip-root");
@@ -274,7 +284,7 @@
       const tweetText = tweetTextEl.textContent.toLowerCase();
 
       for (const err of match.errors) {
-        const matchedKeyword = err.keywords.find(kw => tweetText.includes(kw.toLowerCase()));
+        const matchedKeyword = detectMyth(tweetText, err);
         if (matchedKeyword) {
           await auditElement(
             tweet,
@@ -319,7 +329,7 @@
       const postText = textEl.textContent.toLowerCase();
 
       for (const err of match.errors) {
-        const matchedKeyword = err.keywords.find(kw => postText.includes(kw.toLowerCase()));
+        const matchedKeyword = detectMyth(postText, err);
         if (matchedKeyword) {
           await auditElement(
             post,
@@ -366,7 +376,7 @@
       const combinedText = `${titleText} ${bodyText}`.toLowerCase();
 
       for (const err of match.errors) {
-        const matchedKeyword = err.keywords.find(kw => combinedText.includes(kw.toLowerCase()));
+        const matchedKeyword = detectMyth(combinedText, err);
         if (matchedKeyword) {
           // Flag el título o cabecera del artículo
           await auditElement(
@@ -432,7 +442,7 @@
       const combinedText = `${titleText} ${descText}`;
 
       for (const err of match.errors) {
-        const matchedKeyword = err.keywords.find(kw => combinedText.includes(kw.toLowerCase()));
+        const matchedKeyword = detectMyth(combinedText, err);
         if (matchedKeyword) {
           await auditElement(
             titleEl,
@@ -469,7 +479,7 @@
       const captionText = Array.from(segments).map(s => s.textContent).join(" ").toLowerCase();
 
       for (const err of activeYouTubeInfluencer.errors) {
-        const matchedKeyword = err.keywords.find(kw => captionText.includes(kw.toLowerCase()));
+        const matchedKeyword = detectMyth(captionText, err);
         if (matchedKeyword) {
           const uniqueKey = `${activeYouTubeInfluencer.id}-${err.id}-${matchedKeyword}`;
           

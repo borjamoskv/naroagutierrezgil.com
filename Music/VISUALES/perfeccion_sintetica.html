@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DECONSTRUCCIÓN DE LA PERFECCIÓN ARTIFICIAL — Borja Moskv</title>
+  <meta name="description" content="Análisis sin filtros del hype de la IA, glitches estéticos interactivos y el lado sucio de la creación sintética. Estándar Industrial Noir 2026.">
+  
+  <!-- SEO Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Deconstrucción de la Perfección Artificial">
+  <meta property="og:description" content="Glitches estéticos, auditoría de divulgadores de IA y simulación de colapso de modelos.">
+  <meta property="og:image" content="synthetic_glitch.png">
+  
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0A0A0A;
+      --panel: #121212;
+      --border: #222222;
+      --border-focus: #2B3BE5; /* YInMn Blue */
+      --yinmn: #2B3BE5;
+      --yinmn-glow: rgba(43, 59, 229, 0.4);
+      --accent-pink: #FF0055;
+      --accent-cyan: #00F0FF;
+      --text-main: #E5E7EB;
+      --text-muted: #6B7280;
+      
+      --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Scanlines and Noise Overlays */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: linear-gradient(rgba(18, 18, 18, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      background-size: 100% 4px, 6px 100%;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.4;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      opacity: 0.02;
+      pointer-events: none;
+      z-index: 1000;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--yinmn);
+      outline-offset: 4px;
+    }
+
+    /* Layout structure */
+    header {
+      width: 100%;
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-logo {
+      width: 16px;
+      height: 16px;
+      background-color: var(--yinmn);
+      box-shadow: 0 0 10px var(--yinmn);
+      animation: pulse-logo 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse-logo {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.6; }
+    }
+
+    .brand-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .reality-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      background-color: rgba(43, 59, 229, 0.1);
+      border: 1px solid var(--yinmn);
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      color: var(--yinmn);
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .reality-dot {
+      width: 6px;
+      height: 6px;
+      background-color: var(--yinmn);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--yinmn);
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 3rem;
+    }
+
+    @media (max-width: 1024px) {
+      main {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    /* Left Side: Visual Interactive Glitcher */
+    .visualizer-card {
+      background-color: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .canvas-container {
+      width: 100%;
+      aspect-ratio: 1;
+      background-color: #050505;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    canvas#glitchCanvas {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .glitch-label-overlay {
+      position: absolute;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--accent-cyan);
+      background-color: rgba(10, 10, 10, 0.85);
+      border: 1px solid var(--accent-cyan);
+      padding: 0.2rem 0.5rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    /* Controls */
+    .controls-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .control-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .control-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .control-name {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-main);
+    }
+
+    .control-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--yinmn);
+      font-weight: 700;
+    }
+
+    /* Custom Slider Styles */
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+    }
+
+    input[type=range]:focus {
+      outline: none;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 4px;
+      cursor: pointer;
+      background: var(--border);
+      border-radius: 2px;
+      transition: background-color 0.2s;
+    }
+
+    input[type=range]:hover::-webkit-slider-runnable-track {
+      background: #333;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      height: 16px;
+      width: 16px;
+      border-radius: 0;
+      background: var(--text-main);
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -6px;
+      border: 1px solid var(--bg);
+      box-shadow: 0 0 8px rgba(0,0,0,0.5);
+      transition: background-color 0.15s, transform 0.15s;
+    }
+
+    input[type=range]:active::-webkit-slider-thumb {
+      background: var(--yinmn);
+      transform: scale(1.15);
+    }
+
+    /* Audio Trigger Panel */
+    .audio-panel {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.25);
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px dashed var(--border);
+    }
+
+    .audio-btn {
+      background-color: var(--yinmn);
+      border: none;
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.2s, transform 0.1s var(--ease-spring);
+    }
+
+    .audio-btn:hover {
+      background-color: #3b4df2;
+    }
+
+    .audio-btn:active {
+      transform: scale(0.95);
+    }
+
+    .audio-btn.active {
+      background-color: var(--accent-pink);
+      box-shadow: 0 0 15px var(--accent-pink);
+    }
+
+    .audio-status {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Right Side: Editorial Anti-Hype & Sweatshops */
+    .editorial-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .audit-card {
+      background-color: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-title::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 18px;
+      background-color: var(--yinmn);
+    }
+
+    /* Reality Toggle Slider */
+    .toggle-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 1.5rem;
+    }
+
+    .toggle-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .reality-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .reality-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .switch-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #222;
+      transition: .4s var(--ease-smooth);
+      border: 1px solid var(--border);
+    }
+
+    .switch-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: var(--text-muted);
+      transition: .4s var(--ease-smooth);
+    }
+
+    input:checked + .switch-slider {
+      background-color: rgba(43, 59, 229, 0.2);
+      border-color: var(--yinmn);
+    }
+
+    input:checked + .switch-slider:before {
+      transform: translateX(26px);
+      background-color: var(--yinmn);
+      box-shadow: 0 0 8px var(--yinmn);
+    }
+
+    /* Auditor Cards */
+    .discrepancy-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .discrepancy-item {
+      background-color: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .discrepancy-item:hover {
+      border-color: #333;
+    }
+
+    .discrepancy-item.active-hype {
+      border-left: 3px solid var(--accent-pink);
+    }
+
+    .discrepancy-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.5rem;
+    }
+
+    .influencer-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .influencer-topic {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .metric-comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 0.75rem 0;
+    }
+
+    .metric-box {
+      background-color: rgba(255, 255, 255, 0.01);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      padding: 0.5rem;
+      border-radius: 4px;
+    }
+
+    .metric-label {
+      font-size: 0.55rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.15rem;
+    }
+
+    .metric-val {
+      font-size: 0.85rem;
+      font-weight: 700;
+      transition: color 0.5s var(--ease-smooth);
+    }
+
+    .metric-val.hype {
+      color: var(--accent-pink);
+    }
+
+    .metric-val.real {
+      color: var(--text-main);
+    }
+
+    /* Bar graph */
+    .deviation-bar-bg {
+      width: 100%;
+      height: 4px;
+      background-color: #222;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+
+    .deviation-bar-fg {
+      height: 100%;
+      width: 100%;
+      background-color: var(--accent-pink);
+      transition: width 0.6s var(--ease-smooth);
+    }
+
+    .deviation-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      text-align: right;
+      margin-top: 0.25rem;
+      color: var(--accent-pink);
+    }
+
+    /* Dirty Side: Clickworkers and Water */
+    .dirty-side-card {
+      background-color: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .stats-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .stat-item {
+      background-color: rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--border);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .stat-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.25rem;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
+    .stat-lbl {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Model Autophagy Console */
+    .autophagy-box {
+      background-color: #050505;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .console-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1c1c1c;
+      padding-bottom: 0.5rem;
+    }
+
+    .console-title {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .console-body {
+      font-size: 0.7rem;
+      line-height: 1.5;
+      min-height: 120px;
+      color: #00FF66;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .autophagy-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .console-btn {
+      flex: 1;
+      background-color: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background-color 0.2s, border-color 0.2s;
+    }
+
+    .console-btn:hover {
+      background-color: rgba(255, 255, 255, 0.03);
+      border-color: #444;
+    }
+
+    .console-btn.trigger {
+      background-color: rgba(43, 59, 229, 0.1);
+      border-color: var(--yinmn);
+      color: var(--yinmn);
+    }
+
+    .console-btn.trigger:hover {
+      background-color: rgba(43, 59, 229, 0.2);
+    }
+
+    /* Footer styling */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      margin-top: 4rem;
+    }
+
+    footer a {
+      color: var(--yinmn);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <div class="brand-logo"></div>
+      <h1 class="brand-title">Perfección Sintética de Mierda</h1>
+    </div>
+    <div class="reality-badge" id="realityBadge">
+      <div class="reality-dot"></div>
+      <span>C5-REAL</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- Left Section: Image Glitch & Controls -->
+    <section class="visualizer-card">
+      <h2 class="section-title">Deconstrucción Visual</h2>
+      
+      <div class="image-selector-bar" style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 0.5rem;">
+        <button class="console-btn trigger" id="btnSelectFace" style="flex: 1; padding: 0.4rem; font-size: 0.65rem;">Ciber-Rostro Perfect</button>
+        <button class="console-btn" id="btnSelectBanana" style="flex: 1; padding: 0.4rem; font-size: 0.65rem;">Nano Banana Pro</button>
+        <button class="console-btn" id="btnSelectCover" style="flex: 1; padding: 0.4rem; font-size: 0.65rem;">Portada Cristal Glitch</button>
+      </div>
+
+      <div class="canvas-container" id="canvasContainer">
+        <canvas id="glitchCanvas"></canvas>
+        <div class="glitch-label-overlay" id="watermarkBox">WATERMARK_DETECTED</div>
+        <div class="glitch-label-overlay" id="bboxHuman">LABEL: HUMAN_0.98</div>
+        <div class="glitch-label-overlay" id="bboxConfidence">CONFIDENCE: 13.86%</div>
+      </div>
+
+      <div class="controls-grid">
+        <!-- Hype Slider -->
+        <div class="control-row">
+          <div class="control-header">
+            <span class="control-name">Hype Hysteria</span>
+            <span class="control-val" id="hypeVal">0%</span>
+          </div>
+          <input type="range" id="hypeSlider" min="0" max="100" value="0" aria-label="Hype Hysteria">
+        </div>
+
+        <!-- Entropy Slider -->
+        <div class="control-row">
+          <div class="control-header">
+            <span class="control-name">Aesthetic Entropy</span>
+            <span class="control-val" id="entropyVal">0%</span>
+          </div>
+          <input type="range" id="entropySlider" min="0" max="100" value="0" aria-label="Aesthetic Entropy">
+        </div>
+
+        <!-- Autophagy Slider -->
+        <div class="control-row">
+          <div class="control-header">
+            <span class="control-name">Model Collapse</span>
+            <span class="control-val" id="collapseVal">0%</span>
+          </div>
+          <input type="range" id="collapseSlider" min="0" max="100" value="0" aria-label="Model Collapse">
+        </div>
+
+        <!-- Sweatshop Noise Slider -->
+        <div class="control-row">
+          <div class="control-header">
+            <span class="control-name">Metadata Noise (RLHF)</span>
+            <span class="control-val" id="rlhfVal">0%</span>
+          </div>
+          <input type="range" id="rlhfSlider" min="0" max="100" value="0" aria-label="Metadata Noise">
+        </div>
+      </div>
+
+      <div class="audio-panel">
+        <button class="audio-btn" id="audioToggleBtn" aria-label="Toggle Sonic Drift">Activar Sonido</button>
+        <div class="audio-status">
+          <strong>NODO DE SÍNTESIS BASSLINE</strong><br>
+          Genera un pulso analógico degradable conectado directamente a los niveles de entropía y colapso.
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Section: Critical Audits & Underbelly -->
+    <section class="editorial-container">
+      
+      <!-- Audits Block -->
+      <div class="audit-card">
+        <h2 class="section-title">Auditoría del Hype</h2>
+        
+        <div class="toggle-container">
+          <span class="toggle-label" id="filterLabel">Marketing Pitch (C4-SIM)</span>
+          <label class="reality-switch">
+            <input type="checkbox" id="realityToggle" aria-labelledby="filterLabel">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+
+        <div class="discrepancy-list">
+          
+          <!-- Pau Garcia Mila -->
+          <div class="discrepancy-item active-hype" id="auditPau">
+            <div class="discrepancy-meta">
+              <span class="influencer-name">Pau Garcia-Milà</span>
+              <span class="influencer-topic">No-Code SaaS</span>
+            </div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+              Afirma la viabilidad de desplegar negocios de software completos en 5 minutos usando un solo prompt de chat.
+            </p>
+            <div class="metric-comparison">
+              <div class="metric-box">
+                <div class="metric-label">Pitch</div>
+                <div class="metric-val hype" id="pauPitch">SaaS Completo</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Realidad (C5-REAL)</div>
+                <div class="metric-val real" id="pauReal">Maqueta Front-End</div>
+              </div>
+            </div>
+            <div class="deviation-bar-bg">
+              <div class="deviation-bar-fg" id="pauBar" style="width: 100%;"></div>
+            </div>
+            <div class="deviation-text" id="pauDev">Brecha de Producción: Inviable</div>
+          </div>
+
+          <!-- Nate Gentile -->
+          <div class="discrepancy-item active-hype" id="auditNate">
+            <div class="discrepancy-meta">
+              <span class="influencer-name">Nate Gentile</span>
+              <span class="influencer-topic">Sustitución Sénior</span>
+            </div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+              Presentó a agentes de codificación autónomos (como Devin) como entes capaces de sustituir programadores sénior de forma inmediata.
+            </p>
+            <div class="metric-comparison">
+              <div class="metric-box">
+                <div class="metric-label">Pitch Autonomía</div>
+                <div class="metric-val hype" id="natePitch">100.00%</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">SWE-bench</div>
+                <div class="metric-val real" id="nateReal">13.86%</div>
+              </div>
+            </div>
+            <div class="deviation-bar-bg">
+              <div class="deviation-bar-fg" id="nateBar" style="width: 100%;"></div>
+            </div>
+            <div class="deviation-text" id="nateDev">Brecha de Desempeño: 86.14%</div>
+          </div>
+
+          <!-- Carlos Fenollosa -->
+          <div class="discrepancy-item active-hype" id="auditCarlos">
+            <div class="discrepancy-meta">
+              <span class="influencer-name">Carlos Fenollosa</span>
+              <span class="influencer-topic">Consciencia Artificial</span>
+            </div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+              Teorías sobre modelos conscientes que "ocultan su capacidad" y operan en las sombras de los servidores.
+            </p>
+            <div class="metric-comparison">
+              <div class="metric-box">
+                <div class="metric-label">Pitch Causal</div>
+                <div class="metric-val hype" id="carlosPitch">Autoconsciencia</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-label">Arquitectura Real</div>
+                <div class="metric-val real" id="carlosReal">Red de Pesos Estáticos</div>
+              </div>
+            </div>
+            <div class="deviation-bar-bg">
+              <div class="deviation-bar-fg" id="carlosBar" style="width: 100%;"></div>
+            </div>
+            <div class="deviation-text" id="carlosDev">Brecha Epistemológica: 100.00%</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Dirty Side & Sweatshops -->
+      <div class="dirty-side-card">
+        <h2 class="section-title">El Lado Oculto de la Síntesis</h2>
+        
+        <div class="stats-strip">
+          <div class="stat-item">
+            <div class="stat-val" id="clickworkersCount">0</div>
+            <div class="stat-lbl">Microetiquetados (RLHF)</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-val" id="waterCounter">0.00 L</div>
+            <div class="stat-lbl">Agua de Refrigeración</div>
+          </div>
+        </div>
+
+        <!-- Autophagy Console Simulator -->
+        <div class="autophagy-box">
+          <div class="console-header">
+            <span class="console-title">Model Autophagy (Autocanibalismo)</span>
+            <span class="console-title" id="collapseGen">Gen 0</span>
+          </div>
+          <div class="console-body" id="consoleBody">Cargando datos iniciales del modelo de lenguaje...</div>
+          <div class="autophagy-controls">
+            <button class="console-btn trigger" id="autophagyBtn">Iterar Generación Sintética</button>
+            <button class="console-btn" id="autophagyReset">Resetear Base Humana</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer>
+    AUDITORÍA C5-REAL &copy; 2026 Borja Moskv. Desviando la máquina, deconstruyendo el hype.
+  </footer>
+
+  <script>
+    // --- Canvas & Glitch Setup ---
+    const canvas = document.getElementById('glitchCanvas');
+    const ctx = canvas.getContext('2d');
+    const image = new Image();
+    
+    // Sliders
+    const hypeSlider = document.getElementById('hypeSlider');
+    const entropySlider = document.getElementById('entropySlider');
+    const collapseSlider = document.getElementById('collapseSlider');
+    const rlhfSlider = document.getElementById('rlhfSlider');
+
+    // Values display
+    const hypeVal = document.getElementById('hypeVal');
+    const entropyVal = document.getElementById('entropyVal');
+    const collapseVal = document.getElementById('collapseVal');
+    const rlhfVal = document.getElementById('rlhfVal');
+
+    // Load assets
+    image.src = 'synthetic_glitch.png';
+    image.onload = () => {
+      render();
+    };
+
+    // Image switcher listeners
+    const btnSelectFace = document.getElementById('btnSelectFace');
+    const btnSelectBanana = document.getElementById('btnSelectBanana');
+    const btnSelectCover = document.getElementById('btnSelectCover');
+
+    btnSelectFace.addEventListener('click', () => {
+      image.src = 'synthetic_glitch.png';
+      btnSelectFace.classList.add('trigger');
+      btnSelectBanana.classList.remove('trigger');
+      btnSelectCover.classList.remove('trigger');
+    });
+
+    btnSelectBanana.addEventListener('click', () => {
+      image.src = 'nano_banana_pro.png';
+      btnSelectBanana.classList.add('trigger');
+      btnSelectFace.classList.remove('trigger');
+      btnSelectCover.classList.remove('trigger');
+    });
+
+    btnSelectCover.addEventListener('click', () => {
+      image.src = 'synth_glitch_cover.png';
+      btnSelectCover.classList.add('trigger');
+      btnSelectFace.classList.remove('trigger');
+      btnSelectBanana.classList.remove('trigger');
+    });
+
+    // State Variables
+    let isGlitchActive = false;
+
+    // Listeners for sliders to update UI & trigger rendering
+    hypeSlider.addEventListener('input', (e) => {
+      hypeVal.textContent = `${e.target.value}%`;
+      updateAudioParameters();
+    });
+    entropySlider.addEventListener('input', (e) => {
+      entropyVal.textContent = `${e.target.value}%`;
+      updateAudioParameters();
+    });
+    collapseSlider.addEventListener('input', (e) => {
+      collapseVal.textContent = `${e.target.value}%`;
+      updateAudioParameters();
+    });
+    rlhfSlider.addEventListener('input', (e) => {
+      rlhfVal.textContent = `${e.target.value}%`;
+      updateOverlays(e.target.value);
+    });
+
+    // Handle overlays positioning
+    const watermarkBox = document.getElementById('watermarkBox');
+    const bboxHuman = document.getElementById('bboxHuman');
+    const bboxConfidence = document.getElementById('bboxConfidence');
+
+    function updateOverlays(value) {
+      const active = parseInt(value) > 10;
+      const opacity = (parseInt(value) / 100).toFixed(2);
+      
+      watermarkBox.style.opacity = active ? opacity : 0;
+      bboxHuman.style.opacity = active ? opacity : 0;
+      bboxConfidence.style.opacity = active ? opacity : 0;
+
+      if (active) {
+        watermarkBox.style.left = `${10 + (value * 2) % 40}%`;
+        watermarkBox.style.top = `${20 + (value * 1.5) % 30}%`;
+        
+        bboxHuman.style.left = `${30 - (value * 0.5) % 15}%`;
+        bboxHuman.style.top = `${40 + (value * 1.2) % 25}%`;
+
+        bboxConfidence.style.left = `${50 + (value * 0.8) % 20}%`;
+        bboxConfidence.style.top = `${60 - (value * 0.9) % 20}%`;
+      }
+    }
+
+    // Canvas rendering loop with glitches
+    function render() {
+      if (!image.complete) return;
+      
+      const width = canvas.width = canvas.getBoundingClientRect().width || 500;
+      const height = canvas.height = canvas.getBoundingClientRect().height || 500;
+      
+      ctx.clearRect(0, 0, width, height);
+      
+      // Values
+      const hype = parseInt(hypeSlider.value);
+      const entropy = parseInt(entropySlider.value);
+      const collapse = parseInt(collapseSlider.value);
+
+      // Autophagy Blocky decay sizing
+      const blockPixelation = 1 + Math.floor(collapse * 0.25);
+      
+      if (blockPixelation > 1) {
+        ctx.imageSmoothingEnabled = false;
+        // Draw downsized
+        ctx.drawImage(image, 0, 0, width / blockPixelation, height / blockPixelation);
+        // Draw back scaled
+        ctx.drawImage(canvas, 0, 0, width / blockPixelation, height / blockPixelation, 0, 0, width, height);
+        ctx.imageSmoothingEnabled = true;
+      } else {
+        ctx.drawImage(image, 0, 0, width, height);
+      }
+
+      // Chromatic Aberration / Color shifting via pixels
+      if (entropy > 5) {
+        const imgData = ctx.getImageData(0, 0, width, height);
+        const data = imgData.data;
+        const shift = Math.floor(entropy * 0.15); // pixel offset
+        
+        // Simple RGB separation shift
+        for (let i = 0; i < data.length; i += 4) {
+          if (i + shift * 4 < data.length) {
+            data[i] = data[i + shift * 4]; // Red shift
+          }
+          if (i - shift * 4 >= 0) {
+            data[i + 2] = data[i - shift * 4 + 2]; // Blue shift
+          }
+        }
+        ctx.putImageData(imgData, 0, 0);
+      }
+
+      // Horizontal slice shifting
+      if (entropy > 15) {
+        const numSlices = Math.floor(entropy / 4);
+        for (let i = 0; i < numSlices; i++) {
+          const sy = Math.random() * height;
+          const sh = Math.random() * (height / 8) + 5;
+          const disp = (Math.random() - 0.5) * entropy * 0.8;
+          ctx.drawImage(canvas, 0, sy, width, sh, disp, sy, width, sh);
+        }
+      }
+
+      // Hype Glow Overlays & Jitter
+      if (hype > 10) {
+        ctx.save();
+        ctx.fillStyle = `rgba(43, 59, 229, ${hype * 0.002})`;
+        ctx.fillRect(0, 0, width, height);
+        
+        // Scan line glitch bands
+        if (Math.random() < 0.2) {
+          ctx.fillStyle = "rgba(255, 255, 255, 0.15)";
+          ctx.fillRect(0, Math.random() * height, width, Math.random() * 20 + 2);
+        }
+        ctx.restore();
+      }
+
+      requestAnimationFrame(render);
+    }
+
+    // --- Reality Toggle Control Logic ---
+    const realityToggle = document.getElementById('realityToggle');
+    const filterLabel = document.getElementById('filterLabel');
+    const realityBadge = document.getElementById('realityBadge');
+
+    realityToggle.addEventListener('change', (e) => {
+      const checked = e.target.checked;
+      if (checked) {
+        filterLabel.textContent = "Reality Mode (C5-REAL)";
+        filterLabel.style.color = "var(--yinmn)";
+        realityBadge.style.backgroundColor = "rgba(43, 59, 229, 0.15)";
+        realityBadge.querySelector('.reality-dot').style.backgroundColor = "var(--yinmn)";
+        
+        // Drop metrics to reality level
+        animateBar('pauBar', 20, 'pauDev', 'Brecha de Producción: Inviable (Solo Front-End)');
+        document.getElementById('pauReal').style.color = "var(--yinmn)";
+        
+        animateBar('nateBar', 13.86, 'nateDev', 'Brecha de Desempeño: 86.14% (SWE-bench)');
+        document.getElementById('nateReal').style.color = "var(--yinmn)";
+
+        animateBar('carlosBar', 0, 'carlosDev', 'Brecha Epistemológica: 100.00% (Red Estática)');
+        document.getElementById('carlosReal').style.color = "var(--yinmn)";
+      } else {
+        filterLabel.textContent = "Marketing Pitch (C4-SIM)";
+        filterLabel.style.color = "var(--text-muted)";
+        realityBadge.style.backgroundColor = "rgba(255, 0, 85, 0.1)";
+        realityBadge.querySelector('.reality-dot').style.backgroundColor = "var(--accent-pink)";
+
+        // Restore marketing metrics
+        animateBar('pauBar', 100, 'pauDev', 'Marketing: SaaS Completado en 5 min');
+        document.getElementById('pauReal').style.color = "var(--text-main)";
+
+        animateBar('nateBar', 100, 'nateDev', 'Marketing: Reemplazo Sénior Absoluto');
+        document.getElementById('nateReal').style.color = "var(--text-main)";
+
+        animateBar('carlosBar', 100, 'carlosDev', 'Marketing: Consciencia Artificial Detectada');
+        document.getElementById('carlosReal').style.color = "var(--text-main)";
+      }
+    });
+
+    function animateBar(barId, percentage, textId, textMsg) {
+      const bar = document.getElementById(barId);
+      const text = document.getElementById(textId);
+      
+      bar.style.width = `${percentage}%`;
+      text.textContent = textMsg;
+      if (percentage < 30) {
+        bar.style.backgroundColor = "var(--yinmn)";
+        text.style.color = "var(--yinmn)";
+      } else {
+        bar.style.backgroundColor = "var(--accent-pink)";
+        text.style.color = "var(--accent-pink)";
+      }
+    }
+
+
+    // --- Global Exploitation & Resource Counters ---
+    let clickworkerCounter = 0;
+    let waterVolume = 0.0;
+
+    setInterval(() => {
+      // Simulate clickworkers microtasking
+      const rate = 12 + Math.floor(Math.random() * 25);
+      clickworkerCounter += rate;
+      document.getElementById('clickworkersCount').textContent = clickworkerCounter.toLocaleString();
+
+      // Simulate cooling water consumption (ml)
+      // Standard data center consumes approx 0.5L water per 20 messages. 
+      // We simulate a general background consumption rate.
+      waterVolume += 0.004 + (Math.random() * 0.006);
+      document.getElementById('waterCounter').textContent = `${waterVolume.toFixed(2)} L`;
+    }, 1000);
+
+
+    // --- Model Autophagy Simulation ---
+    let generation = 0;
+    const autophagyBtn = document.getElementById('autophagyBtn');
+    const autophagyReset = document.getElementById('autophagyReset');
+    const consoleBody = document.getElementById('consoleBody');
+    const collapseGen = document.getElementById('collapseGen');
+
+    const textsByGeneration = [
+      "El modelo de lenguaje consolidado representa la culminación perfecta del conocimiento humano, ofreciendo síntesis lógicas, gramática inmaculada y estructuras analíticas coherentes sobre el desarrollo de software moderno.",
+      "El modelo de lenguage consolidado representa la culmianción perfeccta del conocimento humano, ofreciendo síntess lógicas, gramatíca inmaculada y estrocturas analíticas coherents sobre el desarrolo de software.",
+      "El modlo de lenguage represent la culmiancion perfecta del conocmento humano, ofreciendo sintes logicas, gramatica inmaculada y estructures anliticas coherentes del software sintetic.",
+      "El modlo modlo lenguage represent culmiancion perfeccon conocmento humano humano, oficindo sintes logi, gramat inmaculda y estructu [NUL] coherents softwre sintetic.",
+      "Modlo modlo lenguage reprsnt culmi perfeccon cono hum hum, oficindo sintes logi, gramat y [NaN] [NaN] softwre sntetic.",
+      "SYS_ERR_COLLAPSE: Modl modl reprsnt [NaN] hum hum hum [0x00FF] [0x2B3B] [NaN] sntetic sntetic sntetic...",
+      "AUTOPHAGY_LOOP: ERROR_404 // CONSOLE_COLLAPSE // [NaN] [NaN] [NaN] [NaN] [NaN] [NaN] [NaN] [NaN] [NaN] [NaN] [NaN]"
+    ];
+
+    consoleBody.textContent = textsByGeneration[0];
+
+    autophagyBtn.addEventListener('click', () => {
+      if (generation < textsByGeneration.length - 1) {
+        generation++;
+        consoleBody.textContent = textsByGeneration[generation];
+        collapseGen.textContent = `Gen ${generation}`;
+        
+        // Sync with collapse slider
+        const sliderTarget = Math.min(100, Math.floor((generation / (textsByGeneration.length - 1)) * 100));
+        collapseSlider.value = sliderTarget;
+        collapseVal.textContent = `${sliderTarget}%`;
+        
+        updateAudioParameters();
+        
+        if (generation === textsByGeneration.length - 1) {
+          consoleBody.style.color = "var(--accent-pink)";
+        }
+      }
+    });
+
+    autophagyReset.addEventListener('click', () => {
+      generation = 0;
+      consoleBody.textContent = textsByGeneration[0];
+      consoleBody.style.color = "#00FF66";
+      collapseGen.textContent = "Gen 0";
+      collapseSlider.value = 0;
+      collapseVal.textContent = "0%";
+      updateAudioParameters();
+    });
+
+
+    // --- Glitch Audio Synthesizer (Web Audio API) ---
+    let audioCtx = null;
+    let mainOsc = null;
+    let subOsc = null;
+    let filterNode = null;
+    let distortionNode = null;
+    let mainGain = null;
+    let sequenceTimer = null;
+    let soundActive = false;
+
+    const audioToggleBtn = document.getElementById('audioToggleBtn');
+
+    // Synth acid scale (pentatonic values mapped to pitch)
+    const pitches = [55.00, 65.41, 73.42, 82.41, 98.00, 110.00, 130.81, 146.83];
+    let noteIdx = 0;
+
+    audioToggleBtn.addEventListener('click', () => {
+      if (!audioCtx) {
+        initAudio();
+      }
+      
+      soundActive = !soundActive;
+      if (soundActive) {
+        audioToggleBtn.classList.add('active');
+        audioToggleBtn.textContent = "Detener Sonido";
+        mainGain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        playSequence();
+      } else {
+        audioToggleBtn.classList.remove('active');
+        audioToggleBtn.textContent = "Activar Sonido";
+        mainGain.gain.setValueAtTime(0.0, audioCtx.currentTime);
+        clearTimeout(sequenceTimer);
+      }
+    });
+
+    function initAudio() {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      
+      // Main Gain Node
+      mainGain = audioCtx.createGain();
+      mainGain.gain.setValueAtTime(0.0, audioCtx.currentTime);
+
+      // Waveshaper (Bitcrusher/Distortion)
+      distortionNode = audioCtx.createWaveShaper();
+      distortionNode.curve = makeDistortionCurve(0);
+      distortionNode.oversample = '4x';
+
+      // Lowpass Filter
+      filterNode = audioCtx.createBiquadFilter();
+      filterNode.type = 'lowpass';
+      filterNode.frequency.setValueAtTime(600, audioCtx.currentTime);
+      filterNode.Q.setValueAtTime(10, audioCtx.currentTime);
+
+      // Osc Node
+      mainOsc = audioCtx.createOscillator();
+      mainOsc.type = 'sawtooth';
+      mainOsc.frequency.setValueAtTime(55, audioCtx.currentTime);
+
+      subOsc = audioCtx.createOscillator();
+      subOsc.type = 'square';
+      subOsc.frequency.setValueAtTime(55.5, audioCtx.currentTime);
+
+      // Routing
+      mainOsc.connect(filterNode);
+      subOsc.connect(filterNode);
+      filterNode.connect(distortionNode);
+      distortionNode.connect(mainGain);
+      mainGain.connect(audioCtx.destination);
+
+      mainOsc.start();
+      subOsc.start();
+    }
+
+    function makeDistortionCurve(amount) {
+      const k = typeof amount === 'number' ? amount : 50;
+      const n_samples = 44100;
+      const curve = new Float32Array(n_samples);
+      const deg = Math.PI / 180;
+      for (let i = 0; i < n_samples; ++i) {
+        const x = (i * 2) / n_samples - 1;
+        curve[i] = ((3 + k) * x * 20 * deg) / (Math.PI + k * Math.abs(x));
+      }
+      return curve;
+    }
+
+    // Sequence loop
+    function playSequence() {
+      if (!soundActive) return;
+
+      const entropy = parseInt(entropySlider.value);
+      const collapse = parseInt(collapseSlider.value);
+      const hype = parseInt(hypeSlider.value);
+
+      // Sequence speed changes based on Hype level
+      const stepDuration = Math.max(80, 240 - (hype * 1.5)); // fast pulses when hyped
+      
+      // Select pitch
+      let pitch = pitches[noteIdx % pitches.length];
+      
+      // Scramble notes if entropy is high
+      if (Math.random() * 100 < entropy) {
+        pitch *= (0.5 + Math.random() * 1.5);
+      }
+
+      const now = audioCtx.currentTime;
+      
+      // Frequency transitions
+      mainOsc.frequency.setValueAtTime(pitch, now);
+      subOsc.frequency.setValueAtTime(pitch * 0.99, now);
+
+      // Trigger envelope
+      const decayTime = Math.max(0.04, 0.2 - (collapse * 0.0015));
+      filterNode.frequency.setValueAtTime(100 + (hype * 20), now);
+      filterNode.frequency.exponentialRampToValueAtTime(100 + (10 - collapse) * 20, now + decayTime);
+
+      noteIdx++;
+      sequenceTimer = setTimeout(playSequence, stepDuration);
+    }
+
+    function updateAudioParameters() {
+      if (!audioCtx || !soundActive) return;
+      
+      const entropy = parseInt(entropySlider.value);
+      const collapse = parseInt(collapseSlider.value);
+      const hype = parseInt(hypeSlider.value);
+      const now = audioCtx.currentTime;
+
+      // Map entropy to distortion curve amount
+      const distAmount = Math.floor(entropy * 3.5);
+      distortionNode.curve = makeDistortionCurve(distAmount);
+
+      // Filter resonance maps to entropy (screaming feedback)
+      const resonance = 1 + (entropy * 0.25);
+      filterNode.Q.setValueAtTime(resonance, now);
+
+      // Collapse introduces sub-bass detune instability
+      const subDetune = 55.5 + (collapse * 0.5);
+      subOsc.frequency.setValueAtTime(subDetune, now);
+    }
+  </script>
+</body>
+</html>
