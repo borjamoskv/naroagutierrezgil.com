@@ -75,6 +75,15 @@ La farmacología moderna no ofrece soluciones eficaces para reducir el enfoque. 
 
 ---
 
+## 🩺 Perspectiva Clínica: El Colapso de la Terapia Breve (IMQ AMSA)
+
+Para entender la resistencia de esta patología a la intervención terapéutica convencional, consultamos a la **Dra. Beatriz Rodríguez**, Psiquiatra de Consultas Externas en IMQ AMSA y Coordinadora de su Centro de Terapia Breve. Su diagnóstico sobre el comportamiento de estos pacientes en consulta es desalentador:
+
+> *"El modelo del Centro de Terapia Breve está diseñado para ser pragmático, buscando soluciones activas en un máximo de 5 o 6 sesiones. Sin embargo, el paciente con TSA hackea el encuadre clínico desde el minuto uno. Si le pedimos que identifique una 'excepción al problema' (un momento en el que no haya estado hiperenfocado), el sujeto no responde emocionalmente. En su lugar, inicia una auditoría retrospectiva de su base de datos biológica, cruzando timestamps de ejecución de tareas desde el año 2018 para demostrarnos, con un margen de error del 0.02%, que tal excepción es estadísticamente imposible. La sesión colapsa por stack overflow antes de que podamos sugerir la primera tarea reflexiva. No buscan curarse; buscan optimizar el proceso de su propia terapia hasta reducirla a un commit de 0.4 segundos."*
+
+---
+
+
 ## 🔮 Conclusión Crítica
 
 El Trastorno por Superávit de Atención no es un problema de salud; es una incapacidad estructural para fallar. Si vives con alguien que pasa horas mirando el comportamiento de una hormiga o optimizando el orden de las pestañas de su navegador web con expresiones regulares, no le grites. Simplemente corta la corriente eléctrica general de la casa. Es la única forma de forzar un reinicio del sistema (hard reset).

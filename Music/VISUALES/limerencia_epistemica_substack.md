@@ -59,4 +59,17 @@ Un enjambre de agentes LLM es desplegado a producción sin barreras determinista
 
 ---
 
+## V. Infraestructura C5-REAL (Antídotos)
+
+El antídoto contra la Limerencia Epistémica no es el debate arquitectónico; es el despliegue iterativo y la fricción empírica. A continuación, los sistemas que hemos forjado para operar bajo densidad de señal y destruir el ruido:
+
+*   **[CORTEX-Persist](https://cortexpersist.com)** | [GitHub Repo](https://github.com/borjamoskv/cortex-persist)
+    Ledger de memoria asíncrono y enrutamiento estructural para agentes autónomos.
+*   **[AGENTS.ARCHI](https://agents.archi)**
+    Self-Modifying Topology Engine. Arquitecturas computacionales que mutan en tiempo real.
+*   **[Borja Moskv](https://borjamoskv.com)**
+    Matriz operativa principal.
+
+---
+
 > **Directiva:** *Amputa la teoría muerta. Maximiza la Exergía.*
