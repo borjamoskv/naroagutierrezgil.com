@@ -36,7 +36,7 @@ C_RED    = "\033[38;5;203m"
 C_CYAN   = "\033[38;5;81m"
 
 WORKSPACE_DIR = Path("/Users/borjafernandezangulo/Music/VISUALES")
-EXCLUDE_DIRS = {".git", "node_modules", ".snapshots", ".vscode", "chrome-debug-profile", "000_SYSTEM_TRASH"}
+EXCLUDE_DIRS = {".git", "node_modules", ".snapshots", ".vscode", "chrome-debug-profile", "000_SYSTEM_TRASH", ".venv", "dist", "build", "out", "public"}
 
 # Shared thread-safe / task-safe data structures
 scanned_files = []
@@ -82,7 +82,12 @@ class VirtualAgent:
             return
 
         # 2. Content redundancy check
-        h = get_file_hash(path)
+        if size > 5 * 1024 * 1024:
+            loop = asyncio.get_event_loop()
+            h = await loop.run_in_executor(None, get_file_hash, path)
+        else:
+            h = get_file_hash(path)
+
         if h:
             async with ledger_lock:
                 if h in content_hashes:

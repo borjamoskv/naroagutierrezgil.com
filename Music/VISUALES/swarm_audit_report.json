@@ -1,10 +1,18 @@
 {
-  "timestamp": 1779913521.417738,
-  "elapsed_s": 50.38161516189575,
-  "files_scanned": 2538,
-  "active_agents": 437,
-  "total_redundancies_found": 87,
+  "timestamp": 1780237078.287092,
+  "elapsed_s": 9.8390371799469,
+  "files_scanned": 2633,
+  "active_agents": 994,
+  "total_redundancies_found": 120,
   "duplicates": {
+    "6d18fcaea57829804acf07abd699329d": [
+      "/Users/borjafernandezangulo/Music/VISUALES/video-forge/output/manifest_test.json",
+      "/Users/borjafernandezangulo/Music/VISUALES/video-forge/output/director_manifest.json"
+    ],
+    "3a817df30f289524c11fee924acaccec": [
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/concat_v3.txt",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/concat_list.txt"
+    ],
     "d41d8cd98f00b204e9800998ecf8427e": [
       "/Users/borjafernandezangulo/Music/VISUALES/Kuraia - Kea_pitch.mp3",
       "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/example.metadata.json"
@@ -63,35 +71,49 @@
   },
   "code_hygiene_issues": [
     {
-      "agent": "Agent-0004",
+      "agent": "Agent-0002",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/house_remix.py",
+      "issues": [
+        "11 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0010",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remix.py",
+      "issues": [
+        "11 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0012",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/clean_vtt.py",
       "issues": [
         "1 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0006",
+      "agent": "Agent-0016",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/resolve_audio_overlaps.py",
       "issues": [
         "4 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0007",
+      "agent": "Agent-0017",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/model_router.py",
       "issues": [
         "28 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0008",
+      "agent": "Agent-0018",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/process_album.py",
       "issues": [
         "28 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0010",
+      "agent": "Agent-0021",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/swarm_redundancy_processor.py",
       "issues": [
         "1 console.log calls detected",
@@ -99,350 +121,553 @@
       ]
     },
     {
-      "agent": "Agent-0012",
+      "agent": "Agent-0023",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/borjamoskv-rauw-clone/main.js",
       "issues": [
         "1 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0015",
+      "agent": "Agent-0026",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/video-forge/director.js",
       "issues": [
         "2 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0016",
+      "agent": "Agent-0027",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/video-forge/pipeline.js",
       "issues": [
         "3 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0017",
+      "agent": "Agent-0059",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_09.py",
       "issues": [
         "3 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0018",
+      "agent": "Agent-0060",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/analyze_and_refine.py",
       "issues": [
         "11 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0019",
+      "agent": "Agent-0064",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_hybrid_all_50.py",
       "issues": [
         "11 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0020",
+      "agent": "Agent-0070",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_08.py",
       "issues": [
         "3 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0021",
+      "agent": "Agent-0073",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_13.py",
       "issues": [
         "3 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0022",
+      "agent": "Agent-0074",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_hybrid_continue.py",
       "issues": [
         "9 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0023",
+      "agent": "Agent-0079",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_07.py",
       "issues": [
         "3 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0024",
+      "agent": "Agent-0083",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_hybrid_replace.py",
       "issues": [
         "10 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0025",
+      "agent": "Agent-0087",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_12.py",
       "issues": [
         "3 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0026",
+      "agent": "Agent-0089",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_mac_replace.py",
       "issues": [
         "14 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0027",
+      "agent": "Agent-0095",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_11.py",
       "issues": [
         "3 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0028",
+      "agent": "Agent-0097",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_local_chrome.py",
       "issues": [
         "12 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0029",
+      "agent": "Agent-0101",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_10.py",
       "issues": [
         "3 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0030",
+      "agent": "Agent-0105",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_45.py",
       "issues": [
         "3 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0031",
+      "agent": "Agent-0109",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_replace.py",
       "issues": [
         "28 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0032",
+      "agent": "Agent-0111",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/direct_replace.py",
       "issues": [
         "12 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0033",
+      "agent": "Agent-0112",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_publish.py",
       "issues": [
         "2 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0034",
+      "agent": "Agent-0123",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_hybrid.py",
       "issues": [
         "18 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0039",
+      "agent": "Agent-0277",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/paste_via_daemon.py",
+      "issues": [
+        "3 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0278",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_direct2.py",
+      "issues": [
+        "4 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0279",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/serve_cors.py",
+      "issues": [
+        "1 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0280",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_video_applescript.py",
+      "issues": [
+        "6 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0281",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_v4_and_text.py",
+      "issues": [
+        "6 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0282",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/go_to_editor_and_upload.py",
+      "issues": [
+        "10 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0283",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_direct_input.py",
+      "issues": [
+        "5 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0284",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_via_spacebar.py",
+      "issues": [
+        "6 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0285",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_on_tab2.py",
+      "issues": [
+        "7 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0286",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_v4_video_fallback.py",
+      "issues": [
+        "5 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0287",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_now.py",
+      "issues": [
+        "6 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0288",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/generate_all_envelopes.py",
+      "issues": [
+        "2 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0289",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/drop_video.js",
+      "issues": [
+        "1 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0290",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_video_automata.py",
+      "issues": [
+        "4 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0291",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_direct.py",
+      "issues": [
+        "4 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0292",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/inject_video.py",
+      "issues": [
+        "6 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0293",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_video_via_daemon.py",
+      "issues": [
+        "4 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0294",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_audio_and_subs.py",
+      "issues": [
+        "8 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0295",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/test_menu.py",
+      "issues": [
+        "2 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0296",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_via_keystrokes.py",
+      "issues": [
+        "5 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0298",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/check_substack.py",
+      "issues": [
+        "2 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0299",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/paste_video.py",
+      "issues": [
+        "4 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0300",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_full_flow.py",
+      "issues": [
+        "5 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0301",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/publish_draft.py",
+      "issues": [
+        "3 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0303",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/create_youtube_video.py",
       "issues": [
         "20 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0040",
+      "agent": "Agent-0304",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/cortex_audio_pipeline.py",
       "issues": [
         "31 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0049",
+      "agent": "Agent-0561",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/ai-sentinel-extension/generate_icons.py",
+      "issues": [
+        "1 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0563",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/ai-sentinel-extension/service-worker.js",
+      "issues": [
+        "2 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0564",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/ai-sentinel-extension/content.js",
+      "issues": [
+        "4 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0565",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/ai-sentinel-extension/ingest_substacks.py",
+      "issues": [
+        "1 print statements detected"
+      ]
+    },
+    {
+      "agent": "Agent-0566",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/ai-sentinel-extension/popup/popup.js",
+      "issues": [
+        "1 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0574",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/hardhat.config.ts",
       "issues": [
         "1 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0050",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/sendCredit.ts",
-      "issues": [
-        "4 console.log calls detected"
-      ]
-    },
-    {
-      "agent": "Agent-0051",
+      "agent": "Agent-0576",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/printStargate.ts",
       "issues": [
         "20 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0053",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/mintMockToken.ts",
-      "issues": [
-        "5 console.log calls detected"
-      ]
-    },
-    {
-      "agent": "Agent-0054",
+      "agent": "Agent-0579",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/addTreasuryFee.ts",
       "issues": [
         "2 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0055",
+      "agent": "Agent-0575",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/sendCredit.ts",
+      "issues": [
+        "4 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0580",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/printUser.ts",
       "issues": [
         "3 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0056",
+      "agent": "Agent-0581",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/oftTransfer.ts",
       "issues": [
         "3 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0057",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/balances.ts",
+      "agent": "Agent-0578",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/mintMockToken.ts",
       "issues": [
-        "1 console.log calls detected"
+        "5 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0058",
+      "agent": "Agent-0583",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/transferOwnership.ts",
       "issues": [
         "2 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0059",
+      "agent": "Agent-0584",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/transfer.ts",
       "issues": [
         "6 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0060",
+      "agent": "Agent-0582",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/balances.ts",
+      "issues": [
+        "1 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0585",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/redeemSend.ts",
       "issues": [
         "4 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0061",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/printMessaging.ts",
-      "issues": [
-        "12 console.log calls detected"
-      ]
-    },
-    {
-      "agent": "Agent-0062",
+      "agent": "Agent-0587",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/setRewards.ts",
       "issues": [
         "3 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0063",
+      "agent": "Agent-0586",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/printMessaging.ts",
+      "issues": [
+        "12 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0588",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/send.ts",
       "issues": [
         "15 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0065",
+      "agent": "Agent-0590",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/deposit.ts",
       "issues": [
         "8 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0066",
+      "agent": "Agent-0591",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/redeem.ts",
       "issues": [
         "8 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0137",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/script/oneSig/migrate-to-onesig.ts",
-      "issues": [
-        "11 console.log calls detected"
-      ]
-    },
-    {
-      "agent": "Agent-0140",
+      "agent": "Agent-0665",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/devtools/tasks/utils.ts",
       "issues": [
         "6 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0273",
+      "agent": "Agent-0662",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/script/oneSig/migrate-to-onesig.ts",
+      "issues": [
+        "11 console.log calls detected"
+      ]
+    },
+    {
+      "agent": "Agent-0798",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/utils/logger.ts",
       "issues": [
         "1 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0387",
+      "agent": "Agent-0912",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/generateNativeCurrencyConfig.ts",
       "issues": [
         "10 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0395",
+      "agent": "Agent-0920",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/checkDeployment/utils.ts",
       "issues": [
         "3 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0400",
+      "agent": "Agent-0925",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/checkDeployment/index.ts",
       "issues": [
         "2 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0411",
+      "agent": "Agent-0936",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/common-utils/parallelProcessing.ts",
       "issues": [
         "1 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0426",
+      "agent": "Agent-0963",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/FORGE_ORGANIZED/Code/20260105_COD_stubs_v1.ts",
       "issues": [
         "1 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0435",
+      "agent": "Agent-0992",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/FRONTERA/scripts/deploy.js",
       "issues": [
         "13 console.log calls detected"
       ]
     },
     {
-      "agent": "Agent-0436",
+      "agent": "Agent-0993",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/FRONTERA/agent_daemon/agent_loop.py",
       "issues": [
         "26 print statements detected"
       ]
     },
     {
-      "agent": "Agent-0437",
+      "agent": "Agent-0994",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/FRONTERA/art_generator/generate.py",
       "issues": [
         "4 print statements detected"
