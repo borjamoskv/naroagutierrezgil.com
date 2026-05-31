@@ -1,0 +1,2 @@
+file 'out/friccion.mp4'
+file 'out/tail.mp4'
