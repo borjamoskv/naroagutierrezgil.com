@@ -21,4 +21,4 @@ echo "[CORTEX-SIM] Target: $TARGET_FILE"
 
 # -re = Lee a la velocidad nativa del video
 # -stream_loop -1 = Bucle infinito
-ffmpeg -re -stream_loop -1 -i "$TARGET_FILE" -c:v copy -c:a copy -f flv "rtmp://global-live.mux.com:5222/app/$STREAM_KEY"
+ffmpeg -re -stream_loop -1 -i "$TARGET_FILE" -c:v h264_videotoolbox -b:v 6000k -c:a aac -f flv "rtmp://global-live.mux.com:5222/app/$STREAM_KEY"
