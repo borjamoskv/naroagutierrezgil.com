@@ -49,20 +49,24 @@ time.sleep(3) # Wait for file picker dialog to appear
 file_path = "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/out/El_Ultimo_Solo_de_Gon_Master_V3.mp4"
 picker_script = f'''
 tell application "System Events"
-    -- Command+Shift+G to open "Go to folder" sheet
-    keystroke "g" using {{command down, shift down}}
-    delay 1.5
-    
-    -- Type filepath
-    keystroke "{file_path}"
-    delay 1.5
-    
-    -- Confirm path
-    key code 36
-    delay 1.5
-    
-    -- Confirm file selection
-    key code 36
+    tell process "Safari"
+        set frontmost to true
+        delay 1
+        -- Command+Shift+G to open "Go to folder" sheet
+        keystroke "g" using {{command down, shift down}}
+        delay 2
+        
+        -- Type filepath
+        keystroke "{file_path}"
+        delay 2
+        
+        -- Confirm path
+        key code 36
+        delay 2
+        
+        -- Confirm file selection
+        key code 36
+    end tell
 end tell
 '''
 print(f"Selecting video file: {file_path}...")
