@@ -1,0 +1,7 @@
+file 'out/acto1.mp4'
+file 'out/acto2.mp4'
+file 'out/acto3.mp4'
+file 'out/acto4_paz_padilla_chiquitocres.mp4'
+file 'out/acto5_fito_concert.mp4'
+file 'out/acto6_rayohead.mp4'
+file 'out/acto7_pirri.mp4'
