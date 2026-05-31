@@ -3,7 +3,7 @@ import subprocess
 import json
 
 # Declare reality level
-print("REALITY LEVEL: C5-REAL (Building production audio assets on-disk)")
+print("REALITY LEVEL: C5-REAL (Building updated audio with Galician-Toledan Stoichkov)")
 
 def run_cmd(cmd):
     print(f"Running: {cmd}")
@@ -225,29 +225,125 @@ rap_dialogues = [
     },
     {
         "id": "40_gon", "voice": "Eddy",
-        "text": "la Pantoja sabe más de cuentas que de cantar.",
+        "text": "la Pantoja sabe más de...",
         "effect": "-af \"volume=1.5,equalizer=f=1500:width_type=q:width=1:g=3\"", "who": "GON"
     },
+    # EL PIRRI INTERRUPTION
     {
-        "id": "41_gon", "voice": "Eddy",
-        "text": "Así que vuelve a Cantora, cierra el portón,",
-        "effect": "-af \"volume=1.5,equalizer=f=1500:width_type=q:width=1:g=3\"", "who": "GON"
+        "id": "41_sfx", "voice": "Rocko",
+        "text": "¡SCREEECH! ¡RUM RUM! ¡Trompo salvaje con el ciento veinticuatro robado!",
+        "effect": "-af \"asetrate=22050*0.75,atempo=1.1,aphaser=speed=0.5:decay=0.6:delay=4:type=t\"", "who": "DJ"
     },
     {
-        "id": "42_gon", "voice": "Eddy",
-        "text": "que el mercadillo es territorio de GON.",
-        "effect": "-af \"volume=1.5,equalizer=f=1500:width_type=q:width=1:g=3\"", "who": "GON"
+        "id": "42_pirri", "voice": "Grandpa",
+        "text": "¡Qué pasa chavales! ¡Aparco el ciento veinticuatro aquí derrapando y me marco un breakdance de locos! ¡Mirad cómo giro en el suelo!",
+        "effect": "-af \"asetrate=22050*1.15,atempo=1.05\"", "who": "EL PIRRI"
     },
     {
         "id": "43_gon", "voice": "Eddy",
-        "text": "¡MERCADILLO GANG, FUERA!",
-        "effect": "-af \"volume=1.5,equalizer=f=1500:width_type=q:width=1:g=4\"", "who": "GON"
+        "text": "¡Hostia! ¡Pero si es el Pirri! ¡Y mira qué molino se está haciendo en el capó del coche! ¡Qué guapada, chaval!",
+        "effect": "-af \"volume=1.4,equalizer=f=1500:width_type=q:width=1:g=3\"", "who": "GON"
     },
-    # OUTRO
     {
-        "id": "44_dj", "voice": "Rocko",
-        "text": "Ganó Gon. Como siempre. Mercadillo Gang.",
+        "id": "44_pan", "voice": "Mónica",
+        "text": "¡Es mi oportunidad! ¡Toma...",
+        "effect": "-af \"volume=1.6,aecho=0.8:0.9:30:0.5\"", "who": "ISABEL PANTOJA"
+    },
+    # RAMONCIN & STOICHKOV CRASH
+    {
+        "id": "45_ramon", "voice": "Reed",
+        "text": "¡ALTO EN NOMBRE DE LA SOCIEDAD DE AUTORES! ¡Este breakdance infringe el copyright del movimiento rotatorio! ¡Y esa base musical no tiene licencia de emisión pública!",
+        "effect": "-af \"aphaser=speed=0.25:decay=0.4:delay=3:type=t,tremolo=f=18:d=0.7,chorus=0.5:0.9:50:0.4:0.25:2\"", "who": "RAMONCÍN"
+    },
+    {
+        "id": "46_stoichkov", "voice": "Mónica",
+        "text": "¡Escondede as carteiras, rapaces! ¡Ramoncín ten toda a razón! ¡Árbitro comprado, xente de Valladolid! ¡Que eu son de Toledo de toda a vida, carallo, e vós estades todos parvos!",
+        "effect": "-af \"asetrate=44100*1.15,atempo=0.9,vibrato=f=6:d=0.5,volume=1.6\"", "who": "STOICHKOV"
+    },
+    {
+        "id": "47_sfx_pisotón", "voice": "Rocko",
+        "text": "¡CHAF! ¡CRAC! ¡Metatarsos triturados!",
+        "effect": "-af \"asetrate=22050*0.6,atempo=1.2,volume=1.8\"", "who": "DJ"
+    },
+    {
+        "id": "48_gon", "voice": "Eddy",
+        "text": "¡Aaaaaah! ¡El metatarso! ¡Stoichkov me ha pisado con fuerza toledana! ¡Eso no es gallego, es terrorismo de autor!",
+        "effect": "-af \"volume=1.4,equalizer=f=1500:width_type=q:width=1:g=3\"", "who": "GON"
+    },
+    {
+        "id": "49_pan", "voice": "Mónica",
+        "text": "¡Hristo! ¡A mí no me hables en gallego ni me vengas con Toledo! ¡Que tú eres de Bulgaria y a mí no me tose ningún extranjero!",
+        "effect": "-af \"volume=1.5,aecho=0.8:0.88:45:0.45\"", "who": "ISABEL PANTOJA"
+    },
+    {
+        "id": "50_ramon", "voice": "Reed",
+        "text": "¡Isabel! Toda opinión xenófoba sobre os nosos colaboradores leva un recargo do SGAE. ¡Hristo, pisotón gallego a Cantora!",
+        "effect": "-af \"aphaser=speed=0.25:decay=0.4:delay=3:type=t,tremolo=f=18:d=0.7,chorus=0.5:0.9:50:0.4:0.25:2\"", "who": "RAMONCÍN"
+    },
+    {
+        "id": "51_stoichkov", "voice": "Mónica",
+        "text": "¡A min non me chames búlgaro, caralla! ¡Que son de Toledo, de Toledo capital! ¡Toma pisotón toledano na bata de cola!",
+        "effect": "-af \"asetrate=44100*1.15,atempo=0.9,vibrato=f=6:d=0.5,volume=1.6\"", "who": "STOICHKOV"
+    },
+    {
+        "id": "52_pan", "voice": "Mónica",
+        "text": "¡Ay, mi clavel! ¡Me ha pisado la bata de cola! ¡Kiko, sácame de este calvario tributario!",
+        "effect": "-af \"volume=1.5,aecho=0.8:0.88:45:0.45\"", "who": "ISABEL PANTOJA"
+    },
+    {
+        "id": "53_pirri", "voice": "Grandpa",
+        "text": "¡Hostia, vaya tela con los del fútbol y la SGAE! ¡Yo cojo el ciento veinticuatro y me piro derrapando antes de que llegue el coche patrulla! ¡Hasta luego, caras!",
+        "effect": "-af \"asetrate=22050*1.15,atempo=1.05\"", "who": "EL PIRRI"
+    },
+    {
+        "id": "54_dj", "voice": "Rocko",
+        "text": "¡VAYA DERRAPE FINAL! ¡El Pirri escapa con el ciento veinticuatro robado a toda pastilla!",
         "effect": "-af \"volume=1.4,aphaser=speed=0.4:decay=0.5:delay=2:type=t\"", "who": "DJ"
+    },
+    {
+        "id": "55_dj", "voice": "Rocko",
+        "text": "¡Gon y la Pantoja yacen en el suelo gimiendo de dolor con los dedos rotos!",
+        "effect": "-af \"volume=1.4,aphaser=speed=0.4:decay=0.5:delay=2:type=t\"", "who": "DJ"
+    },
+    {
+        "id": "56_dj", "voice": "Rocko",
+        "text": "¡Gana Ramoncín y Stoichkov por embargo mercantil y agresión física directa!",
+        "effect": "-af \"volume=1.4,aphaser=speed=0.4:decay=0.5:delay=2:type=t\"", "who": "DJ"
+    },
+    {
+        "id": "57_dj", "voice": "Rocko",
+        "text": "¡MERCADILLO GANG... HA SIDO TOTALMENTE EMBARGADO POR LA SGAE! ¡HASTA NUNCA!",
+        "effect": "-af \"volume=1.4,aphaser=speed=0.4:decay=0.5:delay=2:type=t\"", "who": "DJ"
+    },
+    {
+        "id": "58_sfx", "voice": "Rocko",
+        "text": "¡BZZZ! ¡FWOOOOSH! ¡Un resplandor amarillo ciega el asfalto del mercadillo!",
+        "effect": "-af \"asetrate=22050*1.5,atempo=1.2,aphaser=speed=2:decay=0.8:delay=2:type=t,volume=1.5\"", "who": "DJ"
+    },
+    {
+        "id": "59_songon", "voice": "Eddy",
+        "text": "¡AAAAAAAAAAAAAAAAH! ¡Me habéis tocado el metatarso pero no mi orgullo de barrio! ¡Pelo amarillo! ¡Fase Dios del mercadillo! ¡SOY SON GON!",
+        "effect": "-af \"volume=2.0,equalizer=f=1500:width_type=q:width=1:g=3,aecho=0.8:0.9:50:0.5,flanger=delay=5:depth=2\"", "who": "SON GON"
+    },
+    {
+        "id": "60_pan", "voice": "Mónica",
+        "text": "¡Ay mi madre, que se le ha erizado el pelo rubio bote! ¡Ese tinte no es de peluquería cara, es de bazar de todo a cien!",
+        "effect": "-af \"volume=1.5,aecho=0.8:0.88:45:0.45\"", "who": "ISABEL PANTOJA"
+    },
+    {
+        "id": "61_stoichkov", "voice": "Mónica",
+        "text": "¡Nin súper saiyan nin leches! ¡Un pisotón toledano nivel tres acabarache con ese pelo de pallaso, carallo!",
+        "effect": "-af \"asetrate=44100*1.15,atempo=0.9,vibrato=f=6:d=0.5,volume=1.6\"", "who": "STOICHKOV"
+    },
+    {
+        "id": "62_songon", "voice": "Eddy",
+        "text": "¡KAME... HAME... CHAAAAANCLAAAAAA!",
+        "effect": "-af \"volume=2.5,equalizer=f=1500:width_type=q:width=1:g=3,aecho=0.8:0.9:50:0.7,chorus=0.5:0.9:50:0.4:0.25:2\"", "who": "SON GON"
+    },
+    {
+        "id": "63_dj", "voice": "Rocko",
+        "text": "¡Y EXPLOTÓ EL RASTRILLO! ¡VICTORIA ABSOLUTA DE SON GON! ¡TODO PULVERIZADO EN ENERGÍA YINMN BLUE Y ORO OXIDADO!",
+        "effect": "-af \"volume=1.6,aphaser=speed=0.4:decay=0.5:delay=2:type=t\"", "who": "DJ"
     }
 ]
 
@@ -255,7 +351,7 @@ def build_rap():
     tmp_dir = "/tmp/rap_battle_audio"
     os.makedirs(tmp_dir, exist_ok=True)
     
-    print("\n--- PROCESSING RAP BATTLE AUDIO ---")
+    print("\n--- PROCESSING RAP BATTLE AUDIO WITH GALICIAN STOICHKOV FROM TOLEDO ---")
     
     # 1. Generate speech files and calculate durations
     durations = []
@@ -302,7 +398,7 @@ def build_rap():
     
     # 3. Create looped background track
     bg_looped = os.path.join(tmp_dir, "bg_looped.wav")
-    run_cmd(f'ffmpeg -y -stream_loop 30 -i "{hook_path}" -filter_complex "[0:a]volume=0.08[bg]" -map "[bg]" "{bg_looped}"')
+    run_cmd(f'ffmpeg -y -stream_loop 35 -i "{hook_path}" -filter_complex "[0:a]volume=0.08[bg]" -map "[bg]" "{bg_looped}"')
     
     # 4. Construct ffmpeg mixing filter
     mix_inputs = [f'-i "{bg_looped}"']
@@ -341,10 +437,19 @@ def build_rap():
             sub_item["who"] = t["who"]
             if t["who"] == "ISABEL PANTOJA":
                 sub_item["sz"] = 34
-                sub_item["shake"] = True # Isabel is dramatic and shakes the screen
+                sub_item["shake"] = True
             elif t["who"] == "GON":
                 sub_item["sz"] = 32
                 sub_item["shake"] = False
+            elif t["who"] == "EL PIRRI":
+                sub_item["sz"] = 32
+                sub_item["shake"] = True
+            elif t["who"] == "RAMONCÍN":
+                sub_item["sz"] = 30
+                sub_item["shake"] = True
+            elif t["who"] == "STOICHKOV":
+                sub_item["sz"] = 36
+                sub_item["shake"] = True
         subs_json.append(sub_item)
         
     json_path = os.path.join(src_dir, "subtitles_rap.json")

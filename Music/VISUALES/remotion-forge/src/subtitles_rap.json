@@ -307,40 +307,174 @@
   },
   {
     "s": 148.34,
-    "e": 152.04,
-    "text": "la Pantoja sabe más de cuentas que de cantar.",
+    "e": 150.31,
+    "text": "la Pantoja sabe más de...",
     "who": "GON",
     "sz": 32,
     "shake": false
   },
   {
-    "s": 152.44,
-    "e": 155.86,
-    "text": "Así que vuelve a Cantora, cierra el portón,",
+    "s": 151.11,
+    "e": 163.61,
+    "text": "¡SCREEECH! ¡RUM RUM! ¡Trompo salvaje con el ciento veinticuatro robado!",
+    "who": "DJ"
+  },
+  {
+    "s": 164.41,
+    "e": 176.39,
+    "text": "¡Qué pasa chavales! ¡Aparco el ciento veinticuatro aquí derrapando y me marco un breakdance de locos! ¡Mirad cómo giro en el suelo!",
+    "who": "EL PIRRI",
+    "sz": 32,
+    "shake": true
+  },
+  {
+    "s": 177.19,
+    "e": 192.56,
+    "text": "¡Hostia! ¡Pero si es el Pirri! ¡Y mira qué molino se está haciendo en el capó del coche! ¡Qué guapada, chaval!",
     "who": "GON",
     "sz": 32,
     "shake": false
   },
   {
-    "s": 156.26,
-    "e": 159.4,
-    "text": "que el mercadillo es territorio de GON.",
+    "s": 193.36,
+    "e": 194.96,
+    "text": "¡Es mi oportunidad! ¡Toma...",
+    "who": "ISABEL PANTOJA",
+    "sz": 34,
+    "shake": true
+  },
+  {
+    "s": 195.76,
+    "e": 211.91,
+    "text": "¡ALTO EN NOMBRE DE LA SOCIEDAD DE AUTORES! ¡Este breakdance infringe el copyright del movimiento rotatorio! ¡Y esa base musical no tiene licencia de emisión pública!",
+    "who": "RAMONCÍN",
+    "sz": 30,
+    "shake": true
+  },
+  {
+    "s": 212.71,
+    "e": 217.63,
+    "text": "¡Escondede as carteiras, rapaces! ¡Ramoncín ten toda a razón! ¡Árbitro comprado, xente de Valladolid! ¡Que eu son de Toledo de toda a vida, carallo, e vós estades todos parvos!",
+    "who": "STOICHKOV",
+    "sz": 36,
+    "shake": true
+  },
+  {
+    "s": 218.43,
+    "e": 229.28,
+    "text": "¡CHAF! ¡CRAC! ¡Metatarsos triturados!",
+    "who": "DJ"
+  },
+  {
+    "s": 230.08,
+    "e": 245.27,
+    "text": "¡Aaaaaah! ¡El metatarso! ¡Stoichkov me ha pisado con fuerza toledana! ¡Eso no es gallego, es terrorismo de autor!",
     "who": "GON",
     "sz": 32,
     "shake": false
   },
   {
-    "s": 159.8,
-    "e": 162.12,
-    "text": "¡MERCADILLO GANG, FUERA!",
-    "who": "GON",
-    "sz": 32,
-    "shake": false
+    "s": 246.07,
+    "e": 251.85,
+    "text": "¡Hristo! ¡A mí no me hables en gallego ni me vengas con Toledo! ¡Que tú eres de Bulgaria y a mí no me tose ningún extranjero!",
+    "who": "ISABEL PANTOJA",
+    "sz": 34,
+    "shake": true
   },
   {
-    "s": 162.92,
-    "e": 167.1,
-    "text": "Ganó Gon. Como siempre. Mercadillo Gang.",
+    "s": 252.65,
+    "e": 264.65,
+    "text": "¡Isabel! Toda opinión xenófoba sobre os nosos colaboradores leva un recargo do SGAE. ¡Hristo, pisotón gallego a Cantora!",
+    "who": "RAMONCÍN",
+    "sz": 30,
+    "shake": true
+  },
+  {
+    "s": 265.45,
+    "e": 268.64,
+    "text": "¡A min non me chames búlgaro, caralla! ¡Que son de Toledo, de Toledo capital! ¡Toma pisotón toledano na bata de cola!",
+    "who": "STOICHKOV",
+    "sz": 36,
+    "shake": true
+  },
+  {
+    "s": 269.44,
+    "e": 274.76,
+    "text": "¡Ay, mi clavel! ¡Me ha pisado la bata de cola! ¡Kiko, sácame de este calvario tributario!",
+    "who": "ISABEL PANTOJA",
+    "sz": 34,
+    "shake": true
+  },
+  {
+    "s": 275.56,
+    "e": 289.77,
+    "text": "¡Hostia, vaya tela con los del fútbol y la SGAE! ¡Yo cojo el ciento veinticuatro y me piro derrapando antes de que llegue el coche patrulla! ¡Hasta luego, caras!",
+    "who": "EL PIRRI",
+    "sz": 32,
+    "shake": true
+  },
+  {
+    "s": 290.57,
+    "e": 299.3,
+    "text": "¡VAYA DERRAPE FINAL! ¡El Pirri escapa con el ciento veinticuatro robado a toda pastilla!",
+    "who": "DJ"
+  },
+  {
+    "s": 299.7,
+    "e": 305.72,
+    "text": "¡Gon y la Pantoja yacen en el suelo gimiendo de dolor con los dedos rotos!",
+    "who": "DJ"
+  },
+  {
+    "s": 306.12,
+    "e": 312.0,
+    "text": "¡Gana Ramoncín y Stoichkov por embargo mercantil y agresión física directa!",
+    "who": "DJ"
+  },
+  {
+    "s": 312.4,
+    "e": 320.48,
+    "text": "¡MERCADILLO GANG... HA SIDO TOTALMENTE EMBARGADO POR LA SGAE! ¡HASTA NUNCA!",
+    "who": "DJ"
+  },
+  {
+    "s": 320.88,
+    "e": 327.07,
+    "text": "¡BZZZ! ¡FWOOOOSH! ¡Un resplandor amarillo ciega el asfalto del mercadillo!",
+    "who": "DJ"
+  },
+  {
+    "s": 327.87,
+    "e": 347.05,
+    "text": "¡AAAAAAAAAAAAAAAAH! ¡Me habéis tocado el metatarso pero no mi orgullo de barrio! ¡Pelo amarillo! ¡Fase Dios del mercadillo! ¡SOY SON GON!",
+    "who": "SON GON"
+  },
+  {
+    "s": 347.85,
+    "e": 353.86,
+    "text": "¡Ay mi madre, que se le ha erizado el pelo rubio bote! ¡Ese tinte no es de peluquería cara, es de bazar de todo a cien!",
+    "who": "ISABEL PANTOJA",
+    "sz": 34,
+    "shake": true
+  },
+  {
+    "s": 354.66,
+    "e": 357.42,
+    "text": "¡Nin súper saiyan nin leches! ¡Un pisotón toledano nivel tres acabarache con ese pelo de pallaso, carallo!",
+    "who": "STOICHKOV",
+    "sz": 36,
+    "shake": true
+  },
+  {
+    "s": 358.22,
+    "e": 361.13,
+    "text": "¡KAME... HAME... CHAAAAANCLAAAAAA!",
+    "who": "SON GON"
+  },
+  {
+    "s": 361.93,
+    "e": 374.94,
+    "text": "¡Y EXPLOTÓ EL RASTRILLO! ¡VICTORIA ABSOLUTA DE SON GON! ¡TODO PULVERIZADO EN ENERGÍA YINMN BLUE Y ORO OXIDADO!",
     "who": "DJ"
   }
 ]
