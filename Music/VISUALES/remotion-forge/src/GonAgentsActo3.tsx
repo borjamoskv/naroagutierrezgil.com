@@ -639,7 +639,7 @@ const HUD: React.FC = () => {
 };
 
 export const GonAgentsActo3: React.FC = () => {
-  const agents = useMemo(() => generateAgents(11000), []);
+  const agents = useMemo(() => generateAgents(10000), []);
   const frame = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
   const sec = frame / fps;
