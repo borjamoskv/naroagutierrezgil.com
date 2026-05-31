@@ -485,15 +485,15 @@ const Subtitles: React.FC = () => {
         </div>
       )}
       <div style={{
-        color, fontSize, fontFamily: "'Inter', 'Helvetica Neue', sans-serif",
+        color, fontSize, fontFamily: "'Outfit', sans-serif",
         fontWeight: fontSize > 44 ? 800 : fontSize > 36 ? 600 : 400,
         textAlign: 'center', lineHeight: 1.35, maxWidth: 1500,
         padding: '24px 60px',
-        background: `linear-gradient(135deg, rgba(10,10,10,0.85), rgba(20,20,40,0.75))`,
+        background: 'rgba(10, 10, 10, 0.85)',
         borderRadius: 12, whiteSpace: 'pre-line',
         textShadow: `0 0 30px ${color}44, 0 2px 10px rgba(0,0,0,0.9)`,
-        border: `1px solid ${color}22`,
-        backdropFilter: 'blur(8px)',
+        border: '1px solid rgba(43, 59, 229, 0.25)',
+        backdropFilter: 'blur(15px)',
       }}>
         {current.text}
       </div>
@@ -652,12 +652,24 @@ export const GonAgentsActo3: React.FC = () => {
       backgroundColor: bgColor, opacity: globalOp,
       transform: `scale(${scale}) translate(${shakeX}px, ${shakeY}px)`,
     }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Outfit:wght@100..900&display=swap');
+      `}</style>
       <AgentField agents={agents} />
       <ScreenEffects />
       <FreqViz />
       <Subtitles />
       <HUD />
       <Audio src={staticFile('friccion_acto3_dialogs.wav')} />
+      {/* Analog film grain overlay */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+        opacity: 0.03,
+        pointerEvents: 'none',
+        zIndex: 99,
+      }} />
     </AbsoluteFill>
   );
 };
