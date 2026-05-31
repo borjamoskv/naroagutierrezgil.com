@@ -82,7 +82,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="Acto7Pirri"
         component={Acto7Pirri}
-        durationInFrames={Math.ceil(30.0 * FPS)}
+        durationInFrames={Math.ceil(70.0 * FPS)}
         fps={FPS}
         width={1920}
         height={1080}
