@@ -346,10 +346,14 @@ export const Acto7Pirri: React.FC = () => {
           fontWeight: 'bold',
           textAlign: 'center',
           maxWidth: '80%',
-          textShadow: isCura || isChimo || isMelendi || isFijoman ? 'none' : (isFourthWall ? '0 0 20px #FF0000' : '0 0 10px #FF69B4, 0 0 20px #FFB6C1'),
+          textShadow: `
+            ${(random(`s1-${frame}`) - 0.5) * 30}px ${(random(`s2-${frame}`) - 0.5) * 30}px 0 rgba(255,0,0,0.9),
+            ${(random(`s3-${frame}`) - 0.5) * 30}px ${(random(`s4-${frame}`) - 0.5) * 30}px 0 rgba(0,255,255,0.9)
+          `,
           zIndex: 20,
           boxShadow: isCura || isChimo || isMelendi || isFijoman ? '0 0 50px #0A0A0A' : (isFourthWall ? '0 0 50px #FF0000' : '0 0 30px rgba(43, 59, 229, 1)'),
-          transform: `translateY(${subtitleY}px) scale(${subtitleScale}) rotate(${(isCura || isChimo || isFijoman ? (random(`rot-${frame}`) - 0.5) * 15 : (isMelendi ? (Math.sin(frame/5))*10 : (isFourthWall ? (random(`fw-${frame}`) - 0.5) * 5 : 0)))}deg)`,
+          transform: `translateY(${subtitleY}px) scale(${subtitleScale * (1 + random(`scl-${frame}`) * 0.4)}) rotate(${(random(`rot-${frame}`) - 0.5) * 40}deg) skewX(${(random(`skw-${frame}`) - 0.5) * 50}deg)`,
+          filter: `hue-rotate(${frame * 25}deg) contrast(250%)`,
           opacity: subtitleOpacity,
         }}>
           {activeSubtitle.text}
