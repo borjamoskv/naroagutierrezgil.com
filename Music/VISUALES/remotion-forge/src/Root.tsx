@@ -2,6 +2,7 @@ import { Composition } from 'remotion';
 import { GonAgents } from './GonAgents';
 import { GonAgentsActo2 } from './GonAgentsActo2';
 import { GonAgentsActo3 } from './GonAgentsActo3';
+import { GonPantojaRap } from './GonPantojaRap';
 
 const AUDIO_DURATION_SECONDS = 60;
 const FPS = 30;
@@ -29,6 +30,14 @@ export const RemotionRoot: React.FC = () => {
         id="GonIntervaloProhibidoActo3"
         component={GonAgentsActo3}
         durationInFrames={Math.ceil(78.10 * FPS)}
+        fps={FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="GonPantojaRap"
+        component={GonPantojaRap}
+        durationInFrames={Math.ceil(167.50 * FPS)}
         fps={FPS}
         width={1920}
         height={1080}

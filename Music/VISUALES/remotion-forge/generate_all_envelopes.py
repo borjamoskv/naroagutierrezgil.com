@@ -15,6 +15,10 @@ configs = [
     {
         "wav": "friccion_acto3_dialogs.wav",
         "json": "volume_envelope_acto3.json"
+    },
+    {
+        "wav": "rap_battle_dialogs.wav",
+        "json": "volume_envelope_rap.json"
     }
 ]
 
