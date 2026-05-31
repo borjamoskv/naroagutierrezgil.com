@@ -92,17 +92,8 @@ function getPhase(s: number): Phase {
 // === SUBTITLES ===
 interface Sub { s: number; e: number; text: string; who?: string; sz?: number; shake?: boolean; }
 
-const SUBS: Sub[] = [
-  { s: 0.0, e: 8.5, text: "El viaje de Bilbao a Madrid se realiza sin trazas digitales. Chamartín, 08:30 AM. La estación es una colmena de zombis con la mirada clavada en pantallas holográficas que parpadean al compás del algoritmo central." },
-  { s: 8.5, e: 15.0, text: "Esto huele a asfalto recalentado y a deuda pública, txaval. Demasiada señal en el aire. Me da dolor de cabeza de silicio.", who: "RAMONCÍN", sz: 28 },
-  { s: 15.0, e: 20.5, text: "Soberano Omega reportando: Detectado Core Network Madrid Centro. Iniciando mapeo pasivo del andén siete.", who: "SOVEREIGN OMEGA" },
-  { s: 20.5, e: 28.0, text: "Para inyectar el virus en la meseta no necesitas un satélite; necesitas acceso al alcantarillado de la Línea diez. Ramoncín abre una caja de derivación eléctrica de hierro fundido." },
-  { s: 28.0, e: 33.5, text: "Esto va a doler en las oficinas de Iberdrola, txaval. Tres, dos, uno... ¡Fricción!", who: "RAMONCÍN", sz: 28 },
-  { s: 33.5, e: 39.0, text: "Payload Madrid Glitch ejecutado. Inyectando ruido rosa en la Línea diez. Subestación de Plaza de Castilla sobrecargada.", who: "SOVEREIGN OMEGA" },
-  { s: 39.0, e: 43.5, text: "¡Movimiento! Los guardias robóticos de Prosegur se acercan. ¡Corred por las vías muertas!", who: "GON" },
-  { s: 43.5, e: 50.0, text: "Las pantallas estallan en estática gris. El Flujo se detiene en seco. Madrid se apaga.", shake: true },
-  { s: 50.0, e: 60.0, text: "Cuarenta y dos por ciento de la Meseta desconectada. Siguiente objetivo: El nodo central de Telefónica en Gran Vía. Modo fricción absoluta en curso.", who: "SOVEREIGN OMEGA" }
-];
+import subsActo2 from './subtitles_acto2.json';
+const SUBS = subsActo2 as Sub[];
 
 const AgentField: React.FC<{ agents: Agent[] }> = ({ agents }) => {
   const frame = useCurrentFrame();

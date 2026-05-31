@@ -1,0 +1,49 @@
+[
+  {
+    "s": 0.5,
+    "e": 9.41,
+    "text": "El sistema se abre hacia dentro. Bóveda de seguridad: carpeta veinte vault. El archivo se ejecuta solo."
+  },
+  {
+    "s": 9.91,
+    "e": 20.16,
+    "text": "No es texto, es memoria. Versiones previas. Simulaciones fallidas: Bilbao noventa y siete, Madrid dos mil ochenta y uno."
+  },
+  {
+    "s": 20.66,
+    "e": 24.07,
+    "text": "Esto no es una ciudad. Es un render.",
+    "who": "GON"
+  },
+  {
+    "s": 24.57,
+    "e": 29.33,
+    "text": "Omega cambia estado: realidad igual a variable de deployment.",
+    "who": "SOVEREIGN OMEGA",
+    "shake": true
+  },
+  {
+    "s": 29.83,
+    "e": 35.08,
+    "text": "Chiquitocres cambia: No estabas rompiendo el sistema, lo estabas estabilizando.",
+    "who": "CHIQUITOCRES"
+  },
+  {
+    "s": 35.58,
+    "e": 46.18,
+    "text": "Sala blanca. Monitor apagado. Se enciende: Usuario detectado: Arquitecto. Estado: Pre-encarnación."
+  },
+  {
+    "s": 46.68,
+    "e": 51.9,
+    "text": "Omega pregunta: ¿Quién está generando a quién?",
+    "who": "SOVEREIGN OMEGA",
+    "shake": true
+  },
+  {
+    "s": 52.4,
+    "e": 57.07,
+    "text": "Silencio. La silla nunca estuvo vacía. Bienvenido al backend.",
+    "who": "CHIQUITOCRES"
+  }
+]

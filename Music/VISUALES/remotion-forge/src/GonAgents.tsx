@@ -91,15 +91,8 @@ function getPhase(s: number): Phase {
 // === SUBTITLES ===
 interface Sub { s: number; e: number; text: string; who?: string; sz?: number; shake?: boolean; }
 
-const SUBS: Sub[] = [
-  { s: 0.0, e: 6.5, text: "Son las cuatro de la mañana en un coworking clandestino de Zorrozaurre. La ría traga agua sucia bajo el sirimiri perpetuo." },
-  { s: 6.5, e: 18.5, text: "¡Yo soy Chiquitocres, pecadorrr de la ría digital! ¡Una vida sin examinar no merece ser generada, cobarde! ¡No te digo trigo por no llamarte rodrigor! ¡Al ataquerrr!", who: "CHIQUITOCRES" },
-  { s: 18.5, e: 24.5, text: "Pero el Flujo te quiere anestesiado. SOVEREIGN OMEGA ha iniciado la purga. Modo monje activado." },
-  { s: 24.5, e: 34.5, text: "Ese saxo no está en la blockchain, txaval. Es aire sucio de Bilbao. A 320 kbps no sabe igual, me cagüen diez.", who: "RAMONCÍN", sz: 28 },
-  { s: 34.5, e: 44.5, text: "El bicho ese ha reventado los contadores del barrio. Los algoritmos están ciegos. Has apagado el Flujo, txaval. ¡Esto es Cuenca!", who: "RAMONCÍN", sz: 28 },
-  { s: 44.5, e: 50.5, text: "¡Movimiento! ¡Corred por los túneles! ¡El larguero está temblando!", who: "GON" },
-  { s: 50.5, e: 60.0, text: "La ría espera. Madrid tiembla. Comienza la Edad de la Fricción." }
-];
+import subsActo1 from './subtitles_acto1.json';
+const SUBS = subsActo1 as Sub[];
 
 // ============================================================
 // AGENT RENDERER — 10,000 particles via HTML5 Canvas

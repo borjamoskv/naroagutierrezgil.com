@@ -92,17 +92,8 @@ function getPhase(s: number): Phase {
 // === SUBTITLES ===
 interface Sub { s: number; e: number; text: string; who?: string; sz?: number; shake?: boolean; }
 
-const SUBS: Sub[] = [
-  { s: 0.0, e: 8.5, text: "La superficie de Madrid se ha quedado sin reflejo digital, pero Gran Vía sigue brillando como si nada hubiera pasado. Error elegante del sistema. No es resistencia: es inercia con presupuesto publicitario." },
-  { s: 8.5, e: 14.5, text: "No lo entiende, txaval. El Flujo aquí no depende de la red. Depende de la costumbre. Eso es peor.", who: "RAMONCÍN", sz: 28 },
-  { s: 14.5, e: 20.0, text: "Esto no se hackea. Esto se atraviesa. Siente la vibración del mármol.", who: "GON" },
-  { s: 20.0, e: 25.0, text: "O se desajusta. Vamos a meterle ruido de verdad a su misa corporativa.", who: "RAMONCÍN", sz: 28 },
-  { s: 25.0, e: 31.5, text: "Soberano Omega reportando: Anomalía detectada en Gran Vía. El sistema no falla, el sistema sueña. Iniciando desalineación física.", who: "SOVEREIGN OMEGA" },
-  { s: 31.5, e: 38.5, text: "Subsuelo menos tres. El core de Telefónica no está encendido, está despierto. Bloque de infraestructura biológica industrial." },
-  { s: 38.5, e: 43.5, text: "Esto no lo apagas, txaval. Esto se negocia o se infecta.", who: "RAMONCÍN", sz: 28 },
-  { s: 43.5, e: 50.5, text: "Sistema legado detectado. Protocolo no humano activo. Una estructura de pensamiento comprimida en señal dice: No sois los primeros.", who: "SOVEREIGN OMEGA", shake: true },
-  { s: 50.5, e: 60.0, text: "Capa analógica activa. Bienvenidos, arquitectos de segunda iteración. El Flujo evoluciona.", who: "SOVEREIGN OMEGA", shake: true }
-];
+import subsActo3 from './subtitles_acto3.json';
+const SUBS = subsActo3 as Sub[];
 
 const AgentField: React.FC<{ agents: Agent[] }> = ({ agents }) => {
   const frame = useCurrentFrame();

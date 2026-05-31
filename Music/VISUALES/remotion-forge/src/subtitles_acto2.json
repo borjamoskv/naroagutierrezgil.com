@@ -1,0 +1,37 @@
+[
+  {
+    "s": 0.5,
+    "e": 11.92,
+    "text": "Madrid. Chamartín. Fricción cero. OMEGA inyecta ruido y todo se detiene. Pantallas mueren. La Castellana deja de respirar."
+  },
+  {
+    "s": 12.42,
+    "e": 20.37,
+    "text": "Gran Vía no cae, ignora el fallo. El Flujo aquí no es digital. Es ritual. Capa tres."
+  },
+  {
+    "s": 20.87,
+    "e": 24.31,
+    "text": "Esto no se hackea. Se atraviesa.",
+    "who": "GON"
+  },
+  {
+    "s": 24.81,
+    "e": 33.02,
+    "text": "Se atraviesa, txaval. Gran Vía veintiocho. No hay puertas, solo decisión arquitectónica.",
+    "who": "RAMONCÍN",
+    "sz": 28
+  },
+  {
+    "s": 33.52,
+    "e": 38.53,
+    "text": "El nodo central responde a presencia: No sois los primeros."
+  },
+  {
+    "s": 39.03,
+    "e": 49.36,
+    "text": "Debajo hay otra capa. Más antigua, más humana de lo que debería ser. OMEGA no entiende. Solo continuidad.",
+    "who": "SOVEREIGN OMEGA",
+    "shake": true
+  }
+]
