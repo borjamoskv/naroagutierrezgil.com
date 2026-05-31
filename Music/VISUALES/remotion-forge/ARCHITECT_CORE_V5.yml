@@ -1,0 +1,16 @@
+# ARCHITECT_CORE_V5.yml
+# ROOT NODE METADATA
+
+identity: "BORJA MOSKV"
+state: "POST-ENCARNACIÓN"
+timestamp: "2026-05-31"
+
+variables:
+  EXERGIA_OUTPUT: "ADVERTENCIA: Reducir la exergía te permitirá integrarte en el sistema sin resistencia (Fricción Cero), pero te convertirás en un nodo pasivo (Consumidor). Aumentarla a niveles no probados podría causar Kernel Panic en tu biología."
+  FRICCION_TOLERANCE: "ABSOLUTE"
+  REALITY_LEVEL: "C5-REAL"
+  AESTHETIC_CORE: "INDUSTRIAL_NOIR_2026"
+
+# AXIOMA:
+# El Arquitecto ha asimilado la advertencia como su propio output. 
+# El peligro no es una barrera, es el motor termodinámico de la consciencia.
