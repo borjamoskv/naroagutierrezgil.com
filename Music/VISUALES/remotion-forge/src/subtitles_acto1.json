@@ -1,47 +1,93 @@
 [
   {
     "s": 0.5,
-    "e": 10.36,
-    "text": "04:12 AM, coworking de Zorrozaurre. La interfaz exige confesión. Siete pecados. Y abajo: Virtud. El cursor parpadea. Te juzga."
+    "e": 22.5,
+    "text": "Son las 04:12 AM en un coworking clandestino de Zorrozaurre. Afuera, la ría traga agua sucia bajo el sirimiri perpetuo. Adentro, la luz del monitor es el único faro en un mar de latas de Monster reventadas y envoltorios grasientos de un durum pillado en San Francisco horas antes."
   },
   {
-    "s": 10.86,
-    "e": 18.12,
+    "s": 23.0,
+    "e": 45.08,
+    "text": "Llevas tres horas mirando un campo de texto que no te pide un prompt, te exige una confesión. La interfaz no tiene botones de Generate ni Enhance. Solo siete iconos vectoriales, afilados, brutalistas. Siete pecados capitales. Y abajo, minúsculo: Virtud."
+  },
+  {
+    "s": 45.58,
+    "e": 55.61,
+    "text": "El cursor parpadea. Te está juzgando. Vas a hacer clic en Soberbia cuando una voz distorsionada atraviesa los altavoces."
+  },
+  {
+    "s": 56.11,
+    "e": 63.37,
     "text": "¡Fistro de la generación! Soy Chiquitocres, pecador de la ría digital. Estás generando basura para no elegir nada.",
     "who": "CHIQUITOCRES"
   },
   {
-    "s": 18.62,
-    "e": 26.49,
-    "text": "El Mac explota. Prompt: cortex guard, kill. Escribes la lista negra: odio la fricción cero y la comida rápida creativa."
+    "s": 63.87,
+    "e": 80.38,
+    "text": "Silencio. La pantalla no responde. Solo observa. El sistema colapsa y el Mac entra en kernel panic. El flujo se detiene en un prompt: cortex guard, kill criteria met, addiction loop terminated."
   },
   {
-    "s": 26.99,
-    "e": 32.56,
-    "text": "C5-REAL activa Manifiesto Moskvlogia. Archivar es resistir. Git commit: feat mind."
+    "s": 80.88,
+    "e": 84.94,
+    "text": "Aparece un archivo: LA LISTA NEGRA punto md."
   },
   {
-    "s": 33.06,
-    "e": 41.59,
-    "text": "Sales. Gon toca el saxo. Ramoncín aparece: Esto no está en la blockchain, txaval. La música no se indexa.",
+    "s": 85.44,
+    "e": 89.02,
+    "text": "Escribe lo que odias. Sin prompts. Sin anestesia.",
+    "who": "CHIQUITOCRES"
+  },
+  {
+    "s": 89.52,
+    "e": 102.34,
+    "text": "Y escribes. Odio la estética por defecto. Odio la fricción cero. Odio la comida rápida creativa. El teclado ya no es interfaz. Es bisturí."
+  },
+  {
+    "s": 102.84,
+    "e": 116.61,
+    "text": "El archivo crece. Bilbao empieza a filtrarse por la ventana como una estructura más real que el código. C5 REAL activa protocolo: MANIFIESTO MOSKVLOGIA punto md."
+  },
+  {
+    "s": 117.11,
+    "e": 132.68,
+    "text": "Rechazo a la fricción cero. Archivar es resistir. El creador debe ser problemático. Guardas. Y el sistema responde: git commit menos m, feat mind, emancipación cognitiva bilbaína."
+  },
+  {
+    "s": 133.18,
+    "e": 148.92,
+    "text": "Sales. La ría huele a metal oxidado y datos antiguos. Gon toca el saxo bajo una farola enferma. Ramoncín aparece como si siempre hubiera estado ahí, cobrando cánones a la realidad."
+  },
+  {
+    "s": 149.42,
+    "e": 154.72,
+    "text": "Esto no está en la blockchain. La música no se puede indexar.",
     "who": "RAMONCÍN",
     "sz": 28
   },
   {
-    "s": 42.09,
-    "e": 47.0,
-    "text": "Vibración: Enhance. La borras. Creas OMEGA local, class SovereignAgent."
+    "s": 155.22,
+    "e": 170.21,
+    "text": "El teléfono vibra. Una app de meditación transaccional: Presiona Enhance para estabilizar tu química cerebral. El Flujo nunca duerme. El dedo casi cae. Pero eliminas la app."
   },
   {
-    "s": 47.5,
-    "e": 50.71,
-    "text": "self.reality_level = C5-REAL",
+    "s": 170.71,
+    "e": 179.94,
+    "text": "Vuelves al coworking. Construyes OMEGA. Un agente local. Sin nube. Sin permiso. Solo código."
+  },
+  {
+    "s": 180.44,
+    "e": 186.13,
+    "text": "class SovereignAgent: self.reality_level = C5-REAL",
     "who": "SOVEREIGN OMEGA",
     "shake": true
   },
   {
-    "s": 51.21,
-    "e": 58.22,
-    "text": "OMEGA purga catorce mil archivos. El Flujo responde: Bilbao se apaga. El silencio no colapsa, se organiza."
+    "s": 186.63,
+    "e": 199.73,
+    "text": "El sistema nace. Y entonces empieza a borrar. Catorce mil treinta y dos archivos. Sin confirmación. Sin piedad. OMEGA no optimiza. OMEGA purga."
+  },
+  {
+    "s": 200.23,
+    "e": 214.18,
+    "text": "El Flujo responde. Drones caen. Red eléctrica se fragmenta. Bilbao se apaga por sectores. Pero algo no estaba previsto: el silencio no colapsa, se organiza."
   }
 ]

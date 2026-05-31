@@ -77,15 +77,14 @@ type Phase = 'granvia_inert' | 'ramonc_costumbre' | 'gon_atraviesa' | 'ramonc_de
   'analog_umbral' | 'final';
 
 function getPhase(s: number): Phase {
-  if (s < 8.5) return 'granvia_inert';
-  if (s < 14.5) return 'ramonc_costumbre';
-  if (s < 20.0) return 'gon_atraviesa';
-  if (s < 25.0) return 'ramonc_desajuste';
-  if (s < 31.5) return 'omega_liturgical_glitch';
-  if (s < 38.5) return 'subsuelo_core';
-  if (s < 43.5) return 'ramonc_negotiation';
-  if (s < 50.5) return 'legacy_mind';
-  if (s < 60.0) return 'analog_umbral';
+  if (s < 14.0) return 'granvia_inert';
+  if (s < 29.0) return 'ramonc_costumbre';
+  if (s < 33.0) return 'gon_atraviesa';
+  if (s < 38.0) return 'ramonc_desajuste';
+  if (s < 46.5) return 'omega_liturgical_glitch';
+  if (s < 58.5) return 'subsuelo_core';
+  if (s < 64.5) return 'legacy_mind';
+  if (s < 78.10) return 'analog_umbral';
   return 'final';
 }
 
@@ -250,24 +249,19 @@ const AgentField: React.FC<{ agents: Agent[] }> = ({ agents }) => {
       ctx.restore();
     }
 
-    // Render agents
+    // === Render agents (Dynamic Batching for Max Exergy) ===
+    const batches: Record<string, { color: string; glow: boolean; opacity: number; points: [number, number, number][] }> = {};
+
     for (let i = 0; i < agents.length; i++) {
       const a = agents[i];
       const [x, y, r, opacity, color, glow] = getAgentRender(a, sec, frame, phase);
       
       if (opacity < 0.02 || x < -50 || x > width + 50 || y < -50 || y > height + 50) continue;
       
-      ctx.save();
-      ctx.globalAlpha = opacity;
-      ctx.fillStyle = color;
-      
-      if (glow) {
-        ctx.shadowBlur = (a.type === 'fujur' ? 12 : a.type === 'sax' ? 8 : 6) * (1 + volume * 2);
-        ctx.shadowColor = color;
-      }
-      
       if (a.type === 'espinete') {
         // Draw Espinete in thong
+        ctx.save();
+        ctx.globalAlpha = opacity;
         ctx.beginPath();
         ctx.arc(x, y, r, 0, Math.PI * 2);
         ctx.fillStyle = '#FF69B4';
@@ -298,11 +292,45 @@ const AgentField: React.FC<{ agents: Agent[] }> = ({ agents }) => {
         ctx.beginPath();
         ctx.arc(x, y, r - 4, 0.25 * Math.PI, 0.75 * Math.PI);
         ctx.stroke();
-      } else {
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.restore();
+        continue;
       }
+
+      // Group key: color + glow + rounded opacity
+      const opKey = Math.round(opacity * 10) / 10;
+      const key = `${color}|${glow ? '1' : '0'}|${opKey}`;
+      
+      if (!batches[key]) {
+        batches[key] = {
+          color,
+          glow,
+          opacity: opKey,
+          points: []
+        };
+      }
+      batches[key].points.push([x, y, r]);
+    }
+
+    // Render the batches
+    const keys = Object.keys(batches);
+    for (let k = 0; k < keys.length; k++) {
+      const b = batches[keys[k]];
+      ctx.save();
+      ctx.globalAlpha = b.opacity;
+      ctx.fillStyle = b.color;
+      
+      if (b.glow) {
+        ctx.shadowBlur = 8 * (1 + volume * 2);
+        ctx.shadowColor = b.color;
+      }
+      
+      ctx.beginPath();
+      for (let p = 0; p < b.points.length; p++) {
+        const [px, py, pr] = b.points[p];
+        ctx.moveTo(px + pr, py);
+        ctx.arc(px, py, pr, 0, Math.PI * 2);
+      }
+      ctx.fill();
       ctx.restore();
     }
   }, [frame, agents, fps, width, height, sec, phase]);
@@ -331,7 +359,7 @@ function getAgentPos(a: Agent, sec: number, frame: number, phase: Phase): [numbe
       // Grid lock (frozen digital infrastructure)
       const gx = Math.floor(a.x / 160) * 160 + 80;
       const gy = Math.floor(a.y / 135) * 135 + 67;
-      const b = interpolate(sec, [0, 5], [0, 0.9], { extrapolateRight: 'clamp' });
+      const b = interpolate(sec, [0, 10], [0, 0.9], { extrapolateRight: 'clamp' });
       x = x * (1 - b) + gx * b;
       y = y * (1 - b) + gy * b;
       break;
@@ -340,7 +368,7 @@ function getAgentPos(a: Agent, sec: number, frame: number, phase: Phase): [numbe
       // Radial ring alignment from center
       const angle = a.phase;
       const targetDist = 200 + (a.id % 600);
-      const b = interpolate(sec, [14.5, 17.5], [0, 0.85], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' });
+      const b = interpolate(sec, [29.0, 31.5], [0, 0.85], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' });
       x = x * (1 - b) + (960 + Math.cos(angle) * targetDist) * b;
       y = y * (1 - b) + (540 + Math.sin(angle) * targetDist * 0.8) * b;
       break;
@@ -355,7 +383,7 @@ function getAgentPos(a: Agent, sec: number, frame: number, phase: Phase): [numbe
     case 'subsuelo_core':
     case 'ramonc_negotiation': {
       // Connect to the biological core center
-      const b = interpolate(sec, [31.5, 36.5], [0, 0.95], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' });
+      const b = interpolate(sec, [46.5, 52.5], [0, 0.95], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' });
       x = x * (1 - b) + 960 * b;
       y = y * (1 - b) + 540 * b;
       break;
@@ -363,8 +391,8 @@ function getAgentPos(a: Agent, sec: number, frame: number, phase: Phase): [numbe
     case 'analog_umbral': {
       // Spiral swirling down into the center cube
       const swirlSpeed = sec * 3 + a.phase;
-      const spiralRad = 800 * (1 - (sec - 50.5) / 9.5);
-      const b = interpolate(sec, [50.5, 59.0], [0, 0.99], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' });
+      const spiralRad = 800 * (1 - (sec - 64.5) / 13.6);
+      const b = interpolate(sec, [64.5, 77.0], [0, 0.99], { extrapolateRight: 'clamp', extrapolateLeft: 'clamp' });
       x = x * (1 - b) + (960 + Math.cos(swirlSpeed) * spiralRad) * b;
       y = y * (1 - b) + (540 + Math.sin(swirlSpeed) * spiralRad * 0.6) * b;
       break;
@@ -426,7 +454,7 @@ function getAgentRender(a: Agent, sec: number, frame: number, phase: Phase): [nu
       glow = true;
       break;
     case 'analog_umbral':
-      opacity = interpolate(sec, [50.5, 59.0], [0.95, 0], { extrapolateRight: 'clamp' });
+      opacity = interpolate(sec, [64.5, 78.10], [0.95, 0], { extrapolateRight: 'clamp' });
       color = C.cream;
       break;
     case 'final':
@@ -544,8 +572,8 @@ const ScreenEffects: React.FC = () => {
   const phase = getPhase(sec);
 
   // Blackout static flash for Scene 15
-  const staticFlash = (sec > 58.5 && sec < 60.0) ? 
-    interpolate(sec, [58.5, 59.0, 60.0], [0, 0.95, 0], { extrapolateRight: 'clamp' }) : 0;
+  const staticFlash = (sec > 76.5 && sec < 78.10) ? 
+    interpolate(sec, [76.5, 77.0, 78.10], [0, 0.95, 0], { extrapolateRight: 'clamp' }) : 0;
 
   return (
     <>
@@ -567,11 +595,12 @@ const ScreenEffects: React.FC = () => {
 
 const HUD: React.FC = () => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, durationInFrames } = useVideoConfig();
   const sec = frame / fps;
   const phase = getPhase(sec);
   
-  const hudOpacity = interpolate(sec, [2, 5, 55, 59], [0, 0.35, 0.35, 0], { extrapolateRight: 'clamp' });
+  const durationInSeconds = durationInFrames / fps;
+  const hudOpacity = interpolate(sec, [2, 5, durationInSeconds - 5.0, durationInSeconds - 1.0], [0, 0.35, 0.35, 0], { extrapolateRight: 'clamp' });
 
   return (
     <>
@@ -612,7 +641,7 @@ const HUD: React.FC = () => {
 export const GonAgentsActo3: React.FC = () => {
   const agents = useMemo(() => generateAgents(11000), []);
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, durationInFrames } = useVideoConfig();
   const sec = frame / fps;
   const phase = getPhase(sec);
 
@@ -622,8 +651,8 @@ export const GonAgentsActo3: React.FC = () => {
   if (phase === 'ramonc_desajuste') {
     shakeAmt += 6;
   }
-  if (phase === 'analog_umbral' && sec > 50.5 && sec < 58.0) {
-    shakeAmt += 12 * interpolate(sec, [50.5, 51.5, 58.0], [1, 0.4, 0], { extrapolateRight: 'clamp' });
+  if (phase === 'analog_umbral' && sec > 64.5 && sec < 77.0) {
+    shakeAmt += 12 * interpolate(sec, [64.5, 65.5, 77.0], [1, 0.4, 0], { extrapolateRight: 'clamp' });
   }
   const shakeX = Math.sin(frame * 3.5) * shakeAmt;
   const shakeY = Math.cos(frame * 4.2) * shakeAmt;
@@ -636,7 +665,8 @@ export const GonAgentsActo3: React.FC = () => {
     phase === 'analog_umbral' ? '#000000' :
     C.bg;
 
-  const globalOp = interpolate(sec, [0, 0.5, 58, 60], [0, 1, 1, 0], { extrapolateRight: 'clamp' });
+  const durationInSeconds = durationInFrames / fps;
+  const globalOp = interpolate(sec, [0, 0.5, durationInSeconds - 2.0, durationInSeconds], [0, 1, 1, 0], { extrapolateRight: 'clamp' });
 
   return (
     <AbsoluteFill style={{

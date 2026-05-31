@@ -12,7 +12,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="GonIntervaloProhibido"
         component={GonAgents}
-        durationInFrames={AUDIO_DURATION_SECONDS * FPS}
+        durationInFrames={Math.ceil(214.68 * FPS)}
         fps={FPS}
         width={1920}
         height={1080}
@@ -20,7 +20,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="GonIntervaloProhibidoActo2"
         component={GonAgentsActo2}
-        durationInFrames={AUDIO_DURATION_SECONDS * FPS}
+        durationInFrames={Math.ceil(68.60 * FPS)}
         fps={FPS}
         width={1920}
         height={1080}
@@ -28,7 +28,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="GonIntervaloProhibidoActo3"
         component={GonAgentsActo3}
-        durationInFrames={AUDIO_DURATION_SECONDS * FPS}
+        durationInFrames={Math.ceil(78.10 * FPS)}
         fps={FPS}
         width={1920}
         height={1080}

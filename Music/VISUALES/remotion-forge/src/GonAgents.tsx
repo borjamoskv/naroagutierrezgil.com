@@ -78,13 +78,13 @@ type Phase = 'title' | 'intro' | 'copisteria' | 'flipar' | 'edo' | 'manolo' |
   'gato' | 'revelation' | 'pardo' | 'epilogue' | 'final';
 
 function getPhase(s: number): Phase {
-  if (s < 6.5) return 'intro';
-  if (s < 18.5) return 'flipar';
-  if (s < 24.5) return 'ertzaintza';
-  if (s < 34.5) return 'ramonc';
-  if (s < 44.5) return 'revelation';
-  if (s < 50.5) return 'ane';
-  if (s < 60.0) return 'epilogue';
+  if (s < 23.0) return 'intro';
+  if (s < 56.0) return 'flipar';
+  if (s < 89.0) return 'ertzaintza';
+  if (s < 155.0) return 'ramonc';
+  if (s < 186.0) return 'revelation';
+  if (s < 200.0) return 'ane';
+  if (s < 214.68) return 'epilogue';
   return 'final';
 }
 
@@ -162,31 +162,24 @@ const AgentField: React.FC<{ agents: Agent[] }> = ({ agents }) => {
       }
     }
 
-    // === Render agents ===
+    // === Render agents (Dynamic Batching for Max Exergy) ===
+    const batches: Record<string, { color: string; glow: boolean; opacity: number; points: [number, number, number][] }> = {};
+
     for (let i = 0; i < agents.length; i++) {
       const a = agents[i];
       const [x, y, r, opacity, color, glow] = getAgentRender(a, sec, frame, phase);
       
       if (opacity < 0.02 || x < -50 || x > width + 50 || y < -50 || y > height + 50) continue;
       
-      ctx.save();
-      ctx.globalAlpha = opacity;
-      ctx.fillStyle = color;
-      
-      if (glow) {
-        ctx.shadowBlur = (a.type === 'fujur' ? 12 : a.type === 'sax' ? 8 : 6) * (1 + volume * 2);
-        ctx.shadowColor = color;
-      }
-      
       if (a.type === 'espinete') {
         // Draw Espinete: a pink hedgehog in a thong!
-        // 1. Draw body (pink circle)
+        ctx.save();
+        ctx.globalAlpha = opacity;
+        ctx.fillStyle = '#FF69B4'; // Hot pink!
         ctx.beginPath();
         ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fillStyle = '#FF69B4'; // Hot pink!
         ctx.fill();
         
-        // 2. Draw spikes (lines radiating outwards)
         ctx.strokeStyle = '#FF1493'; // Deep pink for spikes
         ctx.lineWidth = 3;
         const spikeCount = 21; // 21 EDO spikes!
@@ -199,7 +192,6 @@ const AgentField: React.FC<{ agents: Agent[] }> = ({ agents }) => {
           ctx.stroke();
         }
         
-        // 3. Draw a thong (marrón fecal C.pardo thong!)
         ctx.fillStyle = C.pardo; 
         ctx.beginPath();
         ctx.moveTo(x - 12, y + r - 8);
@@ -208,18 +200,50 @@ const AgentField: React.FC<{ agents: Agent[] }> = ({ agents }) => {
         ctx.closePath();
         ctx.fill();
         
-        // Waist strap
         ctx.strokeStyle = C.pardo;
         ctx.lineWidth = 4;
         ctx.beginPath();
         ctx.arc(x, y, r - 4, 0.25 * Math.PI, 0.75 * Math.PI);
         ctx.stroke();
-      } else {
-        // Normal agent rendering
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.restore();
+        continue;
       }
+
+      // Group key: color + glow + rounded opacity (to 1 decimal place to bundle paths)
+      const opKey = Math.round(opacity * 10) / 10;
+      const key = `${color}|${glow ? '1' : '0'}|${opKey}`;
+      
+      if (!batches[key]) {
+        batches[key] = {
+          color,
+          glow,
+          opacity: opKey,
+          points: []
+        };
+      }
+      batches[key].points.push([x, y, r]);
+    }
+
+    // Render the batches
+    const keys = Object.keys(batches);
+    for (let k = 0; k < keys.length; k++) {
+      const b = batches[keys[k]];
+      ctx.save();
+      ctx.globalAlpha = b.opacity;
+      ctx.fillStyle = b.color;
+      
+      if (b.glow) {
+        ctx.shadowBlur = 8 * (1 + volume * 2);
+        ctx.shadowColor = b.color;
+      }
+      
+      ctx.beginPath();
+      for (let p = 0; p < b.points.length; p++) {
+        const [px, py, pr] = b.points[p];
+        ctx.moveTo(px + pr, py);
+        ctx.arc(px, py, pr, 0, Math.PI * 2);
+      }
+      ctx.fill();
       ctx.restore();
     }
   }, [frame, agents, fps, width, height, sec, phase]);
@@ -637,11 +661,12 @@ const ScreenEffects: React.FC = () => {
 // ============================================================
 const HUD: React.FC = () => {
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, durationInFrames } = useVideoConfig();
   const sec = frame / fps;
   const phase = getPhase(sec);
   
-  const hudOpacity = interpolate(sec, [2, 5, 55, 59], [0, 0.35, 0.35, 0], { extrapolateRight: 'clamp' });
+  const durationInSeconds = durationInFrames / fps;
+  const hudOpacity = interpolate(sec, [2, 5, durationInSeconds - 5.0, durationInSeconds - 1.0], [0, 0.35, 0.35, 0], { extrapolateRight: 'clamp' });
 
   return (
     <>
@@ -686,7 +711,7 @@ const HUD: React.FC = () => {
 export const GonAgents: React.FC = () => {
   const agents = useMemo(() => generateAgents(10000), []);
   const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
+  const { fps, durationInFrames } = useVideoConfig();
   const sec = frame / fps;
   const phase = getPhase(sec);
 
@@ -713,7 +738,8 @@ export const GonAgents: React.FC = () => {
     C.bg;
 
   // Global fade
-  const globalOp = interpolate(sec, [0, 0.5, 58, 60], [0, 1, 1, 0], { extrapolateRight: 'clamp' });
+  const durationInSeconds = durationInFrames / fps;
+  const globalOp = interpolate(sec, [0, 0.5, durationInSeconds - 2.0, durationInSeconds], [0, 1, 1, 0], { extrapolateRight: 'clamp' });
 
   return (
     <AbsoluteFill style={{

@@ -1,49 +1,49 @@
 [
   {
     "s": 0.5,
-    "e": 9.41,
-    "text": "El sistema se abre hacia dentro. Bóveda de seguridad: carpeta veinte vault. El archivo se ejecuta solo."
+    "e": 13.59,
+    "text": "El sistema se abre. Pero no hacia abajo, hacia dentro. Bóveda de seguridad: carpeta veinte vault aparece sin ser invocado. El archivo se ejecuta solo."
   },
   {
-    "s": 9.91,
-    "e": 20.16,
-    "text": "No es texto, es memoria. Versiones previas. Simulaciones fallidas: Bilbao noventa y siete, Madrid dos mil ochenta y uno."
+    "s": 14.09,
+    "e": 28.63,
+    "text": "No es texto. Es memoria. Versiones previas del Arquitecto. Simulaciones fallidas: Bilbao noventa y siete, Madrid dos mil ochenta y uno. Iteraciones anteriores del mismo error."
   },
   {
-    "s": 20.66,
-    "e": 24.07,
+    "s": 29.13,
+    "e": 32.54,
     "text": "Esto no es una ciudad. Es un render.",
     "who": "GON"
   },
   {
-    "s": 24.57,
-    "e": 29.33,
+    "s": 33.04,
+    "e": 37.8,
     "text": "Omega cambia estado: realidad igual a variable de deployment.",
     "who": "SOVEREIGN OMEGA",
     "shake": true
   },
   {
-    "s": 29.83,
-    "e": 35.08,
-    "text": "Chiquitocres cambia: No estabas rompiendo el sistema, lo estabas estabilizando.",
+    "s": 38.3,
+    "e": 46.21,
+    "text": "Chiquitocres cambia. Ya no es voz, es infraestructura narrativa: No estabas rompiendo el sistema, lo estabas estabilizando.",
     "who": "CHIQUITOCRES"
   },
   {
-    "s": 35.58,
-    "e": 46.18,
-    "text": "Sala blanca. Monitor apagado. Se enciende: Usuario detectado: Arquitecto. Estado: Pre-encarnación."
+    "s": 46.71,
+    "e": 58.37,
+    "text": "Sala blanca. Silla. Monitor apagado. Se enciende solo: Usuario detectado: Arquitecto. Estado: Pre-encarnación."
   },
   {
-    "s": 46.68,
-    "e": 51.9,
+    "s": 58.87,
+    "e": 64.09,
     "text": "Omega pregunta: ¿Quién está generando a quién?",
     "who": "SOVEREIGN OMEGA",
     "shake": true
   },
   {
-    "s": 52.4,
-    "e": 57.07,
-    "text": "Silencio. La silla nunca estuvo vacía. Bienvenido al backend.",
+    "s": 64.59,
+    "e": 77.6,
+    "text": "Silencio. La respuesta no viene del sistema. Viene desde otro nivel. Uno anterior. Uno que ya ha visto esto muchas veces. La silla no estaba vacía. Nunca lo estuvo. Bienvenido al backend.",
     "who": "CHIQUITOCRES"
   }
 ]

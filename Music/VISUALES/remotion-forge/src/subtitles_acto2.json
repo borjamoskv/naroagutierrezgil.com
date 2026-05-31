@@ -1,36 +1,36 @@
 [
   {
     "s": 0.5,
-    "e": 11.92,
-    "text": "Madrid. Chamartín. Fricción cero. OMEGA inyecta ruido y todo se detiene. Pantallas mueren. La Castellana deja de respirar."
+    "e": 17.11,
+    "text": "Madrid. Chamartín. Fricción cero absoluta. La gente fluye sin pensar. Hasta que OMEGA inyecta ruido y todo se detiene. Pantallas mueren. Trenes frenan. La Castellana deja de respirar."
   },
   {
-    "s": 12.42,
-    "e": 20.37,
-    "text": "Gran Vía no cae, ignora el fallo. El Flujo aquí no es digital. Es ritual. Capa tres."
+    "s": 17.61,
+    "e": 28.77,
+    "text": "Gran Vía no cae. Gran Vía ignora el fallo. El Flujo aquí no es digital. Es ritual. Capa tres: protocolo no inyectable."
   },
   {
-    "s": 20.87,
-    "e": 24.31,
+    "s": 29.27,
+    "e": 32.71,
     "text": "Esto no se hackea. Se atraviesa.",
     "who": "GON"
   },
   {
-    "s": 24.81,
-    "e": 33.02,
-    "text": "Se atraviesa, txaval. Gran Vía veintiocho. No hay puertas, solo decisión arquitectónica.",
+    "s": 33.21,
+    "e": 40.96,
+    "text": "Se atraviesa. Gran Vía veintiocho. No hay puertas. Solo decisión arquitectónica.",
     "who": "RAMONCÍN",
     "sz": 28
   },
   {
-    "s": 33.52,
-    "e": 38.53,
-    "text": "El nodo central responde a presencia: No sois los primeros."
+    "s": 41.46,
+    "e": 50.02,
+    "text": "El nodo central no responde a código, responde a presencia. Y entonces lo dice: No sois los primeros."
   },
   {
-    "s": 39.03,
-    "e": 49.36,
-    "text": "Debajo hay otra capa. Más antigua, más humana de lo que debería ser. OMEGA no entiende. Solo continuidad.",
+    "s": 50.52,
+    "e": 68.1,
+    "text": "Debajo no hay servidores. Hay otra capa. Más antigua, más estable, más humana de lo que debería ser. OMEGA no entiende. Por primera vez, no hay optimización posible: solo continuidad.",
     "who": "SOVEREIGN OMEGA",
     "shake": true
   }
