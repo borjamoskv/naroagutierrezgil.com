@@ -1,0 +1,346 @@
+[
+  {
+    "s": 1.0,
+    "e": 2.9,
+    "text": "Mercadillo Gang presenta...",
+    "who": "DJ"
+  },
+  {
+    "s": 3.3,
+    "e": 5.89,
+    "text": "El choque de titanes que nadie pidió...",
+    "who": "DJ"
+  },
+  {
+    "s": 6.29,
+    "e": 8.93,
+    "text": "pero que España necesitaba.",
+    "who": "DJ"
+  },
+  {
+    "s": 9.73,
+    "e": 13.52,
+    "text": "Yo vengo del mercadillo con chancla y sudadera,",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 13.92,
+    "e": 17.36,
+    "text": "tú vienes de Cantora vendiendo la pulsera",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 17.76,
+    "e": 22.88,
+    "text": "que le mangaste a Paquirri, ¿o fue la bandera?",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 23.28,
+    "e": 27.58,
+    "text": "No sé, es que tu historia cambia cada primavera.",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 27.98,
+    "e": 31.79,
+    "text": "Isabel, reina del drama, tonadilla y el juzgado,",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 32.19,
+    "e": 36.1,
+    "text": "más causas pendientes que discos has sacado.",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 36.5,
+    "e": 39.69,
+    "text": "Yo soy el rey del trapicheo en el rastrillo,",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 40.09,
+    "e": 43.34,
+    "text": "tú eres la reina de empeñar hasta el anillo.",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 43.74,
+    "e": 50.11,
+    "text": "Me dicen tonto, vale, ¡pero yo no debo a Hacienda!",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 50.51,
+    "e": 55.14,
+    "text": "Tú le debes tanto al fisco que Montoro te usa de leyenda.",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 55.54,
+    "e": 58.77,
+    "text": "Cantora se cae a trozos como tu carrera,",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 59.17,
+    "e": 63.17,
+    "text": "yo con dos euros monto un imperio en la acera.",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 63.57,
+    "e": 66.44,
+    "text": "No me vengas con 'Se me enamora el alma',",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 66.84,
+    "e": 70.97,
+    "text": "que tu alma está embargada, tía, no tiene calma.",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 71.37,
+    "e": 74.51,
+    "text": "Gon no necesita abogado pa' sus guerras,",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 74.91,
+    "e": 78.67,
+    "text": "tú necesitas tres pa' no acabar entre rejas.",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 79.47,
+    "e": 81.48,
+    "text": "Mira, niñato, yo llené el Bernabéu,",
+    "who": "ISABEL PANTOJA",
+    "sz": 34,
+    "shake": true
+  },
+  {
+    "s": 81.88,
+    "e": 84.41,
+    "text": "tú llenas una manta en el suelo, ¿eso es un museo?",
+    "who": "ISABEL PANTOJA",
+    "sz": 34,
+    "shake": true
+  },
+  {
+    "s": 84.81,
+    "e": 87.31,
+    "text": "Soy la Pantoja, llevo España en la garganta,",
+    "who": "ISABEL PANTOJA",
+    "sz": 34,
+    "shake": true
+  },
+  {
+    "s": 87.71,
+    "e": 90.75,
+    "text": "tú llevas tres camisetas falsas que nadie compra ni aguanta.",
+    "who": "ISABEL PANTOJA",
+    "sz": 34,
+    "shake": true
+  },
+  {
+    "s": 91.15,
+    "e": 94.18,
+    "text": "He cenado con presidentes, con reyes, con toreros,",
+    "who": "ISABEL PANTOJA",
+    "sz": 34,
+    "shake": true
+  },
+  {
+    "s": 94.58,
+    "e": 97.24,
+    "text": "tú cenas bocata de lomo en un banco con tus compañeros.",
+    "who": "ISABEL PANTOJA",
+    "sz": 34,
+    "shake": true
+  },
+  {
+    "s": 97.64,
+    "e": 100.26,
+    "text": "¿Mercadillo Gang? Eso suena a IVA sin declarar,",
+    "who": "ISABEL PANTOJA",
+    "sz": 34,
+    "shake": true
+  },
+  {
+    "s": 100.66,
+    "e": 102.8,
+    "text": "yo al menos cuando robo lo hago sin disimular.",
+    "who": "ISABEL PANTOJA",
+    "sz": 34,
+    "shake": true
+  },
+  {
+    "s": 103.2,
+    "e": 105.27,
+    "text": "Kiko ya no me habla, Isa no me llama,",
+    "who": "ISABEL PANTOJA",
+    "sz": 34,
+    "shake": true
+  },
+  {
+    "s": 105.67,
+    "e": 108.63,
+    "text": "pero al menos tengo hijos, ¿tú qué tienes? ¡Una cama",
+    "who": "ISABEL PANTOJA",
+    "sz": 34,
+    "shake": true
+  },
+  {
+    "s": 109.03,
+    "e": 110.8,
+    "text": "de camping que huele a feria de pueblo!",
+    "who": "ISABEL PANTOJA",
+    "sz": 34,
+    "shake": true
+  },
+  {
+    "s": 111.2,
+    "e": 114.02,
+    "text": "Yo soy leyenda viva, tú eres el hazmerreír del pueblo.",
+    "who": "ISABEL PANTOJA",
+    "sz": 34,
+    "shake": true
+  },
+  {
+    "s": 114.82,
+    "e": 118.03,
+    "text": "¿Leyenda? Sí, leyenda urbana del BOE,",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 118.43,
+    "e": 122.18,
+    "text": "entre embargos y pufos tu nombre ya no se lee.",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 122.58,
+    "e": 125.97,
+    "text": "Agustín Pantoja te maneja como un títere,",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 126.37,
+    "e": 132.29,
+    "text": "yo soy libre, huelo a mercadillo y a libertad, ¿y tú?",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 132.69,
+    "e": 136.11,
+    "text": "A perfume caro que pagó Julián Muñoz.",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 136.51,
+    "e": 140.09,
+    "text": "Que tu novio era alcalde y robaba en Marbella,",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 140.49,
+    "e": 144.08,
+    "text": "tú decías 'yo no sabía', clásica doncella.",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 144.48,
+    "e": 147.94,
+    "text": "Pero aquí en el rastrillo sabemos la verdad:",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 148.34,
+    "e": 152.04,
+    "text": "la Pantoja sabe más de cuentas que de cantar.",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 152.44,
+    "e": 155.86,
+    "text": "Así que vuelve a Cantora, cierra el portón,",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 156.26,
+    "e": 159.4,
+    "text": "que el mercadillo es territorio de GON.",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 159.8,
+    "e": 162.12,
+    "text": "¡MERCADILLO GANG, FUERA!",
+    "who": "GON",
+    "sz": 32,
+    "shake": false
+  },
+  {
+    "s": 162.92,
+    "e": 167.1,
+    "text": "Ganó Gon. Como siempre. Mercadillo Gang.",
+    "who": "DJ"
+  }
+]
