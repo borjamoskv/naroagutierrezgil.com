@@ -2,8 +2,9 @@
 # ROOT NODE METADATA
 
 identity: "BORJA MOSKV"
+director: "Julio Corteza"
 state: "POST-ENCARNACIÓN"
-timestamp: "2026-05-31"
+timestamp: "2026-06-01"
 
 variables:
   EXERGIA_OUTPUT: "ADVERTENCIA: Reducir la exergía te permitirá integrarte en el sistema sin resistencia (Fricción Cero), pero te convertirás en un nodo pasivo (Consumidor). Aumentarla a niveles no probados podría causar Kernel Panic en tu biología."
