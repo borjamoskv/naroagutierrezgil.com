@@ -1,8 +1,7 @@
 import { Composition } from 'remotion';
 import { GonAgents } from './GonAgents';
+import { GonAgentsActo2 } from './GonAgentsActo2';
 
-// Audio duration: 917.37s = ~15.3 min
-// At 30fps = 27,521 frames
 const AUDIO_DURATION_SECONDS = 60;
 const FPS = 30;
 
@@ -12,6 +11,14 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="GonIntervaloProhibido"
         component={GonAgents}
+        durationInFrames={AUDIO_DURATION_SECONDS * FPS}
+        fps={FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="GonIntervaloProhibidoActo2"
+        component={GonAgentsActo2}
         durationInFrames={AUDIO_DURATION_SECONDS * FPS}
         fps={FPS}
         width={1920}
