@@ -16,8 +16,8 @@ dialogues = [
     {
         "id": "a7_01_pantoja",
         "voice": "Paulina",
-        "text": "Mira, me importa tres cojones el puto carajillo cuántico. Si ese cabrón del sombrerero no me apaga el puto Goenkale, le voy a meter la botella de coñac por el culo hasta que cante flamenco.",
-        "ffmpeg_filter": "volume=3.0,acrusher=level_in=8:level_out=4:bits=4:mode=log,asetrate=44100*1.3,atempo=0.8,vibrato=f=15:d=1,aecho=0.8:0.9:50:0.5",
+        "text": "¡Aaay, mi carajillo cuaaánticooo...! ¡De luz y de sombraaa, me robaste el alma en la barra del baaar...! ¡Si no apagas el Goenkale, te juro por mis castas que te arranco el corazóóón... olé!",
+        "ffmpeg_filter": "volume=2.5,asetrate=44100*1.15,atempo=0.75,vibrato=f=6:d=0.8,aecho=0.8:0.9:500:0.4,chorus=0.5:0.9:50:0.4:0.25:2",
         "delay_ms": 500,
         "avatar": "pantoja"
     },
@@ -25,7 +25,7 @@ dialogues = [
         "id": "a7_02_cura",
         "voice": "Diego",
         "text": "¡Y descenderé sobre ti con gran venganza y furiosa ira! ¡Ese vídeo es una puta herejía, joder! ¡Vais a ahogaros todos en un océano de sangre y orujo de hierbas!",
-        "ffmpeg_filter": "volume=5.0,acrusher=bits=2,tremolo=f=50:d=1.0,aphaser=type=t:speed=10,flanger=delay=20:depth=10,extrastereo=m=10",
+        "ffmpeg_filter": "volume=3.5,acrusher=bits=8,aphaser=type=t:speed=2:decay=0.5,flanger=delay=10:depth=3,extrastereo=m=3",
         "delay_ms": 8000,
         "avatar": "cura_loco"
     },
@@ -33,7 +33,7 @@ dialogues = [
         "id": "a7_03_pirri",
         "voice": "Jorge",
         "text": "¿Pero tú qué te has creído, cura de mierda? Te voy a dar un pinchazo que te va a dejar el disco duro en formato RAW. ¡Dame la puta pasta o te rajo el cuello en 4K, joder!",
-        "ffmpeg_filter": "volume=3.5,asetrate=44100*0.5,atempo=2.0,vibrato=f=20:d=0.9,aecho=1.0:1.0:10:0.8",
+        "ffmpeg_filter": "volume=2.5,asetrate=44100*0.9,atempo=1.1,vibrato=f=8:d=0.3,aecho=0.8:0.8:30:0.4",
         "delay_ms": 16000,
         "avatar": "pirri"
     },
@@ -41,7 +41,7 @@ dialogues = [
         "id": "a7_04_xabi",
         "voice": "Monica",
         "text": "¡Parad de gritar, joder! ¡Que me han diagnosticado luxación de escafoides! ¿Sabéis lo que pesa esta puta cabeza? ¡Tanta hostia y yo con la muñeca jodida, me cago en mi puta vida!",
-        "ffmpeg_filter": "volume=4.0,asetrate=44100*0.6,atempo=1.5,acrusher=bits=3,tremolo=f=10:d=0.9,aecho=0.8:0.9:100:0.7",
+        "ffmpeg_filter": "volume=3.0,asetrate=44100*0.9,atempo=1.1,tremolo=f=5:d=0.3,aecho=0.8:0.9:50:0.4",
         "delay_ms": 24000,
         "avatar": "xabi_cabezas"
     },
@@ -49,7 +49,7 @@ dialogues = [
         "id": "a7_05_chimo",
         "voice": "Jorge",
         "text": "¡Hu-ha, hijos de puta! ¡Esto es pólvora pura! ¡Al que se mueva le meto un tiro entre ceja y ceja al ritmo del puto extasi! ¡La ruta del bakalao se paga en sangre!",
-        "ffmpeg_filter": "volume=4.5,asetrate=44100*1.8,atempo=0.6,flanger=delay=2:depth=10,aphaser=type=t:speed=50,extrastereo=m=5",
+        "ffmpeg_filter": "volume=3.5,asetrate=44100*1.1,atempo=0.9,flanger=delay=5:depth=4,aphaser=type=t:speed=2,extrastereo=m=2",
         "delay_ms": 32000,
         "avatar": "chimo_bayo"
     },
@@ -57,7 +57,7 @@ dialogues = [
         "id": "a7_06_fijoman",
         "voice": "Diego",
         "text": "¡Me cago en la puta, soy Fijoman, la llave fija humana de Burgos! ¡Mi tío Eddie Morci me enseñó a apretar tuercas a hostias! ¡Os voy a aflojar los tornillos del cráneo hasta que echéis morcilla cuántica por los ojos, joder!",
-        "ffmpeg_filter": "volume=4.0,acrusher=bits=1,asetrate=44100*0.7,atempo=1.4,tremolo=f=100:d=1.0,aecho=1:1:10:0.9",
+        "ffmpeg_filter": "volume=3.0,acrusher=bits=8,asetrate=44100*0.9,atempo=1.1,tremolo=f=30:d=0.4,aecho=0.8:0.8:20:0.5",
         "delay_ms": 40000,
         "avatar": "fijoman"
     },
@@ -65,7 +65,7 @@ dialogues = [
         "id": "a7_07_melendi",
         "voice": "Diego",
         "text": "¡Eh, relajaos pibes, joder! ¡Bajad las putas pipas! ¡Por qué no nos fumamos un peta y saltamos un par de muros de hormigón? ¡Parkour y amor, hostia, que parecéis gilipollas!",
-        "ffmpeg_filter": "volume=3.5,asetrate=44100*2.0,atempo=0.5,vibrato=f=10:d=1,aecho=0.8:1.0:300:0.8,chorus=0.5:0.9:50:0.4:0.25:2",
+        "ffmpeg_filter": "volume=2.5,asetrate=44100*1.1,atempo=0.9,vibrato=f=5:d=0.3,aecho=0.8:0.8:100:0.3,chorus=0.5:0.9:50:0.4:0.25:2",
         "delay_ms": 49000,
         "avatar": "melendi"
     },
@@ -73,7 +73,7 @@ dialogues = [
         "id": "a7_08_pirri_cuarta_pared",
         "voice": "Jorge",
         "text": "¡Y tú, Borja Moskv! ¡Deja de renderizar esta mierda! ¡O me subes los putos frames o salgo de la pantalla y te arranco la cabeza con un destornillador! ¡Se acabó la puta película!",
-        "ffmpeg_filter": "volume=5.0,acrusher=bits=2,asetrate=44100*1.5,atempo=0.7,tremolo=f=30:d=1,flanger=delay=15:depth=8,apulsator=hz=20",
+        "ffmpeg_filter": "volume=3.5,acrusher=bits=8,asetrate=44100*1.2,atempo=0.85,tremolo=f=10:d=0.5,flanger=delay=5:depth=4",
         "delay_ms": 57000,
         "avatar": "pirri_navaja"
     }

@@ -49,7 +49,7 @@ dialogues = [
         "id": "a8_06_eddie",
         "voice": "Alvaro",
         "text": "Escuchadme bien. El ganador obtendrá el Carajillo Cuántico. El perdedor también.",
-        "ffmpeg_filter": "volume=4.5,asetrate=44100*0.85,atempo=1.1,aecho=0.8:0.9:500:0.6,reverb=level=80",
+        "ffmpeg_filter": "volume=4.5,asetrate=44100*0.85,atempo=1.1,aecho=0.8:0.9:500:0.6",
         "delay_ms": 18000,
         "avatar": "eddie_morci"
     },
@@ -89,7 +89,7 @@ dialogues = [
         "id": "a8_11_cunado89",
         "voice": "Diego",
         "text": "Tengo un primo que conoce a otro primo de Bruce Lee.",
-        "ffmpeg_filter": "volume=3.5,asetrate=44100*1.2,atempo=0.8,aphaser=type=t:speed=3",
+        "ffmpeg_filter": "volume=3.5,asetrate=44100*1.2,atempo=0.8,aphaser=type=t:speed=2.0",
         "delay_ms": 51000,
         "avatar": "cunado89"
     },
@@ -146,22 +146,22 @@ def main():
     
     # 1. Generate base TTS and filter
     for d in dialogues:
-        raw_mp3 = os.path.join(tmp_dir, f"{d['id']}_raw.mp3")
+        raw_aiff = os.path.join(tmp_dir, f"{d['id']}_raw.aiff")
         filt_wav = os.path.join(tmp_dir, f"{d['id']}_filt.wav")
         
-        # Edge TTS
+        # macOS say
         tts_cmd = [
-            "edge-tts",
-            "--voice", f"es-ES-{d['voice']}Neural",
-            "--text", d["text"],
-            "--write-media", raw_mp3
+            "say",
+            "-v", d['voice'],
+            "-o", raw_aiff,
+            d["text"]
         ]
         subprocess.run(tts_cmd, check=True)
         
         # FFmpeg filter
         ff_cmd = [
-            "ffmpeg", "-y", "-i", raw_mp3,
-            "-af", d["ffmpeg_filter"],
+            "ffmpeg", "-y", "-i", raw_aiff,
+            "-af", d["ffmpeg_filter"] + ",aecho=0.8:0.8:250:0.4" if d["id"] == "a8_06_eddie" else d["ffmpeg_filter"],
             filt_wav
         ]
         subprocess.run(ff_cmd, check=True)

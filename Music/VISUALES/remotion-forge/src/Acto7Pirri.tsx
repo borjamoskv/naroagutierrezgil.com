@@ -218,6 +218,24 @@ export const Acto7Pirri: React.FC = () => {
         transform: `scale(${canvasScale}) translate(${cameraShake}px, ${cameraShake * 0.7}px)`,
     }}>
       <Audio src={staticFile('acto7_pirri.wav')} />
+
+      {/* Full-screen Las Grecas Performance Background Video */}
+      {!isFourthWall && (
+        <OffthreadVideo 
+          src={staticFile('tv_video.mp4')} 
+          style={{ 
+            position: 'absolute', 
+            top: 0, 
+            left: 0, 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'cover',
+            zIndex: 1,
+            opacity: 1.0
+          }} 
+          muted 
+        />
+      )}
       
       {/* 4K Cinematic Noise Overlay */}
       <div style={{
@@ -230,21 +248,6 @@ export const Acto7Pirri: React.FC = () => {
       }} />
 
       {!isSolo && ribbons}
-
-      {!isSolo && (
-        <div style={{
-          position: 'absolute',
-          right: '5%',
-          top: `${15 + Math.sin(frame / 15) * 10}%`,
-          width: '300px',
-          height: '250px',
-          zIndex: 2,
-          opacity: 0.9,
-          transform: `rotate(${Math.cos(frame / 20) * 10}deg)`
-        }}>
-          <GoenkaleTV frame={frame} />
-        </div>
-      )}
 
       {isFourthWall && (
           <div style={{
@@ -347,13 +350,13 @@ export const Acto7Pirri: React.FC = () => {
           textAlign: 'center',
           maxWidth: '80%',
           textShadow: `
-            ${(random(`s1-${frame}`) - 0.5) * 30}px ${(random(`s2-${frame}`) - 0.5) * 30}px 0 rgba(255,0,0,0.9),
-            ${(random(`s3-${frame}`) - 0.5) * 30}px ${(random(`s4-${frame}`) - 0.5) * 30}px 0 rgba(0,255,255,0.9)
+            ${(random(`s1-${frame}`) - 0.5) * 10}px ${(random(`s2-${frame}`) - 0.5) * 10}px 0 rgba(255,0,0,0.9),
+            ${(random(`s3-${frame}`) - 0.5) * 10}px ${(random(`s4-${frame}`) - 0.5) * 10}px 0 rgba(0,255,255,0.9)
           `,
           zIndex: 20,
           boxShadow: isCura || isChimo || isMelendi || isFijoman ? '0 0 50px #0A0A0A' : (isFourthWall ? '0 0 50px #FF0000' : '0 0 30px rgba(43, 59, 229, 1)'),
-          transform: `translateY(${subtitleY}px) scale(${subtitleScale * (1 + random(`scl-${frame}`) * 0.4)}) rotate(${(random(`rot-${frame}`) - 0.5) * 40}deg) skewX(${(random(`skw-${frame}`) - 0.5) * 50}deg)`,
-          filter: `hue-rotate(${frame * 25}deg) contrast(250%)`,
+          transform: `translateY(${subtitleY}px) scale(${subtitleScale * (1 + random(`scl-${frame}`) * 0.1)}) rotate(${(random(`rot-${frame}`) - 0.5) * 10}deg) skewX(${(random(`skw-${frame}`) - 0.5) * 10}deg)`,
+          filter: `hue-rotate(${frame * 5}deg) contrast(150%)`,
           opacity: subtitleOpacity,
         }}>
           {activeSubtitle.text}

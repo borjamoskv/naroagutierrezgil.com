@@ -33,7 +33,7 @@ dialogues = [
         "id": "a9_04_chimo",
         "voice": "Jorge",
         "text": "¡HU-HA! ¡Aparcad el Megane tuneado que nos vamos de ruta por los microchips!",
-        "ffmpeg_filter": "volume=4.5,asetrate=44100*1.2,atempo=0.8,flanger=delay=5:depth=4,aphaser=type=t:speed=10,extrastereo=m=5",
+        "ffmpeg_filter": "volume=4.5,asetrate=44100*1.2,atempo=0.8,flanger=delay=5:depth=4,aphaser=type=t:speed=2,extrastereo=m=5",
         "delay_ms": 25000,
         "avatar": "chimo_megane"
     },
@@ -89,7 +89,7 @@ dialogues = [
         "id": "a9_11_voz_imposible",
         "voice": "Elvira",
         "text": "Bienvenidos al verdadero torneo. Preparando entorno... CARAJILLOVERSE.",
-        "ffmpeg_filter": "volume=5.0,asetrate=44100*0.6,atempo=1.5,aecho=0.8:0.9:1000:0.8,flanger=delay=15:depth=8,reverb=level=100",
+        "ffmpeg_filter": "volume=5.0,asetrate=44100*0.6,atempo=1.5,flanger=delay=15:depth=8",
         "delay_ms": 97000,
         "avatar": "voz_imposible"
     }
@@ -106,21 +106,21 @@ def main():
     
     # 1. Generate base TTS and filter
     for d in dialogues:
-        raw_mp3 = os.path.join(tmp_dir, f"{d['id']}_raw.mp3")
+        raw_aiff = os.path.join(tmp_dir, f"{d['id']}_raw.aiff")
         filt_wav = os.path.join(tmp_dir, f"{d['id']}_filt.wav")
         
-        # Edge TTS
+        # macOS say
         tts_cmd = [
-            "edge-tts",
-            "--voice", f"es-ES-{d['voice']}Neural",
-            "--text", d["text"],
-            "--write-media", raw_mp3
+            "say",
+            "-v", d['voice'],
+            "-o", raw_aiff,
+            d["text"]
         ]
         subprocess.run(tts_cmd, check=True)
         
         # FFmpeg filter
         ff_cmd = [
-            "ffmpeg", "-y", "-i", raw_mp3,
+            "ffmpeg", "-y", "-i", raw_aiff,
             "-af", d["ffmpeg_filter"],
             filt_wav
         ]

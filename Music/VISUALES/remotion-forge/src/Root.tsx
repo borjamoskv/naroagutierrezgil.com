@@ -8,6 +8,13 @@ import { Acto4PazChiquito } from './Acto4PazChiquito';
 import { Acto5FitoConcert } from './Acto5FitoConcert';
 import { Acto6Rayohead } from './Acto6Rayohead';
 import { Acto7Pirri } from './Acto7Pirri';
+import { Acto4_5Maletin } from './Acto4_5Maletin';
+import { Acto8Torneo } from './Acto8Torneo';
+import { Acto9Recreativas } from './Acto9Recreativas';
+import { Acto10Flashback } from './Acto10Flashback';
+import { Epilogo } from './Epilogo';
+import { Acto11Podcast } from './Acto11Podcast';
+import { Acto12Marmol } from './Acto12Marmol';
 
 const AUDIO_DURATION_SECONDS = 60;
 const FPS = 30;
@@ -83,6 +90,62 @@ export const RemotionRoot: React.FC = () => {
         id="Acto7Pirri"
         component={Acto7Pirri}
         durationInFrames={Math.ceil(70.0 * FPS)}
+        fps={FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Acto4-5Maletin"
+        component={Acto4_5Maletin}
+        durationInFrames={Math.ceil(100.0 * FPS)}
+        fps={FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Acto8Torneo"
+        component={Acto8Torneo}
+        durationInFrames={Math.ceil(120.0 * FPS)}
+        fps={FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Acto9Recreativas"
+        component={Acto9Recreativas}
+        durationInFrames={Math.ceil(110.0 * FPS)}
+        fps={FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Acto10Flashback"
+        component={Acto10Flashback}
+        durationInFrames={Math.ceil(90.0 * FPS)}
+        fps={FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Epilogo"
+        component={Epilogo}
+        durationInFrames={Math.ceil(35.0 * FPS)}
+        fps={FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Acto11Podcast"
+        component={Acto11Podcast}
+        durationInFrames={Math.ceil(46.0 * FPS)}
+        fps={FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Acto12Marmol"
+        component={Acto12Marmol}
+        durationInFrames={Math.ceil(9.0 * FPS)}
         fps={FPS}
         width={1920}
         height={1080}

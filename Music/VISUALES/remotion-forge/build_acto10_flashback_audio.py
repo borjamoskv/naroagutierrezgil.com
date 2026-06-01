@@ -74,21 +74,21 @@ def main():
     
     # 1. Generate base TTS and filter
     for d in dialogues:
-        raw_mp3 = os.path.join(tmp_dir, f"{d['id']}_raw.mp3")
+        raw_aiff = os.path.join(tmp_dir, f"{d['id']}_raw.aiff")
         filt_wav = os.path.join(tmp_dir, f"{d['id']}_filt.wav")
         
-        # Edge TTS
+        # macOS say
         tts_cmd = [
-            "edge-tts",
-            "--voice", f"es-ES-{d['voice']}Neural",
-            "--text", d["text"],
-            "--write-media", raw_mp3
+            "say",
+            "-v", d['voice'],
+            "-o", raw_aiff,
+            d["text"]
         ]
         subprocess.run(tts_cmd, check=True)
         
         # FFmpeg filter
         ff_cmd = [
-            "ffmpeg", "-y", "-i", raw_mp3,
+            "ffmpeg", "-y", "-i", raw_aiff,
             "-af", d["ffmpeg_filter"],
             filt_wav
         ]
