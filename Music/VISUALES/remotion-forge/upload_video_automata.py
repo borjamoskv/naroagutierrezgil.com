@@ -41,7 +41,7 @@ pyautogui.hotkey('command', 'shift', 'g')
 time.sleep(1)
 
 # Type the absolute path
-path = "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/out/El_Ultimo_Solo_de_Gon_Master_V3.mp4"
+path = "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/TODA_LA_PELI_PULP_4K_V3.mp4"
 pyautogui.typewrite(path)
 time.sleep(1)
 

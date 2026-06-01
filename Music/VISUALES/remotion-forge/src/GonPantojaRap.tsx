@@ -731,7 +731,7 @@ const HUD: React.FC = () => {
 
 // === COMPOSITION MAIN COMPONENT ===
 export const GonPantojaRap: React.FC = () => {
-  const agents = useMemo(() => generateAgents(1000), []);
+  const agents = useMemo(() => generateAgents(10000), []);
   const frame = useCurrentFrame();
   const { fps, durationInFrames, width, height } = useVideoConfig();
   const sec = frame / fps;
