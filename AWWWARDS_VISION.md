@@ -1,30 +1,63 @@
-# VISIÓN SOTA AWWWARDS: "Superficie Física Digitalizada"
+# VISIÓN SOTA AWWWARDS: "Excavar la Realidad"
 
-Este documento cristaliza la estrategia arquitectónica para la futura evolución WebGL/Three.js (Target: Awwwards SOTY).
+Este documento cristaliza la estrategia arquitectónica unificada para la futura evolución WebGL/Three.js de Naroa Gutiérrez Gil (Target: Awwwards SOTY).
 
-## Core Philosophy
-"El visitante no está viendo una web tecnológica; está explorando una superficie física digitalizada."
-- Hiperrealismo material.
-- Óptica fotográfica.
-- Físicas orgánicas sutiles.
+## Core Philosophy: Excavar la Realidad
+*La obra ya existe dentro de la piedra. El visitante la descubre mediante luz, proximidad y exploración.* 
 
-## Orden de Ejecución e Implementación
+No gana quien acumula más shaders; gana quien encuentra una idea física única y la lleva hasta las últimas consecuencias. El visitante no está viendo una web tecnológica; está explorando una superficie física digitalizada.
 
-### 1. Pizarra Geológica Reactiva (Base Permanente)
-- **Mecánica**: Microrelieve real escaneado, variaciones de rugosidad, iluminación rasante sutil (fuente de estudio a centímetros de la superficie).
-- **Objetivo**: Dotar al negro "vacío" de peso mineral y geológico. Evitar el efecto "videojuego".
+---
 
-### 2. Lente Hiperfocal Dinámica (Interacción Principal)
-- **Mecánica**: Nitidez absoluta en el foco (coordenadas del cursor) con caída progresiva y suave (Bokeh fotográfico real).
-- **Objetivo**: Obligar al usuario a escanear pestañas, reflejos, poros y grietas sin frustrar la navegación. Replicar la mirada obsesiva del hiperrealismo.
+## EL NÚCLEO SOTA (La Combinación Ganadora)
 
-### 3. Sangrado Cromático POP (Evento Especial)
-- **Mecánica**: Aberración cromática de neón extremo (separación RGB) detectando los bordes de la pintura.
-- **Objetivo**: Estado alterado temporal (mousedown, apertura de obra). Ruptura violenta pero efímera para no ensuciar la identidad oscura y matérica principal.
+### 1. Pizarra Geológica Reactiva (Base)
+- **Mecánica**: Microrelieve real escaneado, variaciones de rugosidad, sensación de peso mineral.
+- **Efecto**: El negro no está "vacío". Tiene significado físico e imperfecciones.
 
-### 4. Viscosidad Acrílica (Microdetalle Experimental)
-- **Mecánica**: En vez de deformar la obra entera durante el scroll inercial, deformar *únicamente* el reflejo especular o la "capa de barniz".
-- **Objetivo**: Mantener la solidez de la obra debajo, mientras la piel superficial delata un comportamiento viscoso.
+### 2. Escultura de Luz (Volumen)
+- **Mecánica**: Normal maps + Dynamic relighting + PBR rendering. La luz se desplaza con el usuario.
+- **Efecto**: La pintura no se mueve, la luz sí. El usuario modela los volúmenes del rostro con el ratón. La pintura se convierte en escultura.
+
+### 3. Microscopio Infinito (Exploración)
+- **Mecánica**: Navegación principal mediante zoom continuo extremo (Google Maps aplicado al arte).
+- **Efecto**: Obliga a descubrir la materia: poros, pigmento, textura, grietas de la pizarra. Horas de exploración en un lienzo inabarcable.
+
+### 4. Portal de Materia (Aparición)
+- **Mecánica**: Height maps + Parallax occlusion + Displacement shaders.
+- **Efecto**: La imagen no carga desde arriba; emerge desde la pizarra. Como si estuviera excavada arqueológicamente.
+
+---
+
+## EXPLORACIONES SECUNDARIAS Y CONCEPTOS AVANZADOS
+
+### 5. Museo de Luz Rasante
+- **Mecánica**: WebGL volumetric light + Shadow mapping. Solo una franja de luz recorre lentamente la superficie.
+- **Efecto**: El visitante inspecciona una pieza física oculta como un restaurador.
+
+### 6. Radiografía del Hiperrealismo (Tomografía Artística)
+- **Mecánica**: Multi-texture blending + Layer masks. Manteniendo pulsado aparecen capas (dibujo inicial, manchas, final).
+- **Efecto**: Convierte el proceso creativo temporal en una experiencia espacial.
+
+### 7. Pigmento Vivo
+- **Mecánica**: Temporal shaders + Perlin noise para fluctuar luminosidad y saturación un 1-2%.
+- **Efecto**: La obra respira como pigmento real bajo luz natural. Nunca es una imagen muerta.
+
+### 8. Memoria de Carbón
+- **Mecánica**: GPU feedback buffers. Cada interacción deja polvo, marcas y residuos que desaparecen tras unos segundos.
+- **Efecto**: La pizarra recuerda. La web desarrolla memoria temporal y táctil.
+
+### 9. Cámara Cinematográfica Física
+- **Mecánica**: Virtual camera + Lens distortion + Film grain físico. No hay scroll plano, hay travelling real.
+- **Efecto**: Sensación de documental artístico en primera persona.
+
+### 10. Campo Magnético POP
+- **Mecánica**: Partículas fluorescentes atrapadas en la pizarra que emergen y orbitan ante la interacción.
+- **Efecto**: La identidad POP aparece como energía radiactiva y violenta, pero contenida y efímera.
+
+### 11. Tiempo de Pintura (Reconstrucción Matérica)
+- **Mecánica**: Reconstrucción de la obra en tiempo real; cada pincelada aparece exactamente en sus coordenadas de aplicación.
+- **Efecto**: Trascender el vídeo timelapse; es una simulación física interactiva de la acumulación de materia.
 
 ---
 *Status: C4-SIM (Aprobado para futura iteración C5-REAL)*
