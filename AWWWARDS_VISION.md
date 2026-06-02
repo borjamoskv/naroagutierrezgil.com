@@ -1,63 +1,45 @@
-# VISIÓN SOTA AWWWARDS: "Excavar la Realidad"
+# VISIÓN SOTA AWWWARDS: "Excavar la Realidad" (WebGPU + Gaussian Splatting)
 
-Este documento cristaliza la estrategia arquitectónica unificada para la futura evolución WebGL/Three.js de Naroa Gutiérrez Gil (Target: Awwwards SOTY).
+Este documento cristaliza la estrategia arquitectónica definitiva (Target: Awwwards SOTY).
+Hemos pivotado. Lo más disruptivo en 2026 no es añadir más shaders a una imagen 2D.
+Es el salto de **"imagen + WebGL"** a **"realidad capturada + renderizada como materia navegable"**.
+El stack central pasa a ser **Gaussian Splatting + WebGPU**.
 
-## Core Philosophy: Excavar la Realidad
-*La obra ya existe dentro de la piedra. El visitante la descubre mediante luz, proximidad y exploración.* 
-
-No gana quien acumula más shaders; gana quien encuentra una idea física única y la lleva hasta las últimas consecuencias. El visitante no está viendo una web tecnológica; está explorando una superficie física digitalizada.
+## Core Philosophy: La Obra Como Objeto Físico Escaneado
+*Casi todos los portfolios digitales intentan parecer futuristas. Muy pocos intentan que Internet parezca un objeto físico. El visitante no navega imágenes. Navega materia.*
+No invertiremos meses en partículas o glitches. Invertiremos meses en capturar una obra real, convertirla en materia navegable, y hacer que la luz revele esa materia.
 
 ---
 
 ## EL NÚCLEO SOTA (La Combinación Ganadora)
 
-### 1. Pizarra Geológica Reactiva (Base)
-- **Mecánica**: Microrelieve real escaneado, variaciones de rugosidad, sensación de peso mineral.
-- **Efecto**: El negro no está "vacío". Tiene significado físico e imperfecciones.
+### 1. El Retrato Existe Dentro De La Piedra (Excavación Volumétrica)
+- **Mecánica**: La pantalla empieza siendo solo pizarra oscura. La luz rasante descubre volumen interactivo. Poco a poco emerge el rostro.
+- **Efecto**: Como una excavación arqueológica. La pintura parece atrapada dentro del mineral. No se *carga* la obra, se *revela*.
 
-### 2. Escultura de Luz (Volumen)
-- **Mecánica**: Normal maps + Dynamic relighting + PBR rendering. La luz se desplaza con el usuario.
-- **Efecto**: La pintura no se mueve, la luz sí. El usuario modela los volúmenes del rostro con el ratón. La pintura se convierte en escultura.
+### 2. Microscopio Neural (Resolución Infinita)
+- **Mecánica**: Fotografía macro + Profundidad de campo + IA de superresolución local.
+- **Efecto**: Cuando el usuario acerca el cursor (zoom in), la obra escala de 512px a 8192px ganando detalle real en lugar de perderlo. Parece infinita.
 
-### 3. Microscopio Infinito (Exploración)
-- **Mecánica**: Navegación principal mediante zoom continuo extremo (Google Maps aplicado al arte).
-- **Efecto**: Obliga a descubrir la materia: poros, pigmento, textura, grietas de la pizarra. Horas de exploración en un lienzo inabarcable.
-
-### 4. Portal de Materia (Aparición)
-- **Mecánica**: Height maps + Parallax occlusion + Displacement shaders.
-- **Efecto**: La imagen no carga desde arriba; emerge desde la pizarra. Como si estuviera excavada arqueológicamente.
+### 3. Cámara Imposible (Depth Capture & NeRF)
+- **Mecánica**: Gaussian Splatting / Neural Radiance Fields / Depth capture.
+- **Efecto**: Aunque la pintura es 2D, el visitante puede desplazarse unos centímetros lateralmente. El cerebro interpreta volumen auténtico gracias a la paralaje hiperrealista.
 
 ---
 
-## EXPLORACIONES SECUNDARIAS Y CONCEPTOS AVANZADOS
+## EXPLORACIONES SECUNDARIAS AVANZADAS
 
-### 5. Museo de Luz Rasante
-- **Mecánica**: WebGL volumetric light + Shadow mapping. Solo una franja de luz recorre lentamente la superficie.
-- **Efecto**: El visitante inspecciona una pieza física oculta como un restaurador.
+### 4. Radiance Memory (Historia Colectiva)
+- **Mecánica**: La web registra (vía persistencia backend/memoria) dónde miró la gente.
+- **Efecto**: Las áreas observadas acumulan energía y luminosidad. Las ignoradas vuelven a oscurecerse. La obra desarrolla una memoria térmica basada en la atención colectiva.
 
-### 6. Radiografía del Hiperrealismo (Tomografía Artística)
-- **Mecánica**: Multi-texture blending + Layer masks. Manteniendo pulsado aparecen capas (dibujo inicial, manchas, final).
-- **Efecto**: Convierte el proceso creativo temporal en una experiencia espacial.
+### 5. Pizarra Termodinámica (Física Humana)
+- **Mecánica**: Renderizado de fluidos o partículas de alta fidelidad atadas al cursor.
+- **Efecto**: Al pasar, aparecen condensaciones, brillos, humedad y polvo. Como si la presencia térmica del humano alterara la piedra. No parece WebGL; parece física pura termodinámica.
 
-### 7. Pigmento Vivo
-- **Mecánica**: Temporal shaders + Perlin noise para fluctuar luminosidad y saturación un 1-2%.
-- **Efecto**: La obra respira como pigmento real bajo luz natural. Nunca es una imagen muerta.
-
-### 8. Memoria de Carbón
-- **Mecánica**: GPU feedback buffers. Cada interacción deja polvo, marcas y residuos que desaparecen tras unos segundos.
-- **Efecto**: La pizarra recuerda. La web desarrolla memoria temporal y táctil.
-
-### 9. Cámara Cinematográfica Física
-- **Mecánica**: Virtual camera + Lens distortion + Film grain físico. No hay scroll plano, hay travelling real.
-- **Efecto**: Sensación de documental artístico en primera persona.
-
-### 10. Campo Magnético POP
-- **Mecánica**: Partículas fluorescentes atrapadas en la pizarra que emergen y orbitan ante la interacción.
-- **Efecto**: La identidad POP aparece como energía radiactiva y violenta, pero contenida y efímera.
-
-### 11. Tiempo de Pintura (Reconstrucción Matérica)
-- **Mecánica**: Reconstrucción de la obra en tiempo real; cada pincelada aparece exactamente en sus coordenadas de aplicación.
-- **Efecto**: Trascender el vídeo timelapse; es una simulación física interactiva de la acumulación de materia.
+### 6. Realidad Inestable (Estructura Interna)
+- **Mecánica**: Descomposición LOD (Level of Detail) de las splats basada en proximidad extrema.
+- **Efecto**: En reposo es una fotografía perfecta. Al acercarse, la realidad se descompone: revelando gaussianas, partículas de pigmento y el andamiaje matemático. Se ve cómo está construida la imagen real.
 
 ---
 *Status: C4-SIM (Aprobado para futura iteración C5-REAL)*
