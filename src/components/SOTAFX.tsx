@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
+import SplatVault from './SplatVault'
 export default function SOTAFX() {
   const [pos, setPos] = useState({ x: -500, y: -500 })
   const [bgPos, setBgPos] = useState({ x: '50%', y: '50%' })
@@ -138,7 +138,10 @@ export default function SOTAFX() {
         }
       `}} />
 
-      {/* Vault Mode Overlay */}
+      {/* Splat Volumetric Engine (Vault Mode) */}
+      <SplatVault isVisible={vaultMode} />
+      
+      {/* Vault Mode Overlay Mask (To transition) */}
       <div 
         className={`fixed inset-0 z-[150] pointer-events-none bg-[#0a0a0c] transition-opacity duration-1000 ${vaultMode ? 'opacity-100' : 'opacity-0'}`}
         style={{
