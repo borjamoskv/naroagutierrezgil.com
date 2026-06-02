@@ -1,8 +1,20 @@
 {
+  "files.exclude": {
+    "**/.git": true,
+    "**/.venv": true,
+    "**/node_modules": true,
+    "**/stems": true,
+    "**/split_tracks": true,
+    "**/*.wav": true,
+    "**/*.mp3": true,
+    "**/*.aif": true,
+    "**/*.flac": true
+  },
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
     "**/node_modules/**": true,
+    "**/.venv/**": true,
     "**/stems/**": true,
     "**/split_tracks/**": true,
     "**/*.wav": true,
@@ -11,6 +23,8 @@
     "**/*.flac": true
   },
   "search.exclude": {
+    "**/.venv": true,
+    "**/node_modules": true,
     "**/stems": true,
     "**/split_tracks": true,
     "**/*.wav": true,
