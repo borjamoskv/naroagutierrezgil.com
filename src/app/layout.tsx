@@ -20,8 +20,8 @@ export const metadata: Metadata = {
     default: "N A R O A | Fine Art & Hiperrealismo POP",
     template: "%s | N A R O A"
   },
-  description: "Portafolio oficial de Naroa Gutiérrez Gil. Artista visual especializada en hiperrealismo pop, acrílico sobre pizarra y mica mineral. Bilbao.",
-  keywords: ["Naroa Gutierrez Gil", "Hiperrealismo", "Arte Pop", "Acrílico sobre pizarra", "Mica mineral", "Artista Bilbao", "Pintura hiperrealista", "Retratos por encargo"],
+  description: "Portafolio oficial de Naroa Gutiérrez Gil. Artista visual especializada en hiperrealismo pop y acrílico sobre pizarra. Bilbao.",
+  keywords: ["Naroa Gutierrez Gil", "Hiperrealismo", "Arte Pop", "Acrílico sobre pizarra", "Artista Bilbao", "Pintura hiperrealista", "Retratos por encargo"],
   authors: [{ name: "Naroa Gutiérrez Gil" }],
   creator: "Naroa Gutiérrez Gil",
   openGraph: {
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     locale: "es_ES",
     url: "https://naroagutierrezgil.com",
     title: "N A R O A | Fine Art & Hiperrealismo POP",
-    description: "Portafolio oficial de Naroa Gutiérrez Gil. Arte visceral en pizarra y mineral.",
+    description: "Portafolio oficial de Naroa Gutiérrez Gil. Arte visual en pizarra.",
     siteName: "N A R O A",
     images: [{
       url: "https://naroa.online/assets/hq-james-CjsTrO7r.webp",

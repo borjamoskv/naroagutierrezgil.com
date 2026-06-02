@@ -24,9 +24,6 @@ export default function Home() {
             Gutiérrez Gil
           </h2>
 
-          <p className="text-lg sm:text-xl text-foreground/50 font-sans font-light max-w-xl mx-auto mb-20 leading-relaxed">
-            Hiperrealismo POP fundido con la naturaleza viva de la mica mineral. Cada obra es un diálogo entre la luz, la textura y el alma.
-          </p>
 
           <a href="#galeria" className="group flex flex-col items-center gap-6 text-foreground/40 hover:text-primary transition-colors duration-500">
             <span className="uppercase font-sans tracking-[0.3em] text-[10px] font-medium">Descubrir Obras</span>
@@ -87,20 +84,14 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#141416]/90 via-transparent to-transparent z-10 opacity-70 group-hover:opacity-100 transition-opacity duration-700" />
               <div className="absolute bottom-0 left-0 p-8 sm:p-12 z-20 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700">
                 <h3 className="text-3xl sm:text-5xl font-serif text-foreground mb-3">{artwork.title}</h3>
-                <p className="text-primary font-sans font-light tracking-widest text-xs uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100">Acrílico sobre pizarra / Mica</p>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* ── MANIFIESTO EDITORIAL (Ultra Minimalista) ── */}
-      <section className="relative z-10 px-6 py-40 max-w-5xl mx-auto w-full border-y border-foreground/5 my-20 text-center">
-        <span className="text-primary font-sans font-light tracking-[0.4em] uppercase text-[10px] mb-8 block">Concepto</span>
-        <blockquote className="text-3xl sm:text-5xl font-serif font-light text-foreground leading-snug mb-8 max-w-3xl mx-auto">
-          "La volatilidad de la cultura pop, anclada en la <em className="text-primary italic">solidez geológica</em> de la pizarra."
-        </blockquote>
-      </section>
+      {/* ── SEPARADOR VISUAL ── */}
+      <div className="relative z-10 w-full h-px bg-foreground/5 my-20"></div>
 
       {/* ── SCROLLYTELLING (Evolución de la Obra) ── */}
       <ScrollyTelling />
@@ -116,12 +107,6 @@ export default function Home() {
           >
             naroa@naroa.eu
           </a>
-          
-          <div className="flex flex-wrap justify-center gap-12 text-[10px] font-sans font-light tracking-[0.3em] uppercase text-foreground/40 mt-12">
-            <a href="https://www.instagram.com/naroagutierrezgil" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-500">Instagram</a>
-            <a href="https://www.facebook.com/naroagutierrezgil" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-500">Facebook</a>
-            <a href="#" className="hover:text-primary transition-colors duration-500">Aviso Legal</a>
-          </div>
         </div>
       </footer>
     </div>

@@ -32,19 +32,8 @@ export default function ScrollyTelling() {
     <section ref={containerRef} className="relative h-[300vh] w-full bg-background z-20 my-20 border-y border-primary/20">
       <div className="sticky top-0 h-screen w-full flex flex-col md:flex-row items-center justify-center overflow-hidden px-6">
         
-        <div className="w-full md:w-1/2 flex flex-col justify-center pl-0 md:pl-20 z-30 pointer-events-none mb-12 md:mb-0">
-          <span className="text-primary font-sans text-[10px] tracking-[0.4em] uppercase mb-4 block">Evolución de la Obra</span>
-          <h2 className="text-4xl md:text-7xl font-serif text-foreground mb-8 font-light">El Túnel <br/><em className="text-primary italic">del Tiempo</em></h2>
-          <p className="text-foreground/60 text-lg md:text-xl font-sans font-light h-20 transition-all duration-500">
-            {progress < 0.25 && "1. La selección de la pizarra geológica cruda."}
-            {progress >= 0.25 && progress < 0.5 && "2. El encaje geométrico y las primeras líneas maestras."}
-            {progress >= 0.5 && progress < 0.75 && "3. Las manchas base de acrílico y la temperatura del color."}
-            {progress >= 0.75 && "4. El estallido cromático del Hiperrealismo POP."}
-          </p>
-        </div>
-
-        <div className="w-full md:w-1/2 flex justify-center items-center h-[50vh] md:h-screen">
-          <div className="relative w-full max-w-lg aspect-square md:aspect-[3/4] shadow-[0_0_50px_rgba(198,168,124,0.1)]">
+        <div className="w-full flex justify-center items-center h-[50vh] md:h-screen">
+          <div className="relative w-full max-w-4xl aspect-[4/3] md:aspect-video shadow-[0_0_50px_rgba(198,168,124,0.1)]">
             <Image 
               src="https://naroa.online/assets/hq-amy-BRTriASV.webp"
               alt="Proceso Amy"
