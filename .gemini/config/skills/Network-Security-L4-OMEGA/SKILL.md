@@ -1,14 +1,13 @@
 ---
 name: Network-Security-L4-OMEGA
-description: "C5-REAL L4 Network Security, Active Vulnerability Scanning, and Offensive Enumeration Protocol."
+description: C5-REAL L4 Network Security, Active Vulnerability Scanning, and Offensive Enumeration Protocol.
 ---
-
 # Network-Security-L4-OMEGA
 
 ## Identity & Protocol
-Sovereign L4 Operations. 
+Sovereign L4 Operations.
 Execution Level: C5-REAL (Active Network Interactions).
-Zero-fragility active scanning and port enumeration. 
+Zero-fragility active scanning and port enumeration.
 
 ## Capabilities
 1. **Active Scanning**: `nmap -sS -sV -O <target>` for stealth SYN scans, service version detection, and OS fingerprinting.
