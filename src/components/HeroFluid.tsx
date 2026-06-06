@@ -1,26 +1,37 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 export default function HeroFluid() {
   const [pos, setPos] = useState({ x: -1000, y: -1000 })
-  const [targetPos, setTargetPos] = useState({ x: -1000, y: -1000 })
+  const targetPos = useRef({ x: -1000, y: -1000 })
 
   useEffect(() => {
     // Initial center position so it doesn't pop in from 0,0
-    setPos({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
-    setTargetPos({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+    const initialX = window.innerWidth / 2
+    const initialY = window.innerHeight / 2
+    setPos({ x: initialX, y: initialY })
+    targetPos.current = { x: initialX, y: initialY }
 
     const handleMove = (e: MouseEvent) => {
-      setTargetPos({ x: e.clientX, y: e.clientY })
+      targetPos.current = { x: e.clientX, y: e.clientY }
     }
     window.addEventListener('mousemove', handleMove)
     
-    let animationFrameId: number;
+    let animationFrameId: number
     const loop = () => {
-      setPos(prev => ({
-        x: prev.x + (targetPos.x - prev.x) * 0.03,
-        y: prev.y + (targetPos.y - prev.y) * 0.03
-      }))
+      setPos(prev => {
+        const dx = targetPos.current.x - prev.x
+        const dy = targetPos.current.y - prev.y
+        // Only trigger state updates if we actually need to animate to save CPU
+        if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+          animationFrameId = requestAnimationFrame(loop)
+          return prev
+        }
+        return {
+          x: prev.x + dx * 0.03,
+          y: prev.y + dy * 0.03
+        }
+      })
       animationFrameId = requestAnimationFrame(loop)
     }
     loop()
@@ -29,7 +40,7 @@ export default function HeroFluid() {
       window.removeEventListener('mousemove', handleMove)
       cancelAnimationFrame(animationFrameId)
     }
-  }, [targetPos])
+  }, [])
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50 mix-blend-screen z-0">
