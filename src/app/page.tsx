@@ -6,30 +6,49 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary selection:text-black">
       
-      {/* ── ORGANIC HERO ── */}
-      <section className="relative w-full min-h-[95vh] flex items-center justify-center overflow-hidden">
+      {/* ── SOTA ANTI-TEMPLATE HERO ── */}
+      <section className="relative w-full h-screen flex flex-col justify-between overflow-hidden px-6 sm:px-12 py-12">
         <HeroFluid />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(198,168,124,0.12)_0%,transparent_60%)] z-10 pointer-events-none mix-blend-screen" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_30%,rgba(198,168,124,0.15)_0%,transparent_50%)] z-0 pointer-events-none mix-blend-color-dodge" />
         
-        <div className="relative z-10 text-center px-6 flex flex-col items-center justify-center max-w-5xl mx-auto mt-12 w-full h-full">
-          <span className="text-primary font-sans font-light tracking-[0.6em] uppercase text-xs mb-8 opacity-80 mix-blend-plus-lighter animate-[fadeIn_2s_ease-out]">Acrílico sobre pizarra</span>
-          
-          <h1 className="text-[5rem] sm:text-[8rem] md:text-[12rem] font-serif font-light tracking-widest text-foreground leading-none uppercase mb-2 flex flex-wrap justify-center gap-4 sm:gap-8 mix-blend-plus-lighter">
-            <span className="animate-[slideUp_1s_ease-out_0.1s_both]">N</span>
-            <span className="animate-[slideUp_1s_ease-out_0.2s_both]">A</span>
-            <span className="animate-[slideUp_1s_ease-out_0.3s_both]">R</span>
-            <span className="animate-[slideUp_1s_ease-out_0.4s_both]">O</span>
-            <span className="animate-[slideUp_1s_ease-out_0.5s_both]">A</span>
+        {/* Top Header - Microtypography */}
+        <div className="relative z-10 w-full flex justify-between items-start animate-[fadeIn_2s_ease-out]">
+          <div className="flex flex-col gap-1">
+            <span className="text-primary font-sans uppercase tracking-[0.3em] text-[10px] font-medium">Portafolio Oficial</span>
+            <span className="text-foreground/40 font-sans tracking-widest text-[9px] uppercase">Obra 2024 - 2026</span>
+          </div>
+          <div className="text-right flex flex-col gap-1">
+            <span className="text-foreground/70 font-serif italic text-sm tracking-widest">Bilbao</span>
+            <span className="text-foreground/40 font-sans tracking-[0.2em] text-[9px] uppercase">Acrílico / Pizarra</span>
+          </div>
+        </div>
+        
+        {/* Center - Massive Editorial Typography */}
+        <div className="relative z-10 flex flex-col items-start w-full max-w-[1800px] mx-auto mt-20 mb-auto">
+          <h1 className="flex flex-col text-[13vw] leading-[0.8] font-serif font-light tracking-tighter text-foreground uppercase mix-blend-difference select-none">
+            <span className="flex overflow-hidden">
+              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both]">Naroa</span>
+            </span>
+            <span className="flex overflow-hidden ml-[8vw]">
+              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-primary/90 italic tracking-tight">Gutiérrez</span>
+            </span>
+            <span className="flex overflow-hidden ml-[24vw]">
+              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.3s_both]">Gil</span>
+            </span>
           </h1>
-          
-          <h2 className="text-2xl sm:text-4xl text-foreground/50 font-serif italic font-light tracking-[0.2em] mb-24 animate-[fadeIn_2s_ease-out_1s_both]">
-            Gutiérrez Gil
-          </h2>
+        </div>
 
-          <a href="#galeria" className="group flex flex-col items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 animate-[fadeIn_3s_ease-out_1.5s_both]">
-            <span className="uppercase font-sans tracking-[0.4em] text-[9px] font-medium">Excavar la Materia</span>
-            <div className="w-[1px] h-24 bg-foreground/10 relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-full bg-primary animate-[translateY_3s_ease-in-out_infinite]" />
+        {/* Bottom - Manifesto & Scroll */}
+        <div className="relative z-10 w-full flex flex-col md:flex-row justify-between items-end mt-auto max-w-[1800px] mx-auto animate-[fadeIn_3s_ease-out_1s_both]">
+          <p className="max-w-sm text-foreground/60 font-serif text-[15px] leading-relaxed tracking-wide mb-12 md:mb-0 mix-blend-plus-lighter">
+            La pintura no como imagen bidimensional, sino como <strong className="text-primary font-normal">excavación arqueológica</strong>.
+            Cada trazo es un relieve molecular atrapado en el mineral.
+          </p>
+
+          <a href="#galeria" className="group flex items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 cursor-pointer">
+            <span className="uppercase font-sans tracking-[0.4em] text-[9px] font-medium rotate-180" style={{ writingMode: 'vertical-rl' }}>Descender</span>
+            <div className="w-[1px] h-32 bg-foreground/10 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-full bg-primary animate-[translateY_2s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
             </div>
           </a>
         </div>
