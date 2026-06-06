@@ -24,16 +24,22 @@ export default function Home() {
         </div>
         
         {/* Center - Massive Editorial Typography */}
-        <div className="relative z-10 flex flex-col items-start w-full max-w-[1800px] mx-auto mt-20 mb-auto">
-          <h1 className="flex flex-col text-[13vw] leading-[0.8] font-serif font-light tracking-tighter text-foreground uppercase mix-blend-difference select-none">
-            <span className="flex overflow-hidden">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both]">Naroa</span>
+        <div className="relative z-10 flex flex-col items-start w-full max-w-[1800px] mx-auto mt-20 mb-auto min-h-[50vh] justify-center">
+          <h1 className="relative flex flex-col w-full text-[15vw] leading-[0.75] font-serif font-light tracking-tighter uppercase select-none">
+            
+            {/* Naroa: Esqueleto Outline */}
+            <span className="flex overflow-hidden z-10">
+              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:1px_var(--color-foreground)] sm:[-webkit-text-stroke:2px_var(--color-foreground)] opacity-50 mix-blend-difference">Naroa</span>
             </span>
-            <span className="flex overflow-hidden ml-[8vw]">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-primary/90 italic tracking-tight">Gutiérrez</span>
+            
+            {/* Gutiérrez: Firma Dorada Flotante Masiva */}
+            <span className="absolute top-[20%] left-[5%] sm:left-[12%] z-30 pointer-events-none w-full">
+              <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-primary font-hand normal-case tracking-normal text-[26vw] sm:text-[22vw] -rotate-6 drop-shadow-[0_20px_50px_rgba(198,168,124,0.5)] mix-blend-screen">Gutiérrez</span>
             </span>
-            <span className="flex overflow-hidden ml-[24vw]">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.3s_both]">Gil</span>
+            
+            {/* Gil: Sólido, Extremo Derecho */}
+            <span className="flex overflow-hidden self-end mr-[2vw] sm:mr-[8vw] z-20 mt-[2vw]">
+              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-foreground mix-blend-difference">Gil</span>
             </span>
           </h1>
         </div>
@@ -46,7 +52,7 @@ export default function Home() {
           </p>
 
           <a href="#galeria" className="group flex items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 cursor-pointer">
-            <span className="uppercase font-sans tracking-[0.4em] text-[9px] font-medium rotate-180" style={{ writingMode: 'vertical-rl' }}>Descender</span>
+            <span className="uppercase font-sans tracking-[0.4em] text-[9px] font-medium rotate-180 [writing-mode:vertical-rl]">Descender</span>
             <div className="w-[1px] h-32 bg-foreground/10 relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-full bg-primary animate-[translateY_2s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
             </div>

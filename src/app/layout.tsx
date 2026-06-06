@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Cormorant_Garamond, Inter, Caveat } from "next/font/google";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -12,6 +12,12 @@ const inter = Inter({
   variable: "--font-sans",
   subsets: ["latin"],
   weight: ["300", "400", "500"],
+});
+
+const caveat = Caveat({
+  variable: "--font-hand",
+  subsets: ["latin"],
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {
@@ -61,6 +67,8 @@ import SmoothScroll from "@/components/SmoothScroll";
 import SOTAFX from "@/components/SOTAFX";
 import Curtain from "@/components/Curtain";
 import PaintTrail from "@/components/PaintTrail";
+import DepthHUD from "@/components/DepthHUD";
+import SecretEgg from "@/components/SecretEgg";
 
 export default function RootLayout({
   children,
@@ -70,12 +78,14 @@ export default function RootLayout({
   return (
     <html
       lang="es"
-      className={`${inter.variable} ${cormorant.variable} h-full antialiased`}
+      className={`${inter.variable} ${cormorant.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground font-sans bg-slate-texture">
+        <SecretEgg />
         <PaintTrail />
         <Curtain />
         <SOTAFX />
+        <DepthHUD />
         <SmoothScroll>
           {children}
         </SmoothScroll>

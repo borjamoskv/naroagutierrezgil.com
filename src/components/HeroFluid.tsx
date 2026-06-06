@@ -1,15 +1,18 @@
 'use client'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 export default function HeroFluid() {
-  const [pos, setPos] = useState({ x: -1000, y: -1000 })
+  const blob1Ref = useRef<HTMLDivElement>(null)
+  const blob2Ref = useRef<HTMLDivElement>(null)
+  
+  const currentPos = useRef({ x: -1000, y: -1000 })
   const targetPos = useRef({ x: -1000, y: -1000 })
 
   useEffect(() => {
     // Initial center position so it doesn't pop in from 0,0
     const initialX = window.innerWidth / 2
     const initialY = window.innerHeight / 2
-    setPos({ x: initialX, y: initialY })
+    currentPos.current = { x: initialX, y: initialY }
     targetPos.current = { x: initialX, y: initialY }
 
     const handleMove = (e: MouseEvent) => {
@@ -19,19 +22,21 @@ export default function HeroFluid() {
     
     let animationFrameId: number
     const loop = () => {
-      setPos(prev => {
-        const dx = targetPos.current.x - prev.x
-        const dy = targetPos.current.y - prev.y
-        // Only trigger state updates if we actually need to animate to save CPU
-        if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
-          animationFrameId = requestAnimationFrame(loop)
-          return prev
-        }
-        return {
-          x: prev.x + dx * 0.03,
-          y: prev.y + dy * 0.03
-        }
-      })
+      const dx = targetPos.current.x - currentPos.current.x
+      const dy = targetPos.current.y - currentPos.current.y
+      
+      // Update current pos
+      currentPos.current.x += dx * 0.05 // Slightly faster interpolation
+      currentPos.current.y += dy * 0.05
+      
+      // Mutate DOM directly (Zero React re-renders)
+      if (blob1Ref.current) {
+        blob1Ref.current.style.transform = `translate3d(${currentPos.current.x - 300}px, ${currentPos.current.y - 300}px, 0)`
+      }
+      if (blob2Ref.current) {
+        blob2Ref.current.style.transform = `translate3d(${currentPos.current.x * 0.8 - 450}px, ${currentPos.current.y * 0.8 - 450}px, 0)`
+      }
+      
       animationFrameId = requestAnimationFrame(loop)
     }
     loop()
@@ -45,16 +50,12 @@ export default function HeroFluid() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-50 mix-blend-screen z-0">
       <div 
+        ref={blob1Ref}
         className="absolute w-[600px] h-[600px] bg-primary/20 rounded-full blur-[100px] will-change-transform"
-        style={{
-          transform: `translate3d(${pos.x - 300}px, ${pos.y - 300}px, 0)`
-        }}
       />
       <div 
+        ref={blob2Ref}
         className="absolute w-[900px] h-[900px] bg-[#141416]/70 rounded-full blur-[120px] will-change-transform"
-        style={{
-          transform: `translate3d(${pos.x * 0.8 - 450}px, ${pos.y * 0.8 - 450}px, 0)`
-        }}
       />
     </div>
   )

@@ -12,6 +12,7 @@
   --color-primary: var(--primary);
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
+  --font-hand: var(--font-hand);
 }
 
 body {
