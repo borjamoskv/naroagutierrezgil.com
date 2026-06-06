@@ -219,10 +219,8 @@ export default function SplatVault({ isVisible }: SplatVaultProps) {
       
       {/* HUD - Control Panel */}
       <div className="absolute top-8 left-8 text-[10px] uppercase tracking-widest text-primary/70 font-sans pointer-events-none space-y-2">
-        <p className="font-semibold text-white">Excavación Volumétrica SOTA</p>
-        <p>Resolución: 62,500 Partículas HSL</p>
-        <p>Cinética: Inercia Fluida + Auto-Rotación</p>
-        <p className="text-foreground/40">Física: Turbulencia de Vórtice Cursor</p>
+        <p className="font-semibold text-white">Naroa Gutiérrez Gil</p>
+        <p>Acrílico sobre pizarra</p>
       </div>
 
       {/* Selector de Obra */}
@@ -245,7 +243,7 @@ export default function SplatVault({ isVisible }: SplatVaultProps) {
       {/* Control de Extrusión / Fricción */}
       <div className="absolute bottom-8 left-8 z-[250] flex flex-col gap-2 bg-[#0c0c0e]/80 border border-white/5 p-4 rounded-sm max-w-xs w-64 backdrop-blur-md">
         <div className="flex justify-between text-[9px] uppercase tracking-widest text-white/60">
-          <span>Tensión Volumétrica</span>
+          <span>Profundidad</span>
           <span className="text-primary font-mono">{Math.round(depthProgress * 100)}%</span>
         </div>
         <input 
@@ -257,9 +255,6 @@ export default function SplatVault({ isVisible }: SplatVaultProps) {
           onChange={(e) => setDepthProgress(parseFloat(e.target.value))}
           className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none"
         />
-        <span className="text-[8px] text-white/30 uppercase tracking-widest leading-normal">
-          Aumenta la tensión para revelar la topología algorítmica de la obra.
-        </span>
       </div>
     </div>
   )

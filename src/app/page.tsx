@@ -13,14 +13,8 @@ export default function Home() {
         
         {/* Top Header - Microtypography */}
         <div className="relative z-10 w-full flex justify-between items-start animate-[fadeIn_2s_ease-out]">
-          <div className="flex flex-col gap-1">
-            <span className="text-primary font-sans uppercase tracking-[0.3em] text-[10px] font-medium">Portafolio Oficial</span>
-            <span className="text-foreground/40 font-sans tracking-widest text-[9px] uppercase">Obra 2024 - 2026</span>
-          </div>
-          <div className="text-right flex flex-col gap-1">
-            <span className="text-foreground/70 font-serif italic text-sm tracking-widest">Bilbao</span>
-            <span className="text-foreground/40 font-sans tracking-[0.2em] text-[9px] uppercase">Acrílico / Pizarra</span>
-          </div>
+          <span className="text-foreground/40 font-sans tracking-[0.2em] text-[9px] uppercase">Acrílico sobre pizarra</span>
+          <span className="text-foreground/40 font-sans tracking-[0.2em] text-[9px] uppercase">Bilbao</span>
         </div>
         
         {/* Center - Massive Editorial Typography */}
@@ -44,13 +38,8 @@ export default function Home() {
           </h1>
         </div>
 
-        {/* Bottom - Manifesto & Scroll */}
-        <div className="relative z-10 w-full flex flex-col md:flex-row justify-between items-end mt-auto max-w-[1800px] mx-auto animate-[fadeIn_3s_ease-out_1s_both]">
-          <p className="max-w-sm text-foreground/60 font-serif text-[15px] leading-relaxed tracking-wide mb-12 md:mb-0 mix-blend-plus-lighter">
-            La pintura no como imagen bidimensional, sino como <strong className="text-primary font-normal">excavación arqueológica</strong>.
-            Cada trazo es un relieve molecular atrapado en el mineral.
-          </p>
-
+        {/* Bottom - Scroll */}
+        <div className="relative z-10 w-full flex flex-col md:flex-row justify-end items-end mt-auto max-w-[1800px] mx-auto animate-[fadeIn_3s_ease-out_1s_both]">
           <a href="#galeria" className="group flex items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 cursor-pointer">
             <span className="uppercase font-sans tracking-[0.4em] text-[9px] font-medium rotate-180 [writing-mode:vertical-rl]">Descender</span>
             <div className="w-[1px] h-32 bg-foreground/10 relative overflow-hidden">
@@ -63,9 +52,8 @@ export default function Home() {
       {/* ── GALERÍA ORGÁNICA (MASONRY DE AUTOR) ── */}
       <section id="galeria" className="relative z-10 px-4 sm:px-12 py-32 max-w-[1800px] mx-auto w-full">
         <div className="mb-40 text-center flex flex-col items-center">
-          <span className="text-primary font-sans font-light tracking-[0.4em] uppercase text-xs mb-6 opacity-60">Portfolio</span>
-          <h2 className="text-5xl sm:text-7xl font-serif font-light tracking-wide text-foreground leading-tight max-w-2xl mx-auto">
-            Materia <em className="text-primary italic">Revelada</em>
+          <h2 className="text-5xl sm:text-7xl font-serif font-light tracking-wide text-foreground leading-tight max-w-2xl mx-auto uppercase">
+            Obras
           </h2>
           <div className="w-px h-16 bg-gradient-to-b from-primary/30 to-transparent mt-12"></div>
         </div>
@@ -113,7 +101,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(198,168,124,0.15)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
               
               <div className="absolute bottom-0 left-0 p-8 sm:p-14 z-20 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-1000 ease-out">
-                <span className="text-primary/70 font-sans tracking-[0.3em] uppercase text-[9px] mb-4 block opacity-0 group-hover:opacity-100 transition-opacity duration-1000 delay-300">Acrílico sobre piedra</span>
+                <span className="text-primary/70 font-sans tracking-[0.3em] uppercase text-[9px] mb-4 block opacity-0 group-hover:opacity-100 transition-opacity duration-1000 delay-300">Acrílico sobre pizarra</span>
                 <h3 className="text-3xl sm:text-5xl font-serif text-foreground mb-1 font-light tracking-wide drop-shadow-2xl">{artwork.title}</h3>
               </div>
             </div>
@@ -135,7 +123,6 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(198,168,124,0.08)_0%,transparent_60%)] z-0 pointer-events-none" />
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
-          <span className="text-primary font-sans font-light tracking-[0.4em] uppercase text-xs mb-8 opacity-60">Comisiones Privadas</span>
           <a 
             href="mailto:naroa@naroa.eu" 
             className="text-4xl sm:text-6xl md:text-[7rem] font-serif font-light tracking-tighter text-foreground/70 hover:text-primary transition-colors duration-1000 mb-20 block hover:tracking-normal"
