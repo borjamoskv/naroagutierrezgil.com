@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import HeroFluid from '@/components/HeroFluid';
 import ScrollyTelling from '@/components/ScrollyTelling';
+import InteractiveStudio from '@/components/InteractiveStudio';
 
 export default function Home() {
   return (
@@ -117,6 +118,9 @@ export default function Home() {
 
       {/* ── SCROLLYTELLING (Evolución de la Obra) ── */}
       <ScrollyTelling />
+
+      {/* ── EL TALLER INTERACTIVO ── */}
+      <InteractiveStudio />
 
       {/* ── FOOTER VISUAL ── */}
       <footer className="relative pt-40 pb-20 overflow-hidden bg-[#030303] border-t border-white/5">
