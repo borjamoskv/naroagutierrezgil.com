@@ -2,6 +2,7 @@ import Image from 'next/image';
 import HeroFluid from '@/components/HeroFluid';
 import ScrollyTelling from '@/components/ScrollyTelling';
 import InteractiveStudio from '@/components/InteractiveStudio';
+import ExcavationGame from '@/components/ExcavationGame';
 
 export default function Home() {
   return (
@@ -58,6 +59,9 @@ export default function Home() {
           </h2>
           <div className="w-px h-16 bg-gradient-to-b from-primary/30 to-transparent mt-12"></div>
         </div>
+
+        {/* MINIJUEGO DE EXCAVACIÓN (MAX EXERGY) */}
+        <ExcavationGame />
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-12 auto-rows-[350px] sm:auto-rows-[500px]">
           {/* GALERÍA MASIVA Y DINÁMICA SOTA */}
