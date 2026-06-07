@@ -54,7 +54,7 @@ export default function SplatBenchmarkCanvas() {
     const initEngine = async () => {
       try {
         const simulator = new WebGPUSplatSimulator();
-        await simulator.init(canvasRef.current!, undefined, splatCount);
+        await simulator.init(canvasRef.current!, '/assets/naroa_artwork_1.splat', splatCount);
         simulatorRef.current = simulator;
         
         const audio = new SplatAudioEngine();
