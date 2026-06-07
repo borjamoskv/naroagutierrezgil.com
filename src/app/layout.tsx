@@ -9,7 +9,7 @@ import CustomCursor from "@/components/CustomCursor";
 import Soundscape from "@/components/Soundscape";
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://naroagutierrezgil.com'),
+  metadataBase: new URL('https://naroa-gutierrez-gil.pages.dev'),
   title: {
     default: "Naroa Gutiérrez Gil | Artivista",
     template: "%s | Naroa Gutiérrez Gil"
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "es_ES",
-    url: "https://naroagutierrezgil.com",
+    url: "https://naroa-gutierrez-gil.pages.dev",
     title: "Naroa Gutiérrez Gil | Cimientos de Pizarra",
     description: "Una experiencia inmersiva WebGL. Retratos pop en técnica mixta y alquimia visual.",
     siteName: "Naroa Gutiérrez Gil Oficial",
