@@ -42,3 +42,7 @@ next-env.d.ts
 
 # snapshots
 *.heapsnapshot
+
+# lighthouse
+/.lighthouseci/
+
