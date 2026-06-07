@@ -40,7 +40,7 @@
 - *«Mujeres a través del Espejo»* (Marienea, Basauri).
 
 ## 5. EXTENSIONES DIGITALES Y FÍSICAS
-- **SALA DE JUEGOS (Web)**: Kintsugi Emocional (simulador), Collage Alquímico, Mica Viva (retratos interactivos al cursor), Tetris Artístico (texturas reales).
+- **Colaboraciones Interactivas y Sonoras**: Rework electrónico de piezas clave (ej. "Summer Monroe") junto al productor Borja Moskv, integrando pintura hiperrealista, relieves minerales y atmósferas de música electrónica.
 - **Formatos**: Originales, Láminas Fine Art (350g/m²), Series limitadas con toques manuales, Customización Textil (chaquetas de autor/hostelería).
 - **Logística Segura**: Cajas de madera reforzadas o cámara de aire perimetral para proteger la pizarra y mica en envíos.
 
