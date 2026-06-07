@@ -20,6 +20,7 @@ import AnimatedHeroBackground from '@/components/AnimatedHeroBackground';
 const WebGLBackground = dynamic(() => import('@/components/WebGLBackground'), { ssr: false });
 const PaintTrail = dynamic(() => import('@/components/PaintTrail'), { ssr: false });
 const MacroSplatCanvas = dynamic(() => import('@/components/SplatBenchmarkCanvas'), { ssr: false });
+const KintsugiOverlay = dynamic(() => import('@/components/KintsugiOverlay'), { ssr: false });
 const SplatPhysicsTester = dynamic(() => import('@/components/SplatPhysicsTester'), { ssr: false });
 const KineticArtwork = dynamic(() => import('@/components/KineticArtwork'), { ssr: false });
 
@@ -222,6 +223,7 @@ export default function Home() {
       {appMode === "CAOS" && webGLReady && <DepthHUD />}
       {appMode === "CAOS" && webGLReady && <SOTAFX />}
       {appMode === "CAOS" && webGLReady && <Mica />}
+      {appMode === "CAOS" && webGLReady && <KintsugiOverlay />}
 
       <section className="relative w-full h-screen flex flex-col justify-between overflow-hidden px-6 sm:px-12 py-12">
         {appMode === "ORDEN" && <AnimatedHeroBackground />}
