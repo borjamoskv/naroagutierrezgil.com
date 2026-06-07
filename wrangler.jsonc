@@ -1,0 +1,17 @@
+{
+  "name": "naroart-kintsugi-ledger",
+  "main": "src/agents/index.ts",
+  "compatibility_date": "2026-06-07",
+  "compatibility_flags": ["nodejs_compat"],
+  "durable_objects": {
+    "bindings": [
+      { "name": "EntropicCanvas", "class_name": "EntropicCanvasAgent" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["EntropicCanvasAgent"] }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}
