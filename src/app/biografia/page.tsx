@@ -53,15 +53,15 @@ export default function Biografia() {
         <header className="mb-40 relative pt-20">
           <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light pointer-events-none" />
           <div className="absolute -left-6 sm:-left-12 top-0 w-[2px] h-full bg-gradient-to-b from-[#2B3BE5] via-[#2B3BE5]/20 to-transparent" />
-          <h1 className="text-[12vw] md:text-[8rem] font-serif font-light leading-[0.8] tracking-tighter uppercase mb-6 drop-shadow-2xl select-none relative">
+          <h1 className="text-[12vw] md:text-[8rem] font-serif font-black leading-[0.8] tracking-tighter uppercase mb-6 drop-shadow-2xl select-none relative">
             <span className="flex overflow-hidden">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:1px_rgba(234,234,234,0.3)] hover:[-webkit-text-stroke:1px_#2B3BE5] transition-all duration-1000 cursor-default chromatic-text">Naroa</span>
+              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:2px_rgba(234,234,234,0.3)] sm:[-webkit-text-stroke:6px_rgba(234,234,234,0.3)] hover:[-webkit-text-stroke:2px_#2B3BE5] sm:hover:[-webkit-text-stroke:6px_#2B3BE5] transition-all duration-1000 cursor-default chromatic-text">Naroa</span>
             </span>
             <span className="flex overflow-hidden mt-2">
               <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-[#EAEAEA] chromatic-text">Gutiérrez</span>
             </span>
             <span className="absolute top-[35%] left-[25%] md:left-[35%] z-20 pointer-events-none">
-              <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-[#2B3BE5] font-hand lowercase text-[18vw] md:text-[12rem] -rotate-3 opacity-90 mix-blend-screen drop-shadow-[0_20px_50px_rgba(43,59,229,0.3)] chromatic-text">Gil</span>
+              <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-[#2B3BE5] font-hand font-bold lowercase text-[18vw] md:text-[12rem] -rotate-3 opacity-90 mix-blend-screen drop-shadow-[0_20px_50px_rgba(43,59,229,0.8)] chromatic-text">Gil</span>
             </span>
           </h1>
           <p className="max-w-3xl text-lg sm:text-2xl font-light tracking-wide text-white/60 leading-relaxed mt-16 border-l border-[#2B3BE5]/30 pl-8 py-2 relative">
@@ -102,7 +102,7 @@ export default function Biografia() {
           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#2B3BE5] rounded-full blur-[150px] opacity-10 pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-[#2B3BE5] to-transparent opacity-50" />
           
-          <h2 className="text-5xl md:text-7xl font-serif tracking-widest uppercase text-white mb-16 relative z-10 opacity-90 mix-blend-difference">
+          <h2 className="text-5xl md:text-7xl font-serif font-black tracking-tighter uppercase text-white mb-16 relative z-10 opacity-90 mix-blend-difference">
             Materia & Silencio
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
@@ -156,7 +156,7 @@ export default function Biografia() {
         {/* COLABORACIONES (Lista Cinemática) */}
         <section className="mb-40 animate-[fadeIn_2s_ease-out_1.7s_both]">
           <div className="border-t border-[#2B3BE5]/30 pt-16">
-            <h2 className="text-5xl font-serif tracking-widest uppercase text-white mb-12">Redes & Colisiones</h2>
+            <h2 className="text-5xl font-serif font-black tracking-tighter uppercase text-white mb-12">Redes & Colisiones</h2>
             <ul className="space-y-8 text-xl font-light text-white/60">
               <li className="flex flex-col sm:flex-row sm:items-end gap-2 border-b border-white/5 pb-8 hover:text-white transition-colors duration-500">
                 <span className="text-3xl font-serif text-[#2B3BE5]">Vintage-Shop</span>
