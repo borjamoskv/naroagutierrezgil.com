@@ -102,6 +102,7 @@ export default function Mica() {
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const savedMessages = localStorage.getItem('naroa_mica_messages');
     if (savedMessages) {
       try {
@@ -115,7 +116,7 @@ export default function Mica() {
 
     const savedStage = localStorage.getItem('naroa_mica_stage');
     if (savedStage) {
-      setStage(savedStage as any);
+      setStage(savedStage as 'init' | 'type' | 'size' | 'summary');
     }
 
     const savedSelections = localStorage.getItem('naroa_mica_selections');
