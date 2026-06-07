@@ -150,11 +150,11 @@ export default function Mica() {
       {/* Floating Sparkle Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-24 right-8 z-[250] flex items-center justify-center w-12 h-12 rounded-full border border-primary/40 bg-background/80 backdrop-blur shadow-[0_0_30px_rgba(198,168,124,0.2)] hover:scale-105 active:scale-95 transition-all duration-300 group"
+        className="fixed bottom-24 right-8 z-[250] flex items-center justify-center w-12 h-12 rounded-full border border-primary/40 bg-background/80 backdrop-blur shadow-[0_0_30px_rgba(43,59,229,0.2)] hover:scale-105 active:scale-95 transition-all duration-300 group"
       >
         <span className="absolute inset-0 rounded-full bg-primary/10 animate-ping pointer-events-none opacity-50" />
         {/* Pulsing Light Point representing Mica */}
-        <div className="w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_12px_rgba(198,168,124,1)] group-hover:scale-125 transition-transform duration-300" />
+        <div className="w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_12px_rgba(43,59,229,1)] group-hover:scale-125 transition-transform duration-300" />
         
         {/* Tiny labels */}
         <span className="absolute right-14 font-sans text-[8px] tracking-[0.3em] uppercase text-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-black/80 px-2 py-1 border border-primary/20 rounded-sm">
@@ -164,7 +164,7 @@ export default function Mica() {
 
       {/* Tiny Chat Overlay */}
       {isOpen && (
-        <div className="fixed bottom-40 right-8 z-[250] w-[320px] max-h-[420px] bg-[#0c0c0e]/95 backdrop-blur border border-primary/20 rounded-sm shadow-[0_10px_50px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden animate-[fadeIn_0.4s_ease-out]">
+        <div className="fixed bottom-40 right-8 z-[250] w-[320px] max-h-[420px] bg-[#0A0A0A]/95 backdrop-blur border border-primary/20 rounded-sm shadow-[0_10px_50px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden animate-[fadeIn_0.4s_ease-out]">
           
           {/* Header */}
           <div className="p-4 border-b border-white/5 flex items-center justify-between bg-black/40">

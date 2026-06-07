@@ -22,7 +22,7 @@ export default function InteractiveStudio() {
   const [activeTab, setActiveTab] = useState<'scratch' | 'puzzle' | 'memory'>('scratch');
 
   return (
-    <section id="taller-interactivo" className="relative z-10 py-32 px-4 sm:px-12 bg-[#080809] border-t border-white/5">
+    <section id="taller-interactivo" className="relative z-10 py-32 px-4 sm:px-12 bg-[#0A0A0A] border-t border-white/5">
       <div className="max-w-7xl mx-auto w-full">
         {/* Header Section */}
         <div className="mb-20 text-center flex flex-col items-center">
@@ -50,7 +50,7 @@ export default function InteractiveStudio() {
               onClick={() => setActiveTab(tab.id as any)}
               className={`px-4 sm:px-8 py-3 rounded-sm font-sans text-[11px] uppercase tracking-[0.2em] transition-all duration-500 relative ${
                 activeTab === tab.id
-                  ? 'text-primary border border-primary/30 bg-primary/5 shadow-[0_0_20px_rgba(198,168,124,0.1)]'
+                  ? 'text-primary border border-primary/30 bg-primary/5 shadow-[0_0_20px_rgba(43,59,229,0.15)]'
                   : 'text-foreground/40 border border-transparent hover:text-foreground/80'
               }`}
             >
@@ -60,7 +60,7 @@ export default function InteractiveStudio() {
         </div>
 
         {/* Game Container */}
-        <div className="bg-[#0c0c0e] rounded-sm ring-1 ring-white/5 shadow-2xl p-6 sm:p-12 min-h-[600px] flex items-center justify-center">
+        <div className="bg-black rounded-sm ring-1 ring-white/5 shadow-2xl p-6 sm:p-12 min-h-[600px] flex items-center justify-center">
           {activeTab === 'scratch' && <ScratchGame />}
           {activeTab === 'puzzle' && <PuzzleGame />}
           {activeTab === 'memory' && <MemoryGame />}
@@ -208,7 +208,7 @@ function ScratchGame() {
           ))}
         </div>
         
-        <div className="mt-6 p-4 rounded-sm border border-white/5 bg-[#080809]">
+        <div className="mt-6 p-4 rounded-sm border border-white/5 bg-black">
           <span className="text-[10px] tracking-[0.2em] uppercase text-foreground/30 block mb-1">Cincelado</span>
           <div className="flex justify-between items-baseline">
             <span className="text-3xl font-serif font-light text-foreground">{revealedPercent}%</span>
@@ -271,7 +271,7 @@ function ScratchGame() {
 
           {/* Victory overlay */}
           {isWon && (
-            <div className="absolute inset-0 bg-[#0a0a0cd8] z-20 flex flex-col justify-center items-center p-8 text-center animate-[fadeIn_0.8s_ease-out]">
+            <div className="absolute inset-0 bg-[#0A0A0Ad8] z-20 flex flex-col justify-center items-center p-8 text-center animate-[fadeIn_0.8s_ease-out]">
               <span className="text-primary font-hand text-5xl rotate-6 mb-2">Espectacular</span>
               <h5 className="text-2xl font-serif uppercase tracking-widest text-foreground font-light mb-4">
                 Obra Revelada
@@ -387,7 +387,7 @@ function PuzzleGame() {
           ))}
         </div>
 
-        <div className="flex justify-between items-center p-4 rounded-sm border border-white/5 bg-[#080809] mt-4">
+        <div className="flex justify-between items-center p-4 rounded-sm border border-white/5 bg-black mt-4">
           <div>
             <span className="text-[10px] tracking-[0.2em] uppercase text-foreground/30 block mb-1">Movimientos</span>
             <span className="text-2xl font-serif font-light text-foreground">{moves}</span>
@@ -420,7 +420,7 @@ function PuzzleGame() {
         </div>
 
         {/* Puzzle Grid */}
-        <div className="relative w-full max-w-[400px] aspect-square bg-[#08080a] shadow-[0_0_50px_rgba(0,0,0,0.8)] ring-1 ring-white/10 rounded-sm overflow-hidden p-2">
+        <div className="relative w-full max-w-[400px] aspect-square bg-[#0A0A0A] shadow-[0_0_50px_rgba(0,0,0,0.8)] ring-1 ring-white/10 rounded-sm overflow-hidden p-2">
           {showPreview ? (
             <div className="absolute inset-0 z-20 animate-[fadeIn_0.5s_ease-out]">
               <Image
@@ -470,7 +470,7 @@ function PuzzleGame() {
 
           {/* Victory overlay */}
           {isWon && (
-            <div className="absolute inset-0 bg-[#0a0a0cd8] z-30 flex flex-col justify-center items-center p-8 text-center animate-[fadeIn_0.8s_ease-out]">
+            <div className="absolute inset-0 bg-[#0A0A0Ad8] z-30 flex flex-col justify-center items-center p-8 text-center animate-[fadeIn_0.8s_ease-out]">
               <span className="text-primary font-hand text-5xl rotate-6 mb-2">Espectacular</span>
               <h5 className="text-2xl font-serif uppercase tracking-widest text-foreground font-light mb-4">
                 Retrato Resuelto
@@ -586,7 +586,7 @@ function MemoryGame() {
           Los retratos actúan como espejos del alma. Encuentra las identidades gemelas ocultas detrás del metal y la pizarra.
         </p>
 
-        <div className="flex justify-between items-center p-4 rounded-sm border border-white/5 bg-[#080809] mt-4">
+        <div className="flex justify-between items-center p-4 rounded-sm border border-white/5 bg-black mt-4">
           <div>
             <span className="text-[10px] tracking-[0.2em] uppercase text-foreground/30 block mb-1">Intentos</span>
             <span className="text-2xl font-serif font-light text-foreground">{turns}</span>
@@ -619,7 +619,7 @@ function MemoryGame() {
         </div>
 
         {/* Card Deck Grid */}
-        <div className="relative w-full max-w-[500px] aspect-[4/3] bg-[#08080a] shadow-[0_0_50px_rgba(0,0,0,0.8)] ring-1 ring-white/10 rounded-sm p-4">
+        <div className="relative w-full max-w-[500px] aspect-[4/3] bg-[#0A0A0A] shadow-[0_0_50px_rgba(0,0,0,0.8)] ring-1 ring-white/10 rounded-sm p-4">
           <div className="grid grid-cols-4 grid-rows-3 gap-3 w-full h-full">
             {cards.map((card) => {
               const showFace = card.isFlipped || card.isMatched;
@@ -636,7 +636,7 @@ function MemoryGame() {
                     }`}
                   >
                     {/* Back Side (Slate Cover) */}
-                    <div className="absolute inset-0 w-full h-full bg-[#161618] border border-primary/20 hover:border-primary/50 rounded-sm shadow-xl flex flex-col justify-center items-center [backface-visibility:hidden] overflow-hidden">
+                    <div className="absolute inset-0 w-full h-full bg-[#050505] border border-primary/20 hover:border-primary/50 rounded-sm shadow-xl flex flex-col justify-center items-center [backface-visibility:hidden] overflow-hidden">
                       <div className="absolute inset-0 bg-slate-texture opacity-30" />
                       {/* Artistic minimalist monogram inside the back */}
                       <span className="text-[9px] font-sans font-light tracking-[0.4em] text-primary/40 uppercase relative z-10">
@@ -670,7 +670,7 @@ function MemoryGame() {
 
           {/* Victory overlay */}
           {isWon && (
-            <div className="absolute inset-0 bg-[#0a0a0cd8] z-30 flex flex-col justify-center items-center p-8 text-center animate-[fadeIn_0.8s_ease-out]">
+            <div className="absolute inset-0 bg-[#0A0A0Ad8] z-30 flex flex-col justify-center items-center p-8 text-center animate-[fadeIn_0.8s_ease-out]">
               <span className="text-primary font-hand text-5xl rotate-6 mb-2">Espectacular</span>
               <h5 className="text-2xl font-serif uppercase tracking-widest text-foreground font-light mb-4">
                 Identidades Resueltas
