@@ -49,6 +49,7 @@ export default function PuzzleGame({ artworks }: PuzzleGameProps) {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line
     initPuzzle();
   }, [selectedArt]);
 
