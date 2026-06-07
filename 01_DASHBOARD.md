@@ -42,8 +42,8 @@
 ## Research Tracks
 | Track ID | Title | Artifact | Status | Risk/Potential |
 |---|---|---|---|---|
-| R-01 | Topological Presence Engine (TDA x Saliency) | [🔬 autodidact_tda](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/4c9d93e5-3197-4c12-a5f4-6cbab8e79ef5/autodidact_tda_splatting.md) | 🟣 `Hipótesis` | HIGH / HIGH |
-| R-02 | Presence as Curation (M1: Progressive Revelation) | [🔬 autodidact_curation](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/4c9d93e5-3197-4c12-a5f4-6cbab8e79ef5/autodidact_presence_curation.md) | 🟣 `Hipótesis` | MED / HIGH |
+| R-01 | Topological Presence Engine (TDA x Saliency) | [🔬 autodidact_tda](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/d993e806-bcea-40e0-85e0-cd4e649bd7ab/autodidact_tda_splatting.md) | 🟣 `Hipótesis` | HIGH / HIGH |
+| R-02 | Presence as Curation (M1: Progressive Revelation) | [🔬 autodidact_curation](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/d993e806-bcea-40e0-85e0-cd4e649bd7ab/autodidact_presence_curation.md) | 🟣 `Hipótesis` | MED / HIGH |
 
 ## Other
 | Title | ID | Walkthrough | Status |
