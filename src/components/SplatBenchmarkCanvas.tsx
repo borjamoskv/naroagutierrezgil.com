@@ -14,16 +14,18 @@ export default function SplatBenchmarkCanvas() {
   const [entropy, setEntropy] = useState<number>(0);
   const [kintsugiActive, setKintsugiActive] = useState<boolean>(false);
   const [repairs, setRepairs] = useState<number>(0);
+  const [scars, setScars] = useState<Array<{ x: number; y: number; depth: number; timestamp: number }>>([]);
 
-  // Cloudflare Agent Connection
+  // Cloudflare Agent Connection (Producción C5-REAL)
   const agent = useAgent({
     agent: "EntropicCanvas",
     name: "naroa-master-canvas",
-    siteUrl: "http://localhost:8787", // Dev port
-    onStateUpdate: (newState: { globalEntropy: number; kintsugiActive: boolean; totalRepairs: number }) => {
+    siteUrl: "https://naroart-kintsugi-ledger.borjamoskv.workers.dev",
+    onStateUpdate: (newState: { globalEntropy: number; kintsugiActive: boolean; totalRepairs: number; scars: Array<{ x: number; y: number; depth: number; timestamp: number }> }) => {
       setEntropy(newState.globalEntropy);
       setKintsugiActive(newState.kintsugiActive);
       setRepairs(newState.totalRepairs);
+      setScars(newState.scars || []);
     },
     onMessage: (msg: { type: string; message?: string; repairNumber?: number }) => {
       if (msg.type === 'CANVAS_FRACTURE') {
@@ -108,12 +110,26 @@ export default function SplatBenchmarkCanvas() {
       </div>
       <canvas 
         ref={canvasRef} 
-        className="w-full h-full cursor-crosshair mix-blend-screen"
+        className="w-full h-full cursor-crosshair mix-blend-screen absolute inset-0"
         onPointerDown={handlePointerDown}
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerUp}
         onPointerMove={handlePointerMove}
       />
+      {/* Kintsugi Overlay - Cicatrices de Estado Persistente */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none mix-blend-screen opacity-80 z-20">
+        {scars.map((scar, i) => (
+          <circle 
+            key={`${scar.timestamp}-${i}`} 
+            cx={scar.x} 
+            cy={scar.y} 
+            r={scar.depth * (repairs > 0 ? 1.5 : 1)} 
+            fill={repairs > 0 ? "#F59E0B" : "#2B3BE5"} 
+            className="transition-all duration-1000 ease-out"
+            filter={repairs > 0 ? "drop-shadow(0px 0px 8px #F59E0B)" : "none"}
+          />
+        ))}
+      </svg>
     </div>
   );
 }
