@@ -100,11 +100,6 @@ export default function Home() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/20 to-transparent z-10 opacity-90 group-hover:opacity-40 transition-opacity duration-1000 mix-blend-multiply" />
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.15)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-              
-              <div className="absolute bottom-0 left-0 p-8 sm:p-14 z-20 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-1000 ease-out">
-                <span className="text-primary/70 font-sans tracking-[0.3em] uppercase text-[9px] mb-4 block opacity-0 group-hover:opacity-100 transition-opacity duration-1000 delay-300">Acrílico sobre pizarra</span>
-                <h3 className="text-3xl sm:text-5xl font-serif text-foreground mb-1 font-light tracking-wide drop-shadow-2xl">{artwork.title}</h3>
-              </div>
             </div>
           ))}
         </div>
