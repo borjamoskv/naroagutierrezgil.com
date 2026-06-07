@@ -60,7 +60,7 @@ function ShaderPlane({ textureUrl }: { textureUrl: string }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const [texture, setTexture] = useState<THREE.Texture | null>(null);
-  const [primaryColor, setPrimaryColor] = useState(new THREE.Vector3(0.168, 0.231, 0.898)); // #2B3BE5
+  const [primaryColor, setPrimaryColor] = useState(new THREE.Vector3(0.168, 0.231, 0.898));
 
   useEffect(() => {
     new THREE.TextureLoader().load(textureUrl, (tex) => {
@@ -82,16 +82,12 @@ function ShaderPlane({ textureUrl }: { textureUrl: string }) {
   useFrame((state) => {
     if (materialRef.current) {
       materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
-      
-      // Interpolate hover state for smooth transitions
       const targetHover = state.pointer.x !== 0 || state.pointer.y !== 0 ? 1.0 : 0.0;
       materialRef.current.uniforms.uHoverState.value = THREE.MathUtils.lerp(
         materialRef.current.uniforms.uHoverState.value,
         targetHover,
         0.1
       );
-      
-      // Interpolate pointer
       const targetVec = new THREE.Vector2((state.pointer.x + 1) / 2, (state.pointer.y + 1) / 2);
       materialRef.current.uniforms.uHover.value.lerp(targetVec, 0.1);
     }
@@ -101,9 +97,8 @@ function ShaderPlane({ textureUrl }: { textureUrl: string }) {
 
   return (
     <mesh ref={meshRef} onPointerOut={(e) => {
-      // Force pointer reset
-      if (materialRef.current) {
-        materialRef.current.uniforms.uHoverState.value = 0.0;
+      if (e.object instanceof THREE.Mesh && e.object.material instanceof THREE.ShaderMaterial) {
+        e.object.material.uniforms.uHoverState.value = 0.0;
       }
     }}>
       <planeGeometry args={[2, 2, 32, 32]} />
@@ -149,7 +144,7 @@ export default function KineticArtwork({
   }, []);
 
   return (
-    <div ref={containerRef} className={`w-full h-full relative ${className}`}>
+    <div ref={containerRef} className={`w-full h-full relative ${className || ""}`}>
       {/* Fallback & Initial Image */}
       <Image
         src={src}
@@ -158,9 +153,8 @@ export default function KineticArtwork({
         sizes="(max-width: 768px) 100vw, 80vw"
         quality={80}
         priority={priority}
-        className={`object-cover transition-opacity duration-1000 ${isVisible ? 'opacity-0' : 'opacity-100'}`}
+        className={`object-cover transition-opacity duration-1000 ${isVisible ? "opacity-0" : "opacity-100"}`}
       />
-      
       {isVisible && (
         <div className="absolute inset-0 z-10 animate-[fadeIn_1s_ease-out]">
           <Canvas camera={{ position: [0, 0, 1] }} gl={{ antialias: false, alpha: true }}>
