@@ -14,7 +14,7 @@ function useKintsugiKV() {
     try {
       const res = await fetch('/api/kintsugi');
       if (res.ok) {
-        const data = await res.json();
+        const data = await res.json() as any;
         setEntropy(data.entropy || 0);
         setRepairs(data.repairs || 0);
         setScars(data.scars || []);
