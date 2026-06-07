@@ -51,7 +51,7 @@ export default function SplatBenchmarkCanvas() {
     const initEngine = async () => {
       try {
         const simulator = new WebGPUSplatSimulator();
-        await simulator.init(canvasRef.current!, '/assets/amy_scan.splat', splatCount);
+        await simulator.init(canvasRef.current!, undefined, splatCount);
         simulatorRef.current = simulator;
         setStatus(`C5-REAL ENGINE ACTIVE: Loaded .splat into WebGPU Compute at 60fps.`);
         const renderLoop = () => {

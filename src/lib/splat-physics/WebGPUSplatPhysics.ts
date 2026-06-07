@@ -52,7 +52,7 @@ export class WebGPUSplatSimulator {
       alphaMode: 'premultiplied'
     });
 
-    this.splatCount = splatCount;
+    this.splatCount = defaultSplatCount;
 
     // --- COMPUTE SHADER (Termodinámica + Interacción) ---
     const computeShaderCode = `

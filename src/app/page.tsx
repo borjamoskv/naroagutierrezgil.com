@@ -452,10 +452,10 @@ export default function Home() {
               <div className={`relative w-full ${appMode === "ORDEN" ? "aspect-[4/5] overflow-hidden" : "h-full"}`}>
                 <Image
                   src={getImageUrl(artwork.src)}
-                  alt={artwork.title}
+                  alt={`Obra de arte: ${artwork.title}`}
                   fill
                   sizes="(max-width: 768px) 100vw, 80vw"
-                  quality={100}
+                  quality={80}
                   className={`object-cover transition-all duration-[2s] ease-[var(--ease-spring)] will-change-transform transform-gpu ${appMode === "ORDEN" ? "grayscale-[0.9] sepia-[0.2] contrast-[1.1] brightness-[0.8] group-hover:grayscale-0 group-hover:sepia-0 group-hover:brightness-105 group-hover:scale-[1.03]" : "grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03]"}`}
                   priority={i < 4}
                 />
@@ -643,11 +643,11 @@ export default function Home() {
           <div className="relative w-[85vw] h-[85vh] md:w-[60vw] md:h-[80vh] border border-white/10 rounded-sm overflow-hidden bg-black shadow-[0_0_80px_rgba(0,0,0,0.9)] animate-[pulseScale_4s_linear] z-10">
             <Image
               src={getImageUrl(takeoverArtwork.src)}
-              alt={takeoverArtwork.title}
+              alt={`Vista detallada: ${takeoverArtwork.title}`}
               fill
               className="object-cover contrast-[1.05] brightness-95"
               sizes="(max-width: 768px) 100vw, 80vw"
-              quality={100}
+              quality={80}
               priority
             />
           </div>
