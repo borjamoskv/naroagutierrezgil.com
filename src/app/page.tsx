@@ -6,15 +6,52 @@ import Lenis from 'lenis';
 import dynamic from 'next/dynamic';
 import DepthHUD from '@/components/DepthHUD';
 import SOTAFX from '@/components/SOTAFX';
+import Mica from '@/components/Mica';
+import HeroFluid from '@/components/HeroFluid';
+import ScrollyTelling from '@/components/ScrollyTelling';
 import InteractiveStudio from '@/components/InteractiveStudio';
 
 const WebGLBackground = dynamic(() => import('@/components/WebGLBackground'), { ssr: false });
 const PaintTrail = dynamic(() => import('@/components/PaintTrail'), { ssr: false });
-const Mica = dynamic(() => import('@/components/Mica'), { ssr: false });
-const HeroFluid = dynamic(() => import('@/components/HeroFluid'), { ssr: false });
-const ScrollyTelling = dynamic(() => import('@/components/ScrollyTelling'), { ssr: false });
+
+const getImageUrl = (src: string) => {
+  if (src.startsWith('http')) {
+    return src;
+  }
+  if (
+    src.endsWith('.jpg') || 
+    src.endsWith('.png') || 
+    src.endsWith('.jpeg') || 
+    src === 'amy.webp' || 
+    src === 'james.webp' || 
+    src === 'lagrimas.webp'
+  ) {
+    return `/assets/${src}`;
+  }
+  return `https://naroa.online/assets/${src}`;
+};
 
 const baseArtworks = [
+  // Local Original Facebook/HQ Scans
+  { src: 'Naroa x16.jpeg', title: 'Alquimia en Pizarra (Colección)', span: 'md:col-span-8 row-span-2' },
+  { src: 'frida_kahlo_slate.png', title: 'La Mirada de Frida', span: 'md:col-span-4 row-span-1' },
+  { src: 'feline_slate.png', title: 'Mirada Felina', span: 'md:col-span-4 row-span-1' },
+  { src: '601340023_1552126202933462_7815927344957967258_n.jpg', title: 'Espejo del Alma I', span: 'md:col-span-6 row-span-1' },
+  { src: '600258291_1552125946266821_6847049145049928090_n.jpg', title: 'Espejo del Alma II', span: 'md:col-span-6 row-span-1' },
+  { src: '608211438_1562089535270462_2827127275272133326_n.jpg', title: 'Dama de la Pizarra', span: 'md:col-span-6 row-span-2' },
+  { src: '612329591_1571120784367337_8798688892093004057_n.jpg', title: 'Facciones del Silencio', span: 'md:col-span-6 row-span-1' },
+  { src: '615438426_1577822580363824_2923463327956560352_n.jpg', title: 'Retrato en Tensión', span: 'md:col-span-4 row-span-1' },
+  { src: '615443765_1577822577030491_9008867371114744175_n.jpg', title: 'Rostro Fragmentado', span: 'md:col-span-4 row-span-1' },
+  { src: '615932964_1577822457030503_2110397705300850911_n.jpg', title: 'Reflejo Alquímico', span: 'md:col-span-4 row-span-1' },
+  { src: '615955827_1577822687030480_2386611372471959463_n.jpg', title: 'Materia y Silencio', span: 'md:col-span-6 row-span-1' },
+  { src: '616035859_1577822453697170_3937842745320602184_n.jpg', title: 'Esencia Geológica', span: 'md:col-span-6 row-span-1' },
+  { src: '616115287_1577822747030474_1432330062205548806_n.jpg', title: 'Retrato de Fama I', span: 'md:col-span-4 row-span-1' },
+  { src: '616198291_1577822413697174_3337151405885426240_n.jpg', title: 'Cincel y Pigmento', span: 'md:col-span-4 row-span-1' },
+  { src: '616822144_1580323063447109_589182952237233174_n.jpg', title: 'Retrato del Viento', span: 'md:col-span-4 row-span-1' },
+  { src: '616994481_1577822437030505_8337096648607967605_n.jpg', title: 'Reflejo Mineral I', span: 'md:col-span-6 row-span-2' },
+  { src: '622453257_1583899099756172_4197872465466826396_n.jpg', title: 'Mirada del Tiempo I', span: 'md:col-span-6 row-span-1' },
+  { src: '292544889_3277546379149645_1460977192858455652_n.jpg', title: 'Identidad Cromática', span: 'md:col-span-6 row-span-1' },
+  // Remote Web Hosted Collection
   { src: 'hq-james-CjsTrO7r.webp', title: 'James Dean', span: 'md:col-span-8 row-span-2' },
   { src: 'hq-amy-BRTriASV.webp', title: 'Amy Winehouse', span: 'md:col-span-4 row-span-1' },
   { src: 'hq-portrait-1-bV-_WHlX.webp', title: 'Retrato I', span: 'md:col-span-4 row-span-1' },
@@ -49,20 +86,15 @@ export default function Home() {
   useEffect(() => {
     const lenis = new Lenis();
     let animationId: number;
-    
     function raf(time: number) {
       lenis.raf(time);
-      
-      // Calculate velocity and scroll direction for parallax/skew effects
       const velocity = lenis.velocity;
       const direction = lenis.direction;
       document.documentElement.style.setProperty('--scroll-velocity', Math.abs(velocity).toString());
       document.documentElement.style.setProperty('--scroll-direction', direction.toString());
-      
       animationId = requestAnimationFrame(raf);
     }
     animationId = requestAnimationFrame(raf);
-    
     return () => {
       lenis.destroy();
       cancelAnimationFrame(animationId);
@@ -70,15 +102,7 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const palettes = [
-      '#2B3BE5', // Hyper-Cobalt Blue
-      '#C6A87C', // Muted Gold/Bronze
-      '#10B981', // Toxic Emerald Green
-      '#D9383A', // Velvet Crimson Red
-      '#D97706', // Acid Amber
-      '#8B5CF6', // Violet Glow
-      '#06B6D4'  // Electric Cyan
-    ];
+    const palettes = ['#2B3BE5', '#C6A87C', '#10B981', '#D9383A', '#D97706', '#8B5CF6', '#06B6D4'];
     let selectedColor = localStorage.getItem('naroa_primary_color');
     if (!selectedColor) {
       selectedColor = palettes[Math.floor(Math.random() * palettes.length)];
@@ -96,65 +120,39 @@ export default function Home() {
       },
       { threshold: 0.1, rootMargin: '600px' }
     );
-
-    if (observerRef.current) {
-      observer.observe(observerRef.current);
-    }
-
+    if (observerRef.current) observer.observe(observerRef.current);
     return () => observer.disconnect();
   }, []);
 
   return (
     <div className="flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary selection:text-black">
-      {/* 3D Base Canvas Container (ID #webgl-container) */}
       <div id="webgl-container" className="absolute inset-0 z-0 pointer-events-none">
         <WebGLBackground />
       </div>
-
-      {/* Dynamic Cursor Trail */}
       <PaintTrail />
-
-      {/* Depth Strata HUD */}
       <DepthHUD />
-
-      {/* Magnifying Glass, Parallax Gallery & Vault mode launcher */}
       <SOTAFX />
-
-      {/* Interactive Chatbot */}
       <Mica />
-
-      {/* ── SOTA ANTI-TEMPLATE HERO ── */}
       <section className="relative w-full h-screen flex flex-col justify-between overflow-hidden px-6 sm:px-12 py-12">
         <HeroFluid />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_30%,rgba(43,59,229,0.15)_0%,transparent_50%)] z-0 pointer-events-none mix-blend-color-dodge" />
-        
-        {/* Top Header - Microtypography */}
         <div className="relative z-10 w-full flex justify-between items-start animate-[fadeIn_2s_ease-out]">
           <span className="text-foreground/40 font-sans tracking-[0.2em] text-[9px] uppercase">Acrílico sobre pizarra</span>
           <span className="text-foreground/40 font-sans tracking-[0.2em] text-[9px] uppercase">Bilbao</span>
         </div>
-        
-        {/* Center - Massive Editorial Typography */}
         <div className="relative z-10 flex flex-col items-start w-full max-w-[1800px] mx-auto mt-20 mb-auto min-h-[50vh] justify-center">
           <h1 className="relative flex flex-col w-full text-[15vw] leading-[0.75] font-serif font-light tracking-tighter uppercase select-none">
-            {/* Naroa: Esqueleto Outline */}
             <span className="flex overflow-hidden z-10">
               <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:1px_var(--color-foreground)] sm:[-webkit-text-stroke:2px_var(--color-foreground)] opacity-50 mix-blend-difference">Naroa</span>
             </span>
-            
-            {/* Gutiérrez: Firma Cobalt Flotante Masiva */}
             <span className="absolute top-[20%] left-[5%] sm:left-[12%] z-30 pointer-events-none w-full">
               <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-primary font-hand normal-case tracking-normal text-[26vw] sm:text-[22vw] -rotate-6 drop-shadow-[0_20px_50px_rgba(43,59,229,0.5)] mix-blend-screen">Gutiérrez</span>
             </span>
-            
-            {/* Gil: Sólido, Extremo Derecho */}
             <span className="flex overflow-hidden self-end mr-[2vw] sm:mr-[8vw] z-20 mt-[2vw]">
               <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-foreground mix-blend-difference">Gil</span>
             </span>
           </h1>
         </div>
-
-        {/* Bottom - Scroll */}
         <div className="relative z-10 w-full flex flex-col md:flex-row justify-end items-end mt-auto max-w-[1800px] mx-auto animate-[fadeIn_3s_ease-out_1s_both]">
           <a href="#galeria" aria-label="Descender a la galería" className="group flex items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 cursor-pointer">
             <span className="uppercase font-sans tracking-[0.4em] text-[9px] font-medium rotate-180 [writing-mode:vertical-rl]">Descender</span>
@@ -164,33 +162,31 @@ export default function Home() {
           </a>
         </div>
       </section>
-
-      {/* ── GALERÍA ORGÁNICA (MASONRY DE AUTOR) ── */}
       <section id="galeria" className="relative z-10 px-4 sm:px-12 py-32 max-w-[1800px] mx-auto w-full">
         <div className="mb-40 text-center flex flex-col items-center">
-          <h2 className="text-5xl sm:text-7xl font-serif font-light tracking-wide text-foreground leading-tight max-w-2xl mx-auto uppercase">
-            Obras
-          </h2>
+          <h2 className="text-5xl sm:text-7xl font-serif font-light tracking-wide text-foreground leading-tight max-w-2xl mx-auto uppercase">Obras</h2>
           <div className="w-px h-16 bg-gradient-to-b from-primary/30 to-transparent mt-12"></div>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 sm:gap-24 auto-rows-[450px] sm:auto-rows-[750px]">
           {artworks.map((artwork, i) => (
             <div key={i} className={`${artwork.span} group relative overflow-hidden bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl`}>
               <Image 
-                src={`https://naroa.online/assets/${artwork.src}`} 
+                src={getImageUrl(artwork.src)} 
                 alt={artwork.title} 
                 fill 
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
                 quality={100}
-                className="object-cover transition-all duration-[3.5s] ease-out grayscale-[0.15] contrast-[1.05] brightness-95 group-hover:grayscale-0 group-hover:contrast-[1.1] group-hover:brightness-105 group-hover:scale-[1.07]" 
+                className="object-cover transition-all duration-[3.5s] ease-out grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03]" 
                 loading={i < 4 ? "eager" : "lazy"}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/10 to-transparent z-10 opacity-70 group-hover:opacity-20 transition-opacity duration-1000 mix-blend-multiply" />
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.15)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent z-10 opacity-40 group-hover:opacity-60 transition-opacity duration-1000 mix-blend-multiply" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.12)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-full p-6 sm:p-10 z-20 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-700 ease-out flex flex-col justify-end">
+                <span className="text-primary/80 font-sans tracking-[0.3em] uppercase text-[8px] mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100">Acrílico sobre pizarra</span>
+                <h3 className="text-2xl sm:text-4xl font-serif text-white font-light tracking-wide drop-shadow-2xl">{artwork.title}</h3>
+              </div>
             </div>
           ))}
-          {/* Infinite Scroll Trigger */}
           <div ref={observerRef} className="col-span-12 h-20 w-full flex justify-center items-center">
             <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
           </div>
