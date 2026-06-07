@@ -194,8 +194,15 @@ export default function Home() {
   const [takeoverCountdown, setTakeoverCountdown] = useState(4);
   const [appMode, setAppMode] = useState<"CAOS" | "ORDEN">("CAOS");
   const [webGLReady, setWebGLReady] = useState(false);
+  const [isLocal, setIsLocal] = useState(false);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const hostname = window.location.hostname;
+      if (hostname === "localhost" || hostname === "127.0.0.1" || hostname.includes("local")) {
+        setIsLocal(true);
+      }
+    }
     // Unblock Main Thread to ensure LCP < 2.5s (C5-REAL Requirement) using requestIdleCallback
     if (typeof window !== "undefined" && "requestIdleCallback" in window) {
       const id = requestIdleCallback(() => setWebGLReady(true), { timeout: 2000 });
@@ -205,6 +212,14 @@ export default function Home() {
       return () => clearTimeout(t);
     }
   }, []);
+
+  const resolveSrc = (src: string) => {
+    const url = getImageUrl(src);
+    if (isLocal && !src.startsWith("http")) {
+      return `/assets/${src}`;
+    }
+    return url;
+  };
 
   useEffect(() => {
     let takeoverTimeoutId: NodeJS.Timeout;

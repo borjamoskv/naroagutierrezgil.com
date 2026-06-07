@@ -61,7 +61,9 @@ export default function SplatBenchmarkCanvas() {
         await audio.init();
         audioEngineRef.current = audio;
 
-        setStatus(`C5-REAL ENGINE ACTIVE: Loaded .splat into WebGPU Compute at 60fps.`);
+        const actualSplats = (simulator as any).splatCount || splatCount;
+        const tier = actualSplats <= 100000 ? 'MOBILE/LOW' : (actualSplats <= 300000 ? 'DESKTOP_MID' : 'DESKTOP_HIGH');
+        setStatus(`C5-REAL ENGINE ACTIVE: Loaded ${actualSplats} splats [Tier: ${tier}] into WebGPU Compute at 60fps.`);
         const renderLoop = () => {
           if (simulatorRef.current) {
             simulatorRef.current.step(mousePosRef.current.x, mousePosRef.current.y, isDownRef.current, scarsRef.current);

@@ -246,7 +246,17 @@ export class WebGPUSplatSimulator {
     if (splatUrl) {
       const response = await fetch(splatUrl);
       const buffer = await response.arrayBuffer();
-      const splatCount = Math.floor(buffer.byteLength / 32);
+      let splatCount = Math.floor(buffer.byteLength / 32);
+      
+      // Adaptive LOD (Benchmark 3)
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const maxSplats = isMobile ? 100000 : ((navigator.hardwareConcurrency || 4) < 8 ? 300000 : 2000000);
+      
+      if (splatCount > maxSplats) {
+        console.warn(`[C5-REAL] Adaptive LOD active: Truncating from ${splatCount} to ${maxSplats} splats.`);
+        splatCount = maxSplats;
+      }
+      
       this.splatCount = splatCount;
 
       // Recreate buffer with actual splat count
