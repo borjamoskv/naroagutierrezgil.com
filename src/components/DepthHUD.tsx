@@ -1,53 +1,56 @@
-'use client'
-import { useEffect, useState } from 'react'
+"use client";
+
+import { useEffect, useRef } from "react";
 
 export default function DepthHUD() {
-  const [scrollProgress, setScrollProgress] = useState(0)
+  const hudRef = useRef<HTMLDivElement>(null);
+  const velocityRef = useRef<HTMLSpanElement>(null);
+  const timeRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const totalScroll = document.documentElement.scrollTop
-      const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight
-      const scroll = windowHeight > 0 ? totalScroll / windowHeight : 0
-      setScrollProgress(Number(scroll))
-    }
+    let rafId: number;
+    const start = Date.now();
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    const updateHUD = () => {
+      // Lenis injects CSS variables into the root element in page.tsx
+      const velocityStr = document.documentElement.style.getPropertyValue("--scroll-velocity") || "0";
+      const velocity = parseFloat(velocityStr);
+      
+      if (velocityRef.current) {
+        velocityRef.current.innerText = `V_SCROLL: ${velocity.toFixed(3)}`;
+      }
 
-  const depth = (scrollProgress * 2500).toFixed(0) // Simulating 2500 micrometers of acrylic/slate depth
+      if (timeRef.current) {
+        const elapsed = ((Date.now() - start) / 1000).toFixed(2);
+        timeRef.current.innerText = `T_RUNTIME: ${elapsed}s`;
+      }
+
+      // Dynamic distortion based on scroll velocity (SOTA UI physics)
+      if (hudRef.current) {
+        const skew = Math.min(velocity * 0.2, 5);
+        const blur = Math.min(velocity * 0.1, 4);
+        hudRef.current.style.transform = `skewY(${-skew}deg) translateY(${velocity * 0.5}px)`;
+        hudRef.current.style.filter = `blur(${blur}px)`;
+      }
+
+      rafId = requestAnimationFrame(updateHUD);
+    };
+
+    rafId = requestAnimationFrame(updateHUD);
+    return () => cancelAnimationFrame(rafId);
+  }, []);
 
   return (
-    <>
-      {/* Neural Microscope Overlay: Noise & contrast increases as we dive into the strata */}
-      <div 
-        className="fixed inset-0 pointer-events-none z-[100] mix-blend-overlay transition-opacity duration-100 bg-slate-texture"
-        style={{ 
-          opacity: scrollProgress * 0.9,
-          filter: `contrast(${1 + scrollProgress * 1.5}) brightness(${1 - scrollProgress * 0.2})`
-        }}
-      />
-
-      <div className="fixed right-6 sm:right-10 top-1/2 -translate-y-1/2 z-[200] pointer-events-none hidden md:flex flex-col items-center gap-4 mix-blend-difference text-[#E0E0E0] opacity-70">
-        <div className="text-[8px] uppercase tracking-[0.4em] [writing-mode:vertical-rl] rotate-180">
-          Profundidad Estrato
-        </div>
-        
-        <div className="h-32 w-[1px] bg-white/20 relative overflow-hidden">
-          <div 
-            className="absolute top-0 left-0 w-full bg-primary transition-all duration-300 ease-out shadow-[0_0_15px_rgba(43,59,229,0.9)]"
-            style={{ height: `${scrollProgress * 100}%` }}
-          />
-        </div>
-
-        <div className="font-mono text-[10px] tracking-widest flex flex-col items-center">
-          <span>-{depth}µm</span>
-          {scrollProgress > 0.8 && (
-            <span className="text-primary mt-2 text-[6px] animate-pulse font-sans font-bold">NEURAL MACRO</span>
-          )}
-        </div>
-      </div>
-    </>
-  )
+    <div 
+      ref={hudRef} 
+      className="fixed top-6 left-6 z-50 pointer-events-none mix-blend-difference hidden md:flex flex-col gap-1 text-[9px] font-mono tracking-[0.2em] text-[#EAEAEA] uppercase transition-all duration-75 ease-out opacity-60"
+    >
+      <span className="text-[#2B3BE5] font-bold">STATE: C5-REAL</span>
+      <span>Z-INDEX: VOLUMÉTRICO</span>
+      <span>LOD: ADAPTATIVO</span>
+      <span className="opacity-50">SPLAT_ENGINE: AWAITING BENCHMARK 0</span>
+      <span ref={velocityRef} className="mt-2 text-primary">V_SCROLL: 0.000</span>
+      <span ref={timeRef} className="opacity-50">T_RUNTIME: 0.00s</span>
+    </div>
+  );
 }
