@@ -15,9 +15,22 @@ interface ScratchGameProps {
 export default function ScratchGame({ artworks }: ScratchGameProps) {
   const [selectedArt, setSelectedArt] = useState(artworks[1]); // Default to Amy Winehouse
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const particleCanvasRef = useRef<HTMLCanvasElement>(null);
   const [revealedPercent, setRevealedPercent] = useState(0);
   const [isWon, setIsWon] = useState(false);
   const isDrawing = useRef(false);
+
+  interface Particle {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    size: number;
+    life: number;
+    decay: number;
+  }
+  const particles = useRef<Particle[]>([]);
+  const animationFrameId = useRef<number | null>(null);
 
   const initCanvas = () => {
     const canvas = canvasRef.current;
@@ -59,6 +72,57 @@ export default function ScratchGame({ artworks }: ScratchGameProps) {
     initCanvas();
   }, [selectedArt]);
 
+  useEffect(() => {
+    const pCanvas = particleCanvasRef.current;
+    if (!pCanvas) return;
+    const pCtx = pCanvas.getContext('2d');
+    if (!pCtx) return;
+
+    pCanvas.width = 450;
+    pCanvas.height = 562;
+
+    const updateParticles = () => {
+      pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+      const activeParticles = particles.current;
+      
+      for (let i = activeParticles.length - 1; i >= 0; i--) {
+        const p = activeParticles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.15; // gravity force
+        p.vx *= 0.98; // friction
+        p.life -= p.decay;
+
+        if (p.life <= 0 || p.x < 0 || p.x > pCanvas.width || p.y > pCanvas.height) {
+          activeParticles.splice(i, 1);
+          continue;
+        }
+
+        // Draw primary slate chip/dust particle
+        pCtx.fillStyle = `rgba(140, 140, 145, ${p.life})`;
+        pCtx.beginPath();
+        pCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        pCtx.fill();
+
+        // Secondary lighter ambient dust trail
+        pCtx.fillStyle = `rgba(180, 180, 185, ${p.life * 0.4})`;
+        pCtx.beginPath();
+        pCtx.arc(p.x - p.vx * 0.5, p.y - p.vy * 0.5, p.size * 0.7, 0, Math.PI * 2);
+        pCtx.fill();
+      }
+
+      animationFrameId.current = requestAnimationFrame(updateParticles);
+    };
+
+    updateParticles();
+
+    return () => {
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
+    };
+  }, []);
+
   const getMousePos = (e: React.MouseEvent | React.TouchEvent) => {
     const canvas = canvasRef.current;
     if (!canvas) return { x: 0, y: 0 };
@@ -93,6 +157,19 @@ export default function ScratchGame({ artworks }: ScratchGameProps) {
     ctx.beginPath();
     ctx.arc(pos.x, pos.y, 35, 0, Math.PI * 2);
     ctx.fill();
+
+    // Spawn 4 slate carving particles per scratch stroke
+    for (let i = 0; i < 4; i++) {
+      particles.current.push({
+        x: pos.x,
+        y: pos.y,
+        vx: (Math.random() - 0.5) * 5,
+        vy: (Math.random() - 0.5) * 3 - 1.5, // burst outwards/upwards
+        size: Math.random() * 2.5 + 1.2,
+        life: 1.0,
+        decay: Math.random() * 0.03 + 0.02
+      });
+    }
 
     // Check revealed percentage
     const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
@@ -208,9 +285,15 @@ export default function ScratchGame({ artworks }: ScratchGameProps) {
             onTouchEnd={handleEnd}
           />
 
+          {/* Slate Dust Particle Physics Layer */}
+          <canvas
+            ref={particleCanvasRef}
+            className="absolute inset-0 z-20 pointer-events-none"
+          />
+
           {/* Victory overlay */}
           {isWon && (
-            <div className="absolute inset-0 bg-[#0A0A0Ad8] z-20 flex flex-col justify-center items-center p-8 text-center animate-[fadeIn_0.8s_ease-out]">
+            <div className="absolute inset-0 bg-[#0A0A0Ad8] z-30 flex flex-col justify-center items-center p-8 text-center animate-[fadeIn_0.8s_ease-out]">
               <span className="text-primary font-hand text-5xl rotate-6 mb-2">Espectacular</span>
               <h5 className="text-2xl font-serif uppercase tracking-widest text-foreground font-light mb-4">
                 Obra Revelada
