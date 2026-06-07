@@ -29,6 +29,7 @@ export default function SplatPhysicsTester() {
   const mousePos = useRef({ x: -10.0, y: -10.0 });
   const isMouseDown = useRef(false);
   const zoomRef = useRef(1.0);
+  const [hudState, setHudState] = useState({ x: -1.0, y: -1.0, isDown: false });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -183,15 +184,24 @@ export default function SplatPhysicsTester() {
     const y = -(((e.clientY - rect.top) / rect.height) * 2.0 - 1.0);
     
     mousePos.current = { x, y };
+    setHudState((prev) => ({ ...prev, x, y }));
   };
 
   const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
     isMouseDown.current = true;
-    handlePointerMove(e);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 2.0 - 1.0;
+    const y = -(((e.clientY - rect.top) / rect.height) * 2.0 - 1.0);
+    
+    mousePos.current = { x, y };
+    setHudState({ x, y, isDown: true });
   };
 
   const handlePointerUp = () => {
     isMouseDown.current = false;
+    setHudState((prev) => ({ ...prev, isDown: false }));
   };
 
   return (
@@ -236,9 +246,9 @@ export default function SplatPhysicsTester() {
       <div 
         className="absolute w-8 h-8 pointer-events-none z-20 border border-primary/30 rounded-full transition-transform duration-75"
         style={{
-          left: `calc(${(mousePos.current.x + 1.0) / 2.0 * 100}% - 16px)`,
-          top: `calc(${-(mousePos.current.y - 1.0) / 2.0 * 100}% - 16px)`,
-          transform: isMouseDown.current ? 'scale(0.5)' : 'scale(1)'
+          left: `calc(${(hudState.x + 1.0) / 2.0 * 100}% - 16px)`,
+          top: `calc(${-(hudState.y - 1.0) / 2.0 * 100}% - 16px)`,
+          transform: hudState.isDown ? 'scale(0.5)' : 'scale(1)'
         }}
       >
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-primary/80 rounded-full" />
@@ -323,9 +333,9 @@ export default function SplatPhysicsTester() {
 
         {/* HUD Data */}
         <div className="mt-4 flex flex-col gap-1 text-[7px] font-mono tracking-[0.2em] uppercase text-primary/40 border-t border-white/5 pt-4">
-          <span>FIELD_X: {mousePos.current.x.toFixed(3)}</span>
-          <span>FIELD_Y: {mousePos.current.y.toFixed(3)}</span>
-          <span>TENSOR: {isMouseDown.current ? 'ACTIVE' : 'IDLE'}</span>
+          <span>FIELD_X: {hudState.x.toFixed(3)}</span>
+          <span>FIELD_Y: {hudState.y.toFixed(3)}</span>
+          <span>TENSOR: {hudState.isDown ? 'ACTIVE' : 'IDLE'}</span>
         </div>
       </div>
     </div>

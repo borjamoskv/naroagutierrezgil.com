@@ -1,7 +1,7 @@
 'use client';
 
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import * as THREE from 'three';
 
 interface CarouselItem {
@@ -18,12 +18,10 @@ const carouselArtworks: CarouselItem[] = [
   { src: '/assets/la-pensadora-CFHSnMA0.webp', title: 'La Pensadora' }
 ];
 
-function SlateCard({ url, title, index, count, activeIndex, setActiveIndex }: {
+function SlateCard({ url, index, count, setActiveIndex }: {
   url: string;
-  title: string;
   index: number;
   count: number;
-  activeIndex: number;
   setActiveIndex: (idx: number) => void;
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -162,10 +160,8 @@ export default function ThreeDCarousel() {
             <SlateCard
               key={art.src}
               url={art.src}
-              title={art.title}
               index={idx}
               count={carouselArtworks.length}
-              activeIndex={activeIndex}
               setActiveIndex={setActiveIndex}
             />
           ))}
