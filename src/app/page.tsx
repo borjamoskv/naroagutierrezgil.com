@@ -22,6 +22,7 @@ const PaintTrail = dynamic(() => import('@/components/PaintTrail'), { ssr: false
 const MacroSplatCanvas = dynamic(() => import('@/components/SplatBenchmarkCanvas'), { ssr: false });
 const SplatPhysicsTester = dynamic(() => import('@/components/SplatPhysicsTester'), { ssr: false });
 const KineticArtwork = dynamic(() => import('@/components/KineticArtwork'), { ssr: false });
+const ThreeDCarousel = dynamic(() => import('@/components/ThreeDCarousel'), { ssr: false });
 
 const getImageUrl = (src: string) => {
   if (src.startsWith('http')) {
@@ -349,6 +350,9 @@ export default function Home() {
 
       {/* ── EL TALLER INTERACTIVO ── */}
       {appMode === "CAOS" && <InteractiveStudio />}
+
+      {/* ── GALERÍA TRIDIMENSIONAL ── */}
+      {appMode === "CAOS" && <ThreeDCarousel />}
 
       {/* ── FOOTER VISUAL ── */}
       <Footer />
