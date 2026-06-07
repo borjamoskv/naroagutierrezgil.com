@@ -2,38 +2,27 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { SplatPhysicsEngine } from '@/lib/splat-physics/SplatPhysicsEngine';
-
-function makePerspectiveMatrix(fovRad: number, aspect: number, near: number, far: number): Float32Array {
-  const f = 1.0 / Math.tan(fovRad / 2.0);
-  const out = new Float32Array(16);
-  out[0] = f / aspect;
-  out[5] = f;
-  out[10] = (far + near) / (near - far);
-  out[11] = -1.0;
-  out[14] = (2.0 * far * near) / (near - far);
-  return out;
-}
+import { WebGPUFluidSimulator } from '@/lib/splat-physics/WebGPUFluidDynamics';
 
 export default function SplatPhysicsTester() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [status, setStatus] = useState<'initializing' | 'ready' | 'unsupported' | 'error'>('initializing');
   const [fps, setFps] = useState(0);
-  const [particleCount] = useState(100000);
   
   // Physics parameters
-  const [force, setForce] = useState(0.08);
-  const [elasticity, setElasticity] = useState(0.02);
+  const [force, setForce] = useState(15.0);
   const [damping, setDamping] = useState(0.96);
+  const [auraActive, setAuraActive] = useState(false);
   
   const mousePos = useRef({ x: -10.0, y: -10.0 });
+  const lastMousePos = useRef({ x: -10.0, y: -10.0 });
   const isMouseDown = useRef(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    let engine: SplatPhysicsEngine | null = null;
+    let engine: WebGPUFluidSimulator | null = null;
     let animationId: number;
     let isMounted = true;
     
@@ -42,8 +31,8 @@ export default function SplatPhysicsTester() {
     let lastFpsUpdateTime = performance.now();
 
     const initWebGPU = async () => {
-      engine = new SplatPhysicsEngine();
-      const success = await engine.init();
+      engine = new WebGPUFluidSimulator();
+      const success = await engine.init(256, 256);
       
       if (!success || !isMounted) {
         setStatus('unsupported');
@@ -59,35 +48,11 @@ export default function SplatPhysicsTester() {
       
       const presentationFormat = (navigator as any).gpu.getPreferredCanvasFormat();
       context.configure({
-        device: engine.device!,
+        device: (engine as any).device,
         format: presentationFormat,
         alphaMode: 'opaque'
       });
 
-      // Generate 100k particle positions resembling a textured slate plaque
-      // vec4 format: x, y, z, size/alpha
-      const positions = new Float32Array(particleCount * 4);
-      const gridSide = Math.sqrt(particleCount); // ~316 particles per side
-      
-      for (let i = 0; i < particleCount; i++) {
-        const row = Math.floor(i / gridSide);
-        const col = i % gridSide;
-        
-        // Map grid coordinates to range [-1.5, 1.5]
-        const x = ((col / gridSide) - 0.5) * 3.0;
-        const y = ((row / gridSide) - 0.5) * 3.0;
-        
-        // Add subtle natural stone texture / noise
-        const z = Math.sin(x * 6.0) * Math.cos(y * 6.0) * 0.08 + (Math.random() - 0.5) * 0.02;
-        
-        const idx = i * 4;
-        positions[idx] = x;
-        positions[idx + 1] = y;
-        positions[idx + 2] = z;
-        positions[idx + 3] = 1.0; // alpha/size indicator
-      }
-
-      engine.setupData(positions);
       setStatus('ready');
 
       // Main Loop
@@ -103,43 +68,34 @@ export default function SplatPhysicsTester() {
           lastFpsUpdateTime = now;
         }
 
-        // Adjust mouse coordinates from screen-space to WebGL [-1.5, 1.5] viewport coordinates
-        const aspect = canvas.width / canvas.height;
-        const mappedX = mousePos.current.x * 1.5 * aspect;
-        const mappedY = mousePos.current.y * 1.5;
+        const currentX = mousePos.current.x;
+        const currentY = mousePos.current.y;
 
-        // 1. Dispatch Compute Shader for physics deform
-        engine.runComputePass(
-          mappedX,
-          mappedY,
-          time * 0.001,
-          isMouseDown.current ? force * 2.0 : force, // double force when clicking
-          elasticity,
-          damping
-        );
+        if (isMouseDown.current) {
+          const gridX = ((currentX + 1.0) / 2.0) * engine.gridWidth;
+          const gridY = ((1.0 - currentY) / 2.0) * engine.gridHeight;
 
-        // 2. Build View Projection Matrix
-        const proj = makePerspectiveMatrix(Math.PI / 4, aspect, 0.1, 100.0);
-        
-        // View translation matrix (camera pushed back to z = -3.5)
-        const viewProj = new Float32Array(16);
-        viewProj.set(proj);
-        // Apply view translation manually on Z matrix cells
-        viewProj[14] = proj[10] * -3.5 + proj[14];
-        viewProj[15] = proj[11] * -3.5;
+          const dirX = (currentX - lastMousePos.current.x) * engine.gridWidth;
+          const dirY = -(currentY - lastMousePos.current.y) * engine.gridHeight; // Y is flipped
 
-        // Read primary theme color (or default to cobalt)
-        const computedStyle = getComputedStyle(document.documentElement);
-        const primaryColor = computedStyle.getPropertyValue('--primary').trim() || '#2B3BE5';
-        
-        // Convert primaryColor hex to normalized RGB
-        const cleanHex = primaryColor.replace('#', '');
-        const r = parseInt(cleanHex.substring(0, 2), 16) / 255;
-        const g = parseInt(cleanHex.substring(2, 4), 16) / 255;
-        const b = parseInt(cleanHex.substring(4, 6), 16) / 255;
+          // Calculate magnitude of movement
+          const dist = Math.sqrt(dirX * dirX + dirY * dirY);
+          
+          if (dist > 0.1) {
+            engine.step(gridX, gridY, dirX, dirY, force);
+          } else {
+            // Constant injection if mouse is still
+            engine.step(gridX, gridY, (Math.random() - 0.5) * 5.0, (Math.random() - 0.5) * 5.0, force * 0.5);
+          }
+        } else {
+          // Keep fluid flowing even without mouse interaction (ambient advection)
+          engine.step(-1000, -1000, 0, 0, 0); 
+        }
+
+        lastMousePos.current = { x: currentX, y: currentY };
 
         // 3. Render Pass
-        engine.render(context, viewProj, [r, g, b]);
+        engine.render(context);
 
         animationId = requestAnimationFrame(tick);
       };
@@ -153,7 +109,7 @@ export default function SplatPhysicsTester() {
       isMounted = false;
       cancelAnimationFrame(animationId);
     };
-  }, [particleCount, force, elasticity, damping]);
+  }, [force]);
 
   // Handle pointer interactions
   const handlePointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -170,6 +126,7 @@ export default function SplatPhysicsTester() {
 
   const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
     isMouseDown.current = true;
+    lastMousePos.current = mousePos.current;
     handlePointerMove(e);
   };
 
@@ -177,20 +134,35 @@ export default function SplatPhysicsTester() {
     isMouseDown.current = false;
   };
 
+  const triggerKintsugiAura = () => {
+    if (auraActive) return;
+    setAuraActive(true);
+    const oldForce = force;
+    setForce(150.0); // Massive injection of fluid pressure
+    
+    setTimeout(() => {
+      setForce(oldForce);
+      setAuraActive(false);
+    }, 1500);
+  };
+
   return (
-    <div className="w-full flex flex-col lg:flex-row items-center gap-12 max-w-6xl mx-auto p-6 bg-black rounded-sm border border-white/5 shadow-2xl">
+    <div className="w-full flex flex-col lg:flex-row items-center gap-12 max-w-6xl mx-auto p-6 bg-[#050505] rounded-sm border border-white/5 shadow-2xl relative overflow-hidden">
+      {/* Background Grid Pattern */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3N2Zz4=')] opacity-50 pointer-events-none" />
+      
       {/* Parameters Panel */}
-      <div className="flex flex-col w-full lg:w-1/3 gap-6">
+      <div className="flex flex-col w-full lg:w-1/3 gap-6 relative z-10">
         <div>
           <span className="text-primary/70 font-sans tracking-[0.4em] uppercase text-[10px] block mb-2">
-            Laboratorio WebGPU
+            Laboratorio WebGPU Fluidos
           </span>
           <h2 className="text-3xl font-serif font-light tracking-wide text-foreground uppercase">
-            Forja de Splats
+            Fluidodinámica (Navier-Stokes)
           </h2>
           <div className="w-16 h-[1px] bg-primary/40 mt-4"></div>
           <p className="text-xs text-foreground/50 mt-4 leading-relaxed">
-            Deformación de 100,000 Gaussianas en tiempo real utilizando WebGPU Compute Shaders. Arrastra el cursor sobre la pizarra de partículas.
+            Simulación Euleriana incompresible en tiempo real mediante Compute Shaders. Interactúa con el lienzo para generar vórtices.
           </p>
         </div>
 
@@ -210,8 +182,8 @@ export default function SplatPhysicsTester() {
           </div>
 
           <div className="flex justify-between text-[10px] tracking-widest text-white/30 uppercase mt-1">
-            <span>Partículas:</span>
-            <span className="font-mono text-white/60">100.000 (100k)</span>
+            <span>Resolución:</span>
+            <span className="font-mono text-white/60">256x256 Grid</span>
           </div>
         </div>
 
@@ -220,50 +192,16 @@ export default function SplatPhysicsTester() {
           {/* Force */}
           <div className="flex flex-col gap-1.5">
             <div className="flex justify-between text-[9px] uppercase tracking-widest text-white/50">
-              <span>Presión (Fuerza)</span>
-              <span className="text-primary font-mono">{force.toFixed(2)}</span>
+              <span>Inyección de Tinta (Presión)</span>
+              <span className="text-primary font-mono">{force.toFixed(1)}</span>
             </div>
             <input 
               type="range" 
-              min="0.01" 
-              max="0.30" 
-              step="0.01"
+              min="1.0" 
+              max="50.0" 
+              step="0.5"
               value={force}
               onChange={(e) => setForce(parseFloat(e.target.value))}
-              className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none"
-            />
-          </div>
-
-          {/* Elasticity */}
-          <div className="flex flex-col gap-1.5">
-            <div className="flex justify-between text-[9px] uppercase tracking-widest text-white/50">
-              <span>Elasticidad (Retorno)</span>
-              <span className="text-primary font-mono">{elasticity.toFixed(3)}</span>
-            </div>
-            <input 
-              type="range" 
-              min="0.001" 
-              max="0.080" 
-              step="0.001"
-              value={elasticity}
-              onChange={(e) => setElasticity(parseFloat(e.target.value))}
-              className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none"
-            />
-          </div>
-
-          {/* Damping */}
-          <div className="flex flex-col gap-1.5">
-            <div className="flex justify-between text-[9px] uppercase tracking-widest text-white/50">
-              <span>Amortiguación (Fricción)</span>
-              <span className="text-primary font-mono">{damping.toFixed(2)}</span>
-            </div>
-            <input 
-              type="range" 
-              min="0.90" 
-              max="0.99" 
-              step="0.01"
-              value={damping}
-              onChange={(e) => setDamping(parseFloat(e.target.value))}
               className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none"
             />
           </div>
@@ -285,7 +223,7 @@ export default function SplatPhysicsTester() {
             </p>
           </div>
         ) : (
-          <div className="relative w-full max-w-[500px] aspect-square bg-[#050505] shadow-[0_0_80px_rgba(0,0,0,0.8)] border border-white/5 rounded-sm overflow-hidden select-none">
+          <div className={`relative w-full max-w-[500px] aspect-square bg-[#050505] shadow-[0_0_80px_rgba(0,0,0,0.8)] border rounded-sm overflow-hidden select-none transition-colors duration-1000 ${auraActive ? 'border-amber-500/50 shadow-[0_0_120px_rgba(245,158,11,0.3)]' : 'border-white/5'}`}>
             <canvas
               ref={canvasRef}
               width={500}
@@ -299,7 +237,7 @@ export default function SplatPhysicsTester() {
             
             {/* Hover guidance HUD */}
             <div className="absolute top-4 left-4 z-10 pointer-events-none text-[8px] font-mono tracking-widest uppercase text-white/30">
-              BUFFER_LAYOUT: STORAGE_BUFFER_VERTEX
+              PIPELINE: EULERIAN_NAVIER_STOKES
             </div>
           </div>
         )}

@@ -398,4 +398,28 @@ export class WebGPUFluidSimulator {
   private swapPressure() { const t = this.pressureRead; this.pressureRead = this.pressureWrite; this.pressureWrite = t; }
 
   public getDyeBuffer() { return this.dyeRead; }
+
+  public render(context: any) {
+    if (!this.device || !this.renderPipeline || !this.bindGroups.has('dyeRead')) return;
+
+    const commandEncoder = this.device.createCommandEncoder();
+    const textureView = context.getCurrentTexture().createView();
+
+    const renderPassDescriptor: any = {
+      colorAttachments: [{
+        view: textureView,
+        clearValue: { r: 0.0, g: 0.0, b: 0.0, a: 1.0 },
+        loadOp: 'clear',
+        storeOp: 'store',
+      }],
+    };
+
+    const passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
+    passEncoder.setPipeline(this.renderPipeline);
+    passEncoder.setBindGroup(0, this.bindGroups.get('dyeRead')!);
+    passEncoder.draw(6, 1, 0, 0);
+    passEncoder.end();
+
+    this.device.queue.submit([commandEncoder.finish()]);
+  }
 }
