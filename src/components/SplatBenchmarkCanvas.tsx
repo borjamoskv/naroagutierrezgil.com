@@ -2,14 +2,17 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { WebGPUSplatSimulator } from '@/lib/splat-physics/WebGPUSplatPhysics';
+import { SplatAudioEngine } from '@/lib/audio/SplatAudioEngine';
 import { useAgent } from 'agents/react';
 
 export default function SplatBenchmarkCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [status, setStatus] = useState<string>('Initializing C5-REAL Splat Physics Engine...');
   const simulatorRef = useRef<WebGPUSplatSimulator | null>(null);
+  const audioEngineRef = useRef<SplatAudioEngine | null>(null);
   const isDownRef = useRef(false);
   const mousePosRef = useRef({ x: -1000, y: -1000 });
+  const lastMouseRef = useRef({ x: -1000, y: -1000, time: 0 });
 
   // Kintsugi State
   const [entropy, setEntropy] = useState<number>(0);
@@ -51,8 +54,13 @@ export default function SplatBenchmarkCanvas() {
     const initEngine = async () => {
       try {
         const simulator = new WebGPUSplatSimulator();
-        await simulator.init(canvasRef.current!, undefined, splatCount);
+        await simulator.init(canvasRef.current!, '/assets/amy_scan.splat', splatCount);
         simulatorRef.current = simulator;
+        
+        const audio = new SplatAudioEngine();
+        await audio.init();
+        audioEngineRef.current = audio;
+
         setStatus(`C5-REAL ENGINE ACTIVE: Loaded .splat into WebGPU Compute at 60fps.`);
         const renderLoop = () => {
           if (simulatorRef.current) {
@@ -73,8 +81,11 @@ export default function SplatBenchmarkCanvas() {
     };
   }, []);
 
-  const handlePointerDown = (e: React.PointerEvent) => {
+  const handlePointerDown = async (e: React.PointerEvent) => {
     isDownRef.current = true;
+    if (audioEngineRef.current) {
+      await audioEngineRef.current.resume();
+    }
     handlePointerMove(e);
   };
   const handlePointerUp = () => (isDownRef.current = false);
@@ -84,6 +95,22 @@ export default function SplatBenchmarkCanvas() {
     if (rect) {
       mousePosRef.current.x = e.clientX - rect.left;
       mousePosRef.current.y = e.clientY - rect.top;
+      
+      if (isDownRef.current) {
+        const now = performance.now();
+        const dt = now - lastMouseRef.current.time;
+        if (dt > 0) {
+          const dx = mousePosRef.current.x - lastMouseRef.current.x;
+          const dy = mousePosRef.current.y - lastMouseRef.current.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const velocity = (dist / dt) * 1000.0; // px per second
+          
+          if (audioEngineRef.current) {
+            audioEngineRef.current.playGrain(velocity, 150.0); // 150 is interaction force
+          }
+        }
+        lastMouseRef.current = { x: mousePosRef.current.x, y: mousePosRef.current.y, time: now };
+      }
     }
     
     if (isDownRef.current && agent && !kintsugiActive) {
