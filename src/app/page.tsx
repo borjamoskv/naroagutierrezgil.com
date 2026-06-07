@@ -56,6 +56,56 @@ const baseArtworks = [
   { src: 'la-pensadora-CFHSnMA0.webp', title: 'La Pensadora', span: 'md:col-span-8 md:col-start-3 row-span-2' }
 ];
 
+interface ParallaxItemProps {
+  src: string;
+  alt: string;
+  i: number;
+}
+
+function ParallaxItem({ src, alt, i }: ParallaxItemProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [translateY, setTranslateY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const itemCenter = rect.top + rect.height / 2;
+      const viewCenter = windowHeight / 2;
+      const offset = (itemCenter - viewCenter) / (windowHeight + rect.height);
+      setTranslateY(offset * -80);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div 
+      ref={containerRef}
+      className="w-full h-[60vh] sm:h-[100vh] group relative overflow-hidden bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl"
+    >
+      <div 
+        className="absolute inset-0 w-full h-[120%] -top-[10%] transition-transform duration-75 ease-out"
+        style={{ transform: `translate3d(0, ${translateY}px, 0)` }}
+      >
+        <Image 
+          src={src} 
+          alt={alt} 
+          fill 
+          sizes="100vw"
+          quality={100}
+          className="object-cover transition-all duration-[3.5s] ease-out grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.04]" 
+          loading={i < 4 ? "eager" : "lazy"}
+        />
+      </div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.12)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+    </div>
+  );
+}
+
 export default function Home() {
   const [artworks, setArtworks] = useState(baseArtworks);
   const observerRef = useRef<HTMLDivElement | null>(null);

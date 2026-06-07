@@ -88,3 +88,14 @@ html.lenis, html.lenis body {
     transform: translateY(100%);
   }
 }
+
+.chromatic-text {
+  position: relative;
+  transition: text-shadow 0.3s ease;
+}
+
+.chromatic-text:hover {
+  text-shadow: 
+    -2px -1px 0 rgba(255, 51, 102, 0.8),  /* Red split */
+    2px 1px 0 rgba(6, 182, 212, 0.8);   /* Cyan split */
+}
