@@ -1,3 +1,9 @@
+interface EventContext {
+  request: Request;
+  next: () => Promise<Response>;
+}
+type PagesFunction = (context: EventContext) => Promise<Response>;
+
 export const onRequest: PagesFunction = async (context) => {
   const url = new URL(context.request.url);
   

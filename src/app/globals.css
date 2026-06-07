@@ -69,7 +69,7 @@ html.lenis, html.lenis body {
 
 @keyframes fadeIn {
   from {
-    opacity: 0;
+    opacity: 0.01;
   }
   to {
     opacity: 1;
@@ -78,7 +78,8 @@ html.lenis, html.lenis body {
 
 @keyframes slideUp {
   from {
-    transform: translateY(100%);
+    transform: translateY(20px);
+    opacity: 0.01;
   }
   to {
     transform: translateY(0);

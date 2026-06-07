@@ -193,6 +193,13 @@ export default function Home() {
   } | null>(null);
   const [takeoverCountdown, setTakeoverCountdown] = useState(4);
   const [appMode, setAppMode] = useState<"CAOS" | "ORDEN">("CAOS");
+  const [webGLReady, setWebGLReady] = useState(false);
+
+  useEffect(() => {
+    // Unblock Main Thread to ensure LCP < 2.5s (C5-REAL Requirement)
+    const t = setTimeout(() => setWebGLReady(true), 500);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
     let takeoverTimeoutId: NodeJS.Timeout;
@@ -326,18 +333,18 @@ export default function Home() {
     <div
       className={`flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary selection:text-black ${appMode === "ORDEN" ? "bg-[#050505]" : ""}`}
     >
-      {appMode === "CAOS" && (
+      {appMode === "CAOS" && webGLReady && (
         <div
           id="webgl-container"
-          className="absolute inset-0 z-0 pointer-events-none"
+          className="absolute inset-0 z-0 pointer-events-none animate-[fadeIn_2s_ease-out]"
         >
           <WebGLBackground />
         </div>
       )}
-      {appMode === "CAOS" && <PaintTrail />}
-      {appMode === "CAOS" && <DepthHUD />}
-      {appMode === "CAOS" && <SOTAFX />}
-      {appMode === "CAOS" && <Mica />}
+      {appMode === "CAOS" && webGLReady && <PaintTrail />}
+      {appMode === "CAOS" && webGLReady && <DepthHUD />}
+      {appMode === "CAOS" && webGLReady && <SOTAFX />}
+      {appMode === "CAOS" && webGLReady && <Mica />}
       <section className="relative w-full h-screen flex flex-col justify-between overflow-hidden px-6 sm:px-12 py-12">
         {appMode === "CAOS" && <HeroFluid />}
         <div
