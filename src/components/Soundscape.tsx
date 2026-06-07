@@ -18,6 +18,30 @@ export default function Soundscape() {
     window.addEventListener('keydown', handleFirstInteraction, { once: true });
   }, []);
 
+  useEffect(() => {
+    if (!isPlaying || !audioRef.current) return;
+    
+    let rafId: number;
+    const updateAudio = () => {
+      const scrollVel = parseFloat(document.documentElement.style.getPropertyValue('--scroll-velocity')) || 0;
+      
+      if (audioRef.current) {
+        // MODO CAOS Audio Reactive:
+        // A mayor velocidad de scroll, mayor fricción (pitch y volumen)
+        const targetRate = 1.0 + Math.min(scrollVel / 50, 1.5);
+        audioRef.current.playbackRate += (targetRate - audioRef.current.playbackRate) * 0.1;
+        
+        const targetVol = 0.5 + Math.min(scrollVel / 100, 0.5);
+        audioRef.current.volume += (targetVol - audioRef.current.volume) * 0.1;
+      }
+      
+      rafId = requestAnimationFrame(updateAudio);
+    };
+    rafId = requestAnimationFrame(updateAudio);
+    
+    return () => cancelAnimationFrame(rafId);
+  }, [isPlaying]);
+
   const toggleSound = () => {
     if (!audioRef.current) return;
     

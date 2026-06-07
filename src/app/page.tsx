@@ -17,6 +17,9 @@ const WebGLBackground = dynamic(() => import("@/components/WebGLBackground"), {
 const PaintTrail = dynamic(() => import("@/components/PaintTrail"), {
   ssr: false,
 });
+const SplatPhysicsTester = dynamic(() => import("@/components/SplatPhysicsTester"), {
+  ssr: false,
+});
 
 const getImageUrl = (src: string) => {
   if (src.startsWith("http")) {
@@ -461,6 +464,13 @@ export default function Home() {
 
       {/* ── EL TALLER INTERACTIVO ── */}
       {appMode === "CAOS" && <InteractiveStudio />}
+
+      {/* ── SPLAT PHYSICS / FORJA DE AURA ── */}
+      {appMode === "CAOS" && (
+        <section className="relative z-10 py-32 px-4 sm:px-12 bg-[#050505] border-t border-white/5">
+          <SplatPhysicsTester />
+        </section>
+      )}
 
       {/* ── FOOTER VISUAL ── */}
       <footer className="relative pt-40 pb-20 overflow-hidden bg-[#0A0A0A] border-t border-white/5">
