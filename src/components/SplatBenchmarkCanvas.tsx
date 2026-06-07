@@ -20,7 +20,6 @@ export default function SplatBenchmarkCanvas() {
   const agent = useAgent({
     agent: "EntropicCanvas",
     name: "naroa-master-canvas",
-    siteUrl: "https://naroart-kintsugi-ledger.borjamoskv.workers.dev",
     onStateUpdate: (newState: { globalEntropy: number; kintsugiActive: boolean; totalRepairs: number; scars: Array<{ x: number; y: number; depth: number; timestamp: number }> }) => {
       setEntropy(newState.globalEntropy);
       setKintsugiActive(newState.kintsugiActive);
