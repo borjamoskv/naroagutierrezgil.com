@@ -125,63 +125,7 @@ const baseArtworks = [
     src: "616994481_1577822437030505_8337096648607967605_n.jpg",
     title: "Fusión Material",
     span: "col-span-1 md:col-span-12 mt-12 md:mt-40 aspect-[21/9]",
-  },
-  // Iconos Pop
-  {
-    src: "hq-james-CjsTrO7r.webp",
-    title: "James Dean",
-    span: "col-span-1 md:col-span-8 md:col-start-1 mt-12 md:mt-0 aspect-square",
-  },
-  {
-    src: "hq-amy-BRTriASV.webp",
-    title: "Amy Winehouse",
-    span: "col-span-1 md:col-span-4 md:col-start-9 mt-0 md:mt-40 aspect-[4/5]",
-  },
-  {
-    src: "hq-portrait-1-bV-_WHlX.webp",
-    title: "Retrato I",
-    span: "col-span-1 md:col-span-5 md:col-start-2 mt-12 md:mt-24 aspect-[3/4]",
-  },
-  {
-    src: "el-gran-dakari-C1tAWAhR.webp",
-    title: "El Gran Dakari",
-    span: "col-span-1 md:col-span-6 md:col-start-7 mt-0 md:-mt-20 aspect-square",
-  },
-  {
-    src: "hq-johnny-5ueL8eU0.webp",
-    title: "Johnny Depp",
-    span: "col-span-1 md:col-span-12 mt-12 md:mt-40 aspect-[21/9]",
-  },
-  {
-    src: "marilyn-rocks--qPeLHxE.webp",
-    title: "Marilyn Rocks",
-    span: "col-span-1 md:col-span-5 md:col-start-1 mt-0 aspect-[4/5]",
-  },
-  {
-    src: "audrey-hepburn-DbIBTtIp.webp",
-    title: "Audrey Hepburn",
-    span: "col-span-1 md:col-span-6 md:col-start-7 mt-0 md:mt-32 aspect-[4/5]",
-  },
-  {
-    src: "geisha-MfRtKWdu.webp",
-    title: "Geisha",
-    span: "col-span-1 md:col-span-8 md:col-start-3 mt-12 md:mt-24 aspect-[16/9]",
-  },
-  {
-    src: "lagrimas-de-oro-DikHc-Tk.webp",
-    title: "Lágrimas de Oro",
-    span: "col-span-1 md:col-span-5 md:col-start-1 mt-0 md:mt-12 aspect-[3/4]",
-  },
-  {
-    src: "love-DA7L_L5F.webp",
-    title: "Love",
-    span: "col-span-1 md:col-span-5 md:col-start-8 mt-0 md:-mt-32 aspect-square",
-  },
-  {
-    src: "la-pensadora-CFHSnMA0.webp",
-    title: "La Pensadora",
-    span: "col-span-1 md:col-span-10 md:col-start-2 mt-12 md:mt-40 aspect-video",
-  },
+  }
 ];
 
 export default function Home() {
