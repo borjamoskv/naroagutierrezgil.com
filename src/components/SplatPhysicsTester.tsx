@@ -3,11 +3,13 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { WebGPUFluidSimulator } from '@/lib/splat-physics/WebGPUFluidDynamics';
+import { SplatAudioEngine } from '@/lib/audio/SplatAudioEngine';
 
 export default function SplatPhysicsTester() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [status, setStatus] = useState<'initializing' | 'ready' | 'unsupported' | 'error'>('initializing');
   const [fps, setFps] = useState(0);
+  const [audioEnabled, setAudioEnabled] = useState(false);
   
   // Physics parameters
   const [force, setForce] = useState(15.0);
@@ -17,6 +19,20 @@ export default function SplatPhysicsTester() {
   const mousePos = useRef({ x: -10.0, y: -10.0 });
   const lastMousePos = useRef({ x: -10.0, y: -10.0 });
   const isMouseDown = useRef(false);
+  const audioEngineRef = useRef<SplatAudioEngine | null>(null);
+
+  // Initialize audio engine on mount
+  useEffect(() => {
+    audioEngineRef.current = new SplatAudioEngine();
+  }, []);
+
+  // Ensure AudioContext resumes upon interaction (browser policy)
+  const enableAudio = async () => {
+    if (!audioEngineRef.current) return;
+    await audioEngineRef.current.init();
+    await audioEngineRef.current.resume();
+    setAudioEnabled(true);
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -83,6 +99,11 @@ export default function SplatPhysicsTester() {
           
           if (dist > 0.1) {
             engine.step(gridX, gridY, dirX, dirY, force);
+            
+            // SYNTHESIZE GRAIN!
+            if (audioEngineRef.current && audioEnabled) {
+              audioEngineRef.current.playGrain(dist, force);
+            }
           } else {
             // Constant injection if mouse is still
             engine.step(gridX, gridY, (Math.random() - 0.5) * 5.0, (Math.random() - 0.5) * 5.0, force * 0.5);
@@ -128,6 +149,9 @@ export default function SplatPhysicsTester() {
     isMouseDown.current = true;
     lastMousePos.current = mousePos.current;
     handlePointerMove(e);
+    if (!audioEnabled) {
+      enableAudio();
+    }
   };
 
   const handlePointerUp = () => {
