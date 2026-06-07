@@ -39,8 +39,8 @@ export default function PaintTrail() {
 
       // Throttled Entropic Friction RPC
       if (Date.now() - lastCallTime > 500 && accumForce > 50) {
-        if (typeof agent.applyFriction === 'function') {
-          agent.applyFriction(e.clientX, e.clientY, accumForce * 0.05);
+        if (typeof (agent as any).applyFriction === 'function') {
+          (agent as any).applyFriction(e.clientX, e.clientY, accumForce * 0.05);
         }
         accumForce = 0;
         lastCallTime = Date.now();

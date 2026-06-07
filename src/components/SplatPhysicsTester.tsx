@@ -178,7 +178,17 @@ export default function SplatPhysicsTester() {
   };
 
   return (
-    <div className="w-full flex flex-col lg:flex-row items-center gap-12 max-w-6xl mx-auto p-6 bg-black rounded-sm border border-white/5 shadow-2xl">
+    <div className="relative w-full flex flex-col lg:flex-row items-stretch gap-12 max-w-6xl mx-auto p-8 bg-[#030303] rounded-sm border border-primary/20 shadow-[0_0_100px_rgba(43,59,229,0.1)] overflow-hidden">
+      {/* Industrial CRT Background Layer */}
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_4px,3px_100%] pointer-events-none opacity-40 mix-blend-overlay" />
+      
+      {/* Decorative LED/HUD corners */}
+      <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-primary/50 opacity-50 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary/50 opacity-50 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-primary/50 opacity-50 pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-primary/50 opacity-50 pointer-events-none" />
+
       {/* Parameters Panel */}
       <div className="flex flex-col w-full lg:w-1/3 gap-6">
         <div>
@@ -285,7 +295,9 @@ export default function SplatPhysicsTester() {
             </p>
           </div>
         ) : (
-          <div className="relative w-full max-w-[500px] aspect-square bg-[#050505] shadow-[0_0_80px_rgba(0,0,0,0.8)] border border-white/5 rounded-sm overflow-hidden select-none">
+          <div className="relative w-full max-w-[500px] aspect-square bg-[#050505] shadow-[0_0_120px_rgba(43,59,229,0.15)] border border-primary/30 rounded-sm overflow-hidden select-none group">
+            {/* Active Glow behind canvas */}
+            <div className="absolute inset-0 bg-primary/20 mix-blend-color-dodge opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
             <canvas
               ref={canvasRef}
               width={500}
@@ -298,9 +310,16 @@ export default function SplatPhysicsTester() {
             />
             
             {/* Hover guidance HUD */}
-            <div className="absolute top-4 left-4 z-10 pointer-events-none text-[8px] font-mono tracking-widest uppercase text-white/30">
-              BUFFER_LAYOUT: STORAGE_BUFFER_VERTEX
+            {/* Hover guidance HUD */}
+            <div className="absolute top-4 left-4 z-10 pointer-events-none text-[8px] font-mono tracking-widest uppercase text-primary/50 flex flex-col gap-1">
+              <span>BUFFER_LAYOUT: STORAGE_BUFFER_VERTEX</span>
+              <span>ENGINE: WEBGPU_COMPUTE_SHADER</span>
             </div>
+            {isMouseDown.current && (
+              <div className="absolute bottom-4 right-4 z-10 pointer-events-none text-[10px] font-mono tracking-widest uppercase text-red-500 animate-pulse">
+                [ TENSOR FIELD ACTIVE ]
+              </div>
+            )}
           </div>
         )}
       </div>
