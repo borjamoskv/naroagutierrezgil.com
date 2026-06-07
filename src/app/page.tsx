@@ -129,10 +129,16 @@ export default function Home() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
           <a 
             href="mailto:naroa@naroa.eu" 
-            className="text-4xl sm:text-6xl md:text-[7rem] font-serif font-light tracking-tighter text-foreground/70 hover:text-primary transition-colors duration-1000 mb-20 block hover:tracking-normal"
+            className="text-4xl sm:text-6xl md:text-[7rem] font-serif font-light tracking-tighter text-foreground/70 hover:text-primary transition-colors duration-1000 mb-12 block hover:tracking-normal"
           >
             naroa@naroa.eu
           </a>
+          
+          <a href="https://naroa.online" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 text-primary/50 hover:text-primary transition-colors duration-500 mb-20 px-8 py-3 border border-primary/20 hover:border-primary/50 rounded-sm">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+            <span className="font-sans text-[9px] tracking-[0.4em] uppercase">Acceder al Laboratorio Kinético</span>
+          </a>
+
           <div className="flex flex-col sm:flex-row items-center justify-between w-full max-w-3xl pt-12 border-t border-white/5 text-foreground/30 font-sans text-xs tracking-widest uppercase">
             <span>© 2026 Naroa Gutiérrez Gil · Creado por <a href="https://www.borjamoskv.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-500">Borja Moskv</a></span>
             <span className="mt-4 sm:mt-0">Bilbao, Spain</span>

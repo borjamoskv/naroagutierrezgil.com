@@ -11,6 +11,7 @@ export default function SOTAFX() {
   useEffect(() => {
     let audioCtx: AudioContext | null = null;
     let analyser: AnalyserNode | null = null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let dataArray: any = null;
     let animationFrame: number;
     
