@@ -367,31 +367,40 @@ export default function Home() {
           className={`relative z-10 flex flex-col items-start w-full max-w-[1800px] mx-auto mb-auto min-h-[50vh] justify-center transition-all duration-1000 ${appMode === "ORDEN" ? "mt-32 items-center text-center" : "mt-20"}`}
         >
           <h1
-            className={`relative flex flex-col w-full text-[15vw] leading-[0.75] font-serif tracking-tighter uppercase select-none transition-all duration-1000 ${appMode === "ORDEN" ? "font-medium text-center items-center gap-4" : "font-light"}`}
+            className={`relative flex flex-col w-full text-[15vw] leading-[0.75] font-serif tracking-tighter uppercase select-none transition-all duration-1000 ${appMode === "ORDEN" ? "font-light text-center items-center gap-2" : "font-light"}`}
           >
-            <span className="flex overflow-hidden z-10">
-              <span
-                className={`animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] mix-blend-difference ${appMode === "ORDEN" ? "text-foreground opacity-100 [-webkit-text-stroke:0px]" : "text-transparent [-webkit-text-stroke:1px_var(--color-foreground)] sm:[-webkit-text-stroke:2px_var(--color-foreground)] opacity-50"}`}
-              >
-                Naroa
-              </span>
-            </span>
-            <span
-              className={`absolute top-[20%] z-30 pointer-events-none w-full transition-all duration-1000 ${appMode === "ORDEN" ? "left-0 text-center top-[40%] opacity-90" : "left-[5%] sm:left-[12%]"}`}
-            >
-              <span
-                className={`inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-primary mix-blend-screen transition-all duration-1000 ${appMode === "ORDEN" ? "font-serif uppercase tracking-widest text-[8vw] sm:text-[6vw] rotate-0 drop-shadow-none opacity-80 mt-12" : "font-hand normal-case tracking-normal text-[26vw] sm:text-[22vw] -rotate-6 drop-shadow-[0_20px_50px_rgba(43,59,229,0.5)]"}`}
-              >
-                Gutiérrez
-              </span>
-            </span>
-            <span
-              className={`flex overflow-hidden z-20 transition-all duration-1000 ${appMode === "ORDEN" ? "self-center mt-8 mr-0" : "self-end mr-[2vw] sm:mr-[8vw] mt-[2vw]"}`}
-            >
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-foreground mix-blend-difference">
-                Gil
-              </span>
-            </span>
+            {appMode === "ORDEN" ? (
+              <div className="flex flex-col items-center gap-8 mt-12 animate-[fadeIn_2s_ease-out]">
+                <span className="text-[10px] sm:text-[12px] tracking-[0.8em] font-sans text-primary uppercase border-b border-primary/20 pb-4">Catálogo Razonado</span>
+                <div className="flex flex-col gap-2">
+                  <span className="text-foreground text-[8vw] sm:text-[6vw] tracking-[0.2em] font-serif font-extralight leading-none">Naroa</span>
+                  <span className="text-foreground/60 text-[6vw] sm:text-[4vw] tracking-[0.3em] font-serif leading-none italic">Gutiérrez Gil</span>
+                </div>
+                <div className="w-px h-32 bg-gradient-to-b from-primary/50 to-transparent mt-8" />
+              </div>
+            ) : (
+              <>
+                <span className="flex overflow-hidden z-10">
+                  <span
+                    className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] mix-blend-difference text-transparent [-webkit-text-stroke:1px_var(--color-foreground)] sm:[-webkit-text-stroke:2px_var(--color-foreground)] opacity-50"
+                  >
+                    Naroa
+                  </span>
+                </span>
+                <span className="absolute top-[20%] z-30 pointer-events-none w-full transition-all duration-1000 left-[5%] sm:left-[12%]">
+                  <span
+                    className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-primary mix-blend-screen transition-all duration-1000 font-hand normal-case tracking-normal text-[26vw] sm:text-[22vw] -rotate-6 drop-shadow-[0_20px_50px_rgba(43,59,229,0.5)]"
+                  >
+                    Gutiérrez
+                  </span>
+                </span>
+                <span className="flex overflow-hidden z-20 transition-all duration-1000 self-end mr-[2vw] sm:mr-[8vw] mt-[2vw]">
+                  <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-foreground mix-blend-difference">
+                    Gil
+                  </span>
+                </span>
+              </>
+            )}
           </h1>
         </div>
         <div className="relative z-10 w-full flex flex-col md:flex-row justify-end items-end gap-12 mt-auto max-w-[1800px] mx-auto animate-[fadeIn_3s_ease-out_1s_both]">
@@ -432,28 +441,43 @@ export default function Home() {
           <div className="w-px h-16 bg-gradient-to-b from-primary/30 to-transparent mt-12"></div>
         </div>
         <div
-          className={`grid gap-8 md:gap-x-12 w-full px-0 md:px-12 transition-all duration-1000 ${appMode === "ORDEN" ? "grid-cols-1 md:grid-cols-3 gap-y-16 items-start" : "grid-cols-1 md:grid-cols-12 md:gap-y-0 items-start"}`}
+          className={`grid w-full px-0 md:px-12 transition-all duration-1000 ${appMode === "ORDEN" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-x-20 items-start" : "grid-cols-1 md:grid-cols-12 gap-8 md:gap-x-12 md:gap-y-0 items-start"}`}
         >
           {artworks.map((artwork, i) => (
             <div
               key={i}
-              className={`group relative overflow-hidden bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl w-full transition-all duration-1000 ${appMode === "ORDEN" ? "col-span-1 aspect-[4/5] mt-0 mb-8" : artwork.span || "md:col-span-12 aspect-[4/3]"}`}
+              className={`group relative overflow-hidden transition-all duration-1000 ${appMode === "ORDEN" ? "col-span-1 p-4 sm:p-8 bg-[#070707] border border-white/[0.04] shadow-none flex flex-col items-center gap-6 mt-0 animate-[fadeIn_0.5s_ease-out_both] hover:border-white/10" : `bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl w-full ${artwork.span || "md:col-span-12 aspect-[4/3]"}`}`}
+              style={appMode === "ORDEN" ? { animationDelay: `${(i % 12) * 100}ms` } : {}}
             >
-              <Image
-                src={getImageUrl(artwork.src)}
-                alt={artwork.title}
-                fill
-                sizes="(max-width: 768px) 100vw, 80vw"
-                quality={100}
-                className={`object-cover transition-all duration-[3.5s] ease-out will-change-transform transform-gpu ${appMode === "ORDEN" ? "grayscale-[0.2] hover:grayscale-0" : "grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03]"}`}
-                priority={i < 4}
-              />
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.12)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-              <div className="absolute bottom-6 left-6 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 translate-y-4 group-hover:translate-y-0">
-                <span className="text-foreground/80 font-sans tracking-[0.2em] text-[10px] uppercase bg-black/50 px-3 py-1 backdrop-blur-md border border-white/10 rounded-sm">
-                  {artwork.title}
-                </span>
+              <div className={`relative w-full ${appMode === "ORDEN" ? "aspect-[4/5] overflow-hidden" : "h-full"}`}>
+                <Image
+                  src={getImageUrl(artwork.src)}
+                  alt={artwork.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 80vw"
+                  quality={100}
+                  className={`object-cover transition-all duration-[2s] ease-[var(--ease-spring)] will-change-transform transform-gpu ${appMode === "ORDEN" ? "grayscale-[0.9] sepia-[0.2] contrast-[1.1] brightness-[0.8] group-hover:grayscale-0 group-hover:sepia-0 group-hover:brightness-105 group-hover:scale-[1.03]" : "grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03]"}`}
+                  priority={i < 4}
+                />
               </div>
+              
+              {appMode === "ORDEN" && (
+                <div className="w-full flex flex-col items-center px-4 py-2 border-t border-white/[0.05] gap-3 opacity-60 group-hover:opacity-100 transition-opacity">
+                  <h3 className="font-serif text-sm sm:text-base tracking-[0.2em] uppercase text-foreground/90">{artwork.title}</h3>
+                  <p className="font-sans text-[8px] tracking-[0.3em] text-primary/80">ACRÍLICO S/ PIZARRA</p>
+                </div>
+              )}
+
+              {appMode === "CAOS" && (
+                <>
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.12)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+                  <div className="absolute bottom-6 left-6 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 translate-y-4 group-hover:translate-y-0">
+                    <span className="text-foreground/80 font-sans tracking-[0.2em] text-[10px] uppercase bg-black/50 px-3 py-1 backdrop-blur-md border border-white/10 rounded-sm">
+                      {artwork.title}
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
           ))}
           <div
