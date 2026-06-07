@@ -1,3 +1,22 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+type GPUDevice = any;
+type GPUComputePipeline = any;
+type GPUBuffer = any;
+type GPUBindGroup = any;
+
+const GPUBufferUsage = {
+  MAP_READ: 0x0001,
+  MAP_WRITE: 0x0002,
+  COPY_SRC: 0x0004,
+  COPY_DST: 0x0008,
+  INDEX: 0x0010,
+  VERTEX: 0x0020,
+  UNIFORM: 0x0040,
+  STORAGE: 0x0080,
+  INDIRECT: 0x0100,
+  QUERY_RESOLVE: 0x0200,
+};
+
 export class WebGPUSplatSimulator {
   private device: GPUDevice | null = null;
   private pipeline: GPUComputePipeline | null = null;
@@ -6,11 +25,11 @@ export class WebGPUSplatSimulator {
   private bindGroup: GPUBindGroup | null = null;
 
   public async init(splatCount: number = 100000) {
-    if (!navigator.gpu) {
+    if (!(navigator as any).gpu) {
       throw new Error('WebGPU no está soportado en este navegador.');
     }
 
-    const adapter = await navigator.gpu.requestAdapter();
+    const adapter = await (navigator as any).gpu.requestAdapter();
     if (!adapter) throw new Error('No se pudo obtener el adaptador WebGPU.');
     
     this.device = await adapter.requestDevice();
