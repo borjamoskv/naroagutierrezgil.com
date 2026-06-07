@@ -146,14 +146,14 @@ export default function Home() {
           <h2 className="text-5xl sm:text-7xl font-serif font-light tracking-wide text-foreground leading-tight max-w-2xl mx-auto uppercase">Obras</h2>
           <div className="w-px h-16 bg-gradient-to-b from-primary/30 to-transparent mt-12"></div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 sm:gap-40 auto-rows-[450px] sm:auto-rows-[800px] items-center">
+        <div className="flex flex-col gap-24 sm:gap-40 items-center w-full">
           {artworks.map((artwork, i) => (
-            <div key={i} className={`${artwork.span} group relative overflow-hidden bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl`}>
+            <div key={i} className="w-full h-[60vh] sm:h-[100vh] group relative overflow-hidden bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl">
               <Image 
                 src={getImageUrl(artwork.src)} 
                 alt={artwork.title} 
                 fill 
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
+                sizes="100vw"
                 quality={100}
                 className="object-cover transition-all duration-[3.5s] ease-out grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03]" 
                 loading={i < 4 ? "eager" : "lazy"}
