@@ -11,6 +11,9 @@
   --font-sans: var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), monospace;
   --font-hand: var(--font-caveat), cursive;
+  
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 :root {
@@ -49,6 +52,7 @@ html.lenis, html.lenis body {
 *:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
+  transition: outline-offset 0.2s var(--ease-spring);
 }
 
 @media (prefers-reduced-motion: reduce) {
