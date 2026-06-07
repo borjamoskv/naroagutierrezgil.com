@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -71,7 +72,6 @@ export default function Home() {
   const [takeoverCountdown, setTakeoverCountdown] = useState(4);
 
   useEffect(() => {
-    let cycleIntervalId: NodeJS.Timeout;
     let takeoverTimeoutId: NodeJS.Timeout;
     let countdownIntervalId: NodeJS.Timeout;
 
@@ -95,7 +95,7 @@ export default function Home() {
     };
 
     // Cycle every 17s (13s interactive + 4s block takeover)
-    cycleIntervalId = setInterval(() => {
+    const cycleIntervalId = setInterval(() => {
       runTakeover();
     }, 17000);
 
