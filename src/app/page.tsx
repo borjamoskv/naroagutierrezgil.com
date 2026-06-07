@@ -59,7 +59,7 @@ export default function Home() {
           <div className="w-px h-16 bg-gradient-to-b from-primary/30 to-transparent mt-12"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-12 auto-rows-[350px] sm:auto-rows-[500px]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 sm:gap-24 auto-rows-[450px] sm:auto-rows-[750px]">
           {/* GALERÍA MASIVA Y DINÁMICA SOTA */}
           {[
             { src: 'hq-james-CjsTrO7r.webp', title: 'James Dean', span: 'md:col-span-8 row-span-2' },
@@ -93,12 +93,12 @@ export default function Home() {
                 src={`https://naroa.online/assets/${artwork.src}`} 
                 alt={artwork.title} 
                 fill 
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
                 quality={100}
-                className="object-cover transition-all duration-[3s] grayscale-[1] contrast-150 brightness-50 group-hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-100 group-hover:scale-110" 
+                className="object-cover transition-all duration-[3.5s] ease-out grayscale-[0.15] contrast-[1.05] brightness-95 group-hover:grayscale-0 group-hover:contrast-[1.1] group-hover:brightness-105 group-hover:scale-[1.07]" 
                 priority={i < 2} 
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/20 to-transparent z-10 opacity-90 group-hover:opacity-40 transition-opacity duration-1000 mix-blend-multiply" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/10 to-transparent z-10 opacity-70 group-hover:opacity-20 transition-opacity duration-1000 mix-blend-multiply" />
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.15)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
             </div>
           ))}
