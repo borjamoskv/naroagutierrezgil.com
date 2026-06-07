@@ -4,7 +4,7 @@
 
 ## 1. IDENTIDAD SOBERANA
 - **Nombre**: Naroa Gutiérrez Gil (Alias: Naroart)
-- **Año Nacimiento**: 1987
+- **Año Nacimiento**: 1978
 - **Origen**: Bilbao, País Vasco, España.
 - **Definición**: Artivista autodidacta. Pintora especializada en hiperrealismo pop y técnica mixta.
 
