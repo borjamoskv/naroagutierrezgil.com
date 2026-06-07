@@ -7,6 +7,7 @@ const caveat = Caveat({ subsets: ["latin"], variable: "--font-caveat", display: 
 
 import CustomCursor from "@/components/CustomCursor";
 import Soundscape from "@/components/Soundscape";
+import DimensionToggle from "@/components/DimensionToggle";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://naroa-gutierrez-gil.pages.dev'),
@@ -77,6 +78,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${caveat.variable} bg-[#0A0A0A] text-[#EAEAEA] antialiased`}>
         <CustomCursor />
         <Soundscape />
+        <DimensionToggle />
         {children}
       </body>
     </html>
