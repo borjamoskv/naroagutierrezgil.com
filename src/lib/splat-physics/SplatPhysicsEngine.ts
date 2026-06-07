@@ -23,7 +23,7 @@ const GPUBufferUsage = {
   QUERY_RESOLVE: 0x0200,
 };
 
-export const PHYSICS_COMPUTE_SHADER = `
+const PHYSICS_COMPUTE_SHADER = `
 struct PhysicsUniforms {
   mousePos: vec2<f32>,
   time: f32,
@@ -75,7 +75,7 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
 }
 `;
 
-export const RENDER_SHADER = `
+const RENDER_SHADER = `
 struct VertexOutput {
   @builtin(position) position: vec4<f32>,
   @location(0) color: vec3<f32>,
