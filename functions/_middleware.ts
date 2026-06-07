@@ -4,7 +4,7 @@ interface EventContext {
 }
 type PagesFunction = (context: EventContext) => Promise<Response>;
 
-export const onRequest: PagesFunction = async (context) => {
+export const onRequest: any = async (context: any) => {
   const url = new URL(context.request.url);
   
   // Vector 3 (SEO): Canonicalization
