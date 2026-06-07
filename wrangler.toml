@@ -8,7 +8,7 @@ binding = "NAROA_ASSETS"
 bucket_name = "naroa-gallery-assets"
 
 # Vector 2: D1 Database para Headless CMS Soberano
-[[d1_databases]]
-binding = "NAROA_CMS"
-database_name = "naroa-cms-db"
-database_id = "pending-creation"
+# [[d1_databases]]
+# binding = "NAROA_CMS"
+# database_name = "naroa-cms-db"
+# database_id = "pending-creation"

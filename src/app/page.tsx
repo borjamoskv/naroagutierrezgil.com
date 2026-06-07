@@ -352,12 +352,20 @@ export default function Home() {
       className={`flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary selection:text-black ${appMode === "ORDEN" ? "bg-[#050505]" : ""}`}
     >
       {appMode === "CAOS" && webGLReady && (
-        <div
-          id="macro-splat-container"
-          className="fixed inset-0 z-0 pointer-events-auto animate-[fadeIn_3s_ease-out]"
-        >
-          <MacroSplatCanvas />
-        </div>
+        <>
+          <div
+            id="fluid-physics-container"
+            className="fixed inset-0 z-0 pointer-events-auto animate-[fadeIn_4s_ease-out]"
+          >
+            <SplatPhysicsTester />
+          </div>
+          <div
+            id="macro-splat-container"
+            className="fixed inset-0 z-10 pointer-events-auto animate-[fadeIn_3s_ease-out] mix-blend-screen"
+          >
+            <MacroSplatCanvas />
+          </div>
+        </>
       )}
       {appMode === "CAOS" && webGLReady && <DepthHUD />}
       {appMode === "CAOS" && webGLReady && <SOTAFX />}
