@@ -35,8 +35,8 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
   onStateUpdate(state: EntropicState, _source: Connection | "server") {
     // Si la entropía supera el umbral crítico y no hay Kintsugi activo, la pizarra se quiebra.
     if (state.globalEntropy >= 100.0 && !state.kintsugiActive) {
-      this.setState({ ...this.state, kintsugiActive: true });
-      this.broadcast({ type: 'CANVAS_FRACTURE', message: 'La fricción colectiva ha quebrado la obra. Inyección de resina requerida.' });
+      this.setState({ ...state, kintsugiActive: true });
+      this.broadcast(JSON.stringify({ type: 'CANVAS_FRACTURE', message: 'La fricción colectiva ha quebrado la obra. Inyección de resina requerida.' }));
     }
   }
 
@@ -87,7 +87,7 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
         totalRepairs: this.state.totalRepairs + 1,
         // Las cicatrices no se borran, quedan selladas en el oro
       });
-      this.broadcast({ type: 'KINTSUGI_COMPLETE', repairNumber: this.state.totalRepairs });
+      this.broadcast(JSON.stringify({ type: 'KINTSUGI_COMPLETE', repairNumber: this.state.totalRepairs }));
     } else {
       this.setState({ ...this.state, globalEntropy: newEntropy });
     }
