@@ -302,10 +302,6 @@ function PuzzleGame() {
   const [isWon, setIsWon] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
 
-  useEffect(() => {
-    initPuzzle();
-  }, [selectedArt]);
-
   const initPuzzle = () => {
     // 3x3 grid: 0 to 7 are tiles, 8 is the empty space
     const initial = [0, 1, 2, 3, 4, 5, 6, 7, 8];
@@ -334,6 +330,10 @@ function PuzzleGame() {
 
     setTiles(initial);
   };
+
+  useEffect(() => {
+    initPuzzle();
+  }, [selectedArt]);
 
   const handleTileClick = (index: number) => {
     if (isWon) return;
@@ -508,10 +508,6 @@ function MemoryGame() {
   const [turns, setTurns] = useState(0);
   const [isWon, setIsWon] = useState(false);
 
-  useEffect(() => {
-    initMemory();
-  }, []);
-
   const initMemory = () => {
     // Select 6 random artworks
     const shuffledArt = [...ARTWORKS].sort(() => 0.5 - Math.random()).slice(0, 6);
@@ -530,6 +526,10 @@ function MemoryGame() {
     setTurns(0);
     setIsWon(false);
   };
+
+  useEffect(() => {
+    initMemory();
+  }, []);
 
   const handleCardClick = (id: number) => {
     const clickedCard = cards.find(c => c.id === id);
