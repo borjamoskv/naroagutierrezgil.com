@@ -1,5 +1,6 @@
-"use client";
+'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 
 interface KineticArtworkProps {
@@ -12,11 +13,15 @@ interface KineticArtworkProps {
 }
 
 export default function KineticArtwork({ src, alt, priority, className, id, onClick }: KineticArtworkProps) {
+  const [hovered, setHovered] = useState(false);
+
   return (
     <div 
-      id={id} 
-      className={`w-full h-full cursor-pointer overflow-hidden ${className || ''}`}
+      className={`relative w-full h-full cursor-pointer overflow-hidden ${className || ''}`}
+      id={id}
       onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
     >
       <Image
         src={src}
@@ -25,8 +30,13 @@ export default function KineticArtwork({ src, alt, priority, className, id, onCl
         sizes="(max-width: 768px) 100vw, 80vw"
         quality={100}
         priority={priority}
-        className="object-cover"
+        className={`object-cover transition-all duration-1000 ease-out ${
+          hovered ? 'scale-110 saturate-[1.2] brightness-110' : 'scale-100 saturate-100 brightness-100'
+        }`}
       />
+      {hovered && (
+        <div className="absolute inset-0 bg-primary/10 mix-blend-color-dodge transition-opacity duration-500 animate-pulse pointer-events-none" />
+      )}
     </div>
   );
 }

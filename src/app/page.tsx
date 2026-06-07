@@ -59,6 +59,7 @@ const baseArtworks = [
   { src: '616035859_1577822453697170_3937842745320602184_n.jpg', title: 'Corte Mineral', span: 'col-span-1 md:col-span-6 md:col-start-1 mt-0 md:mt-20 aspect-square' },
   { src: '616198291_1577822413697174_3337151405885426240_n.jpg', title: 'Superficie Táctil', span: 'col-span-1 md:col-span-5 md:col-start-8 mt-0 md:-mt-10 aspect-[3/4]' },
   { src: '616994481_1577822437030505_8337096648607967605_n.jpg', title: 'Fusión Material', span: 'col-span-1 md:col-span-12 mt-12 md:mt-40 aspect-[21/9]' },
+  { src: '648843106_1623950012417747_2278290628706124542_n.jpg', title: 'Resonancia Magnética', span: 'col-span-1 md:col-span-10 md:col-start-2 mt-12 md:mt-24 aspect-[4/5]' },
   // Iconos Pop
   { src: 'hq-james-CjsTrO7r.webp', title: 'James Dean', span: 'col-span-1 md:col-span-8 md:col-start-1 mt-12 md:mt-0 aspect-square' },
   { src: 'hq-amy-BRTriASV.webp', title: 'Amy Winehouse', span: 'col-span-1 md:col-span-4 md:col-start-9 mt-0 md:mt-40 aspect-[4/5]' },
