@@ -101,8 +101,10 @@ export default function ScratchGame({ artworks }: ScratchGameProps) {
         // Draw primary slate chip/dust particle or primary color spark
         const isCobaltSpark = p.size < 2.2 && i % 3 === 0;
         if (isCobaltSpark) {
-          pCtx.fillStyle = `rgba(43, 59, 229, ${p.life})`;
-          pCtx.shadowColor = '#2B3BE5';
+          const rgbVal = getComputedStyle(document.documentElement).getPropertyValue('--primary-rgb').trim() || "43, 59, 229";
+          const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || "#2B3BE5";
+          pCtx.fillStyle = `rgba(${rgbVal}, ${p.life})`;
+          pCtx.shadowColor = primaryColor;
           pCtx.shadowBlur = 6;
         } else {
           pCtx.fillStyle = `rgba(140, 140, 145, ${p.life})`;

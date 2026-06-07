@@ -11,20 +11,21 @@ function StarBackground(props: any) {
   const [color, setColor] = useState("#2B3BE5");
   
   useEffect(() => {
-    // Read initial color
     const initialColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
-    // eslint-disable-next-line
     if (initialColor) setColor(initialColor);
 
-    // Poll for changes (since mutation observer on style is tricky)
-    const interval = setInterval(() => {
-      const newColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
-      if (newColor && newColor !== color) {
-        setColor(newColor);
+    const handleColorChange = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      if (customEvent.detail) {
+        setColor(customEvent.detail);
       }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [color]);
+    };
+
+    window.addEventListener('naroa-color-change', handleColorChange);
+    return () => {
+      window.removeEventListener('naroa-color-change', handleColorChange);
+    };
+  }, []);
 
   // Create a sphere of random particles representing "pigment dust" or slate particles
   const [sphere] = useState(() => 

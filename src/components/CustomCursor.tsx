@@ -80,9 +80,13 @@ export default function CustomCursor() {
       {/* Physics Follower */}
       <div 
         ref={followerRef} 
-        className={`fixed top-0 left-0 border border-[#2B3BE5] rounded-full pointer-events-none z-[9998] mix-blend-difference -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-out ${
-          isHovering ? "w-12 h-12 bg-[#2B3BE5]/20" : "w-6 h-6 bg-transparent"
-        }`}
+        className={`fixed top-0 left-0 border rounded-full pointer-events-none z-[9998] mix-blend-difference -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-out`}
+        style={{
+          borderColor: 'var(--primary, #2B3BE5)',
+          backgroundColor: isHovering ? 'rgba(var(--primary-rgb, 43, 59, 229), 0.2)' : 'transparent',
+          width: isHovering ? '48px' : '24px',
+          height: isHovering ? '48px' : '24px'
+        }}
       />
     </>
   );

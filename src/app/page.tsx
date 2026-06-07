@@ -67,6 +67,51 @@ const baseArtworks = [
 export default function Home() {
   const [artworks, setArtworks] = useState(baseArtworks);
   const observerRef = useRef<HTMLDivElement | null>(null);
+  const [takeoverArtwork, setTakeoverArtwork] = useState<{ src: string; title: string } | null>(null);
+  const [takeoverCountdown, setTakeoverCountdown] = useState(4);
+
+  useEffect(() => {
+    let cycleIntervalId: NodeJS.Timeout;
+    let takeoverTimeoutId: NodeJS.Timeout;
+    let countdownIntervalId: NodeJS.Timeout;
+
+    const runTakeover = () => {
+      const randomArt = baseArtworks[Math.floor(Math.random() * baseArtworks.length)];
+      setTakeoverArtwork(randomArt);
+      setTakeoverCountdown(4);
+      document.body.style.overflow = 'hidden';
+
+      let count = 4;
+      countdownIntervalId = setInterval(() => {
+        count -= 1;
+        setTakeoverCountdown(count);
+      }, 1000);
+
+      takeoverTimeoutId = setTimeout(() => {
+        setTakeoverArtwork(null);
+        document.body.style.overflow = 'auto';
+        clearInterval(countdownIntervalId);
+      }, 4000);
+    };
+
+    // Cycle every 17s (13s interactive + 4s block takeover)
+    cycleIntervalId = setInterval(() => {
+      runTakeover();
+    }, 17000);
+
+    // First trigger after 13 seconds
+    const initialDelayId = setTimeout(() => {
+      runTakeover();
+    }, 13000);
+
+    return () => {
+      clearInterval(cycleIntervalId);
+      clearTimeout(takeoverTimeoutId);
+      clearInterval(countdownIntervalId);
+      clearTimeout(initialDelayId);
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
 
   useEffect(() => {
     const lenis = new Lenis();
@@ -86,6 +131,25 @@ export default function Home() {
     };
   }, []);
 
+  const [activeColor, setActiveColor] = useState('#2B3BE5');
+
+  const updatePrimaryColor = (hex: string) => {
+    if (typeof window === 'undefined') return;
+    document.documentElement.style.setProperty('--primary', hex);
+    document.documentElement.style.setProperty('--color-primary', hex);
+    document.documentElement.style.setProperty('--accent', hex);
+    
+    const cleanHex = hex.replace('#', '');
+    const r = parseInt(cleanHex.substring(0, 2), 16);
+    const g = parseInt(cleanHex.substring(2, 4), 16);
+    const b = parseInt(cleanHex.substring(4, 6), 16);
+    document.documentElement.style.setProperty('--primary-rgb', `${r}, ${g}, ${b}`);
+    
+    localStorage.setItem('naroa_primary_color', hex);
+    setActiveColor(hex);
+    window.dispatchEvent(new CustomEvent('naroa-color-change', { detail: hex }));
+  };
+
   useEffect(() => {
     const palettes = ['#2B3BE5', '#C6A87C', '#10B981', '#D9383A', '#D97706', '#8B5CF6', '#06B6D4'];
     let selectedColor = localStorage.getItem('naroa_primary_color');
@@ -93,7 +157,7 @@ export default function Home() {
       selectedColor = palettes[Math.floor(Math.random() * palettes.length)];
       localStorage.setItem('naroa_primary_color', selectedColor);
     }
-    document.documentElement.style.setProperty('--primary', selectedColor);
+    updatePrimaryColor(selectedColor);
   }, []);
 
   useEffect(() => {
@@ -220,6 +284,77 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Floating Color Mutator Dock */}
+      <div className="fixed bottom-8 left-8 z-[130] flex gap-2.5 items-center bg-[#0c0c0e]/80 border border-white/5 px-4 py-2.5 rounded-sm backdrop-blur-md select-none">
+        <span className="font-sans text-[8px] tracking-[0.25em] uppercase text-white/40 mr-1">Muta</span>
+        {['#2B3BE5', '#C6A87C', '#10B981', '#D9383A', '#D97706', '#8B5CF6', '#06B6D4'].map((color) => (
+          <button
+            key={color}
+            onClick={() => updatePrimaryColor(color)}
+            className={`w-3.5 h-3.5 rounded-full border transition-all duration-300 relative cursor-pointer ${
+              activeColor === color 
+                ? 'border-white scale-110 shadow-[0_0_10px_rgba(255,255,255,0.4)]' 
+                : 'border-white/10 hover:scale-125'
+            }`}
+            style={{ backgroundColor: color }}
+            aria-label={`Mutar color a ${color}`}
+          />
+        ))}
+      </div>
+
+      {/* Fullscreen Takeover Artwork Amplification Modal */}
+      {takeoverArtwork && (
+        <div className="fixed inset-0 z-[99999] bg-[#050505] flex flex-col justify-center items-center overflow-hidden animate-[fadeIn_0.5s_ease-out]">
+          {/* Grain texture overlay */}
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay" />
+          
+          {/* Chromatic aberration background aura */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--primary-rgb,43,59,229),0.12)_0%,transparent_60%)] mix-blend-color-dodge pointer-events-none" />
+
+          {/* Outlined CRONOS Watermark */}
+          <div className="absolute top-[8%] left-[5%] font-mono text-[16vw] leading-none font-black text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.03)] uppercase pointer-events-none select-none z-0">
+            CRONOS
+          </div>
+
+          {/* Amplified Artwork container with linear zoom animation */}
+          <div className="relative w-[85vw] h-[85vh] md:w-[60vw] md:h-[80vh] border border-white/10 rounded-sm overflow-hidden bg-black shadow-[0_0_80px_rgba(0,0,0,0.9)] animate-[pulseScale_4s_linear] z-10">
+            <Image
+              src={getImageUrl(takeoverArtwork.src)}
+              alt={takeoverArtwork.title}
+              fill
+              className="object-cover contrast-[1.05] brightness-95"
+              sizes="(max-width: 768px) 100vw, 80vw"
+              quality={100}
+              priority
+            />
+          </div>
+
+          {/* HUD info overlays */}
+          <div className="absolute bottom-8 left-8 right-8 z-[100] flex flex-col md:flex-row md:items-end justify-between pointer-events-none">
+            <div className="flex flex-col gap-2">
+              <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-bold animate-pulse">
+                SISTEMA CRONOS // BLOQUEO MULTIDIMENSIONAL
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-serif font-light uppercase tracking-wide text-foreground">
+                {takeoverArtwork.title}
+              </h2>
+            </div>
+            <div className="mt-4 md:mt-0 flex items-center gap-6">
+              <div className="flex flex-col items-end">
+                <span className="text-[9px] tracking-[0.2em] uppercase text-white/30">CRONOS COUNTDOWN</span>
+                <span className="text-4xl font-mono font-light text-primary">{takeoverCountdown}.00s</span>
+              </div>
+              <div className="w-[1px] h-12 bg-white/20 relative overflow-hidden">
+                <div 
+                  className="absolute bottom-0 left-0 w-full bg-primary transition-all duration-[4000ms] ease-linear"
+                  style={{ height: `${(takeoverCountdown / 4) * 100}%` }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

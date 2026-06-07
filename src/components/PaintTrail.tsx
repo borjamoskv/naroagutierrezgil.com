@@ -56,7 +56,8 @@ export default function PaintTrail() {
         ctx.lineTo(lastP.x, lastP.y);
         
         // Aplicamos el color primario (Cobalt Blue Noir 2026) con opacidad dinámica
-        ctx.strokeStyle = "rgba(43, 59, 229, 0.15)";
+        const rgbVal = getComputedStyle(document.documentElement).getPropertyValue('--primary-rgb').trim() || "43, 59, 229";
+        ctx.strokeStyle = `rgba(${rgbVal}, 0.15)`;
         ctx.lineWidth = 120; // Rastro grueso como brocha de acrílico
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
