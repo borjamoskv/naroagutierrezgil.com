@@ -5,7 +5,7 @@ import { WebGPUSplatSimulator } from '@/lib/splat-physics/WebGPUSplatPhysics';
 import { SplatAudioEngine } from '@/lib/audio/SplatAudioEngine';
 import { useAgent } from 'agents/react';
 
-export default function SplatBenchmarkCanvas() {
+function SplatInteractiveCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [status, setStatus] = useState<string>('Initializing C5-REAL Splat Physics Engine...');
   const simulatorRef = useRef<WebGPUSplatSimulator | null>(null);
@@ -54,16 +54,14 @@ export default function SplatBenchmarkCanvas() {
     const initEngine = async () => {
       try {
         const simulator = new WebGPUSplatSimulator();
-        await simulator.init(canvasRef.current!, '/assets/naroa_artwork_1.splat', splatCount);
+        await simulator.init(canvasRef.current!, undefined, splatCount);
         simulatorRef.current = simulator;
         
         const audio = new SplatAudioEngine();
         await audio.init();
         audioEngineRef.current = audio;
 
-        const actualSplats = (simulator as any).splatCount || splatCount;
-        const tier = actualSplats <= 100000 ? 'MOBILE/LOW' : (actualSplats <= 300000 ? 'DESKTOP_MID' : 'DESKTOP_HIGH');
-        setStatus(`C5-REAL ENGINE ACTIVE: Loaded ${actualSplats} splats [Tier: ${tier}] into WebGPU Compute at 60fps.`);
+        setStatus(`C5-REAL ENGINE ACTIVE: Loaded .splat into WebGPU Compute at 60fps.`);
         const renderLoop = () => {
           if (simulatorRef.current) {
             simulatorRef.current.step(mousePosRef.current.x, mousePosRef.current.y, isDownRef.current, scarsRef.current);
@@ -156,4 +154,27 @@ export default function SplatBenchmarkCanvas() {
       />
     </div>
   );
+}
+
+export default function SplatBenchmarkCanvas() {
+  const [interacted, setInteracted] = useState(false);
+
+  if (!interacted) {
+    return (
+      <div 
+        className="relative w-full h-full bg-[#0A0A0A] overflow-hidden cursor-crosshair flex flex-col items-center justify-center border border-white/5 hover:border-primary/30 transition-colors duration-500 group"
+        onPointerDown={() => setInteracted(true)}
+      >
+        <div className="absolute top-4 left-4 z-10 font-mono text-[9px] text-[#2B3BE5] pointer-events-none tracking-widest uppercase">
+          <p>[SPLAT BENCHMARK - MACRO TO PIGMENT]</p>
+          <p className="text-white/30 mt-1">SPLAT SIMULATOR INACTIVE</p>
+        </div>
+        <div className="text-white/40 font-mono text-[10px] tracking-[0.3em] uppercase group-hover:text-primary transition-colors duration-500 text-center px-6 leading-relaxed select-none">
+          [ CLICK / TAP PARA CARGAR SIMULACIÓN WEBGPU ]
+        </div>
+      </div>
+    );
+  }
+
+  return <SplatInteractiveCanvas />;
 }

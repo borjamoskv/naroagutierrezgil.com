@@ -18,6 +18,9 @@ const MacroSplatCanvas = dynamic(() => import("@/components/SplatBenchmarkCanvas
 const SplatPhysicsTester = dynamic(() => import("@/components/SplatPhysicsTester"), {
   ssr: false,
 });
+const KineticArtwork = dynamic(() => import("@/components/KineticArtwork"), {
+  ssr: false,
+});
 
 const getImageUrl = (src: string) => {
   if (src.startsWith("http")) {
@@ -474,15 +477,24 @@ export default function Home() {
               style={appMode === "ORDEN" ? { animationDelay: `${(i % 12) * 100}ms` } : {}}
             >
               <div className={`relative w-full ${appMode === "ORDEN" ? "aspect-[4/5] overflow-hidden" : "h-full"}`}>
-                <Image
-                  src={resolveSrc(artwork.src)}
-                  alt={`Obra de arte: ${artwork.title}`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 80vw"
-                  quality={80}
-                  className={`object-cover transition-all duration-[2s] ease-[var(--ease-spring)] will-change-transform transform-gpu ${appMode === "ORDEN" ? "grayscale-[0.9] sepia-[0.2] contrast-[1.1] brightness-[0.8] group-hover:grayscale-0 group-hover:sepia-0 group-hover:brightness-105 group-hover:scale-[1.03]" : "grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03]"}`}
-                  priority={i < 4}
-                />
+                {appMode === "CAOS" ? (
+                  <KineticArtwork
+                    src={resolveSrc(artwork.src)}
+                    alt={`Obra de arte: ${artwork.title}`}
+                    priority={i < 4}
+                    className={`transition-all duration-[2s] ease-[var(--ease-spring)] will-change-transform transform-gpu grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03]`}
+                  />
+                ) : (
+                  <Image
+                    src={resolveSrc(artwork.src)}
+                    alt={`Obra de arte: ${artwork.title}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 80vw"
+                    quality={80}
+                    className={`object-cover transition-all duration-[2s] ease-[var(--ease-spring)] will-change-transform transform-gpu grayscale-[0.9] sepia-[0.2] contrast-[1.1] brightness-[0.8] group-hover:grayscale-0 group-hover:sepia-0 group-hover:brightness-105 group-hover:scale-[1.03]`}
+                    priority={i < 4}
+                  />
+                )}
               </div>
               
               {appMode === "ORDEN" && (
