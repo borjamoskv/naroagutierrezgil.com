@@ -38,10 +38,11 @@ export class WebGPUFluidSimulator {
   private dyeWrite: GPUBuffer | null = null;
   private pressureRead: GPUBuffer | null = null;
   private pressureWrite: GPUBuffer | null = null;
-  private divergenceBuf: GPUBuffer | null = null;
   private uniforms: GPUBuffer | null = null;
 
   private bindGroupLayoutAdvect: GPUBindGroupLayout | null = null;
+  private renderPipeline: any | null = null;
+  private divergenceBuf: GPUBuffer | null = null;
   private bindGroups: Map<string, GPUBindGroup> = new Map();
 
   public async init(width: number = 256, height: number = 256) {
@@ -207,6 +208,34 @@ export class WebGPUFluidSimulator {
         let vel = r_vel[get_idx(x, y)];
         w_vel[get_idx(x, y)] = vel - vec2<f32>(R - L, B - T) * 0.5;
       }
+
+      // --- RENDER PASS (FULL SCREEN QUAD) ---
+      struct VertexOutput {
+        @builtin(position) position : vec4<f32>,
+        @location(0) uv : vec2<f32>,
+      };
+
+      @vertex
+      fn vs_main(@builtin(vertex_index) VertexIndex : u32) -> VertexOutput {
+        var pos = array<vec2<f32>, 6>(
+          vec2<f32>(-1.0, -1.0), vec2<f32>( 1.0, -1.0), vec2<f32>(-1.0,  1.0),
+          vec2<f32>(-1.0,  1.0), vec2<f32>( 1.0, -1.0), vec2<f32>( 1.0,  1.0)
+        );
+        var output : VertexOutput;
+        output.position = vec4<f32>(pos[VertexIndex], 0.0, 1.0);
+        output.uv = pos[VertexIndex] * 0.5 + 0.5;
+        output.uv.y = 1.0 - output.uv.y; // Flip Y
+        return output;
+      }
+
+      @fragment
+      fn fs_main(@location(0) uv : vec2<f32>) -> @location(0) vec4<f32> {
+        let x = i32(uv.x * params.grid_size.x);
+        let y = i32(uv.y * params.grid_size.y);
+        // Binding 2 of group 1 is r_dye 
+        let color = r_dye[get_idx(x, y)];
+        return vec4<f32>(color.rgb, clamp(length(color.rgb), 0.0, 1.0));
+      }
     `;
 
     const shaderModule = this.device.createShaderModule({ code: wgslSource });
@@ -231,12 +260,35 @@ export class WebGPUFluidSimulator {
     this.dyeWrite = createBuffer(this.numCells * 16, GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST | GPUBufferUsage.COPY_SRC);
     this.pressureRead = createBuffer(this.numCells * 4, GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST | GPUBufferUsage.COPY_SRC);
     this.pressureWrite = createBuffer(this.numCells * 4, GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST | GPUBufferUsage.COPY_SRC);
+    
+    // El buffer divergenceBuf fue borrado del array de properties accidentalmente, hay que restaurarlo si falta
     this.divergenceBuf = createBuffer(this.numCells * 4, GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST | GPUBufferUsage.COPY_SRC);
     
     this.uniforms = createBuffer(48, GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST);
 
     this.bindGroupLayoutAdvect = this.pipelineAdvectVel.getBindGroupLayout(1);
     
+    // Configurar pipeline de renderizado usando el mismo shaderModule
+    this.renderPipeline = this.device.createRenderPipeline({
+      layout: 'auto',
+      vertex: {
+        module: shaderModule,
+        entryPoint: 'vs_main',
+      },
+      fragment: {
+        module: shaderModule,
+        entryPoint: 'fs_main',
+        targets: [{
+          format: (navigator as any).gpu.getPreferredCanvasFormat(),
+          blend: {
+            color: { srcFactor: 'src-alpha', dstFactor: 'one', operation: 'add' },
+            alpha: { srcFactor: 'one', dstFactor: 'one', operation: 'add' }
+          }
+        }],
+      },
+      primitive: { topology: 'triangle-list' },
+    });
+
     return true;
   }
 
@@ -341,9 +393,9 @@ export class WebGPUFluidSimulator {
     this.device.queue.submit([encoder.finish()]);
   }
 
-  private swapVelocity() { let t = this.velRead; this.velRead = this.velWrite; this.velWrite = t; }
-  private swapDye() { let t = this.dyeRead; this.dyeRead = this.dyeWrite; this.dyeWrite = t; }
-  private swapPressure() { let t = this.pressureRead; this.pressureRead = this.pressureWrite; this.pressureWrite = t; }
+  private swapVelocity() { const t = this.velRead; this.velRead = this.velWrite; this.velWrite = t; }
+  private swapDye() { const t = this.dyeRead; this.dyeRead = this.dyeWrite; this.dyeWrite = t; }
+  private swapPressure() { const t = this.pressureRead; this.pressureRead = this.pressureWrite; this.pressureWrite = t; }
 
   public getDyeBuffer() { return this.dyeRead; }
 }
