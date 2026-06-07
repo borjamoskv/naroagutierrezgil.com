@@ -118,9 +118,9 @@ function VolumetricPainting({ textureSrc, progress }: { textureSrc: string; prog
 
   useEffect(() => {
     if (texture) {
-      // eslint-disable-next-line react-hooks/immutability
+       
       texture.minFilter = THREE.LinearFilter
-      // eslint-disable-next-line react-hooks/immutability
+       
       texture.magFilter = THREE.LinearFilter
       if (materialRef.current) {
         materialRef.current.uniforms.uTexture.value = texture
