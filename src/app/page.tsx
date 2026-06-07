@@ -33,82 +33,36 @@ const getImageUrl = (src: string) => {
 
 const baseArtworks = [
   // Local Original Facebook/HQ Scans
-  { src: 'Naroa x16.jpeg', title: 'Alquimia en Pizarra (Colección)', span: 'md:col-span-10 md:col-start-2 row-span-2' },
-  { src: '601340023_1552126202933462_7815927344957967258_n.jpg', title: 'Espejo del Alma I', span: 'md:col-span-8 md:col-start-3 row-span-2' },
-  { src: '608211438_1562089535270462_2827127275272133326_n.jpg', title: 'Dama de la Pizarra', span: 'md:col-span-6 md:col-start-7 row-span-2' },
-  { src: '612329591_1571120784367337_8798688892093004057_n.jpg', title: 'Facciones del Silencio', span: 'md:col-span-6 md:col-start-1 row-span-1' },
-  { src: '615438426_1577822580363824_2923463327956560352_n.jpg', title: 'Retrato en Tensión', span: 'md:col-span-5 md:col-start-2 row-span-1' },
-  { src: '615955827_1577822687030480_2386611372471959463_n.jpg', title: 'Materia y Silencio', span: 'md:col-span-10 md:col-start-2 row-span-2' },
-  { src: '616115287_1577822747030474_1432330062205548806_n.jpg', title: 'Retrato de Fama I', span: 'md:col-span-4 md:col-start-8 row-span-1' },
-  { src: '616822144_1580323063447109_589182952237233174_n.jpg', title: 'Retrato del Viento', span: 'md:col-span-6 md:col-start-1 row-span-1' },
-  { src: '622453257_1583899099756172_4197872465466826396_n.jpg', title: 'Mirada del Tiempo I', span: 'md:col-span-8 md:col-start-3 row-span-2' },
+  { src: 'Naroa x16.jpeg', title: 'Alquimia en Pizarra', span: 'col-span-1 md:col-span-10 md:col-start-2 md:row-span-2 aspect-[4/5]' },
+  { src: '601340023_1552126202933462_7815927344957967258_n.jpg', title: 'Espejo del Alma I', span: 'col-span-1 md:col-span-5 md:col-start-1 mt-0 md:mt-32 aspect-[3/4]' },
+  { src: '608211438_1562089535270462_2827127275272133326_n.jpg', title: 'Dama de la Pizarra', span: 'col-span-1 md:col-span-6 md:col-start-7 mt-0 md:-mt-20 aspect-square' },
+  { src: '612329591_1571120784367337_8798688892093004057_n.jpg', title: 'Facciones del Silencio', span: 'col-span-1 md:col-span-7 md:col-start-3 mt-12 md:mt-40 aspect-[16/9]' },
+  { src: '615438426_1577822580363824_2923463327956560352_n.jpg', title: 'Retrato en Tensión', span: 'col-span-1 md:col-span-4 md:col-start-1 mt-0 md:mt-24 aspect-[4/5]' },
+  { src: '615443765_1577822577030491_9008867371114744175_n.jpg', title: 'Estudio de Luz', span: 'col-span-1 md:col-span-5 md:col-start-8 mt-0 md:-mt-48 aspect-[3/4]' },
+  { src: '615955827_1577822687030480_2386611372471959463_n.jpg', title: 'Materia y Silencio', span: 'col-span-1 md:col-span-12 md:col-start-1 mt-12 md:mt-32 aspect-[21/9]' },
+  { src: '616115287_1577822747030474_1432330062205548806_n.jpg', title: 'Retrato de Fama I', span: 'col-span-1 md:col-span-6 md:col-start-2 mt-0 aspect-square' },
+  { src: '616822144_1580323063447109_589182952237233174_n.jpg', title: 'Retrato del Viento', span: 'col-span-1 md:col-span-4 md:col-start-9 mt-0 md:mt-40 aspect-[4/5]' },
+  { src: '622453257_1583899099756172_4197872465466826396_n.jpg', title: 'Mirada del Tiempo', span: 'col-span-1 md:col-span-8 md:col-start-3 mt-12 md:mt-24 aspect-[16/10]' },
+  { src: '292544889_3277546379149645_1460977192858455652_n.jpg', title: 'Proceso I', span: 'col-span-1 md:col-span-3 md:col-start-1 mt-0 md:mt-12 aspect-[3/4]' },
+  { src: '594972277_1543116283834454_8672784625256696657_n.jpg', title: 'Proceso II', span: 'col-span-1 md:col-span-3 md:col-start-5 mt-0 md:-mt-20 aspect-square' },
+  { src: '600258291_1552125946266821_6847049145049928090_n.jpg', title: 'Proceso III', span: 'col-span-1 md:col-span-3 md:col-start-9 mt-0 md:mt-32 aspect-[4/5]' },
+  { src: '615932964_1577822457030503_2110397705300850911_n.jpg', title: 'Textura Epoxi', span: 'col-span-1 md:col-span-10 md:col-start-2 mt-12 md:mt-32 aspect-video' },
+  { src: '616035859_1577822453697170_3937842745320602184_n.jpg', title: 'Corte Mineral', span: 'col-span-1 md:col-span-6 md:col-start-1 mt-0 md:mt-20 aspect-square' },
+  { src: '616198291_1577822413697174_3337151405885426240_n.jpg', title: 'Superficie Táctil', span: 'col-span-1 md:col-span-5 md:col-start-8 mt-0 md:-mt-10 aspect-[3/4]' },
+  { src: '616994481_1577822437030505_8337096648607967605_n.jpg', title: 'Fusión Material', span: 'col-span-1 md:col-span-12 mt-12 md:mt-40 aspect-[21/9]' },
   // Iconos Pop
-  { src: 'hq-james-CjsTrO7r.webp', title: 'James Dean', span: 'md:col-span-12 row-span-2' },
-  { src: 'hq-amy-BRTriASV.webp', title: 'Amy Winehouse', span: 'md:col-span-5 md:col-start-1 row-span-1' },
-  { src: 'hq-portrait-1-bV-_WHlX.webp', title: 'Retrato I', span: 'md:col-span-5 md:col-start-8 row-span-1' },
-  { src: 'el-gran-dakari-C1tAWAhR.webp', title: 'El Gran Dakari', span: 'md:col-span-8 md:col-start-3 row-span-2' },
-  { src: 'hq-johnny-5ueL8eU0.webp', title: 'Johnny Depp', span: 'md:col-span-6 md:col-start-1 row-span-1' },
-  { src: 'marilyn-rocks--qPeLHxE.webp', title: 'Marilyn Rocks', span: 'md:col-span-6 md:col-start-7 row-span-2' },
-  { src: 'audrey-hepburn-DbIBTtIp.webp', title: 'Audrey Hepburn', span: 'md:col-span-8 md:col-start-3 row-span-2' },
-  { src: 'geisha-MfRtKWdu.webp', title: 'Geisha', span: 'md:col-span-5 md:col-start-2 row-span-1' },
-  { src: 'lagrimas-de-oro-DikHc-Tk.webp', title: 'Lágrimas de Oro', span: 'md:col-span-10 md:col-start-2 row-span-2' },
-  { src: 'love-DA7L_L5F.webp', title: 'Love', span: 'md:col-span-6 md:col-start-4 row-span-1' },
-  { src: 'la-pensadora-CFHSnMA0.webp', title: 'La Pensadora', span: 'md:col-span-8 md:col-start-3 row-span-2' }
+  { src: 'hq-james-CjsTrO7r.webp', title: 'James Dean', span: 'col-span-1 md:col-span-8 md:col-start-1 mt-12 md:mt-0 aspect-square' },
+  { src: 'hq-amy-BRTriASV.webp', title: 'Amy Winehouse', span: 'col-span-1 md:col-span-4 md:col-start-9 mt-0 md:mt-40 aspect-[4/5]' },
+  { src: 'hq-portrait-1-bV-_WHlX.webp', title: 'Retrato I', span: 'col-span-1 md:col-span-5 md:col-start-2 mt-12 md:mt-24 aspect-[3/4]' },
+  { src: 'el-gran-dakari-C1tAWAhR.webp', title: 'El Gran Dakari', span: 'col-span-1 md:col-span-6 md:col-start-7 mt-0 md:-mt-20 aspect-square' },
+  { src: 'hq-johnny-5ueL8eU0.webp', title: 'Johnny Depp', span: 'col-span-1 md:col-span-12 mt-12 md:mt-40 aspect-[21/9]' },
+  { src: 'marilyn-rocks--qPeLHxE.webp', title: 'Marilyn Rocks', span: 'col-span-1 md:col-span-5 md:col-start-1 mt-0 aspect-[4/5]' },
+  { src: 'audrey-hepburn-DbIBTtIp.webp', title: 'Audrey Hepburn', span: 'col-span-1 md:col-span-6 md:col-start-7 mt-0 md:mt-32 aspect-[4/5]' },
+  { src: 'geisha-MfRtKWdu.webp', title: 'Geisha', span: 'col-span-1 md:col-span-8 md:col-start-3 mt-12 md:mt-24 aspect-[16/9]' },
+  { src: 'lagrimas-de-oro-DikHc-Tk.webp', title: 'Lágrimas de Oro', span: 'col-span-1 md:col-span-5 md:col-start-1 mt-0 md:mt-12 aspect-[3/4]' },
+  { src: 'love-DA7L_L5F.webp', title: 'Love', span: 'col-span-1 md:col-span-5 md:col-start-8 mt-0 md:-mt-32 aspect-square' },
+  { src: 'la-pensadora-CFHSnMA0.webp', title: 'La Pensadora', span: 'col-span-1 md:col-span-10 md:col-start-2 mt-12 md:mt-40 aspect-video' }
 ];
-
-interface ParallaxItemProps {
-  src: string;
-  alt: string;
-  i: number;
-  span: string;
-}
-
-function ParallaxItem({ src, alt, i, span }: ParallaxItemProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [translateY, setTranslateY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const itemCenter = rect.top + rect.height / 2;
-      const viewCenter = windowHeight / 2;
-      const offset = (itemCenter - viewCenter) / (windowHeight + rect.height);
-      setTranslateY(offset * -80);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  return (
-    <div 
-      ref={containerRef}
-      className={`${span} group relative overflow-hidden bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl hover:shadow-[0_0_80px_rgba(43,59,229,0.15)] transition-shadow duration-1000`}
-    >
-      <div 
-        className="absolute inset-0 w-full h-[120%] -top-[10%] transition-transform duration-75 ease-out"
-        style={{ transform: `translate3d(0, ${translateY}px, 0)` }}
-      >
-        <Image 
-          src={src} 
-          alt={alt} 
-          fill 
-          sizes="(max-width: 768px) 100vw, 50vw"
-          quality={100}
-          className="w-full h-full object-cover transition-all duration-[3.5s] ease-out grayscale-[0.2] contrast-[1.1] brightness-90 group-hover:grayscale-0 group-hover:scale-[1.04]" 
-          loading={i < 4 ? "eager" : "lazy"}
-        />
-      </div>
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/90 via-[#0A0A0A]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none flex flex-col justify-end p-8 sm:p-12 z-20">
-        <h3 className="text-white font-serif text-3xl sm:text-5xl font-light tracking-wide mix-blend-difference translate-y-8 group-hover:translate-y-0 transition-transform duration-700">{alt}</h3>
-      </div>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.15)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-    </div>
-  );
-}
 
 export default function Home() {
   const [artworks, setArtworks] = useState(baseArtworks);
@@ -174,13 +128,13 @@ export default function Home() {
         <div className="relative z-10 flex flex-col items-start w-full max-w-[1800px] mx-auto mt-20 mb-auto min-h-[50vh] justify-center">
           <h1 className="relative flex flex-col w-full text-[15vw] leading-[0.75] font-serif font-light tracking-tighter uppercase select-none">
             <span className="flex overflow-hidden z-10">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:1px_var(--color-foreground)] sm:[-webkit-text-stroke:2px_var(--color-foreground)] opacity-50 mix-blend-difference chromatic-text">Naroa</span>
+              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:1px_var(--color-foreground)] sm:[-webkit-text-stroke:2px_var(--color-foreground)] opacity-50 mix-blend-difference">Naroa</span>
             </span>
             <span className="absolute top-[20%] left-[5%] sm:left-[12%] z-30 pointer-events-none w-full">
-              <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-primary font-hand normal-case tracking-normal text-[26vw] sm:text-[22vw] -rotate-6 drop-shadow-[0_20px_50px_rgba(43,59,229,0.5)] mix-blend-screen chromatic-text">Gutiérrez</span>
+              <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-primary font-hand normal-case tracking-normal text-[26vw] sm:text-[22vw] -rotate-6 drop-shadow-[0_20px_50px_rgba(43,59,229,0.5)] mix-blend-screen">Gutiérrez</span>
             </span>
             <span className="flex overflow-hidden self-end mr-[2vw] sm:mr-[8vw] z-20 mt-[2vw]">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-foreground mix-blend-difference chromatic-text">Gil</span>
+              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-foreground mix-blend-difference">Gil</span>
             </span>
           </h1>
         </div>
@@ -204,17 +158,27 @@ export default function Home() {
           <h2 className="text-5xl sm:text-7xl font-serif font-light tracking-wide text-foreground leading-tight max-w-2xl mx-auto uppercase">Obras</h2>
           <div className="w-px h-16 bg-gradient-to-b from-primary/30 to-transparent mt-12"></div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-x-12 w-full px-4 sm:px-12 max-w-[100vw]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-x-12 md:gap-y-0 items-start w-full px-0 md:px-12">
           {artworks.map((artwork, i) => (
-            <ParallaxItem 
-              src={getImageUrl(artwork.src)} 
-              alt={artwork.title} 
-              i={i} 
-              key={i} 
-              span={artwork.span}
-            />
+            <div key={i} className={`group relative overflow-hidden bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl ${artwork.span || 'md:col-span-12 aspect-[4/3]'} w-full`}>
+              <Image 
+                src={getImageUrl(artwork.src)} 
+                alt={artwork.title} 
+                fill 
+                sizes="(max-width: 768px) 100vw, 80vw"
+                quality={100}
+                className="object-cover transition-all duration-[3.5s] ease-out grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03]" 
+                loading={i < 4 ? "eager" : "lazy"}
+              />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.12)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+              <div className="absolute bottom-6 left-6 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 translate-y-4 group-hover:translate-y-0">
+                <span className="text-foreground/80 font-sans tracking-[0.2em] text-[10px] uppercase bg-black/50 px-3 py-1 backdrop-blur-md border border-white/10 rounded-sm">
+                  {artwork.title}
+                </span>
+              </div>
+            </div>
           ))}
-          <div ref={observerRef} className="col-span-12 h-20 w-full flex justify-center items-center">
+          <div ref={observerRef} className="col-span-1 md:col-span-12 h-32 w-full flex justify-center items-center">
             <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
           </div>
         </div>
