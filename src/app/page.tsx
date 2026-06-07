@@ -70,10 +70,17 @@ export default function Home() {
   const observerRef = useRef<HTMLDivElement | null>(null);
   const [takeoverArtwork, setTakeoverArtwork] = useState<{ src: string; title: string } | null>(null);
   const [takeoverCountdown, setTakeoverCountdown] = useState(4);
+  const [appMode, setAppMode] = useState<'CAOS' | 'ORDEN'>('CAOS');
 
   useEffect(() => {
     let takeoverTimeoutId: NodeJS.Timeout;
     let countdownIntervalId: NodeJS.Timeout;
+    let cycleIntervalId: NodeJS.Timeout;
+    let initialDelayId: NodeJS.Timeout;
+
+    if (appMode === 'ORDEN') {
+      return;
+    }
 
     const runTakeover = () => {
       const randomArt = baseArtworks[Math.floor(Math.random() * baseArtworks.length)];
@@ -95,12 +102,12 @@ export default function Home() {
     };
 
     // Cycle every 17s (13s interactive + 4s block takeover)
-    const cycleIntervalId = setInterval(() => {
+    cycleIntervalId = setInterval(() => {
       runTakeover();
     }, 17000);
 
     // First trigger after 13 seconds
-    const initialDelayId = setTimeout(() => {
+    initialDelayId = setTimeout(() => {
       runTakeover();
     }, 13000);
 
@@ -111,7 +118,7 @@ export default function Home() {
       clearTimeout(initialDelayId);
       document.body.style.overflow = 'auto';
     };
-  }, []);
+  }, [appMode]);
 
   useEffect(() => {
     const lenis = new Lenis();
@@ -176,30 +183,32 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary selection:text-black">
-      <div id="webgl-container" className="absolute inset-0 z-0 pointer-events-none">
-        <WebGLBackground />
-      </div>
-      <PaintTrail />
-      <DepthHUD />
-      <SOTAFX />
-      <Mica />
+    <div className={`flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary selection:text-black ${appMode === 'ORDEN' ? 'bg-[#050505]' : ''}`}>
+      {appMode === 'CAOS' && (
+        <div id="webgl-container" className="absolute inset-0 z-0 pointer-events-none">
+          <WebGLBackground />
+        </div>
+      )}
+      {appMode === 'CAOS' && <PaintTrail />}
+      {appMode === 'CAOS' && <DepthHUD />}
+      {appMode === 'CAOS' && <SOTAFX />}
+      {appMode === 'CAOS' && <Mica />}
       <section className="relative w-full h-screen flex flex-col justify-between overflow-hidden px-6 sm:px-12 py-12">
-        <HeroFluid />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_30%,rgba(43,59,229,0.15)_0%,transparent_50%)] z-0 pointer-events-none mix-blend-color-dodge" />
+        {appMode === 'CAOS' && <HeroFluid />}
+        <div className={`absolute inset-0 bg-[radial-gradient(circle_at_60%_30%,rgba(43,59,229,0.15)_0%,transparent_50%)] z-0 pointer-events-none mix-blend-color-dodge transition-opacity duration-1000 ${appMode === 'ORDEN' ? 'opacity-30' : 'opacity-100'}`} />
         <div className="relative z-10 w-full flex justify-between items-start animate-[fadeIn_2s_ease-out]">
           <span className="text-foreground/40 font-sans tracking-[0.2em] text-[9px] uppercase">Acrílico sobre pizarra</span>
           <span className="text-foreground/40 font-sans tracking-[0.2em] text-[9px] uppercase">Bilbao</span>
         </div>
-        <div className="relative z-10 flex flex-col items-start w-full max-w-[1800px] mx-auto mt-20 mb-auto min-h-[50vh] justify-center">
-          <h1 className="relative flex flex-col w-full text-[15vw] leading-[0.75] font-serif font-light tracking-tighter uppercase select-none">
+        <div className={`relative z-10 flex flex-col items-start w-full max-w-[1800px] mx-auto mb-auto min-h-[50vh] justify-center transition-all duration-1000 ${appMode === 'ORDEN' ? 'mt-32 items-center text-center' : 'mt-20'}`}>
+          <h1 className={`relative flex flex-col w-full text-[15vw] leading-[0.75] font-serif tracking-tighter uppercase select-none transition-all duration-1000 ${appMode === 'ORDEN' ? 'font-medium text-center items-center gap-4' : 'font-light'}`}>
             <span className="flex overflow-hidden z-10">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:1px_var(--color-foreground)] sm:[-webkit-text-stroke:2px_var(--color-foreground)] opacity-50 mix-blend-difference">Naroa</span>
+              <span className={`animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] mix-blend-difference ${appMode === 'ORDEN' ? 'text-foreground opacity-100 [-webkit-text-stroke:0px]' : 'text-transparent [-webkit-text-stroke:1px_var(--color-foreground)] sm:[-webkit-text-stroke:2px_var(--color-foreground)] opacity-50'}`}>Naroa</span>
             </span>
-            <span className="absolute top-[20%] left-[5%] sm:left-[12%] z-30 pointer-events-none w-full">
-              <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-primary font-hand normal-case tracking-normal text-[26vw] sm:text-[22vw] -rotate-6 drop-shadow-[0_20px_50px_rgba(43,59,229,0.5)] mix-blend-screen">Gutiérrez</span>
+            <span className={`absolute top-[20%] z-30 pointer-events-none w-full transition-all duration-1000 ${appMode === 'ORDEN' ? 'left-0 text-center top-[40%] opacity-90' : 'left-[5%] sm:left-[12%]'}`}>
+              <span className={`inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-primary mix-blend-screen transition-all duration-1000 ${appMode === 'ORDEN' ? 'font-serif uppercase tracking-widest text-[8vw] sm:text-[6vw] rotate-0 drop-shadow-none opacity-80 mt-12' : 'font-hand normal-case tracking-normal text-[26vw] sm:text-[22vw] -rotate-6 drop-shadow-[0_20px_50px_rgba(43,59,229,0.5)]'}`}>Gutiérrez</span>
             </span>
-            <span className="flex overflow-hidden self-end mr-[2vw] sm:mr-[8vw] z-20 mt-[2vw]">
+            <span className={`flex overflow-hidden z-20 transition-all duration-1000 ${appMode === 'ORDEN' ? 'self-center mt-8 mr-0' : 'self-end mr-[2vw] sm:mr-[8vw] mt-[2vw]'}`}>
               <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-foreground mix-blend-difference">Gil</span>
             </span>
           </h1>
@@ -224,16 +233,16 @@ export default function Home() {
           <h2 className="text-5xl sm:text-7xl font-serif font-light tracking-wide text-foreground leading-tight max-w-2xl mx-auto uppercase">Obras</h2>
           <div className="w-px h-16 bg-gradient-to-b from-primary/30 to-transparent mt-12"></div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-x-12 md:gap-y-0 items-start w-full px-0 md:px-12">
+        <div className={`grid gap-8 md:gap-x-12 w-full px-0 md:px-12 transition-all duration-1000 ${appMode === 'ORDEN' ? 'grid-cols-1 md:grid-cols-3 gap-y-16 items-start' : 'grid-cols-1 md:grid-cols-12 md:gap-y-0 items-start'}`}>
           {artworks.map((artwork, i) => (
-            <div key={i} className={`group relative overflow-hidden bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl ${artwork.span || 'md:col-span-12 aspect-[4/3]'} w-full`}>
+            <div key={i} className={`group relative overflow-hidden bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl w-full transition-all duration-1000 ${appMode === 'ORDEN' ? 'col-span-1 aspect-[4/5] mt-0 mb-8' : (artwork.span || 'md:col-span-12 aspect-[4/3]')}`}>
               <Image 
                 src={getImageUrl(artwork.src)} 
                 alt={artwork.title} 
                 fill 
                 sizes="(max-width: 768px) 100vw, 80vw"
                 quality={100}
-                className="object-cover transition-all duration-[3.5s] ease-out grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03] will-change-transform transform-gpu" 
+                className={`object-cover transition-all duration-[3.5s] ease-out will-change-transform transform-gpu ${appMode === 'ORDEN' ? 'grayscale-[0.2] hover:grayscale-0' : 'grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03]'}`} 
                 priority={i < 4}
               />
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.12)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
@@ -257,10 +266,10 @@ export default function Home() {
       </div>
 
       {/* ── SCROLLYTELLING (Evolución de la Obra) ── */}
-      <ScrollyTelling />
+      {appMode === 'CAOS' && <ScrollyTelling />}
 
       {/* ── EL TALLER INTERACTIVO ── */}
-      <InteractiveStudio />
+      {appMode === 'CAOS' && <InteractiveStudio />}
 
       {/* ── FOOTER VISUAL ── */}
       <footer className="relative pt-40 pb-20 overflow-hidden bg-[#0A0A0A] border-t border-white/5">
@@ -293,9 +302,29 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Floating Color Mutator Dock */}
-      <div className="fixed bottom-8 left-8 z-[130] flex gap-2.5 items-center bg-[#0c0c0e]/80 border border-white/5 px-4 py-2.5 rounded-sm backdrop-blur-md select-none">
-        <span className="font-sans text-[8px] tracking-[0.25em] uppercase text-white/40 mr-1">Muta</span>
+      {/* Floating Color Mutator Dock & Mode Toggle */}
+      <div className="fixed bottom-8 left-8 z-[130] flex flex-col gap-4 items-start select-none">
+        
+        {/* Mode Toggle */}
+        <div className="flex gap-2 items-center bg-[#0c0c0e]/80 border border-white/5 px-4 py-2.5 rounded-sm backdrop-blur-md">
+          <button 
+            onClick={() => setAppMode('CAOS')}
+            className={`font-sans text-[9px] tracking-[0.25em] uppercase px-3 py-1 transition-all duration-500 rounded-sm ${appMode === 'CAOS' ? 'text-white bg-white/10' : 'text-white/40 hover:text-white/70'}`}
+          >
+            Caos
+          </button>
+          <div className="w-px h-3 bg-white/20" />
+          <button 
+            onClick={() => setAppMode('ORDEN')}
+            className={`font-sans text-[9px] tracking-[0.25em] uppercase px-3 py-1 transition-all duration-500 rounded-sm ${appMode === 'ORDEN' ? 'text-white bg-white/10' : 'text-white/40 hover:text-white/70'}`}
+          >
+            Orden
+          </button>
+        </div>
+
+        {/* Color Toggle */}
+        <div className="flex gap-2.5 items-center bg-[#0c0c0e]/80 border border-white/5 px-4 py-2.5 rounded-sm backdrop-blur-md">
+          <span className="font-sans text-[8px] tracking-[0.25em] uppercase text-white/40 mr-1">Muta</span>
         {['#2B3BE5', '#C6A87C', '#10B981', '#D9383A', '#D97706', '#8B5CF6', '#06B6D4'].map((color) => (
           <button
             key={color}
@@ -310,6 +339,7 @@ export default function Home() {
           />
         ))}
       </div>
+    </div>
 
       {/* Fullscreen Takeover Artwork Amplification Modal */}
       {takeoverArtwork && (

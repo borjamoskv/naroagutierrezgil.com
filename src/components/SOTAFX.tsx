@@ -178,6 +178,31 @@ export default function SOTAFX() {
         >
         </div>
       )}
+
+      {/* Reverse Magnifier (Wireframe Decomposition) */}
+      {hoveredSrc && vaultMode && (
+        <div 
+          className="fixed pointer-events-none z-[200] w-64 h-64 rounded-sm border border-primary/50 bg-[#000000] mix-blend-lighten hidden md:flex items-center justify-center overflow-hidden"
+          style={{
+            left: pos.x - 128,
+            top: pos.y - 128,
+          }}
+        >
+          {/* Simulated Bounding Boxes / Splat Wireframes overlay */}
+          <div className="absolute inset-0 opacity-40 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay"></div>
+          <div 
+            className="w-full h-full opacity-60"
+            style={{
+              backgroundImage: `linear-gradient(rgba(43,59,229,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(43,59,229,0.3) 1px, transparent 1px)`,
+              backgroundSize: '8px 8px',
+              transform: 'perspective(500px) rotateX(45deg) rotateZ(10deg) scale(1.5)'
+            }}
+          ></div>
+          <span className="absolute bottom-2 right-2 text-[8px] text-primary font-mono tracking-widest bg-black/80 px-2 py-1 border border-primary/30">
+            LOD: WIREFRAME<br/>SPLATS: DECOMPOSED
+          </span>
+        </div>
+      )}
     </>
   )
 }

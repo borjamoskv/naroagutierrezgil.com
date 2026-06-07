@@ -9,12 +9,19 @@ export default function SplatBenchmarkCanvas() {
   const [status, setStatus] = useState<string>('Initializing C5-REAL Splat Physics Engine...');
   const simulatorRef = useRef<WebGPUSplatSimulator | null>(null);
   const isDownRef = useRef(false);
+  const mousePosRef = useRef({ x: -1000, y: -1000 });
 
   // Kintsugi State
   const [entropy, setEntropy] = useState<number>(0);
   const [kintsugiActive, setKintsugiActive] = useState<boolean>(false);
   const [repairs, setRepairs] = useState<number>(0);
   const [scars, setScars] = useState<Array<{ x: number; y: number; depth: number; timestamp: number }>>([]);
+  const scarsRef = useRef(scars);
+
+  // Sync state to ref for render loop
+  useEffect(() => {
+    scarsRef.current = scars;
+  }, [scars]);
 
   // Cloudflare Agent Connection (Producción C5-REAL)
   const agent = useAgent({
@@ -36,18 +43,20 @@ export default function SplatBenchmarkCanvas() {
   });
 
   useEffect(() => {
+    if (!canvasRef.current) return;
+    
     let animationFrameId: number;
-    const splatCount = 100000;
+    const splatCount = 200000; // Increased count for better visual density
 
     const initEngine = async () => {
       try {
         const simulator = new WebGPUSplatSimulator();
-        await simulator.init(splatCount);
+        await simulator.init(canvasRef.current!, splatCount);
         simulatorRef.current = simulator;
-        setStatus(`C5-REAL ENGINE ACTIVE: Running ${splatCount} splats compute shader at 60fps.`);
+        setStatus(`C5-REAL ENGINE ACTIVE: Running ${splatCount} splats compute+render at 60fps.`);
         const renderLoop = () => {
           if (simulatorRef.current) {
-            simulatorRef.current.step(0, 0, isDownRef.current, splatCount);
+            simulatorRef.current.step(mousePosRef.current.x, mousePosRef.current.y, isDownRef.current, scarsRef.current);
           }
           animationFrameId = requestAnimationFrame(renderLoop);
         };
@@ -64,10 +73,19 @@ export default function SplatBenchmarkCanvas() {
     };
   }, []);
 
-  const handlePointerDown = () => (isDownRef.current = true);
+  const handlePointerDown = (e: React.PointerEvent) => {
+    isDownRef.current = true;
+    handlePointerMove(e);
+  };
   const handlePointerUp = () => (isDownRef.current = false);
 
   const handlePointerMove = (e: React.PointerEvent) => {
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (rect) {
+      mousePosRef.current.x = e.clientX - rect.left;
+      mousePosRef.current.y = e.clientY - rect.top;
+    }
+    
     if (isDownRef.current && agent && !kintsugiActive) {
        // Pseudo-throttle para no saturar WebSockets en desarrollo
        if (Math.random() > 0.8) { 
@@ -88,7 +106,7 @@ export default function SplatBenchmarkCanvas() {
         <p>[SPLAT BENCHMARK - MACRO TO PIGMENT]</p>
         <p className="text-white mt-1">{status}</p>
         <p className="mt-4 text-gray-500 max-w-sm">
-          Aplica un tensor de fuerza al Compute Shader interactuando con este plano. La fricción se sincroniza vía Cloudflare Agents SDK.
+          Aplica un tensor de fuerza al Compute Shader interactuando con este plano. La fricción se sincroniza vía Cloudflare Agents SDK. Las fracturas se revelarán volumétricamente.
         </p>
 
         <div className="mt-8 border border-[#2B3BE5]/30 p-4 bg-black/50 backdrop-blur-md">
@@ -109,26 +127,14 @@ export default function SplatBenchmarkCanvas() {
       </div>
       <canvas 
         ref={canvasRef} 
-        className="w-full h-full cursor-crosshair mix-blend-screen absolute inset-0"
+        width={1000}
+        height={1000}
+        className="w-full h-full cursor-crosshair absolute inset-0 mix-blend-lighten"
         onPointerDown={handlePointerDown}
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerUp}
         onPointerMove={handlePointerMove}
       />
-      {/* Kintsugi Overlay - Cicatrices de Estado Persistente */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none mix-blend-screen opacity-80 z-20">
-        {scars.map((scar, i) => (
-          <circle 
-            key={`${scar.timestamp}-${i}`} 
-            cx={scar.x} 
-            cy={scar.y} 
-            r={scar.depth * (repairs > 0 ? 1.5 : 1)} 
-            fill={repairs > 0 ? "#F59E0B" : "#2B3BE5"} 
-            className="transition-all duration-1000 ease-out"
-            filter={repairs > 0 ? "drop-shadow(0px 0px 8px #F59E0B)" : "none"}
-          />
-        ))}
-      </svg>
     </div>
   );
 }
