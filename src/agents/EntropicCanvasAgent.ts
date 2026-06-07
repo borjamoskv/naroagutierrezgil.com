@@ -8,7 +8,9 @@ export type EntropicState = {
   scars: Array<{ x: number; y: number; depth: number; timestamp: number }>;
 };
 
-export type Env = Record<string, unknown>;
+export type Env = {
+  RADIANCE_MEMORY: KVNamespace;
+};
 
 export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
   // Estado inicial cristalizado (La Pizarra Intacta)
@@ -32,11 +34,19 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
    * Callback asíncrono C5-REAL: Dispara reacciones al mundo físico (clientes) 
    * cuando el estado termodinámico cambia.
    */
-  onStateUpdate(state: EntropicState) {
+  async onStateUpdate(state: EntropicState) {
     // Si la entropía supera el umbral crítico y no hay Kintsugi activo, la pizarra se quiebra.
     if (state.globalEntropy >= 100.0 && !state.kintsugiActive) {
       this.setState({ ...state, kintsugiActive: true });
       this.broadcast(JSON.stringify({ type: 'CANVAS_FRACTURE', message: 'La fricción colectiva ha quebrado la obra. Inyección de resina requerida.' }));
+      
+      // CORTEX-Guard KV Observability
+      try {
+        const timestamp = new Date().toISOString();
+        await this.env.RADIANCE_MEMORY.put(`fracture_${timestamp}`, JSON.stringify({ event: 'FRACTURE', scars: state.scars.length, repairs: state.totalRepairs }));
+      } catch (e) {
+        console.warn('Error saving to RADIANCE_MEMORY', e);
+      }
     }
   }
 
@@ -88,6 +98,14 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
         // Las cicatrices no se borran, quedan selladas en el oro
       });
       this.broadcast(JSON.stringify({ type: 'KINTSUGI_COMPLETE', repairNumber: this.state.totalRepairs }));
+      
+      // CORTEX-Guard KV Observability
+      try {
+        const timestamp = new Date().toISOString();
+        this.env.RADIANCE_MEMORY.put(`kintsugi_${timestamp}`, JSON.stringify({ event: 'REPAIR', repairNumber: this.state.totalRepairs, totalScars: this.state.scars.length }));
+      } catch (e) {
+        console.warn('Error saving to RADIANCE_MEMORY', e);
+      }
     } else {
       this.setState({ ...this.state, globalEntropy: newEntropy });
     }
