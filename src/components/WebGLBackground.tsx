@@ -61,7 +61,11 @@ function StarBackground(props: any) {
 export default function WebGLBackground() {
   return (
     <div className="absolute inset-0 z-0 bg-[#0A0A0A]">
-      <Canvas camera={{ position: [0, 0, 1] }}>
+      <Canvas 
+        camera={{ position: [0, 0, 1] }} 
+        dpr={[1, 1.5]} 
+        gl={{ powerPreference: "high-performance", alpha: false, antialias: false }}
+      >
         <fog attach="fog" args={['#0A0A0A', 0.5, 2]} />
         <StarBackground />
       </Canvas>
