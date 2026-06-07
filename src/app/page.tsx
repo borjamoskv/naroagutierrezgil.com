@@ -97,7 +97,7 @@ function ParallaxItem({ src, alt, i }: ParallaxItemProps) {
           fill 
           sizes="100vw"
           quality={100}
-          className="object-cover transition-all duration-[3.5s] ease-out grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.04]" 
+          className="w-full h-full object-cover transition-all duration-[3.5s] ease-out grayscale-[0.2] contrast-[1.1] brightness-90 group-hover:grayscale-0 group-hover:scale-[1.04]" 
           loading={i < 4 ? "eager" : "lazy"}
         />
       </div>
