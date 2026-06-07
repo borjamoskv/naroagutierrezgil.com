@@ -34,7 +34,7 @@ export class WebGPUSplatSimulator {
   
   private splatCount: number = 0;
 
-  public async init(canvas: HTMLCanvasElement, splatCount: number = 100000) {
+  public async init(canvas: HTMLCanvasElement, splatUrl?: string, defaultSplatCount: number = 100000) {
     if (typeof navigator === 'undefined' || !(navigator as any).gpu) {
       throw new Error('WebGPU no está soportado en este navegador.');
     }
@@ -60,6 +60,7 @@ export class WebGPUSplatSimulator {
         pos : vec3<f32>,
         vel : vec3<f32>,
         base_pos : vec3<f32>,
+        color : vec4<f32>,
       };
 
       struct Uniforms {
@@ -113,6 +114,7 @@ export class WebGPUSplatSimulator {
         pos : vec3<f32>,
         vel : vec3<f32>,
         base_pos : vec3<f32>,
+        color : vec4<f32>,
       };
 
       struct Scar {
@@ -147,8 +149,8 @@ export class WebGPUSplatSimulator {
         let aspect = 1.0; 
         out.position = vec4<f32>(p.pos.x / 10.0, p.pos.y / 10.0, p.pos.z / 10.0, 1.0);
         
-        // Base color (Slate / Pizarra Noir)
-        var base_color = vec3<f32>(0.1, 0.12, 0.15) + (p.base_pos.z * 0.05);
+        // Base color from captured Splat
+        var base_color = p.color.rgb;
 
         // Kintsugi SDF Check
         var is_scar = false;
@@ -204,8 +206,8 @@ export class WebGPUSplatSimulator {
       primitive: { topology: 'point-list' },
     });
 
-    const particleStride = 48; // 3 vec3 (each 16 bytes padded)
-    const bufferSize = splatCount * particleStride;
+    const particleStride = 64; // 3 vec3 (each 16 bytes) + 1 vec4 (16 bytes)
+    const bufferSize = this.splatCount * particleStride;
     this.particleBuffer = this.device.createBuffer({
       size: bufferSize,
       usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
@@ -239,22 +241,79 @@ export class WebGPUSplatSimulator {
       ],
     });
 
-    // Initial Data Grid (Slate)
-    const initialData = new Float32Array(bufferSize / 4);
-    const side = Math.sqrt(splatCount);
-    for (let i = 0; i < splatCount; i++) {
-      const idx = i * 12; 
-      const row = Math.floor(i / side);
-      const col = i % side;
+    let initialData: Float32Array;
+
+    if (splatUrl) {
+      const response = await fetch(splatUrl);
+      const buffer = await response.arrayBuffer();
+      const splatCount = Math.floor(buffer.byteLength / 32);
+      this.splatCount = splatCount;
+
+      // Recreate buffer with actual splat count
+      this.particleBuffer = this.device.createBuffer({
+        size: this.splatCount * 64,
+        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST,
+      });
+      // Re-create bind groups since buffer changed
+      this.computeBindGroup = this.device.createBindGroup({
+        layout: this.computePipeline.getBindGroupLayout(0),
+        entries: [
+          { binding: 0, resource: { buffer: this.particleBuffer } },
+          { binding: 1, resource: { buffer: this.uniformBuffer } },
+        ],
+      });
+      this.renderBindGroup = this.device.createBindGroup({
+        layout: this.renderPipeline.getBindGroupLayout(0),
+        entries: [
+          { binding: 0, resource: { buffer: this.particleBuffer } },
+          { binding: 1, resource: { buffer: this.kintsugiBuffer } },
+        ],
+      });
+
+      const f32View = new Float32Array(buffer);
+      const u8View = new Uint8Array(buffer);
+
+      initialData = new Float32Array(splatCount * 16);
       
-      const x = ((col / side) - 0.5) * 20.0;
-      const y = -((row / side) - 0.5) * 20.0;
-      const z = (Math.random() - 0.5) * 0.5; // slight noise
-      
-      initialData[idx + 0] = x; initialData[idx + 1] = y; initialData[idx + 2] = z; // Base
-      initialData[idx + 4] = 0; initialData[idx + 5] = 0; initialData[idx + 6] = 0; // Vel
-      initialData[idx + 8] = x; initialData[idx + 9] = y; initialData[idx + 10] = z; // Pos
+      for (let i = 0; i < splatCount; i++) {
+        const floatIdx = i * 8; 
+        const byteIdx = i * 32;
+        
+        const x = f32View[floatIdx + 0] * 3.0; // scale up slightly
+        const y = -f32View[floatIdx + 1] * 3.0; // invert Y
+        const z = f32View[floatIdx + 2] * 3.0;
+        
+        // Colors
+        const r = u8View[byteIdx + 24] / 255.0;
+        const g = u8View[byteIdx + 25] / 255.0;
+        const b = u8View[byteIdx + 26] / 255.0;
+        
+        const outIdx = i * 16;
+        initialData[outIdx + 0] = x; initialData[outIdx + 1] = y; initialData[outIdx + 2] = z; // Base
+        initialData[outIdx + 4] = 0; initialData[outIdx + 5] = 0; initialData[outIdx + 6] = 0; // Vel
+        initialData[outIdx + 8] = x; initialData[outIdx + 9] = y; initialData[outIdx + 10] = z; // Pos
+        initialData[outIdx + 12] = r; initialData[outIdx + 13] = g; initialData[outIdx + 14] = b; initialData[outIdx + 15] = 1.0;
+      }
+    } else {
+      this.splatCount = defaultSplatCount;
+      initialData = new Float32Array(defaultSplatCount * 16);
+      const side = Math.sqrt(defaultSplatCount);
+      for (let i = 0; i < defaultSplatCount; i++) {
+        const outIdx = i * 16; 
+        const row = Math.floor(i / side);
+        const col = i % side;
+        
+        const x = ((col / side) - 0.5) * 20.0;
+        const y = -((row / side) - 0.5) * 20.0;
+        const z = (Math.random() - 0.5) * 0.5; 
+        
+        initialData[outIdx + 0] = x; initialData[outIdx + 1] = y; initialData[outIdx + 2] = z; 
+        initialData[outIdx + 4] = 0; initialData[outIdx + 5] = 0; initialData[outIdx + 6] = 0; 
+        initialData[outIdx + 8] = x; initialData[outIdx + 9] = y; initialData[outIdx + 10] = z; 
+        initialData[outIdx + 12] = 0.5; initialData[outIdx + 13] = 0.5; initialData[outIdx + 14] = 0.5; initialData[outIdx + 15] = 1.0;
+      }
     }
+    
     this.device.queue.writeBuffer(this.particleBuffer, 0, initialData);
 
     return true;
