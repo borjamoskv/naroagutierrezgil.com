@@ -193,22 +193,24 @@ export default function Home() {
     title: string;
   } | null>(null);
   const [takeoverCountdown, setTakeoverCountdown] = useState(4);
-  const [appMode, setAppMode] = useState<"CAOS" | "ORDEN">("CAOS");
+  const [appMode, setAppMode] = useState<"CAOS" | "ORDEN">("ORDEN");
   const [webGLReady, setWebGLReady] = useState(false);
   const [isLocal, setIsLocal] = useState(false);
 
   const takeoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Synchronize initial mode with current dimension (domain)
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const hostname = window.location.hostname;
-      if (!hostname.includes("naroaonline") && hostname !== "localhost") {
-        setAppMode("ORDEN");
-      }
-    }
+    const handleRequest = (e: Event) => {
+      setAppMode((e as CustomEvent).detail);
+    };
+    window.addEventListener('request-dimension-toggle', handleRequest);
+    return () => window.removeEventListener('request-dimension-toggle', handleRequest);
   }, []);
+
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('dimension-changed', { detail: appMode }));
+  }, [appMode]);
 
   const triggerTakeover = (artwork: { src: string; title: string }) => {
     if (takeoverTimeoutRef.current) clearTimeout(takeoverTimeoutRef.current);
