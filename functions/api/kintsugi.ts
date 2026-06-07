@@ -1,13 +1,25 @@
 /// <reference types="@cloudflare/workers-types" />
 
 export interface Env {
-  RADIANCE_MEMORY: KVNamespace;
+  RADIANCE_MEMORY?: KVNamespace;
 }
+
+// In-memory mock state fallback when KV is not bound
+let mockKintsugiState = { entropy: 0, repairs: 0, scars: [] as any[] };
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
   try {
-    const rawState = await context.env.RADIANCE_MEMORY.get("kintsugi_state");
-    const state = rawState ? JSON.parse(rawState) : { entropy: 0, repairs: 0, scars: [] };
+    const kv = context.env.RADIANCE_MEMORY;
+    let state = mockKintsugiState;
+
+    if (kv) {
+      const rawState = await kv.get("kintsugi_state");
+      if (rawState) {
+        state = JSON.parse(rawState);
+        // Sync mock state for local warm memory
+        mockKintsugiState = state;
+      }
+    }
 
     return new Response(JSON.stringify(state), {
       headers: { 
@@ -17,16 +29,26 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       }
     });
   } catch (err) {
-    return new Response("Internal Server Error", { status: 500 });
+    return new Response(JSON.stringify({ error: (err as Error).message }), { 
+      status: 500,
+      headers: { "Content-Type": "application/json" }
+    });
   }
 };
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   try {
     const body = await context.request.json() as { type: "FRICTION" | "REPAIR", payload?: { x: number, y: number, intensity: number } };
+    const kv = context.env.RADIANCE_MEMORY;
     
-    const rawState = await context.env.RADIANCE_MEMORY.get("kintsugi_state");
-    const state = rawState ? JSON.parse(rawState) : { entropy: 0, repairs: 0, scars: [] };
+    let state = mockKintsugiState;
+
+    if (kv) {
+      const rawState = await kv.get("kintsugi_state");
+      if (rawState) {
+        state = JSON.parse(rawState);
+      }
+    }
 
     if (body.type === "FRICTION") {
       // Each interaction adds micro-entropy
@@ -51,7 +73,12 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       }
     }
 
-    await context.env.RADIANCE_MEMORY.put("kintsugi_state", JSON.stringify(state));
+    // Save back to KV if bound, else update in-memory mock
+    if (kv) {
+      await kv.put("kintsugi_state", JSON.stringify(state));
+    } else {
+      mockKintsugiState = state;
+    }
 
     return new Response(JSON.stringify(state), {
       headers: { 
@@ -60,6 +87,10 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       }
     });
   } catch (err) {
-    return new Response("Internal Server Error", { status: 500 });
+    return new Response(JSON.stringify({ error: (err as Error).message }), { 
+      status: 500,
+      headers: { "Content-Type": "application/json" }
+    });
   }
 };
+
