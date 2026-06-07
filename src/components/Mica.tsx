@@ -279,6 +279,7 @@ export default function Mica() {
     <>
       {/* Floating Sparkle Toggle Button */}
       <button
+        aria-label="Alternar Asistente Mica"
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-24 right-8 z-[250] flex items-center justify-center w-12 h-12 rounded-full border border-primary/40 bg-background/80 backdrop-blur shadow-[0_0_30px_rgba(43,59,229,0.2)] hover:scale-105 active:scale-95 transition-all duration-300 group cursor-pointer"
       >
