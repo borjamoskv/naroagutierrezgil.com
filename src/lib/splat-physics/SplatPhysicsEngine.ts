@@ -30,6 +30,8 @@ struct PhysicsUniforms {
   force: f32,
   elasticity: f32,
   damping: f32,
+  heatRate: f32,
+  zoom: f32,
 }
 
 @group(0) @binding(0) var<uniform> uniforms: PhysicsUniforms;
@@ -40,7 +42,6 @@ struct PhysicsUniforms {
 @compute @workgroup_size(64)
 fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
   let idx = global_id.x;
-  // Guard check against array boundaries
   if (idx >= arrayLength(&originalPos)) {
     return;
   }
@@ -48,12 +49,13 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
   let orig = originalPos[idx].xyz;
   var pos = currentPos[idx].xyz;
   var vel = velocities[idx].xyz;
+  var heat = velocities[idx].w;
 
   // 1. Spring force (elastic return)
   let springVector = orig - pos;
   let springForce = springVector * uniforms.elasticity;
 
-  // 2. Cursor interaction (repulsion)
+  // 2. Cursor interaction (repulsion & thermodynamic heat excitation)
   let distVec = pos.xy - uniforms.mousePos;
   let dist = length(distVec);
   
@@ -62,16 +64,29 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
     let strength = (0.6 - dist) * uniforms.force;
     // Push away in XY, and bump out in Z
     repulsion = vec3<f32>(normalize(distVec) * strength * 0.8, strength * 1.5);
+    
+    // Accumulate heat (Thermodynamic human impact)
+    heat = heat + (0.6 - dist) * uniforms.heatRate;
   }
 
+  // Heat decay / damping over time
+  heat = heat * 0.94;
+
   // 3. Physics integration
+  // Thermal vibration: heat oscillates the positions dynamically
+  let thermalNoise = vec3<f32>(
+    sin(uniforms.time * 60.0 + f32(idx)) * 0.04 * heat,
+    cos(uniforms.time * 50.0 + f32(idx)) * 0.04 * heat,
+    sin(uniforms.time * 40.0 + f32(idx)) * 0.04 * heat
+  );
+
   let accel = springForce + repulsion;
   vel = (vel + accel) * uniforms.damping;
-  pos = pos + vel;
+  pos = pos + vel + thermalNoise;
 
   // Store state back
-  currentPos[idx] = vec4<f32>(pos, originalPos[idx].w); // preserve w component (could be size/alpha)
-  velocities[idx] = vec4<f32>(vel, 0.0);
+  currentPos[idx] = vec4<f32>(pos, originalPos[idx].w);
+  velocities[idx] = vec4<f32>(vel, heat);
 }
 `;
 
@@ -85,20 +100,55 @@ struct VertexOutput {
 struct RenderUniforms {
   viewProjection: mat4x4<f32>,
   primaryColor: vec3<f32>,
+  zoom: f32,
+  lightPos: vec2<f32>,
+  padding: vec2<f32>,
 }
 
 @group(0) @binding(0) var<uniform> uniforms: RenderUniforms;
 @group(0) @binding(1) var<storage, read> positions: array<vec4<f32>>;
+@group(0) @binding(2) var<storage, read> velocities: array<vec4<f32>>;
 
 @vertex
 fn vs_main(@builtin(vertex_index) vertex_idx: u32) -> VertexOutput {
   var out: VertexOutput;
   let pos = positions[vertex_idx].xyz;
+  let heat = velocities[vertex_idx].w;
   
   // Projection
   out.position = uniforms.viewProjection * vec4<f32>(pos, 1.0);
-  out.color = uniforms.primaryColor * (0.6 + 0.4 * sin(pos.z * 5.0));
-  out.size = 3.0; // point size
+  
+  // 1. El Retrato Existe Dentro De La Piedra (Excavación Volumétrica)
+  // Base slate color is dark grey
+  let slateColor = vec3<f32>(0.06, 0.06, 0.07);
+  
+  // Target color is the glowing primary/artwork colors
+  let paintColor = uniforms.primaryColor * (0.6 + 0.4 * sin(pos.z * 5.0 + pos.x * 2.0));
+  
+  // Luz rasante (grazing light) based on lightPos
+  let distToLight = distance(pos.xy, uniforms.lightPos);
+  let lightIntensity = max(0.04, 1.0 - (distToLight / 0.75));
+  
+  // Reveal color under light
+  var baseCol = mix(slateColor, paintColor, lightIntensity);
+  
+  // 4. Radiance Memory & Pizarra Termodinámica: Heat turns color into gold/amber glow
+  let glowColor = vec3<f32>(1.0, 0.62, 0.11); // Gold/Amber glow
+  out.color = mix(baseCol, glowColor, min(1.0, heat * 2.5));
+  
+  // 2. Microscopio Neural & 6. Realidad Inestable
+  // Point size increases as we zoom in (Microscopio Neural), but decays or scrambles if too close
+  var sizeVal = 3.0;
+  if (uniforms.zoom > 1.5) {
+    sizeVal = max(1.0, 4.0 / (uniforms.zoom * 0.4));
+  }
+  
+  // Realidad inestable: if zoom is extreme, make particles disperse or render smaller to see mathematical grain
+  if (uniforms.zoom > 3.0) {
+    sizeVal = sizeVal * 0.7;
+  }
+  
+  out.size = sizeVal;
   return out;
 }
 
@@ -215,15 +265,15 @@ export class SplatPhysicsEngine {
     this.device.queue.writeBuffer(this.velocityBuffer, 0, velocities);
     
     // 4. Uniform Buffers
-    // Compute Uniform: vec2 mousePos, float time, float force, float elasticity, float damping (aligned to 16 bytes chunks)
+    // Compute Uniform: vec2 mousePos, float time, float force, float elasticity, float damping, float heatRate, float zoom (32 bytes)
     this.computeUniformBuffer = this.device.createBuffer({
       size: 32, // 8 floats = 32 bytes
       usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
     });
     
-    // Render Uniform: mat4x4 viewProj (64 bytes) + vec3 color (12 bytes) + 4 bytes padding = 80 bytes
+    // Render Uniform: mat4x4 viewProj (64 bytes) + vec3 color (12 bytes) + 1 float zoom (4 bytes) + vec2 lightPos (8 bytes) + vec2 padding (8 bytes) = 96 bytes
     this.renderUniformBuffer = this.device.createBuffer({
-      size: 80,
+      size: 96,
       usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
     });
     
@@ -242,7 +292,8 @@ export class SplatPhysicsEngine {
       layout: this.renderPipeline!.getBindGroupLayout(0),
       entries: [
         { binding: 0, resource: { buffer: this.renderUniformBuffer } },
-        { binding: 1, resource: { buffer: this.currentBuffer } }
+        { binding: 1, resource: { buffer: this.currentBuffer } },
+        { binding: 2, resource: { buffer: this.velocityBuffer } }
       ]
     });
   }
@@ -253,7 +304,9 @@ export class SplatPhysicsEngine {
     time: number,
     force: number,
     elasticity: number,
-    damping: number
+    damping: number,
+    heatRate: number,
+    zoom: number
   ) {
     if (!this.device || !this.computePipeline || !this.computeBindGroup || !this.computeUniformBuffer) return;
     
@@ -264,7 +317,8 @@ export class SplatPhysicsEngine {
       force,
       elasticity,
       damping,
-      0, 0 // padding
+      heatRate,
+      zoom
     ]);
     this.device.queue.writeBuffer(this.computeUniformBuffer, 0, uniformData);
     
@@ -284,14 +338,22 @@ export class SplatPhysicsEngine {
   public render(
     context: GPUCanvasContext,
     viewProjectionMatrix: Float32Array,
-    rgbColor: number[] // [r, g, b] normalized 0-1
+    rgbColor: number[], // [r, g, b] normalized 0-1
+    zoom: number,
+    lightX: number,
+    lightY: number
   ) {
     if (!this.device || !this.renderPipeline || !this.renderBindGroup || !this.renderUniformBuffer) return;
     
     // Write Render Uniforms
-    const renderUniformData = new Float32Array(20); // 80 bytes / 4 = 20 floats
-    renderUniformData.set(viewProjectionMatrix, 0); // 16 floats mat4x4
-    renderUniformData.set(rgbColor, 16); // 3 floats vec3
+    const renderUniformData = new Float32Array(24); // 96 bytes / 4 = 24 floats
+    renderUniformData.set(viewProjectionMatrix, 0); // 16 floats
+    renderUniformData.set(rgbColor, 16);           // 3 floats
+    renderUniformData[19] = zoom;                  // 1 float
+    renderUniformData[20] = lightX;                // 1 float
+    renderUniformData[21] = lightY;                // 1 float
+    renderUniformData[22] = 0.0;                   // padding
+    renderUniformData[23] = 0.0;                   // padding
     this.device.queue.writeBuffer(this.renderUniformBuffer, 0, renderUniformData);
     
     const commandEncoder = this.device.createCommandEncoder();

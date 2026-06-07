@@ -28,6 +28,7 @@ export default function SplatPhysicsTester() {
   
   const mousePos = useRef({ x: -10.0, y: -10.0 });
   const isMouseDown = useRef(false);
+  const zoomRef = useRef(1.0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -108,25 +109,33 @@ export default function SplatPhysicsTester() {
         const mappedX = mousePos.current.x * 1.5 * aspect;
         const mappedY = mousePos.current.y * 1.5;
 
-        // 1. Dispatch Compute Shader for physics deform
+        // 1. Dispatch Compute Shader for physics deform (with heatRate and zoom)
         engine.runComputePass(
           mappedX,
           mappedY,
           time * 0.001,
           isMouseDown.current ? force * 2.0 : force, // double force when clicking
           elasticity,
-          damping
+          damping,
+          isMouseDown.current ? 0.08 : 0.04, // heatRate
+          zoomRef.current
         );
 
-        // 2. Build View Projection Matrix
+        // 2. Build View Projection Matrix with camera distance & Parallax (Cámara Imposible)
         const proj = makePerspectiveMatrix(Math.PI / 4, aspect, 0.1, 100.0);
         
-        // View translation matrix (camera pushed back to z = -3.5)
+        // Tilt camera slightly based on cursor to simulate volumetric 3D capture parallax
+        const parallaxX = mousePos.current.x * 0.25;
+        const parallaxY = mousePos.current.y * 0.25;
+        const currentDistance = -3.5 / zoomRef.current;
+        
         const viewProj = new Float32Array(16);
         viewProj.set(proj);
-        // Apply view translation manually on Z matrix cells
-        viewProj[14] = proj[10] * -3.5 + proj[14];
-        viewProj[15] = proj[11] * -3.5;
+        
+        viewProj[12] = proj[0] * parallaxX + viewProj[12];
+        viewProj[13] = proj[5] * parallaxY + viewProj[13];
+        viewProj[14] = proj[10] * currentDistance + viewProj[14];
+        viewProj[15] = proj[11] * currentDistance;
 
         // Read primary theme color (or default to cobalt)
         const computedStyle = getComputedStyle(document.documentElement);
@@ -138,21 +147,29 @@ export default function SplatPhysicsTester() {
         const g = parseInt(cleanHex.substring(2, 4), 16) / 255;
         const b = parseInt(cleanHex.substring(4, 6), 16) / 255;
 
-        // 3. Render Pass
-        engine.render(context, viewProj, [r, g, b]);
+        // 3. Render Pass (with zoom and light position mapping)
+        engine.render(context, viewProj, [r, g, b], zoomRef.current, mappedX, mappedY);
 
         animationId = requestAnimationFrame(tick);
       };
 
+      // Add wheel zoom handler
+      const handleWheel = (e: WheelEvent) => {
+        e.preventDefault();
+        zoomRef.current = Math.max(1.0, Math.min(5.0, zoomRef.current - e.deltaY * 0.0025));
+      };
+      canvas.addEventListener('wheel', handleWheel, { passive: false });
+
       animationId = requestAnimationFrame(tick);
+
+      return () => {
+        isMounted = false;
+        cancelAnimationFrame(animationId);
+        canvas.removeEventListener('wheel', handleWheel);
+      };
     };
 
     initWebGPU();
-
-    return () => {
-      isMounted = false;
-      cancelAnimationFrame(animationId);
-    };
   }, [particleCount, force, elasticity, damping]);
 
   // Handle pointer interactions
