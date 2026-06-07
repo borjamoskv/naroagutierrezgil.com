@@ -1,0 +1,173 @@
+'use client';
+
+import { useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import Lenis from 'lenis';
+
+export default function Biografia() {
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+    });
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    return () => lenis.destroy();
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-[#050505] text-[#EAEAEA] font-sans selection:bg-[#2B3BE5] selection:text-white overflow-hidden">
+      {/* Background FX */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[50vw] h-[50vw] bg-[#2B3BE5] rounded-full mix-blend-screen filter blur-[150px] opacity-10 animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-[40vw] h-[40vw] bg-[#2B3BE5] rounded-full mix-blend-screen filter blur-[200px] opacity-[0.05]" />
+        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay" />
+      </div>
+
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full z-50 p-6 sm:p-12 mix-blend-difference">
+        <Link 
+          href="/" 
+          className="group flex items-center gap-4 text-white/50 hover:text-white transition-colors duration-500"
+        >
+          <div className="w-8 h-[1px] bg-white/30 group-hover:bg-[#2B3BE5] group-hover:w-16 transition-all duration-700" />
+          <span className="font-sans text-[9px] tracking-[0.4em] uppercase">Retorno al Laboratorio</span>
+        </Link>
+      </nav>
+
+      <main className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 pt-40 pb-32">
+        
+        {/* HEADER MEGA KINÉTICO */}
+        <header className="mb-40 relative">
+          <div className="absolute -left-12 top-0 w-1 h-full bg-gradient-to-b from-[#2B3BE5] to-transparent opacity-50" />
+          <h1 className="text-[12vw] md:text-[8rem] font-serif font-light leading-[0.8] tracking-tighter uppercase mb-6 drop-shadow-2xl">
+            <span className="block text-transparent [-webkit-text-stroke:1px_rgba(234,234,234,0.3)] hover:[-webkit-text-stroke:1px_#2B3BE5] transition-all duration-1000 cursor-default">Naroa</span>
+            <span className="block text-[#EAEAEA]">Gutiérrez</span>
+            <span className="block text-[#2B3BE5] font-hand lowercase text-[15vw] md:text-[10rem] -mt-10 ml-20 -rotate-3 opacity-90 mix-blend-screen">Gil</span>
+          </h1>
+          <p className="max-w-2xl text-lg sm:text-2xl font-light tracking-wide text-white/60 leading-relaxed mt-12 border-l border-[#2B3BE5]/30 pl-6">
+            Artista plástica y visual contemporánea. Una amalgama de <strong className="text-[#2B3BE5] font-normal">hiperrealismo pop</strong> y <strong className="text-white font-normal">arte matérico</strong> forjada sobre pizarra natural y mica mineral.
+          </p>
+        </header>
+
+        {/* TRAYECTORIA */}
+        <section className="mb-40 grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+          <div className="md:col-span-5 relative group">
+            <div className="absolute inset-0 bg-[#2B3BE5] translate-x-4 translate-y-4 opacity-20 transition-transform duration-700 group-hover:translate-x-6 group-hover:translate-y-6" />
+            <div className="relative aspect-[4/5] bg-[#0A0A0A] border border-white/10 overflow-hidden">
+              <Image 
+                src="https://naroa.online/assets/Naroa%20x16.jpeg" 
+                alt="Naroa Gutiérrez Gil en su estudio" 
+                fill 
+                className="object-cover grayscale hover:grayscale-0 transition-all duration-1000 scale-105 hover:scale-100" 
+              />
+            </div>
+          </div>
+          <div className="md:col-span-7 md:pl-12 space-y-8">
+            <h2 className="text-4xl font-serif tracking-widest uppercase text-white/80 flex items-center gap-4">
+              <span className="w-2 h-2 rounded-full bg-[#2B3BE5] animate-ping" />
+              Trayectoria Artística
+            </h2>
+            <div className="space-y-6 text-white/60 font-light leading-relaxed text-lg">
+              <p>Establecida en Bilbao, su carrera expositiva despegó en 2010 con <em className="text-white">Espejos del alma</em>, explorando la identidad humana mediante técnicas mixtas sobre madera y metal.</p>
+              <p>La evolución la llevó a hibridar la introspección psicológica con colores vibrantes, culminando en muestras icónicas como <em className="text-white">I see your true colors</em> (2016) y <em className="text-white">Repóker de Reinas</em> (2022).</p>
+              <p>En 2026, consolida su estatus en el circuito contemporáneo urbano con <em className="text-white">DiviNos VaiVenes</em> y su integración en el <strong>Bwall Collective</strong> de Dock Bilbao.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* ESTILO Y TÉCNICA - GLASSMORPHISM */}
+        <section className="mb-40 relative p-12 sm:p-20 overflow-hidden border border-white/5 rounded-3xl bg-white/[0.02] backdrop-blur-3xl shadow-[0_0_100px_rgba(43,59,229,0.05)]">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#2B3BE5] rounded-full blur-[120px] opacity-20" />
+          <h2 className="text-5xl font-serif tracking-widest uppercase text-white mb-12 relative z-10">
+            Estilo & Técnica
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
+            <div className="space-y-6 text-white/70 font-light text-xl leading-relaxed">
+              <p>Un híbrido entre el rigor del <strong>hiperrealismo</strong> anatómico y los códigos cromáticos saturados del <strong>arte pop</strong>.</p>
+              <p>Destaca su abandono de los soportes clásicos en favor de elementos telúricos. Transicionó radicalmente hacia el uso de <strong>mica mineral y pizarra natural</strong>, desafiando el anclaje de pigmentos acrílicos sobre superficies pétreas reflectantes.</p>
+            </div>
+            <div className="space-y-6 text-white/70 font-light text-xl leading-relaxed">
+              <p>Incorpora arqueología industrial en su serie <em className="text-white">Dar la Lata</em>, elaborada a partir de antiguos envases de hojalata y soportes recuperados del Cantábrico.</p>
+            </div>
+          </div>
+        </section>
+
+        {/* CURIOSIDADES KINÉTICAS */}
+        <section className="mb-40">
+          <h2 className="text-4xl font-serif tracking-widest uppercase text-white/80 mb-16 text-center">
+            Datos de Interés
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { t: 'El retrato de Paul Newman', d: 'Pieza clave hiperrealista que desató su fascinación por los contrastes de luz del cine clásico sobre pizarra oscura.' },
+              { t: 'Selección geológica', d: 'Selecciona personalmente las placas de pizarra en canteras, estudiando vetas y fisuras para integrarlas en las facciones.' },
+              { t: 'Mica mineral como lienzo', d: 'Utiliza láminas de mica pura. Requiere un sellado químico para no perder la luminiscencia natural de la piedra.' },
+              { t: 'Destrucción creativa', d: 'Destruyó decenas de obras formativas antes de 2010 en un meticuloso «vaciado técnico necesario».' },
+              { t: 'Arquitectura web kinética', d: 'Su laboratorio digital, codiseñado con Borja Moskv, permite a los usuarios interactuar y rascar la pizarra virtualmente.' },
+              { t: 'Arte efímero', d: 'En Akelarre (2019) creó estructuras colaborativas gigantes que fueron incendiadas durante la Noche de San Juan.' },
+              { t: 'Muebles escultura', d: 'Con Vintage-Shop rompió la bidimensionalidad, creando mobiliario de autor y piezas funcionales.' },
+              { t: 'Arqueología industrial', d: 'Recuperó desechos industriales del Cantábrico para mezclar memoria obrera de Bilbao con retratos.' },
+              { t: 'Contraste POP', d: 'Descontextualiza el rigor fotográfico bañando las figuras en neones, cianes y magentas de los años 80.' },
+            ].map((item, i) => (
+              <div key={i} className="group relative p-8 bg-[#0A0A0A] border border-white/5 hover:border-[#2B3BE5]/50 transition-colors duration-500 flex flex-col justify-between overflow-hidden cursor-default">
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#2B3BE5] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+                <h3 className="text-xl font-bold text-white mb-4 group-hover:text-[#2B3BE5] transition-colors">{item.t}</h3>
+                <p className="text-white/50 text-sm font-light leading-relaxed">{item.d}</p>
+                <div className="absolute bottom-4 right-4 text-[6rem] font-serif text-white/[0.03] pointer-events-none group-hover:text-[#2B3BE5]/10 transition-colors">
+                  0{i + 1}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* COLABORACIONES (Lista Cinemática) */}
+        <section className="mb-40">
+          <div className="border-t border-[#2B3BE5]/30 pt-16">
+            <h2 className="text-5xl font-serif tracking-widest uppercase text-white mb-12">Redes & Colisiones</h2>
+            <ul className="space-y-8 text-xl font-light text-white/60">
+              <li className="flex flex-col sm:flex-row sm:items-end gap-2 border-b border-white/5 pb-8 hover:text-white transition-colors duration-500">
+                <span className="text-3xl font-serif text-[#2B3BE5]">Vintage-Shop</span>
+                <span className="sm:ml-auto text-sm tracking-widest uppercase">Muebles Escultura c/ Fernando Gutiérrez</span>
+              </li>
+              <li className="flex flex-col sm:flex-row sm:items-end gap-2 border-b border-white/5 pb-8 hover:text-white transition-colors duration-500">
+                <span className="text-3xl font-serif text-[#2B3BE5]">Proyecto Akelarre</span>
+                <span className="sm:ml-auto text-sm tracking-widest uppercase">Estructuras efímeras incendiadas (2019)</span>
+              </li>
+              <li className="flex flex-col sm:flex-row sm:items-end gap-2 border-b border-white/5 pb-8 hover:text-white transition-colors duration-500">
+                <span className="text-3xl font-serif text-[#2B3BE5]">ZAWP & Fair Saturday</span>
+                <span className="sm:ml-auto text-sm tracking-widest uppercase">Activismo a favor de CEAR-Euskadi</span>
+              </li>
+              <li className="flex flex-col sm:flex-row sm:items-end gap-2 border-b border-white/5 pb-8 hover:text-white transition-colors duration-500">
+                <span className="text-3xl font-serif text-[#2B3BE5]">Wikitoki</span>
+                <span className="sm:ml-auto text-sm tracking-widest uppercase">Prácticas colaborativas artísticas</span>
+              </li>
+              <li className="flex flex-col sm:flex-row sm:items-end gap-2 border-b border-white/5 pb-8 hover:text-white transition-colors duration-500">
+                <a href="https://borjamoskv.com" target="_blank" rel="noopener noreferrer" className="text-3xl font-serif text-[#2B3BE5] hover:text-white transition-colors">Borja Moskv</a>
+                <span className="sm:ml-auto text-sm tracking-widest uppercase">Arquitectura digital SOTA</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+      </main>
+
+      {/* Footer Minimalista */}
+      <footer className="w-full text-center py-12 border-t border-white/5 text-[10px] tracking-[0.3em] uppercase text-white/30">
+        Extracción Biográfica Enciclopédica — C5-REAL
+      </footer>
+    </div>
+  );
+}
