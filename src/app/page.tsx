@@ -33,50 +33,29 @@ const getImageUrl = (src: string) => {
 
 const baseArtworks = [
   // Local Original Facebook/HQ Scans
-  { src: 'Naroa x16.jpeg', title: 'Alquimia en Pizarra (Colección)', span: 'md:col-span-8 row-span-2' },
-  { src: 'frida_kahlo_slate.png', title: 'La Mirada de Frida', span: 'md:col-span-4 row-span-1' },
-  { src: 'feline_slate.png', title: 'Mirada Felina', span: 'md:col-span-4 row-span-1' },
-  { src: '601340023_1552126202933462_7815927344957967258_n.jpg', title: 'Espejo del Alma I', span: 'md:col-span-6 row-span-1' },
-  { src: '600258291_1552125946266821_6847049145049928090_n.jpg', title: 'Espejo del Alma II', span: 'md:col-span-6 row-span-1' },
-  { src: '608211438_1562089535270462_2827127275272133326_n.jpg', title: 'Dama de la Pizarra', span: 'md:col-span-6 row-span-2' },
-  { src: '612329591_1571120784367337_8798688892093004057_n.jpg', title: 'Facciones del Silencio', span: 'md:col-span-6 row-span-1' },
-  { src: '615438426_1577822580363824_2923463327956560352_n.jpg', title: 'Retrato en Tensión', span: 'md:col-span-4 row-span-1' },
-  { src: '615443765_1577822577030491_9008867371114744175_n.jpg', title: 'Rostro Fragmentado', span: 'md:col-span-4 row-span-1' },
-  { src: '615932964_1577822457030503_2110397705300850911_n.jpg', title: 'Reflejo Alquímico', span: 'md:col-span-4 row-span-1' },
-  { src: '615955827_1577822687030480_2386611372471959463_n.jpg', title: 'Materia y Silencio', span: 'md:col-span-6 row-span-1' },
-  { src: '616035859_1577822453697170_3937842745320602184_n.jpg', title: 'Esencia Geológica', span: 'md:col-span-6 row-span-1' },
-  { src: '616115287_1577822747030474_1432330062205548806_n.jpg', title: 'Retrato de Fama I', span: 'md:col-span-4 row-span-1' },
-  { src: '616198291_1577822413697174_3337151405885426240_n.jpg', title: 'Cincel y Pigmento', span: 'md:col-span-4 row-span-1' },
-  { src: '616822144_1580323063447109_589182952237233174_n.jpg', title: 'Retrato del Viento', span: 'md:col-span-4 row-span-1' },
-  { src: '616994481_1577822437030505_8337096648607967605_n.jpg', title: 'Reflejo Mineral I', span: 'md:col-span-6 row-span-2' },
-  { src: '622453257_1583899099756172_4197872465466826396_n.jpg', title: 'Mirada del Tiempo I', span: 'md:col-span-6 row-span-1' },
-  { src: '292544889_3277546379149645_1460977192858455652_n.jpg', title: 'Identidad Cromática', span: 'md:col-span-6 row-span-1' },
-  // Remote Web Hosted Collection
-  { src: 'hq-james-CjsTrO7r.webp', title: 'James Dean', span: 'md:col-span-8 row-span-2' },
-  { src: 'hq-amy-BRTriASV.webp', title: 'Amy Winehouse', span: 'md:col-span-4 row-span-1' },
-  { src: 'hq-portrait-1-bV-_WHlX.webp', title: 'Retrato I', span: 'md:col-span-4 row-span-1' },
-  { src: 'el-gran-dakari-C1tAWAhR.webp', title: 'El Gran Dakari', span: 'md:col-span-6 row-span-1' },
-  { src: 'hq-johnny-5ueL8eU0.webp', title: 'Johnny Depp', span: 'md:col-span-6 row-span-1' },
-  { src: 'marilyn-rocks--qPeLHxE.webp', title: 'Marilyn Rocks', span: 'md:col-span-12 row-span-2' },
-  { src: 'audrey-hepburn-DbIBTtIp.webp', title: 'Audrey Hepburn', span: 'md:col-span-4 row-span-1' },
-  { src: 'geisha-MfRtKWdu.webp', title: 'Geisha', span: 'md:col-span-4 row-span-1' },
-  { src: 'lagrimas-de-oro-DikHc-Tk.webp', title: 'Lágrimas de Oro', span: 'md:col-span-4 row-span-1' },
-  { src: 'love-DA7L_L5F.webp', title: 'Love', span: 'md:col-span-6 row-span-1' },
-  { src: 'la-pensadora-CFHSnMA0.webp', title: 'La Pensadora', span: 'md:col-span-6 row-span-1' },
-  { src: 'amor-en-conserva-CMHRIKXx.webp', title: 'Amor en Conserva', span: 'md:col-span-3 row-span-1' },
-  { src: 'baroque-farrokh-mjg4ClA9.webp', title: 'Baroque Farrokh', span: 'md:col-span-3 row-span-1' },
-  { src: 'cantinflas-0-D712oJYO.webp', title: 'Cantinflas', span: 'md:col-span-3 row-span-1' },
-  { src: 'dar-la-lata-DxWlKgS-.webp', title: 'Dar la Lata', span: 'md:col-span-3 row-span-1' },
-  { src: 'mr-fahrenheit-BzcoVisa.webp', title: 'Mr Fahrenheit', span: 'md:col-span-4 row-span-1' },
-  { src: 'celia-cruz-cantinflowers-DO-SRKMB.webp', title: 'Celia Cruz', span: 'md:col-span-4 row-span-1' },
-  { src: 'tedas-queen-GT9W8egT.webp', title: 'Tedas Queen', span: 'md:col-span-4 row-span-1' },
-  { src: 'hammock-in-tin-XD5nAoyg.webp', title: 'Hammock', span: 'md:col-span-6 row-span-2' },
-  { src: 'sardine-tin-collage-Bo41LZ-o.webp', title: 'Sardine Tin Collage', span: 'md:col-span-6 row-span-1' },
-  { src: 'en-caja-CDdrJMsP.webp', title: 'En Caja', span: 'md:col-span-6 row-span-1' },
-  { src: 'soy-un-amor-y-tengo-alas-ItTo7aOd.webp', title: 'Soy un Amor', span: 'md:col-span-4 row-span-1' },
-  { src: 'the-golden-couple-C9C95N75.webp', title: 'The Golden Couple', span: 'md:col-span-4 row-span-1' },
-  { src: 'pink-and-sparkles-c4K6RUzC.webp', title: 'Pink & Sparkles', span: 'md:col-span-4 row-span-1' },
-  { src: 'monster-dragon-QQiqdImO.webp', title: 'Monster Dragon', span: 'md:col-span-12 row-span-2' }
+  { src: 'Naroa x16.jpeg', title: 'Alquimia en Pizarra (Colección)', span: 'md:col-span-10 md:col-start-2 row-span-2' },
+  { src: 'frida_kahlo_slate.png', title: 'La Mirada de Frida', span: 'md:col-span-6 md:col-start-1 row-span-1' },
+  { src: 'feline_slate.png', title: 'Mirada Felina', span: 'md:col-span-5 md:col-start-8 row-span-1' },
+  { src: '601340023_1552126202933462_7815927344957967258_n.jpg', title: 'Espejo del Alma I', span: 'md:col-span-8 md:col-start-3 row-span-2' },
+  { src: '608211438_1562089535270462_2827127275272133326_n.jpg', title: 'Dama de la Pizarra', span: 'md:col-span-6 md:col-start-7 row-span-2' },
+  { src: '612329591_1571120784367337_8798688892093004057_n.jpg', title: 'Facciones del Silencio', span: 'md:col-span-6 md:col-start-1 row-span-1' },
+  { src: '615438426_1577822580363824_2923463327956560352_n.jpg', title: 'Retrato en Tensión', span: 'md:col-span-5 md:col-start-2 row-span-1' },
+  { src: '615955827_1577822687030480_2386611372471959463_n.jpg', title: 'Materia y Silencio', span: 'md:col-span-10 md:col-start-2 row-span-2' },
+  { src: '616115287_1577822747030474_1432330062205548806_n.jpg', title: 'Retrato de Fama I', span: 'md:col-span-4 md:col-start-8 row-span-1' },
+  { src: '616822144_1580323063447109_589182952237233174_n.jpg', title: 'Retrato del Viento', span: 'md:col-span-6 md:col-start-1 row-span-1' },
+  { src: '622453257_1583899099756172_4197872465466826396_n.jpg', title: 'Mirada del Tiempo I', span: 'md:col-span-8 md:col-start-3 row-span-2' },
+  // Iconos Pop
+  { src: 'hq-james-CjsTrO7r.webp', title: 'James Dean', span: 'md:col-span-12 row-span-2' },
+  { src: 'hq-amy-BRTriASV.webp', title: 'Amy Winehouse', span: 'md:col-span-5 md:col-start-1 row-span-1' },
+  { src: 'hq-portrait-1-bV-_WHlX.webp', title: 'Retrato I', span: 'md:col-span-5 md:col-start-8 row-span-1' },
+  { src: 'el-gran-dakari-C1tAWAhR.webp', title: 'El Gran Dakari', span: 'md:col-span-8 md:col-start-3 row-span-2' },
+  { src: 'hq-johnny-5ueL8eU0.webp', title: 'Johnny Depp', span: 'md:col-span-6 md:col-start-1 row-span-1' },
+  { src: 'marilyn-rocks--qPeLHxE.webp', title: 'Marilyn Rocks', span: 'md:col-span-6 md:col-start-7 row-span-2' },
+  { src: 'audrey-hepburn-DbIBTtIp.webp', title: 'Audrey Hepburn', span: 'md:col-span-8 md:col-start-3 row-span-2' },
+  { src: 'geisha-MfRtKWdu.webp', title: 'Geisha', span: 'md:col-span-5 md:col-start-2 row-span-1' },
+  { src: 'lagrimas-de-oro-DikHc-Tk.webp', title: 'Lágrimas de Oro', span: 'md:col-span-10 md:col-start-2 row-span-2' },
+  { src: 'love-DA7L_L5F.webp', title: 'Love', span: 'md:col-span-6 md:col-start-4 row-span-1' },
+  { src: 'la-pensadora-CFHSnMA0.webp', title: 'La Pensadora', span: 'md:col-span-8 md:col-start-3 row-span-2' }
 ];
 
 export default function Home() {
@@ -167,7 +146,7 @@ export default function Home() {
           <h2 className="text-5xl sm:text-7xl font-serif font-light tracking-wide text-foreground leading-tight max-w-2xl mx-auto uppercase">Obras</h2>
           <div className="w-px h-16 bg-gradient-to-b from-primary/30 to-transparent mt-12"></div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 sm:gap-24 auto-rows-[450px] sm:auto-rows-[750px]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 sm:gap-40 auto-rows-[450px] sm:auto-rows-[800px] items-center">
           {artworks.map((artwork, i) => (
             <div key={i} className={`${artwork.span} group relative overflow-hidden bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl`}>
               <Image 
