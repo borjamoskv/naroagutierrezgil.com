@@ -31,14 +31,52 @@ function StarBackground(props: any) {
   }, []);
 
   // Create a sphere of random particles representing "pigment dust" or slate particles
+  const count = 5000;
   const [sphere] = useState(() => 
-    inSphere(new Float32Array(3000), { radius: 1.5 }) as Float32Array
+    inSphere(new Float32Array(count * 3), { radius: 2.0 }) as Float32Array
   );
+  
+  const mouse = useRef(new THREE.Vector2(0, 0));
+  
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   useFrame((state, delta) => {
     if (ref.current) {
-      ref.current.rotation.x -= delta / 10;
-      ref.current.rotation.y -= delta / 15;
+      ref.current.rotation.x -= delta / 20;
+      ref.current.rotation.y -= delta / 30;
+      
+      // Interactive gravity well towards mouse
+      const positions = ref.current.geometry.attributes.position.array as Float32Array;
+      const mouseVec = new THREE.Vector3(mouse.current.x * 2, mouse.current.y * 2, 0);
+      
+      for (let i = 0; i < count; i++) {
+        const idx = i * 3;
+        const p = new THREE.Vector3(positions[idx], positions[idx+1], positions[idx+2]);
+        const dist = p.distanceTo(mouseVec);
+        
+        if (dist < 1.0) {
+          p.lerp(mouseVec, delta * 0.5 * (1 - dist));
+          positions[idx] = p.x;
+          positions[idx+1] = p.y;
+          positions[idx+2] = p.z;
+        } else {
+          // Slow recovery back to orbit radius (simplified)
+          const originDist = p.length();
+          if (originDist < 1.9) p.multiplyScalar(1 + delta * 0.1);
+          if (originDist > 2.1) p.multiplyScalar(1 - delta * 0.1);
+          positions[idx] = p.x;
+          positions[idx+1] = p.y;
+          positions[idx+2] = p.z;
+        }
+      }
+      ref.current.geometry.attributes.position.needsUpdate = true;
     }
   });
 
@@ -48,7 +86,7 @@ function StarBackground(props: any) {
         <PointMaterial
           transparent
           color={color}
-          size={0.003}
+          size={0.005}
           sizeAttenuation={true}
           depthWrite={false}
           opacity={0.6}

@@ -177,113 +177,15 @@ export default function SplatPhysicsTester() {
     isMouseDown.current = false;
   };
 
-  return (
-    <div className="relative w-full flex flex-col lg:flex-row items-stretch gap-12 max-w-6xl mx-auto p-8 bg-[#030303] rounded-sm border border-primary/20 shadow-[0_0_100px_rgba(43,59,229,0.1)] overflow-hidden">
+    <div className="fixed inset-0 w-full h-screen bg-black overflow-hidden select-none">
       {/* Industrial CRT Background Layer */}
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none" />
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_4px,3px_100%] pointer-events-none opacity-40 mix-blend-overlay" />
+      <div className="absolute inset-0 z-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none" />
+      <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.02),rgba(0,255,0,0.01),rgba(0,0,255,0.02))] bg-[length:100%_4px,3px_100%] pointer-events-none opacity-40 mix-blend-overlay" />
       
-      {/* Decorative LED/HUD corners */}
-      <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-primary/50 opacity-50 pointer-events-none" />
-      <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary/50 opacity-50 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-primary/50 opacity-50 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-primary/50 opacity-50 pointer-events-none" />
-
-      {/* Parameters Panel */}
-      <div className="flex flex-col w-full lg:w-1/3 gap-6">
-        <div>
-          <span className="text-primary/70 font-sans tracking-[0.4em] uppercase text-[10px] block mb-2">
-            Laboratorio WebGPU
-          </span>
-          <h2 className="text-3xl font-serif font-light tracking-wide text-foreground uppercase">
-            Forja de Splats
-          </h2>
-          <div className="w-16 h-[1px] bg-primary/40 mt-4"></div>
-          <p className="text-xs text-foreground/50 mt-4 leading-relaxed">
-            Deformación de 100,000 Gaussianas en tiempo real utilizando WebGPU Compute Shaders. Arrastra el cursor sobre la pizarra de partículas.
-          </p>
-        </div>
-
-        {/* Status Dashboard */}
-        <div className="p-4 rounded-sm border border-white/5 bg-white/[0.02] flex flex-col gap-3">
-          <div className="flex justify-between items-center text-[10px] tracking-widest uppercase">
-            <span className="text-white/40">Motor:</span>
-            {status === 'initializing' && <span className="text-amber-500 animate-pulse">Inicializando...</span>}
-            {status === 'ready' && <span className="text-emerald-500 font-bold">WEBGPU COMPUTE OK</span>}
-            {status === 'unsupported' && <span className="text-rose-500 font-bold">WEBGPU NO SOPORTADO</span>}
-            {status === 'error' && <span className="text-rose-500 font-bold">ERROR</span>}
-          </div>
-
-          <div className="flex justify-between items-baseline mt-2">
-            <span className="text-[10px] tracking-widest text-white/40 uppercase">Rendimiento:</span>
-            <span className="text-3xl font-mono font-light text-primary">{fps} FPS</span>
-          </div>
-
-          <div className="flex justify-between text-[10px] tracking-widest text-white/30 uppercase mt-1">
-            <span>Partículas:</span>
-            <span className="font-mono text-white/60">100.000 (100k)</span>
-          </div>
-        </div>
-
-        {/* Physics Controls */}
-        <div className="flex flex-col gap-4">
-          {/* Force */}
-          <div className="flex flex-col gap-1.5">
-            <div className="flex justify-between text-[9px] uppercase tracking-widest text-white/50">
-              <span>Presión (Fuerza)</span>
-              <span className="text-primary font-mono">{force.toFixed(2)}</span>
-            </div>
-            <input 
-              type="range" 
-              min="0.01" 
-              max="0.30" 
-              step="0.01"
-              value={force}
-              onChange={(e) => setForce(parseFloat(e.target.value))}
-              className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none"
-            />
-          </div>
-
-          {/* Elasticity */}
-          <div className="flex flex-col gap-1.5">
-            <div className="flex justify-between text-[9px] uppercase tracking-widest text-white/50">
-              <span>Elasticidad (Retorno)</span>
-              <span className="text-primary font-mono">{elasticity.toFixed(3)}</span>
-            </div>
-            <input 
-              type="range" 
-              min="0.001" 
-              max="0.080" 
-              step="0.001"
-              value={elasticity}
-              onChange={(e) => setElasticity(parseFloat(e.target.value))}
-              className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none"
-            />
-          </div>
-
-          {/* Damping */}
-          <div className="flex flex-col gap-1.5">
-            <div className="flex justify-between text-[9px] uppercase tracking-widest text-white/50">
-              <span>Amortiguación (Fricción)</span>
-              <span className="text-primary font-mono">{damping.toFixed(2)}</span>
-            </div>
-            <input 
-              type="range" 
-              min="0.90" 
-              max="0.99" 
-              step="0.01"
-              value={damping}
-              onChange={(e) => setDamping(parseFloat(e.target.value))}
-              className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Canvas Area */}
-      <div className="w-full lg:w-2/3 flex flex-col items-center justify-center">
+      {/* Canvas Area (Full Screen) */}
+      <div className="absolute inset-0 z-0 pointer-events-auto">
         {status === 'unsupported' ? (
-          <div className="w-full max-w-[500px] aspect-square bg-[#0c0c0e] border border-white/5 rounded-sm flex flex-col justify-center items-center p-8 text-center gap-4">
+          <div className="w-full h-full bg-[#0c0c0e] flex flex-col justify-center items-center p-8 text-center gap-4">
             <div className="w-12 h-12 rounded-full border border-rose-500/30 flex items-center justify-center text-rose-500 text-xl font-mono">
               !
             </div>
@@ -291,37 +193,122 @@ export default function SplatPhysicsTester() {
               Navegador Incompatible
             </h4>
             <p className="text-xs text-foreground/40 leading-relaxed max-w-xs">
-              WebGPU es una tecnología experimental de acceso directo a la GPU. Para ver este experimento en directo a 60 FPS, utiliza Google Chrome (v113+), Microsoft Edge o activa WebGPU en las opciones experimentales de Safari.
+              WebGPU es una tecnología experimental. Utiliza Google Chrome (v113+) o activa WebGPU en Safari.
             </p>
           </div>
         ) : (
-          <div className="relative w-full max-w-[500px] aspect-square bg-[#050505] shadow-[0_0_120px_rgba(43,59,229,0.15)] border border-primary/30 rounded-sm overflow-hidden select-none group">
-            {/* Active Glow behind canvas */}
-            <div className="absolute inset-0 bg-primary/20 mix-blend-color-dodge opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-            <canvas
-              ref={canvasRef}
-              width={500}
-              height={500}
-              className="w-full h-full cursor-crosshair touch-none bg-[#0a0a0a]"
-              onPointerMove={handlePointerMove}
-              onPointerDown={handlePointerDown}
-              onPointerUp={handlePointerUp}
-              onPointerLeave={handlePointerUp}
-            />
-            
-            {/* Hover guidance HUD */}
-            {/* Hover guidance HUD */}
-            <div className="absolute top-4 left-4 z-10 pointer-events-none text-[8px] font-mono tracking-widest uppercase text-primary/50 flex flex-col gap-1">
-              <span>BUFFER_LAYOUT: STORAGE_BUFFER_VERTEX</span>
-              <span>ENGINE: WEBGPU_COMPUTE_SHADER</span>
-            </div>
-            {isMouseDown.current && (
-              <div className="absolute bottom-4 right-4 z-10 pointer-events-none text-[10px] font-mono tracking-widest uppercase text-red-500 animate-pulse">
-                [ TENSOR FIELD ACTIVE ]
-              </div>
-            )}
-          </div>
+          <canvas
+            ref={canvasRef}
+            className="w-full h-full cursor-crosshair touch-none"
+            onPointerMove={handlePointerMove}
+            onPointerDown={handlePointerDown}
+            onPointerUp={handlePointerUp}
+            onPointerLeave={handlePointerUp}
+          />
         )}
+      </div>
+
+      {/* Decorative LED/HUD corners */}
+      <div className="absolute top-4 left-4 w-12 h-12 border-t border-l border-primary/50 opacity-50 pointer-events-none z-10" />
+      <div className="absolute top-4 right-4 w-12 h-12 border-t border-r border-primary/50 opacity-50 pointer-events-none z-10" />
+      <div className="absolute bottom-4 left-4 w-12 h-12 border-b border-l border-primary/50 opacity-50 pointer-events-none z-10" />
+      <div className="absolute bottom-4 right-4 w-12 h-12 border-b border-r border-primary/50 opacity-50 pointer-events-none z-10" />
+
+      {/* Crosshair target for mouse */}
+      <div 
+        className="absolute w-8 h-8 pointer-events-none z-20 border border-primary/30 rounded-full transition-transform duration-75"
+        style={{
+          left: `calc(${(mousePos.current.x + 1.0) / 2.0 * 100}% - 16px)`,
+          top: `calc(${-(mousePos.current.y - 1.0) / 2.0 * 100}% - 16px)`,
+          transform: isMouseDown.current ? 'scale(0.5)' : 'scale(1)'
+        }}
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-primary/80 rounded-full" />
+      </div>
+
+      {/* Glassmorphic Sidebar Controls */}
+      <div className="absolute left-8 top-1/2 -translate-y-1/2 flex flex-col w-64 gap-6 p-6 bg-black/40 backdrop-blur-md border border-primary/20 z-10 pointer-events-auto">
+        <div>
+          <span className="text-primary/70 font-sans tracking-[0.4em] uppercase text-[8px] block mb-2">
+            Motor Cuántico
+          </span>
+          <h2 className="text-xl font-serif font-light tracking-wide text-foreground uppercase">
+            Splat Engine
+          </h2>
+          <div className="w-8 h-px bg-primary/40 mt-3"></div>
+        </div>
+
+        {/* Status Dashboard */}
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between items-center text-[8px] tracking-widest uppercase">
+            <span className="text-white/40">Status:</span>
+            {status === 'initializing' && <span className="text-amber-500 animate-pulse">INIT...</span>}
+            {status === 'ready' && <span className="text-emerald-500 font-bold">ONLINE</span>}
+            {status === 'unsupported' && <span className="text-rose-500 font-bold">OFLINE</span>}
+          </div>
+
+          <div className="flex justify-between items-baseline mt-2">
+            <span className="text-[8px] tracking-widest text-white/40 uppercase">Rendimiento:</span>
+            <span className="text-xl font-mono font-light text-primary">{fps} FPS</span>
+          </div>
+
+          <div className="flex justify-between text-[8px] tracking-widest text-white/30 uppercase">
+            <span>Masa:</span>
+            <span className="font-mono text-white/60">100K SPLATS</span>
+          </div>
+        </div>
+
+        {/* Physics Controls */}
+        <div className="flex flex-col gap-4 mt-2">
+          {/* Force */}
+          <div className="flex flex-col gap-1">
+            <div className="flex justify-between text-[8px] uppercase tracking-widest text-white/50">
+              <span>Presión</span>
+              <span className="text-primary font-mono">{force.toFixed(2)}</span>
+            </div>
+            <input 
+              type="range" 
+              min="0.01" max="0.30" step="0.01" value={force}
+              onChange={(e) => setForce(parseFloat(e.target.value))}
+              className="w-full h-[2px] bg-white/10 appearance-none cursor-pointer accent-primary"
+            />
+          </div>
+
+          {/* Elasticity */}
+          <div className="flex flex-col gap-1">
+            <div className="flex justify-between text-[8px] uppercase tracking-widest text-white/50">
+              <span>Retorno</span>
+              <span className="text-primary font-mono">{elasticity.toFixed(3)}</span>
+            </div>
+            <input 
+              type="range" 
+              min="0.001" max="0.080" step="0.001" value={elasticity}
+              onChange={(e) => setElasticity(parseFloat(e.target.value))}
+              className="w-full h-[2px] bg-white/10 appearance-none cursor-pointer accent-primary"
+            />
+          </div>
+
+          {/* Damping */}
+          <div className="flex flex-col gap-1">
+            <div className="flex justify-between text-[8px] uppercase tracking-widest text-white/50">
+              <span>Fricción</span>
+              <span className="text-primary font-mono">{damping.toFixed(2)}</span>
+            </div>
+            <input 
+              type="range" 
+              min="0.90" max="0.99" step="0.01" value={damping}
+              onChange={(e) => setDamping(parseFloat(e.target.value))}
+              className="w-full h-[2px] bg-white/10 appearance-none cursor-pointer accent-primary"
+            />
+          </div>
+        </div>
+
+        {/* HUD Data */}
+        <div className="mt-4 flex flex-col gap-1 text-[7px] font-mono tracking-[0.2em] uppercase text-primary/40 border-t border-white/5 pt-4">
+          <span>FIELD_X: {mousePos.current.x.toFixed(3)}</span>
+          <span>FIELD_Y: {mousePos.current.y.toFixed(3)}</span>
+          <span>TENSOR: {isMouseDown.current ? 'ACTIVE' : 'IDLE'}</span>
+        </div>
       </div>
     </div>
   );

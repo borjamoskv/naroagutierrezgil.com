@@ -20,7 +20,6 @@ import AnimatedHeroBackground from '@/components/AnimatedHeroBackground';
 const WebGLBackground = dynamic(() => import('@/components/WebGLBackground'), { ssr: false });
 const PaintTrail = dynamic(() => import('@/components/PaintTrail'), { ssr: false });
 const MacroSplatCanvas = dynamic(() => import('@/components/SplatBenchmarkCanvas'), { ssr: false });
-const KintsugiOverlay = dynamic(() => import('@/components/KintsugiOverlay'), { ssr: false });
 const SplatPhysicsTester = dynamic(() => import('@/components/SplatPhysicsTester'), { ssr: false });
 const KineticArtwork = dynamic(() => import('@/components/KineticArtwork'), { ssr: false });
 
@@ -247,14 +246,14 @@ export default function Home() {
               </div>
             ) : (
               <>
-                <span className="flex overflow-hidden z-10 w-full justify-start">
-                  <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:2px_#fff] sm:[-webkit-text-stroke:3px_#fff] opacity-80 hover:opacity-100 hover:[-webkit-text-stroke:3px_var(--primary)] transition-all duration-700">Naroa</span>
+                <span className="flex overflow-hidden z-20">
+                  <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0s_both] text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.1)] hover:[-webkit-text-stroke:2px_#2B3BE5] transition-all duration-700 chromatic-text">Naroa</span>
                 </span>
-                <span className="absolute top-[35%] left-[5%] sm:left-[10%] z-30 pointer-events-none w-full mix-blend-exclusion">
-                  <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.3s_both] text-primary font-serif italic normal-case tracking-tight text-[28vw] sm:text-[24vw] -rotate-2 drop-shadow-[0_0_80px_rgba(43,59,229,0.8)] opacity-90">Gutiérrez</span>
+                <span className="flex overflow-hidden -mt-[6vw] ml-[10vw] z-10">
+                  <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-primary/80 chromatic-text">Gutiérrez</span>
                 </span>
                 <span className="flex overflow-hidden self-end mr-[5vw] z-20 mt-[4vw]">
-                  <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-white opacity-90">Gil</span>
+                  <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-white opacity-90 chromatic-text">Gil</span>
                 </span>
               </>
             )}
