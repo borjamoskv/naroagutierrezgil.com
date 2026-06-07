@@ -7,9 +7,8 @@ type PagesFunction = (context: EventContext) => Promise<Response>;
 export const onRequest: PagesFunction = async (context: EventContext) => {
   const url = new URL(context.request.url);
   
-  // Vector 3 (SEO): Canonicalization
-  // Consolidar el link juice hacia el dominio principal de la artista.
-  if (url.hostname === 'naroa.online') {
+  const host = url.hostname;
+  if (host.includes('.pages.dev') || host === 'naroa.online' || host === 'www.naroagutierrezgil.com') {
     url.hostname = 'naroagutierrezgil.com';
     return Response.redirect(url.toString(), 301);
   }
