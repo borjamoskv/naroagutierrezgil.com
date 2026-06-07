@@ -226,6 +226,7 @@ export default function SplatPhysicsTester() {
               value={force}
               onChange={(e) => setForce(parseFloat(e.target.value))}
               className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none hover:bg-white/20 transition-colors"
+              aria-label="Ajustar presión de inyección de tinta"
             />
           </div>
 
@@ -249,12 +250,9 @@ export default function SplatPhysicsTester() {
       <div className="w-full lg:w-2/3 flex flex-col items-center justify-center">
         {status === 'unsupported' ? (
           <div className="w-full max-w-[500px] aspect-square bg-[#0c0c0e] border border-white/5 rounded-sm flex flex-col justify-center items-center p-8 text-center gap-4">
-            <div className="w-12 h-12 rounded-full border border-rose-500/30 flex items-center justify-center text-rose-500 text-xl font-mono">
-              !
-            </div>
-            <h4 className="text-lg font-serif uppercase tracking-widest text-foreground font-light">
+            <h3 className="text-lg font-serif uppercase tracking-widest text-foreground font-light">
               Navegador Incompatible
-            </h4>
+            </h3>
             <p className="text-xs text-foreground/40 leading-relaxed max-w-xs">
               WebGPU es una tecnología experimental de acceso directo a la GPU. Para ver este experimento en directo a 60 FPS, utiliza Google Chrome (v113+), Microsoft Edge o activa WebGPU en las opciones experimentales de Safari.
             </p>

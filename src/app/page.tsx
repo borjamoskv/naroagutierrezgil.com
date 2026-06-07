@@ -356,7 +356,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div
+    <main
       className={`flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary selection:text-black ${appMode === "ORDEN" ? "bg-[#050505]" : ""}`}
     >
       {appMode === "CAOS" && webGLReady && (
@@ -664,6 +664,6 @@ export default function Home() {
           getImageUrl={resolveSrc}
         />
       )}
-    </div>
+    </main>
   );
 }
