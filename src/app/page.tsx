@@ -190,16 +190,16 @@ export default function Home() {
           <span className="text-foreground/40 font-sans tracking-[0.2em] text-[9px] uppercase">Acrílico sobre pizarra</span>
           <span className="text-foreground/40 font-sans tracking-[0.2em] text-[9px] uppercase">Bilbao</span>
         </div>
-        <div className="relative z-10 flex flex-col items-start w-full max-w-[1800px] mx-auto mt-20 mb-auto min-h-[50vh] justify-center">
-          <h1 className="relative flex flex-col w-full text-[15vw] leading-[0.75] font-serif font-light tracking-tighter uppercase select-none">
-            <span className="flex overflow-hidden z-10">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:1px_var(--color-foreground)] sm:[-webkit-text-stroke:2px_var(--color-foreground)] opacity-50 mix-blend-difference">Naroa</span>
+        <div className="relative z-10 flex flex-col items-start w-full max-w-[1800px] mx-auto mt-20 mb-auto min-h-[60vh] justify-center">
+          <h1 className="relative flex flex-col w-full text-[16vw] leading-[0.8] font-serif font-black tracking-tighter uppercase select-none mix-blend-difference">
+            <span className="flex overflow-hidden z-10 w-full justify-start">
+              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:2px_#fff] sm:[-webkit-text-stroke:3px_#fff] opacity-80 hover:opacity-100 hover:[-webkit-text-stroke:3px_var(--primary)] transition-all duration-700">Naroa</span>
             </span>
-            <span className="absolute top-[20%] left-[5%] sm:left-[12%] z-30 pointer-events-none w-full">
-              <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-primary font-hand normal-case tracking-normal text-[26vw] sm:text-[22vw] -rotate-6 drop-shadow-[0_20px_50px_rgba(43,59,229,0.5)] mix-blend-screen">Gutiérrez</span>
+            <span className="absolute top-[35%] left-[5%] sm:left-[10%] z-30 pointer-events-none w-full mix-blend-exclusion">
+              <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.3s_both] text-primary font-serif italic normal-case tracking-tight text-[28vw] sm:text-[24vw] -rotate-2 drop-shadow-[0_0_80px_rgba(43,59,229,0.8)] opacity-90">Gutiérrez</span>
             </span>
-            <span className="flex overflow-hidden self-end mr-[2vw] sm:mr-[8vw] z-20 mt-[2vw]">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-foreground mix-blend-difference">Gil</span>
+            <span className="flex overflow-hidden self-end mr-[5vw] z-20 mt-[4vw]">
+              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-white opacity-90">Gil</span>
             </span>
           </h1>
         </div>
@@ -310,51 +310,54 @@ export default function Home() {
         ))}
       </div>
 
-      {/* Fullscreen Takeover Artwork Amplification Modal */}
       {takeoverArtwork && (
-        <div className="fixed inset-0 z-[99999] bg-[#050505] flex flex-col justify-center items-center overflow-hidden animate-[fadeIn_0.5s_ease-out]">
-          {/* Grain texture overlay */}
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay" />
+        <div className="fixed inset-0 z-[99999] bg-[#050505] flex flex-col justify-center items-center overflow-hidden animate-[fadeIn_0.3s_ease-out]">
+          {/* Grain texture overlay with CRT scanlines */}
+          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-30 pointer-events-none mix-blend-overlay" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none z-50 mix-blend-overlay" />
           
           {/* Chromatic aberration background aura */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--primary-rgb,43,59,229),0.12)_0%,transparent_60%)] mix-blend-color-dodge pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--primary-rgb,43,59,229),0.25)_0%,transparent_70%)] mix-blend-color-dodge pointer-events-none" />
 
           {/* Outlined CRONOS Watermark */}
-          <div className="absolute top-[8%] left-[5%] font-mono text-[16vw] leading-none font-black text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.03)] uppercase pointer-events-none select-none z-0">
+          <div className="absolute top-[5%] left-[5%] font-serif italic text-[18vw] leading-none font-black text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.05)] uppercase pointer-events-none select-none z-0">
             CRONOS
           </div>
 
-          {/* Amplified Artwork container with linear zoom animation */}
-          <div className="relative w-[85vw] h-[85vh] md:w-[60vw] md:h-[80vh] border border-white/10 rounded-sm overflow-hidden bg-black shadow-[0_0_80px_rgba(0,0,0,0.9)] animate-[pulseScale_4s_linear] z-10">
+          {/* Amplified Artwork container with brutalist glitch border */}
+          <div className="relative w-[90vw] h-[80vh] md:w-[70vw] md:h-[85vh] border-2 border-primary/40 bg-black shadow-[0_0_120px_rgba(43,59,229,0.3)] z-10 overflow-hidden group">
             <Image
               src={getImageUrl(takeoverArtwork.src)}
               alt={takeoverArtwork.title}
               fill
-              className="object-cover contrast-[1.05] brightness-95"
+              className="object-cover contrast-[1.1] brightness-[0.85] saturate-0 transition-all duration-[4000ms] scale-[1.02] group-hover:scale-110 group-hover:saturate-100 ease-in-out"
               sizes="(max-width: 768px) 100vw, 80vw"
               quality={100}
               priority
             />
+            {/* Dynamic Glitch Overlay */}
+            <div className="absolute inset-0 bg-primary mix-blend-color opacity-20 group-hover:opacity-0 transition-opacity duration-1000" />
           </div>
 
           {/* HUD info overlays */}
           <div className="absolute bottom-8 left-8 right-8 z-[100] flex flex-col md:flex-row md:items-end justify-between pointer-events-none">
-            <div className="flex flex-col gap-2">
-              <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-bold animate-pulse">
-                SISTEMA CRONOS // BLOQUEO MULTIDIMENSIONAL
+            <div className="flex flex-col gap-1 backdrop-blur-md bg-black/40 border border-primary/20 p-6 rounded-sm">
+              <span className="text-[11px] tracking-[0.5em] uppercase text-primary font-bold animate-pulse flex items-center gap-3">
+                <span className="w-2 h-2 bg-red-500 rounded-full animate-ping" />
+                SYSTEM OVERRIDE // ACTIVE
               </span>
-              <h2 className="text-3xl sm:text-5xl font-serif font-light uppercase tracking-wide text-foreground">
+              <h2 className="text-4xl sm:text-6xl font-serif font-black uppercase tracking-tighter text-white mt-2 drop-shadow-[0_2px_20px_rgba(43,59,229,0.8)]">
                 {takeoverArtwork.title}
               </h2>
             </div>
-            <div className="mt-4 md:mt-0 flex items-center gap-6">
+            <div className="mt-4 md:mt-0 flex items-center gap-8 backdrop-blur-md bg-black/40 border border-primary/20 p-6 rounded-sm">
               <div className="flex flex-col items-end">
-                <span className="text-[9px] tracking-[0.2em] uppercase text-white/30">CRONOS COUNTDOWN</span>
-                <span className="text-4xl font-mono font-light text-primary">{takeoverCountdown}.00s</span>
+                <span className="text-[10px] tracking-[0.3em] uppercase text-white/50 mb-1">TERMINATION IN</span>
+                <span className="text-5xl font-mono font-bold text-primary tracking-tighter">{takeoverCountdown}.00<span className="text-2xl text-primary/50">s</span></span>
               </div>
-              <div className="w-[1px] h-12 bg-white/20 relative overflow-hidden">
+              <div className="w-[2px] h-16 bg-white/10 relative overflow-hidden">
                 <div 
-                  className="absolute bottom-0 left-0 w-full bg-primary transition-all duration-[4000ms] ease-linear"
+                  className="absolute bottom-0 left-0 w-full bg-red-500 transition-all duration-[4000ms] ease-linear shadow-[0_0_15px_rgba(239,68,68,1)]"
                   style={{ height: `${(takeoverCountdown / 4) * 100}%` }}
                 />
               </div>
