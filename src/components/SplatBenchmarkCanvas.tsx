@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -11,7 +12,7 @@ export default function SplatBenchmarkCanvas() {
 
   useEffect(() => {
     let animationFrameId: number;
-    let splatCount = 100000;
+    const splatCount = 100000;
 
     const initEngine = async () => {
       try {
@@ -19,8 +20,6 @@ export default function SplatBenchmarkCanvas() {
         await simulator.init(splatCount);
         simulatorRef.current = simulator;
         setStatus(`C5-REAL ENGINE ACTIVE: Running ${splatCount} splats compute shader at 60fps.`);
-        
-        let lastTime = performance.now();
         const renderLoop = () => {
           if (simulatorRef.current) {
             // Nota: En una implementación real, aquí leeríamos las coordenadas del mouse 
@@ -30,8 +29,8 @@ export default function SplatBenchmarkCanvas() {
           animationFrameId = requestAnimationFrame(renderLoop);
         };
         renderLoop();
-      } catch (err: any) {
-        setStatus(`ERROR: ${err.message}. Verifica flags de WebGPU en el navegador.`);
+      } catch (err: unknown) {
+        setStatus(`ERROR: ${(err as Error).message}. Verifica flags de WebGPU en el navegador.`);
       }
     };
 

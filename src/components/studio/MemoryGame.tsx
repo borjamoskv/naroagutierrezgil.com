@@ -46,8 +46,9 @@ export default function MemoryGame({ artworks }: MemoryGameProps) {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     initMemory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCardClick = (id: number) => {

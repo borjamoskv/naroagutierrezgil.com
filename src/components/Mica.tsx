@@ -102,12 +102,12 @@ export default function Mica() {
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
     const savedMessages = localStorage.getItem('naroa_mica_messages');
     if (savedMessages) {
       try {
         setMessages(JSON.parse(savedMessages));
-      } catch (e) {
+      } catch {
         setMessages(defaultInitialMessage);
       }
     } else {
@@ -123,7 +123,9 @@ export default function Mica() {
     if (savedSelections) {
       try {
         setSelections(JSON.parse(savedSelections));
-      } catch (e) {}
+      } catch {
+        // ignore
+      }
     }
   }, []);
 
