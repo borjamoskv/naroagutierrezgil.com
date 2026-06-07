@@ -2,7 +2,7 @@
 'use client'
 
 import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls, Environment, PerspectiveCamera, useTexture } from '@react-three/drei'
+import { OrbitControls, Environment, PerspectiveCamera, useTexture, Splat } from '@react-three/drei'
 import { Suspense, useMemo, useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
 
@@ -182,6 +182,7 @@ function PreloadTextures() {
 export default function SplatVault({ isVisible }: SplatVaultProps) {
   const [activeArtwork, setActiveArtwork] = useState<'james' | 'amy' | 'lagrimas'>('james')
   const [depthProgress, setDepthProgress] = useState(1.0)
+  const [useRealSplat, setUseRealSplat] = useState(false)
   
   if (!isVisible) return null
 
@@ -216,7 +217,11 @@ export default function SplatVault({ isVisible }: SplatVaultProps) {
 
         <Suspense fallback={null}>
           <PreloadTextures />
-          <VolumetricPainting textureSrc={artworkSrc} progress={depthProgress} />
+          {useRealSplat ? (
+            <Splat src={`/assets/${activeArtwork}_scan.splat`} position={[0, 0, 0]} rotation={[0, Math.PI, 0]} scale={2} />
+          ) : (
+            <VolumetricPainting textureSrc={artworkSrc} progress={depthProgress} />
+          )}
         </Suspense>
       </Canvas>
       
@@ -224,6 +229,20 @@ export default function SplatVault({ isVisible }: SplatVaultProps) {
       <div className="absolute top-8 left-8 text-[10px] uppercase tracking-widest text-primary/70 font-sans pointer-events-none space-y-2">
         <p className="font-semibold text-white">Naroa Gutiérrez Gil</p>
         <p>Acrílico sobre pizarra</p>
+      </div>
+
+      {/* Selector de Motor de Renderizado */}
+      <div className="absolute top-20 left-8 flex flex-col gap-2 z-[250] mt-2">
+        <button
+          onClick={() => setUseRealSplat(!useRealSplat)}
+          className={`px-4 py-2 border font-sans uppercase tracking-[0.2em] text-[8px] transition-all duration-500 rounded-sm pointer-events-auto ${
+            useRealSplat
+              ? 'border-[#ff3366] text-[#ff3366] bg-[#ff3366]/10 font-bold shadow-[0_0_15px_rgba(255,51,102,0.3)]'
+              : 'border-white/20 text-white/60 bg-[#0c0c0e]/80 hover:border-white/50 hover:text-white'
+          }`}
+        >
+          {useRealSplat ? '■ SOTA 3DGS ENGINE ACTIVE' : '▶ ENABLE GAUSSIAN SPLATTING'}
+        </button>
       </div>
 
       {/* Selector de Obra */}
