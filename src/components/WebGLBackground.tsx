@@ -7,15 +7,15 @@ import { useState, useRef, useEffect } from "react";
 import * as THREE from "three";
 import { inSphere } from "maath/random";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function StarBackground(props: any) {
   const ref = useRef<THREE.Points>(null);
   const [color, setColor] = useState("#2B3BE5");
   
   useEffect(() => {
     const initialColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
-    // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
-    if (initialColor) setColor(initialColor);
+    if (initialColor) {
+      setTimeout(() => setColor(initialColor), 0);
+    }
 
     const handleColorChange = (e: Event) => {
       const customEvent = e as CustomEvent<string>;
