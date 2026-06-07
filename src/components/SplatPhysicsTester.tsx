@@ -177,6 +177,7 @@ export default function SplatPhysicsTester() {
     isMouseDown.current = false;
   };
 
+  return (
     <div className="fixed inset-0 w-full h-screen bg-black overflow-hidden select-none">
       {/* Industrial CRT Background Layer */}
       <div className="absolute inset-0 z-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none" />
