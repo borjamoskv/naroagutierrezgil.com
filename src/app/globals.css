@@ -8,8 +8,8 @@
   --color-accent: #2B3BE5;
   --color-accent-glow: rgba(43, 59, 229, 0.4);
 
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), monospace;
+  --font-sans: var(--font-outfit), system-ui, sans-serif;
+  --font-mono: var(--font-mono), monospace;
 }
 
 :root {

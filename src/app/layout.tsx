@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Outfit, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 import CustomCursor from "@/components/CustomCursor";
 import Soundscape from "@/components/Soundscape";
@@ -74,7 +75,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${inter.variable} bg-[#0A0A0A] text-[#EAEAEA] antialiased`}>
+      <body className={`${outfit.variable} ${jetbrainsMono.variable} bg-[#0A0A0A] text-[#EAEAEA] antialiased`}>
         <Preloader />
         <CustomCursor />
         <Soundscape />
