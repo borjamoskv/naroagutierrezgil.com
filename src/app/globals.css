@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #141416; /* Deep organic slate */
-  --foreground: #E8E8E3; /* Soft ivory paper */
-  --primary: #C6A87C; /* Muted bronze/gold */
+  --background: #0A0A0A; /* Industrial Noir 2026 Base */
+  --foreground: #E0E0E0; /* Ash White */
+  --primary: #2B3BE5; /* Hyper-Cobalt Blue */
 }
 
 @theme inline {
