@@ -1,4 +1,4 @@
-import { Agent, Connection, callable } from 'agents';
+import { Agent, callable } from 'agents';
 
 // La obra no es inmutable. Registra el paso del tiempo y la fricción colectiva.
 export type EntropicState = {
