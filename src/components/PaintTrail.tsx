@@ -101,6 +101,60 @@ export default function PaintTrail() {
         ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${heat * 0.9})`
         ctx.fill()
       }
+
+      // Draw dynamic liquid paint brush tip at cursor position
+      if (mouse.x > -500 && mouse.y > -500) {
+        // Parse dynamic primary color for the cursor tip
+        let tipR = 43, tipG = 59, tipB = 229;
+        const primaryColorStr = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+        if (primaryColorStr && primaryColorStr.startsWith('#')) {
+          const r = parseInt(primaryColorStr.slice(1, 3), 16);
+          const g = parseInt(primaryColorStr.slice(3, 5), 16);
+          const b = parseInt(primaryColorStr.slice(5, 7), 16);
+          if (!isNaN(r) && !isNaN(g) && !isNaN(b)) {
+            tipR = r;
+            tipG = g;
+            tipB = b;
+          }
+        }
+
+        const speed = Math.sqrt(mouse.vx ** 2 + mouse.vy ** 2);
+        const radius = Math.max(10 - speed * 0.15, 5); // shrinks slightly as it stretches
+
+        // Detect if hovering over clickable elements
+        let isHoveringClickable = false;
+        try {
+          const target = document.elementFromPoint(mouse.x, mouse.y);
+          if (target) {
+            isHoveringClickable = !!(
+              target.closest('a') || 
+              target.closest('button') || 
+              target.closest('.cursor-pointer') ||
+              target.closest('#galeria .group')
+            );
+          }
+        } catch (e) {}
+
+        if (isHoveringClickable) {
+          // Hollow ring transition on hover
+          ctx.beginPath();
+          ctx.arc(mouse.x, mouse.y, radius * 1.8, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(${tipR}, ${tipG}, ${tipB}, 0.95)`;
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        } else {
+          // Dynamic droplet stretching on speed
+          ctx.beginPath();
+          if (speed > 1) {
+            const angle = Math.atan2(mouse.vy, mouse.vx);
+            ctx.ellipse(mouse.x, mouse.y, radius + speed * 0.25, radius, angle, 0, Math.PI * 2);
+          } else {
+            ctx.arc(mouse.x, mouse.y, radius, 0, Math.PI * 2);
+          }
+          ctx.fillStyle = `rgba(${tipR}, ${tipG}, ${tipB}, 0.8)`;
+          ctx.fill();
+        }
+      }
       
       animationFrame = requestAnimationFrame(render)
     }
