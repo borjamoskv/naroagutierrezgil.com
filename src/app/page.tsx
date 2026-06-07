@@ -10,7 +10,7 @@ export default function Home() {
       {/* ── SOTA ANTI-TEMPLATE HERO ── */}
       <section className="relative w-full h-screen flex flex-col justify-between overflow-hidden px-6 sm:px-12 py-12">
         <HeroFluid />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_30%,rgba(198,168,124,0.15)_0%,transparent_50%)] z-0 pointer-events-none mix-blend-color-dodge" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_30%,rgba(43,59,229,0.15)_0%,transparent_50%)] z-0 pointer-events-none mix-blend-color-dodge" />
         
         {/* Top Header - Microtypography */}
         <div className="relative z-10 w-full flex justify-between items-start animate-[fadeIn_2s_ease-out]">
@@ -27,9 +27,9 @@ export default function Home() {
               <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:1px_var(--color-foreground)] sm:[-webkit-text-stroke:2px_var(--color-foreground)] opacity-50 mix-blend-difference">Naroa</span>
             </span>
             
-            {/* Gutiérrez: Firma Dorada Flotante Masiva */}
+            {/* Gutiérrez: Firma Cobalt Flotante Masiva */}
             <span className="absolute top-[20%] left-[5%] sm:left-[12%] z-30 pointer-events-none w-full">
-              <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-primary font-hand normal-case tracking-normal text-[26vw] sm:text-[22vw] -rotate-6 drop-shadow-[0_20px_50px_rgba(198,168,124,0.5)] mix-blend-screen">Gutiérrez</span>
+              <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-primary font-hand normal-case tracking-normal text-[26vw] sm:text-[22vw] -rotate-6 drop-shadow-[0_20px_50px_rgba(43,59,229,0.5)] mix-blend-screen">Gutiérrez</span>
             </span>
             
             {/* Gil: Sólido, Extremo Derecho */}
@@ -88,7 +88,7 @@ export default function Home() {
             { src: 'pink-and-sparkles-c4K6RUzC.webp', title: 'Pink & Sparkles', span: 'md:col-span-4 row-span-1' },
             { src: 'monster-dragon-QQiqdImO.webp', title: 'Monster Dragon', span: 'md:col-span-12 row-span-2' }
           ].map((artwork, i) => (
-            <div key={i} className={`${artwork.span} group relative overflow-hidden bg-[#080809] rounded-sm ring-1 ring-white/5 shadow-2xl`}>
+            <div key={i} className={`${artwork.span} group relative overflow-hidden bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl`}>
               <Image 
                 src={`https://naroa.online/assets/${artwork.src}`} 
                 alt={artwork.title} 
@@ -98,8 +98,8 @@ export default function Home() {
                 className="object-cover transition-all duration-[3s] grayscale-[1] contrast-150 brightness-50 group-hover:grayscale-0 group-hover:contrast-100 group-hover:brightness-100 group-hover:scale-110" 
                 priority={i < 2} 
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0c] via-[#0a0a0c]/20 to-transparent z-10 opacity-90 group-hover:opacity-40 transition-opacity duration-1000 mix-blend-multiply" />
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(198,168,124,0.15)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/20 to-transparent z-10 opacity-90 group-hover:opacity-40 transition-opacity duration-1000 mix-blend-multiply" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.15)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
               
               <div className="absolute bottom-0 left-0 p-8 sm:p-14 z-20 transform translate-y-6 group-hover:translate-y-0 transition-transform duration-1000 ease-out">
                 <span className="text-primary/70 font-sans tracking-[0.3em] uppercase text-[9px] mb-4 block opacity-0 group-hover:opacity-100 transition-opacity duration-1000 delay-300">Acrílico sobre pizarra</span>
@@ -112,7 +112,7 @@ export default function Home() {
 
       {/* ── SEPARADOR VISUAL ── */}
       <div className="relative w-full py-20 flex justify-center items-center overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(198,168,124,0.03)_0%,transparent_50%)] z-0 pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(43,59,229,0.03)_0%,transparent_50%)] z-0 pointer-events-none" />
         <div className="w-[1px] h-32 bg-gradient-to-b from-transparent via-primary/30 to-transparent relative z-10"></div>
       </div>
 
@@ -123,8 +123,8 @@ export default function Home() {
       <InteractiveStudio />
 
       {/* ── FOOTER VISUAL ── */}
-      <footer className="relative pt-40 pb-20 overflow-hidden bg-[#030303] border-t border-white/5">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(198,168,124,0.08)_0%,transparent_60%)] z-0 pointer-events-none" />
+      <footer className="relative pt-40 pb-20 overflow-hidden bg-[#0A0A0A] border-t border-white/5">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.08)_0%,transparent_60%)] z-0 pointer-events-none" />
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
           <a 
