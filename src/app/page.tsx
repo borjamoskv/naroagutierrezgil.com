@@ -204,7 +204,7 @@ export default function Home() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const hostname = window.location.hostname;
-      if (!hostname.includes("master.") && hostname !== "localhost") {
+      if (!hostname.includes("naroaonline") && hostname !== "localhost") {
         setAppMode("ORDEN");
       }
     }
@@ -557,7 +557,7 @@ export default function Home() {
 
           <div className="flex flex-col gap-4 mb-20 items-center">
             <a
-              href="https://naroa.online"
+              href="https://naroaonline.pages.dev/"
               aria-label="Acceder al Laboratorio Kinético SOTA"
               target="_blank"
               rel="noopener noreferrer"
