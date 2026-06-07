@@ -168,7 +168,7 @@ export default function Home() {
                 sizes="(max-width: 768px) 100vw, 80vw"
                 quality={100}
                 className="object-cover transition-all duration-[3.5s] ease-out grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03]" 
-                loading={i < 4 ? "eager" : "lazy"}
+                priority={i < 4}
               />
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.12)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
               <div className="absolute bottom-6 left-6 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 translate-y-4 group-hover:translate-y-0">
