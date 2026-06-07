@@ -35,6 +35,7 @@ uniform float uTime;
 uniform float uHoverState;
 uniform vec3 uPrimaryColor;
 uniform vec2 uHover;
+uniform float uHeat;
 
 void main() {
   vec2 uv = vUv;
@@ -48,15 +49,16 @@ void main() {
   
   vec4 texColor = texture2D(uTexture, uv);
   
-  // Kintsugi oro / Color primario en el brillo
-  vec3 highlight = uPrimaryColor * bulge * 1.5;
-  vec3 finalColor = mix(texColor.rgb, texColor.rgb + highlight, bulge * 0.8);
+  // Kintsugi oro / Color primario en el brillo + Radiance Memory
+  float heatBoost = min(uHeat * 0.02, 0.8);
+  vec3 highlight = uPrimaryColor * (bulge * 1.5 + heatBoost * 0.5);
+  vec3 finalColor = mix(texColor.rgb, texColor.rgb + highlight, clamp(bulge * 0.8 + heatBoost, 0.0, 1.0));
   
   gl_FragColor = vec4(finalColor, texColor.a);
 }
 `;
 
-function ShaderPlane({ textureUrl }: { textureUrl: string }) {
+function ShaderPlane({ textureUrl, heat }: { textureUrl: string, heat: number }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const [texture, setTexture] = useState<THREE.Texture | null>(null);
@@ -90,6 +92,11 @@ function ShaderPlane({ textureUrl }: { textureUrl: string }) {
       );
       const targetVec = new THREE.Vector2((state.pointer.x + 1) / 2, (state.pointer.y + 1) / 2);
       materialRef.current.uniforms.uHover.value.lerp(targetVec, 0.1);
+      materialRef.current.uniforms.uHeat.value = THREE.MathUtils.lerp(
+        materialRef.current.uniforms.uHeat.value,
+        heat,
+        0.05
+      );
     }
   });
 
@@ -112,6 +119,7 @@ function ShaderPlane({ textureUrl }: { textureUrl: string }) {
           uHover: { value: new THREE.Vector2(0.5, 0.5) },
           uHoverState: { value: 0 },
           uPrimaryColor: { value: primaryColor },
+          uHeat: { value: heat },
         }}
       />
     </mesh>
@@ -123,14 +131,19 @@ export default function KineticArtwork({
   alt,
   priority,
   className,
+  id,
+  onClick,
 }: {
   src: string;
   alt: string;
   priority?: boolean;
   className?: string;
+  id?: string;
+  onClick?: () => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [heat, setHeat] = useState(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -143,8 +156,31 @@ export default function KineticArtwork({
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (isVisible && id) {
+      fetch(`/api/radiance/${id}`)
+        .then((res) => res.json())
+        .then((data: any) => {
+          if (data.heat !== undefined) setHeat(data.heat);
+        })
+        .catch(() => {});
+    }
+  }, [isVisible, id]);
+
+  const handleClick = () => {
+    if (onClick) onClick();
+    if (id) {
+      setHeat((h) => h + 1);
+      fetch(`/api/radiance/${id}`, { method: "POST" }).catch(() => {});
+    }
+  };
+
   return (
-    <div ref={containerRef} className={`w-full h-full relative ${className || ""}`}>
+    <div 
+      ref={containerRef} 
+      className={`w-full h-full relative cursor-pointer ${className || ""}`}
+      onClick={handleClick}
+    >
       {/* Fallback & Initial Image */}
       <Image
         src={src}
@@ -158,7 +194,7 @@ export default function KineticArtwork({
       {isVisible && (
         <div className="absolute inset-0 z-10 animate-[fadeIn_1s_ease-out]">
           <Canvas camera={{ position: [0, 0, 1] }} gl={{ antialias: false, alpha: true }}>
-            <ShaderPlane textureUrl={src} />
+            <ShaderPlane textureUrl={src} heat={heat} />
           </Canvas>
         </div>
       )}

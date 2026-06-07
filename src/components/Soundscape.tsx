@@ -60,6 +60,7 @@ export default function Soundscape() {
       <audio 
         ref={audioRef}
         loop
+        preload="none"
         // URL de contingencia/placeholder apuntando a tu servidor o a un track ambiental
         src="https://naroa.online/assets/ambient.mp3" 
       />

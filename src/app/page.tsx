@@ -197,6 +197,30 @@ export default function Home() {
   const [webGLReady, setWebGLReady] = useState(false);
   const [isLocal, setIsLocal] = useState(false);
 
+  const takeoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const triggerTakeover = (artwork: { src: string; title: string }) => {
+    if (takeoverTimeoutRef.current) clearTimeout(takeoverTimeoutRef.current);
+    if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+
+    setTakeoverArtwork(artwork);
+    setTakeoverCountdown(4);
+    document.body.style.overflow = "hidden";
+
+    let count = 4;
+    countdownIntervalRef.current = setInterval(() => {
+      count -= 1;
+      setTakeoverCountdown(count);
+    }, 1000);
+
+    takeoverTimeoutRef.current = setTimeout(() => {
+      setTakeoverArtwork(null);
+      document.body.style.overflow = "auto";
+      if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+    }, 4000);
+  };
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const hostname = window.location.hostname;
@@ -228,48 +252,25 @@ export default function Home() {
   };
 
   useEffect(() => {
-    let takeoverTimeoutId: NodeJS.Timeout;
-    let countdownIntervalId: NodeJS.Timeout;
-
-    if (appMode === "ORDEN") {
-      return;
-    }
-
-    const runTakeover = () => {
-      const randomArt =
-        baseArtworks[Math.floor(Math.random() * baseArtworks.length)];
-      setTakeoverArtwork(randomArt);
-      setTakeoverCountdown(4);
-      document.body.style.overflow = "hidden";
-
-      let count = 4;
-      countdownIntervalId = setInterval(() => {
-        count -= 1;
-        setTakeoverCountdown(count);
-      }, 1000);
-
-      takeoverTimeoutId = setTimeout(() => {
-        setTakeoverArtwork(null);
-        document.body.style.overflow = "auto";
-        clearInterval(countdownIntervalId);
-      }, 4000);
-    };
+    if (appMode === "ORDEN") return;
 
     // Cycle every 17s (13s interactive + 4s block takeover)
     const cycleIntervalId = setInterval(() => {
-      runTakeover();
+      const randomArt = baseArtworks[Math.floor(Math.random() * baseArtworks.length)];
+      triggerTakeover(randomArt);
     }, 17000);
 
     // First trigger after 13 seconds
     const initialDelayId = setTimeout(() => {
-      runTakeover();
+      const randomArt = baseArtworks[Math.floor(Math.random() * baseArtworks.length)];
+      triggerTakeover(randomArt);
     }, 13000);
 
     return () => {
       clearInterval(cycleIntervalId);
-      clearTimeout(takeoverTimeoutId);
-      clearInterval(countdownIntervalId);
       clearTimeout(initialDelayId);
+      if (takeoverTimeoutRef.current) clearTimeout(takeoverTimeoutRef.current);
+      if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
       document.body.style.overflow = "auto";
     };
   }, [appMode]);

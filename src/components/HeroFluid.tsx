@@ -41,8 +41,10 @@ export default function HeroFluid() {
     let frameIdx = 0;
     let rafId: number;
     let lastTime = 0;
+    let isVisible = true;
 
     const render = (time: number) => {
+      if (!isVisible) return;
       // Throttle a 15fps para un efecto cinemático analógico
       if (time - lastTime > 66) { 
         if (frames[frameIdx]) {
@@ -58,7 +60,20 @@ export default function HeroFluid() {
       rafId = requestAnimationFrame(render);
     };
 
-    rafId = requestAnimationFrame(render);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          lastTime = performance.now();
+          cancelAnimationFrame(rafId);
+          rafId = requestAnimationFrame(render);
+        } else {
+          cancelAnimationFrame(rafId);
+        }
+      });
+    }, { threshold: 0 });
+    
+    observer.observe(canvas);
 
     const handleResize = () => {
       width = window.innerWidth;
@@ -70,6 +85,7 @@ export default function HeroFluid() {
     window.addEventListener("resize", handleResize);
 
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(rafId);
       window.removeEventListener("resize", handleResize);
     };

@@ -10,4 +10,4 @@ compatibility_date = "2024-05-01"
 # Vector 3: Radiance Memory (KV para Historia Colectiva)
 [[kv_namespaces]]
 binding = "RADIANCE_MEMORY"
-id = "cortex_radiance_memory" # Reemplazar con ID real tras crearlo en Dashboard
+id = "3dd316a7673541cf89ba8f7e82e4b2f0"
