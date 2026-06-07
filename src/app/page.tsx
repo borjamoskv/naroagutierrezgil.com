@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/immutability */
+/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
@@ -11,9 +13,14 @@ import HeroFluid from '@/components/HeroFluid';
 import ScrollyTelling from '@/components/ScrollyTelling';
 import InteractiveStudio from '@/components/InteractiveStudio';
 import TakeoverModal from '@/components/TakeoverModal';
+import ColorDock from '@/components/ColorDock';
+import Footer from '@/components/Footer';
 
 const WebGLBackground = dynamic(() => import('@/components/WebGLBackground'), { ssr: false });
 const PaintTrail = dynamic(() => import('@/components/PaintTrail'), { ssr: false });
+const MacroSplatCanvas = dynamic(() => import('@/components/SplatBenchmarkCanvas'), { ssr: false });
+const SplatPhysicsTester = dynamic(() => import('@/components/SplatPhysicsTester'), { ssr: false });
+const KineticArtwork = dynamic(() => import('@/components/KineticArtwork'), { ssr: false });
 
 const getImageUrl = (src: string) => {
   if (src.startsWith('http')) {
@@ -70,48 +77,55 @@ export default function Home() {
   const observerRef = useRef<HTMLDivElement | null>(null);
   const [takeoverArtwork, setTakeoverArtwork] = useState<{ src: string; title: string } | null>(null);
   const [takeoverCountdown, setTakeoverCountdown] = useState(4);
+  const [appMode, setAppMode] = useState<"CAOS" | "ORDEN">("ORDEN");
+  const [webGLReady, setWebGLReady] = useState(false);
+  const [isLocal, setIsLocal] = useState(false);
 
   useEffect(() => {
-    let takeoverTimeoutId: NodeJS.Timeout;
-    let countdownIntervalId: NodeJS.Timeout;
-
-    const runTakeover = () => {
-      const randomArt = baseArtworks[Math.floor(Math.random() * baseArtworks.length)];
-      setTakeoverArtwork(randomArt);
-      setTakeoverCountdown(4);
-      document.body.style.overflow = 'hidden';
-
-      let count = 4;
-      countdownIntervalId = setInterval(() => {
-        count -= 1;
-        setTakeoverCountdown(count);
-      }, 1000);
-
-      takeoverTimeoutId = setTimeout(() => {
-        setTakeoverArtwork(null);
-        document.body.style.overflow = 'auto';
-        clearInterval(countdownIntervalId);
-      }, 4000);
+    const handleRequest = (e: Event) => {
+      setAppMode((e as CustomEvent).detail);
     };
-
-    // Cycle every 17s (13s interactive + 4s block takeover)
-    const cycleIntervalId = setInterval(() => {
-      runTakeover();
-    }, 17000);
-
-    // First trigger after 13 seconds
-    const initialDelayId = setTimeout(() => {
-      runTakeover();
-    }, 13000);
-
-    return () => {
-      clearInterval(cycleIntervalId);
-      clearTimeout(takeoverTimeoutId);
-      clearInterval(countdownIntervalId);
-      clearTimeout(initialDelayId);
-      document.body.style.overflow = 'auto';
-    };
+    window.addEventListener('request-dimension-toggle', handleRequest);
+    return () => window.removeEventListener('request-dimension-toggle', handleRequest);
   }, []);
+
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent('dimension-changed', { detail: appMode }));
+  }, [appMode]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const hostname = window.location.hostname;
+      if (hostname === "localhost" || hostname === "127.0.0.1" || hostname.includes("local")) {
+        setIsLocal(true);
+      }
+    }
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      const id = requestIdleCallback(() => setWebGLReady(true), { timeout: 2000 });
+      return () => cancelIdleCallback(id);
+    } else {
+      const t = setTimeout(() => setWebGLReady(true), 500);
+      return () => clearTimeout(t);
+    }
+  }, []);
+
+  const triggerTakeover = (artwork: { src: string; title: string }) => {
+    setTakeoverArtwork(artwork);
+    setTakeoverCountdown(4);
+    document.body.style.overflow = 'hidden';
+
+    let count = 4;
+    const intervalId = setInterval(() => {
+      count -= 1;
+      setTakeoverCountdown(count);
+    }, 1000);
+
+    setTimeout(() => {
+      setTakeoverArtwork(null);
+      document.body.style.overflow = 'auto';
+      clearInterval(intervalId);
+    }, 4000);
+  };
 
   useEffect(() => {
     const lenis = new Lenis();
@@ -175,43 +189,81 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  const resolveSrc = (src: string) => {
+    const url = getImageUrl(src);
+    if (isLocal && url.startsWith("/")) {
+      return `/assets/${src}`;
+    }
+    return url;
+  };
+
   return (
-    <div className="flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary selection:text-black">
-      <div id="webgl-container" className="absolute inset-0 z-0 pointer-events-none">
-        <WebGLBackground />
-      </div>
+    <div className={`flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary selection:text-black ${appMode === "ORDEN" ? "bg-[#050505]" : ""}`}>
+      {appMode === "CAOS" && webGLReady && (
+        <>
+          <div id="fluid-physics-container" className="fixed inset-0 z-0 pointer-events-auto animate-[fadeIn_4s_ease-out]">
+            <SplatPhysicsTester />
+          </div>
+          <div id="macro-splat-container" className="fixed inset-0 z-10 pointer-events-auto animate-[fadeIn_3s_ease-out] mix-blend-screen">
+            <MacroSplatCanvas />
+          </div>
+        </>
+      )}
+
+      {appMode === "ORDEN" && (
+        <div id="webgl-container" className="absolute inset-0 z-0 pointer-events-none">
+          <WebGLBackground />
+        </div>
+      )}
+      
       <PaintTrail />
-      <DepthHUD />
-      <SOTAFX />
-      <Mica />
+      {appMode === "CAOS" && webGLReady && <DepthHUD />}
+      {appMode === "CAOS" && webGLReady && <SOTAFX />}
+      {appMode === "CAOS" && webGLReady && <Mica />}
+
       <section className="relative w-full h-screen flex flex-col justify-between overflow-hidden px-6 sm:px-12 py-12">
-        <HeroFluid />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_30%,rgba(43,59,229,0.15)_0%,transparent_50%)] z-0 pointer-events-none mix-blend-color-dodge" />
+        {appMode === "ORDEN" && <HeroFluid />}
+        <div className={`absolute inset-0 bg-[radial-gradient(circle_at_60%_30%,rgba(43,59,229,0.15)_0%,transparent_50%)] z-0 mix-blend-color-dodge pointer-events-none transition-opacity duration-1000 ${appMode === "ORDEN" ? "opacity-30" : "opacity-100"}`} />
         <div className="relative z-10 w-full flex justify-between items-start animate-[fadeIn_2s_ease-out]">
           <span className="text-foreground/40 font-sans tracking-[0.2em] text-[9px] uppercase">Acrílico sobre pizarra</span>
           <span className="text-foreground/40 font-sans tracking-[0.2em] text-[9px] uppercase">Bilbao</span>
         </div>
-        <div className="relative z-10 flex flex-col items-start w-full max-w-[1800px] mx-auto mt-20 mb-auto min-h-[60vh] justify-center">
-          <h1 className="relative flex flex-col w-full text-[16vw] leading-[0.8] font-serif font-black tracking-tighter uppercase select-none mix-blend-difference">
-            <span className="flex overflow-hidden z-10 w-full justify-start">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:2px_#fff] sm:[-webkit-text-stroke:3px_#fff] opacity-80 hover:opacity-100 hover:[-webkit-text-stroke:3px_var(--primary)] transition-all duration-700">Naroa</span>
-            </span>
-            <span className="absolute top-[35%] left-[5%] sm:left-[10%] z-30 pointer-events-none w-full mix-blend-exclusion">
-              <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.3s_both] text-primary font-serif italic normal-case tracking-tight text-[28vw] sm:text-[24vw] -rotate-2 drop-shadow-[0_0_80px_rgba(43,59,229,0.8)] opacity-90">Gutiérrez</span>
-            </span>
-            <span className="flex overflow-hidden self-end mr-[5vw] z-20 mt-[4vw]">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-white opacity-90">Gil</span>
-            </span>
+        
+        <div className={`relative z-10 flex flex-col items-start w-full max-w-[1800px] mx-auto mb-auto min-h-[50vh] justify-center transition-all duration-1000 ${appMode === "ORDEN" ? "mt-32 items-center text-center" : "mt-20"}`}>
+          <h1 className={`relative flex flex-col w-full text-[15vw] leading-[0.8] font-serif tracking-tighter uppercase select-none transition-all duration-1000 ${appMode === "ORDEN" ? "font-black text-center items-center gap-2 mix-blend-difference" : "font-black mix-blend-difference"}`}>
+            {appMode === "ORDEN" ? (
+              <div className="flex flex-col items-center gap-8 mt-12 animate-[fadeIn_2s_ease-out]">
+                <span className="text-[10px] sm:text-[12px] tracking-[0.8em] font-sans text-primary uppercase border-b border-primary/20 pb-4">Catálogo Razonado</span>
+                <div className="flex flex-col gap-2">
+                  <span className="text-foreground text-[8vw] sm:text-[6vw] tracking-tighter font-serif font-black leading-none">Naroa</span>
+                  <span className="text-foreground/60 text-[6vw] sm:text-[4vw] tracking-widest font-serif leading-none italic font-bold">Gutiérrez Gil</span>
+                </div>
+                <div className="w-px h-32 bg-gradient-to-b from-primary/50 to-transparent mt-8" />
+              </div>
+            ) : (
+              <>
+                <span className="flex overflow-hidden z-10 w-full justify-start">
+                  <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:2px_#fff] sm:[-webkit-text-stroke:3px_#fff] opacity-80 hover:opacity-100 hover:[-webkit-text-stroke:3px_var(--primary)] transition-all duration-700">Naroa</span>
+                </span>
+                <span className="absolute top-[35%] left-[5%] sm:left-[10%] z-30 pointer-events-none w-full mix-blend-exclusion">
+                  <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.3s_both] text-primary font-serif italic normal-case tracking-tight text-[28vw] sm:text-[24vw] -rotate-2 drop-shadow-[0_0_80px_rgba(43,59,229,0.8)] opacity-90">Gutiérrez</span>
+                </span>
+                <span className="flex overflow-hidden self-end mr-[5vw] z-20 mt-[4vw]">
+                  <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-white opacity-90">Gil</span>
+                </span>
+              </>
+            )}
           </h1>
         </div>
+
         <div className="relative z-10 w-full flex flex-col md:flex-row justify-end items-end gap-12 mt-auto max-w-[1800px] mx-auto animate-[fadeIn_3s_ease-out_1s_both]">
-          <a href="/biografia" aria-label="Explorar la biografía" className="group flex items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 cursor-pointer">
+          <a href="/biografia" aria-label="Explorar la biografía" className="group flex items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 cursor-pointer pointer-events-auto">
             <span className="uppercase font-sans tracking-[0.4em] text-[9px] font-medium rotate-180 [writing-mode:vertical-rl]">Biografía</span>
             <div className="w-[1px] h-32 bg-foreground/10 relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-full bg-primary animate-[translateY_2s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
             </div>
           </a>
-          <a href="#galeria" aria-label="Descender a la galería" className="group flex items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 cursor-pointer">
+          <a href="#galeria" aria-label="Descender a la galería" className="group flex items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 cursor-pointer pointer-events-auto">
             <span className="uppercase font-sans tracking-[0.4em] text-[9px] font-medium rotate-180 [writing-mode:vertical-rl]">Descender</span>
             <div className="w-[1px] h-32 bg-foreground/10 relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-full bg-primary animate-[translateY_2s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
@@ -219,29 +271,62 @@ export default function Home() {
           </a>
         </div>
       </section>
+
       <section id="galeria" className="relative z-10 px-4 sm:px-12 py-32 max-w-[1800px] mx-auto w-full">
         <div className="mb-40 text-center flex flex-col items-center">
           <h2 className="text-5xl sm:text-7xl font-serif font-light tracking-wide text-foreground leading-tight max-w-2xl mx-auto uppercase">Obras</h2>
           <div className="w-px h-16 bg-gradient-to-b from-primary/30 to-transparent mt-12"></div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-x-12 md:gap-y-0 items-start w-full px-0 md:px-12">
+        <div className={`grid w-full px-0 md:px-12 transition-all duration-1000 ${appMode === "ORDEN" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-x-20 items-start" : "grid-cols-1 md:grid-cols-12 gap-8 md:gap-x-12 md:gap-y-0 items-start"}`}>
           {artworks.map((artwork, i) => (
-            <div key={i} className={`group relative overflow-hidden bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl ${artwork.span || 'md:col-span-12 aspect-[4/3]'} w-full`}>
-              <Image 
-                src={getImageUrl(artwork.src)} 
-                alt={artwork.title} 
-                fill 
-                sizes="(max-width: 768px) 100vw, 80vw"
-                quality={100}
-                className="object-cover transition-all duration-[3.5s] ease-out grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03]" 
-                priority={i < 4}
-              />
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.12)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-              <div className="absolute bottom-6 left-6 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 translate-y-4 group-hover:translate-y-0">
-                <span className="text-foreground/80 font-sans tracking-[0.2em] text-[10px] uppercase bg-black/50 px-3 py-1 backdrop-blur-md border border-white/10 rounded-sm">
-                  {artwork.title}
-                </span>
+            <div 
+              key={i} 
+              className={`group relative overflow-hidden transition-all duration-1000 ${appMode === "ORDEN" ? "col-span-1 p-4 sm:p-8 bg-[#070707] border border-white/[0.04] shadow-none flex flex-col items-center gap-6 mt-0 animate-[fadeIn_0.5s_ease-out_both] hover:border-white/10" : `bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl w-full ${artwork.span || "md:col-span-12 aspect-[4/3]"}`}`}
+              style={appMode === "ORDEN" ? { animationDelay: `${(i % 12) * 100}ms` } : {}}
+            >
+              <div className={`relative w-full ${appMode === "ORDEN" ? "aspect-[4/5] overflow-hidden" : "h-full"}`}>
+                {appMode === "CAOS" ? (
+                  <KineticArtwork
+                    src={resolveSrc(artwork.src)}
+                    alt={`Obra de arte: ${artwork.title}`}
+                    priority={i < 4}
+                    className="transition-all duration-[2s] ease-[var(--ease-spring)] will-change-transform transform-gpu grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03]"
+                    id={artwork.src.split('.')[0].replace(/[^a-zA-Z0-9-]/g, '')}
+                    onClick={() => triggerTakeover(artwork)}
+                  />
+                ) : (
+                  <div className="w-full h-full cursor-pointer" onClick={() => triggerTakeover(artwork)}>
+                    <Image 
+                      src={resolveSrc(artwork.src)} 
+                      alt={artwork.title} 
+                      fill 
+                      sizes="(max-width: 768px) 100vw, 80vw"
+                      quality={100}
+                      className="object-cover transition-all duration-[3.5s] ease-out grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03]" 
+                      priority={i < 4}
+                      loading={i >= 4 ? "lazy" : undefined}
+                    />
+                  </div>
+                )}
               </div>
+              
+              {appMode === "ORDEN" && (
+                <div className="w-full flex flex-col items-center px-4 py-2 border-t border-white/[0.05] gap-3 opacity-60 group-hover:opacity-100 transition-opacity">
+                  <h3 className="font-serif font-bold text-sm sm:text-base tracking-[0.2em] uppercase text-foreground/90">{artwork.title}</h3>
+                  <p className="font-sans font-bold text-[8px] tracking-[0.3em] text-primary/80">ACRÍLICO S/ PIZARRA</p>
+                </div>
+              )}
+
+              {appMode === "CAOS" && (
+                <>
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.12)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+                  <div className="absolute bottom-6 left-6 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 translate-y-4 group-hover:translate-y-0">
+                    <span className="text-foreground/80 font-sans tracking-[0.2em] text-[10px] uppercase bg-black/50 px-3 py-1 backdrop-blur-md border border-white/10 rounded-sm">
+                      {artwork.title}
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
           ))}
           <div ref={observerRef} className="col-span-1 md:col-span-12 h-32 w-full flex justify-center items-center">
@@ -257,64 +342,21 @@ export default function Home() {
       </div>
 
       {/* ── SCROLLYTELLING (Evolución de la Obra) ── */}
-      <ScrollyTelling />
+      {appMode === "CAOS" && <ScrollyTelling />}
 
       {/* ── EL TALLER INTERACTIVO ── */}
-      <InteractiveStudio />
+      {appMode === "CAOS" && <InteractiveStudio />}
 
       {/* ── FOOTER VISUAL ── */}
-      <footer className="relative pt-40 pb-20 overflow-hidden bg-[#0A0A0A] border-t border-white/5">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.08)_0%,transparent_60%)] z-0 pointer-events-none" />
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
-          <a 
-            href="mailto:naroa@naroa.eu" 
-            aria-label="Enviar correo a Naroa"
-            className="text-4xl sm:text-6xl md:text-[7rem] font-serif font-light tracking-tighter text-foreground/70 hover:text-primary transition-colors duration-1000 mb-12 block hover:tracking-normal"
-          >
-            naroa@naroa.eu
-          </a>
-          
-          <div className="flex flex-col gap-4 mb-20 items-center">
-            <a href="https://naroa.online" aria-label="Acceder al Laboratorio Kinético SOTA" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 text-primary/50 hover:text-primary transition-colors duration-500 px-8 py-3 border border-primary/20 hover:border-primary/50 rounded-sm w-full max-w-sm justify-center">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-              <span className="font-sans text-[9px] tracking-[0.4em] uppercase">Laboratorio Kinético</span>
-            </a>
-            
-            <a href="/test-physics" aria-label="Motor WebGPU Splat Physics" className="group flex items-center gap-4 text-white/30 hover:text-white transition-colors duration-500 px-8 py-3 border border-white/10 hover:border-white/30 rounded-sm w-full max-w-sm justify-center">
-              <span className="font-mono text-[9px] tracking-[0.3em] uppercase">WebGPU Physics Engine</span>
-            </a>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-between w-full max-w-3xl pt-12 border-t border-white/5 text-foreground/30 font-sans text-xs tracking-widest uppercase">
-            <span>© 2026 Naroa Gutiérrez Gil · Creado por <a href="https://www.borjamoskv.com" aria-label="Web de Borja Moskv" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-500">Borja Moskv</a></span>
-            <span className="mt-4 sm:mt-0">Bilbao, Spain</span>
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
       {/* Floating Color Mutator Dock */}
-      <div className="fixed bottom-8 left-8 z-[130] flex gap-2.5 items-center bg-[#0c0c0e]/80 border border-white/5 px-4 py-2.5 rounded-sm backdrop-blur-md select-none">
-        <span className="font-sans text-[8px] tracking-[0.25em] uppercase text-white/40 mr-1">Muta</span>
-        {['#2B3BE5', '#C6A87C', '#10B981', '#D9383A', '#D97706', '#8B5CF6', '#06B6D4'].map((color) => (
-          <button
-            key={color}
-            onClick={() => updatePrimaryColor(color)}
-            className={`w-3.5 h-3.5 rounded-full border transition-all duration-300 relative cursor-pointer ${
-              activeColor === color 
-                ? 'border-white scale-110 shadow-[0_0_10px_rgba(255,255,255,0.4)]' 
-                : 'border-white/10 hover:scale-125'
-            }`}
-            style={{ backgroundColor: color }}
-            aria-label={`Mutar color a ${color}`}
-          />
-        ))}
-      </div>
+      <ColorDock activeColor={activeColor} onColorSelect={updatePrimaryColor} />
 
       <TakeoverModal 
         artwork={takeoverArtwork} 
         countdown={takeoverCountdown} 
-        getImageUrl={getImageUrl} 
+        getImageUrl={resolveSrc} 
       />
     </div>
   );

@@ -1,4 +1,5 @@
 import { Agent, Connection, callable } from 'agents';
+import type { KVNamespace } from '@cloudflare/workers-types';
 
 // La obra no es inmutable. Registra el paso del tiempo y la fricción colectiva.
 export type EntropicState = {
@@ -8,7 +9,9 @@ export type EntropicState = {
   scars: Array<{ x: number; y: number; depth: number; timestamp: number }>;
 };
 
-export type Env = Record<string, unknown>;
+export type Env = {
+  RADIANCE_MEMORY: KVNamespace;
+};
 
 export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
   // Estado inicial cristalizado (La Pizarra Intacta)
@@ -32,11 +35,19 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
    * Callback asíncrono C5-REAL: Dispara reacciones al mundo físico (clientes) 
    * cuando el estado termodinámico cambia.
    */
-  onStateUpdate(state: EntropicState, _source: Connection | "server") {
+  async onStateUpdate(state: EntropicState) {
     // Si la entropía supera el umbral crítico y no hay Kintsugi activo, la pizarra se quiebra.
     if (state.globalEntropy >= 100.0 && !state.kintsugiActive) {
       this.setState({ ...state, kintsugiActive: true });
       this.broadcast(JSON.stringify({ type: 'CANVAS_FRACTURE', message: 'La fricción colectiva ha quebrado la obra. Inyección de resina requerida.' }));
+      
+      // CORTEX-Guard KV Observability
+      try {
+        const timestamp = new Date().toISOString();
+        await this.env.RADIANCE_MEMORY.put(`fracture_${timestamp}`, JSON.stringify({ event: 'FRACTURE', scars: state.scars.length, repairs: state.totalRepairs }));
+      } catch (e) {
+        console.warn('Error saving to RADIANCE_MEMORY', e);
+      }
     }
   }
 
@@ -51,12 +62,15 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
     // Aumentar entropía basado en la fuerza de la fricción
     const newEntropy = Math.min(this.state.globalEntropy + (force * 0.05), 100.0);
     
-    const newScars = [...this.state.scars];
+    let newScars = this.state.scars;
     // Registrar cicatrices profundas (fuerza agresiva)
     if (force > 5.0) {
+      newScars = [...this.state.scars];
       newScars.push({ x, y, depth: force, timestamp: Date.now() });
       // Mantener solo las últimas 1000 cicatrices en memoria caliente
-      if (newScars.length > 1000) newScars.shift();
+      if (newScars.length > 1000) {
+        newScars = newScars.slice(-1000);
+      }
     }
 
     this.setState({
@@ -88,6 +102,14 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
         // Las cicatrices no se borran, quedan selladas en el oro
       });
       this.broadcast(JSON.stringify({ type: 'KINTSUGI_COMPLETE', repairNumber: this.state.totalRepairs }));
+      
+      // CORTEX-Guard KV Observability
+      try {
+        const timestamp = new Date().toISOString();
+        this.env.RADIANCE_MEMORY.put(`kintsugi_${timestamp}`, JSON.stringify({ event: 'REPAIR', repairNumber: this.state.totalRepairs, totalScars: this.state.scars.length }));
+      } catch (e) {
+        console.warn('Error saving to RADIANCE_MEMORY', e);
+      }
     } else {
       this.setState({ ...this.state, globalEntropy: newEntropy });
     }

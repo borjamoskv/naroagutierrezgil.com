@@ -11,6 +11,12 @@
   "migrations": [
     { "tag": "v1", "new_sqlite_classes": ["EntropicCanvasAgent"] }
   ],
+  "kv_namespaces": [
+    {
+      "binding": "RADIANCE_MEMORY",
+      "id": "3dd316a7673541cf89ba8f7e82e4b2f0"
+    }
+  ],
   "observability": {
     "enabled": true
   }
