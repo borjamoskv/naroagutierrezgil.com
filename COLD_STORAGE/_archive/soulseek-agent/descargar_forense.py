@@ -110,8 +110,16 @@ TARGETS = {
         "peer_priority": ["ttkfr"],
         "filename_keyword": "hume",
         "extension": ".flac"
+    },
+    "cat": {
+        "description": "Hiroshi Suzuki - Cat (1975 Japanese Jazz)",
+        "query": "Hiroshi Suzuki Cat",
+        "peer_priority": ["belvita_biscuits", "Ellzz", "SeventhBus", "tbdbitl1", "zeytin"],
+        "filename_keyword": "suzuki",
+        "extension": ".flac"
     }
 }
+
 
 async def main():
     global LATENCY_CACHE_LOCK
