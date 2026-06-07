@@ -10,25 +10,20 @@ interface Message {
 
 export default function Mica() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      sender: 'mica',
+      text: 'Hola. Soy Otra Naro, el reflejo mineral en el taller de Naroa. ¿Quieres perpetuar una mirada, una mascota o un recuerdo en pizarra natural?',
+      options: [
+        { label: '🎨 Retrato por Encargo', action: 'custom_portrait' },
+        { label: '💰 Ver Tarifas', action: 'view_rates' },
+        { label: '✉️ Contacto Directo', action: 'direct_contact' }
+      ]
+    }
+  ]);
   const [stage, setStage] = useState<'init' | 'type' | 'size' | 'summary'>('init');
   const [selections, setSelections] = useState({ type: '', size: '' });
   const chatEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Initial message
-    setMessages([
-      {
-        sender: 'mica',
-        text: 'Hola. Soy Otra Naro, el reflejo mineral en el taller de Naroa. ¿Quieres perpetuar una mirada, una mascota o un recuerdo en pizarra natural?',
-        options: [
-          { label: '🎨 Retrato por Encargo', action: 'custom_portrait' },
-          { label: '💰 Ver Tarifas', action: 'view_rates' },
-          { label: '✉️ Contacto Directo', action: 'direct_contact' }
-        ]
-      }
-    ]);
-  }, []);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
