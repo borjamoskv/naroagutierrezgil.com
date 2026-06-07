@@ -18,15 +18,14 @@ export default function SOTAFX() {
     const playBrushSound = () => {
       try {
         if (!audioCtx) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+          const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+          audioCtx = new AudioContextClass();
           analyser = audioCtx.createAnalyser();
           analyser.fftSize = 32;
           dataArray = new Uint8Array(analyser.frequencyBinCount);
           
           const updateAudioReactivity = () => {
             if (analyser && dataArray) {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               analyser.getByteFrequencyData(dataArray as any);
               let sum = 0;
               for(let i = 0; i < dataArray.length; i++) sum += dataArray[i];
