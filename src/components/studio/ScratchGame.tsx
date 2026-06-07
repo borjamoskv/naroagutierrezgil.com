@@ -158,19 +158,6 @@ export default function ScratchGame({ artworks }: ScratchGameProps) {
     ctx.arc(pos.x, pos.y, 35, 0, Math.PI * 2);
     ctx.fill();
 
-    // Spawn 4 slate carving particles per scratch stroke
-    for (let i = 0; i < 4; i++) {
-      particles.current.push({
-        x: pos.x,
-        y: pos.y,
-        vx: (Math.random() - 0.5) * 5,
-        vy: (Math.random() - 0.5) * 3 - 1.5, // burst outwards/upwards
-        size: Math.random() * 2.5 + 1.2,
-        life: 1.0,
-        decay: Math.random() * 0.03 + 0.02
-      });
-    }
-
     // Check revealed percentage
     const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
     let cleared = 0;
