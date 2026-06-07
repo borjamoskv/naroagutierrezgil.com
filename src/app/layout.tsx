@@ -5,6 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 import CustomCursor from "@/components/CustomCursor";
+import Soundscape from "@/components/Soundscape";
 
 export const metadata: Metadata = {
   title: "Naroa Gutiérrez Gil | Artivista",
@@ -20,6 +21,7 @@ export default function RootLayout({
     <html lang="es" className="dark">
       <body className={`${inter.variable} bg-[#0A0A0A] text-[#EAEAEA] antialiased`}>
         <CustomCursor />
+        <Soundscape />
         {children}
       </body>
     </html>
