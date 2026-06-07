@@ -4,10 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Lenis from "lenis";
 import dynamic from "next/dynamic";
-import DepthHUD from "@/components/DepthHUD";
-import SOTAFX from "@/components/SOTAFX";
-import Mica from "@/components/Mica";
-import HeroFluid from "@/components/HeroFluid";
+const DepthHUD = dynamic(() => import("@/components/DepthHUD"), { ssr: false });
+const SOTAFX = dynamic(() => import("@/components/SOTAFX"), { ssr: false });
+const Mica = dynamic(() => import("@/components/Mica"), { ssr: false });
+const HeroFluid = dynamic(() => import("@/components/HeroFluid"), { ssr: false });
 import ScrollyTelling from "@/components/ScrollyTelling";
 import InteractiveStudio from "@/components/InteractiveStudio";
 
@@ -196,9 +196,14 @@ export default function Home() {
   const [webGLReady, setWebGLReady] = useState(false);
 
   useEffect(() => {
-    // Unblock Main Thread to ensure LCP < 2.5s (C5-REAL Requirement)
-    const t = setTimeout(() => setWebGLReady(true), 500);
-    return () => clearTimeout(t);
+    // Unblock Main Thread to ensure LCP < 2.5s (C5-REAL Requirement) using requestIdleCallback
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      const id = requestIdleCallback(() => setWebGLReady(true), { timeout: 2000 });
+      return () => cancelIdleCallback(id);
+    } else {
+      const t = setTimeout(() => setWebGLReady(true), 500);
+      return () => clearTimeout(t);
+    }
   }, []);
 
   useEffect(() => {
