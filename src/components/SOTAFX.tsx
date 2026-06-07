@@ -13,6 +13,7 @@ export default function SOTAFX() {
     let analyser: AnalyserNode | null = null;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let dataArray: any = null;
+    let pulseTimeout: NodeJS.Timeout;
     let animationFrame: number;
     
     // 4 & 14. Sonido ASMR Taller + Audio Reactivity
@@ -24,21 +25,29 @@ export default function SOTAFX() {
           analyser = audioCtx.createAnalyser();
           analyser.fftSize = 32;
           dataArray = new Uint8Array(analyser.frequencyBinCount);
-          
-          const updateAudioReactivity = () => {
-            if (analyser && dataArray) {
-              analyser.getByteFrequencyData(dataArray);
-              let sum = 0;
-              for(let i = 0; i < dataArray.length; i++) sum += dataArray[i];
-              const avg = sum / dataArray.length;
-              // Map 0-255 to 0-0.03
-              const scalePulse = avg / 255 * 0.03;
-              document.documentElement.style.setProperty('--audio-pulse', scalePulse.toString());
-            }
-            animationFrame = requestAnimationFrame(updateAudioReactivity);
-          };
-          updateAudioReactivity();
         }
+        
+        if (animationFrame) cancelAnimationFrame(animationFrame);
+        
+        const updateAudioReactivity = () => {
+          if (analyser && dataArray) {
+            analyser.getByteFrequencyData(dataArray);
+            let sum = 0;
+            for(let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+            const avg = sum / dataArray.length;
+            // Map 0-255 to 0-0.03
+            const scalePulse = avg / 255 * 0.03;
+            document.documentElement.style.setProperty('--audio-pulse', scalePulse.toString());
+          }
+          animationFrame = requestAnimationFrame(updateAudioReactivity);
+        };
+        updateAudioReactivity();
+        
+        clearTimeout(pulseTimeout);
+        pulseTimeout = setTimeout(() => {
+          if (animationFrame) cancelAnimationFrame(animationFrame);
+          document.documentElement.style.setProperty('--audio-pulse', '0');
+        }, 500);
         
         if (audioCtx.state === 'suspended') audioCtx.resume();
         
