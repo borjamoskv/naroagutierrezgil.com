@@ -50,21 +50,17 @@ export default function Biografia() {
       <main className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 pt-40 pb-32">
         
         {/* HEADER MEGA KINÉTICO */}
-        <header className="mb-40 relative">
-          <div className="absolute -left-12 top-0 w-1 h-full bg-gradient-to-b from-[#2B3BE5] to-transparent opacity-50" />
-          <h1 className="text-[12vw] md:text-[8rem] font-serif font-light leading-[0.8] tracking-tighter uppercase mb-6 drop-shadow-2xl select-none relative">
-            <span className="flex overflow-hidden">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:1px_rgba(234,234,234,0.3)] hover:[-webkit-text-stroke:1px_#2B3BE5] transition-all duration-1000 cursor-default">Naroa</span>
-            </span>
-            <span className="flex overflow-hidden mt-2">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-[#EAEAEA]">Gutiérrez</span>
-            </span>
-            <span className="absolute top-[35%] left-[25%] md:left-[35%] z-20 pointer-events-none">
-              <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-[#2B3BE5] font-hand lowercase text-[18vw] md:text-[12rem] -rotate-3 opacity-90 mix-blend-screen drop-shadow-[0_20px_50px_rgba(43,59,229,0.3)]">Gil</span>
-            </span>
+        <header className="mb-40 relative pt-20">
+          <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light pointer-events-none" />
+          <div className="absolute -left-6 sm:-left-12 top-0 w-[2px] h-full bg-gradient-to-b from-[#2B3BE5] via-[#2B3BE5]/20 to-transparent" />
+          <h1 className="text-[14vw] md:text-[9rem] font-serif font-light leading-[0.75] tracking-tighter uppercase mb-8 drop-shadow-2xl mix-blend-difference">
+            <span className="block text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.4)] hover:[-webkit-text-stroke:2px_#2B3BE5] hover:text-[#2B3BE5]/10 transition-all duration-700 cursor-default">Naroa</span>
+            <span className="block text-white translate-x-8 sm:translate-x-16">Gutiérrez</span>
+            <span className="block text-[#2B3BE5] font-hand lowercase text-[18vw] md:text-[12rem] -mt-16 ml-32 -rotate-6 opacity-90 drop-shadow-[0_0_30px_rgba(43,59,229,0.5)]">Gil</span>
           </h1>
-          <p className="max-w-2xl text-lg sm:text-2xl font-light tracking-wide text-white/60 leading-relaxed mt-12 border-l border-[#2B3BE5]/30 pl-6 animate-[fadeIn_3s_ease-out_0.5s_both]">
-            Artista plástica y visual contemporánea. Una amalgama de <strong className="text-[#2B3BE5] font-normal">hiperrealismo pop</strong> y <strong className="text-white font-normal">arte matérico</strong> forjada sobre pizarra natural y mica mineral.
+          <p className="max-w-3xl text-lg sm:text-2xl font-light tracking-wide text-white/60 leading-relaxed mt-16 border-l border-[#2B3BE5]/30 pl-8 py-2 relative">
+            <span className="absolute -left-[1px] top-0 w-[2px] h-1/3 bg-[#2B3BE5] shadow-[0_0_10px_#2B3BE5]" />
+            Artista plástica contemporánea. Una colisión termodinámica entre el <strong className="text-[#2B3BE5] font-normal">hiperrealismo pop</strong> y la arqueología matérica forjada sobre <strong className="text-white font-normal">pizarra natural y mica mineral</strong>.
           </p>
         </header>
 
@@ -94,19 +90,27 @@ export default function Biografia() {
           </div>
         </section>
 
-        {/* ESTILO Y TÉCNICA - GLASSMORPHISM */}
-        <section className="mb-40 relative p-12 sm:p-20 overflow-hidden border border-white/5 rounded-3xl bg-white/[0.02] backdrop-blur-3xl shadow-[0_0_100px_rgba(43,59,229,0.05)] animate-[fadeIn_2s_ease-out_1.1s_both]">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[#2B3BE5] rounded-full blur-[120px] opacity-20" />
-          <h2 className="text-5xl font-serif tracking-widest uppercase text-white mb-12 relative z-10">
-            Estilo & Técnica
+        {/* ESTILO Y TÉCNICA - MATÉRICO (PIZARRA) */}
+        <section className="mb-40 relative p-12 sm:p-20 overflow-hidden border-t border-b border-white/10 bg-black">
+          <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }} />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#2B3BE5] rounded-full blur-[150px] opacity-10 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-px h-full bg-gradient-to-b from-transparent via-[#2B3BE5] to-transparent opacity-50" />
+          
+          <h2 className="text-5xl md:text-7xl font-serif tracking-widest uppercase text-white mb-16 relative z-10 opacity-90 mix-blend-difference">
+            Materia & Silencio
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
-            <div className="space-y-6 text-white/70 font-light text-xl leading-relaxed">
+            <div className="space-y-8 text-white/70 font-light text-xl leading-relaxed">
+              <p className="border-l-2 border-[#2B3BE5] pl-6 text-2xl font-serif text-white/90">"El lienzo no es un soporte pasivo. Es un yacimiento arqueológico que exige ser rascado."</p>
               <p>Un híbrido entre el rigor del <strong>hiperrealismo</strong> anatómico y los códigos cromáticos saturados del <strong>arte pop</strong>.</p>
-              <p>Destaca su abandono de los soportes clásicos en favor de elementos telúricos. Transicionó radicalmente hacia el uso de <strong>mica mineral y pizarra natural</strong>, desafiando el anclaje de pigmentos acrílicos sobre superficies pétreas reflectantes.</p>
+              <p>Destaca su abandono de los soportes clásicos en favor de elementos telúricos. Transicionó radicalmente hacia el uso de <strong>mica mineral y pizarra natural</strong> de tejados en ruinas, desafiando el anclaje de pigmentos acrílicos sobre superficies pétreas reflectantes.</p>
             </div>
-            <div className="space-y-6 text-white/70 font-light text-xl leading-relaxed">
-              <p>Incorpora arqueología industrial en su serie <em className="text-white">Dar la Lata</em>, elaborada a partir de antiguos envases de hojalata y soportes recuperados del Cantábrico.</p>
+            <div className="space-y-8 text-white/70 font-light text-xl leading-relaxed">
+              <div className="p-8 border border-white/5 bg-white/[0.01] relative group h-full flex flex-col justify-center">
+                <div className="absolute top-0 left-0 w-full h-[1px] bg-[#2B3BE5] scale-x-0 group-hover:scale-x-100 transition-transform duration-1000 origin-left" />
+                <h3 className="text-[#2B3BE5] font-serif text-3xl mb-6">Arqueología Industrial</h3>
+                <p>Incorpora memoria obrera en su serie <em className="text-white">Dar la Lata</em>, elaborada a partir de antiguos envases de hojalata y maderas recuperadas del oleaje salino del Mar Cantábrico.</p>
+              </div>
             </div>
           </div>
         </section>
@@ -128,11 +132,14 @@ export default function Biografia() {
               { t: 'Arqueología industrial', d: 'Recuperó desechos industriales del Cantábrico para mezclar memoria obrera de Bilbao con retratos.' },
               { t: 'Contraste POP', d: 'Descontextualiza el rigor fotográfico bañando las figuras en neones, cianes y magentas de los años 80.' },
             ].map((item, i) => (
-              <div key={i} className="group relative p-8 bg-[#0A0A0A] border border-white/5 hover:border-[#2B3BE5]/50 transition-colors duration-500 flex flex-col justify-between overflow-hidden cursor-default">
+              <div key={i} className="group relative p-10 bg-black border border-white/10 hover:border-transparent transition-all duration-700 flex flex-col justify-between overflow-hidden cursor-default min-h-[300px]">
+                <div className="absolute inset-0 bg-[#2B3BE5] translate-y-[100%] group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.7,0,0.3,1)] opacity-[0.03]" />
                 <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#2B3BE5] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
-                <h3 className="text-xl font-bold text-white mb-4 group-hover:text-[#2B3BE5] transition-colors">{item.t}</h3>
-                <p className="text-white/50 text-sm font-light leading-relaxed">{item.d}</p>
-                <div className="absolute bottom-4 right-4 text-[6rem] font-serif text-white/[0.03] pointer-events-none group-hover:text-[#2B3BE5]/10 transition-colors">
+                
+                <h3 className="text-2xl font-serif text-white/90 mb-6 group-hover:text-[#2B3BE5] transition-colors relative z-10 leading-tight">{item.t}</h3>
+                <p className="text-white/40 text-sm font-sans font-light leading-relaxed group-hover:text-white/70 transition-colors relative z-10">{item.d}</p>
+                
+                <div className="absolute -bottom-8 -right-4 text-[10rem] font-serif text-white/[0.02] pointer-events-none group-hover:text-[#2B3BE5]/10 transition-colors duration-700 select-none">
                   0{i + 1}
                 </div>
               </div>
