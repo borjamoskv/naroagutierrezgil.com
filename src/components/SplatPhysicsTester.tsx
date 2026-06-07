@@ -198,13 +198,27 @@ export default function SplatPhysicsTester() {
             <input 
               type="range" 
               min="1.0" 
-              max="50.0" 
+              max="150.0" 
               step="0.5"
               value={force}
               onChange={(e) => setForce(parseFloat(e.target.value))}
-              className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none"
+              className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-primary focus:outline-none hover:bg-white/20 transition-colors"
             />
           </div>
+
+          <button
+            onClick={triggerKintsugiAura}
+            disabled={auraActive || status !== 'ready'}
+            className={`w-full relative overflow-hidden group border transition-all duration-700 mt-6 py-4 rounded-sm flex items-center justify-center gap-4 ${
+              auraActive ? 'border-amber-500/50 bg-amber-500/10' : 'border-white/10 hover:border-amber-500/50 hover:bg-amber-500/5'
+            }`}
+          >
+            <div className={`absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.2)_0%,transparent_100%)] transition-opacity duration-1000 ${auraActive ? 'opacity-100' : 'opacity-0'}`} />
+            <span className={`w-2 h-2 rounded-full ${auraActive ? 'bg-amber-400 animate-ping' : 'bg-primary group-hover:bg-amber-500 transition-colors duration-500'}`} />
+            <span className={`font-sans text-[11px] tracking-[0.4em] uppercase transition-colors duration-500 ${auraActive ? 'text-amber-500 font-bold' : 'text-white/60 group-hover:text-amber-400'}`}>
+              Detonación Kintsugi
+            </span>
+          </button>
         </div>
       </div>
 
