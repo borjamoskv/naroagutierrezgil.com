@@ -383,14 +383,14 @@ export default function Home() {
           className={`relative z-10 flex flex-col items-start w-full max-w-[1800px] mx-auto mb-auto min-h-[50vh] justify-center transition-all duration-1000 ${appMode === "ORDEN" ? "mt-32 items-center text-center" : "mt-20"}`}
         >
           <h1
-            className={`relative flex flex-col w-full text-[15vw] leading-[0.75] font-serif tracking-tighter uppercase select-none transition-all duration-1000 ${appMode === "ORDEN" ? "font-light text-center items-center gap-2" : "font-light"}`}
+            className={`relative flex flex-col w-full text-[15vw] leading-[0.75] font-serif tracking-tighter uppercase select-none transition-all duration-1000 ${appMode === "ORDEN" ? "font-black text-center items-center gap-2" : "font-black"}`}
           >
             {appMode === "ORDEN" ? (
               <div className="flex flex-col items-center gap-8 mt-12 animate-[fadeIn_2s_ease-out]">
                 <span className="text-[10px] sm:text-[12px] tracking-[0.8em] font-sans text-primary uppercase border-b border-primary/20 pb-4">Catálogo Razonado</span>
                 <div className="flex flex-col gap-2">
-                  <span className="text-foreground text-[8vw] sm:text-[6vw] tracking-[0.2em] font-serif font-extralight leading-none">Naroa</span>
-                  <span className="text-foreground/60 text-[6vw] sm:text-[4vw] tracking-[0.3em] font-serif leading-none italic">Gutiérrez Gil</span>
+                  <span className="text-foreground text-[8vw] sm:text-[6vw] tracking-tighter font-serif font-black leading-none">Naroa</span>
+                  <span className="text-foreground/60 text-[6vw] sm:text-[4vw] tracking-widest font-serif leading-none italic font-bold">Gutiérrez Gil</span>
                 </div>
                 <div className="w-px h-32 bg-gradient-to-b from-primary/50 to-transparent mt-8" />
               </div>
@@ -398,14 +398,14 @@ export default function Home() {
               <>
                 <span className="flex overflow-hidden z-10">
                   <span
-                    className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] mix-blend-difference text-transparent [-webkit-text-stroke:1px_var(--color-foreground)] sm:[-webkit-text-stroke:2px_var(--color-foreground)] opacity-50"
+                    className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] mix-blend-difference text-transparent [-webkit-text-stroke:2px_var(--color-foreground)] sm:[-webkit-text-stroke:6px_var(--color-foreground)] opacity-50"
                   >
                     Naroa
                   </span>
                 </span>
                 <span className="absolute top-[20%] z-30 pointer-events-none w-full transition-all duration-1000 left-[5%] sm:left-[12%]">
                   <span
-                    className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-primary mix-blend-screen transition-all duration-1000 font-hand normal-case tracking-normal text-[26vw] sm:text-[22vw] -rotate-6 drop-shadow-[0_20px_50px_rgba(43,59,229,0.5)]"
+                    className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-primary mix-blend-screen transition-all duration-1000 font-hand normal-case tracking-tighter font-bold text-[26vw] sm:text-[22vw] -rotate-6 drop-shadow-[0_20px_50px_rgba(43,59,229,0.8)]"
                   >
                     Gutiérrez
                   </span>
@@ -451,7 +451,7 @@ export default function Home() {
         className="relative z-10 px-4 sm:px-12 py-32 max-w-[1800px] mx-auto w-full"
       >
         <div className="mb-40 text-center flex flex-col items-center">
-          <h2 className="text-5xl sm:text-7xl font-serif font-light tracking-wide text-foreground leading-tight max-w-2xl mx-auto uppercase">
+          <h2 className="text-5xl sm:text-7xl font-serif font-black tracking-tighter text-foreground leading-tight max-w-2xl mx-auto uppercase">
             Obras
           </h2>
           <div className="w-px h-16 bg-gradient-to-b from-primary/30 to-transparent mt-12"></div>
@@ -479,8 +479,8 @@ export default function Home() {
               
               {appMode === "ORDEN" && (
                 <div className="w-full flex flex-col items-center px-4 py-2 border-t border-white/[0.05] gap-3 opacity-60 group-hover:opacity-100 transition-opacity">
-                  <h3 className="font-serif text-sm sm:text-base tracking-[0.2em] uppercase text-foreground/90">{artwork.title}</h3>
-                  <p className="font-sans text-[8px] tracking-[0.3em] text-primary/80">ACRÍLICO S/ PIZARRA</p>
+                  <h3 className="font-serif font-bold text-sm sm:text-base tracking-[0.2em] uppercase text-foreground/90">{artwork.title}</h3>
+                  <p className="font-sans font-bold text-[8px] tracking-[0.3em] text-primary/80">ACRÍLICO S/ PIZARRA</p>
                 </div>
               )}
 
@@ -532,7 +532,7 @@ export default function Home() {
           <a
             href="mailto:naroa@naroa.eu"
             aria-label="Enviar correo a Naroa"
-            className="text-4xl sm:text-6xl md:text-[7rem] font-serif font-light tracking-tighter text-foreground/70 hover:text-primary transition-colors duration-1000 mb-12 block hover:tracking-normal"
+            className="text-4xl sm:text-6xl md:text-[7rem] font-serif font-black tracking-tighter text-foreground/70 hover:text-primary transition-colors duration-1000 mb-12 block hover:tracking-tight"
           >
             naroa@naroa.eu
           </a>
