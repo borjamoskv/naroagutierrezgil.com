@@ -76,11 +76,25 @@ export default function PaintTrail() {
           continue
         }
 
-        // Thermodynamic color transition: Hot (White/Gold) -> Cold (Cobalt #2B3BE5 -> Black)
+        // Parse dynamic primary color for the Cold state
+        let coldR = 43, coldG = 59, coldB = 229;
+        const primaryColorStr = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+        if (primaryColorStr && primaryColorStr.startsWith('#')) {
+          const r = parseInt(primaryColorStr.slice(1, 3), 16);
+          const g = parseInt(primaryColorStr.slice(3, 5), 16);
+          const b = parseInt(primaryColorStr.slice(5, 7), 16);
+          if (!isNaN(r) && !isNaN(g) && !isNaN(b)) {
+            coldR = r;
+            coldG = g;
+            coldB = b;
+          }
+        }
+
+        // Thermodynamic color transition: Hot (White/Gold) -> Cold (Dynamic --primary)
         const heat = Math.max(p.life, 0)
-        const r = Math.floor(255 * heat)
-        const g = Math.floor(168 * heat + 59 * (1 - heat))
-        const b = Math.floor(124 * heat + 229 * (1 - heat)) 
+        const r = Math.floor(255 * heat + coldR * (1 - heat))
+        const g = Math.floor(168 * heat + coldG * (1 - heat))
+        const b = Math.floor(124 * heat + coldB * (1 - heat)) 
         
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.size * heat, 0, Math.PI * 2)
