@@ -117,6 +117,15 @@
       "skillFolderHash": "45cc198b2aad3f06e8abf91333f55fbe7579f659",
       "installedAt": "2026-06-07T00:31:20.088Z",
       "updatedAt": "2026-06-07T00:32:23.022Z"
+    },
+    "threejs-webgl": {
+      "source": "freshtechbro/claudedesignskills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/freshtechbro/claudedesignskills.git",
+      "skillPath": ".claude/skills/threejs-webgl/SKILL.md",
+      "skillFolderHash": "1b1c5c4a3cc47f16a7005140d5ee5421a78126a4",
+      "installedAt": "2026-06-07T00:51:53.158Z",
+      "updatedAt": "2026-06-07T00:51:53.158Z"
     }
   },
   "dismissed": {
