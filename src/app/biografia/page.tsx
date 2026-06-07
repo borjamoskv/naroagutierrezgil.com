@@ -52,18 +52,24 @@ export default function Biografia() {
         {/* HEADER MEGA KINÉTICO */}
         <header className="mb-40 relative">
           <div className="absolute -left-12 top-0 w-1 h-full bg-gradient-to-b from-[#2B3BE5] to-transparent opacity-50" />
-          <h1 className="text-[12vw] md:text-[8rem] font-serif font-light leading-[0.8] tracking-tighter uppercase mb-6 drop-shadow-2xl">
-            <span className="block text-transparent [-webkit-text-stroke:1px_rgba(234,234,234,0.3)] hover:[-webkit-text-stroke:1px_#2B3BE5] transition-all duration-1000 cursor-default">Naroa</span>
-            <span className="block text-[#EAEAEA]">Gutiérrez</span>
-            <span className="block text-[#2B3BE5] font-hand lowercase text-[15vw] md:text-[10rem] -mt-10 ml-20 -rotate-3 opacity-90 mix-blend-screen">Gil</span>
+          <h1 className="text-[12vw] md:text-[8rem] font-serif font-light leading-[0.8] tracking-tighter uppercase mb-6 drop-shadow-2xl select-none relative">
+            <span className="flex overflow-hidden">
+              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:1px_rgba(234,234,234,0.3)] hover:[-webkit-text-stroke:1px_#2B3BE5] transition-all duration-1000 cursor-default">Naroa</span>
+            </span>
+            <span className="flex overflow-hidden mt-2">
+              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-[#EAEAEA]">Gutiérrez</span>
+            </span>
+            <span className="absolute top-[35%] left-[25%] md:left-[35%] z-20 pointer-events-none">
+              <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-[#2B3BE5] font-hand lowercase text-[18vw] md:text-[12rem] -rotate-3 opacity-90 mix-blend-screen drop-shadow-[0_20px_50px_rgba(43,59,229,0.3)]">Gil</span>
+            </span>
           </h1>
-          <p className="max-w-2xl text-lg sm:text-2xl font-light tracking-wide text-white/60 leading-relaxed mt-12 border-l border-[#2B3BE5]/30 pl-6">
+          <p className="max-w-2xl text-lg sm:text-2xl font-light tracking-wide text-white/60 leading-relaxed mt-12 border-l border-[#2B3BE5]/30 pl-6 animate-[fadeIn_3s_ease-out_0.5s_both]">
             Artista plástica y visual contemporánea. Una amalgama de <strong className="text-[#2B3BE5] font-normal">hiperrealismo pop</strong> y <strong className="text-white font-normal">arte matérico</strong> forjada sobre pizarra natural y mica mineral.
           </p>
         </header>
 
         {/* TRAYECTORIA */}
-        <section className="mb-40 grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+        <section className="mb-40 grid grid-cols-1 md:grid-cols-12 gap-12 items-center animate-[fadeIn_2s_ease-out_0.8s_both]">
           <div className="md:col-span-5 relative group">
             <div className="absolute inset-0 bg-[#2B3BE5] translate-x-4 translate-y-4 opacity-20 transition-transform duration-700 group-hover:translate-x-6 group-hover:translate-y-6" />
             <div className="relative aspect-[4/5] bg-[#0A0A0A] border border-white/10 overflow-hidden">
@@ -89,7 +95,7 @@ export default function Biografia() {
         </section>
 
         {/* ESTILO Y TÉCNICA - GLASSMORPHISM */}
-        <section className="mb-40 relative p-12 sm:p-20 overflow-hidden border border-white/5 rounded-3xl bg-white/[0.02] backdrop-blur-3xl shadow-[0_0_100px_rgba(43,59,229,0.05)]">
+        <section className="mb-40 relative p-12 sm:p-20 overflow-hidden border border-white/5 rounded-3xl bg-white/[0.02] backdrop-blur-3xl shadow-[0_0_100px_rgba(43,59,229,0.05)] animate-[fadeIn_2s_ease-out_1.1s_both]">
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#2B3BE5] rounded-full blur-[120px] opacity-20" />
           <h2 className="text-5xl font-serif tracking-widest uppercase text-white mb-12 relative z-10">
             Estilo & Técnica
@@ -106,7 +112,7 @@ export default function Biografia() {
         </section>
 
         {/* CURIOSIDADES KINÉTICAS */}
-        <section className="mb-40">
+        <section className="mb-40 animate-[fadeIn_2s_ease-out_1.4s_both]">
           <h2 className="text-4xl font-serif tracking-widest uppercase text-white/80 mb-16 text-center">
             Datos de Interés
           </h2>
@@ -135,7 +141,7 @@ export default function Biografia() {
         </section>
 
         {/* COLABORACIONES (Lista Cinemática) */}
-        <section className="mb-40">
+        <section className="mb-40 animate-[fadeIn_2s_ease-out_1.7s_both]">
           <div className="border-t border-[#2B3BE5]/30 pt-16">
             <h2 className="text-5xl font-serif tracking-widest uppercase text-white mb-12">Redes & Colisiones</h2>
             <ul className="space-y-8 text-xl font-light text-white/60">

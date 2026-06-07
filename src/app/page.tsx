@@ -34,8 +34,6 @@ const getImageUrl = (src: string) => {
 const baseArtworks = [
   // Local Original Facebook/HQ Scans
   { src: 'Naroa x16.jpeg', title: 'Alquimia en Pizarra (Colección)', span: 'md:col-span-10 md:col-start-2 row-span-2' },
-  { src: 'frida_kahlo_slate.png', title: 'La Mirada de Frida', span: 'md:col-span-6 md:col-start-1 row-span-1' },
-  { src: 'feline_slate.png', title: 'Mirada Felina', span: 'md:col-span-5 md:col-start-8 row-span-1' },
   { src: '601340023_1552126202933462_7815927344957967258_n.jpg', title: 'Espejo del Alma I', span: 'md:col-span-8 md:col-start-3 row-span-2' },
   { src: '608211438_1562089535270462_2827127275272133326_n.jpg', title: 'Dama de la Pizarra', span: 'md:col-span-6 md:col-start-7 row-span-2' },
   { src: '612329591_1571120784367337_8798688892093004057_n.jpg', title: 'Facciones del Silencio', span: 'md:col-span-6 md:col-start-1 row-span-1' },
