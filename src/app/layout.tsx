@@ -69,6 +69,7 @@ import Curtain from "@/components/Curtain";
 import PaintTrail from "@/components/PaintTrail";
 import DepthHUD from "@/components/DepthHUD";
 import SecretEgg from "@/components/SecretEgg";
+import Mica from "@/components/Mica";
 
 export default function RootLayout({
   children,
@@ -86,6 +87,7 @@ export default function RootLayout({
         <Curtain />
         <SOTAFX />
         <DepthHUD />
+        <Mica />
         <SmoothScroll>
           {children}
         </SmoothScroll>

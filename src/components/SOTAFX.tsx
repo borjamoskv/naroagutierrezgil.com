@@ -101,7 +101,7 @@ export default function SOTAFX() {
     const onMouseLeave = (e: Event) => {
       setHoveredSrc(null);
       const target = e.currentTarget as HTMLElement;
-      target.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(calc(1 + var(--audio-pulse, 0)), calc(1 + var(--audio-pulse, 0)), 1)';
+      target.style.transform = '';
     }
 
     window.addEventListener('mousemove', onMouseMove)
@@ -128,10 +128,12 @@ export default function SOTAFX() {
         #galeria .group img {
           object-position: var(--eye-x, 50%) var(--eye-y, 50%);
           transition: object-position 0.1s ease-out;
+          transform: scale(calc(1 + var(--scroll-velocity, 0) * 0.04));
+          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         #galeria .group {
-          transform: scale3d(calc(1 + var(--audio-pulse, 0)), calc(1 + var(--audio-pulse, 0)), 1);
-          transition: transform 0.1s ease-out;
+          transform: skewY(calc(var(--scroll-velocity, 0) * var(--scroll-direction, 0) * -1.8deg)) scale3d(calc(1 + var(--audio-pulse, 0)), calc(1 + var(--audio-pulse, 0)), 1);
+          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         #galeria .group:hover {
           transition: transform 0.1s ease-out;
