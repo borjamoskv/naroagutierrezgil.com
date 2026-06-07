@@ -18,6 +18,7 @@ export default function SOTAFX() {
     const playBrushSound = () => {
       try {
         if (!audioCtx) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
           analyser = audioCtx.createAnalyser();
           analyser.fftSize = 32;
@@ -25,6 +26,7 @@ export default function SOTAFX() {
           
           const updateAudioReactivity = () => {
             if (analyser && dataArray) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               analyser.getByteFrequencyData(dataArray as any);
               let sum = 0;
               for(let i = 0; i < dataArray.length; i++) sum += dataArray[i];
@@ -60,7 +62,9 @@ export default function SOTAFX() {
         gain.connect(analyser!);
         analyser!.connect(audioCtx.destination);
         noise.start();
-      } catch (e) {}
+      } catch {
+        // ignore audio errors
+      }
     };
 
     // Lupa, 3D Tilt y Eye-Tracking (13)

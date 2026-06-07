@@ -21,6 +21,7 @@ export default function Mica() {
       ]
     }
   ]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [stage, setStage] = useState<'init' | 'type' | 'size' | 'summary'>('init');
   const [selections, setSelections] = useState({ type: '', size: '' });
   const chatEndRef = useRef<HTMLDivElement>(null);

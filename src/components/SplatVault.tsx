@@ -117,7 +117,11 @@ function VolumetricPainting({ textureSrc, progress }: { textureSrc: string; prog
 
   useEffect(() => {
     if (texture) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       texture.minFilter = THREE.LinearFilter
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       texture.magFilter = THREE.LinearFilter
       if (materialRef.current) {
         materialRef.current.uniforms.uTexture.value = texture
