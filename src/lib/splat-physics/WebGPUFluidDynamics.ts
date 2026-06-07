@@ -38,11 +38,11 @@ export class WebGPUFluidSimulator {
   private dyeWrite: GPUBuffer | null = null;
   private pressureRead: GPUBuffer | null = null;
   private pressureWrite: GPUBuffer | null = null;
+  private divergenceBuf: GPUBuffer | null = null;
   private uniforms: GPUBuffer | null = null;
 
   private bindGroupLayoutAdvect: GPUBindGroupLayout | null = null;
   private renderPipeline: any | null = null;
-  private divergenceBuf: GPUBuffer | null = null;
   private bindGroups: Map<string, GPUBindGroup> = new Map();
 
   public async init(width: number = 256, height: number = 256) {
