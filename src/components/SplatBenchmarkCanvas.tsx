@@ -130,35 +130,25 @@ export default function SplatBenchmarkCanvas() {
   };
 
   return (
-    <div className="relative w-full h-full bg-[#0A0A0A] border border-[#2B3BE5] overflow-hidden">
-      <div className="absolute top-4 left-4 z-10 font-mono text-xs text-[#2B3BE5] pointer-events-none">
-        <p>[SPLAT BENCHMARK - MACRO TO PIGMENT]</p>
-        <p className="text-white mt-1">{status}</p>
-        <p className="mt-4 text-gray-500 max-w-sm">
-          Aplica un tensor de fuerza al Compute Shader interactuando con este plano. La fricción se sincroniza vía Cloudflare Agents SDK. Las fracturas se revelarán volumétricamente.
-        </p>
-
-        <div className="mt-8 border border-[#2B3BE5]/30 p-4 bg-black/50 backdrop-blur-md">
-          <p className="text-[#2B3BE5] font-bold mb-2">THERMODYNAMIC STATE (C5-REAL)</p>
-          <p className="text-white/70">Entropía Global: <span className={kintsugiActive ? 'text-rose-500 font-bold animate-pulse' : 'text-emerald-400'}>{entropy.toFixed(2)}%</span></p>
-          <p className="text-white/70">Cicatrices Doradas: {repairs}</p>
-          <p className="text-white/70">Status: {kintsugiActive ? 'FRACTURADO' : 'ESTABLE'}</p>
-          
-          {kintsugiActive && (
-             <button 
-                className="mt-4 px-4 py-2 bg-amber-500 text-black font-bold pointer-events-auto cursor-pointer hover:bg-amber-400 transition-colors"
-                onClick={handleInjectGold}
-             >
-               INYECCIÓN COLABORATIVA DE ORO (KINTSUGI)
-             </button>
-          )}
-        </div>
+    <div className="relative w-full h-full bg-[#0A0A0A] overflow-hidden">
+      <div className="absolute top-4 left-4 z-10 font-mono text-xs text-[#2B3BE5] pointer-events-none opacity-0 hover:opacity-100 transition-opacity">
+        <p className="text-white/30">{status}</p>
       </div>
+      {kintsugiActive && (
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20">
+          <button 
+            className="px-6 py-3 bg-amber-500 text-black font-bold font-sans tracking-widest text-[10px] uppercase cursor-pointer hover:bg-amber-400 transition-all rounded-sm shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:scale-105"
+            onClick={handleInjectGold}
+          >
+            Inyección Colaborativa de Oro
+          </button>
+        </div>
+      )}
       <canvas 
         ref={canvasRef} 
         width={1000}
         height={1000}
-        className="w-full h-full cursor-crosshair absolute inset-0 mix-blend-lighten"
+        className="w-full h-full cursor-crosshair absolute inset-0"
         onPointerDown={handlePointerDown}
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerUp}

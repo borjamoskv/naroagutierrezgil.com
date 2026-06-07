@@ -13,6 +13,17 @@ export const onRequest: PagesFunction = async (context: EventContext) => {
     return Response.redirect(url.toString(), 301);
   }
 
+  // Local fallback for Cloudflare Images resize paths
+  if (host === 'localhost' || host === '127.0.0.1') {
+    if (url.pathname.includes('/cdn-cgi/image/')) {
+      const parts = url.pathname.split('/assets/');
+      if (parts.length > 1) {
+        const assetUrl = new URL('/assets/' + parts[1], url.origin);
+        return fetch(assetUrl.toString());
+      }
+    }
+  }
+
   // Security Headers (Bonus)
   const response = await context.next();
   response.headers.set('X-Frame-Options', 'DENY');

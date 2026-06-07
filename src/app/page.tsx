@@ -12,10 +12,7 @@ import ScrollyTelling from "@/components/ScrollyTelling";
 import InteractiveStudio from "@/components/InteractiveStudio";
 import TakeoverModal from "@/components/TakeoverModal";
 
-const WebGLBackground = dynamic(() => import("@/components/WebGLBackground"), {
-  ssr: false,
-});
-const PaintTrail = dynamic(() => import("@/components/PaintTrail"), {
+const MacroSplatCanvas = dynamic(() => import("@/components/SplatBenchmarkCanvas"), {
   ssr: false,
 });
 const SplatPhysicsTester = dynamic(() => import("@/components/SplatPhysicsTester"), {
@@ -356,20 +353,18 @@ export default function Home() {
     >
       {appMode === "CAOS" && webGLReady && (
         <div
-          id="webgl-container"
-          className="absolute inset-0 z-0 pointer-events-none animate-[fadeIn_2s_ease-out]"
+          id="macro-splat-container"
+          className="fixed inset-0 z-0 pointer-events-auto animate-[fadeIn_3s_ease-out]"
         >
-          <WebGLBackground />
+          <MacroSplatCanvas />
         </div>
       )}
-      {appMode === "CAOS" && webGLReady && <PaintTrail />}
       {appMode === "CAOS" && webGLReady && <DepthHUD />}
       {appMode === "CAOS" && webGLReady && <SOTAFX />}
       {appMode === "CAOS" && webGLReady && <Mica />}
-      <section className="relative w-full h-screen flex flex-col justify-between overflow-hidden px-6 sm:px-12 py-12">
-        {appMode === "CAOS" && <HeroFluid />}
+      <section className="relative w-full h-screen flex flex-col justify-between overflow-hidden px-6 sm:px-12 py-12 pointer-events-none">
         <div
-          className={`absolute inset-0 bg-[radial-gradient(circle_at_60%_30%,rgba(43,59,229,0.15)_0%,transparent_50%)] z-0 pointer-events-none mix-blend-color-dodge transition-opacity duration-1000 ${appMode === "ORDEN" ? "opacity-30" : "opacity-100"}`}
+          className={`absolute inset-0 bg-[radial-gradient(circle_at_60%_30%,rgba(43,59,229,0.1)_0%,transparent_50%)] z-0 mix-blend-color-dodge transition-opacity duration-1000 ${appMode === "ORDEN" ? "opacity-30" : "opacity-100"}`}
         />
         <div className="relative z-10 w-full flex justify-between items-start animate-[fadeIn_2s_ease-out]">
           <span className="text-foreground/40 font-sans tracking-[0.2em] text-[9px] uppercase">
