@@ -8,7 +8,8 @@ export class SplatAudioEngine {
     if (this.isInitialized) return;
     
     try {
-      this.ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      this.ctx = new AudioCtx();
       
       // Generate a procedural noise buffer (Slate/Canvas scratching texture)
       const bufferSize = this.ctx.sampleRate * 2.0; // 2 seconds

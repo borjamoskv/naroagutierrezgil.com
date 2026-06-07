@@ -1969,7 +1969,7 @@ var require_code2 = __commonJS({
     exports2.reportMissingProp = reportMissingProp;
     function hasPropFunc(gen) {
       return gen.scopeValue("func", {
-        // eslint-disable-next-line @typescript-eslint/unbound-method
+         
         ref: Object.prototype.hasOwnProperty,
         code: (0, codegen_1._)`Object.prototype.hasOwnProperty`
       });
@@ -9176,7 +9176,7 @@ var require_code4 = __commonJS({
     exports2.reportMissingProp = reportMissingProp;
     function hasPropFunc(gen) {
       return gen.scopeValue("func", {
-        // eslint-disable-next-line @typescript-eslint/unbound-method
+         
         ref: Object.prototype.hasOwnProperty,
         code: (0, codegen_1._)`Object.prototype.hasOwnProperty`
       });
@@ -22224,8 +22224,8 @@ var require_global_this = __commonJS({
       return it && it.Math === Math && it;
     }, "check");
     module.exports = // eslint-disable-next-line es/no-global-this -- safe
-    check2(typeof globalThis == "object" && globalThis) || check2(typeof window == "object" && window) || // eslint-disable-next-line no-restricted-globals -- safe
-    check2(typeof self == "object" && self) || check2(typeof global == "object" && global) || check2(typeof exports2 == "object" && exports2) || // eslint-disable-next-line no-new-func -- fallback
+    check2(typeof globalThis == "object" && globalThis) || check2(typeof window == "object" && window) ||  
+    check2(typeof self == "object" && self) || check2(typeof global == "object" && global) || check2(typeof exports2 == "object" && exports2) ||  
     /* @__PURE__ */ (function() {
       return this;
     })() || Function("return this")();

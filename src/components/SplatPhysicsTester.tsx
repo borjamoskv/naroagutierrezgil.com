@@ -13,7 +13,6 @@ export default function SplatPhysicsTester() {
   
   // Physics parameters
   const [force, setForce] = useState(15.0);
-  const [damping, setDamping] = useState(0.96);
   const [auraActive, setAuraActive] = useState(false);
   
   const mousePos = useRef({ x: -10.0, y: -10.0 });
@@ -72,7 +71,7 @@ export default function SplatPhysicsTester() {
       setStatus('ready');
 
       // Main Loop
-      const tick = (time: number) => {
+      const tick = () => {
         if (!engine || !canvas || !context) return;
 
         // FPS calculation
@@ -130,7 +129,7 @@ export default function SplatPhysicsTester() {
       isMounted = false;
       cancelAnimationFrame(animationId);
     };
-  }, [force]);
+  }, [force, audioEnabled]);
 
   // Handle pointer interactions
   const handlePointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
