@@ -60,9 +60,10 @@ interface ParallaxItemProps {
   src: string;
   alt: string;
   i: number;
+  span: string;
 }
 
-function ParallaxItem({ src, alt, i }: ParallaxItemProps) {
+function ParallaxItem({ src, alt, i, span }: ParallaxItemProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [translateY, setTranslateY] = useState(0);
 
@@ -85,7 +86,7 @@ function ParallaxItem({ src, alt, i }: ParallaxItemProps) {
   return (
     <div 
       ref={containerRef}
-      className="w-full h-[60vh] sm:h-[100vh] group relative overflow-hidden bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl"
+      className={`${span} group relative overflow-hidden bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl hover:shadow-[0_0_80px_rgba(43,59,229,0.15)] transition-shadow duration-1000`}
     >
       <div 
         className="absolute inset-0 w-full h-[120%] -top-[10%] transition-transform duration-75 ease-out"
@@ -95,13 +96,16 @@ function ParallaxItem({ src, alt, i }: ParallaxItemProps) {
           src={src} 
           alt={alt} 
           fill 
-          sizes="100vw"
+          sizes="(max-width: 768px) 100vw, 50vw"
           quality={100}
           className="w-full h-full object-cover transition-all duration-[3.5s] ease-out grayscale-[0.2] contrast-[1.1] brightness-90 group-hover:grayscale-0 group-hover:scale-[1.04]" 
           loading={i < 4 ? "eager" : "lazy"}
         />
       </div>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.12)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/90 via-[#0A0A0A]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none flex flex-col justify-end p-8 sm:p-12 z-20">
+        <h3 className="text-white font-serif text-3xl sm:text-5xl font-light tracking-wide mix-blend-difference translate-y-8 group-hover:translate-y-0 transition-transform duration-700">{alt}</h3>
+      </div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.15)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
     </div>
   );
 }
@@ -200,13 +204,14 @@ export default function Home() {
           <h2 className="text-5xl sm:text-7xl font-serif font-light tracking-wide text-foreground leading-tight max-w-2xl mx-auto uppercase">Obras</h2>
           <div className="w-px h-16 bg-gradient-to-b from-primary/30 to-transparent mt-12"></div>
         </div>
-        <div className="flex flex-col gap-24 sm:gap-40 items-center w-full">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-x-12 w-full px-4 sm:px-12 max-w-[100vw]">
           {artworks.map((artwork, i) => (
             <ParallaxItem 
               src={getImageUrl(artwork.src)} 
               alt={artwork.title} 
               i={i} 
               key={i} 
+              span={artwork.span}
             />
           ))}
           <div ref={observerRef} className="col-span-12 h-20 w-full flex justify-center items-center">
