@@ -418,7 +418,7 @@ export default function Home() {
           <a
             href="/biografia"
             aria-label="Explorar la biografía"
-            className="group flex items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 cursor-pointer"
+            className="group flex items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 cursor-pointer pointer-events-auto"
           >
             <span className="uppercase font-sans tracking-[0.4em] text-[9px] font-medium rotate-180 [writing-mode:vertical-rl]">
               Biografía
@@ -430,7 +430,7 @@ export default function Home() {
           <a
             href="#galeria"
             aria-label="Descender a la galería"
-            className="group flex items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 cursor-pointer"
+            className="group flex items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 cursor-pointer pointer-events-auto"
           >
             <span className="uppercase font-sans tracking-[0.4em] text-[9px] font-medium rotate-180 [writing-mode:vertical-rl]">
               Descender
@@ -512,12 +512,7 @@ export default function Home() {
       {/* ── EL TALLER INTERACTIVO ── */}
       {appMode === "CAOS" && <InteractiveStudio />}
 
-      {/* ── SPLAT PHYSICS / FORJA DE AURA ── */}
-      {appMode === "CAOS" && (
-        <section className="relative z-10 py-32 px-4 sm:px-12 bg-[#050505] border-t border-white/5">
-          <SplatPhysicsTester />
-        </section>
-      )}
+
 
       {/* ── FOOTER VISUAL ── */}
       <footer className="relative pt-40 pb-20 overflow-hidden bg-[#0A0A0A] border-t border-white/5">
