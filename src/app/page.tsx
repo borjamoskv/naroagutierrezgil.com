@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
+import WebGLBackground from "@/components/WebGLBackground";
 
 export default function Home() {
   useEffect(() => {
@@ -18,10 +19,7 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
-      {/* 3D Base Canvas Container Placeholder */}
-      <div className="absolute inset-0 z-0 bg-[#0A0A0A] opacity-50" id="webgl-container">
-        {/* Splat / ThreeJS Canvas will mount here */}
-      </div>
+      <WebGLBackground />
 
       <div className="z-10 text-center max-w-4xl px-6 mix-blend-difference">
         <h1 className="text-6xl md:text-8xl font-bold tracking-tighter uppercase mb-4 opacity-90">
