@@ -103,31 +103,33 @@ export default function Mica() {
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-     
     const savedMessages = localStorage.getItem('naroa_mica_messages');
-    if (savedMessages) {
-      try {
-        setMessages(JSON.parse(savedMessages));
-      } catch {
+    const savedStage = localStorage.getItem('naroa_mica_stage');
+    const savedSelections = localStorage.getItem('naroa_mica_selections');
+
+    setTimeout(() => {
+      if (savedMessages) {
+        try {
+          setMessages(JSON.parse(savedMessages));
+        } catch {
+          setMessages(defaultInitialMessage);
+        }
+      } else {
         setMessages(defaultInitialMessage);
       }
-    } else {
-      setMessages(defaultInitialMessage);
-    }
 
-    const savedStage = localStorage.getItem('naroa_mica_stage');
-    if (savedStage) {
-      setStage(savedStage as 'init' | 'type' | 'size' | 'summary');
-    }
-
-    const savedSelections = localStorage.getItem('naroa_mica_selections');
-    if (savedSelections) {
-      try {
-        setSelections(JSON.parse(savedSelections));
-      } catch {
-        // ignore
+      if (savedStage) {
+        setStage(savedStage as 'init' | 'type' | 'size' | 'summary');
       }
-    }
+
+      if (savedSelections) {
+        try {
+          setSelections(JSON.parse(savedSelections));
+        } catch {
+          // ignore
+        }
+      }
+    }, 0);
   }, []);
 
   useEffect(() => {

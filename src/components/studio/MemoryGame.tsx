@@ -47,8 +47,9 @@ export default function MemoryGame({ artworks }: MemoryGameProps) {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    initMemory();
+    setTimeout(() => {
+      initMemory();
+    }, 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

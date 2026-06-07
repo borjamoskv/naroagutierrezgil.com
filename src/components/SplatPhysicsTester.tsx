@@ -51,14 +51,12 @@ export default function SplatPhysicsTester() {
       }
 
       // Configure context
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const context = canvas.getContext('webgpu') as any;
       if (!context) {
         setStatus('unsupported');
         return;
       }
       
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const presentationFormat = (navigator as any).gpu.getPreferredCanvasFormat();
       context.configure({
         device: engine.device!,

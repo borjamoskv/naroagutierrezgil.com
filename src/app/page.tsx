@@ -157,9 +157,8 @@ export default function Home() {
       selectedColor = palettes[Math.floor(Math.random() * palettes.length)];
       localStorage.setItem('naroa_primary_color', selectedColor);
     }
-    setTimeout(() => {
-      updatePrimaryColor(selectedColor);
-    }, 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
+    updatePrimaryColor(selectedColor);
   }, []);
 
   useEffect(() => {
