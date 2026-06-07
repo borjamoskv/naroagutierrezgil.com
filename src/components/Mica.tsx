@@ -8,23 +8,63 @@ interface Message {
   options?: { label: string; action: string }[];
 }
 
+const defaultInitialMessage: Message[] = [
+  {
+    sender: 'mica',
+    text: 'Hola. Soy Otra Naro, el reflejo mineral en el taller de Naroa. ¿Quieres perpetuar una mirada, una mascota o un recuerdo en pizarra natural?',
+    options: [
+      { label: '🎨 Retrato por Encargo', action: 'custom_portrait' },
+      { label: '💰 Ver Tarifas', action: 'view_rates' },
+      { label: '✉️ Contacto Directo', action: 'direct_contact' }
+    ]
+  }
+];
+
 export default function Mica() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      sender: 'mica',
-      text: 'Hola. Soy Otra Naro, el reflejo mineral en el taller de Naroa. ¿Quieres perpetuar una mirada, una mascota o un recuerdo en pizarra natural?',
-      options: [
-        { label: '🎨 Retrato por Encargo', action: 'custom_portrait' },
-        { label: '💰 Ver Tarifas', action: 'view_rates' },
-        { label: '✉️ Contacto Directo', action: 'direct_contact' }
-      ]
-    }
-  ]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [messages, setMessages] = useState<Message[]>([]);
   const [stage, setStage] = useState<'init' | 'type' | 'size' | 'summary'>('init');
   const [selections, setSelections] = useState({ type: '', size: '' });
   const chatEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const savedMessages = localStorage.getItem('naroa_mica_messages');
+    if (savedMessages) {
+      try {
+        setMessages(JSON.parse(savedMessages));
+      } catch (e) {
+        setMessages(defaultInitialMessage);
+      }
+    } else {
+      setMessages(defaultInitialMessage);
+    }
+
+    const savedStage = localStorage.getItem('naroa_mica_stage');
+    if (savedStage) {
+      setStage(savedStage as any);
+    }
+
+    const savedSelections = localStorage.getItem('naroa_mica_selections');
+    if (savedSelections) {
+      try {
+        setSelections(JSON.parse(savedSelections));
+      } catch (e) {}
+    }
+  }, []);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem('naroa_mica_messages', JSON.stringify(messages));
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    localStorage.setItem('naroa_mica_stage', stage);
+  }, [stage]);
+
+  useEffect(() => {
+    localStorage.setItem('naroa_mica_selections', JSON.stringify(selections));
+  }, [selections]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -172,12 +212,28 @@ export default function Mica() {
               <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-primary font-medium">Otra Naro</span>
             </div>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="text-foreground/40 hover:text-white text-xs"
-            >
-              ✕
-            </button>
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => {
+                  localStorage.removeItem('naroa_mica_messages');
+                  localStorage.removeItem('naroa_mica_selections');
+                  localStorage.removeItem('naroa_mica_stage');
+                  setStage('init');
+                  setSelections({ type: '', size: '' });
+                  setMessages(defaultInitialMessage);
+                }} 
+                className="text-white/30 hover:text-primary transition-colors text-[9px] uppercase tracking-wider font-sans border-0 bg-transparent cursor-pointer"
+                title="Limpiar Conversación"
+              >
+                Limpiar
+              </button>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-foreground/40 hover:text-white text-xs bg-transparent border-0 cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
           </div>
 
           {/* Messages Logs */}

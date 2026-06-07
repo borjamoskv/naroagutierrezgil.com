@@ -48,8 +48,12 @@ export default function Home() {
       '#8B5CF6', // Violet Glow
       '#06B6D4'  // Electric Cyan
     ];
-    const randomColor = palettes[Math.floor(Math.random() * palettes.length)];
-    document.documentElement.style.setProperty('--primary', randomColor);
+    let selectedColor = localStorage.getItem('naroa_primary_color');
+    if (!selectedColor) {
+      selectedColor = palettes[Math.floor(Math.random() * palettes.length)];
+      localStorage.setItem('naroa_primary_color', selectedColor);
+    }
+    document.documentElement.style.setProperty('--primary', selectedColor);
   }, []);
 
   useEffect(() => {
