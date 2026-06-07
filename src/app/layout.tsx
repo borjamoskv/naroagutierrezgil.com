@@ -6,6 +6,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 import CustomCursor from "@/components/CustomCursor";
 import Soundscape from "@/components/Soundscape";
+import Preloader from "@/components/Preloader";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://master.naroagutierrezgil-com.pages.dev'),
@@ -74,6 +75,7 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} bg-[#0A0A0A] text-[#EAEAEA] antialiased`}>
+        <Preloader />
         <CustomCursor />
         <Soundscape />
         {children}
