@@ -15,6 +15,7 @@ import InteractiveStudio from '@/components/InteractiveStudio';
 import TakeoverModal from '@/components/TakeoverModal';
 import ColorDock from '@/components/ColorDock';
 import Footer from '@/components/Footer';
+import AnimatedHeroBackground from '@/components/AnimatedHeroBackground';
 
 const WebGLBackground = dynamic(() => import('@/components/WebGLBackground'), { ssr: false });
 const PaintTrail = dynamic(() => import('@/components/PaintTrail'), { ssr: false });
@@ -222,6 +223,7 @@ export default function Home() {
       {appMode === "CAOS" && webGLReady && <Mica />}
 
       <section className="relative w-full h-screen flex flex-col justify-between overflow-hidden px-6 sm:px-12 py-12">
+        {appMode === "ORDEN" && <AnimatedHeroBackground />}
         {appMode === "ORDEN" && <HeroFluid />}
         <div className={`absolute inset-0 bg-[radial-gradient(circle_at_60%_30%,rgba(43,59,229,0.15)_0%,transparent_50%)] z-0 mix-blend-color-dodge pointer-events-none transition-opacity duration-1000 ${appMode === "ORDEN" ? "opacity-30" : "opacity-100"}`} />
         <div className="relative z-10 w-full flex justify-between items-start animate-[fadeIn_2s_ease-out]">
