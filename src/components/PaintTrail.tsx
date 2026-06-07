@@ -1,56 +1,110 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 
 export default function PaintTrail() {
-  const [dots, setDots] = useState<{id: number, x: number, y: number, size: number, rot: number}[]>([])
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    let idCounter = 0;
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d', { alpha: true })
+    if (!ctx) return
+
+    let width = window.innerWidth
+    let height = window.innerHeight
+    canvas.width = width
+    canvas.height = height
+
+    const particles: { x: number, y: number, vx: number, vy: number, life: number, maxLife: number, size: number }[] = []
+    const mouse = { x: -1000, y: -1000, vx: 0, vy: 0 }
+    const lastMouse = { x: -1000, y: -1000 }
+
+    const handleResize = () => {
+      width = window.innerWidth
+      height = window.innerHeight
+      canvas.width = width
+      canvas.height = height
+    }
+    
     const handleMove = (e: MouseEvent) => {
-      // Throttle for performance
-      if (Math.random() > 0.4) return;
+      mouse.x = e.clientX
+      mouse.y = e.clientY
+      mouse.vx = mouse.x - lastMouse.x
+      mouse.vy = mouse.y - lastMouse.y
+      lastMouse.x = mouse.x
+      lastMouse.y = mouse.y
+
+      // Spawn thermodynamic particles (condensation/dust/heat)
+      const speed = Math.sqrt(mouse.vx ** 2 + mouse.vy ** 2)
+      const spawnCount = Math.min(Math.floor(speed * 0.4), 12)
       
-      const newDot = {
-        id: idCounter++,
-        x: e.clientX,
-        y: e.clientY,
-        size: Math.random() * 30 + 10,
-        rot: Math.random() * 360
-      };
-      
-      setDots(prev => [...prev.slice(-40), newDot]);
-      
-      setTimeout(() => {
-        setDots(prev => prev.filter(d => d.id !== newDot.id))
-      }, 1500)
+      for (let i = 0; i < spawnCount; i++) {
+        particles.push({
+          x: mouse.x + (Math.random() - 0.5) * 15,
+          y: mouse.y + (Math.random() - 0.5) * 15,
+          vx: mouse.vx * 0.15 + (Math.random() - 0.5) * 3,
+          vy: mouse.vy * 0.15 + (Math.random() - 0.5) * 3,
+          life: 1.0,
+          maxLife: Math.random() * 0.6 + 0.4,
+          size: Math.random() * 5 + 1.5
+        })
+      }
     }
 
+    window.addEventListener('resize', handleResize)
     window.addEventListener('mousemove', handleMove)
-    return () => window.removeEventListener('mousemove', handleMove)
+
+    let animationFrame: number
+    const render = () => {
+      // Fade canvas slightly for motion blur / heat dissipation
+      ctx.globalCompositeOperation = 'destination-out'
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.12)'
+      ctx.fillRect(0, 0, width, height)
+      
+      ctx.globalCompositeOperation = 'lighter'
+      
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i]
+        p.x += p.vx
+        p.y += p.vy
+        p.vx *= 0.92 // Slate Friction
+        p.vy *= 0.92
+        p.life -= 0.015 / p.maxLife
+        
+        if (p.life <= 0) {
+          particles.splice(i, 1)
+          continue
+        }
+
+        // Thermodynamic color transition: Hot (White/Gold) -> Cold (Cobalt #2B3BE5 -> Black)
+        const heat = Math.max(p.life, 0)
+        const r = Math.floor(255 * heat)
+        const g = Math.floor(168 * heat + 59 * (1 - heat))
+        const b = Math.floor(124 * heat + 229 * (1 - heat)) 
+        
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.size * heat, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${heat * 0.9})`
+        ctx.fill()
+      }
+      
+      animationFrame = requestAnimationFrame(render)
+    }
+    
+    render()
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      window.removeEventListener('mousemove', handleMove)
+      cancelAnimationFrame(animationFrame)
+    }
   }, [])
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[120] overflow-hidden">
-      {dots.map(dot => (
-        <div 
-          key={dot.id}
-          className="absolute rounded-full bg-primary/40 mix-blend-screen blur-[3px]"
-          style={{
-            left: dot.x - dot.size / 2,
-            top: dot.y - dot.size / 2,
-            width: dot.size,
-            height: dot.size,
-            transform: `rotate(${dot.rot}deg) scaleY(2.5)`,
-            animation: 'fadeTrail 1.5s cubic-bezier(0.1, 0.9, 0.2, 1) forwards'
-          }}
-        />
-      ))}
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes fadeTrail {
-          0% { opacity: 0.9; transform: scale(1); }
-          100% { opacity: 0; transform: scale(4); }
-        }
-      `}} />
-    </div>
+    <canvas 
+      ref={canvasRef}
+      className="fixed inset-0 pointer-events-none z-[120]"
+      style={{ mixBlendMode: 'screen' }}
+    />
   )
 }
