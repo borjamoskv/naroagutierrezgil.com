@@ -3,7 +3,49 @@
 import { useEffect, useRef, useState } from 'react';
 import { WebGPUSplatSimulator } from '@/lib/splat-physics/WebGPUSplatPhysics';
 import { SplatAudioEngine } from '@/lib/audio/SplatAudioEngine';
-import { useAgent } from 'agents/react';
+
+// Custom KV-based Multiplayer Hook (replaces DO/Agents SDK to support Free Tier)
+function useKintsugiKV() {
+  const [entropy, setEntropy] = useState(0);
+  const [repairs, setRepairs] = useState(0);
+  const [scars, setScars] = useState<any[]>([]);
+
+  const fetchState = async () => {
+    try {
+      const res = await fetch('/api/kintsugi');
+      if (res.ok) {
+        const data = await res.json();
+        setEntropy(data.entropy || 0);
+        setRepairs(data.repairs || 0);
+        setScars(data.scars || []);
+      }
+    } catch (e) {}
+  };
+
+  useEffect(() => {
+    fetchState();
+    const interval = setInterval(fetchState, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const applyFriction = async (x: number, y: number, intensity: number) => {
+    fetch('/api/kintsugi', {
+      method: 'POST',
+      body: JSON.stringify({ type: 'FRICTION' }),
+      headers: { 'Content-Type': 'application/json' }
+    });
+  };
+
+  const injectGold = async (intensity: number, x: number, y: number) => {
+    fetch('/api/kintsugi', {
+      method: 'POST',
+      body: JSON.stringify({ type: 'REPAIR', payload: { x, y, intensity } }),
+      headers: { 'Content-Type': 'application/json' }
+    }).then(fetchState);
+  };
+
+  return { entropy, repairs, scars, applyFriction, injectGold };
+}
 
 function SplatInteractiveCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -14,36 +56,15 @@ function SplatInteractiveCanvas() {
   const mousePosRef = useRef({ x: -1000, y: -1000 });
   const lastMouseRef = useRef({ x: -1000, y: -1000, time: 0 });
 
-  // Kintsugi State
-  const [entropy, setEntropy] = useState<number>(0);
-  const [kintsugiActive, setKintsugiActive] = useState<boolean>(false);
-  const [repairs, setRepairs] = useState<number>(0);
-  const [scars, setScars] = useState<Array<{ x: number; y: number; depth: number; timestamp: number }>>([]);
+  // Kintsugi KV Connection (Producción C5-REAL)
+  const agent = useKintsugiKV();
+  const { entropy, repairs, scars } = agent;
+  const kintsugiActive = entropy > 50;
+  
   const scarsRef = useRef(scars);
-
-  // Sync state to ref for render loop
   useEffect(() => {
     scarsRef.current = scars;
   }, [scars]);
-
-  // Cloudflare Agent Connection (Producción C5-REAL)
-  const agent = useAgent({
-    agent: "EntropicCanvas",
-    name: "naroa-master-canvas",
-    onStateUpdate: (newState: { globalEntropy: number; kintsugiActive: boolean; totalRepairs: number; scars: Array<{ x: number; y: number; depth: number; timestamp: number }> }) => {
-      setEntropy(newState.globalEntropy);
-      setKintsugiActive(newState.kintsugiActive);
-      setRepairs(newState.totalRepairs);
-      setScars(newState.scars || []);
-    },
-    onMessage: (msg: { type: string; message?: string; repairNumber?: number }) => {
-      if (msg.type === 'CANVAS_FRACTURE') {
-        setStatus(`[KINTSUGI ALERT]: ${msg.message}`);
-      } else if (msg.type === 'KINTSUGI_COMPLETE') {
-        setStatus(`[C5-REAL ENGINE ACTIVE]: Reparaciones históricas: ${msg.repairNumber}`);
-      }
-    }
-  });
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -63,6 +84,11 @@ function SplatInteractiveCanvas() {
 
         setStatus(`C5-REAL ENGINE ACTIVE: Loaded .splat into WebGPU Compute at 60fps.`);
         const renderLoop = () => {
+          if (window.scrollY > window.innerHeight) {
+            animationFrameId = requestAnimationFrame(renderLoop);
+            return;
+          }
+
           if (simulatorRef.current) {
             simulatorRef.current.step(mousePosRef.current.x, mousePosRef.current.y, isDownRef.current, scarsRef.current);
           }
@@ -113,17 +139,18 @@ function SplatInteractiveCanvas() {
       }
     }
     
-    if (isDownRef.current && agent && !kintsugiActive) {
-       // Pseudo-throttle para no saturar WebSockets en desarrollo
-       if (Math.random() > 0.8) { 
-         (agent as unknown as { applyFriction: (x: number, y: number, f: number) => Promise<void> }).applyFriction(e.clientX, e.clientY, 2.5).catch(console.error);
+    if (isDownRef.current && !kintsugiActive) {
+       // Pseudo-throttle para no saturar KV en desarrollo
+       if (Math.random() > 0.95) { 
+         agent.applyFriction(e.clientX, e.clientY, 2.5).catch(console.error);
        }
     }
   };
 
   const handleInjectGold = () => {
-    if (agent && kintsugiActive) {
-      (agent as unknown as { injectGold: (a: number) => Promise<void> }).injectGold(15.0).catch(console.error);
+    if (kintsugiActive) {
+      agent.injectGold(15.0, window.innerWidth / 2, window.innerHeight / 2).catch(console.error);
+      setStatus(`[C5-REAL ENGINE ACTIVE]: Inyectando oro colectivo... Reparación #${repairs + 1}`);
     }
   };
 

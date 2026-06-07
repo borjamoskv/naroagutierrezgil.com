@@ -1,3 +1,5 @@
+/// <reference types="@cloudflare/workers-types" />
+
 export interface Env {
   RADIANCE_MEMORY: KVNamespace;
 }

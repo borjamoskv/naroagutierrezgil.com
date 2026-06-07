@@ -74,6 +74,13 @@ export default function SplatPhysicsTester() {
       const tick = () => {
         if (!engine || !canvas || !context) return;
 
+        // Exergy Optimization (C5-REAL): Si el usuario ha scrolleado más allá de la pantalla inicial,
+        // pausamos el WebGPU Compute Shader para ahorrar batería y recursos.
+        if (window.scrollY > window.innerHeight) {
+          animationId = requestAnimationFrame(tick);
+          return;
+        }
+
         // FPS calculation
         frameCount++;
         const now = performance.now();
