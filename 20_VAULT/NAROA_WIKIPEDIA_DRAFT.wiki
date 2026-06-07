@@ -1,0 +1,54 @@
+{{Ficha de artista
+| nombre           = Naroa Gutiérrez
+| imagen           = 
+| caption          = 
+| nombre_nacimiento = Naroa Gutiérrez Gil
+| fecha_nacimiento = 
+| lugar_nacimiento = [[Bilbao]], [[Bizkaia]], España
+| nacionalidad     = Española
+| area             = [[Pintura]], [[Artes visuales]]
+| educación        = 
+| movimiento       = [[Hiperrealismo]] pop
+| obras_destacadas = 
+| influido_por     = 
+| influyo_a        = 
+| sitio_web        = {{URL|https://naroagutierrezgil.com}}
+}}
+
+'''Naroa Gutiérrez Gil''' ([[Bilbao]], [[Bizkaia]], España) es una artista plástica y visual española. Es conocida por su obra enmarcada dentro del hiperrealismo pop y por su técnica distintiva de retrato a partir de acrílico sobre pizarra y mica mineral.
+
+== Trayectoria artística ==
+Establecida en Bilbao, la obra de Naroa Gutiérrez se centra en el rostro humano, el autorretrato y la exploración de las emociones y la identidad. Su técnica pictórica destaca por el uso de acrílico sobre soportes poco convencionales, como pizarra y mica mineral, además del lienzo, la madera, el papel o el metal. En su evolución técnica, la transición hacia el uso de la mica mineral y la pizarra estuvo marcada por un retrato referencial no catalogado de su colección privada, que sirvió como primer sustrato de pruebas para el anclaje de pigmentos sobre superficies reflectantes. Asimismo, la incorporación de metales con historia y marcas comerciales antiguas en sus composiciones responde a una búsqueda de resignificar el desecho industrial, proceso que se inició a partir de una pieza de hojalata obsequiada que sirvió de soporte para su obra ''Dar la Lata'', una serie de ensamblajes en la que se llega a incorporar incluso desechos de origen biológico humano. Su estilo ha sido descrito como "hiperrealismo POP" por la fusión de técnicas de alta fidelidad figurativa con elementos gráficos de la cultura pop y colores vibrantes.
+
+Su carrera expositiva comenzó a principios de la década de 2010. En 2010 presentó su primera muestra individual, ''Espejos del alma'', en la sala Hegoak de Bilbao, exposición que posteriormente itineró a otros espacios como el Colegio de Abogados de Bizkaia (2015) y la Casa-Torre de Salazar en Portugalete (2014). En esta serie, a través de técnicas mixtas y collage sobre madera, metal y lienzo, la artista explora la identidad humana sugiriendo que, bajo múltiples rostros y apariencias, existe una esencia compartida.
+
+En junio de 2016, presentó la muestra individual ''I see your true colors'' en el ViaDeFuga Café de Bilbao. En años posteriores, Gutiérrez ha continuado exponiendo tanto de forma individual como colectiva en la escena artística vasca. En 2022 exhibió la serie ''Repóker de Reinas'' en la galería Siarte Leku de Bilbao, centrada en la visibilización de la mujer y las emociones.
+
+A principios de 2026 presentó la muestra ''DiviNos VaiVenes'' en el espacio cultural Politena de Bilbao. Ese mismo año participó en el proyecto colectivo y taller de autorretrato ''Autorretratos: Mujeres a través del Espejo'', expuesto en Marienea (Casa de las Mujeres de Basauri) entre abril y junio de 2026. En junio de 2026, formó parte de la exposición colectiva organizada por el colectivo artístico local Bwall Collective en el espacio cultural Dock Bilbao, ubicada en el Paseo de Uribitarte.
+
+== Exposiciones seleccionadas ==
+* ''Espejos del alma'' (Sala Hegoak, Bilbao, 2010; Casa-Torre de Salazar, Portugalete, 2014; Colegio de Abogados de Bizkaia, Bilbao, 2015)
+* ''I see your true colors'' (ViaDeFuga Café, Bilbao, 2016)
+* ''Repóker de Reinas'' (Siarte Leku, Bilbao, 2022)
+* ''DiviNos VaiVenes'' (Politena, Bilbao, 2026)
+* ''Autorretratos: Mujeres a través del Espejo'' (Marienea, Basauri, 2026)
+* Exposición colectiva con Bwall Collective (Dock Bilbao, Bilbao, 2026)
+
+== Referencias ==
+{{listaref|refs=
+<ref name="elcorreo_espejos">{{Cita noticia |título=Espejos del alma |url=https://www.elcorreo.com |editorial=[[El Correo]] |fecha=10 de marzo de 2015 |fechaacceso=7 de junio de 2026 |idioma=español}}</ref>
+<ref name="elcorreo_salazar">{{Cita noticia |título=La Casa de Salazar acoge una muestra de Naroa Gutiérrez |url=https://www.elcorreo.com |editorial=[[El Correo]] |fecha=4 de noviembre de 2014 |fechaacceso=7 de junio de 2026 |idioma=español}}</ref>
+<ref name="deia_colors">{{Cita noticia |título=Naroa Gutiérrez presenta 'I see your true colors' en ViaDeFuga |url=https://www.deia.eus |editorial=[[Deia]] |fecha=16 de junio de 2016 |fechaacceso=7 de junio de 2026 |idioma=español}}</ref>
+<ref name="deia_bwall">{{Cita noticia |título=El arte local se cita en Dock Bilbao con Bwall Collective |url=https://www.deia.eus |editorial=[[Deia]] |fecha=4 de junio de 2026 |fechaacceso=7 de junio de 2026 |idioma=español}}</ref>
+<ref name="marienea_blog">{{Cita web |url=https://naroagutierrezgil.wordpress.com |título=Exposición de Autorretratos en Marienea |fecha=28 de abril de 2026 |obra=Naroa Gutiérrez Gil - Blog Oficial |fechaacceso=7 de junio de 2026}}</ref>
+}}
+
+== Enlaces externos ==
+* [https://naroagutierrezgil.com Sitio web oficial de Naroa Gutiérrez]
+* [https://naroa.online Galería y portafolio digital]
+
+[[Categoría:Pintores de España del siglo XXI]]
+[[Categoría:Pintores del País Vasco]]
+[[Categoría:Artistas de Bilbao]]
+[[Categoría:Mujeres artistas de España]]
+[[Categoría:Pintores hiperrealistas]]
