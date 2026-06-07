@@ -1,21 +1,55 @@
 {
-  "timestamp": 1780237078.287092,
-  "elapsed_s": 9.8390371799469,
-  "files_scanned": 2633,
-  "active_agents": 994,
-  "total_redundancies_found": 120,
+  "timestamp": 1780808378.7180228,
+  "elapsed_s": 30.01730179786682,
+  "files_scanned": 2723,
+  "active_agents": 1000,
+  "total_redundancies_found": 267,
   "duplicates": {
     "6d18fcaea57829804acf07abd699329d": [
       "/Users/borjafernandezangulo/Music/VISUALES/video-forge/output/manifest_test.json",
       "/Users/borjafernandezangulo/Music/VISUALES/video-forge/output/director_manifest.json"
     ],
-    "3a817df30f289524c11fee924acaccec": [
-      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/concat_v3.txt",
-      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/concat_list.txt"
+    "cd2d0be9ff014337d99c5be4f81a7b6b": [
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/src/Acto8Goenkale.tsx",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/src/Acto7Pirri.tsx"
     ],
-    "d41d8cd98f00b204e9800998ecf8427e": [
-      "/Users/borjafernandezangulo/Music/VISUALES/Kuraia - Kea_pitch.mp3",
-      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/example.metadata.json"
+    "5cd430e1ceb471d6bd0b1d7525010046": [
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-don-celes/README.md",
+      "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/remotion-video/README.md",
+      "/Users/borjafernandezangulo/Music/VISUALES/cortex-remotion/README.md"
+    ],
+    "c3be8c3e7ded8023557fe8fb5c068f91": [
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-don-celes/tsconfig.json",
+      "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/remotion-video/tsconfig.json",
+      "/Users/borjafernandezangulo/Music/VISUALES/cortex-remotion/tsconfig.json"
+    ],
+    "989f1d8038590cb5a802522f7589ba3e": [
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-don-celes/remotion.config.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/remotion-video/remotion.config.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/cortex-remotion/remotion.config.ts"
+    ],
+    "e20d59bb6b64567da14d80c3da2c6b15": [
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-don-celes/eslint.config.mjs",
+      "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/remotion-video/eslint.config.mjs",
+      "/Users/borjafernandezangulo/Music/VISUALES/cortex-remotion/eslint.config.mjs"
+    ],
+    "9d69b626ed74ba1838a80abdb40565c5": [
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-don-celes/src/index.css",
+      "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/remotion-video/src/index.css",
+      "/Users/borjafernandezangulo/Music/VISUALES/cortex-remotion/src/index.css"
+    ],
+    "02f2b0c0fc83361ef41d81381c8fc848": [
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-don-celes/src/Composition.tsx",
+      "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/remotion-video/src/Composition.tsx"
+    ],
+    "11b86d9010d35b042fa6d3d2bcc9b22f": [
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-don-celes/src/Root.tsx",
+      "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/remotion-video/src/Root.tsx"
+    ],
+    "d92d9dee1ab16aa44a75ae7fbfb843ca": [
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-don-celes/src/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/remotion-video/src/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/cortex-remotion/src/index.ts"
     ],
     "e6bfbbdd771e4c19e4ded4b769eefe77": [
       "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/devtools/config/sandbox/feelib-v1.eth.config.ts",
@@ -71,607 +105,1305 @@
   },
   "code_hygiene_issues": [
     {
+      "agent": "Agent-0005",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/antigravity_enterprise_utility.py",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=260.00 > 35.0"
+      ],
+      "entropy_score": 260.0
+    },
+    {
       "agent": "Agent-0002",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/house_remix.py",
       "issues": [
-        "11 print statements detected"
-      ]
+        "11 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=202.11 > 35.0"
+      ],
+      "entropy_score": 202.11
     },
     {
-      "agent": "Agent-0010",
+      "agent": "Agent-0007",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/acid_pigs.html",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=37.90 > 35.0"
+      ],
+      "entropy_score": 37.9
+    },
+    {
+      "agent": "Agent-0009",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/remix.py",
       "issues": [
-        "11 print statements detected"
-      ]
+        "11 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=202.11 > 35.0"
+      ],
+      "entropy_score": 202.11
     },
     {
-      "agent": "Agent-0012",
+      "agent": "Agent-0011",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/clean_vtt.py",
       "issues": [
-        "1 print statements detected"
-      ]
+        "1 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=188.67 > 35.0"
+      ],
+      "entropy_score": 188.67
+    },
+    {
+      "agent": "Agent-0013",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/perfeccion_sintetica.html",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=40.25 > 35.0"
+      ],
+      "entropy_score": 40.25
+    },
+    {
+      "agent": "Agent-0015",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/resolve_audio_overlaps.py",
+      "issues": [
+        "4 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=128.08 > 35.0"
+      ],
+      "entropy_score": 128.08
     },
     {
       "agent": "Agent-0016",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/resolve_audio_overlaps.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/model_router.py",
       "issues": [
-        "4 print statements detected"
-      ]
+        "28 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=264.04 > 35.0"
+      ],
+      "entropy_score": 264.04
     },
     {
       "agent": "Agent-0017",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/model_router.py",
-      "issues": [
-        "28 print statements detected"
-      ]
-    },
-    {
-      "agent": "Agent-0018",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/process_album.py",
       "issues": [
-        "28 print statements detected"
-      ]
+        "28 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=157.70 > 35.0"
+      ],
+      "entropy_score": 157.7
     },
     {
-      "agent": "Agent-0021",
+      "agent": "Agent-0020",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/swarm_redundancy_processor.py",
       "issues": [
         "1 console.log calls detected",
-        "18 print statements detected"
-      ]
+        "18 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=181.81 > 35.0"
+      ],
+      "entropy_score": 181.81
     },
     {
-      "agent": "Agent-0023",
+      "agent": "Agent-0022",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/borjamoskv-rauw-clone/main.js",
       "issues": [
-        "1 console.log calls detected"
-      ]
+        "1 console.log calls detected",
+        "Ouroboros Entropy Gate Triggered: H=258.90 > 35.0"
+      ],
+      "entropy_score": 258.9
     },
     {
       "agent": "Agent-0026",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/video-forge/director.js",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/video-forge/generate_placeholder.py",
       "issues": [
-        "2 console.log calls detected"
-      ]
+        "Ouroboros Entropy Gate Triggered: H=272.00 > 35.0"
+      ],
+      "entropy_score": 272.0
     },
     {
       "agent": "Agent-0027",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/video-forge/pipeline.js",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/video-forge/director.js",
       "issues": [
-        "3 console.log calls detected"
-      ]
+        "2 console.log calls detected",
+        "Ouroboros Entropy Gate Triggered: H=90.90 > 35.0"
+      ],
+      "entropy_score": 90.9
     },
     {
-      "agent": "Agent-0059",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_09.py",
+      "agent": "Agent-0028",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/video-forge/pipeline.js",
       "issues": [
-        "3 print statements detected"
-      ]
+        "3 console.log calls detected",
+        "Ouroboros Entropy Gate Triggered: H=130.30 > 35.0"
+      ],
+      "entropy_score": 130.3
     },
     {
       "agent": "Agent-0060",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_09.py",
+      "issues": [
+        "3 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=150.00 > 35.0"
+      ],
+      "entropy_score": 150.0
+    },
+    {
+      "agent": "Agent-0061",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/analyze_and_refine.py",
       "issues": [
-        "11 print statements detected"
-      ]
+        "11 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=137.43 > 35.0"
+      ],
+      "entropy_score": 137.43
     },
     {
-      "agent": "Agent-0064",
+      "agent": "Agent-0065",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_hybrid_all_50.py",
       "issues": [
-        "11 print statements detected"
-      ]
+        "11 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=150.00 > 35.0"
+      ],
+      "entropy_score": 150.0
     },
     {
-      "agent": "Agent-0070",
+      "agent": "Agent-0071",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_08.py",
       "issues": [
-        "3 print statements detected"
-      ]
-    },
-    {
-      "agent": "Agent-0073",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_13.py",
-      "issues": [
-        "3 print statements detected"
-      ]
+        "3 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=150.00 > 35.0"
+      ],
+      "entropy_score": 150.0
     },
     {
       "agent": "Agent-0074",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_13.py",
+      "issues": [
+        "3 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=150.00 > 35.0"
+      ],
+      "entropy_score": 150.0
+    },
+    {
+      "agent": "Agent-0075",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_hybrid_continue.py",
       "issues": [
-        "9 print statements detected"
-      ]
+        "9 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=149.00 > 35.0"
+      ],
+      "entropy_score": 149.0
     },
     {
-      "agent": "Agent-0079",
+      "agent": "Agent-0080",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_07.py",
       "issues": [
-        "3 print statements detected"
-      ]
+        "3 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=150.00 > 35.0"
+      ],
+      "entropy_score": 150.0
     },
     {
-      "agent": "Agent-0083",
+      "agent": "Agent-0084",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_hybrid_replace.py",
       "issues": [
-        "10 print statements detected"
-      ]
+        "10 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=149.35 > 35.0"
+      ],
+      "entropy_score": 149.35
     },
     {
-      "agent": "Agent-0087",
+      "agent": "Agent-0088",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_12.py",
       "issues": [
-        "3 print statements detected"
-      ]
+        "3 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=150.00 > 35.0"
+      ],
+      "entropy_score": 150.0
     },
     {
-      "agent": "Agent-0089",
+      "agent": "Agent-0090",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_mac_replace.py",
       "issues": [
-        "14 print statements detected"
-      ]
+        "14 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=162.65 > 35.0"
+      ],
+      "entropy_score": 162.65
     },
     {
-      "agent": "Agent-0095",
+      "agent": "Agent-0096",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_11.py",
       "issues": [
-        "3 print statements detected"
-      ]
+        "3 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=150.00 > 35.0"
+      ],
+      "entropy_score": 150.0
     },
     {
-      "agent": "Agent-0097",
+      "agent": "Agent-0098",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_local_chrome.py",
       "issues": [
-        "12 print statements detected"
-      ]
+        "12 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=158.12 > 35.0"
+      ],
+      "entropy_score": 158.12
     },
     {
-      "agent": "Agent-0101",
+      "agent": "Agent-0102",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_10.py",
       "issues": [
-        "3 print statements detected"
-      ]
+        "3 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=150.00 > 35.0"
+      ],
+      "entropy_score": 150.0
     },
     {
-      "agent": "Agent-0105",
+      "agent": "Agent-0106",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_45.py",
       "issues": [
-        "3 print statements detected"
-      ]
+        "3 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=150.00 > 35.0"
+      ],
+      "entropy_score": 150.0
     },
     {
-      "agent": "Agent-0109",
+      "agent": "Agent-0110",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_replace.py",
       "issues": [
-        "28 print statements detected"
-      ]
-    },
-    {
-      "agent": "Agent-0111",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/direct_replace.py",
-      "issues": [
-        "12 print statements detected"
-      ]
+        "28 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=225.40 > 35.0"
+      ],
+      "entropy_score": 225.4
     },
     {
       "agent": "Agent-0112",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/direct_replace.py",
+      "issues": [
+        "12 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=142.61 > 35.0"
+      ],
+      "entropy_score": 142.61
+    },
+    {
+      "agent": "Agent-0113",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_publish.py",
       "issues": [
-        "2 print statements detected"
-      ]
+        "2 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=95.56 > 35.0"
+      ],
+      "entropy_score": 95.56
     },
     {
-      "agent": "Agent-0123",
+      "agent": "Agent-0124",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_hybrid.py",
       "issues": [
-        "18 print statements detected"
-      ]
-    },
-    {
-      "agent": "Agent-0277",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/paste_via_daemon.py",
-      "issues": [
-        "3 print statements detected"
-      ]
+        "18 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=211.69 > 35.0"
+      ],
+      "entropy_score": 211.69
     },
     {
       "agent": "Agent-0278",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_direct2.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/harmony-forge/style.css",
       "issues": [
-        "4 print statements detected"
-      ]
+        "Ouroboros Entropy Gate Triggered: H=46.00 > 35.0"
+      ],
+      "entropy_score": 46.0
     },
     {
       "agent": "Agent-0279",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/serve_cors.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/harmony-forge/service-worker.js",
       "issues": [
-        "1 print statements detected"
-      ]
+        "Ouroboros Entropy Gate Triggered: H=61.00 > 35.0"
+      ],
+      "entropy_score": 61.0
     },
     {
       "agent": "Agent-0280",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_video_applescript.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/harmony-forge/app.js",
       "issues": [
-        "6 print statements detected"
-      ]
+        "Ouroboros Entropy Gate Triggered: H=1311.15 > 35.0"
+      ],
+      "entropy_score": 1311.15
     },
     {
       "agent": "Agent-0281",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_v4_and_text.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/don_celes/don_celes.py",
       "issues": [
-        "6 print statements detected"
-      ]
+        "10 print statements detected"
+      ],
+      "entropy_score": 0.0
     },
     {
       "agent": "Agent-0282",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/go_to_editor_and_upload.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto8_goenkale_audio.py",
       "issues": [
-        "10 print statements detected"
-      ]
+        "2 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=193.07 > 35.0"
+      ],
+      "entropy_score": 193.07
     },
     {
       "agent": "Agent-0283",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_direct_input.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto6_rayohead_audio.py",
       "issues": [
-        "5 print statements detected"
-      ]
+        "3 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=165.68 > 35.0"
+      ],
+      "entropy_score": 165.68
     },
     {
       "agent": "Agent-0284",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_via_spacebar.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/paste_via_daemon.py",
       "issues": [
-        "6 print statements detected"
-      ]
+        "3 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=95.00 > 35.0"
+      ],
+      "entropy_score": 95.0
     },
     {
       "agent": "Agent-0285",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_on_tab2.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_rap_audio_and_subs.py",
       "issues": [
-        "7 print statements detected"
-      ]
-    },
-    {
-      "agent": "Agent-0286",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_v4_video_fallback.py",
-      "issues": [
-        "5 print statements detected"
-      ]
+        "9 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=317.49 > 35.0"
+      ],
+      "entropy_score": 317.49
     },
     {
       "agent": "Agent-0287",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_now.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/serve_cors.py",
       "issues": [
-        "6 print statements detected"
-      ]
+        "1 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=78.89 > 35.0"
+      ],
+      "entropy_score": 78.89
     },
     {
       "agent": "Agent-0288",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/generate_all_envelopes.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/generate_subtitle.py",
       "issues": [
-        "2 print statements detected"
-      ]
+        "1 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=121.92 > 35.0"
+      ],
+      "entropy_score": 121.92
     },
     {
       "agent": "Agent-0289",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/drop_video.js",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto8_torneo_audio.py",
       "issues": [
-        "1 console.log calls detected"
-      ]
+        "2 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=227.14 > 35.0"
+      ],
+      "entropy_score": 227.14
     },
     {
       "agent": "Agent-0290",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_video_automata.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_video_applescript.py",
       "issues": [
-        "4 print statements detected"
-      ]
+        "6 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=137.00 > 35.0"
+      ],
+      "entropy_score": 137.0
     },
     {
       "agent": "Agent-0291",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_direct.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_laundry_audio.py",
       "issues": [
-        "4 print statements detected"
-      ]
+        "3 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=168.18 > 35.0"
+      ],
+      "entropy_score": 168.18
     },
     {
-      "agent": "Agent-0292",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/inject_video.py",
+      "agent": "Agent-0286",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_direct2.py",
       "issues": [
-        "6 print statements detected"
-      ]
+        "4 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=99.23 > 35.0"
+      ],
+      "entropy_score": 99.23
     },
     {
       "agent": "Agent-0293",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_video_via_daemon.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto5_fito_audio.py",
       "issues": [
-        "4 print statements detected"
-      ]
+        "3 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=168.18 > 35.0"
+      ],
+      "entropy_score": 168.18
+    },
+    {
+      "agent": "Agent-0292",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_v4_and_text.py",
+      "issues": [
+        "6 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=99.50 > 35.0"
+      ],
+      "entropy_score": 99.5
     },
     {
       "agent": "Agent-0294",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_audio_and_subs.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/go_to_editor_and_upload.py",
       "issues": [
-        "8 print statements detected"
-      ]
+        "19 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=155.21 > 35.0"
+      ],
+      "entropy_score": 155.21
     },
     {
       "agent": "Agent-0295",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/test_menu.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_direct_input.py",
       "issues": [
-        "2 print statements detected"
-      ]
+        "5 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=107.86 > 35.0"
+      ],
+      "entropy_score": 107.86
     },
     {
       "agent": "Agent-0296",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_via_keystrokes.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_via_spacebar.py",
       "issues": [
-        "5 print statements detected"
-      ]
+        "6 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=110.67 > 35.0"
+      ],
+      "entropy_score": 110.67
+    },
+    {
+      "agent": "Agent-0297",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_epilogo_audio.py",
+      "issues": [
+        "2 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=167.71 > 35.0"
+      ],
+      "entropy_score": 167.71
     },
     {
       "agent": "Agent-0298",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/check_substack.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto4_audio.py",
       "issues": [
-        "2 print statements detected"
-      ]
+        "3 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=175.68 > 35.0"
+      ],
+      "entropy_score": 175.68
     },
     {
       "agent": "Agent-0299",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/paste_video.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto7_pirri_audio.py",
       "issues": [
-        "4 print statements detected"
-      ]
+        "5 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=202.73 > 35.0"
+      ],
+      "entropy_score": 202.73
     },
     {
       "agent": "Agent-0300",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_full_flow.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_on_tab2.py",
       "issues": [
-        "5 print statements detected"
-      ]
+        "7 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=117.50 > 35.0"
+      ],
+      "entropy_score": 117.5
     },
     {
       "agent": "Agent-0301",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/publish_draft.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_v4_video_fallback.py",
       "issues": [
-        "3 print statements detected"
-      ]
+        "5 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=105.71 > 35.0"
+      ],
+      "entropy_score": 105.71
+    },
+    {
+      "agent": "Agent-0302",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_now.py",
+      "issues": [
+        "6 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=110.67 > 35.0"
+      ],
+      "entropy_score": 110.67
     },
     {
       "agent": "Agent-0303",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/create_youtube_video.py",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/generate_all_envelopes.py",
       "issues": [
-        "20 print statements detected"
-      ]
+        "2 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=120.81 > 35.0"
+      ],
+      "entropy_score": 120.81
     },
     {
       "agent": "Agent-0304",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/apply_xokas_overlay.py",
+      "issues": [
+        "8 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=146.86 > 35.0"
+      ],
+      "entropy_score": 146.86
+    },
+    {
+      "agent": "Agent-0305",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/render_all_acts.py",
+      "issues": [
+        "9 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=336.00 > 35.0"
+      ],
+      "entropy_score": 336.0
+    },
+    {
+      "agent": "Agent-0306",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/drop_video.js",
+      "issues": [
+        "1 console.log calls detected"
+      ],
+      "entropy_score": 16.0
+    },
+    {
+      "agent": "Agent-0307",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_video_automata.py",
+      "issues": [
+        "4 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=258.00 > 35.0"
+      ],
+      "entropy_score": 258.0
+    },
+    {
+      "agent": "Agent-0308",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_direct.py",
+      "issues": [
+        "4 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=99.23 > 35.0"
+      ],
+      "entropy_score": 99.23
+    },
+    {
+      "agent": "Agent-0309",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/inject_video.py",
+      "issues": [
+        "6 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=138.75 > 35.0"
+      ],
+      "entropy_score": 138.75
+    },
+    {
+      "agent": "Agent-0311",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto10_flashback_audio.py",
+      "issues": [
+        "2 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=179.29 > 35.0"
+      ],
+      "entropy_score": 179.29
+    },
+    {
+      "agent": "Agent-0310",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_video_via_daemon.py",
+      "issues": [
+        "4 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=98.46 > 35.0"
+      ],
+      "entropy_score": 98.46
+    },
+    {
+      "agent": "Agent-0312",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto9_recreativas_audio.py",
+      "issues": [
+        "2 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=197.86 > 35.0"
+      ],
+      "entropy_score": 197.86
+    },
+    {
+      "agent": "Agent-0313",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto12_marmol_audio.py",
+      "issues": [
+        "1 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=168.89 > 35.0"
+      ],
+      "entropy_score": 168.89
+    },
+    {
+      "agent": "Agent-0314",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_audio_and_subs.py",
+      "issues": [
+        "8 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=214.55 > 35.0"
+      ],
+      "entropy_score": 214.55
+    },
+    {
+      "agent": "Agent-0315",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/test_menu.py",
+      "issues": [
+        "2 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=90.00 > 35.0"
+      ],
+      "entropy_score": 90.0
+    },
+    {
+      "agent": "Agent-0316",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_via_keystrokes.py",
+      "issues": [
+        "5 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=105.00 > 35.0"
+      ],
+      "entropy_score": 105.0
+    },
+    {
+      "agent": "Agent-0318",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto11_podcast_audio.py",
+      "issues": [
+        "1 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=241.67 > 35.0"
+      ],
+      "entropy_score": 241.67
+    },
+    {
+      "agent": "Agent-0320",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto4_5_maletin_audio.py",
+      "issues": [
+        "2 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=207.14 > 35.0"
+      ],
+      "entropy_score": 207.14
+    },
+    {
+      "agent": "Agent-0319",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/check_substack.py",
+      "issues": [
+        "2 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=123.67 > 35.0"
+      ],
+      "entropy_score": 123.67
+    },
+    {
+      "agent": "Agent-0322",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_full_flow.py",
+      "issues": [
+        "5 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=107.86 > 35.0"
+      ],
+      "entropy_score": 107.86
+    },
+    {
+      "agent": "Agent-0323",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/publish_draft.py",
+      "issues": [
+        "3 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=101.67 > 35.0"
+      ],
+      "entropy_score": 101.67
+    },
+    {
+      "agent": "Agent-0324",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/check_brave_substack.py",
+      "issues": [
+        "2 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=123.67 > 35.0"
+      ],
+      "entropy_score": 123.67
+    },
+    {
+      "agent": "Agent-0327",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/cortex_audio_pipeline.py",
       "issues": [
-        "31 print statements detected"
-      ]
+        "31 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=207.42 > 35.0"
+      ],
+      "entropy_score": 207.42
     },
     {
-      "agent": "Agent-0561",
+      "agent": "Agent-0321",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/paste_video.py",
+      "issues": [
+        "4 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=160.00 > 35.0"
+      ],
+      "entropy_score": 160.0
+    },
+    {
+      "agent": "Agent-0326",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/create_youtube_video.py",
+      "issues": [
+        "20 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=152.60 > 35.0"
+      ],
+      "entropy_score": 152.6
+    },
+    {
+      "agent": "Agent-0592",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/ai-sentinel-extension/generate_icons.py",
       "issues": [
-        "1 print statements detected"
-      ]
+        "1 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=207.65 > 35.0"
+      ],
+      "entropy_score": 207.65
     },
     {
-      "agent": "Agent-0563",
+      "agent": "Agent-0594",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/ai-sentinel-extension/service-worker.js",
       "issues": [
-        "2 console.log calls detected"
-      ]
+        "2 console.log calls detected",
+        "Ouroboros Entropy Gate Triggered: H=66.00 > 35.0"
+      ],
+      "entropy_score": 66.0
     },
     {
-      "agent": "Agent-0564",
+      "agent": "Agent-0595",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/ai-sentinel-extension/content.js",
       "issues": [
-        "4 console.log calls detected"
-      ]
+        "4 console.log calls detected",
+        "Ouroboros Entropy Gate Triggered: H=628.25 > 35.0"
+      ],
+      "entropy_score": 628.25
     },
     {
-      "agent": "Agent-0565",
+      "agent": "Agent-0596",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/ai-sentinel-extension/ingest_substacks.py",
       "issues": [
-        "1 print statements detected"
-      ]
+        "1 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=215.85 > 35.0"
+      ],
+      "entropy_score": 215.85
     },
     {
-      "agent": "Agent-0566",
+      "agent": "Agent-0597",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/ai-sentinel-extension/popup/popup.js",
       "issues": [
-        "1 console.log calls detected"
-      ]
+        "1 console.log calls detected",
+        "Ouroboros Entropy Gate Triggered: H=320.00 > 35.0"
+      ],
+      "entropy_score": 320.0
     },
     {
-      "agent": "Agent-0574",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/hardhat.config.ts",
+      "agent": "Agent-0603",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/type-extensions.ts",
       "issues": [
-        "1 console.log calls detected"
-      ]
+        "Ouroboros Entropy Gate Triggered: H=35.10 > 35.0"
+      ],
+      "entropy_score": 35.1
     },
     {
-      "agent": "Agent-0576",
+      "agent": "Agent-0607",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/printStargate.ts",
       "issues": [
         "20 console.log calls detected"
-      ]
+      ],
+      "entropy_score": 4.68
     },
     {
-      "agent": "Agent-0579",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/addTreasuryFee.ts",
-      "issues": [
-        "2 console.log calls detected"
-      ]
-    },
-    {
-      "agent": "Agent-0575",
+      "agent": "Agent-0606",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/sendCredit.ts",
       "issues": [
         "4 console.log calls detected"
-      ]
+      ],
+      "entropy_score": 3.0
     },
     {
-      "agent": "Agent-0580",
+      "agent": "Agent-0605",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/hardhat.config.ts",
+      "issues": [
+        "1 console.log calls detected",
+        "Ouroboros Entropy Gate Triggered: H=312.75 > 35.0"
+      ],
+      "entropy_score": 312.75
+    },
+    {
+      "agent": "Agent-0611",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/printUser.ts",
       "issues": [
         "3 console.log calls detected"
-      ]
+      ],
+      "entropy_score": 3.01
     },
     {
-      "agent": "Agent-0581",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/oftTransfer.ts",
+      "agent": "Agent-0608",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/snapshot.ts",
       "issues": [
-        "3 console.log calls detected"
-      ]
+        "Ouroboros Entropy Gate Triggered: H=36.00 > 35.0"
+      ],
+      "entropy_score": 36.0
     },
     {
-      "agent": "Agent-0578",
+      "agent": "Agent-0610",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/addTreasuryFee.ts",
+      "issues": [
+        "2 console.log calls detected"
+      ],
+      "entropy_score": 3.67
+    },
+    {
+      "agent": "Agent-0609",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/mintMockToken.ts",
       "issues": [
         "5 console.log calls detected"
-      ]
+      ],
+      "entropy_score": 3.01
     },
     {
-      "agent": "Agent-0583",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/transferOwnership.ts",
+      "agent": "Agent-0612",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/oftTransfer.ts",
       "issues": [
-        "2 console.log calls detected"
-      ]
+        "3 console.log calls detected"
+      ],
+      "entropy_score": 4.1
     },
     {
-      "agent": "Agent-0584",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/transfer.ts",
-      "issues": [
-        "6 console.log calls detected"
-      ]
-    },
-    {
-      "agent": "Agent-0582",
+      "agent": "Agent-0613",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/balances.ts",
       "issues": [
         "1 console.log calls detected"
-      ]
+      ],
+      "entropy_score": 3.27
     },
     {
-      "agent": "Agent-0585",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/redeemSend.ts",
+      "agent": "Agent-0614",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/transferOwnership.ts",
       "issues": [
-        "4 console.log calls detected"
-      ]
+        "2 console.log calls detected"
+      ],
+      "entropy_score": 3.9
     },
     {
-      "agent": "Agent-0587",
+      "agent": "Agent-0615",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/transfer.ts",
+      "issues": [
+        "6 console.log calls detected"
+      ],
+      "entropy_score": 3.0
+    },
+    {
+      "agent": "Agent-0618",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/setRewards.ts",
       "issues": [
         "3 console.log calls detected"
-      ]
+      ],
+      "entropy_score": 4.63
     },
     {
-      "agent": "Agent-0586",
+      "agent": "Agent-0616",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/redeemSend.ts",
+      "issues": [
+        "4 console.log calls detected"
+      ],
+      "entropy_score": 2.55
+    },
+    {
+      "agent": "Agent-0617",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/printMessaging.ts",
       "issues": [
         "12 console.log calls detected"
-      ]
+      ],
+      "entropy_score": 4.1
     },
     {
-      "agent": "Agent-0588",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/send.ts",
-      "issues": [
-        "15 console.log calls detected"
-      ]
-    },
-    {
-      "agent": "Agent-0590",
+      "agent": "Agent-0621",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/deposit.ts",
       "issues": [
         "8 console.log calls detected"
-      ]
+      ],
+      "entropy_score": 4.68
     },
     {
-      "agent": "Agent-0591",
+      "agent": "Agent-0622",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/redeem.ts",
       "issues": [
         "8 console.log calls detected"
-      ]
+      ],
+      "entropy_score": 3.5
     },
     {
-      "agent": "Agent-0665",
+      "agent": "Agent-0619",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/send.ts",
+      "issues": [
+        "15 console.log calls detected"
+      ],
+      "entropy_score": 11.46
+    },
+    {
+      "agent": "Agent-0628",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/test/devtools/tokenmessaging.config.test.ts",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=58.60 > 35.0"
+      ],
+      "entropy_score": 58.6
+    },
+    {
+      "agent": "Agent-0632",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/test/devtools/asset.config.test.ts",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=37.40 > 35.0"
+      ],
+      "entropy_score": 37.4
+    },
+    {
+      "agent": "Agent-0643",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/test/devtools/creditmessaging.config.test.ts",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=47.27 > 35.0"
+      ],
+      "entropy_score": 47.27
+    },
+    {
+      "agent": "Agent-0686",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/ts-src/utils/deploy-asset.ts",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=54.55 > 35.0"
+      ],
+      "entropy_score": 54.55
+    },
+    {
+      "agent": "Agent-0688",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/ts-src/utils/util.ts",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=35.77 > 35.0"
+      ],
+      "entropy_score": 35.77
+    },
+    {
+      "agent": "Agent-0693",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/script/oneSig/migrate-to-onesig.ts",
+      "issues": [
+        "11 console.log calls detected",
+        "Ouroboros Entropy Gate Triggered: H=161.43 > 35.0"
+      ],
+      "entropy_score": 161.43
+    },
+    {
+      "agent": "Agent-0698",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/devtools/tasks/index.ts",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=231.33 > 35.0"
+      ],
+      "entropy_score": 231.33
+    },
+    {
+      "agent": "Agent-0696",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/devtools/tasks/utils.ts",
       "issues": [
         "6 console.log calls detected"
-      ]
+      ],
+      "entropy_score": 21.1
     },
     {
-      "agent": "Agent-0662",
-      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/script/oneSig/migrate-to-onesig.ts",
+      "agent": "Agent-0701",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/devtools/config/utils.ts",
       "issues": [
-        "11 console.log calls detected"
-      ]
+        "Ouroboros Entropy Gate Triggered: H=52.10 > 35.0"
+      ],
+      "entropy_score": 52.1
     },
     {
-      "agent": "Agent-0798",
+      "agent": "Agent-0729",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/devtools/config/utils/unwire.config.utils.ts",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=59.00 > 35.0"
+      ],
+      "entropy_score": 59.0
+    },
+    {
+      "agent": "Agent-0735",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/devtools/config/utils/utils.config.ts",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=43.99 > 35.0"
+      ],
+      "entropy_score": 43.99
+    },
+    {
+      "agent": "Agent-0795",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-definitions-v2/src/constant.ts",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=211.15 > 35.0"
+      ],
+      "entropy_score": 211.15
+    },
+    {
+      "agent": "Agent-0808",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/tip20/config.ts",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=163.70 > 35.0"
+      ],
+      "entropy_score": 163.7
+    },
+    {
+      "agent": "Agent-0829",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/utils/logger.ts",
       "issues": [
         "1 console.log calls detected"
-      ]
+      ],
+      "entropy_score": 3.7
     },
     {
-      "agent": "Agent-0912",
+      "agent": "Agent-0849",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/circleFiatToken/config.ts",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=49.93 > 35.0"
+      ],
+      "entropy_score": 49.93
+    },
+    {
+      "agent": "Agent-0943",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/generateNativeCurrencyConfig.ts",
       "issues": [
         "10 console.log calls detected"
-      ]
+      ],
+      "entropy_score": 28.7
     },
     {
-      "agent": "Agent-0920",
+      "agent": "Agent-0944",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/generatePoolConfig.ts",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=58.41 > 35.0"
+      ],
+      "entropy_score": 58.41
+    },
+    {
+      "agent": "Agent-0951",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/checkDeployment/utils.ts",
       "issues": [
-        "3 console.log calls detected"
-      ]
+        "3 console.log calls detected",
+        "Ouroboros Entropy Gate Triggered: H=46.10 > 35.0"
+      ],
+      "entropy_score": 46.1
     },
     {
-      "agent": "Agent-0925",
+      "agent": "Agent-0953",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/checkDeployment/ownerState.ts",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=47.27 > 35.0"
+      ],
+      "entropy_score": 47.27
+    },
+    {
+      "agent": "Agent-0956",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/checkDeployment/index.ts",
       "issues": [
         "2 console.log calls detected"
-      ]
+      ],
+      "entropy_score": 12.79
     },
     {
-      "agent": "Agent-0936",
+      "agent": "Agent-0967",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/common-utils/parallelProcessing.ts",
       "issues": [
-        "1 console.log calls detected"
-      ]
+        "1 console.log calls detected",
+        "Ouroboros Entropy Gate Triggered: H=51.00 > 35.0"
+      ],
+      "entropy_score": 51.0
     },
     {
-      "agent": "Agent-0963",
+      "agent": "Agent-0969",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/common-utils/retry.ts",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=43.00 > 35.0"
+      ],
+      "entropy_score": 43.0
+    },
+    {
+      "agent": "Agent-0970",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/common-utils/supportedChains.ts",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=54.20 > 35.0"
+      ],
+      "entropy_score": 54.2
+    },
+    {
+      "agent": "Agent-0981",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/scripts/main.js",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=397.00 > 35.0"
+      ],
+      "entropy_score": 397.0
+    },
+    {
+      "agent": "Agent-0997",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/FORGE_ORGANIZED/Code/20260105_COD_stubs_v1.ts",
       "issues": [
-        "1 console.log calls detected"
-      ]
+        "1 console.log calls detected",
+        "Ouroboros Entropy Gate Triggered: H=181.10 > 35.0"
+      ],
+      "entropy_score": 181.1
     },
     {
-      "agent": "Agent-0992",
+      "agent": "Agent-0021",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/exergia-omega/css/style.css",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=51.30 > 35.0"
+      ],
+      "entropy_score": 51.3
+    },
+    {
+      "agent": "Agent-0023",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/exergia-omega/js/telemetry.js",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=287.00 > 35.0"
+      ],
+      "entropy_score": 287.0
+    },
+    {
+      "agent": "Agent-0022",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/exergia-omega/js/webgl-bg.js",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=65.00 > 35.0"
+      ],
+      "entropy_score": 65.0
+    },
+    {
+      "agent": "Agent-0026",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/exergia-omega/js/controls.js",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=757.25 > 35.0"
+      ],
+      "entropy_score": 757.25
+    },
+    {
+      "agent": "Agent-0028",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/exergia-omega/js/visuals.js",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=1281.55 > 35.0"
+      ],
+      "entropy_score": 1281.55
+    },
+    {
+      "agent": "Agent-0027",
+      "file": "/Users/borjafernandezangulo/Music/VISUALES/exergia-omega/js/dsp.js",
+      "issues": [
+        "Ouroboros Entropy Gate Triggered: H=358.95 > 35.0"
+      ],
+      "entropy_score": 358.95
+    },
+    {
+      "agent": "Agent-0032",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/FRONTERA/scripts/deploy.js",
       "issues": [
         "13 console.log calls detected"
-      ]
+      ],
+      "entropy_score": 11.1
     },
     {
-      "agent": "Agent-0993",
+      "agent": "Agent-0031",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/FRONTERA/agent_daemon/agent_loop.py",
       "issues": [
-        "26 print statements detected"
-      ]
+        "26 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=243.90 > 35.0"
+      ],
+      "entropy_score": 243.9
     },
     {
-      "agent": "Agent-0994",
+      "agent": "Agent-0030",
       "file": "/Users/borjafernandezangulo/Music/VISUALES/FRONTERA/art_generator/generate.py",
       "issues": [
-        "4 print statements detected"
-      ]
+        "4 print statements detected",
+        "Ouroboros Entropy Gate Triggered: H=200.33 > 35.0"
+      ],
+      "entropy_score": 200.33
     }
-  ]
+  ],
+  "ouroboros_entropy": {
+    "average_entropy_score": 150.56,
+    "gate_failures_count": 115,
+    "gate_failures": [
+      "/Users/borjafernandezangulo/Music/VISUALES/antigravity_enterprise_utility.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/house_remix.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/acid_pigs.html",
+      "/Users/borjafernandezangulo/Music/VISUALES/remix.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/clean_vtt.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/perfeccion_sintetica.html",
+      "/Users/borjafernandezangulo/Music/VISUALES/resolve_audio_overlaps.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/model_router.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/process_album.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/swarm_redundancy_processor.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/borjamoskv-rauw-clone/main.js",
+      "/Users/borjafernandezangulo/Music/VISUALES/video-forge/generate_placeholder.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/video-forge/director.js",
+      "/Users/borjafernandezangulo/Music/VISUALES/video-forge/pipeline.js",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_09.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/analyze_and_refine.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_hybrid_all_50.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_08.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_13.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_hybrid_continue.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_07.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_hybrid_replace.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_12.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_mac_replace.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_11.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_local_chrome.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_10.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/replace_track_45.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_replace.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/direct_replace.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_publish.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/stems/RealWorks50_MASTERED/bandcamp_hybrid.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/harmony-forge/style.css",
+      "/Users/borjafernandezangulo/Music/VISUALES/harmony-forge/service-worker.js",
+      "/Users/borjafernandezangulo/Music/VISUALES/harmony-forge/app.js",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto8_goenkale_audio.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto6_rayohead_audio.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/paste_via_daemon.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_rap_audio_and_subs.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/serve_cors.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/generate_subtitle.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto8_torneo_audio.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_video_applescript.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_laundry_audio.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_direct2.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto5_fito_audio.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_v4_and_text.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/go_to_editor_and_upload.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_direct_input.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_via_spacebar.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_epilogo_audio.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto4_audio.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto7_pirri_audio.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_on_tab2.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_v4_video_fallback.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_now.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/generate_all_envelopes.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/apply_xokas_overlay.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/render_all_acts.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_video_automata.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_direct.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/inject_video.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto10_flashback_audio.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_video_via_daemon.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto9_recreativas_audio.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto12_marmol_audio.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_audio_and_subs.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/test_menu.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_via_keystrokes.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto11_podcast_audio.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/build_acto4_5_maletin_audio.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/check_substack.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/upload_full_flow.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/publish_draft.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/check_brave_substack.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/cortex_audio_pipeline.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/remotion-forge/paste_video.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/cactuses-2/create_youtube_video.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/ai-sentinel-extension/generate_icons.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/ai-sentinel-extension/service-worker.js",
+      "/Users/borjafernandezangulo/Music/VISUALES/ai-sentinel-extension/content.js",
+      "/Users/borjafernandezangulo/Music/VISUALES/ai-sentinel-extension/ingest_substacks.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/ai-sentinel-extension/popup/popup.js",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/type-extensions.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/hardhat.config.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/tasks/snapshot.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/test/devtools/tokenmessaging.config.test.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/test/devtools/asset.config.test.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/test/devtools/creditmessaging.config.test.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/ts-src/utils/deploy-asset.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/ts-src/utils/util.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/script/oneSig/migrate-to-onesig.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/devtools/tasks/index.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/devtools/config/utils.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/devtools/config/utils/unwire.config.utils.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-v2/devtools/config/utils/utils.config.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-definitions-v2/src/constant.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/tip20/config.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-devtools-v2/src/circleFiatToken/config.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/generatePoolConfig.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/checkDeployment/utils.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/checkDeployment/ownerState.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/common-utils/parallelProcessing.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/common-utils/retry.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/stargate-v2/packages/stg-evm-sdk-v2/src/common-utils/supportedChains.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/scripts/main.js",
+      "/Users/borjafernandezangulo/Music/VISUALES/FORGE_ORGANIZED/Code/20260105_COD_stubs_v1.ts",
+      "/Users/borjafernandezangulo/Music/VISUALES/exergia-omega/css/style.css",
+      "/Users/borjafernandezangulo/Music/VISUALES/exergia-omega/js/telemetry.js",
+      "/Users/borjafernandezangulo/Music/VISUALES/exergia-omega/js/webgl-bg.js",
+      "/Users/borjafernandezangulo/Music/VISUALES/exergia-omega/js/controls.js",
+      "/Users/borjafernandezangulo/Music/VISUALES/exergia-omega/js/visuals.js",
+      "/Users/borjafernandezangulo/Music/VISUALES/exergia-omega/js/dsp.js",
+      "/Users/borjafernandezangulo/Music/VISUALES/FRONTERA/agent_daemon/agent_loop.py",
+      "/Users/borjafernandezangulo/Music/VISUALES/FRONTERA/art_generator/generate.py"
+    ]
+  }
 }
