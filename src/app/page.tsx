@@ -581,6 +581,19 @@ export default function Home() {
           >
             Orden
           </button>
+          <div className="w-px h-3 bg-white/20 mx-1" />
+          <a
+            href="https://naroa-gutierrez-gil.pages.dev/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center font-sans text-[9px] tracking-[0.25em] uppercase px-3 py-1 transition-all duration-500 rounded-sm text-primary/80 hover:text-primary hover:bg-primary/10"
+            aria-label="Ir a la versión principal"
+          >
+            Main Site
+            <svg className="w-3 h-3 ml-2 opacity-50 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
         </div>
 
         {/* Color Toggle */}
