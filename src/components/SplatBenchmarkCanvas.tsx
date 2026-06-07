@@ -174,12 +174,35 @@ function SplatInteractiveCanvas() {
         ref={canvasRef} 
         width={1000}
         height={1000}
-        className="w-full h-full cursor-crosshair absolute inset-0"
+        className="w-full h-full cursor-crosshair mix-blend-screen absolute inset-0"
         onPointerDown={handlePointerDown}
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerUp}
         onPointerMove={handlePointerMove}
       />
+
+      {/* Thermodynamic State UI */}
+      <div className="absolute top-4 right-4 z-10 border border-[#2B3BE5]/30 p-4 bg-black/50 backdrop-blur-md pointer-events-none">
+        <p className="text-[#2B3BE5] font-bold mb-2 text-[10px] tracking-widest uppercase">Thermodynamic State (KV)</p>
+        <p className="text-white/70 text-[10px] font-mono">Entropía: <span className={kintsugiActive ? 'text-rose-500 font-bold animate-pulse' : 'text-emerald-400'}>{entropy.toFixed(2)}%</span></p>
+        <p className="text-white/70 text-[10px] font-mono">Cicatrices: {repairs}</p>
+        <p className="text-white/70 text-[10px] font-mono">Status: {kintsugiActive ? 'FRACTURADO' : 'ESTABLE'}</p>
+      </div>
+
+      {/* Kintsugi Overlay - Cicatrices de Estado Persistente */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none mix-blend-screen opacity-80 z-20">
+        {(scars as { x: number; y: number; depth: number; timestamp: number }[]).map((scar, i) => (
+          <circle 
+            key={`${scar.timestamp}-${i}`} 
+            cx={scar.x} 
+            cy={scar.y} 
+            r={scar.depth * (repairs > 0 ? 1.5 : 1)} 
+            fill={repairs > 0 ? "#F59E0B" : "#2B3BE5"} 
+            className="transition-all duration-1000 ease-out"
+            filter={repairs > 0 ? "drop-shadow(0px 0px 8px #F59E0B)" : "none"}
+          />
+        ))}
+      </svg>
     </div>
   );
 }
