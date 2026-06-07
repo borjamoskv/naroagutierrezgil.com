@@ -646,7 +646,7 @@ export default function Home() {
         <TakeoverModal
           takeoverArtwork={takeoverArtwork}
           takeoverCountdown={takeoverCountdown}
-          getImageUrl={getImageUrl}
+          getImageUrl={resolveSrc}
         />
       )}
     </div>
