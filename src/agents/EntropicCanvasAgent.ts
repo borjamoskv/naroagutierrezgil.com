@@ -61,12 +61,15 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
     // Aumentar entropía basado en la fuerza de la fricción
     const newEntropy = Math.min(this.state.globalEntropy + (force * 0.05), 100.0);
     
-    const newScars = [...this.state.scars];
+    let newScars = this.state.scars;
     // Registrar cicatrices profundas (fuerza agresiva)
     if (force > 5.0) {
+      newScars = [...this.state.scars];
       newScars.push({ x, y, depth: force, timestamp: Date.now() });
       // Mantener solo las últimas 1000 cicatrices en memoria caliente
-      if (newScars.length > 1000) newScars.shift();
+      if (newScars.length > 1000) {
+        newScars = newScars.slice(-1000);
+      }
     }
 
     this.setState({
