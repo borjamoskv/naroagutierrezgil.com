@@ -284,8 +284,7 @@ export default function Mica() {
     <>
       {/* Floating Sparkle Toggle Button */}
       <button
-        aria-label={isOpen ? "Cerrar Asistente Mica" : "Abrir Asistente Mica"}
-        aria-expanded={isOpen}
+        aria-label="Alternar Asistente Mica"
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-24 right-8 z-[250] flex items-center justify-center w-12 h-12 rounded-full border border-primary/40 bg-background/80 backdrop-blur shadow-[0_0_30px_rgba(43,59,229,0.2)] hover:scale-105 active:scale-95 transition-all duration-300 group cursor-pointer"
       >
@@ -323,9 +322,8 @@ export default function Mica() {
                 Limpiar
               </button>
               <button
-                aria-label="Cerrar panel de Mica"
                 onClick={() => setIsOpen(false)}
-                className="text-foreground/40 hover:text-white text-xs bg-transparent border-0 cursor-pointer hover:scale-110 transition-transform"
+                className="text-foreground/40 hover:text-white text-xs bg-transparent border-0 cursor-pointer"
               >
                 ✕
               </button>
@@ -333,7 +331,7 @@ export default function Mica() {
           </div>
 
           {/* Messages Logs */}
-          <div aria-live="polite" role="log" aria-atomic="false" className="flex-1 p-4 overflow-y-auto flex flex-col gap-3 scrollbar-thin select-none max-h-[280px]">
+          <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-3 scrollbar-thin select-none max-h-[280px]">
             {messages.map((msg, i) => (
               <div
                 key={i}
@@ -373,9 +371,8 @@ export default function Mica() {
               {messages[messages.length - 1].options?.map((opt, i) => (
                 <button
                   key={i}
-                  aria-label={`Seleccionar opción: ${opt.label}`}
                   onClick={() => handleOptionClick(opt.action, opt.label)}
-                  className="w-full text-left p-2.5 border border-white/5 hover:border-primary/40 hover:text-primary hover:translate-x-1 active:scale-[0.98] transition-all duration-300 text-[9px] font-sans tracking-widest uppercase rounded-sm bg-black/40 cursor-pointer"
+                  className="w-full text-left p-2.5 border border-white/5 hover:border-primary/40 hover:text-primary transition-all duration-300 text-[9px] font-sans tracking-widest uppercase rounded-sm bg-black/40 cursor-pointer"
                 >
                   {opt.label}
                 </button>
@@ -397,9 +394,8 @@ export default function Mica() {
             />
             <button
               type="submit"
-              aria-label="Enviar mensaje a Mica"
               disabled={!inputValue.trim() || isTyping}
-              className="px-3 bg-primary text-black hover:bg-white disabled:bg-white/5 disabled:text-white/20 hover:scale-105 active:scale-95 transition-all font-sans text-[9px] tracking-widest uppercase font-semibold rounded-sm cursor-pointer"
+              className="px-3 bg-primary text-black hover:bg-white disabled:bg-white/5 disabled:text-white/20 transition-all font-sans text-[9px] tracking-widest uppercase font-semibold rounded-sm cursor-pointer"
             >
               Enviar
             </button>

@@ -55144,7 +55144,7 @@ var _EntropicCanvasAgent = class _EntropicCanvasAgent extends (_a3 = Agent, _app
   /**
    * Valida la Epistemología del Estado: La entropía nunca puede ser negativa.
    */
-  validateStateChange(nextState) {
+  validateStateChange(nextState, _source) {
     if (nextState.globalEntropy < 0) {
       throw new Error("Violaci\xF3n Termodin\xE1mica: La entrop\xEDa no puede invertirse espont\xE1neamente.");
     }
@@ -55153,7 +55153,7 @@ var _EntropicCanvasAgent = class _EntropicCanvasAgent extends (_a3 = Agent, _app
    * Callback asíncrono C5-REAL: Dispara reacciones al mundo físico (clientes) 
    * cuando el estado termodinámico cambia.
    */
-  onStateUpdate(state) {
+  onStateUpdate(state, _source) {
     if (state.globalEntropy >= 100 && !state.kintsugiActive) {
       this.setState({ ...state, kintsugiActive: true });
       this.broadcast(JSON.stringify({ type: "CANVAS_FRACTURE", message: "La fricci\xF3n colectiva ha quebrado la obra. Inyecci\xF3n de resina requerida." }));
@@ -55205,7 +55205,7 @@ var worker = {
    * Punto de entrada del Worker para las peticiones HTTP y WebSockets.
    * routeAgentRequest intercepta /agents/{agentName}/{instanceName} automáticamente.
    */
-  async fetch(request, env2) {
+  async fetch(request, env2, _ctx) {
     const response = await routeAgentRequest(request, env2);
     return response ?? new Response("CORTEX: Entidad de Agente no localizada.", { status: 404 });
   }

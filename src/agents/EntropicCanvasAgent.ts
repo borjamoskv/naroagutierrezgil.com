@@ -1,4 +1,4 @@
-import { Agent, callable } from 'agents';
+import { Agent, Connection, callable } from 'agents';
 
 // La obra no es inmutable. Registra el paso del tiempo y la fricción colectiva.
 export type EntropicState = {
@@ -22,7 +22,7 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
   /**
    * Valida la Epistemología del Estado: La entropía nunca puede ser negativa.
    */
-  validateStateChange(nextState: EntropicState) {
+  validateStateChange(nextState: EntropicState, _source: Connection | "server") {
     if (nextState.globalEntropy < 0) {
       throw new Error("Violación Termodinámica: La entropía no puede invertirse espontáneamente.");
     }
@@ -32,7 +32,7 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
    * Callback asíncrono C5-REAL: Dispara reacciones al mundo físico (clientes) 
    * cuando el estado termodinámico cambia.
    */
-  onStateUpdate(state: EntropicState) {
+  onStateUpdate(state: EntropicState, _source: Connection | "server") {
     // Si la entropía supera el umbral crítico y no hay Kintsugi activo, la pizarra se quiebra.
     if (state.globalEntropy >= 100.0 && !state.kintsugiActive) {
       this.setState({ ...state, kintsugiActive: true });

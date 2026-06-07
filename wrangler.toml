@@ -1,14 +1,3 @@
 name = "naroagutierrezgil-com"
 pages_build_output_dir = "out"
 compatibility_date = "2024-05-01"
-
-# Vector 1: R2 Bucket para Assets Hiperrealistas (Image Storage)
-[[r2_buckets]]
-binding = "NAROA_ASSETS"
-bucket_name = "naroa-gallery-assets"
-
-# Vector 2: D1 Database para Headless CMS Soberano
-[[d1_databases]]
-binding = "NAROA_CMS"
-database_name = "naroa-cms-db"
-database_id = "pending-creation"

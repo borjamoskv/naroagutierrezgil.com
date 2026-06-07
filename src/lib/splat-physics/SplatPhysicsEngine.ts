@@ -89,24 +89,16 @@ struct RenderUniforms {
 
 @group(0) @binding(0) var<uniform> uniforms: RenderUniforms;
 @group(0) @binding(1) var<storage, read> positions: array<vec4<f32>>;
-@group(0) @binding(2) var<storage, read> velocities: array<vec4<f32>>;
 
 @vertex
 fn vs_main(@builtin(vertex_index) vertex_idx: u32) -> VertexOutput {
   var out: VertexOutput;
   let pos = positions[vertex_idx].xyz;
-  let vel = velocities[vertex_idx].xyz;
-  let speed = length(vel);
   
   // Projection
   out.position = uniforms.viewProjection * vec4<f32>(pos, 1.0);
-  
-  // Kinetic Kintsugi Heatmap
-  let baseColor = uniforms.primaryColor * (0.4 + 0.6 * sin(pos.z * 8.0));
-  let heatColor = vec3<f32>(0.96, 0.62, 0.04) * 1.5; // Kintsugi Gold HDR
-  out.color = mix(baseColor, heatColor, clamp(speed * 0.15, 0.0, 1.0));
-  
-  out.size = clamp(2.0 + speed * 1.0, 2.0, 8.0); // Expand with speed
+  out.color = uniforms.primaryColor * (0.6 + 0.4 * sin(pos.z * 5.0));
+  out.size = 3.0; // point size
   return out;
 }
 
@@ -250,8 +242,7 @@ export class SplatPhysicsEngine {
       layout: this.renderPipeline!.getBindGroupLayout(0),
       entries: [
         { binding: 0, resource: { buffer: this.renderUniformBuffer } },
-        { binding: 1, resource: { buffer: this.currentBuffer } },
-        { binding: 2, resource: { buffer: this.velocityBuffer } }
+        { binding: 1, resource: { buffer: this.currentBuffer } }
       ]
     });
   }
