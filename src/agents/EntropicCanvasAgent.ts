@@ -44,7 +44,7 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
       // CORTEX-Guard KV Observability
       try {
         const timestamp = new Date().toISOString();
-        const env = (this as any).env as Env;
+        const env = (this as unknown as { env: Env }).env;
         await env.RADIANCE_MEMORY.put(`fracture_${timestamp}`, JSON.stringify({ event: 'FRACTURE', scars: state.scars.length, repairs: state.totalRepairs }));
       } catch (e) {
         console.warn('Error saving to RADIANCE_MEMORY', e);
@@ -107,7 +107,7 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
       // CORTEX-Guard KV Observability
       try {
         const timestamp = new Date().toISOString();
-        const env = (this as any).env as Env;
+        const env = (this as unknown as { env: Env }).env;
         env.RADIANCE_MEMORY.put(`kintsugi_${timestamp}`, JSON.stringify({ event: 'REPAIR', repairNumber: this.state.totalRepairs, totalScars: this.state.scars.length }));
       } catch (e) {
         console.warn('Error saving to RADIANCE_MEMORY', e);

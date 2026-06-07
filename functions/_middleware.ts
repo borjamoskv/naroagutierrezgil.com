@@ -1,6 +1,6 @@
 interface EventContext {
   request: Request;
-  env: any;
+  env: unknown;
   next: () => Promise<Response>;
 }
 type PagesFunction = (context: EventContext) => Promise<Response>;
