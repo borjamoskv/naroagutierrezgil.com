@@ -1,6 +1,15 @@
 // C5-REAL: WebGPU Physics Engine for Gaussian Splats
 // Computes spring-mass systems and cursor interaction in compute shaders
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+type GPUDevice = any;
+type GPUComputePipeline = any;
+type GPURenderPipeline = any;
+type GPUBuffer = any;
+type GPUBindGroup = any;
+type GPUCanvasContext = any;
+type GPURenderPassDescriptor = any;
+
 export const PHYSICS_COMPUTE_SHADER = `
 struct PhysicsUniforms {
   mousePos: vec2<f32>,
