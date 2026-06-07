@@ -2,13 +2,29 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import * as THREE from "three";
 import { inSphere } from "maath/random";
 
 function StarBackground(props: any) {
   const ref = useRef<THREE.Points>(null);
+  const [color, setColor] = useState("#2B3BE5");
   
+  useEffect(() => {
+    // Read initial color
+    const initialColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+    if (initialColor) setColor(initialColor);
+
+    // Poll for changes (since mutation observer on style is tricky)
+    const interval = setInterval(() => {
+      const newColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+      if (newColor && newColor !== color) {
+        setColor(newColor);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [color]);
+
   // Create a sphere of random particles representing "pigment dust" or slate particles
   const [sphere] = useState(() => 
     inSphere(new Float32Array(3000), { radius: 1.5 }) as Float32Array
@@ -26,7 +42,7 @@ function StarBackground(props: any) {
       <Points ref={ref} positions={sphere} stride={3} frustumCulled={false} {...props}>
         <PointMaterial
           transparent
-          color="#2B3BE5"
+          color={color}
           size={0.003}
           sizeAttenuation={true}
           depthWrite={false}

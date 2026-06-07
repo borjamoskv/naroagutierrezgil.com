@@ -156,7 +156,7 @@ export default function Home() {
 
         {/* Bottom - Scroll */}
         <div className="relative z-10 w-full flex flex-col md:flex-row justify-end items-end mt-auto max-w-[1800px] mx-auto animate-[fadeIn_3s_ease-out_1s_both]">
-          <a href="#galeria" className="group flex items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 cursor-pointer">
+          <a href="#galeria" aria-label="Descender a la galería" className="group flex items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 cursor-pointer">
             <span className="uppercase font-sans tracking-[0.4em] text-[9px] font-medium rotate-180 [writing-mode:vertical-rl]">Descender</span>
             <div className="w-[1px] h-32 bg-foreground/10 relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-full bg-primary animate-[translateY_2s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
@@ -216,18 +216,19 @@ export default function Home() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
           <a 
             href="mailto:naroa@naroa.eu" 
+            aria-label="Enviar correo a Naroa"
             className="text-4xl sm:text-6xl md:text-[7rem] font-serif font-light tracking-tighter text-foreground/70 hover:text-primary transition-colors duration-1000 mb-12 block hover:tracking-normal"
           >
             naroa@naroa.eu
           </a>
           
-          <a href="https://naroa.online" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 text-primary/50 hover:text-primary transition-colors duration-500 mb-20 px-8 py-3 border border-primary/20 hover:border-primary/50 rounded-sm">
+          <a href="https://naroa.online" aria-label="Acceder al Laboratorio Kinético SOTA" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 text-primary/50 hover:text-primary transition-colors duration-500 mb-20 px-8 py-3 border border-primary/20 hover:border-primary/50 rounded-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
             <span className="font-sans text-[9px] tracking-[0.4em] uppercase">Acceder al Laboratorio Kinético</span>
           </a>
 
           <div className="flex flex-col sm:flex-row items-center justify-between w-full max-w-3xl pt-12 border-t border-white/5 text-foreground/30 font-sans text-xs tracking-widest uppercase">
-            <span>© 2026 Naroa Gutiérrez Gil · Creado por <a href="https://www.borjamoskv.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-500">Borja Moskv</a></span>
+            <span>© 2026 Naroa Gutiérrez Gil · Creado por <a href="https://www.borjamoskv.com" aria-label="Web de Borja Moskv" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-500">Borja Moskv</a></span>
             <span className="mt-4 sm:mt-0">Bilbao, Spain</span>
           </div>
         </div>
