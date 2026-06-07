@@ -98,17 +98,28 @@ export default function ScratchGame({ artworks }: ScratchGameProps) {
           continue;
         }
 
-        // Draw primary slate chip/dust particle
-        pCtx.fillStyle = `rgba(140, 140, 145, ${p.life})`;
+        // Draw primary slate chip/dust particle or primary color spark
+        const isCobaltSpark = p.size < 2.2 && i % 3 === 0;
+        if (isCobaltSpark) {
+          pCtx.fillStyle = `rgba(43, 59, 229, ${p.life})`;
+          pCtx.shadowColor = '#2B3BE5';
+          pCtx.shadowBlur = 6;
+        } else {
+          pCtx.fillStyle = `rgba(140, 140, 145, ${p.life})`;
+          pCtx.shadowBlur = 0;
+        }
+
         pCtx.beginPath();
         pCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         pCtx.fill();
 
-        // Secondary lighter ambient dust trail
-        pCtx.fillStyle = `rgba(180, 180, 185, ${p.life * 0.4})`;
-        pCtx.beginPath();
-        pCtx.arc(p.x - p.vx * 0.5, p.y - p.vy * 0.5, p.size * 0.7, 0, Math.PI * 2);
-        pCtx.fill();
+        // Secondary lighter ambient dust trail (only for stone particles)
+        if (!isCobaltSpark) {
+          pCtx.fillStyle = `rgba(180, 180, 185, ${p.life * 0.4})`;
+          pCtx.beginPath();
+          pCtx.arc(p.x - p.vx * 0.5, p.y - p.vy * 0.5, p.size * 0.7, 0, Math.PI * 2);
+          pCtx.fill();
+        }
       }
 
       animationFrameId.current = requestAnimationFrame(updateParticles);
@@ -157,6 +168,22 @@ export default function ScratchGame({ artworks }: ScratchGameProps) {
     ctx.beginPath();
     ctx.arc(pos.x, pos.y, 35, 0, Math.PI * 2);
     ctx.fill();
+
+    // Spawn slate debris and cobalt sparks
+    const count = 5 + Math.floor(Math.random() * 4);
+    for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 3 + 1;
+      particles.current.push({
+        x: pos.x,
+        y: pos.y,
+        vx: Math.cos(angle) * speed + (Math.random() - 0.5) * 1.5,
+        vy: Math.sin(angle) * speed - 1.5, // slight upward bias initial velocity
+        size: Math.random() * 3 + 1,
+        life: 1.0,
+        decay: Math.random() * 0.035 + 0.015
+      });
+    }
 
     // Check revealed percentage
     const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
