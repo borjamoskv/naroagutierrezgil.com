@@ -107,7 +107,7 @@ export default function Biografia() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
             <div className="space-y-8 text-white/70 font-light text-xl leading-relaxed">
-              <p className="border-l-2 border-[#2B3BE5] pl-6 text-2xl font-serif text-white/90">"El lienzo no es un soporte pasivo. Es un yacimiento arqueológico que exige ser rascado."</p>
+              <p className="border-l-2 border-[#2B3BE5] pl-6 text-2xl font-serif text-white/90">&quot;El lienzo no es un soporte pasivo. Es un yacimiento arqueológico que exige ser rascado.&quot;</p>
               <p>Un híbrido entre el rigor del <strong>hiperrealismo</strong> anatómico y los códigos cromáticos saturados del <strong>arte pop</strong>.</p>
               <p>Destaca su abandono de los soportes clásicos en favor de elementos telúricos. Transicionó radicalmente hacia el uso de <strong>mica mineral y pizarra natural</strong> de tejados en ruinas, desafiando el anclaje de pigmentos acrílicos sobre superficies pétreas reflectantes.</p>
             </div>

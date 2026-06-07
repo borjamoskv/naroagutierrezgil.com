@@ -58,7 +58,7 @@ export default function InteractiveStudio({ artworks }: InteractiveStudioProps) 
           ].map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id as 'scratch' | 'puzzle' | 'memory')}
               className={`px-4 sm:px-8 py-3 rounded-sm font-sans text-[11px] uppercase tracking-[0.2em] transition-all duration-500 relative cursor-pointer ${
                 activeTab === tab.id
                   ? 'text-primary border border-primary/30 bg-primary/5 shadow-[0_0_20px_rgba(43,59,229,0.15)]'
