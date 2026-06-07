@@ -141,7 +141,7 @@ export default function PuzzleGame({ artworks }: PuzzleGameProps) {
           {showPreview ? (
             <div className="absolute inset-0 z-20 animate-[fadeIn_0.5s_ease-out]">
               <Image
-                src={`https://naroa.online/assets/${selectedArt.src}`}
+                src={`/assets/${selectedArt.src}`}
                 alt={selectedArt.title}
                 fill
                 className="object-cover opacity-80"
@@ -177,7 +177,7 @@ export default function PuzzleGame({ artworks }: PuzzleGameProps) {
                       style={{
                         left: `-${bgCol * 100}%`,
                         top: `-${bgRow * 100}%`,
-                        backgroundImage: `url(https://naroa.online/assets/${selectedArt.src})`,
+                        backgroundImage: `url(/assets/${selectedArt.src})`,
                         backgroundSize: 'cover',
                         backgroundPosition: 'center'
                       }}

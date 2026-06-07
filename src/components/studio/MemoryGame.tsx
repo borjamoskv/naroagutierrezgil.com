@@ -168,7 +168,7 @@ export default function MemoryGame({ artworks }: MemoryGameProps) {
                     {/* Front Side (Artwork Revealed) */}
                     <div className="absolute inset-0 w-full h-full rounded-sm overflow-hidden [backface-visibility:hidden] [transform:rotateY(180deg)] border border-primary/30 shadow-2xl">
                       <Image
-                        src={`https://naroa.online/assets/${card.src}`}
+                        src={`/assets/${card.src}`}
                         alt="front"
                         fill
                         className="object-cover"

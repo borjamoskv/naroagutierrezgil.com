@@ -277,7 +277,7 @@ export default function ScratchGame({ artworks }: ScratchGameProps) {
           {/* Base Artwork Image (Underneath) */}
           <div className="absolute inset-0 z-0">
             <Image
-              src={`https://naroa.online/assets/${selectedArt.src}`}
+              src={`/assets/${selectedArt.src}`}
               alt={selectedArt.title}
               fill
               className="object-cover"

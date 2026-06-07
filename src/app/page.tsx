@@ -28,17 +28,7 @@ const getImageUrl = (src: string) => {
   if (src.startsWith('http')) {
     return src;
   }
-  if (
-    src.endsWith('.jpg') || 
-    src.endsWith('.png') || 
-    src.endsWith('.jpeg') || 
-    src === 'amy.webp' || 
-    src === 'james.webp' || 
-    src === 'lagrimas.webp'
-  ) {
-    return `/assets/${src}`;
-  }
-  return `https://naroa.online/assets/${src}`;
+  return `/assets/${src}`;
 };
 
 const baseArtworks = [
