@@ -205,10 +205,10 @@ export default function Home() {
     if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
 
     setTakeoverArtwork(artwork);
-    setTakeoverCountdown(4);
+    setTakeoverCountdown(6); // Give a bit more time now that they can close it manually
     document.body.style.overflow = "hidden";
 
-    let count = 4;
+    let count = 6;
     countdownIntervalRef.current = setInterval(() => {
       count -= 1;
       setTakeoverCountdown(count);
@@ -218,7 +218,14 @@ export default function Home() {
       setTakeoverArtwork(null);
       document.body.style.overflow = "auto";
       if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
-    }, 4000);
+    }, 6000);
+  };
+
+  const closeTakeover = () => {
+    if (takeoverTimeoutRef.current) clearTimeout(takeoverTimeoutRef.current);
+    if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
+    setTakeoverArtwork(null);
+    document.body.style.overflow = "auto";
   };
 
   useEffect(() => {
@@ -251,29 +258,9 @@ export default function Home() {
     return url;
   };
 
-  useEffect(() => {
-    if (appMode === "ORDEN") return;
+  // Automatic takeover cycle has been completely disabled per user request.
+  // The takeover modal is now only triggered manually by clicking on an artwork.
 
-    // Cycle every 17s (13s interactive + 4s block takeover)
-    const cycleIntervalId = setInterval(() => {
-      const randomArt = baseArtworks[Math.floor(Math.random() * baseArtworks.length)];
-      triggerTakeover(randomArt);
-    }, 17000);
-
-    // First trigger after 13 seconds
-    const initialDelayId = setTimeout(() => {
-      const randomArt = baseArtworks[Math.floor(Math.random() * baseArtworks.length)];
-      triggerTakeover(randomArt);
-    }, 13000);
-
-    return () => {
-      clearInterval(cycleIntervalId);
-      clearTimeout(initialDelayId);
-      if (takeoverTimeoutRef.current) clearTimeout(takeoverTimeoutRef.current);
-      if (countdownIntervalRef.current) clearInterval(countdownIntervalRef.current);
-      document.body.style.overflow = "auto";
-    };
-  }, [appMode]);
 
   useEffect(() => {
     const lenis = new Lenis();
@@ -668,6 +655,7 @@ export default function Home() {
           takeoverArtwork={takeoverArtwork}
           takeoverCountdown={takeoverCountdown}
           getImageUrl={resolveSrc}
+          onClose={closeTakeover}
         />
       )}
     </main>

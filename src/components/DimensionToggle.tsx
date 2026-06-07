@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 
 export default function DimensionToggle() {
   const [currentDomain, setCurrentDomain] = useState<string>('');
@@ -23,11 +22,8 @@ export default function DimensionToggle() {
   const label = isPreview ? 'Cambiar a: ORDEN (Producción)' : 'Cambiar a: CAOS (Preview)';
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 1, duration: 0.8 }}
-      className="fixed top-6 right-6 z-[100] flex flex-col items-end gap-2"
+    <div 
+      className="fixed top-6 right-6 z-[100] flex flex-col items-end gap-2 animate-[slideUp_0.8s_ease-out_1s_both]"
     >
       <a 
         href={targetUrl}
@@ -39,6 +35,7 @@ export default function DimensionToggle() {
         </span>
         <span className="tracking-widest uppercase">{label}</span>
       </a>
-    </motion.div>
+    </div>
   );
 }
+
