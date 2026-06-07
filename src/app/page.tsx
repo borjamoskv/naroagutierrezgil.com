@@ -170,13 +170,13 @@ export default function Home() {
         <div className="relative z-10 flex flex-col items-start w-full max-w-[1800px] mx-auto mt-20 mb-auto min-h-[50vh] justify-center">
           <h1 className="relative flex flex-col w-full text-[15vw] leading-[0.75] font-serif font-light tracking-tighter uppercase select-none">
             <span className="flex overflow-hidden z-10">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:1px_var(--color-foreground)] sm:[-webkit-text-stroke:2px_var(--color-foreground)] opacity-50 mix-blend-difference">Naroa</span>
+              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:1px_var(--color-foreground)] sm:[-webkit-text-stroke:2px_var(--color-foreground)] opacity-50 mix-blend-difference chromatic-text">Naroa</span>
             </span>
             <span className="absolute top-[20%] left-[5%] sm:left-[12%] z-30 pointer-events-none w-full">
-              <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-primary font-hand normal-case tracking-normal text-[26vw] sm:text-[22vw] -rotate-6 drop-shadow-[0_20px_50px_rgba(43,59,229,0.5)] mix-blend-screen">Gutiérrez</span>
+              <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-primary font-hand normal-case tracking-normal text-[26vw] sm:text-[22vw] -rotate-6 drop-shadow-[0_20px_50px_rgba(43,59,229,0.5)] mix-blend-screen chromatic-text">Gutiérrez</span>
             </span>
             <span className="flex overflow-hidden self-end mr-[2vw] sm:mr-[8vw] z-20 mt-[2vw]">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-foreground mix-blend-difference">Gil</span>
+              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-foreground mix-blend-difference chromatic-text">Gil</span>
             </span>
           </h1>
         </div>
@@ -202,18 +202,12 @@ export default function Home() {
         </div>
         <div className="flex flex-col gap-24 sm:gap-40 items-center w-full">
           {artworks.map((artwork, i) => (
-            <div key={i} className="w-full h-[60vh] sm:h-[100vh] group relative overflow-hidden bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl">
-              <Image 
-                src={getImageUrl(artwork.src)} 
-                alt={artwork.title} 
-                fill 
-                sizes="100vw"
-                quality={100}
-                className="object-cover transition-all duration-[3.5s] ease-out grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03]" 
-                loading={i < 4 ? "eager" : "lazy"}
-              />
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.12)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-            </div>
+            <ParallaxItem 
+              src={getImageUrl(artwork.src)} 
+              alt={artwork.title} 
+              i={i} 
+              key={i} 
+            />
           ))}
           <div ref={observerRef} className="col-span-12 h-20 w-full flex justify-center items-center">
             <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />

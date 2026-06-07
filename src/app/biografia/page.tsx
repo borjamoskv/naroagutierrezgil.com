@@ -54,9 +54,9 @@ export default function Biografia() {
           <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-soft-light pointer-events-none" />
           <div className="absolute -left-6 sm:-left-12 top-0 w-[2px] h-full bg-gradient-to-b from-[#2B3BE5] via-[#2B3BE5]/20 to-transparent" />
           <h1 className="text-[14vw] md:text-[9rem] font-serif font-light leading-[0.75] tracking-tighter uppercase mb-8 drop-shadow-2xl mix-blend-difference">
-            <span className="block text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.4)] hover:[-webkit-text-stroke:2px_#2B3BE5] hover:text-[#2B3BE5]/10 transition-all duration-700 cursor-default">Naroa</span>
-            <span className="block text-white translate-x-8 sm:translate-x-16">Gutiérrez</span>
-            <span className="block text-[#2B3BE5] font-hand lowercase text-[18vw] md:text-[12rem] -mt-16 ml-32 -rotate-6 opacity-90 drop-shadow-[0_0_30px_rgba(43,59,229,0.5)]">Gil</span>
+            <span className="block text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.4)] hover:[-webkit-text-stroke:2px_#2B3BE5] hover:text-[#2B3BE5]/10 transition-all duration-700 cursor-default chromatic-text">Naroa</span>
+            <span className="block text-white translate-x-8 sm:translate-x-16 chromatic-text">Gutiérrez</span>
+            <span className="block text-[#2B3BE5] font-hand lowercase text-[18vw] md:text-[12rem] -mt-16 ml-32 -rotate-6 opacity-90 drop-shadow-[0_0_30px_rgba(43,59,229,0.5)] chromatic-text">Gil</span>
           </h1>
           <p className="max-w-3xl text-lg sm:text-2xl font-light tracking-wide text-white/60 leading-relaxed mt-16 border-l border-[#2B3BE5]/30 pl-8 py-2 relative">
             <span className="absolute -left-[1px] top-0 w-[2px] h-1/3 bg-[#2B3BE5] shadow-[0_0_10px_#2B3BE5]" />
