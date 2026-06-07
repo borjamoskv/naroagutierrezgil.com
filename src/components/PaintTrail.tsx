@@ -1,9 +1,21 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useAgent } from "agents/react";
+import type { EntropicState } from "@/agents/EntropicCanvasAgent";
 
 export default function PaintTrail() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [entropy, setEntropy] = useState<number>(0);
+
+  // C5-REAL: Conectar Pizarra con Agente Entrópico
+  const agent = useAgent({
+    agent: "EntropicCanvasAgent",
+    name: "global-canvas",
+    onStateUpdate: (state: EntropicState) => {
+      setEntropy(state.globalEntropy || 0);
+    }
+  });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -18,9 +30,21 @@ export default function PaintTrail() {
 
     let points: { x: number; y: number; age: number }[] = [];
     let rafId: number;
+    let accumForce = 0;
+    let lastCallTime = Date.now();
 
     const handlePointerMove = (e: PointerEvent) => {
       points.push({ x: e.clientX, y: e.clientY, age: 0 });
+      accumForce += Math.abs(e.movementX) + Math.abs(e.movementY);
+
+      // Throttled Entropic Friction RPC
+      if (Date.now() - lastCallTime > 500 && accumForce > 50) {
+        if (typeof agent.applyFriction === 'function') {
+          agent.applyFriction(e.clientX, e.clientY, accumForce * 0.05);
+        }
+        accumForce = 0;
+        lastCallTime = Date.now();
+      }
     };
 
     const handleResize = () => {
@@ -55,10 +79,13 @@ export default function PaintTrail() {
         const lastP = points[points.length - 1];
         ctx.lineTo(lastP.x, lastP.y);
         
-        // Aplicamos el color primario (Cobalt Blue Noir 2026) con opacidad dinámica
-        const rgbVal = getComputedStyle(document.documentElement).getPropertyValue('--primary-rgb').trim() || "43, 59, 229";
-        ctx.strokeStyle = `rgba(${rgbVal}, 0.15)`;
-        ctx.lineWidth = 120; // Rastro grueso como brocha de acrílico
+        // El color cambia ligeramente según la entropía global
+        const rBase = Math.min(43 + entropy * 1.5, 255);
+        const gBase = 59;
+        const bBase = Math.max(229 - entropy * 2, 0);
+
+        ctx.strokeStyle = `rgba(${rBase}, ${gBase}, ${bBase}, 0.15)`;
+        ctx.lineWidth = 120; // Rastro grueso
         ctx.lineCap = "round";
         ctx.lineJoin = "round";
         ctx.stroke();
@@ -74,13 +101,16 @@ export default function PaintTrail() {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [agent, entropy]);
+
+  // Si la entropía sube, el desenfoque baja (se vuelve más nítido y violento)
+  const blurAmount = Math.max(24 - (entropy * 0.2), 4);
 
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-[45] mix-blend-screen"
-      style={{ filter: "blur(24px) contrast(1.5)" }}
+      className="fixed inset-0 pointer-events-none z-[45] mix-blend-screen transition-all duration-500"
+      style={{ filter: `blur(${blurAmount}px) contrast(1.5)` }}
     />
   );
 }
