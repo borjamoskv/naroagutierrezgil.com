@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Caveat } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const caveat = Caveat({ subsets: ["latin"], variable: "--font-caveat", display: "swap" });
 
 import CustomCursor from "@/components/CustomCursor";
 import Soundscape from "@/components/Soundscape";
@@ -73,7 +74,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${inter.variable} bg-[#0A0A0A] text-[#EAEAEA] antialiased`}>
+      <body className={`${inter.variable} ${caveat.variable} bg-[#0A0A0A] text-[#EAEAEA] antialiased`}>
         <CustomCursor />
         <Soundscape />
         {children}
