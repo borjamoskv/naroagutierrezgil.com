@@ -151,34 +151,38 @@ export default function PuzzleGame({ artworks }: PuzzleGameProps) {
             </div>
           ) : null}
 
-          <div className="grid grid-cols-3 grid-rows-3 gap-2 w-full h-full relative z-10">
-            {tiles.map((val, idx) => {
-              if (val === 8) {
-                // Empty slot
-                return <div key="empty" className="bg-transparent" />;
-              }
+          <div className="relative w-full h-full z-10">
+            {Array.from({ length: 8 }).map((_, val) => {
+              const idx = tiles.indexOf(val);
+              if (idx === -1) return null;
+              const row = Math.floor(idx / 3);
+              const col = idx % 3;
 
-              // Calculate background offset for slicing image using styles
-              const row = Math.floor(val / 3);
-              const col = val % 3;
+              const bgRow = Math.floor(val / 3);
+              const bgCol = val % 3;
 
               return (
                 <button
                   key={val}
                   onClick={() => handleTileClick(idx)}
-                  className="relative overflow-hidden w-full h-full bg-[#111113] active:scale-[0.98] transition-transform duration-300 ring-1 ring-white/5 rounded-sm cursor-pointer"
+                  className="absolute w-1/3 h-1/3 p-1 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer"
+                  style={{
+                    transform: `translate3d(${col * 100}%, ${row * 100}%, 0)`
+                  }}
                 >
-                  <div
-                    className="absolute w-[300%] h-[300%]"
-                    style={{
-                      left: `-${col * 100}%`,
-                      top: `-${row * 100}%`,
-                      backgroundImage: `url(https://naroa.online/assets/${selectedArt.src})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center'
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-black/20 hover:bg-transparent transition-colors duration-300 pointer-events-none" />
+                  <div className="relative w-full h-full overflow-hidden bg-[#111113] active:scale-[0.98] transition-transform duration-300 ring-1 ring-white/5 rounded-sm">
+                    <div
+                      className="absolute w-[300%] h-[300%]"
+                      style={{
+                        left: `-${bgCol * 100}%`,
+                        top: `-${bgRow * 100}%`,
+                        backgroundImage: `url(https://naroa.online/assets/${selectedArt.src})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center'
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-black/20 hover:bg-transparent transition-colors duration-300 pointer-events-none" />
+                  </div>
                 </button>
               );
             })}
