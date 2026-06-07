@@ -46,6 +46,7 @@ export default function MemoryGame({ artworks }: MemoryGameProps) {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line
     initMemory();
   }, []);
 

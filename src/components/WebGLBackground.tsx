@@ -13,6 +13,7 @@ function StarBackground(props: any) {
   useEffect(() => {
     // Read initial color
     const initialColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+    // eslint-disable-next-line
     if (initialColor) setColor(initialColor);
 
     // Poll for changes (since mutation observer on style is tricky)
