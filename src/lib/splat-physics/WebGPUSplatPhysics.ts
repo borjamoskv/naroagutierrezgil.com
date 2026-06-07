@@ -25,7 +25,7 @@ export class WebGPUSplatSimulator {
   private bindGroup: GPUBindGroup | null = null;
 
   public async init(splatCount: number = 100000) {
-    if (!(navigator as any).gpu) {
+    if (typeof navigator === 'undefined' || !(navigator as any).gpu) {
       throw new Error('WebGPU no está soportado en este navegador.');
     }
 
