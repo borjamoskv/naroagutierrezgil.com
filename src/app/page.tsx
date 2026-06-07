@@ -39,6 +39,20 @@ export default function Home() {
   const observerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    const palettes = [
+      '#2B3BE5', // Hyper-Cobalt Blue
+      '#C6A87C', // Muted Gold/Bronze
+      '#10B981', // Toxic Emerald Green
+      '#D9383A', // Velvet Crimson Red
+      '#D97706', // Acid Amber
+      '#8B5CF6', // Violet Glow
+      '#06B6D4'  // Electric Cyan
+    ];
+    const randomColor = palettes[Math.floor(Math.random() * palettes.length)];
+    document.documentElement.style.setProperty('--primary', randomColor);
+  }, []);
+
+  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
