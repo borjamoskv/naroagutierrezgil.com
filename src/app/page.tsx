@@ -600,53 +600,7 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Floating Color Mutator Dock & Mode Toggle */}
-      <div className="fixed bottom-8 left-8 z-[130] flex flex-col gap-4 items-start select-none">
-        {/* Mode Toggle */}
-        <div className="flex gap-2 items-center bg-[#0c0c0e]/80 border border-white/5 px-4 py-2.5 rounded-sm backdrop-blur-md">
-          <button
-            onClick={() => setAppMode("CAOS")}
-            className={`font-sans text-[9px] tracking-[0.25em] uppercase px-3 py-1 transition-all duration-500 rounded-sm ${appMode === "CAOS" ? "text-white bg-white/10" : "text-white/40 hover:text-white/70"}`}
-          >
-            Caos
-          </button>
-          <div className="w-px h-3 bg-white/20" />
-          <button
-            onClick={() => setAppMode("ORDEN")}
-            className={`font-sans text-[9px] tracking-[0.25em] uppercase px-3 py-1 transition-all duration-500 rounded-sm ${appMode === "ORDEN" ? "text-white bg-white/10" : "text-white/40 hover:text-white/70"}`}
-          >
-            Orden
-          </button>
-        </div>
 
-        {/* Color Toggle */}
-        <div className="flex gap-2.5 items-center bg-[#0c0c0e]/80 border border-white/5 px-4 py-2.5 rounded-sm backdrop-blur-md">
-          <span className="font-sans text-[8px] tracking-[0.25em] uppercase text-white/40 mr-1">
-            Muta
-          </span>
-          {[
-            "#2B3BE5",
-            "#C6A87C",
-            "#10B981",
-            "#D9383A",
-            "#D97706",
-            "#8B5CF6",
-            "#06B6D4",
-          ].map((color) => (
-            <button
-              key={color}
-              onClick={() => updatePrimaryColor(color)}
-              className={`w-3.5 h-3.5 rounded-full border transition-all duration-300 relative cursor-pointer ${
-                activeColor === color
-                  ? "border-white scale-110 shadow-[0_0_10px_rgba(255,255,255,0.4)]"
-                  : "border-white/10 hover:scale-125"
-              }`}
-              style={{ backgroundColor: color }}
-              aria-label={`Mutar color a ${color}`}
-            />
-          ))}
-        </div>
-      </div>
 
       {/* Fullscreen Takeover Artwork Amplification Modal */}
       {takeoverArtwork && (
