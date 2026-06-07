@@ -308,7 +308,7 @@ function PuzzleGame() {
 
   const initPuzzle = () => {
     // 3x3 grid: 0 to 7 are tiles, 8 is the empty space
-    let initial = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+    const initial = [0, 1, 2, 3, 4, 5, 6, 7, 8];
     
     // Shuffle with valid moves to ensure solvability
     let emptyIdx = 8;

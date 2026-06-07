@@ -44,7 +44,7 @@ export default function ExcavationGame() {
     window.addEventListener('resize', resize)
 
     let isDrawing = false
-    let totalPixels = canvas.width * canvas.height
+    const totalPixels = canvas.width * canvas.height
     let erasedPixels = 0
 
     const scratch = (x: number, y: number) => {
