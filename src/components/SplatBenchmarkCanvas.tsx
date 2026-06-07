@@ -20,7 +20,6 @@ export default function SplatBenchmarkCanvas() {
   const agent = useAgent({
     agent: "EntropicCanvas",
     name: "naroa-master-canvas",
-    siteUrl: "https://naroart-kintsugi-ledger.borjamoskv.workers.dev",
     onStateUpdate: (newState: { globalEntropy: number; kintsugiActive: boolean; totalRepairs: number; scars: Array<{ x: number; y: number; depth: number; timestamp: number }> }) => {
       setEntropy(newState.globalEntropy);
       setKintsugiActive(newState.kintsugiActive);
@@ -72,14 +71,14 @@ export default function SplatBenchmarkCanvas() {
     if (isDownRef.current && agent && !kintsugiActive) {
        // Pseudo-throttle para no saturar WebSockets en desarrollo
        if (Math.random() > 0.8) { 
-         agent.applyFriction(e.clientX, e.clientY, 2.5).catch(console.error);
+         (agent as unknown as { applyFriction: (x: number, y: number, f: number) => Promise<void> }).applyFriction(e.clientX, e.clientY, 2.5).catch(console.error);
        }
     }
   };
 
   const handleInjectGold = () => {
     if (agent && kintsugiActive) {
-      agent.injectGold(15.0).catch(console.error);
+      (agent as unknown as { injectGold: (a: number) => Promise<void> }).injectGold(15.0).catch(console.error);
     }
   };
 
