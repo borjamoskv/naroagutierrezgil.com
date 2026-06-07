@@ -5,6 +5,15 @@ import ScratchGame from './studio/ScratchGame';
 import PuzzleGame from './studio/PuzzleGame';
 import MemoryGame from './studio/MemoryGame';
 
+interface Artwork {
+  src: string;
+  title: string;
+}
+
+interface InteractiveStudioProps {
+  artworks?: Artwork[];
+}
+
 const ARTWORKS = [
   { src: 'hq-james-CjsTrO7r.webp', title: 'James Dean' },
   { src: 'hq-amy-BRTriASV.webp', title: 'Amy Winehouse' },
@@ -19,8 +28,9 @@ const ARTWORKS = [
   { src: 'la-pensadora-CFHSnMA0.webp', title: 'La Pensadora' }
 ];
 
-export default function InteractiveStudio() {
+export default function InteractiveStudio({ artworks }: InteractiveStudioProps) {
   const [activeTab, setActiveTab] = useState<'scratch' | 'puzzle' | 'memory'>('scratch');
+  const list = artworks || ARTWORKS;
 
   return (
     <section id="taller-interactivo" className="relative z-10 py-32 px-4 sm:px-12 bg-[#0A0A0A] border-t border-white/5">
@@ -62,9 +72,9 @@ export default function InteractiveStudio() {
 
         {/* Game Container */}
         <div className="bg-black rounded-sm ring-1 ring-white/5 shadow-2xl p-6 sm:p-12 min-h-[600px] flex items-center justify-center">
-          {activeTab === 'scratch' && <ScratchGame artworks={ARTWORKS} />}
-          {activeTab === 'puzzle' && <PuzzleGame artworks={ARTWORKS} />}
-          {activeTab === 'memory' && <MemoryGame artworks={ARTWORKS} />}
+          {activeTab === 'scratch' && <ScratchGame artworks={list} />}
+          {activeTab === 'puzzle' && <PuzzleGame artworks={list} />}
+          {activeTab === 'memory' && <MemoryGame artworks={list} />}
         </div>
       </div>
     </section>

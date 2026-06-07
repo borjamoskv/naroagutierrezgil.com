@@ -179,12 +179,7 @@ export default function Home() {
                 className="object-cover transition-all duration-[3.5s] ease-out grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03]" 
                 loading={i < 4 ? "eager" : "lazy"}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent z-10 opacity-40 group-hover:opacity-60 transition-opacity duration-1000 mix-blend-multiply" />
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.12)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-full p-6 sm:p-10 z-20 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-700 ease-out flex flex-col justify-end">
-                <span className="text-primary/80 font-sans tracking-[0.3em] uppercase text-[8px] mb-2 block opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100">Acrílico sobre pizarra</span>
-                <h3 className="text-2xl sm:text-4xl font-serif text-white font-light tracking-wide drop-shadow-2xl">{artwork.title}</h3>
-              </div>
             </div>
           ))}
           <div ref={observerRef} className="col-span-12 h-20 w-full flex justify-center items-center">
