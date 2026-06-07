@@ -218,7 +218,7 @@ export default function Home() {
 
   const resolveSrc = (src: string) => {
     const url = getImageUrl(src);
-    if (isLocal && !src.startsWith("http")) {
+    if (isLocal && url.startsWith("/")) {
       return `/assets/${src}`;
     }
     return url;
