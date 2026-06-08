@@ -15,6 +15,7 @@ import { Acto10Flashback } from './Acto10Flashback';
 import { Epilogo } from './Epilogo';
 import { Acto11Podcast } from './Acto11Podcast';
 import { Acto12Marmol } from './Acto12Marmol';
+import { FunShapes } from './FunShapes';
 
 const AUDIO_DURATION_SECONDS = 60;
 const FPS = 30;
@@ -146,6 +147,14 @@ export const RemotionRoot: React.FC = () => {
         id="Acto12Marmol"
         component={Acto12Marmol}
         durationInFrames={Math.ceil(9.0 * FPS)}
+        fps={FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="FunShapes"
+        component={FunShapes}
+        durationInFrames={Math.ceil(10.0 * FPS)}
         fps={FPS}
         width={1920}
         height={1080}
