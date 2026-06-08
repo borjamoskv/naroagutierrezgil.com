@@ -30,6 +30,26 @@
     "runnable": false
   },
   {
+    "requested": "agente-cortazar",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/agente-cortazar",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/agente-cortazar",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/agente-cortazar/SKILL.md",
+    "script": null,
+    "script_path": null,
+    "runnable": false
+  },
+  {
+    "requested": "Anergy-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Anergy-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Anergy-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Anergy-OMEGA/SKILL.md",
+    "script": null,
+    "script_path": null,
+    "runnable": false
+  },
+  {
     "requested": "Antigravity-Github-Omega",
     "status": "script-backed",
     "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Antigravity-Github-Omega",
@@ -45,6 +65,16 @@
     "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/API-Provider-OMEGA",
     "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/API-Provider-OMEGA",
     "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/API-Provider-OMEGA/SKILL.md",
+    "script": null,
+    "script_path": null,
+    "runnable": false
+  },
+  {
+    "requested": "art-animator-omega",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/art-animator-omega",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/art-animator-omega",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/art-animator-omega/SKILL.md",
     "script": null,
     "script_path": null,
     "runnable": false
@@ -90,14 +120,14 @@
     "runnable": true
   },
   {
-    "requested": "dios",
+    "requested": "CAOS-OMEGA",
     "status": "script-backed",
-    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/dios",
-    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/dios",
-    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/dios/SKILL.md",
-    "script": null,
-    "script_path": null,
-    "runnable": false
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/CAOS-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/CAOS-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/CAOS-OMEGA/SKILL.md",
+    "script": "scripts/caos_daemon.py",
+    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/CAOS-OMEGA/scripts/caos_daemon.py",
+    "runnable": true
   },
   {
     "requested": "Estado-Del-Arte-OMEGA",
@@ -120,13 +150,43 @@
     "runnable": false
   },
   {
-    "requested": "Mac-Control-OMEGA",
+    "requested": "Exergy-Matrix-OMEGA",
     "status": "script-backed",
-    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Mac-Control-OMEGA",
-    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Mac-Control-OMEGA",
-    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Mac-Control-OMEGA/SKILL.md",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Exergy-Matrix-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Exergy-Matrix-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Exergy-Matrix-OMEGA/SKILL.md",
+    "script": null,
+    "script_path": null,
+    "runnable": false
+  },
+  {
+    "requested": "Genesis-L5-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Genesis-L5-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Genesis-L5-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Genesis-L5-OMEGA/SKILL.md",
+    "script": "scripts/mitosis_daemon.py",
+    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Genesis-L5-OMEGA/scripts/mitosis_daemon.py",
+    "runnable": true
+  },
+  {
+    "requested": "Honest-Check-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Honest-Check-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Honest-Check-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Honest-Check-OMEGA/SKILL.md",
+    "script": null,
+    "script_path": null,
+    "runnable": false
+  },
+  {
+    "requested": "Mac-Control-Ω",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Mac-Control-Ω",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Mac-Control-Ω",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Mac-Control-Ω/SKILL.md",
     "script": "scripts/mac_control_omega.py",
-    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Mac-Control-OMEGA/scripts/mac_control_omega.py",
+    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Mac-Control-Ω/scripts/mac_control_omega.py",
     "runnable": true
   },
   {
@@ -135,6 +195,16 @@
     "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/managing-python-dependencies",
     "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/managing-python-dependencies",
     "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/managing-python-dependencies/SKILL.md",
+    "script": null,
+    "script_path": null,
+    "runnable": false
+  },
+  {
+    "requested": "Network-Security-L4-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Network-Security-L4-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Network-Security-L4-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Network-Security-L4-OMEGA/SKILL.md",
     "script": null,
     "script_path": null,
     "runnable": false

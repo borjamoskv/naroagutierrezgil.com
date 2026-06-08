@@ -1,13 +1,13 @@
 # Skills Inventory
 
-Last updated: 2026-06-06
+Last updated: 2026-06-08
 
 ## Summary
 
-- Dirs: `17`
-- YAML OK: `17`
-- Script-backed: `6`
-- Docs-only: `11`
+- Dirs: `24`
+- YAML OK: `24`
+- Script-backed: `7`
+- Docs-only: `17`
 - Missing script links: `0`
 - Ext repo refs: `0`
 
@@ -19,13 +19,19 @@ Last updated: 2026-06-06
 
 - `API-Provider-OMEGA`
 - `Agent-Paper-RedTeam-OMEGA`
+- `Anergy-OMEGA`
 - `Antigravity-Github-Omega`
 - `Autodidact-Research-OMEGA`
 - `Autonomous-Audit-OMEGA`
 - `Browser-CDP-Automation-OMEGA`
+- `CAOS-OMEGA`
 - `Exergy-Engine-OMEGA`
+- `Exergy-Matrix-OMEGA`
+- `Honest-Check-OMEGA`
+- `Network-Security-L4-OMEGA`
 - `accidental-data-loss-prevention`
-- `dios`
+- `agente-cortazar`
+- `art-animator-omega`
 - `managing-python-dependencies`
 - `ouroboros-infinity`
 
@@ -34,7 +40,8 @@ Last updated: 2026-06-06
 - `Aesthetic-Foundry-Omega` → `scripts/aesthetic_foundry_omega.py`
 - `Autodidact-History-OMEGA` → `scripts/retrieve_history.py`
 - `Estado-Del-Arte-OMEGA` → `scripts/sota_forge.py`
-- `Mac-Control-OMEGA` → `scripts/mac_control_omega.py`
+- `Genesis-L5-OMEGA` → `scripts/mitosis_daemon.py`
+- `Mac-Control-Ω` → `scripts/mac_control_omega.py`
 - `Python-Extractor-OMEGA` → `scripts/sovereign_python_extractor.py`
 - `Sortu-APEX` → `scripts/sortu.py`
 
