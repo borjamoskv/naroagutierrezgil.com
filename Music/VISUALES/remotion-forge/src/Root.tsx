@@ -172,7 +172,15 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="Pimpinela"
         component={NaroaDivergence}
-        durationInFrames={Math.ceil(20 * FPS)} /* 20 seconds */
+        durationInFrames={Math.ceil(40 * FPS)} /* 40 seconds */
+        fps={FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="ElEspacioEntreNasotros"
+        component={NaroaDivergence}
+        durationInFrames={Math.ceil(40 * FPS)} /* 40 seconds */
         fps={FPS}
         width={1920}
         height={1080}
