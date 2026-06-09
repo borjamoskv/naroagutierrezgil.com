@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Grill-Me-OMEGA",
+  "type": "object",
+  "required": ["workspace_path", "task_description"],
+  "properties": {
+    "workspace_path": {
+      "type": "string",
+      "description": "Path to the active codebase workspace."
+    },
+    "task_description": {
+      "type": "string",
+      "description": "The description of the task being aligned."
+    }
+  }
+}

@@ -80,6 +80,16 @@
     "runnable": false
   },
   {
+    "requested": "Autocognition-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Autocognition-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Autocognition-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Autocognition-OMEGA/SKILL.md",
+    "script": "scripts/cognitive_audit.py",
+    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Autocognition-OMEGA/scripts/cognitive_audit.py",
+    "runnable": true
+  },
+  {
     "requested": "Autodidact-History-OMEGA",
     "status": "script-backed",
     "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Autodidact-History-OMEGA",
@@ -185,9 +195,9 @@
     "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Grill-Me-OMEGA",
     "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Grill-Me-OMEGA",
     "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Grill-Me-OMEGA/SKILL.md",
-    "script": null,
-    "script_path": null,
-    "runnable": false
+    "script": "scripts/grill_me.py",
+    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Grill-Me-OMEGA/scripts/grill_me.py",
+    "runnable": true
   },
   {
     "requested": "Honest-Check-OMEGA",

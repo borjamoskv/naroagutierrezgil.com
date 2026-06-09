@@ -4,10 +4,10 @@ Last updated: 2026-06-09
 
 ## Summary
 
-- Dirs: `27`
-- YAML OK: `27`
-- Script-backed: `8`
-- Docs-only: `19`
+- Dirs: `28`
+- YAML OK: `28`
+- Script-backed: `10`
+- Docs-only: `18`
 - Missing script links: `0`
 - Ext repo refs: `0`
 
@@ -28,7 +28,6 @@ Last updated: 2026-06-09
 - `Divergence-Anchor-OMEGA`
 - `Exergy-Engine-OMEGA`
 - `Exergy-Matrix-OMEGA`
-- `Grill-Me-OMEGA`
 - `Honest-Check-OMEGA`
 - `Network-Security-L4-OMEGA`
 - `accidental-data-loss-prevention`
@@ -40,9 +39,11 @@ Last updated: 2026-06-09
 ## Script-Backed Skills
 
 - `Aesthetic-Foundry-Omega` → `scripts/aesthetic_foundry_omega.py`
+- `Autocognition-OMEGA` → `scripts/cognitive_audit.py`
 - `Autodidact-History-OMEGA` → `scripts/retrieve_history.py`
 - `Estado-Del-Arte-OMEGA` → `scripts/sota_forge.py`
 - `Genesis-L5-OMEGA` → `scripts/mitosis_daemon.py`
+- `Grill-Me-OMEGA` → `scripts/grill_me.py`
 - `Mac-Control-Ω` → `scripts/mac_control_omega.py`
 - `Python-Extractor-OMEGA` → `scripts/sovereign_python_extractor.py`
 - `Sortu-APEX` → `scripts/sortu.py`

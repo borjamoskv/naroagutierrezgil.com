@@ -46,6 +46,8 @@
 | R-01 | Topological Presence Engine (TDA x Saliency) | [🔬 autodidact_tda](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/d993e806-bcea-40e0-85e0-cd4e649bd7ab/autodidact_tda_splatting.md) | 🟣 `Hipótesis` | HIGH / HIGH |
 | R-02 | Presence as Curation (M1: Progressive Revelation) | [🔬 autodidact_curation](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/d993e806-bcea-40e0-85e0-cd4e649bd7ab/autodidact_presence_curation.md) | 🟣 `Hipótesis` | MED / HIGH |
 | R-03 | Autodidacta Pronoico (Symbiotic Entropy-to-Exergy Engine) | [🔬 autodidact_pronoico](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/71aa0ae6-496d-4869-91fe-1373c5c70135/autodidact_pronoico.md) | 🟣 `Hipótesis` | MED / HIGH |
+| R-04 | Rhizomatic Swarm Topology (Deleuze & Guattari) | [🔬 autodidact_rhizome](file:///Users/borjafernandezangulo/10_PROJECTS/cortex-persist/AUTODIDACT_RHIZOME.md) | 🟣 `Hipótesis` | HIGH / HIGH |
+
 
 ## Other
 | Title | ID | Walkthrough | Status |

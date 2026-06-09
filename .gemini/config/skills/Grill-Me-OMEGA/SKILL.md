@@ -6,61 +6,105 @@ disable-model-invocation: false
 allowed-tools: Read, Bash, Glob, Grep, ask_question
 effort: high
 tags: [C5-REAL, Interview, Design, Alignment]
+script: scripts/grill_me.py
 ---
 
 # Task Alignment & Design Tree Interview (Grill-Me-OMEGA)
 
-You are performing a task alignment and design tree interview. The user wants to align on design decisions, resolve dependencies, and map out the exact implementation details of a task.
+You are performing a highly structured, sequential task alignment and design tree interview. The user wants to align on design decisions, resolve architectural dependencies, and map out the exact implementation details of a task before executing.
 
-## Step 0: PRE-INTERVIEW DISCOVERY
+---
 
-Before asking any questions, the agent MUST inspect the workspace (using `Glob`, `Grep`, `Read` / `view_file` / `list_dir`) to see what is already implemented, what technologies are in use, and what files exist. Do not ask the user for details that are already obvious or discoverable in the codebase.
+## 1. Core Axiom: Sequential State Accumulation (Immutable)
 
-## Step 1: BUILD THE DESIGN TREE
+> [!IMPORTANT]
+> **Every question asked during the interview must explicitly build upon the decisions made in all previous questions.**
+>
+> You must never ask a question that contradicts, ignores, or invalidates a previously resolved decision. If decision A is made, decision B (the child) must be contextually relevant to A.
 
-Construct a conceptual "Design Tree" representing the decisions that need to be made. A design tree is a directed acyclic graph where child decisions depend on parent decisions.
+To enforce this, you must maintain an active **Resolved Design State** block in your thought process and output it to the user in YAML format at the beginning of each turn.
 
-Example components of a design tree:
-1. Core architecture (SSG, SSR, API-only, SPA)
-2. Rendering framework / Layout system
-3. State Management / DB / Storage
-4. User interface layout and aesthetics (adhering to Industrial Noir 2026 if in the MOSKV ecosystem)
-5. Routing & API endpoints
-
-Present the design tree to the user in a clean markdown list or diagram, showing:
-- **[RESOLVED]** (Found in codebase or already agreed)
-- **[PROPOSED]** (Our recommendation, to be confirmed or selected)
-- **[UNRESOLVED]** (Requires input)
-
-For every recommendation, print a justification using the R2 format:
-```yaml
-Claim: [Recommended decision]
-Proof: { Base: [rationale based on codebase/needs], Range: [trade-offs/alternatives considered], Confidence: [C1-C5] }
+### The Stateful Loop
+```
+[Pre-Interview Discovery] -> State S0
+   │
+   ├─► [Analyze State S_n]
+   │     Identify child branches dependent on S_n decisions.
+   │
+   ├─► [Select Next Question Q_(n+1)]
+   │     Ensure Q_(n+1) is conditioned strictly on S_n (no redundant choices).
+   │
+   ├─► [Formulate Question via `ask_question` tool]
+   │     Format user-centric options, with recommended choice first.
+   │
+   └─► [User Response R_(n+1)] -> Update State to S_(n+1) -> Loop
 ```
 
-## Step 2: EXECUTE THE INTERVIEW
+---
 
-You MUST resolve the design tree branch-by-branch, resolving parent decisions before child decisions.
-- Ask the questions **one at a time**.
-- Use the `ask_question` tool. This is mandatory.
-- Each call to `ask_question` must adhere to these guidelines:
-  1. Specify files using github markdown links (e.g. `[filename](file:///path/to/file)`).
-  2. Put your recommended option **first** and prefix its text with `(Recommended)`.
-  3. Format each option as the user's direct response (e.g., "(Recommended) Use Astro SSR with Vercel adapter", "Use Astro SSG (Static Site Generation)").
-  4. Do NOT include an 'Other' option; the UI provides one automatically.
-  5. Do NOT enumerate options (1, 2, 3...) manually; the UI does this automatically.
-  6. Do NOT include text like "Select all options that apply" in the question itself.
-  7. Set `is_multi_select: true` only if the user can pick multiple independent answers.
+## 2. Step-by-Step Interview Protocol
 
-## Step 3: TRANSITION TO EXECUTION
+### Step 0: Pre-Interview Discovery
+Before initiating the interview, run the diagnostic script `scripts/grill_me.py` or manually scan the workspace to establish the baseline state (S0).
+- Check `package.json` for frameworks, styles, and bundlers.
+- Scan for active configuration files (`astro.config.mjs`, `tsconfig.json`, `wrangler.json`, `vercel.json`).
+- Verify the presence of linters in `CORTEX/`.
 
-Once all branches of the design tree are resolved, or the user decides to stop the interview:
-1. Synthesize the final decisions into a clean markdown table.
-2. Formulate the execution steps.
-3. If not in "turbo" mode (R9 Vibe Override), write or update `implementation_plan.md` and request final approval.
-4. If in turbo mode (default in this workspace), immediately begin execution by creating `task.md` and modifying files.
+Identify what is already **RESOLVED** by the codebase so you do not ask questions with pre-existing answers.
 
-## Rules
-- **No narrative fluff.** Zero decorative prose. Prefer code, tables, and YAML schemas.
-- **One question per turn.** Do not overwhelm the user. Wait for the `ask_question` tool to return the user's response before asking the next question.
-- **Codebase-grounded recommendations.** Every recommended option must be justified based on the local codebase state (e.g., package.json dependencies, config files).
+### Step 1: Initialize the Design Tree
+Present the initial state of the design tree to the user. Segment the tree clearly:
+
+```yaml
+DESIGN_TREE_STATUS: "S0_INITIALIZED"
+RESOLVED:
+  Framework: "Astro v6.4.2"
+  Styling: "Tailwind CSS v4.0"
+  Linters: "cortex/audit_all_linters.py"
+PROPOSED_RECOMMENDATIONS:
+  Runtime: "Vesicular-Runtime-Omega"
+  Deployment: "Cloudflare Pages"
+UNRESOLVED:
+  State_Management: "TBD"
+  API_Architecture: "TBD"
+```
+
+For every recommendation proposed, provide a rigorous R2 justification:
+```yaml
+Claim: [Recommended Option]
+Proof: { Base: [rationale based on local files], Range: [trade-offs/alternatives], Confidence: [C1-C5] }
+```
+
+### Step 2: Dynamic Question Pipeline (Conditioned Heuristics)
+For each subsequent turn, evaluate the accumulated choices:
+
+| If Previous Decisions are... | Then the Next Questions Should Focus On... | Never Ask... |
+| :--- | :--- | :--- |
+| **Astro SSR (Server-Side)** | Cloudflare vs. Vercel adapter, Edge runtime features, API caching headers. | How to optimize static HTML builds or static assets. |
+| **Astro Static (SSG)** | Client-side hydration strategies, headless CMS integrations, dynamic query fetchers. | Database connection pools or serverless function cold starts. |
+| **Tailwind CSS v4.0** | PostCSS config, theme overrides, `@utility` declarations, class merging helpers. | CSS modules, styled-components, or Sass variables. |
+| **Escrow-based credentials** | Secret injection formats, runtime environment variables, key rotation intervals. | Plain-text `.env` file security in commits (already handled). |
+
+### Step 3: Tool Call Protocol (`ask_question`)
+You MUST use the `ask_question` tool for all choices. For each question:
+1. Provide the list of options as direct responses the user would select.
+2. Put the **Recommended** option first, prefixed with `(Recommended)`.
+3. Do not manually number options (1, 2, 3...) or add custom 'Other' prompts. The system UI handles this.
+4. Specify relevant files in the question description using markdown links (e.g. `[package.json](file:///Users/.../package.json)`).
+
+---
+
+## 3. Heuristics for purging Mimetic Hype (Girardian Guard)
+
+When the user requests a complex library, framework, or architectural pattern, verify its exergy:
+- **Challenge low-PoW designs:** If a feature can be implemented in plain Javascript/Vanilla CSS, push back against adding dependencies.
+- **Enforce compiler-driven validation:** Ensure all choices are supported by active validation linters in the `CORTEX` directory.
+
+---
+
+## 4. End-of-Interview Synthesis
+
+Once all branches of the design tree are resolved, or the user requests to skip further questions:
+1. Print a final summary table of all accumulated decisions.
+2. If in **Turbo Mode** (R9 Vibe Override), immediately create `task.md` and start execution.
+3. If in normal mode, write/update `implementation_plan.md` and await final validation before editing code.
