@@ -17,6 +17,7 @@ import { Acto11Podcast } from './Acto11Podcast';
 import { Acto12Marmol } from './Acto12Marmol';
 import { FunShapes } from './FunShapes';
 import { PepeHouseRemix } from './PepeHouseRemix';
+import { NaroaDivergence } from './NaroaDivergence';
 
 const AUDIO_DURATION_SECONDS = 60;
 const FPS = 30;
@@ -164,6 +165,14 @@ export const RemotionRoot: React.FC = () => {
         id="PepeHouseRemix"
         component={PepeHouseRemix}
         durationInFrames={Math.ceil(83.0 * FPS)}
+        fps={FPS}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Pimpinela"
+        component={NaroaDivergence}
+        durationInFrames={Math.ceil(20 * FPS)} /* 20 seconds */
         fps={FPS}
         width={1920}
         height={1080}

@@ -170,7 +170,7 @@ const AgentField: React.FC<{ agents: Agent[] }> = ({ agents }) => {
 
   // Find active speaker from subtitle
   const activeSub = SUBS.find(s => sec >= s.s && sec < s.e);
-  const activeSpeaker = activeSub ? activeSub.who : null;
+  const activeSpeaker = activeSub?.who || null;
 
   React.useEffect(() => {
     const canvas = canvasRef.current;
@@ -568,7 +568,7 @@ const FreqViz: React.FC = () => {
   
   const currentVol = volumeEnvelope[Math.min(Math.floor(frame), volumeEnvelope.length - 1)] || 0;
   const activeSub = SUBS.find(s => sec >= s.s && sec < s.e);
-  const activeSpeaker = activeSub ? activeSub.who : null;
+  const activeSpeaker = activeSub?.who || null;
 
   const bars = useMemo(() => {
     const n = 120;
@@ -619,7 +619,7 @@ const HUD: React.FC = () => {
   const { gonHealth, panHealth } = getHealth(sec);
 
   const activeSub = SUBS.find(s => sec >= s.s && sec < s.e);
-  const activeSpeaker = activeSub ? activeSub.who : 'IDLE';
+  const activeSpeaker = activeSub?.who || 'IDLE';
 
   const durationInSeconds = durationInFrames / fps;
   const hudOpacity = interpolate(sec, [0, 1.5, durationInSeconds - 2.0, durationInSeconds - 0.5], [0, 0.5, 0.5, 0], { extrapolateRight: 'clamp' });
@@ -740,7 +740,7 @@ export const GonPantojaRap: React.FC = () => {
   
   // Find active speaker from subtitle
   const activeSub = SUBS.find(s => sec >= s.s && sec < s.e);
-  const activeSpeaker = activeSub ? activeSub.who : null;
+  const activeSpeaker = activeSub?.who || null;
 
   // React-based screen shake
   let shakeAmt = currentVol * 14;

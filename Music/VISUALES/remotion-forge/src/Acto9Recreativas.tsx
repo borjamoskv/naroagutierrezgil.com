@@ -49,7 +49,13 @@ export const Acto9Recreativas: React.FC = () => {
   const { fps } = useVideoConfig();
   const currentTimeMs = (frame / fps) * 1000;
   
-  const activeSubtitle = subtitles.find(
+  const subtitlesWithTimes = (subtitles as any[]).map((s, idx) => {
+    const startMs = s.delay_ms;
+    const endMs = idx < subtitles.length - 1 ? subtitles[idx + 1].delay_ms : startMs + 8000;
+    return { ...s, startMs, endMs };
+  });
+
+  const activeSubtitle = subtitlesWithTimes.find(
     (s) => currentTimeMs >= s.startMs && currentTimeMs <= s.endMs
   );
 
