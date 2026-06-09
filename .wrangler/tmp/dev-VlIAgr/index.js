@@ -23607,10 +23607,10 @@ var init_mimetext_node_es = __esm({
   }
 });
 
-// .wrangler/tmp/bundle-HJky8j/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-kbciL5/middleware-loader.entry.ts
 init_modules_watch_stub();
 
-// .wrangler/tmp/bundle-HJky8j/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-kbciL5/middleware-insertion-facade.js
 init_modules_watch_stub();
 
 // src/agents/index.ts
@@ -55153,19 +55153,29 @@ var _EntropicCanvasAgent = class _EntropicCanvasAgent extends (_a3 = Agent, _app
    * Callback asíncrono C5-REAL: Dispara reacciones al mundo físico (clientes) 
    * cuando el estado termodinámico cambia.
    */
-  onStateUpdate(state, _source) {
+  async onStateUpdate(state) {
     if (state.globalEntropy >= 100 && !state.kintsugiActive) {
       this.setState({ ...state, kintsugiActive: true });
       this.broadcast(JSON.stringify({ type: "CANVAS_FRACTURE", message: "La fricci\xF3n colectiva ha quebrado la obra. Inyecci\xF3n de resina requerida." }));
+      try {
+        const timestamp = (/* @__PURE__ */ new Date()).toISOString();
+        const env2 = this.env;
+        await env2.RADIANCE_MEMORY.put(`fracture_${timestamp}`, JSON.stringify({ event: "FRACTURE", scars: state.scars.length, repairs: state.totalRepairs }));
+      } catch (e2) {
+        console.warn("Error saving to RADIANCE_MEMORY", e2);
+      }
     }
   }
   applyFriction(x, y, force) {
     if (this.state.kintsugiActive) return this.state;
     const newEntropy = Math.min(this.state.globalEntropy + force * 0.05, 100);
-    const newScars = [...this.state.scars];
+    let newScars = this.state.scars;
     if (force > 5) {
+      newScars = [...this.state.scars];
       newScars.push({ x, y, depth: force, timestamp: Date.now() });
-      if (newScars.length > 1e3) newScars.shift();
+      if (newScars.length > 1e3) {
+        newScars = newScars.slice(-1e3);
+      }
     }
     this.setState({
       ...this.state,
@@ -55174,7 +55184,7 @@ var _EntropicCanvasAgent = class _EntropicCanvasAgent extends (_a3 = Agent, _app
     });
     return this.state;
   }
-  injectGold(amount) {
+  async injectGold(amount) {
     if (!this.state.kintsugiActive) return this.state;
     const newEntropy = Math.max(this.state.globalEntropy - amount, 0);
     if (newEntropy === 0) {
@@ -55186,6 +55196,13 @@ var _EntropicCanvasAgent = class _EntropicCanvasAgent extends (_a3 = Agent, _app
         // Las cicatrices no se borran, quedan selladas en el oro
       });
       this.broadcast(JSON.stringify({ type: "KINTSUGI_COMPLETE", repairNumber: this.state.totalRepairs }));
+      try {
+        const timestamp = (/* @__PURE__ */ new Date()).toISOString();
+        const env2 = this.env;
+        await env2.RADIANCE_MEMORY.put(`kintsugi_${timestamp}`, JSON.stringify({ event: "REPAIR", repairNumber: this.state.totalRepairs, totalScars: this.state.scars.length }));
+      } catch (e2) {
+        console.warn("Error saving to RADIANCE_MEMORY", e2);
+      }
     } else {
       this.setState({ ...this.state, globalEntropy: newEntropy });
     }
@@ -55200,14 +55217,86 @@ __name(_EntropicCanvasAgent, "EntropicCanvasAgent");
 var EntropicCanvasAgent = _EntropicCanvasAgent;
 
 // src/agents/index.ts
+var BACKENDS = [
+  "https://naroagutierrezgil-com.pages.dev",
+  "https://naroa.online"
+];
+async function proxyRequest(request) {
+  const url2 = new URL(request.url);
+  if (url2.pathname.startsWith("/api/") || url2.pathname.startsWith("/agents/")) {
+    return new Response("CORTEX: API endpoint not found.", { status: 404 });
+  }
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 3500);
+  const fetchPromise = /* @__PURE__ */ __name(async (backend) => {
+    const targetUrl = new URL(url2.pathname + url2.search, backend);
+    const newHeaders = new Headers(request.headers);
+    newHeaders.set("Host", new URL(backend).host);
+    return fetch(targetUrl.toString(), {
+      method: request.method,
+      headers: newHeaders,
+      body: request.method !== "GET" && request.method !== "HEAD" ? request.body : void 0,
+      redirect: "manual",
+      signal: controller.signal
+    });
+  }, "fetchPromise");
+  try {
+    const primaryResponse = await fetchPromise(BACKENDS[0]);
+    clearTimeout(timeoutId);
+    return primaryResponse;
+  } catch (err) {
+    try {
+      const fallbackResponse = await fetchPromise(BACKENDS[1]);
+      clearTimeout(timeoutId);
+      return fallbackResponse;
+    } catch (fallbackErr) {
+      clearTimeout(timeoutId);
+      return new Response("Galaxy Brain Router: All backends are unreachable (Byzantine Outage).", { status: 502 });
+    }
+  }
+}
+__name(proxyRequest, "proxyRequest");
 var worker = {
   /**
    * Punto de entrada del Worker para las peticiones HTTP y WebSockets.
-   * routeAgentRequest intercepta /agents/{agentName}/{instanceName} automáticamente.
+   * Intercepta /agents/* y balancea el resto del tráfico entre los dos backends activos (Pages/Vercel).
    */
   async fetch(request, env2, _ctx) {
+    const url2 = new URL(request.url);
+    if (url2.pathname === "/test-kv-inspect") {
+      const kv = env2.RADIANCE_MEMORY;
+      if (!kv) {
+        return new Response(JSON.stringify({ error: "RADIANCE_MEMORY binding not found" }), {
+          status: 500,
+          headers: { "Content-Type": "application/json" }
+        });
+      }
+      try {
+        const list = await kv.list();
+        const results = {};
+        for (const key of list.keys) {
+          const val = await kv.get(key.name);
+          try {
+            results[key.name] = JSON.parse(val || "");
+          } catch {
+            results[key.name] = val;
+          }
+        }
+        return new Response(JSON.stringify({ keys: list.keys.map((k) => k.name), data: results }), {
+          headers: { "Content-Type": "application/json" }
+        });
+      } catch (e2) {
+        return new Response(JSON.stringify({ error: e2.message }), {
+          status: 500,
+          headers: { "Content-Type": "application/json" }
+        });
+      }
+    }
     const response = await routeAgentRequest(request, env2);
-    return response ?? new Response("CORTEX: Entidad de Agente no localizada.", { status: 404 });
+    if (response) {
+      return response;
+    }
+    return proxyRequest(request);
   }
 };
 var agents_default = worker;
@@ -55255,7 +55344,7 @@ var jsonError = /* @__PURE__ */ __name(async (request, env2, _ctx, middlewareCtx
 }, "jsonError");
 var middleware_miniflare3_json_error_default = jsonError;
 
-// .wrangler/tmp/bundle-HJky8j/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-kbciL5/middleware-insertion-facade.js
 var __INTERNAL_WRANGLER_MIDDLEWARE__ = [
   middleware_ensure_req_body_drained_default,
   middleware_miniflare3_json_error_default
@@ -55288,7 +55377,7 @@ function __facade_invoke__(request, env2, ctx, dispatch, finalMiddleware) {
 }
 __name(__facade_invoke__, "__facade_invoke__");
 
-// .wrangler/tmp/bundle-HJky8j/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-kbciL5/middleware-loader.entry.ts
 var __Facade_ScheduledController__ = class ___Facade_ScheduledController__ {
   constructor(scheduledTime, cron, noRetry) {
     this.scheduledTime = scheduledTime;
