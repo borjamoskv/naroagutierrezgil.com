@@ -5,47 +5,30 @@ import { useEffect, useRef, useState } from 'react';
 import { WebGPUSplatSimulator } from '@/lib/splat-physics/WebGPUSplatPhysics';
 import { SplatAudioEngine } from '@/lib/audio/SplatAudioEngine';
 
-// Custom KV-based Multiplayer Hook (replaces DO/Agents SDK to support Free Tier)
-function useKintsugiKV() {
-  const [entropy, setEntropy] = useState(0);
-  const [repairs, setRepairs] = useState(0);
-  const [scars, setScars] = useState<unknown[]>([]);
+import { useAgent } from 'agents/react';
+import type { EntropicCanvasAgent, EntropicState } from '@/agents/EntropicCanvasAgent';
 
-  const fetchState = async () => {
-    try {
-      const res = await fetch('/api/kintsugi');
-      if (res.ok) {
-        const data = await res.json() as { entropy?: number; repairs?: number; scars?: unknown[] };
-        setEntropy(data.entropy || 0);
-        setRepairs(data.repairs || 0);
-        setScars(data.scars || []);
-      }
-    } catch (e) {}
-  };
+function useKintsugiAgent() {
+  const agent = useAgent<EntropicCanvasAgent, EntropicState>({
+    agent: "EntropicCanvasAgent",
+    name: "global-canvas",
+  });
 
-  useEffect(() => {
-    fetchState();
-    const interval = setInterval(fetchState, 3000);
-    return () => clearInterval(interval);
-  }, []);
+  const state = agent.state;
+  const entropy = state?.globalEntropy ?? 0;
+  const repairs = state?.totalRepairs ?? 0;
+  const scars = state?.scars ?? [];
+  const kintsugiActive = state?.kintsugiActive ?? false;
 
   const applyFriction = async (x: number, y: number, intensity: number) => {
-    fetch('/api/kintsugi', {
-      method: 'POST',
-      body: JSON.stringify({ type: 'FRICTION', payload: { x, y, intensity } }),
-      headers: { 'Content-Type': 'application/json' }
-    });
+    return agent.stub.applyFriction(x, y, intensity);
   };
 
   const injectGold = async (intensity: number, x: number, y: number) => {
-    fetch('/api/kintsugi', {
-      method: 'POST',
-      body: JSON.stringify({ type: 'REPAIR', payload: { x, y, intensity } }),
-      headers: { 'Content-Type': 'application/json' }
-    }).then(fetchState);
+    return agent.stub.injectGold(intensity);
   };
 
-  return { entropy, repairs, scars, applyFriction, injectGold };
+  return { entropy, repairs, scars, kintsugiActive, applyFriction, injectGold, socket: agent };
 }
 
 function SplatInteractiveCanvas() {
@@ -57,15 +40,64 @@ function SplatInteractiveCanvas() {
   const mousePosRef = useRef({ x: -1000, y: -1000 });
   const lastMouseRef = useRef({ x: -1000, y: -1000, time: 0 });
 
-  // Kintsugi KV Connection (Producción C5-REAL)
-  const agent = useKintsugiKV();
-  const { entropy, repairs, scars } = agent;
-  const kintsugiActive = entropy > 50;
+  const [flash, setFlash] = useState(false);
+  const [goldFlash, setGoldFlash] = useState(false);
+
+  // Kintsugi Agent Connection (Producción C5-REAL)
+  const agent = useKintsugiAgent();
+  const { entropy, repairs, scars, kintsugiActive } = agent;
   
   const scarsRef = useRef(scars);
   useEffect(() => {
     scarsRef.current = scars;
   }, [scars]);
+
+  // WebSocket message listener
+  useEffect(() => {
+    const handleMessage = (e: MessageEvent) => {
+      try {
+        const data = JSON.parse(e.data);
+        if (data.type === 'CANVAS_FRACTURE') {
+          // 1. Trigger visual screen flash
+          setFlash(true);
+          // 2. Play Audio crack sound via playGrain
+          if (audioEngineRef.current) {
+            audioEngineRef.current.playGrain(500.0, 500.0);
+          }
+          // 3. Update status message
+          setStatus('CANVAS FRACTURED: La fricción colectiva ha quebrado la obra. Inyección de resina requerida.');
+        } else if (data.type === 'KINTSUGI_COMPLETE') {
+          // 1. Trigger golden UI flash transition
+          setGoldFlash(true);
+          // 2. Play audio repair grain sound
+          if (audioEngineRef.current) {
+            audioEngineRef.current.playGrain(200.0, 50.0);
+          }
+          // 3. Update status message
+          setStatus('[C5-REAL ENGINE ACTIVE]: Kintsugi completo. La obra ha sido reparada y reforzada con oro.');
+        }
+      } catch (err) {}
+    };
+    
+    agent.socket.addEventListener('message', handleMessage);
+    return () => {
+      agent.socket.removeEventListener('message', handleMessage);
+    };
+  }, [agent.socket]);
+
+  useEffect(() => {
+    if (flash) {
+      const timer = setTimeout(() => setFlash(false), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [flash]);
+
+  useEffect(() => {
+    if (goldFlash) {
+      const timer = setTimeout(() => setGoldFlash(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [goldFlash]);
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -160,16 +192,6 @@ function SplatInteractiveCanvas() {
       <div className="absolute top-4 left-4 z-10 font-mono text-xs text-[#2B3BE5] pointer-events-none opacity-0 hover:opacity-100 transition-opacity">
         <p className="text-white/30">{status}</p>
       </div>
-      {kintsugiActive && (
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20">
-          <button 
-            className="px-6 py-3 bg-amber-500 text-black font-bold font-sans tracking-widest text-[10px] uppercase cursor-pointer hover:bg-amber-400 transition-all rounded-sm shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:scale-105"
-            onClick={handleInjectGold}
-          >
-            Inyección Colaborativa de Oro
-          </button>
-        </div>
-      )}
       <canvas 
         ref={canvasRef} 
         width={1000}
@@ -203,6 +225,38 @@ function SplatInteractiveCanvas() {
           />
         ))}
       </svg>
+
+      {/* Stark Visual Fracture Overlay when active */}
+      {kintsugiActive && (
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center z-[25] pointer-events-none">
+          <div className="text-center p-8 border border-[#2B3BE5]/30 bg-[#0A0A0A]/90 max-w-md pointer-events-auto">
+            <h2 className="text-[#2B3BE5] font-black text-2xl tracking-[0.2em] mb-4 uppercase">
+              CANVAS FRACTURED
+            </h2>
+            <p className="text-white/70 font-mono text-xs leading-relaxed uppercase mb-6">
+              La fricción colectiva ha quebrado la obra. Inyección de resina de oro requerida para sanar las cicatrices.
+            </p>
+            <button 
+              className="px-6 py-3 bg-amber-500 text-black font-bold font-sans tracking-widest text-[10px] uppercase cursor-pointer hover:bg-amber-400 transition-all rounded-sm shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:scale-105"
+              onClick={handleInjectGold}
+            >
+              Inyección Colaborativa de Oro
+            </button>
+          </div>
+          {/* Cracks SVG overlay */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none mix-blend-screen" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+            <path d="M100,0 L250,300 L200,450 L500,600 L450,800 L600,1000 M900,100 L700,400 L750,550 L500,600 M0,700 L300,650 L500,600 M1000,900 L800,750 L500,600" stroke="#2B3BE5" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.8" />
+          </svg>
+        </div>
+      )}
+
+      {/* Screen flash overlays */}
+      {flash && (
+        <div className="absolute inset-0 bg-[#2B3BE5]/30 pointer-events-none z-50 transition-opacity duration-300" />
+      )}
+      {goldFlash && (
+        <div className="absolute inset-0 bg-amber-500/30 pointer-events-none z-50 transition-opacity duration-1000" />
+      )}
     </div>
   );
 }

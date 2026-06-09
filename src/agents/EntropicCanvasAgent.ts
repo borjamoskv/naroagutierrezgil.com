@@ -88,7 +88,7 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
    * La historia de la reparación aumenta su valor y reinicia el ciclo.
    */
   @callable()
-  injectGold(amount: number) {
+  async injectGold(amount: number) {
     if (!this.state.kintsugiActive) return this.state; // Solo se inyecta oro si está quebrado
 
     const newEntropy = Math.max(this.state.globalEntropy - amount, 0.0);
@@ -108,7 +108,7 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
       try {
         const timestamp = new Date().toISOString();
         const env = (this as unknown as { env: Env }).env;
-        env.RADIANCE_MEMORY.put(`kintsugi_${timestamp}`, JSON.stringify({ event: 'REPAIR', repairNumber: this.state.totalRepairs, totalScars: this.state.scars.length }));
+        await env.RADIANCE_MEMORY.put(`kintsugi_${timestamp}`, JSON.stringify({ event: 'REPAIR', repairNumber: this.state.totalRepairs, totalScars: this.state.scars.length }));
       } catch (e) {
         console.warn('Error saving to RADIANCE_MEMORY', e);
       }

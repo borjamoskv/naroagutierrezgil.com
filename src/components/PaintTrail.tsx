@@ -2,14 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useAgent } from "agents/react";
-import type { EntropicState } from "@/agents/EntropicCanvasAgent";
+import type { EntropicCanvasAgent, EntropicState } from "@/agents/EntropicCanvasAgent";
 
 export default function PaintTrail() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [entropy, setEntropy] = useState<number>(0);
 
   // C5-REAL: Conectar Pizarra con Agente Entrópico
-  const agent = useAgent({
+  const agent = useAgent<EntropicCanvasAgent, EntropicState>({
     agent: "EntropicCanvasAgent",
     name: "global-canvas",
     onStateUpdate: (state: EntropicState) => {
@@ -39,9 +39,7 @@ export default function PaintTrail() {
 
       // Throttled Entropic Friction RPC
       if (Date.now() - lastCallTime > 500 && accumForce > 50) {
-        if (typeof (agent as any).applyFriction === 'function') {
-          (agent as any).applyFriction(e.clientX, e.clientY, accumForce * 0.05);
-        }
+        agent.stub.applyFriction(e.clientX, e.clientY, accumForce * 0.05).catch(console.error);
         accumForce = 0;
         lastCallTime = Date.now();
       }
