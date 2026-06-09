@@ -35,6 +35,7 @@
 | Walkthrough · Gon's Forbidden Solo Visualizer Upgrade | [`543255f1`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/543255f1-50f7-40e7-bf03-81a7e38c3a60) | [✅ walkthrough.md](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/543255f1-50f7-40e7-bf03-81a7e38c3a60/walkthrough.md) | 🟡 `C4-SIM` |
 | Walkthrough · Substack Live Automation | [`a2baf2b5`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/a2baf2b5-70b1-4e62-aee7-657e2beb7529) | [✅ walkthrough.md](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/a2baf2b5-70b1-4e62-aee7-657e2beb7529/walkthrough.md) | 🟡 `C4-SIM` |
 | Walkthrough · Visual Masterpiece Consolidated | [`5442bb9d`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/5442bb9d-38eb-479c-8ce9-41eb00e75dbe) | [✅ walkthrough.md](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/5442bb9d-38eb-479c-8ce9-41eb00e75dbe/walkthrough.md) | 🟢 `C5-REAL` |
+| [Substackme Deluxe 9: "Reply Rules" & LLM Mechanics Audit](https://daviddominguez.substack.com/p/substackme-deluxe-9-el-bombazo-de) | [`b48764d3`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/b48764d3-9817-4f8c-9c1e-db27cd719ae7) | [📝 transcript](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/b48764d3-9817-4f8c-9c1e-db27cd719ae7/.system_generated/logs/transcript.jsonl) | 🟢 `C5-REAL` |
 
 ## Knowledge & RAG
 | Title | ID | Walkthrough | Status |
