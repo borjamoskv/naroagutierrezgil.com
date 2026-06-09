@@ -17,7 +17,8 @@
 
 | Walkthrough: Consolidación del Ledger a 151 LPs de Alta Fidelidad | [`e9b18fdb`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/e9b18fdb-8125-4ffe-9ff4-f794465ac71d) | [✅ walkthrough.md](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/e9b18fdb-8125-4ffe-9ff4-f794465ac71d/walkthrough.md) | 🟡 `C4-SIM` |
 | 🕵️ DETECTIVE-Ω — Optimization Walkthrough: `cortex-persist` | [`01b6dd89`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/01b6dd89-48f3-42e0-bc66-272f9b99b9a6) | [✅ walkthrough.md](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/01b6dd89-48f3-42e0-bc66-272f9b99b9a6/walkthrough.md) | 🟡 `C4-SIM` |
-| CORTEX-Persist: Language Audit Walkthrough | [`1e6ec6e7`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/1e6ec6e7-309a-45a4-a51d-e16cb1d83736) | [✅ walkthrough.md](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/1e6ec6e7-309a-45a4-a51d-e16cb1d83736/walkthrough.md) | 🟡 `C4-SIM` |
+| CORTEX-Persist: Language Audit Walkthrough | [`1e6ec6e7`](file:///Users/borjafernandezangulo/10_PROJECTS/cortex-persist/walkthrough_language_audit.md) | [✅ walkthrough_language_audit.md](file:///Users/borjafernandezangulo/10_PROJECTS/cortex-persist/walkthrough_language_audit.md) | 🟢 `C5-REAL` |
+
 
 ## Moltbook & Experiments
 | Title | ID | Walkthrough | Status |
