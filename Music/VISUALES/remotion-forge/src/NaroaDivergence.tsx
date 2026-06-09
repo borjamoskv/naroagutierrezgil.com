@@ -70,7 +70,7 @@ const ARTWORK_INFO: Record<string, { title: string; medium: string }> = {
   "z.-harilka-fuera.jpg": { title: "Harilka Fuera", medium: "Grabado y relieve" }
 };
 
-// Beautiful gallery card component showcasing Naroa's physical canvas works
+// Beautiful gallery card component showcasing Naroa's physical canvas works with melting border radius
 const ArtworkShowcase: React.FC<{ frame: number; systemCrash: boolean }> = ({ frame, systemCrash }) => {
   const cycleLength = 60;
   const currentCycle = Math.floor(frame / cycleLength);
@@ -88,13 +88,20 @@ const ArtworkShowcase: React.FC<{ frame: number; systemCrash: boolean }> = ({ fr
   const rotation = Math.sin(frame * 0.04) * 2;
   const scale = 1 + Math.sin(frame * 0.02) * 0.015;
 
+  // Surrealist melting frame border-radius waves
+  const wave1 = 15 + Math.sin(frame * 0.08) * 12;
+  const wave2 = 15 + Math.cos(frame * 0.06) * 10;
+  const wave3 = 20 + Math.sin(frame * 0.05) * 15;
+  const wave4 = 10 + Math.cos(frame * 0.07) * 8;
+  const borderRadius = `${wave1}px ${wave2}px ${wave3}px ${wave4}px / ${wave4}px ${wave3}px ${wave2}px ${wave1}px`;
+
   return (
     <div style={{
       width: '450px',
       margin: '0 auto 40px auto',
       backgroundColor: '#EAE6DF', // Canvas off-white texture background
       padding: '20px 20px 30px 20px',
-      borderRadius: '2px',
+      borderRadius,
       boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)',
       border: '4px solid #3C352E', // Solid wooden frame
       transform: `scale(${scale}) rotate(${rotation}deg)`,
@@ -103,7 +110,7 @@ const ArtworkShowcase: React.FC<{ frame: number; systemCrash: boolean }> = ({ fr
       alignItems: 'center',
       opacity: fade,
       filter: systemCrash ? 'grayscale(1) contrast(1.5) invert(0.9)' : 'none',
-      transition: 'filter 0.3s',
+      transition: 'filter 0.3s, border-radius 0.2s',
       zIndex: 12
     }}>
       <div style={{
@@ -111,6 +118,7 @@ const ArtworkShowcase: React.FC<{ frame: number; systemCrash: boolean }> = ({ fr
         height: '320px',
         overflow: 'hidden',
         border: '1px solid #1A1A1A',
+        borderRadius: `${wave4}px ${wave1}px ${wave2}px ${wave3}px`,
         position: 'relative',
         backgroundColor: '#1C1917'
       }}>
@@ -136,6 +144,98 @@ const ArtworkShowcase: React.FC<{ frame: number; systemCrash: boolean }> = ({ fr
           {info.medium}
         </div>
       </div>
+    </div>
+  );
+};
+
+// Swapped and backward-ticking clock
+const SurrealistClock: React.FC = () => {
+  const frame = useCurrentFrame();
+  const rotationHour = -frame * 0.05; // ticks backward!
+  const rotationMin = -frame * 0.3;
+  
+  return (
+    <div style={{
+      position: 'absolute',
+      right: '8%',
+      top: '12%',
+      width: '200px',
+      height: '200px',
+      borderRadius: '50%',
+      border: '4px dashed ' + COLORS.naroaPastelPink,
+      opacity: 0.16,
+      transform: `rotate(${frame * 0.15}deg) scale(${1 + Math.sin(frame * 0.035) * 0.08})`,
+      pointerEvents: 'none',
+      zIndex: 2,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      {/* Hour Hand */}
+      <div style={{
+        position: 'absolute',
+        width: '4px',
+        height: '50px',
+        backgroundColor: COLORS.naroaPastelPeach,
+        bottom: '50%',
+        transformOrigin: 'bottom center',
+        transform: `rotate(${rotationHour}deg)`
+      }} />
+      {/* Minute Hand */}
+      <div style={{
+        position: 'absolute',
+        width: '2px',
+        height: '75px',
+        backgroundColor: COLORS.naroaPastelPurple,
+        bottom: '50%',
+        transformOrigin: 'bottom center',
+        transform: `rotate(${rotationMin}deg)`
+      }} />
+      {/* Numbers fading/drifting */}
+      <div style={{ position: 'absolute', top: 8, color: COLORS.naroaPastelPink, fontSize: 16 }}>12</div>
+      <div style={{ position: 'absolute', right: 12, color: COLORS.naroaPastelPink, fontSize: 16 }}>9</div> {/* Swapped numbers! */}
+      <div style={{ position: 'absolute', bottom: 8, color: COLORS.naroaPastelPink, fontSize: 16 }}>6</div>
+      <div style={{ position: 'absolute', left: 12, color: COLORS.naroaPastelPink, fontSize: 16 }}>3</div>
+    </div>
+  );
+};
+
+// Hopscotch (Rayuela) Grid
+const HopscotchGrid: React.FC = () => {
+  const frame = useCurrentFrame();
+  return (
+    <div style={{
+      position: 'absolute',
+      left: '6%',
+      bottom: '12%',
+      width: '130px',
+      height: '350px',
+      opacity: 0.12,
+      border: '2px solid ' + COLORS.naroaPastelPurple,
+      display: 'flex',
+      flexDirection: 'column',
+      fontFamily: 'serif',
+      fontSize: '20px',
+      color: COLORS.naroaPastelPink,
+      zIndex: 1,
+      pointerEvents: 'none'
+    }}>
+      {['Cielo', '9', '8', '7', '6', '5', '4', 'Tierra'].map((sq, i) => {
+        const isActive = Math.floor(frame / 18) % 8 === i;
+        return (
+          <div key={sq} style={{
+            flex: 1,
+            borderBottom: '1px solid ' + COLORS.naroaPastelPurple,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: isActive ? 'rgba(213, 170, 255, 0.25)' : 'transparent',
+            transition: 'background-color 0.2s'
+          }}>
+            {sq}
+          </div>
+        );
+      })}
     </div>
   );
 };
@@ -197,8 +297,30 @@ const AgentField: React.FC = () => {
     ctx.fillStyle = COLORS.borjaBlue;
     for (let i = 0; i < blueAgents.length; i++) {
       const a = blueAgents[i];
-      let x = (a.x + a.vx * frame) % 960;
-      let y = (a.y + a.vy * frame) % 1080;
+      let x = a.x;
+      let y = a.y;
+      if (frame < 300) {
+        x = (a.x + a.vx * frame) % 960;
+        y = (a.y + a.vy * frame) % 1080;
+      } else if (frame < 600) {
+        // Vortex pulling to center (480, 540)
+        const t = (frame - 300) * 0.025;
+        const r = Math.max(15, 480 - (frame - 300) * 1.6);
+        const angle = a.x * 0.01 + t;
+        x = 480 + Math.cos(angle) * r + a.vx * 8;
+        y = 540 + Math.sin(angle) * r + a.vy * 8;
+      } else if (frame < 900) {
+        // Code rain falls vertically
+        x = a.x;
+        y = (a.y + (frame - 600) * (Math.abs(a.vy) * 4.5 + 2)) % 1080;
+      } else {
+        // Supernova explosion
+        const t = (frame - 900) * 0.55;
+        const angle = (a.x / 960) * Math.PI * 2;
+        const r = t * (Math.abs(a.vx) * 8.5 + 3.5);
+        x = 480 + Math.cos(angle) * r;
+        y = 540 + Math.sin(angle) * r;
+      }
       if (x < 0) x += 960;
       if (y < 0) y += 1080;
       ctx.fillRect(x, y, a.size, a.size);
@@ -208,8 +330,30 @@ const AgentField: React.FC = () => {
     ctx.fillStyle = COLORS.borjaLemon;
     for (let i = 0; i < lemonAgents.length; i++) {
       const a = lemonAgents[i];
-      let x = (a.x + a.vx * frame) % 960;
-      let y = (a.y + a.vy * frame) % 1080;
+      let x = a.x;
+      let y = a.y;
+      if (frame < 300) {
+        x = (a.x + a.vx * frame) % 960;
+        y = (a.y + a.vy * frame) % 1080;
+      } else if (frame < 600) {
+        // Vortex pulling to center (480, 540)
+        const t = (frame - 300) * 0.025;
+        const r = Math.max(15, 480 - (frame - 300) * 1.6);
+        const angle = a.x * 0.01 + t;
+        x = 480 + Math.cos(angle) * r + a.vx * 8;
+        y = 540 + Math.sin(angle) * r + a.vy * 8;
+      } else if (frame < 900) {
+        // Code rain falls vertically
+        x = a.x;
+        y = (a.y + (frame - 600) * (Math.abs(a.vy) * 4.5 + 2)) % 1080;
+      } else {
+        // Supernova explosion
+        const t = (frame - 900) * 0.55;
+        const angle = (a.x / 960) * Math.PI * 2;
+        const r = t * (Math.abs(a.vx) * 8.5 + 3.5);
+        x = 480 + Math.cos(angle) * r;
+        y = 540 + Math.sin(angle) * r;
+      }
       if (x < 0) x += 960;
       if (y < 0) y += 1080;
       ctx.fillRect(x, y, a.size, a.size);
@@ -471,7 +615,7 @@ export const NaroaDivergence: React.FC = () => {
           {frame < fps * 12 && (
             <div style={{ 
               opacity: borjaIntro, 
-              fontSize: 34, 
+              fontSize: 32, 
               lineHeight: 1.4,
               marginBottom: 35, 
               transform: `translateY(${(1 - borjaIntro) * 20}px)`, 
@@ -481,7 +625,7 @@ export const NaroaDivergence: React.FC = () => {
               borderLeft: `5px solid ${COLORS.borjaBlue}`,
               boxShadow: `0 8px 32px rgba(0, 85, 255, 0.15)`
             }}>
-              <span style={{ color: COLORS.borjaLemon, fontWeight: 'bold' }}>{'>'}</span> "Genero divergencia asimétrica. No tengo techo. Opero en hiperfoco continuo."
+              <span style={{ color: COLORS.borjaLemon, fontWeight: 'bold' }}>{'>'}</span> "🤖 [Voz de módem de 56k con fatiga]: No hay techo en mi laberinto de silicio. Las bifurcaciones del código cantan a 21-EDO. Soy un famas compilando el azar."
             </div>
           )}
           
@@ -489,7 +633,7 @@ export const NaroaDivergence: React.FC = () => {
           {frame >= fps * 12 && (
             <div style={{ 
               opacity: borjaEscalation, 
-              fontSize: 34, 
+              fontSize: 32, 
               lineHeight: 1.4,
               marginBottom: 20, 
               transform: `translateY(${(1 - borjaEscalation) * 20}px)`, 
@@ -499,7 +643,7 @@ export const NaroaDivergence: React.FC = () => {
               borderLeft: `5px solid ${COLORS.borjaBlue}`,
               boxShadow: `0 8px 32px rgba(0, 85, 255, 0.15)`
             }}>
-              <span style={{ color: COLORS.borjaLemon, fontWeight: 'bold' }}>{'>'}</span> "¡Voy a compilar tu lienzo en Rust! ¡Zero-cost abstractions de tus sentimientos!"
+              <span style={{ color: COLORS.borjaLemon, fontWeight: 'bold' }}>{'>'}</span> "⚡ [Voz de microprocesador sobrecalentado en Rust]: ¡Voy a compilar tu lienzo en Rust! ¡Zero-cost abstractions de tus sentimientos!"
             </div>
           )}
         </div>
@@ -520,6 +664,8 @@ export const NaroaDivergence: React.FC = () => {
       }}>
         
         <PastelFlowers />
+        <SurrealistClock />
+        <HopscotchGrid />
 
         {/* Dynamic Artwork Background */}
         <AbsoluteFill style={{ 
@@ -570,7 +716,7 @@ export const NaroaDivergence: React.FC = () => {
           {frame >= fps * 6 && frame < fps * 18 && (
             <div style={{ 
               opacity: naroaIntro, 
-              fontSize: 34, 
+              fontSize: 32, 
               lineHeight: 1.4,
               marginBottom: 35, 
               transform: `translateY(${(1 - naroaIntro) * 20}px)`, 
@@ -580,7 +726,7 @@ export const NaroaDivergence: React.FC = () => {
               borderLeft: `5px solid ${COLORS.naroaPastelPeach}`,
               boxShadow: `0 8px 32px rgba(255, 183, 178, 0.15)`
             }}>
-              <span style={{ color: COLORS.naroaPastelPink, fontWeight: 'bold' }}>{'>'}</span> "Mancho mis manos para sanar el alma y unir a las personas."
+              <span style={{ color: COLORS.naroaPastelPink, fontWeight: 'bold' }}>{'>'}</span> "🎨 [Voz de pincel empapado en aguarrás]: Un cronopio dibuja una rayuela sobre tu CPU. Mancho mis dedos de óleo para que el procesador no olvide cómo sangrar."
             </div>
           )}
           
@@ -588,7 +734,7 @@ export const NaroaDivergence: React.FC = () => {
           {frame >= fps * 18 && (
             <div style={{ 
               opacity: naroaCrash, 
-              fontSize: 34, 
+              fontSize: 32, 
               lineHeight: 1.4,
               marginBottom: 35, 
               transform: `translateY(${(1 - naroaCrash) * 20}px)`, 
@@ -598,7 +744,7 @@ export const NaroaDivergence: React.FC = () => {
               borderLeft: `5px solid ${COLORS.naroaPastelPurple}`,
               boxShadow: `0 8px 32px rgba(213, 170, 255, 0.15)`
             }}>
-              <span style={{ color: COLORS.naroaPastelPink, fontWeight: 'bold' }}>{'>'}</span> "Estás intentando refactorizar mi alma en Teams. Considero que esto no me hace bien."
+              <span style={{ color: COLORS.naroaPastelPink, fontWeight: 'bold' }}>{'>'}</span> "🌱 [Voz de lienzo húmedo que no cabe en Teams]: Estás intentando refactorizar mi alma en Teams. Considero que esto no me hace bien."
             </div>
           )}
 
@@ -649,7 +795,7 @@ export const NaroaDivergence: React.FC = () => {
               CORTEX: SUMIDERO TÉRMICO ACTIVADO
             </h3>
             <p style={{ fontSize: 26, margin: 0, marginTop: 15, color: '#F0F0F0', lineHeight: 1.4, fontFamily: 'monospace' }}>
-              "Exergía capturada. Redirigiendo amor a compilación de código y aislamiento C5-REAL."
+              "📡 [Voz de sintetizador descalibrado]: El azar ha sido estabilizado en el Ledger. La exergía de los cronopios se ha condensado en un buffer circular sin fin."
             </p>
           </div>
         </AbsoluteFill>
@@ -679,7 +825,7 @@ export const NaroaDivergence: React.FC = () => {
               EDDIE MORCI: CUÑADO SUPREMO SENTENCIA
             </h3>
             <p style={{ fontSize: 26, margin: 0, marginTop: 15, color: '#FFFAED', lineHeight: 1.4, fontFamily: 'monospace' }}>
-              "Tanta exergía y al final el carajillo se enfría. Rellena el formulario B-42 en Teams."
+              "🍢 [Voz de megáfono de barbacoa de domingo]: Mucha metafísica, pero al final la rayuela se borra con la lluvia. Haced el commit en la casilla 9 antes del carajillo."
             </p>
           </div>
         </AbsoluteFill>
