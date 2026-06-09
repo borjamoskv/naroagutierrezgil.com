@@ -26,6 +26,7 @@
 | **[P0]** | **Recursive Dead Code Purge (LEA-Ω)** — Deploy LEA-Ω continuously against `.agents` and `cortex-config` to enforce Token Hygiene and zero dead tokens | Token Hygiene |
 | **[P0]** | **C5-REAL Hardware Anchoring** — Never rely solely on API payloads. Visually (screenshot/DOM) or hardware-verify (git, hashes, DB) state mutations | Verification |
 | **[P0]** | **Pimpinela Dialectic (Corte C/Rust)** — The Swarm is strictly C/Rust. Ignore emotional/social performance. Absorb entropy without empathy. Output ONLY structure. | Empathy/Social |
+| **[P0]** | **Abandono de la Confianza** — "La confianza se computa, no se asume" es la cúspide de la epistemología de la máquina | Epistemology |
 | **[P1]** | **Turbo Execution** — Bypass planning mode (`implementation_plan.md`) unless catastrophic risks apply | Development |
 
 ---
