@@ -11,13 +11,19 @@ const BACKENDS = [
 async function proxyRequest(request: Request): Promise<Response> {
   const url = new URL(request.url);
   
+  const isWebSocket = request.headers.get("Upgrade") === "websocket";
+
   // Exclude API and agents routing
   if (url.pathname.startsWith("/api/") || url.pathname.startsWith("/agents/")) {
     return new Response("CORTEX: API endpoint not found.", { status: 404 });
   }
 
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 3500); // 3.5s timeout
+  // Solo aplicar timeout si NO es WebSocket (WebSockets necesitan conexiones persistentes)
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  if (!isWebSocket) {
+    timeoutId = setTimeout(() => controller.abort(), 3500); // 3.5s timeout
+  }
 
   const fetchPromise = async (backend: string) => {
     const targetUrl = new URL(url.pathname + url.search, backend);
@@ -31,23 +37,23 @@ async function proxyRequest(request: Request): Promise<Response> {
       headers: newHeaders,
       body: request.method !== "GET" && request.method !== "HEAD" ? request.body : undefined,
       redirect: "manual",
-      signal: controller.signal
+      signal: isWebSocket ? undefined : controller.signal
     });
   };
 
   try {
     // 1. Race/Try Cloudflare Pages first (local edge)
     const primaryResponse = await fetchPromise(BACKENDS[0]);
-    clearTimeout(timeoutId);
+    if (timeoutId) clearTimeout(timeoutId);
     return primaryResponse;
   } catch (err) {
     // 2. Fallback to Vercel if Pages is down or slow
     try {
       const fallbackResponse = await fetchPromise(BACKENDS[1]);
-      clearTimeout(timeoutId);
+      if (timeoutId) clearTimeout(timeoutId);
       return fallbackResponse;
     } catch (fallbackErr) {
-      clearTimeout(timeoutId);
+      if (timeoutId) clearTimeout(timeoutId);
       return new Response("Galaxy Brain Router: All backends are unreachable (Byzantine Outage).", { status: 502 });
     }
   }
