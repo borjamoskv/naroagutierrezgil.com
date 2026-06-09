@@ -5,6 +5,7 @@
 ## System & Hardening
 | Title | ID | Walkthrough | Status |
 |---|---|---|---|
+| 🏆 HITO: Operación LEA-Ω — Purga Suprema Multi-Clúster | [`fe59b53a`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/fe59b53a-616c-48c1-ad4b-346a1d42d096) | [✅ walkthrough.md](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/fe59b53a-616c-48c1-ad4b-346a1d42d096/walkthrough.md) | 🟢 `C5-REAL` |
 | 🏆 HITO: CORTEX-Persist C8 Governance Boundary | [`ea04b872`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/ea04b872-49f1-4056-8d4f-741874d15fc8) | [📝 transcript](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/ea04b872-49f1-4056-8d4f-741874d15fc8/.system_generated/logs/transcript.jsonl) | 🟢 `C5-REAL` |
 | 🏆 HITO: Ultramap-Ω Sovereign Visualizer | [`7975c378`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/7975c378-29af-4d4c-b2c0-26c39b8caf3a) | [✅ walkthrough.md](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/7975c378-29af-4d4c-b2c0-26c39b8caf3a/walkthrough.md) | 🟢 `C5-REAL` |
 | CORTEX Organization Task | [`9f644366`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/9f644366-9282-4852-8bd6-54a74045fa69) | [📝 transcript](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/9f644366-9282-4852-8bd6-54a74045fa69/.system_generated/logs/transcript.jsonl) | 🟢 `C5-REAL` |

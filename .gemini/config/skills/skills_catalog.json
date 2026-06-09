@@ -130,6 +130,16 @@
     "runnable": true
   },
   {
+    "requested": "Divergence-Anchor-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Divergence-Anchor-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Divergence-Anchor-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Divergence-Anchor-OMEGA/SKILL.md",
+    "script": null,
+    "script_path": null,
+    "runnable": false
+  },
+  {
     "requested": "Estado-Del-Arte-OMEGA",
     "status": "script-backed",
     "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Estado-Del-Arte-OMEGA",
@@ -168,6 +178,16 @@
     "script": "scripts/mitosis_daemon.py",
     "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Genesis-L5-OMEGA/scripts/mitosis_daemon.py",
     "runnable": true
+  },
+  {
+    "requested": "Grill-Me-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Grill-Me-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Grill-Me-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Grill-Me-OMEGA/SKILL.md",
+    "script": null,
+    "script_path": null,
+    "runnable": false
   },
   {
     "requested": "Honest-Check-OMEGA",
@@ -237,6 +257,16 @@
     "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Sortu-APEX/SKILL.md",
     "script": "scripts/sortu.py",
     "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Sortu-APEX/scripts/sortu.py",
+    "runnable": true
+  },
+  {
+    "requested": "Vesicular-Runtime-Omega",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Vesicular-Runtime-Omega",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Vesicular-Runtime-Omega",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Vesicular-Runtime-Omega/SKILL.md",
+    "script": "scripts/run_vesicular.py",
+    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Vesicular-Runtime-Omega/scripts/run_vesicular.py",
     "runnable": true
   }
 ]

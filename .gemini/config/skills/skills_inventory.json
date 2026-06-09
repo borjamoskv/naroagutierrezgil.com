@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-06-08",
+  "updated_at": "2026-06-09",
   "totals": {
-    "directories": 24,
-    "yaml_ok": 24,
-    "script_backed": 7,
-    "docs_only": 17,
+    "directories": 27,
+    "yaml_ok": 27,
+    "script_backed": 8,
+    "docs_only": 19,
     "missing_script_links": 0,
     "external_repo_refs": 0
   },
@@ -18,8 +18,10 @@
     "Autonomous-Audit-OMEGA",
     "Browser-CDP-Automation-OMEGA",
     "CAOS-OMEGA",
+    "Divergence-Anchor-OMEGA",
     "Exergy-Engine-OMEGA",
     "Exergy-Matrix-OMEGA",
+    "Grill-Me-OMEGA",
     "Honest-Check-OMEGA",
     "Network-Security-L4-OMEGA",
     "accidental-data-loss-prevention",
@@ -35,7 +37,8 @@
     "Genesis-L5-OMEGA": "scripts/mitosis_daemon.py",
     "Mac-Control-Ω": "scripts/mac_control_omega.py",
     "Python-Extractor-OMEGA": "scripts/sovereign_python_extractor.py",
-    "Sortu-APEX": "scripts/sortu.py"
+    "Sortu-APEX": "scripts/sortu.py",
+    "Vesicular-Runtime-Omega": "scripts/run_vesicular.py"
   },
   "resolution_snapshot": {
     "canonical": [],

@@ -1,13 +1,13 @@
 # Skills Inventory
 
-Last updated: 2026-06-08
+Last updated: 2026-06-09
 
 ## Summary
 
-- Dirs: `24`
-- YAML OK: `24`
-- Script-backed: `7`
-- Docs-only: `17`
+- Dirs: `27`
+- YAML OK: `27`
+- Script-backed: `8`
+- Docs-only: `19`
 - Missing script links: `0`
 - Ext repo refs: `0`
 
@@ -25,8 +25,10 @@ Last updated: 2026-06-08
 - `Autonomous-Audit-OMEGA`
 - `Browser-CDP-Automation-OMEGA`
 - `CAOS-OMEGA`
+- `Divergence-Anchor-OMEGA`
 - `Exergy-Engine-OMEGA`
 - `Exergy-Matrix-OMEGA`
+- `Grill-Me-OMEGA`
 - `Honest-Check-OMEGA`
 - `Network-Security-L4-OMEGA`
 - `accidental-data-loss-prevention`
@@ -44,6 +46,7 @@ Last updated: 2026-06-08
 - `Mac-Control-Ω` → `scripts/mac_control_omega.py`
 - `Python-Extractor-OMEGA` → `scripts/sovereign_python_extractor.py`
 - `Sortu-APEX` → `scripts/sortu.py`
+- `Vesicular-Runtime-Omega` → `scripts/run_vesicular.py`
 
 ## Resolution Snapshot
 
