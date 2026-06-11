@@ -5,6 +5,7 @@
 ## System & Hardening
 | Title | ID | Walkthrough | Status |
 |---|---|---|---|
+| 🏆 HITO: Anergy-Ω Daemon — Exergy Maximization Loop | [`ad59256f`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/ad59256f-dff0-4241-8bdc-8c44f9bb5ccd) | [✅ walkthrough.md](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/ad59256f-dff0-4241-8bdc-8c44f9bb5ccd/walkthrough.md) | 🟢 `C5-REAL` |
 | 🏆 HITO: Operación LEA-Ω — Purga Suprema Multi-Clúster | [`fe59b53a`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/fe59b53a-616c-48c1-ad4b-346a1d42d096) | [✅ walkthrough.md](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/fe59b53a-616c-48c1-ad4b-346a1d42d096/walkthrough.md) | 🟢 `C5-REAL` |
 | 🏆 HITO: CORTAZAR Agent Integration & VideoToolbox HEVC | [`e826077e`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/e826077e-8edc-4bf0-8234-f5f14f83229e) | [✅ walkthrough.md](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/e826077e-8edc-4bf0-8234-f5f14f83229e/walkthrough.md) | 🟢 `C5-REAL` |
 | 🏆 HITO: CORTEX-Persist C8 Governance Boundary | [`ea04b872`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/ea04b872-49f1-4056-8d4f-741874d15fc8) | [📝 transcript](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/ea04b872-49f1-4056-8d4f-741874d15fc8/.system_generated/logs/transcript.jsonl) | 🟢 `C5-REAL` |
