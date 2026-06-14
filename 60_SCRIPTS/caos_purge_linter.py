@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import os
 import sys
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -11,7 +12,7 @@ C5_BLUE = "\033[34m"
 C5_DIM = "\033[2m"
 C5_RESET = "\033[0m"
 
-print(f"{C5_BLUE}[C5-REAL] CAOS-Ω Exergy Purge Linter v2.0.0 (x10-APEX){C5_RESET}")
+print(f"{C5_BLUE}[C5-REAL] CAOS-Ω Exergy Purge Linter v2.1.0 (x10-APEX){C5_RESET}")
 print(f"{C5_DIM}Axiom: Ω₂ Entropic Asymmetry — Order displaces chaos aggressively.{C5_RESET}\n")
 
 home_dir = Path.home()
@@ -102,7 +103,6 @@ def truncate_bloated_logs():
             try:
                 size = f.stat().st_size
                 if size > 10 * 1024 * 1024:  # > 10MB
-                    # Truncate
                     with open(f, "w") as file_to_truncate:
                         file_to_truncate.truncate(0)
                     truncated_files += 1
@@ -115,13 +115,49 @@ def truncate_bloated_logs():
         print(f"  {C5_DIM}→ No bloated log files found.{C5_RESET}")
     return truncated_files, freed_bytes
 
+def purge_physical_bloat():
+    print(f"\n{C5_BLUE}[*] Phase 4: Purging physical .DS_Store metadata and __pycache__ directories...{C5_RESET}")
+    purged_ds = 0
+    purged_pycache = 0
+    
+    if not projects_dir.exists():
+        return 0, 0
+        
+    for root, dirs, files in os.walk(str(projects_dir)):
+        # Skip hidden directories in-place to optimize traversal
+        dirs[:] = [d for d in dirs if not d.startswith('.')]
+        
+        # Purge .DS_Store files
+        for f in files:
+            if f == ".DS_Store":
+                fp = Path(root) / f
+                try:
+                    fp.unlink()
+                    purged_ds += 1
+                except Exception:
+                    pass
+                    
+        # Purge __pycache__ folders
+        for d in list(dirs):
+            if d == "__pycache__":
+                dp = Path(root) / d
+                try:
+                    shutil.rmtree(dp)
+                    dirs.remove(d)
+                    purged_pycache += 1
+                except Exception:
+                    pass
+                    
+    print(f"  {C5_GREEN}✓ Purged {purged_ds} physical .DS_Store files.{C5_RESET}")
+    print(f"  {C5_GREEN}✓ Purged {purged_pycache} __pycache__ directories.{C5_RESET}")
+    return purged_ds, purged_pycache
+
 if __name__ == "__main__":
     purged_f, purged_b = purge_zcompdumps()
     dirty_repos, total_repos = audit_git_repositories()
     trunc_f, trunc_b = truncate_bloated_logs()
+    purged_ds, purged_py = purge_physical_bloat()
     
-    # Calculate Exergy score (100 is baseline, 140 is absolute optimal)
-    # Deduct 10 points per dirty repo, add points for freed bytes
     exergy_score = 140 - (dirty_repos * 15)
     if exergy_score < 40:
         exergy_score = 40
@@ -132,6 +168,8 @@ if __name__ == "__main__":
     print(f"  Files Purged: {purged_f},")
     print(f"  Logs Truncated: {trunc_f},")
     print(f"  Total Bytes Freed: {purged_b + trunc_b},")
+    print(f"  Physical .DS_Store Purged: {purged_ds},")
+    print(f"  Physical pycaches Purged: {purged_py},")
     print(f"  Dirty Repos: {dirty_repos}/{total_repos},")
     print(f"  Exergy Score: {exergy_score}/140,")
     print(f"  Confidence: C5-REAL")
