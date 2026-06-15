@@ -266,20 +266,38 @@ export default function Mica() {
     }, 800);
   };
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputValue.trim()) return;
 
     const userText = inputValue;
-    setMessages(prev => [...prev, { sender: 'user', text: userText }]);
+    const newHistory = [...messages, { sender: 'user', text: userText } as Message];
+    setMessages(newHistory);
     setInputValue('');
     setIsTyping(true);
 
-    setTimeout(() => {
-      setIsTyping(false);
+    // Call Cloudflare Workers AI Edge Function
+    try {
+      const res = await fetch('/api/cortex', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userText, history: messages.slice(-4) })
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        setMessages(prev => [...prev, { sender: 'mica', text: data.response }]);
+      } else {
+        // Fallback to local logic if AI is offline
+        const botResponse = generateCortazarResponse(userText);
+        setMessages(prev => [...prev, { sender: 'mica', text: botResponse.text, options: botResponse.options }]);
+      }
+    } catch (err) {
       const botResponse = generateCortazarResponse(userText);
       setMessages(prev => [...prev, { sender: 'mica', text: botResponse.text, options: botResponse.options }]);
-    }, 1200);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   return (
