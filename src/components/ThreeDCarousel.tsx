@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/immutability */
 'use client';
 
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
@@ -85,11 +86,11 @@ const cardFragmentShader = `
   }
 `;
 
-function KintsugiSplatCard({ url, index, count, activeIndex, currentAngleRef, setActiveIndex }: {
+function KintsugiSplatCard({ url, index, count, _activeIndex, currentAngleRef, setActiveIndex }: {
   url: string;
   index: number;
   count: number;
-  activeIndex: number;
+  _activeIndex: number;
   currentAngleRef: React.MutableRefObject<number>;
   setActiveIndex: (idx: number) => void;
 }) {
@@ -183,19 +184,24 @@ function KintsugiSplatCard({ url, index, count, activeIndex, currentAngleRef, se
 
     // Cross-fade solid mesh opacity and points visibility
     const progress = materialRef.current?.uniforms.uProgress.value ?? 0.0;
+    const isSolid = progress <= 0.45;
     
     if (solidMaterialRef.current) {
       solidMaterialRef.current.opacity = THREE.MathUtils.lerp(
         solidMaterialRef.current.opacity,
-        progress > 0.45 ? 0.0 : 1.0,
+        isSolid ? 1.0 : 0.0,
         delta * 10
       );
       solidMaterialRef.current.transparent = true;
     }
-  });
 
-  const progress = materialRef.current?.uniforms.uProgress.value ?? 0.0;
-  const showSolid = progress <= 0.45;
+    if (meshRef.current) {
+      meshRef.current.visible = isSolid;
+    }
+    if (pointsRef.current) {
+      pointsRef.current.visible = !isSolid;
+    }
+  });
 
   return (
     <>
@@ -210,7 +216,6 @@ function KintsugiSplatCard({ url, index, count, activeIndex, currentAngleRef, se
         onClick={() => setActiveIndex(index)}
         castShadow
         receiveShadow
-        visible={showSolid}
       >
         <boxGeometry args={[1.2, 1.6, 0.05]} />
         <meshStandardMaterial
@@ -229,7 +234,7 @@ function KintsugiSplatCard({ url, index, count, activeIndex, currentAngleRef, se
       </mesh>
 
       {/* Disintegrated Points System (renders when rotating away) */}
-      <points ref={pointsRef} visible={!showSolid}>
+      <points ref={pointsRef} visible={false}>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[positions, 3]} />
           <bufferAttribute attach="attributes-uv" args={[uvs, 2]} />
@@ -328,7 +333,7 @@ export default function ThreeDCarousel() {
               url={art.src}
               index={idx}
               count={carouselArtworks.length}
-              activeIndex={activeIndex}
+              _activeIndex={activeIndex}
               currentAngleRef={currentAngleRef}
               setActiveIndex={setActiveIndex}
             />

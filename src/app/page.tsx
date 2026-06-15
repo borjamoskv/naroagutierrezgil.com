@@ -137,8 +137,6 @@ export default function Home() {
     };
   }, []);
 
-  const [activeColor, setActiveColor] = useState('#2B3BE5');
-
   const updatePrimaryColor = (hex: string) => {
     if (typeof window === 'undefined') return;
     document.documentElement.style.setProperty('--primary', hex);
@@ -152,7 +150,6 @@ export default function Home() {
     document.documentElement.style.setProperty('--primary-rgb', `${r}, ${g}, ${b}`);
     
     localStorage.setItem('naroa_primary_color', hex);
-    setActiveColor(hex);
     window.dispatchEvent(new CustomEvent('naroa-color-change', { detail: hex }));
   };
 
