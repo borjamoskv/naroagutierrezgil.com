@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react'
 import SplatVault from './SplatVault'
+import { useThermodynamicAudio } from '@/hooks/useThermodynamicAudio'
+import { useInertialScroll } from '@/hooks/useInertialScroll'
 
 export default function SOTAFX() {
   const [pos, setPos] = useState({ x: -500, y: -500 })
@@ -9,105 +11,10 @@ export default function SOTAFX() {
   const [hoveredSrc, setHoveredSrc] = useState<string | null>(null)
   const [vaultMode, setVaultMode] = useState(false)
   
+  const { playBrushSound } = useThermodynamicAudio();
+  useInertialScroll();
+  
   useEffect(() => {
-    let audioCtx: AudioContext | null = null;
-    let analyser: AnalyserNode | null = null;
-    let dataArray: Uint8Array | null = null;
-    let bandpass: BiquadFilterNode | null = null;
-    let animationFrame: number;
-    let scrollFrame: number;
-    
-    const playBrushSound = () => {
-      try {
-        if (!audioCtx) {
-          const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-          audioCtx = new AudioContextClass();
-          analyser = audioCtx.createAnalyser();
-          analyser.fftSize = 64; // High res for multiple bands
-          dataArray = new Uint8Array(analyser.frequencyBinCount);
-          
-          const updateAudioReactivity = () => {
-            if (analyser && dataArray) {
-              analyser.getByteFrequencyData(dataArray);
-              
-              // Thermodynamic Multi-Band Extraction
-              let lowSum = 0, midSum = 0, highSum = 0;
-              const third = Math.floor(dataArray.length / 3);
-              
-              for(let i = 0; i < third; i++) lowSum += dataArray[i];
-              for(let i = third; i < third * 2; i++) midSum += dataArray[i];
-              for(let i = third * 2; i < dataArray.length; i++) highSum += dataArray[i];
-              
-              const low = (lowSum / third) / 255;
-              const mid = (midSum / third) / 255;
-              const high = (highSum / third) / 255;
-
-              document.documentElement.style.setProperty('--audio-low', low.toString());
-              document.documentElement.style.setProperty('--audio-mid', mid.toString());
-              document.documentElement.style.setProperty('--audio-high', high.toString());
-              
-              // Doppler frequency shift based on scroll velocity (Thermodynamic Acoustic Coupling)
-              if (bandpass) {
-                const sv = parseFloat(document.documentElement.style.getPropertyValue('--scroll-velocity') || '0');
-                bandpass.frequency.setTargetAtTime(4000 + sv * 4000, audioCtx.currentTime, 0.1);
-              }
-            }
-            animationFrame = requestAnimationFrame(updateAudioReactivity);
-          };
-          updateAudioReactivity();
-        }
-        
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        
-        const bufferSize = audioCtx.sampleRate * 0.2;
-        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-        const data = buffer.getChannelData(0);
-        // Generate heavily textured pink noise emulation
-        for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize / 4));
-        const noise = audioCtx.createBufferSource();
-        noise.buffer = buffer;
-        
-        if (!bandpass) {
-          bandpass = audioCtx.createBiquadFilter();
-          bandpass.type = 'bandpass';
-          bandpass.frequency.value = 4000;
-          bandpass.Q.value = 1.5;
-        }
-        
-        const gain = audioCtx.createGain();
-        gain.gain.setValueAtTime(0.04, audioCtx.currentTime); 
-        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.18);
-        
-        noise.connect(bandpass);
-        bandpass.connect(gain);
-        gain.connect(analyser!);
-        analyser!.connect(audioCtx.destination);
-        noise.start();
-      } catch {
-        // ignore audio errors
-      }
-    };
-
-    let lastScrollY = window.scrollY;
-    let scrollVelocity = 0;
-    
-    const updateScroll = () => {
-      const currentScrollY = window.scrollY;
-      const delta = currentScrollY - lastScrollY;
-      
-      scrollVelocity = scrollVelocity + (delta - scrollVelocity) * 0.12;
-      
-      const speed = Math.min(Math.abs(scrollVelocity) / 30, 1);
-      const direction = Math.sign(scrollVelocity);
-      
-      document.documentElement.style.setProperty('--scroll-velocity', speed.toString());
-      document.documentElement.style.setProperty('--scroll-direction', direction.toString());
-      
-      lastScrollY = currentScrollY;
-      scrollFrame = requestAnimationFrame(updateScroll);
-    };
-    updateScroll();
-
     const onMouseMove = (e: MouseEvent) => {
       setPos({ x: e.clientX, y: e.clientY });
       
@@ -127,7 +34,6 @@ export default function SOTAFX() {
         const y = ((e.clientY - rect.top) / rect.height) * 100;
         setBgPos({ x: `${x}%`, y: `${y}%` });
 
-        // Zero-latency audio-reactive 3D transform mapping
         const lowPulse = parseFloat(document.documentElement.style.getPropertyValue('--audio-low') || '0') * 0.08;
         const tiltX = (0.5 - (e.clientY - rect.top) / rect.height) * 25; 
         const tiltY = ((e.clientX - rect.left) / rect.width - 0.5) * 25;
@@ -163,10 +69,8 @@ export default function SOTAFX() {
         item.removeEventListener('mouseenter', onMouseEnter)
         item.removeEventListener('mouseleave', onMouseLeave)
       })
-      if (animationFrame) cancelAnimationFrame(animationFrame);
-      if (scrollFrame) cancelAnimationFrame(scrollFrame);
     }
-  }, [])
+  }, [playBrushSound])
 
   return (
     <>
