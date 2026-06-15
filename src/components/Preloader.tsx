@@ -7,8 +7,9 @@ export default function Preloader() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Disable scrolling while preloader is active
+    // Disable native scrolling and lock viewport to top to prevent Lenis virtual drift
     document.body.style.overflow = "hidden";
+    window.scrollTo(0, 0);
 
     // Simulate loading progress
     let current = 0;
@@ -18,6 +19,7 @@ export default function Preloader() {
         current = 100;
         clearInterval(interval);
         setTimeout(() => {
+          window.scrollTo(0, 0); // Enforce top anchor before releasing the scroll
           setIsLoaded(true);
           document.body.style.overflow = ""; // Restore scrolling
         }, 800);
