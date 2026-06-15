@@ -6,31 +6,32 @@ export default function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isHovering, setIsHovering] = useState(false);
+  const isHoveringRef = useRef(false);
+  const mouseXRef = useRef(0);
+  const mouseYRef = useRef(0);
+
+  // Initialize mouse position to center screen
+  useEffect(() => {
+    mouseXRef.current = window.innerWidth / 2;
+    mouseYRef.current = window.innerHeight / 2;
+  }, []);
 
   useEffect(() => {
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-
     const onPointerMove = (e: PointerEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      if (cursorRef.current) {
-        cursorRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-      }
+      mouseXRef.current = e.clientX;
+      mouseYRef.current = e.clientY;
     };
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (
+      const hovering = !!(
         target.tagName.toLowerCase() === "a" ||
         target.tagName.toLowerCase() === "button" ||
         target.closest("a") ||
         target.closest("button")
-      ) {
-        setIsHovering(true);
-      } else {
-        setIsHovering(false);
-      }
+      );
+      setIsHovering(hovering);
+      isHoveringRef.current = hovering;
     };
 
     window.addEventListener("pointermove", onPointerMove);
@@ -58,9 +59,11 @@ export default function CustomCursor() {
     let rafId: number;
 
     const handlePointerMove = (e: PointerEvent) => {
-      // Agregamos puntos con un poco de "ruido" para simular la rotura orgánica de la piedra
-      const jitterX = (Math.random() - 0.5) * 2;
-      const jitterY = (Math.random() - 0.5) * 2;
+      const velocity = (window as any).__scrollVelocity || 0;
+      // Jitter (cracking) increases with scroll velocity
+      const jitterMultiplier = 1 + Math.min(velocity * 0.1, 10);
+      const jitterX = (Math.random() - 0.5) * 2 * jitterMultiplier;
+      const jitterY = (Math.random() - 0.5) * 2 * jitterMultiplier;
       points.push({ x: e.clientX + jitterX, y: e.clientY + jitterY, age: 0 });
     };
 
@@ -77,9 +80,11 @@ export default function CustomCursor() {
     const render = () => {
       ctx.clearRect(0, 0, width, height);
       
-      // Envejece los puntos rápidamente (cicatriza y disuelve)
+      const velocity = (window as any).__scrollVelocity || 0;
+      
+      // Decay points
       points.forEach(p => p.age += 1);
-      points = points.filter(p => p.age < 25); // Desaparece rápido
+      points = points.filter(p => p.age < 25);
 
       if (points.length > 2) {
         ctx.beginPath();
@@ -96,14 +101,26 @@ export default function CustomCursor() {
         const lastP = points[points.length - 1];
         ctx.lineTo(lastP.x, lastP.y);
         
-        // Efecto Kintsugi: Oro líquido (#D4AF37)
-        ctx.strokeStyle = `rgba(212, 175, 55, 0.8)`;
-        ctx.lineWidth = 1.5;
+        // Kintsugi Gold Trail with velocity styling
+        const opacity = Math.min(0.8 + velocity * 0.02, 1.0);
+        const lineWidth = 1.5 * (1 + Math.min(velocity * 0.05, 3));
+        const glow = 8 + Math.min(velocity * 1.5, 30);
+        
+        ctx.strokeStyle = `rgba(212, 175, 55, ${opacity})`;
+        ctx.lineWidth = lineWidth;
         ctx.lineCap = "round";
-        ctx.lineJoin = "bevel"; // Cortes más afilados
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = "rgba(212, 175, 55, 0.5)";
+        ctx.lineJoin = "bevel";
+        ctx.shadowBlur = glow;
+        ctx.shadowColor = `rgba(212, 175, 55, ${0.5 + Math.min(velocity * 0.05, 0.5)})`;
         ctx.stroke();
+      }
+
+      // Update gold spark position, scale, and glow based on hover & scroll velocity
+      if (cursorRef.current) {
+        const scale = (isHoveringRef.current ? 2.5 : 1.0) * (1 + Math.min(velocity * 0.08, 4));
+        const glow = 10 + Math.min(velocity * 5, 40);
+        cursorRef.current.style.transform = `translate3d(${mouseXRef.current}px, ${mouseYRef.current}px, 0) scale(${scale})`;
+        cursorRef.current.style.boxShadow = `0 0 ${glow}px rgba(212, 175, 55, 0.9), 0 0 2px rgba(255, 255, 255, 0.9)`;
       }
 
       rafId = requestAnimationFrame(render);
@@ -131,13 +148,11 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Kintsugi Trail Canvas */}
       <canvas
         ref={canvasRef}
         className="fixed inset-0 pointer-events-none z-[9998] mix-blend-screen"
       />
       
-      {/* Chispa de oro latente (Pulso térmico) */}
       <div 
         ref={cursorRef} 
         className="fixed top-0 left-0 w-1.5 h-1.5 pointer-events-none z-[9999] mix-blend-screen -translate-x-1/2 -translate-y-1/2 transition-transform duration-100 ease-out"

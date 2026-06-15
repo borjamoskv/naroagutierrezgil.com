@@ -128,6 +128,9 @@ export default function Home() {
       const direction = lenis.direction;
       document.documentElement.style.setProperty('--scroll-velocity', Math.abs(velocity).toString());
       document.documentElement.style.setProperty('--scroll-direction', direction.toString());
+      if (typeof window !== 'undefined') {
+        (window as any).__scrollVelocity = Math.abs(velocity);
+      }
       animationId = requestAnimationFrame(raf);
     }
     animationId = requestAnimationFrame(raf);
@@ -135,6 +138,24 @@ export default function Home() {
       lenis.destroy();
       cancelAnimationFrame(animationId);
     };
+  }, []);
+
+  const [heroTranslateY, setHeroTranslateY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const threshold = window.innerHeight * 0.8;
+      if (threshold > 0) {
+        const progress = Math.min(Math.max(scrollY / threshold, 0), 1);
+        const easedProgress = Math.pow(progress, 3.5); // Cubic-quartic hybrid
+        setHeroTranslateY(easedProgress * 100);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const updatePrimaryColor = (hex: string) => {
@@ -205,30 +226,39 @@ export default function Home() {
       {appMode === "CAOS" && webGLReady && <SOTAFX />}
       {appMode === "CAOS" && webGLReady && <Mica />}
 
-      <section className="relative w-full h-[100svh] flex flex-col justify-center items-center overflow-hidden z-50 bg-[#050505]">
-        {/* El Retrato Monumental - Cero Fricción */}
-        <div className="absolute inset-0 w-full h-full">
-          <Image 
-            src={resolveSrc('hq-portrait-1-bV-_WHlX.webp')} 
-            alt="Naroa Gutiérrez Gil - Impacto Monumental" 
-            fill 
-            sizes="100vw"
-            quality={100}
-            priority
-            className="object-cover object-center grayscale-[15%] contrast-[1.1] brightness-[0.8] hover:grayscale-0 hover:brightness-100 transition-all duration-[4s] ease-out"
-          />
-          {/* Veta dorada sutil (Kintsugi) que reacciona a la luz */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(43,59,229,0.05)_0%,transparent_70%)] mix-blend-color-dodge pointer-events-none" />
-        </div>
-
-        {/* Indicador sutil de gravedad - La única señal visual */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-50 hover:opacity-100 transition-opacity duration-1000">
-          <span className="text-white/40 font-sans tracking-[0.5em] text-[8px] uppercase">Descender</span>
-          <div className="w-px h-16 bg-white/20 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-full bg-white animate-[translateY_2.5s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
+      {/* Sticky Scroll Wrapper for Monolithic Hero */}
+      <div className="relative w-full h-[180vh] bg-[#050505]">
+        <section 
+          style={{ transform: `translateY(${-heroTranslateY}%)` }}
+          className="sticky top-0 w-full h-[100svh] flex flex-col justify-center items-center overflow-hidden z-50 bg-[#050505] will-change-transform"
+        >
+          {/* El Retrato Monumental - Cero Fricción */}
+          <div className="absolute inset-0 w-full h-full">
+            <Image 
+              src={resolveSrc('hq-portrait-1-bV-_WHlX.webp')} 
+              alt="Naroa Gutiérrez Gil - Impacto Monumental" 
+              fill 
+              sizes="100vw"
+              quality={100}
+              priority
+              className="object-cover object-center grayscale-[15%] contrast-[1.1] brightness-[0.8] hover:grayscale-0 hover:brightness-100 transition-all duration-[4s] ease-out"
+            />
+            {/* Veta dorada sutil (Kintsugi) que reacciona a la luz */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(43,59,229,0.05)_0%,transparent_70%)] mix-blend-color-dodge pointer-events-none" />
           </div>
-        </div>
-      </section>
+
+          {/* Indicador sutil de gravedad - La única señal visual */}
+          <div 
+            style={{ opacity: Math.max(0, 0.5 - heroTranslateY / 50) }}
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 transition-opacity duration-300"
+          >
+            <span className="text-white/40 font-sans tracking-[0.5em] text-[8px] uppercase">Descender</span>
+            <div className="w-px h-16 bg-white/20 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-full bg-white animate-[translateY_2.5s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
+            </div>
+          </div>
+        </section>
+      </div>
 
       <section id="galeria" className="relative z-10 px-4 sm:px-12 py-32 max-w-[1800px] mx-auto w-full">
         <div className="mb-40 text-center flex flex-col items-center">
