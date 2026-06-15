@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 
 interface TakeoverModalProps {
@@ -11,91 +11,99 @@ interface TakeoverModalProps {
 }
 
 export default function TakeoverModal({ artwork, countdown, getImageUrl, onClose }: TakeoverModalProps) {
+  const [zoomMode, setZoomMode] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
+      if (e.key === 'Escape') onClose();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose]);
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!zoomMode || !containerRef.current || !imgRef.current) return;
+    const { left, top, width, height } = containerRef.current.getBoundingClientRect();
+    const x = (e.clientX - left) / width;
+    const y = (e.clientY - top) / height;
+    
+    imgRef.current.style.transformOrigin = `${x * 100}% ${y * 100}%`;
+  };
 
   if (!artwork) return null;
 
   return (
     <div 
       onClick={onClose}
-      className="fixed inset-0 z-[99999] bg-[#050505] flex flex-col justify-center items-center overflow-hidden animate-[fadeIn_0.3s_ease-out]"
+      className="fixed inset-0 z-[99999] bg-[#050505] flex flex-col justify-center items-center overflow-hidden animate-[fadeIn_0.3s_ease-out] cursor-none"
     >
-      {/* Close Button in top right */}
-      <button 
-        onClick={(e) => {
-          e.stopPropagation();
-          onClose();
-        }}
-        aria-label="Cerrar modal"
-        className="absolute top-8 right-8 z-[1000] font-mono text-[9px] tracking-[0.3em] text-white/50 hover:text-primary border border-white/10 hover:border-primary/50 bg-black/40 backdrop-blur-md px-4 py-2 rounded-sm transition-all duration-300 pointer-events-auto"
-      >
-        CERRAR // ESC
-      </button>
-
-      {/* Grain texture overlay with CRT scanlines */}
-      <div 
-        className="absolute inset-0 opacity-30 pointer-events-none mix-blend-overlay"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`
-        }}
-      />
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none z-50 mix-blend-overlay" />
-      
-      {/* Chromatic aberration background aura */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(var(--primary-rgb,43,59,229),0.25)_0%,transparent_70%)] mix-blend-color-dodge pointer-events-none" />
-
-      {/* Outlined CRONOS Watermark */}
-      <div className="absolute top-[5%] left-[5%] font-serif italic text-[18vw] leading-none font-black text-transparent [-webkit-text-stroke:2px_rgba(255,255,255,0.05)] uppercase pointer-events-none select-none z-0">
-        CRONOS
+      {/* HUD Superior */}
+      <div className="absolute top-8 w-full px-8 z-[1000] flex justify-between items-start pointer-events-none">
+        <div className="flex flex-col gap-1">
+          <span className="font-sans text-[10px] tracking-[0.4em] uppercase text-white/50">Inspección Termodinámica</span>
+          <h2 className="text-3xl font-serif text-white tracking-widest uppercase">{artwork.title}</h2>
+        </div>
+        
+        <button 
+          onClick={(e) => { e.stopPropagation(); onClose(); }}
+          className="font-mono text-[9px] tracking-[0.3em] text-white/50 hover:text-white border border-white/10 hover:border-white/50 bg-black/40 backdrop-blur-md px-4 py-2 rounded-sm transition-all duration-300 pointer-events-auto cursor-pointer"
+        >
+          CERRAR // ESC
+        </button>
       </div>
 
-      {/* Amplified Artwork container with brutalist glitch border */}
+      {/* Amplified Artwork container */}
       <div 
-        onClick={(e) => e.stopPropagation()}
-        className="relative w-[90vw] h-[80vh] md:w-[70vw] md:h-[85vh] border-2 border-primary/40 bg-black shadow-[0_0_120px_rgba(43,59,229,0.3)] z-10 overflow-hidden group"
+        ref={containerRef}
+        onClick={(e) => {
+          e.stopPropagation();
+          setZoomMode(!zoomMode);
+        }}
+        onPointerMove={handlePointerMove}
+        className={`relative transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden cursor-crosshair z-10 
+          ${zoomMode ? 'w-[100vw] h-[100vh] border-none' : 'w-[85vw] h-[75vh] border border-white/10 shadow-[0_0_80px_rgba(255,255,255,0.03)]'}`}
       >
         <Image
+          ref={imgRef}
           src={getImageUrl(artwork.src)}
           alt={artwork.title}
           fill
-          className="object-cover contrast-[1.1] brightness-[0.85] saturate-0 transition-all duration-[4000ms] scale-[1.02] group-hover:scale-110 group-hover:saturate-100 ease-in-out"
-          sizes="(max-width: 768px) 100vw, 80vw"
+          className={`object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.16,1,0.3,1)] ${zoomMode ? 'scale-[2.5]' : 'scale-100'}`}
+          sizes="100vw"
           quality={100}
           priority
         />
-        {/* Dynamic Glitch Overlay */}
-        <div className="absolute inset-0 bg-primary mix-blend-color opacity-20 group-hover:opacity-0 transition-opacity duration-1000" />
+        
+        {/* Toggle Zoom Hint */}
+        <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 bg-black/60 backdrop-blur-sm border border-white/10 text-white/50 font-sans text-[9px] tracking-[0.3em] uppercase transition-opacity duration-500 pointer-events-none ${zoomMode ? 'opacity-0' : 'opacity-100'}`}>
+          Click para Zoom Extremo
+        </div>
       </div>
 
       {/* HUD info overlays */}
-      <div className="absolute bottom-8 left-8 right-8 z-[100] flex flex-col md:flex-row md:items-end justify-between pointer-events-none">
-        <div className="flex flex-col gap-1 backdrop-blur-md bg-black/40 border border-primary/20 p-6 rounded-sm">
-          <span className="text-[11px] tracking-[0.5em] uppercase text-primary font-bold animate-pulse flex items-center gap-3">
-            <span className="w-2 h-2 bg-red-500 rounded-full animate-ping" />
-            SYSTEM OVERRIDE // ACTIVE
+      <div className="absolute bottom-8 left-8 right-8 z-[100] flex justify-between items-end pointer-events-none">
+        <div className="flex flex-col gap-1 backdrop-blur-md bg-black/40 border border-white/10 px-4 py-3 rounded-sm">
+          <span className="text-[9px] tracking-[0.5em] uppercase text-white/40 flex items-center gap-2">
+            <span className="w-1.5 h-1.5 bg-white/50 rounded-full animate-pulse" />
+            ANÁLISIS DE PIZARRA
           </span>
-          <h2 className="text-4xl sm:text-6xl font-serif font-black uppercase tracking-tighter text-white mt-2 drop-shadow-[0_2px_20px_rgba(43,59,229,0.8)]">
-            {artwork.title}
-          </h2>
+          <span className="font-mono text-[10px] text-white/70 tracking-widest uppercase">
+            Resolución: KINTSUGI-MAX // Textura: 94%
+          </span>
         </div>
-        <div className="mt-4 md:mt-0 flex items-center gap-8 backdrop-blur-md bg-black/40 border border-primary/20 p-6 rounded-sm">
-          <div className="flex flex-col items-end">
-            <span className="text-[10px] tracking-[0.3em] uppercase text-white/50 mb-1">TERMINATION IN</span>
-            <span className="text-5xl font-mono font-bold text-primary tracking-tighter">{countdown}.00<span className="text-2xl text-primary/50">s</span></span>
-          </div>
-          <div className="w-[2px] h-16 bg-white/10 relative overflow-hidden">
-            <div 
-              className="absolute bottom-0 left-0 w-full bg-red-500 transition-all duration-[4000ms] ease-linear shadow-[0_0_15px_rgba(239,68,68,1)]"
-              style={{ height: `${(countdown / 4) * 100}%` }}
-            />
+        
+        <div className="flex flex-col items-end backdrop-blur-md bg-black/40 border border-white/10 px-4 py-3 rounded-sm">
+          <span className="text-[9px] tracking-[0.3em] uppercase text-white/40 mb-1">AUTO-CIERRE</span>
+          <div className="flex items-center gap-3">
+            <span className="text-xl font-mono text-white/90 tracking-tighter">{countdown}.0s</span>
+            <div className="w-12 h-[2px] bg-white/10 relative overflow-hidden">
+              <div 
+                className="absolute top-0 left-0 h-full bg-white transition-all duration-[4000ms] ease-linear"
+                style={{ width: `${(countdown / 4) * 100}%` }}
+              />
+            </div>
           </div>
         </div>
       </div>
