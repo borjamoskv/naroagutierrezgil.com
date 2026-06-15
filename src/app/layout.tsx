@@ -49,17 +49,23 @@ export const metadata: Metadata = {
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "VisualArtwork",
-  "name": "Portafolio Oficial Naroa Gutiérrez Gil",
-  "creator": [
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "Portafolio Oficial Naroa Gutiérrez Gil",
+      "url": "https://naroagutierrezgil.com",
+      "description": "Galería inmersiva y archivo de obras en técnica mixta sobre pizarra."
+    },
     {
       "@type": "Person",
       "name": "Naroa Gutiérrez Gil",
-      "jobTitle": "Artista Visual"
+      "jobTitle": "Artista Visual",
+      "url": "https://naroagutierrezgil.com",
+      "sameAs": [
+        "https://www.instagram.com/naroa.gutierrez.gil/"
+      ]
     }
-  ],
-  "description": "Galería inmersiva y archivo de obras en técnica mixta sobre pizarra.",
-  "artMedium": "Acrílico sobre pizarra, Kintsugi, Arte Digital"
+  ]
 };
 
 export default function RootLayout({
