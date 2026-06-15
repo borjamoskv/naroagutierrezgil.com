@@ -247,7 +247,8 @@ export default function Home() {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          setArtworks((prev) => [...prev, ...baseArtworks]);
+          // Cap infinite scroll at 3 iterations to prevent DOM memory leaks and layout thrashing
+          setArtworks((prev) => prev.length < baseArtworks.length * 3 ? [...prev, ...baseArtworks] : prev);
         }
       },
       { threshold: 0.1, rootMargin: '600px' }
@@ -308,7 +309,7 @@ export default function Home() {
               className="object-cover object-center grayscale-[15%] contrast-[1.1] brightness-[0.8] hover:grayscale-0 hover:brightness-100 will-change-transform"
               style={{
                 transform: 'scale(1.04) rotateX(0deg) rotateY(0deg)',
-                transition: 'transform 1.8s cubic-bezier(0.1, 0.85, 0.2, 1), filter 4s ease-out, brightness 4s ease-out'
+                transition: 'filter 4s ease-out, brightness 4s ease-out'
               }}
             />
             {/* Veta dorada sutil (Kintsugi) que reacciona a la luz */}
