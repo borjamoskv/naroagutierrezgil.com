@@ -191,9 +191,9 @@ export default function Home() {
       const xPct = (e.clientX / window.innerWidth) * 100;
       const yPct = (e.clientY / window.innerHeight) * 100;
       
-      // Update light source position directly in DOM
+      // The code steps back. We no longer cast artificial colored light over the original art.
       if (heroLightRef.current) {
-        heroLightRef.current.style.backgroundImage = `radial-gradient(circle at ${xPct}% ${yPct}%, rgba(212, 175, 55, 0.22) 0%, rgba(43, 59, 229, 0.08) 40%, transparent 75%)`;
+        heroLightRef.current.style.opacity = '0';
       }
       
       // Calculate heavy 3D parallax tilt (max 2.5 degrees)
@@ -306,7 +306,7 @@ export default function Home() {
               sizes="100vw"
               quality={100}
               priority
-              className="object-cover object-center grayscale-[15%] contrast-[1.1] brightness-[0.8] hover:grayscale-0 hover:brightness-100 will-change-transform"
+              className="object-cover object-center will-change-transform"
               style={{
                 transform: 'scale(1.04) rotateX(0deg) rotateY(0deg)',
                 transition: 'filter 4s ease-out, brightness 4s ease-out'
@@ -351,20 +351,19 @@ export default function Home() {
                     src={resolveSrc(artwork.src)}
                     alt={`Obra de arte: ${artwork.title}`}
                     priority={i < 4}
-                    className="transition-all duration-[2s] ease-[var(--ease-spring)] will-change-transform transform-gpu grayscale-0 contrast-[1.02] brightness-100 group-hover:scale-[1.06] group-hover:brightness-[1.03]"
+                    className="transition-transform duration-[2s] ease-[var(--ease-spring)] will-change-transform transform-gpu group-hover:scale-[1.03]"
                     id={artwork.src.split('.')[0].replace(/[^a-zA-Z0-9-]/g, '')}
                     onClick={() => triggerTakeover(artwork)}
                   />
                 ) : (
                   <div className="w-full h-full cursor-pointer" onClick={() => triggerTakeover(artwork)}>
-                    <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10 mix-blend-color" />
                     <Image 
                       src={resolveSrc(artwork.src)} 
                       alt={artwork.title} 
                       fill 
                       sizes="(max-width: 768px) 100vw, 80vw"
                       quality={100}
-                      className="object-cover transition-all duration-[3.5s] ease-out grayscale-[20%] group-hover:grayscale-0 contrast-[1.05] brightness-[0.9] group-hover:scale-[1.06] group-hover:brightness-[1.05]" 
+                      className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-[1.03]" 
                       priority={i < 4}
                       loading={i >= 4 ? "lazy" : undefined}
                     />
