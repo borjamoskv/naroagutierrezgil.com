@@ -1,16 +1,45 @@
+"use client";
+
+import { useEffect } from 'react';
 import Image from 'next/image';
 
 interface TakeoverModalProps {
   artwork: { src: string; title: string } | null;
   countdown: number;
   getImageUrl: (src: string) => string;
+  onClose: () => void;
 }
 
-export default function TakeoverModal({ artwork, countdown, getImageUrl }: TakeoverModalProps) {
+export default function TakeoverModal({ artwork, countdown, getImageUrl, onClose }: TakeoverModalProps) {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   if (!artwork) return null;
 
   return (
-    <div className="fixed inset-0 z-[99999] bg-[#050505] flex flex-col justify-center items-center overflow-hidden animate-[fadeIn_0.3s_ease-out]">
+    <div 
+      onClick={onClose}
+      className="fixed inset-0 z-[99999] bg-[#050505] flex flex-col justify-center items-center overflow-hidden animate-[fadeIn_0.3s_ease-out]"
+    >
+      {/* Close Button in top right */}
+      <button 
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
+        aria-label="Cerrar modal"
+        className="absolute top-8 right-8 z-[1000] font-mono text-[9px] tracking-[0.3em] text-white/50 hover:text-primary border border-white/10 hover:border-primary/50 bg-black/40 backdrop-blur-md px-4 py-2 rounded-sm transition-all duration-300 pointer-events-auto"
+      >
+        CERRAR // ESC
+      </button>
+
       {/* Grain texture overlay with CRT scanlines */}
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-30 pointer-events-none mix-blend-overlay" />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none z-50 mix-blend-overlay" />
@@ -24,7 +53,10 @@ export default function TakeoverModal({ artwork, countdown, getImageUrl }: Takeo
       </div>
 
       {/* Amplified Artwork container with brutalist glitch border */}
-      <div className="relative w-[90vw] h-[80vh] md:w-[70vw] md:h-[85vh] border-2 border-primary/40 bg-black shadow-[0_0_120px_rgba(43,59,229,0.3)] z-10 overflow-hidden group">
+      <div 
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-[90vw] h-[80vh] md:w-[70vw] md:h-[85vh] border-2 border-primary/40 bg-black shadow-[0_0_120px_rgba(43,59,229,0.3)] z-10 overflow-hidden group"
+      >
         <Image
           src={getImageUrl(artwork.src)}
           alt={artwork.title}

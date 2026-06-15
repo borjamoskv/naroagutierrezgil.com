@@ -101,23 +101,43 @@ export default function Home() {
     }
   }, []);
 
+  const takeoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const takeoverIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const closeTakeover = () => {
+    setTakeoverArtwork(null);
+    document.body.style.overflow = '';
+    if (takeoverTimeoutRef.current) clearTimeout(takeoverTimeoutRef.current);
+    if (takeoverIntervalRef.current) clearInterval(takeoverIntervalRef.current);
+  };
+
   const triggerTakeover = (artwork: { src: string; title: string }) => {
+    if (takeoverTimeoutRef.current) clearTimeout(takeoverTimeoutRef.current);
+    if (takeoverIntervalRef.current) clearInterval(takeoverIntervalRef.current);
+
     setTakeoverArtwork(artwork);
     setTakeoverCountdown(4);
     document.body.style.overflow = 'hidden';
 
     let count = 4;
-    const intervalId = setInterval(() => {
+    takeoverIntervalRef.current = setInterval(() => {
       count -= 1;
       setTakeoverCountdown(count);
     }, 1000);
 
-    setTimeout(() => {
+    takeoverTimeoutRef.current = setTimeout(() => {
       setTakeoverArtwork(null);
-      document.body.style.overflow = 'auto';
-      clearInterval(intervalId);
+      document.body.style.overflow = '';
+      if (takeoverIntervalRef.current) clearInterval(takeoverIntervalRef.current);
     }, 4000);
   };
+
+  useEffect(() => {
+    return () => {
+      if (takeoverTimeoutRef.current) clearTimeout(takeoverTimeoutRef.current);
+      if (takeoverIntervalRef.current) clearInterval(takeoverIntervalRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     const lenis = new Lenis();
@@ -401,6 +421,7 @@ export default function Home() {
         artwork={takeoverArtwork} 
         countdown={takeoverCountdown} 
         getImageUrl={resolveSrc} 
+        onClose={closeTakeover}
       />
     </div>
   );
