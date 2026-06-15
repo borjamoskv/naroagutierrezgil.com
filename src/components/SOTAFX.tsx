@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import SplatVault from './SplatVault'
+
 export default function SOTAFX() {
   const [pos, setPos] = useState({ x: -500, y: -500 })
   const [bgPos, setBgPos] = useState({ x: '50%', y: '50%' })
@@ -11,29 +12,45 @@ export default function SOTAFX() {
   useEffect(() => {
     let audioCtx: AudioContext | null = null;
     let analyser: AnalyserNode | null = null;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let dataArray: any = null;
+    let dataArray: Uint8Array | null = null;
+    let bandpass: BiquadFilterNode | null = null;
     let animationFrame: number;
     let scrollFrame: number;
     
-    // 4 & 14. Sonido ASMR Taller + Audio Reactivity
     const playBrushSound = () => {
       try {
         if (!audioCtx) {
           const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
           audioCtx = new AudioContextClass();
           analyser = audioCtx.createAnalyser();
-          analyser.fftSize = 32;
+          analyser.fftSize = 64; // High res for multiple bands
           dataArray = new Uint8Array(analyser.frequencyBinCount);
           
           const updateAudioReactivity = () => {
             if (analyser && dataArray) {
               analyser.getByteFrequencyData(dataArray);
-              let sum = 0;
-              for(let i = 0; i < dataArray.length; i++) sum += dataArray[i];
-              const avg = sum / dataArray.length;
-              const scalePulse = avg / 255 * 0.03;
-              document.documentElement.style.setProperty('--audio-pulse', scalePulse.toString());
+              
+              // Thermodynamic Multi-Band Extraction
+              let lowSum = 0, midSum = 0, highSum = 0;
+              const third = Math.floor(dataArray.length / 3);
+              
+              for(let i = 0; i < third; i++) lowSum += dataArray[i];
+              for(let i = third; i < third * 2; i++) midSum += dataArray[i];
+              for(let i = third * 2; i < dataArray.length; i++) highSum += dataArray[i];
+              
+              const low = (lowSum / third) / 255;
+              const mid = (midSum / third) / 255;
+              const high = (highSum / third) / 255;
+
+              document.documentElement.style.setProperty('--audio-low', low.toString());
+              document.documentElement.style.setProperty('--audio-mid', mid.toString());
+              document.documentElement.style.setProperty('--audio-high', high.toString());
+              
+              // Doppler frequency shift based on scroll velocity (Thermodynamic Acoustic Coupling)
+              if (bandpass) {
+                const sv = parseFloat(document.documentElement.style.getPropertyValue('--scroll-velocity') || '0');
+                bandpass.frequency.setTargetAtTime(4000 + sv * 4000, audioCtx.currentTime, 0.1);
+              }
             }
             animationFrame = requestAnimationFrame(updateAudioReactivity);
           };
@@ -42,20 +59,24 @@ export default function SOTAFX() {
         
         if (audioCtx.state === 'suspended') audioCtx.resume();
         
-        const bufferSize = audioCtx.sampleRate * 0.15;
+        const bufferSize = audioCtx.sampleRate * 0.2;
         const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
         const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize / 3));
+        // Generate heavily textured pink noise emulation
+        for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize / 4));
         const noise = audioCtx.createBufferSource();
         noise.buffer = buffer;
         
-        const bandpass = audioCtx.createBiquadFilter();
-        bandpass.type = 'bandpass';
-        bandpass.frequency.value = 6000;
+        if (!bandpass) {
+          bandpass = audioCtx.createBiquadFilter();
+          bandpass.type = 'bandpass';
+          bandpass.frequency.value = 4000;
+          bandpass.Q.value = 1.5;
+        }
         
         const gain = audioCtx.createGain();
-        gain.gain.setValueAtTime(0.02, audioCtx.currentTime); 
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.04, audioCtx.currentTime); 
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.18);
         
         noise.connect(bandpass);
         bandpass.connect(gain);
@@ -67,7 +88,6 @@ export default function SOTAFX() {
       }
     };
 
-    // AWWWARDS Scroll Momentum Tracker
     let lastScrollY = window.scrollY;
     let scrollVelocity = 0;
     
@@ -75,7 +95,6 @@ export default function SOTAFX() {
       const currentScrollY = window.scrollY;
       const delta = currentScrollY - lastScrollY;
       
-      // Lerp for smooth inertia
       scrollVelocity = scrollVelocity + (delta - scrollVelocity) * 0.12;
       
       const speed = Math.min(Math.abs(scrollVelocity) / 30, 1);
@@ -89,7 +108,6 @@ export default function SOTAFX() {
     };
     updateScroll();
 
-    // Lupa, 3D Tilt y Eye-Tracking (13)
     const onMouseMove = (e: MouseEvent) => {
       setPos({ x: e.clientX, y: e.clientY });
       
@@ -109,9 +127,12 @@ export default function SOTAFX() {
         const y = ((e.clientY - rect.top) / rect.height) * 100;
         setBgPos({ x: `${x}%`, y: `${y}%` });
 
+        // Zero-latency audio-reactive 3D transform mapping
+        const lowPulse = parseFloat(document.documentElement.style.getPropertyValue('--audio-low') || '0') * 0.08;
         const tiltX = (0.5 - (e.clientY - rect.top) / rect.height) * 25; 
         const tiltY = ((e.clientX - rect.left) / rect.width - 0.5) * 25;
-        group.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(calc(1.05 + var(--audio-pulse, 0)), calc(1.05 + var(--audio-pulse, 0)), 1)`;
+        
+        group.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(${1.05 + lowPulse}, ${1.05 + lowPulse}, 1)`;
       }
     }
 
@@ -154,14 +175,17 @@ export default function SOTAFX() {
           object-position: var(--eye-x, 50%) var(--eye-y, 50%);
           transition: object-position 0.1s ease-out;
           transform: scale(calc(1 + var(--scroll-velocity, 0) * 0.08));
-          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+          filter: saturate(calc(1 + var(--audio-high, 0) * 2.0)) brightness(calc(1 + var(--audio-mid, 0) * 0.5));
+          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.1s ease-out;
         }
         #galeria .group {
-          transform: skewY(calc(var(--scroll-velocity, 0) * var(--scroll-direction, 0) * -3.0deg)) scale3d(calc(1 + var(--audio-pulse, 0)), calc(1 + var(--audio-pulse, 0)), 1);
+          /* Thermodynamic Audio-Scroll Sync Coupling */
+          transform: skewY(calc((var(--scroll-velocity, 0) * var(--scroll-direction, 0) * -3.0deg) + (var(--audio-mid, 0) * 2deg))) scale3d(calc(1 + var(--audio-low, 0) * 0.04), calc(1 + var(--audio-low, 0) * 0.04), 1);
           transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         #galeria .group:hover {
           transition: transform 0.1s ease-out;
+          box-shadow: 0 0 calc(var(--audio-low, 0) * 100px) rgba(255,51,102,0.4);
         }
       `}} />
 
@@ -180,7 +204,7 @@ export default function SOTAFX() {
       {/* Vault Toggle Button */}
       <button 
         onClick={() => setVaultMode(!vaultMode)}
-        className="fixed bottom-8 right-8 z-[250] px-4 py-2 border border-primary/50 text-primary bg-background/50 backdrop-blur font-sans uppercase tracking-[0.2em] text-[10px] hover:bg-primary hover:text-black transition-colors"
+        className="fixed bottom-8 right-8 z-[250] px-4 py-2 border border-primary/50 text-primary bg-background/50 backdrop-blur font-sans uppercase tracking-[0.2em] text-[10px] hover:bg-primary hover:text-black transition-colors mix-blend-difference"
       >
         {vaultMode ? 'Encender Luces' : 'Modo Bóveda'}
       </button>
@@ -197,8 +221,8 @@ export default function SOTAFX() {
             backgroundPosition: \`\${bgPos.x} \${bgPos.y}\`,
             boxShadow: '0 0 50px rgba(198,168,124,0.15), inset 0 0 30px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(198,168,124,0.4)',
             filter: 'contrast(1.15) saturate(1.1) drop-shadow(0 0 20px rgba(198,168,124,0.3))',
-            transform: 'scale(1)',
-            transition: 'opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+            transform: \`scale(calc(1 + var(--audio-low, 0) * 0.15))\`,
+            transition: 'opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.1s ease-out',
             opacity: 1
           }}
         >
