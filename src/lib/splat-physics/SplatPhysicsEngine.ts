@@ -39,7 +39,7 @@ struct PhysicsUniforms {
 @group(0) @binding(2) var<storage, read_write> currentPos: array<vec4<f32>>;
 @group(0) @binding(3) var<storage, read_write> velocities: array<vec4<f32>>;
 
-@compute @workgroup_size(64)
+@compute @workgroup_size(256)
 fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
   let idx = global_id.x;
   if (idx >= arrayLength(&originalPos)) {
@@ -58,16 +58,17 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
   // 2. Cursor interaction (repulsion & thermodynamic heat excitation)
   let distVec = pos.xy - uniforms.mousePos;
   let dist = length(distVec);
+  let safeDist = max(dist, 0.0001); // Avoid division by zero
+  let interactionRadius = 0.6;
   
-  var repulsion = vec3<f32>(0.0);
-  if (dist < 0.6) {
-    let strength = (0.6 - dist) * uniforms.force;
-    // Push away in XY, and bump out in Z
-    repulsion = vec3<f32>(normalize(distVec) * strength * 0.8, strength * 1.5);
-    
-    // Accumulate heat (Thermodynamic human impact)
-    heat = heat + (0.6 - dist) * uniforms.heatRate;
-  }
+  // Step returns 1.0 if dist <= interactionRadius, else 0.0
+  let inRange = step(dist, interactionRadius);
+  
+  let strength = (interactionRadius - dist) * uniforms.force * inRange;
+  let repulsion = vec3<f32>((distVec / safeDist) * strength * 0.8, strength * 1.5);
+  
+  // Accumulate heat (Thermodynamic human impact)
+  heat = heat + (interactionRadius - dist) * uniforms.heatRate * inRange;
 
   // Heat decay / damping over time
   heat = heat * 0.94;
@@ -328,7 +329,7 @@ export class SplatPhysicsEngine {
     passEncoder.setPipeline(this.computePipeline);
     passEncoder.setBindGroup(0, this.computeBindGroup);
     
-    const workgroups = Math.ceil(this.count / 64);
+    const workgroups = Math.ceil(this.count / 256);
     passEncoder.dispatchWorkgroups(workgroups);
     passEncoder.end();
     
