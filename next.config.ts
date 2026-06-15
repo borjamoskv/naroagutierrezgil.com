@@ -2,6 +2,12 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: 'export',
+  reactStrictMode: true,
+  compiler: {
+    removeConsole: {
+      exclude: ['error'],
+    },
+  },
   images: {
     unoptimized: true,
     remotePatterns: [
