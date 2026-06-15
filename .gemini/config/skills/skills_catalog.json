@@ -30,16 +30,6 @@
     "runnable": false
   },
   {
-    "requested": "agente-cortazar",
-    "status": "script-backed",
-    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/agente-cortazar",
-    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/agente-cortazar",
-    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/agente-cortazar/SKILL.md",
-    "script": null,
-    "script_path": null,
-    "runnable": false
-  },
-  {
     "requested": "Anergy-OMEGA",
     "status": "script-backed",
     "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Anergy-OMEGA",
@@ -60,11 +50,11 @@
     "runnable": false
   },
   {
-    "requested": "API-Provider-OMEGA",
+    "requested": "Architect-OMEGA",
     "status": "script-backed",
-    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/API-Provider-OMEGA",
-    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/API-Provider-OMEGA",
-    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/API-Provider-OMEGA/SKILL.md",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Architect-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Architect-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Architect-OMEGA/SKILL.md",
     "script": null,
     "script_path": null,
     "runnable": false
@@ -140,6 +130,16 @@
     "runnable": true
   },
   {
+    "requested": "CORTAZAR",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/CORTAZAR",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/CORTAZAR",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/CORTAZAR/SKILL.md",
+    "script": null,
+    "script_path": null,
+    "runnable": false
+  },
+  {
     "requested": "Divergence-Anchor-OMEGA",
     "status": "script-backed",
     "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Divergence-Anchor-OMEGA",
@@ -180,6 +180,36 @@
     "runnable": false
   },
   {
+    "requested": "Exergy-Singularity-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Exergy-Singularity-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Exergy-Singularity-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Exergy-Singularity-OMEGA/SKILL.md",
+    "script": null,
+    "script_path": null,
+    "runnable": false
+  },
+  {
+    "requested": "Finder-Optimizer-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Finder-Optimizer-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Finder-Optimizer-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Finder-Optimizer-OMEGA/SKILL.md",
+    "script": null,
+    "script_path": null,
+    "runnable": false
+  },
+  {
+    "requested": "Frontier-RevEng-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Frontier-RevEng-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Frontier-RevEng-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Frontier-RevEng-OMEGA/SKILL.md",
+    "script": null,
+    "script_path": null,
+    "runnable": false
+  },
+  {
     "requested": "Genesis-L5-OMEGA",
     "status": "script-backed",
     "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Genesis-L5-OMEGA",
@@ -205,6 +235,16 @@
     "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Honest-Check-OMEGA",
     "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Honest-Check-OMEGA",
     "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Honest-Check-OMEGA/SKILL.md",
+    "script": null,
+    "script_path": null,
+    "runnable": false
+  },
+  {
+    "requested": "Local-Inference-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Local-Inference-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Local-Inference-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Local-Inference-OMEGA/SKILL.md",
     "script": null,
     "script_path": null,
     "runnable": false
@@ -260,6 +300,26 @@
     "runnable": true
   },
   {
+    "requested": "Session-Crystallizer-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Session-Crystallizer-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Session-Crystallizer-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Session-Crystallizer-OMEGA/SKILL.md",
+    "script": "scripts/crystallize.py",
+    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Session-Crystallizer-OMEGA/scripts/crystallize.py",
+    "runnable": true
+  },
+  {
+    "requested": "singularity-nexus",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/singularity-nexus",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/singularity-nexus",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/singularity-nexus/SKILL.md",
+    "script": "scripts/singularity_engine.py",
+    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/singularity-nexus/scripts/singularity_engine.py",
+    "runnable": true
+  },
+  {
     "requested": "Sortu-APEX",
     "status": "script-backed",
     "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Sortu-APEX",
@@ -278,5 +338,15 @@
     "script": "scripts/run_vesicular.py",
     "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Vesicular-Runtime-Omega/scripts/run_vesicular.py",
     "runnable": true
+  },
+  {
+    "requested": "Zero-Employee-Orchestrator-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Zero-Employee-Orchestrator-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Zero-Employee-Orchestrator-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Zero-Employee-Orchestrator-OMEGA/SKILL.md",
+    "script": null,
+    "script_path": null,
+    "runnable": false
   }
 ]

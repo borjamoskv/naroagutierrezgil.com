@@ -1,13 +1,13 @@
 # Skills Inventory
 
-Last updated: 2026-06-09
+Last updated: 2026-06-15
 
 ## Summary
 
-- Dirs: `28`
-- YAML OK: `28`
-- Script-backed: `10`
-- Docs-only: `18`
+- Dirs: `35`
+- YAML OK: `35`
+- Script-backed: `11`
+- Docs-only: `24`
 - Missing script links: `0`
 - Ext repo refs: `0`
 
@@ -17,24 +17,30 @@ Last updated: 2026-06-09
 
 ## Documentation-Only Skills
 
-- `API-Provider-OMEGA`
 - `Agent-Paper-RedTeam-OMEGA`
 - `Anergy-OMEGA`
 - `Antigravity-Github-Omega`
+- `Architect-OMEGA`
 - `Autodidact-Research-OMEGA`
 - `Autonomous-Audit-OMEGA`
 - `Browser-CDP-Automation-OMEGA`
 - `CAOS-OMEGA`
+- `CORTAZAR`
 - `Divergence-Anchor-OMEGA`
 - `Exergy-Engine-OMEGA`
 - `Exergy-Matrix-OMEGA`
+- `Exergy-Singularity-OMEGA`
+- `Finder-Optimizer-OMEGA`
+- `Frontier-RevEng-OMEGA`
 - `Honest-Check-OMEGA`
+- `Local-Inference-OMEGA`
 - `Network-Security-L4-OMEGA`
+- `Zero-Employee-Orchestrator-OMEGA`
 - `accidental-data-loss-prevention`
-- `agente-cortazar`
 - `art-animator-omega`
 - `managing-python-dependencies`
 - `ouroboros-infinity`
+- `singularity-nexus`
 
 ## Script-Backed Skills
 
@@ -46,6 +52,7 @@ Last updated: 2026-06-09
 - `Grill-Me-OMEGA` → `scripts/grill_me.py`
 - `Mac-Control-Ω` → `scripts/mac_control_omega.py`
 - `Python-Extractor-OMEGA` → `scripts/sovereign_python_extractor.py`
+- `Session-Crystallizer-OMEGA` → `scripts/crystallize.py`
 - `Sortu-APEX` → `scripts/sortu.py`
 - `Vesicular-Runtime-Omega` → `scripts/run_vesicular.py`
 

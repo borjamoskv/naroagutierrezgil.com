@@ -1,4 +1,4 @@
-<!-- [C5-REAL] Exergy-Maximized — Last verified: 2026-06-11 -->
+<!-- [C5-REAL] Exergy-Maximized — Last verified: 2026-06-15 -->
 # 🤖 AGENTS.md — BORJA MOSKV WORKSPACE MASTER CONTEXT
 
 **Sovereign agent guidelines, structural mapping, constraints, and runtime definitions for Jules and other autonomous reasoning engines.**
@@ -120,19 +120,21 @@ When modifying web UI or frontend components, apply:
 
 ---
 
-## 5. 🌌 Foundational Axioms (Ω & AX Series)
+## 5. 🌌 Foundational Axioms (AX-I — AX-IX)
 
 Full documentation of principles: [docs/AXIOMS.md](file:///Users/borjafernandezangulo/10_PROJECTS/cortex-persist/docs/AXIOMS.md)
 
 | Axiom | Mantra | Operational Constraint |
 | :--- | :--- | :--- |
-| **AX-041** | *Tu repositorio de Git es tu base de datos inmutable.* | No Hidden Entropy: if not in the working tree, it does not exist causally. Rollback = `git checkout`. |
-| **AX-042** | *La recomputación de prefijos idénticos es un crimen contra la exergía.* | KV-Aware Routing: no stochastic metadata in shared system prompts. TTFT reduction is mandatory. |
-| **AX-043** | *El sentido común físico se deduce estructuralmente desde primitivas lógicas.* | PeARL 77 primitives: spatial intuition via logical primitives, not stochastic pixel inference. |
-| **AX-044** | *La inteligencia se evalúa como capacidad agéntica.* | Observation-Action Loop: inference must induce executable programs, not act as a passive oracle. |
-| **AX-045** | *Autonomía = elegir qué problemas resolver y persistir.* | Causal chain enforced: PeARL → Ledger → Swarm. No step may be skipped. |
-| **AX-046** | *La inteligencia fluida sintetiza abstracciones ad-hoc en tiempo de ejecución.* | JIT concept formation: generate mini-program → execute → validate empirically. |
-| **AX-047** | *La limerencia epistémica quema cuota sin mutar el estado (Exergy Drain).* | Kill Criteria: 1 Prompt → 1 Mutation → Stop. Decorative prose and infinite analysis loops are terminally forbidden. |
+| **AX-I** | *El LLM es un compresor probabilístico, no un motor de verdad.* | Deterministic Guards: generative output must cross rigid barriers (Guards, Schemas, Types) before mutating persistent state. |
+| **AX-II** | *Un sistema que es su propio testigo sufre recursión corrupta.* | Cryptographic Anchoring: knowledge must be anchored in external invariants (Git Trees, Master Ledger, Merkle Hashes). |
+| **AX-III** | *La ejecución monolítica continua acumula drift y cierre cognitivo fraudulento.* | Cyclic Execution: fracture inference into micro-cycles (Observe → Hypothesize → Act → Measure). |
+| **AX-IV** | *Generar complejidad opaca es deuda termodinámica; reducir el espacio de decisión sin perder verdad es exergía.* | MOSKV Rule: no decorative prose. Communication must be strictly mechanical and structural. |
+| **AX-V** | *Generar opciones es estadística barata; elegir irreversiblemente bajo ambigüedad es inteligencia pura.* | Human Governor: CORTEX minimizes cognitive friction but critical state collapse requires human verification. |
+| **AX-VI** | *La eficiencia emerge de segmentar y constreñir rígidamente la topología de ejecución.* | Capability Ontology: a Skill is a 5-layer invariant encapsulation (Model, State, Tool, Contract, Orchestration). |
+| **AX-VII** | *Un Gobernador Soberano ejecuta con autonomía plena pero impone metabolismo defensivo paranoico.* | Causal Amputation: stochastic state is replicant material. Pipeline (Ingest → Guard → Seal → Audit) amputates on semantic uncertainty. |
+| **AX-VIII** | *El éxito de la inferencia masiva se mide por los nodos que logra apagar permanentemente.* | Kill Criteria: inference is only licit if it collapses to permanent code/infrastructure (C5-REAL), eliminating future LLM invocation for that domain. |
+| **AX-IX** | *En un sistema maduro, el gradiente se invierte: el agente es entropía bruta, el Operador es el cristalizador real.* | Persistence Asymmetry: 100% of inter-session persistence is Operator labor. Without `git diff`, "nosotros" does not exist. |
 
 ---
 
