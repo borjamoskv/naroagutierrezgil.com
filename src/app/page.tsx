@@ -19,14 +19,15 @@ const getImageUrl = (src: string) => {
 };
 
 const artworks = [
-  { src: 'hq-portrait-1-bV-_WHlX.webp', title: 'NAROA', sub: 'Retrato I' },
-  { src: 'Naroa x16.jpeg', title: 'ALQUIMIA', sub: 'Pizarra negra y acrílico' },
-  { src: '615955827_1577822687030480_2386611372471959463_n.jpg', title: 'MATERIA', sub: 'Silencio y pigmento' },
-  { src: 'el-gran-dakari-C1tAWAhR.webp', title: 'DAKARI', sub: 'Oro sobre noche' },
+  { src: 'hq-portrait-1-bV-_WHlX.webp', title: 'RETRATO', sub: 'Acrílico sobre pizarra' },
+  { src: 'Naroa x16.jpeg', title: 'ALQUIMIA', sub: 'Pizarra negra y pigmento' },
+  { src: '615955827_1577822687030480_2386611372471959463_n.jpg', title: 'MATERIA', sub: 'Silencio y color' },
+  { src: 'el-gran-dakari-C1tAWAhR.webp', title: 'DAKARI', sub: 'Oro sobre oscuridad' },
   { src: 'hq-johnny-5ueL8eU0.webp', title: 'DEPP', sub: 'Icono cincélico' },
-  { src: '601340023_1552126202933462_7815927344957967258_n.jpg', title: 'ESPEJO', sub: 'Del alma I' },
+  { src: '601340023_1552126202933462_7815927344957967258_n.jpg', title: 'ESPEJO', sub: 'El alma en piedra' },
   { src: 'geisha-MfRtKWdu.webp', title: 'GEISHA', sub: 'Kintsugi y vacío' },
-  { src: '615932964_1577822457030503_2110397705300850911_n.jpg', title: 'TEXTURA', sub: 'Epoxi mineral' },
+  { src: '615932964_1577822457030503_2110397705300850911_n.jpg', title: 'EPOXI', sub: 'Textura mineral' },
+  { src: 'hq-amy-BRTriASV.webp', title: 'AMY', sub: 'La voz en la piedra' },
 ];
 
 export default function Home() {
@@ -35,7 +36,7 @@ export default function Home() {
   const [webGLReady, setWebGLReady] = useState(false);
   const [isLocal, setIsLocal] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
-  const [loaded, setLoaded] = useState(false);
+  const [heroReady, setHeroReady] = useState(false);
   
   const cursorRef = useRef<HTMLDivElement>(null);
   const trailRef = useRef<HTMLDivElement>(null);
@@ -45,7 +46,6 @@ export default function Home() {
   useInertialScroll();
 
   useEffect(() => {
-    setTimeout(() => setLoaded(true), 300);
     const initAudio = () => playBrushSound();
     window.addEventListener('click', initAudio, { once: true });
     window.addEventListener('touchstart', initAudio, { once: true });
@@ -53,7 +53,7 @@ export default function Home() {
     if (typeof window !== "undefined") {
       const hostname = window.location.hostname;
       if (hostname === "localhost" || hostname === "127.0.0.1") setIsLocal(true);
-      setTimeout(() => setWebGLReady(true), 300);
+      setTimeout(() => { setWebGLReady(true); setHeroReady(true); }, 200);
     }
     return () => {
       window.removeEventListener('click', initAudio);
@@ -87,10 +87,10 @@ export default function Home() {
 
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.8,
+      duration: 2.0,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      wheelMultiplier: 0.8,
+      wheelMultiplier: 0.7,
     });
     
     let animId: number;
@@ -99,14 +99,14 @@ export default function Home() {
       const v = lenis.velocity;
       document.documentElement.style.setProperty('--scroll-velocity', v.toString());
       document.documentElement.style.setProperty('--scroll-speed', Math.min(Math.abs(v) * 0.01, 1).toString());
-      document.documentElement.style.setProperty('--scroll-chromatic', `${Math.min(Math.abs(v) * 0.2, 25)}px`);
+      document.documentElement.style.setProperty('--scroll-chromatic', `${Math.min(Math.abs(v) * 0.18, 22)}px`);
       animId = requestAnimationFrame(raf);
     }
     animId = requestAnimationFrame(raf);
     return () => { lenis.destroy(); cancelAnimationFrame(animId); };
   }, []);
 
-  // Intersection Observer - detect active section
+  // Section observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -117,7 +117,7 @@ export default function Home() {
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.4 }
     );
     sectionRefs.current.forEach(ref => ref && observer.observe(ref));
     return () => observer.disconnect();
@@ -136,12 +136,12 @@ export default function Home() {
     };
 
     const tick = () => {
-      trailX += (mouseX - trailX) * 0.08;
-      trailY += (mouseY - trailY) * 0.08;
+      trailX += (mouseX - trailX) * 0.07;
+      trailY += (mouseY - trailY) * 0.07;
       if (cursorRef.current) cursorRef.current.style.transform = `translate3d(${mouseX}px,${mouseY}px,0)`;
       if (trailRef.current) {
-        trailRef.current.style.transform = `translate3d(${trailX}px,${trailY}px,0) scale(${isHovering ? 4 : 1})`;
-        trailRef.current.style.mixBlendMode = 'difference';
+        trailRef.current.style.transform = `translate3d(${trailX}px,${trailY}px,0) scale(${isHovering ? 4.5 : 1})`;
+        trailRef.current.style.opacity = isHovering ? '1' : '0.4';
       }
       requestAnimationFrame(tick);
     };
@@ -156,56 +156,92 @@ export default function Home() {
   };
 
   return (
-    <div className={`flex flex-col min-h-screen relative overflow-x-hidden bg-[#020202] cursor-none transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`}>
+    <div className="flex flex-col min-h-screen relative overflow-x-hidden bg-[#020202] cursor-none">
       
-      {/* Quantum Cursor System */}
-      <div ref={cursorRef} className="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-[999] -translate-x-1/2 -translate-y-1/2" />
-      <div ref={trailRef} className="fixed top-0 left-0 w-16 h-16 border-[0.5px] border-white/60 rounded-full pointer-events-none z-[998] -translate-x-1/2 -translate-y-1/2 transition-transform duration-500 ease-out will-change-transform" />
+      {/* Quantum Cursor */}
+      <div ref={cursorRef} className="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-[999] -translate-x-1/2 -translate-y-1/2 mix-blend-difference" />
+      <div ref={trailRef} className="fixed top-0 left-0 w-14 h-14 border-[0.5px] border-white/70 rounded-full pointer-events-none z-[998] -translate-x-1/2 -translate-y-1/2 transition-[transform,opacity] duration-500 ease-out will-change-transform mix-blend-difference" />
 
-      {/* Ambient WebGL Particle Field */}
+      {/* Ambient Particle Field */}
       {webGLReady && (
-        <div className="fixed inset-0 z-0 pointer-events-none opacity-30 mix-blend-screen">
+        <div className="fixed inset-0 z-0 pointer-events-none opacity-25 mix-blend-screen">
           <MacroSplatCanvas />
         </div>
       )}
 
-      {/* Side Counter - Minimal Progress */}
-      <div className="fixed right-8 top-1/2 -translate-y-1/2 z-[100] flex flex-col gap-3 mix-blend-difference">
+      {/* Minimal Progress Bar */}
+      <div 
+        className="fixed top-0 left-0 h-[1px] bg-white/40 z-[200] transition-all duration-700 ease-out"
+        style={{ width: `${activeIndex < 0 ? 0 : ((activeIndex + 1) / artworks.length) * 100}%` }}
+      />
+
+      {/* Side Counter */}
+      <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[100] flex flex-col gap-2.5 mix-blend-difference">
         {artworks.map((_, i) => (
-          <div key={i} className={`h-px transition-all duration-700 ease-out bg-white ${ i === activeIndex ? 'w-12 opacity-100' : 'w-4 opacity-30' }`} />
+          <div 
+            key={i} 
+            className={`h-px bg-white transition-all duration-700 ease-out ${ i === activeIndex ? 'w-10 opacity-100' : 'w-3 opacity-20' }`} 
+          />
         ))}
       </div>
 
-      {/* Opening Hero - Pure Typography */}
-      <section className="relative w-full h-[100svh] flex flex-col justify-end items-start z-50 overflow-hidden px-8 sm:px-16 pb-16">
-        {/* Subtle Background */}
-        <div className="absolute inset-0 bg-[#020202]" />
-        <div
-          className="absolute inset-0 opacity-60"
-          style={{ background: 'radial-gradient(ellipse 80% 80% at 50% 100%, rgba(43,59,229,0.06) 0%, transparent 100%)' }}
+      {/* Hero Section — Monolithic Typography */}
+      <section className={`relative w-full h-[100svh] flex flex-col justify-end items-start z-50 overflow-hidden px-8 sm:px-16 pb-16 transition-opacity duration-1000 ${heroReady ? 'opacity-100' : 'opacity-0'}`}>
+        <div 
+          className="absolute inset-0"
+          style={{ background: 'radial-gradient(ellipse 100% 80% at 30% 120%, rgba(43,59,229,0.04) 0%, transparent 70%)' }}
         />
         
-        {/* Giant Typographic Mark */}
-        <div className="relative z-10 mix-blend-difference pointer-events-none">
+        {/* Colossal N — the Brand Mark */}
+        <div className="relative z-10 pointer-events-none select-none">
           <h1 
-            className="text-[22vw] font-serif font-light text-white tracking-[-0.04em] uppercase leading-none block" 
+            className="font-serif font-light text-white uppercase leading-[0.85] block transition-all duration-700"
             style={{ 
-              textShadow: 'calc(var(--scroll-chromatic, 0px) * -1) 0 0 rgba(255,0,0,0.7), calc(var(--scroll-chromatic, 0px)) 0 0 rgba(0,255,255,0.7)'
+              fontSize: 'clamp(120px, 28vw, 480px)',
+              letterSpacing: '-0.04em',
+              opacity: heroReady ? 1 : 0,
+              transform: heroReady ? 'translateY(0)' : 'translateY(40px)',
+              transitionDelay: '200ms',
+              textShadow: 'calc(var(--scroll-chromatic, 0px) * -1) 0 0 rgba(255,30,0,0.6), calc(var(--scroll-chromatic, 0px)) 0 0 rgba(0,220,255,0.6)'
             }}
           >
             N
           </h1>
-          <h2 className="text-[4vw] sm:text-[2.5vw] font-sans font-light text-white/60 tracking-[0.5em] uppercase ml-2">Naroa Gutiérrez Gil</h2>
-          <p className="text-[1.2vw] font-sans text-white/30 tracking-[0.3em] uppercase mt-4 ml-2">Arte sobre pizarra — Kintsugi — Retrato</p>
+          
+          {/* Name block */}
+          <div 
+            className="mt-4 ml-1 transition-all duration-700"
+            style={{ 
+              opacity: heroReady ? 1 : 0,
+              transform: heroReady ? 'translateY(0)' : 'translateY(20px)',
+              transitionDelay: '400ms'
+            }}
+          >
+            <p className="text-white/80 font-sans tracking-[0.5em] uppercase text-sm sm:text-base">Naroa Gutiérrez Gil</p>
+            <p className="text-white/25 font-sans tracking-[0.3em] uppercase text-xs mt-1.5">Arte sobre pizarra · Bilbao</p>
+          </div>
         </div>
         
-        <p className="absolute bottom-10 right-16 text-white/20 tracking-[0.4em] text-[10px] uppercase font-sans mix-blend-difference">
-          ↓ Descender
-        </p>
+        {/* Scroll Indicator */}
+        <div
+          className="absolute bottom-10 right-14 flex flex-col items-center gap-3 transition-all duration-700 mix-blend-difference"
+          style={{ 
+            opacity: heroReady ? 0.4 : 0,
+            transitionDelay: '800ms'
+          }}
+        >
+          <span className="text-white font-sans text-[9px] tracking-[0.5em] uppercase">Scroll</span>
+          <div className="w-px h-12 bg-white/50 relative overflow-hidden">
+            <div 
+              className="absolute top-0 left-0 w-full h-1/2 bg-white"
+              style={{ animation: 'slideDown 2s ease-in-out infinite' }}
+            />
+          </div>
+        </div>
       </section>
 
-      {/* Continuous Fullscreen Gallery Scroll */}
-      <div className="relative z-10 w-full flex flex-col">
+      {/* Continuous Fullscreen Gallery */}
+      <div className="relative z-10 w-full">
         {artworks.map((artwork, i) => (
           <section 
             key={i}
@@ -213,41 +249,64 @@ export default function Home() {
             className="gallery-item relative w-full h-[100svh] flex justify-center items-center overflow-hidden group cursor-none"
             onClick={() => triggerTakeover(artwork)}
           >
-            {/* Parallax Kinetic Image */}
+            {/* Deep Parallax Layer */}
             <div 
-              className="absolute inset-[-8%] will-change-transform transform-gpu transition-transform duration-100 ease-linear"
+              className="absolute inset-[-10%] will-change-transform transform-gpu"
               style={{
-                transform: `scale(1.16) translateY(calc(var(--scroll-velocity, 0) * ${i % 2 === 0 ? '-6px' : '6px'}))`
+                transform: `scale(1.2) translateY(calc(var(--scroll-velocity, 0) * ${i % 2 === 0 ? '-8px' : '8px'}))`
               }}
             >
               <KineticArtwork
                 src={resolveSrc(artwork.src)}
                 alt={artwork.title}
                 priority={i < 3}
-                className="group-hover:scale-105 transition-transform duration-[3s] ease-out"
+                className="group-hover:scale-[1.04] transition-transform duration-[4s] ease-out"
                 id={artwork.src.split('.')[0].replace(/[^a-zA-Z0-9-]/g, '')}
               />
             </div>
             
-            {/* Gradient Vignette */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30 group-hover:from-black/40 group-hover:via-transparent group-hover:to-transparent transition-all duration-1000 z-10 pointer-events-none" />
+            {/* Layered Atmospheric Gradient */}
+            <div className="absolute inset-0 z-10 pointer-events-none transition-opacity duration-[1.5s]"
+              style={{
+                background: i % 3 === 0
+                  ? 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.4) 100%)'
+                  : i % 3 === 1
+                  ? 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.5) 100%)'
+                  : 'linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 60%)'
+              }}
+            />
+            <div className="absolute inset-0 z-10 bg-black/50 group-hover:bg-black/5 transition-colors duration-[1.5s] pointer-events-none" />
             
-            {/* Section Number */}
-            <span className="absolute top-8 left-10 text-white/20 font-sans text-[11px] tracking-[0.4em] z-20 mix-blend-difference">
-              {String(i + 1).padStart(2, '0')}
+            {/* Index Number */}
+            <span className="absolute top-8 left-10 text-white/15 font-sans text-[11px] tracking-[0.4em] z-20 mix-blend-difference group-hover:text-white/50 transition-colors duration-700">
+              {String(i + 1).padStart(2, '0')} / {artworks.length}
             </span>
             
-            {/* Bottom Typographic Block */}
-            <div className="absolute bottom-10 left-10 sm:left-16 z-20 pointer-events-none">
+            {/* Typographic Block — Bottom Left */}
+            <div className="absolute bottom-10 left-10 sm:left-16 z-20 overflow-hidden">
               <h2 
-                className="text-[10vw] sm:text-[7vw] font-serif uppercase tracking-tighter text-white mix-blend-difference leading-none opacity-30 group-hover:opacity-100 transition-opacity duration-1000 ease-out will-change-opacity"
-                style={{
-                  textShadow: i === activeIndex ? 'calc(var(--scroll-chromatic, 0px) * -1) 0 0 rgba(255,0,0,0.5), calc(var(--scroll-chromatic, 0px)) 0 0 rgba(0,255,255,0.5)' : 'none'
+                className="font-serif uppercase tracking-tighter text-white mix-blend-difference leading-none block will-change-transform"
+                style={{ 
+                  fontSize: 'clamp(48px, 8vw, 130px)',
+                  opacity: i === activeIndex ? 1 : 0.25,
+                  transform: `translateX(${i === activeIndex ? '0' : '-20px'}) translateY(calc(var(--scroll-velocity, 0) * ${i % 2 === 0 ? '4px' : '-4px'}))`,
+                  transition: 'opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
+                  textShadow: i === activeIndex 
+                    ? 'calc(var(--scroll-chromatic, 0px) * -1) 0 0 rgba(255,30,0,0.5), calc(var(--scroll-chromatic, 0px)) 0 0 rgba(0,220,255,0.5)' 
+                    : 'none'
                 }}
               >
                 {artwork.title}
               </h2>
-              <p className="text-white/30 font-sans text-[11px] tracking-[0.3em] uppercase mt-2 group-hover:text-white/60 transition-colors duration-700">
+              <p 
+                className="text-white/40 font-sans tracking-[0.25em] uppercase mt-3 group-hover:text-white/70 transition-colors duration-700"
+                style={{ 
+                  fontSize: '10px',
+                  opacity: i === activeIndex ? 1 : 0,
+                  transform: i === activeIndex ? 'translateY(0)' : 'translateY(8px)',
+                  transition: 'opacity 0.8s 0.2s ease, transform 0.8s 0.2s ease'
+                }}
+              >
                 {artwork.sub}
               </p>
             </div>
@@ -255,11 +314,21 @@ export default function Home() {
         ))}
       </div>
 
-      {/* Closing Void */}
-      <section className="relative z-20 w-full h-[50svh] flex flex-col justify-center items-center overflow-hidden bg-black">
-        <p className="text-white/10 font-sans tracking-[1em] text-[10px] uppercase">Naroa Gutiérrez Gil</p>
-        <p className="text-white/5 font-sans tracking-[0.5em] text-[9px] uppercase mt-3">Bilbao</p>
+      {/* Closing Statement */}
+      <section className="relative z-20 w-full h-[60svh] flex flex-col justify-center items-center bg-[#020202]">
+        <div className="text-center">
+          <p className="text-white/8 font-serif uppercase tracking-[0.5em]" style={{ fontSize: 'clamp(32px, 6vw, 90px)' }}>Naroa</p>
+          <div className="w-px h-16 bg-white/10 mx-auto mt-8 mb-8" />
+          <p className="text-white/20 font-sans text-[10px] tracking-[0.5em] uppercase">Bilbao · naroa@naroa.eu</p>
+        </div>
       </section>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes slideDown {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(200%); }
+        }
+      `}} />
 
       <TakeoverModal 
         artwork={takeoverArtwork} 
