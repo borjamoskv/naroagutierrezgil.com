@@ -138,7 +138,7 @@ export default function CustomCursor() {
   useEffect(() => {
     document.body.style.cursor = "none";
     const style = document.createElement("style");
-    style.innerHTML = `* { cursor: none !important; }`;
+    style.textContent = `* { cursor: none !important; }`;
     document.head.appendChild(style);
     return () => {
       document.body.style.cursor = "auto";

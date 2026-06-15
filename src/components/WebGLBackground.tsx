@@ -10,6 +10,7 @@ import { inSphere } from "maath/random";
 function StarBackground(props: any) {
   const ref = useRef<THREE.Points>(null);
   const [color, setColor] = useState("#2B3BE5");
+  const particleTypes = useRef<string[]>([]);
   
   useEffect(() => {
     const initialColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
@@ -30,11 +31,66 @@ function StarBackground(props: any) {
     };
   }, []);
 
-  // Create a sphere of random particles representing "pigment dust" or slate particles
   const count = 5000;
   const [sphere] = useState(() => 
     inSphere(new Float32Array(count * 3), { radius: 2.0 }) as Float32Array
   );
+
+  // Generate mixed mineral colors (70% base, 20% gold, 10% silver/mica)
+  const [colors] = useState(() => {
+    const arr = new Float32Array(count * 3);
+    const types: string[] = [];
+    
+    for (let i = 0; i < count; i++) {
+      const idx = i * 3;
+      const rand = Math.random();
+      if (rand < 0.7) {
+        types.push('primary');
+        // Initial primary color #2B3BE5
+        arr[idx] = 43 / 255;
+        arr[idx+1] = 59 / 255;
+        arr[idx+2] = 229 / 255;
+      } else if (rand < 0.9) {
+        types.push('gold');
+        // Gold #D4AF37
+        arr[idx] = 212 / 255;
+        arr[idx+1] = 175 / 255;
+        arr[idx+2] = 55 / 255;
+      } else {
+        types.push('silver');
+        // Silver/Mica #EAEAEA
+        arr[idx] = 234 / 255;
+        arr[idx+1] = 234 / 255;
+        arr[idx+2] = 234 / 255;
+      }
+    }
+    particleTypes.current = types;
+    return arr;
+  });
+
+  // Dynamically update primary particle colors on base color change
+  useEffect(() => {
+    if (!ref.current) return;
+    const geometry = ref.current.geometry;
+    const colorAttr = geometry.getAttribute('color') as THREE.BufferAttribute;
+    if (!colorAttr) return;
+    
+    const cleanHex = color.replace('#', '');
+    const r = parseInt(cleanHex.substring(0, 2), 16) / 255;
+    const g = parseInt(cleanHex.substring(2, 4), 16) / 255;
+    const b = parseInt(cleanHex.substring(4, 6), 16) / 255;
+
+    const colorsArr = colorAttr.array as Float32Array;
+    for (let i = 0; i < count; i++) {
+      const idx = i * 3;
+      if (particleTypes.current[i] === 'primary') {
+        colorsArr[idx] = r;
+        colorsArr[idx+1] = g;
+        colorsArr[idx+2] = b;
+      }
+    }
+    colorAttr.needsUpdate = true;
+  }, [color]);
   
   const mouse = useRef(new THREE.Vector2(0, 0));
   
@@ -49,10 +105,9 @@ function StarBackground(props: any) {
 
   useFrame((state, delta) => {
     if (ref.current) {
-      ref.current.rotation.x -= delta / 20;
-      ref.current.rotation.y -= delta / 30;
+      ref.current.rotation.x -= delta / 22;
+      ref.current.rotation.y -= delta / 32;
       
-      // Interactive gravity well towards mouse
       const positions = ref.current.geometry.attributes.position.array as Float32Array;
       const mouseVec = new THREE.Vector3(mouse.current.x * 2, mouse.current.y * 2, 0);
       
@@ -67,7 +122,6 @@ function StarBackground(props: any) {
           positions[idx+1] = p.y;
           positions[idx+2] = p.z;
         } else {
-          // Slow recovery back to orbit radius (simplified)
           const originDist = p.length();
           if (originDist < 1.9) p.multiplyScalar(1 + delta * 0.1);
           if (originDist > 2.1) p.multiplyScalar(1 - delta * 0.1);
@@ -82,14 +136,14 @@ function StarBackground(props: any) {
 
   return (
     <group rotation={[0, 0, Math.PI / 4]}>
-      <Points ref={ref} positions={sphere} stride={3} frustumCulled={false} {...props}>
+      <Points ref={ref} positions={sphere} colors={colors} stride={3} frustumCulled={false} {...props}>
         <PointMaterial
           transparent
-          color={color}
+          vertexColors
           size={0.005}
           sizeAttenuation={true}
           depthWrite={false}
-          opacity={0.6}
+          opacity={0.65}
         />
       </Points>
     </group>
