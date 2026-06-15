@@ -1,4 +1,6 @@
-import SplatBenchmarkCanvas from '@/components/SplatBenchmarkCanvas';
+import dynamic from 'next/dynamic';
+
+const SplatBenchmarkCanvas = dynamic(() => import('@/components/SplatBenchmarkCanvas'), { ssr: false });
 
 export const metadata = {
   title: 'Splat Benchmark Omega | Naroart',
