@@ -205,55 +205,28 @@ export default function Home() {
       {appMode === "CAOS" && webGLReady && <SOTAFX />}
       {appMode === "CAOS" && webGLReady && <Mica />}
 
-      <section className="relative w-full h-screen flex flex-col justify-between overflow-hidden px-6 sm:px-12 py-12">
-        {appMode === "ORDEN" && <AnimatedHeroBackground />}
-        {appMode === "ORDEN" && <HeroFluid />}
-        <div className={`absolute inset-0 bg-[radial-gradient(circle_at_60%_30%,rgba(43,59,229,0.15)_0%,transparent_50%)] z-0 mix-blend-color-dodge pointer-events-none transition-opacity duration-1000 ${appMode === "ORDEN" ? "opacity-30" : "opacity-100"}`} />
-        <div className="relative z-10 w-full flex justify-between items-start animate-[fadeIn_2s_ease-out]">
-          <span className="text-foreground/40 font-sans tracking-[0.2em] text-[9px] uppercase">Acrílico sobre pizarra</span>
-          <span className="text-foreground/40 font-sans tracking-[0.2em] text-[9px] uppercase">Bilbao</span>
-        </div>
-        
-        <div className={`relative z-10 flex flex-col items-start w-full max-w-[1800px] mx-auto mb-auto min-h-[50vh] justify-center transition-all duration-1000 ${appMode === "ORDEN" ? "mt-32 items-center text-center" : "mt-20"}`}>
-          <h1 className={`relative flex flex-col w-full text-[15vw] leading-[0.8] font-serif tracking-tighter uppercase select-none transition-all duration-1000 ${appMode === "ORDEN" ? "font-black text-center items-center gap-2 mix-blend-difference" : "font-black mix-blend-difference"}`}>
-            {appMode === "ORDEN" ? (
-              <div className="flex flex-col items-center gap-8 mt-12 animate-[fadeIn_2s_ease-out]">
-                <span className="text-[10px] sm:text-[12px] tracking-[0.8em] font-sans text-primary/80 uppercase border-b border-primary/20 pb-4 text-glow">Catálogo Razonado</span>
-                <div className="flex flex-col gap-2">
-                  <span className="text-foreground text-[9vw] sm:text-[7vw] tracking-tighter font-serif font-black leading-none text-glow">Naroa</span>
-                  <span className="text-foreground/80 text-[7vw] sm:text-[5vw] tracking-widest font-serif leading-none italic font-bold">Gutiérrez Gil</span>
-                </div>
-                <div className="w-px h-32 bg-gradient-to-b from-primary/50 to-transparent mt-12 animate-pulse" />
-              </div>
-            ) : (
-              <>
-                <span className="flex overflow-hidden z-20">
-                  <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0s_both] text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.1)] hover:[-webkit-text-stroke:2px_#2B3BE5] transition-all duration-700 chromatic-text">Naroa</span>
-                </span>
-                <span className="flex overflow-hidden -mt-[6vw] ml-[10vw] z-10">
-                  <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-primary/80 chromatic-text text-glow">Gutiérrez</span>
-                </span>
-                <span className="flex overflow-hidden self-end mr-[5vw] z-20 mt-[4vw]">
-                  <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-white opacity-90 chromatic-text">Gil</span>
-                </span>
-              </>
-            )}
-          </h1>
+      <section className="relative w-full h-[100svh] flex flex-col justify-center items-center overflow-hidden z-50 bg-[#050505]">
+        {/* El Retrato Monumental - Cero Fricción */}
+        <div className="absolute inset-0 w-full h-full">
+          <Image 
+            src={resolveSrc('hq-portrait-1-bV-_WHlX.webp')} 
+            alt="Naroa Gutiérrez Gil - Impacto Monumental" 
+            fill 
+            sizes="100vw"
+            quality={100}
+            priority
+            className="object-cover object-center grayscale-[15%] contrast-[1.1] brightness-[0.8] hover:grayscale-0 hover:brightness-100 transition-all duration-[4s] ease-out"
+          />
+          {/* Veta dorada sutil (Kintsugi) que reacciona a la luz */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(43,59,229,0.05)_0%,transparent_70%)] mix-blend-color-dodge pointer-events-none" />
         </div>
 
-        <div className="relative z-10 w-full flex flex-col md:flex-row justify-end items-end gap-12 mt-auto max-w-[1800px] mx-auto animate-[fadeIn_3s_ease-out_1s_both]">
-          <a href="/biografia" aria-label="Explorar la biografía" className="group flex items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 cursor-pointer pointer-events-auto">
-            <span className="uppercase font-sans tracking-[0.4em] text-[9px] font-medium rotate-180 [writing-mode:vertical-rl]">Biografía</span>
-            <div className="w-[1px] h-32 bg-foreground/10 relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-full bg-primary animate-[translateY_2s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
-            </div>
-          </a>
-          <a href="#galeria" aria-label="Descender a la galería" className="group flex items-center gap-6 text-foreground/30 hover:text-primary transition-colors duration-700 cursor-pointer pointer-events-auto">
-            <span className="uppercase font-sans tracking-[0.4em] text-[9px] font-medium rotate-180 [writing-mode:vertical-rl]">Descender</span>
-            <div className="w-[1px] h-32 bg-foreground/10 relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-full bg-primary animate-[translateY_2s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
-            </div>
-          </a>
+        {/* Indicador sutil de gravedad - La única señal visual */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-50 hover:opacity-100 transition-opacity duration-1000">
+          <span className="text-white/40 font-sans tracking-[0.5em] text-[8px] uppercase">Descender</span>
+          <div className="w-px h-16 bg-white/20 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-full bg-white animate-[translateY_2.5s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
+          </div>
         </div>
       </section>
 
