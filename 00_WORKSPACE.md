@@ -24,6 +24,12 @@
 
 ---
 
+## 🤖 Swarm Routing & Topology (L1/L2/L3)
+
+Todas las SKILLS operando en este workspace están subordinadas a la topología de ruteo y resolución de conflictos definida en el núcleo persistente. Para consultar las jerarquías forzadas, los pipelines de autocompletado y los antipatrones termocinéticos, revisar el manifiesto operativo: [30_CORTEX/AGENTS.md](file:///Users/borjafernandezangulo/30_CORTEX/AGENTS.md).
+
+---
+
 ## 🛠️ Acciones Recomendadas para el Usuario
 
 1. **Sidebar Cleanup**: Para eliminar el "ruido" de la barra lateral, haz click derecho en el workspace `Borja Moskv` y selecciona **"Remove Folder from Workspace"**.
