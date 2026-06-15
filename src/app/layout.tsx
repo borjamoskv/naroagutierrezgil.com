@@ -6,7 +6,6 @@ const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 
 import CustomCursor from "@/components/CustomCursor";
-import Soundscape from "@/components/Soundscape";
 import Preloader from "@/components/Preloader";
 import AgentWidget from "@/components/AgentWidget";
 
@@ -79,7 +78,6 @@ export default function RootLayout({
       <body className={`${outfit.variable} ${jetbrainsMono.variable} bg-[#0A0A0A] text-[#EAEAEA] antialiased`}>
         <Preloader />
         <CustomCursor />
-        <Soundscape />
         {children}
         <AgentWidget />
       </body>

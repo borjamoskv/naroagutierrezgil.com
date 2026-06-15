@@ -1,20 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-noir-900: #050505;
-  --color-noir-800: #0A0A0A;
-  --color-noir-700: #121212;
-  --color-noir-100: #EAEAEA;
+  --color-noir-900: #030303;
+  --color-noir-800: #070707;
+  --color-noir-700: #0F0F0F;
+  --color-noir-100: #F5F5F5;
   --color-accent: #2B3BE5;
   --color-accent-glow: rgba(43, 59, 229, 0.4);
 
   --font-sans: var(--font-outfit), system-ui, sans-serif;
   --font-mono: var(--font-mono), monospace;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
 }
 
 :root {
-  --background: #0A0A0A;
-  --foreground: #EAEAEA;
+  --background: #050505;
+  --foreground: #F5F5F5;
   --accent: #2B3BE5;
 }
 
@@ -25,6 +26,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  background-image: radial-gradient(circle at 50% 0%, rgba(43, 59, 229, 0.05) 0%, transparent 70%);
 }
 
 /* Lenis Smooth Scrolling */
@@ -107,4 +109,30 @@ html.lenis, html.lenis body {
   100% {
     transform: scale(1.12);
   }
+}
+
+.glass-panel {
+  background: rgba(10, 10, 10, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.text-glow {
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.2), 0 0 40px rgba(43, 59, 229, 0.4);
+}
+
+.reveal-mask {
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 30px rgba(43, 59, 229, 0.2);
+  border-color: rgba(43, 59, 229, 0.3);
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
 }
