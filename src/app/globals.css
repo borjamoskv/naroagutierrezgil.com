@@ -8,9 +8,9 @@
   --color-accent: #2B3BE5;
   --color-accent-glow: rgba(43, 59, 229, 0.4);
 
-  --font-sans: var(--font-outfit), system-ui, sans-serif;
-  --font-mono: var(--font-mono), monospace;
-  --font-serif: var(--font-serif), "Playfair Display", ui-serif, Georgia, serif;
+  --font-sans: "Outfit", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
 }
 
 :root {

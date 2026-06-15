@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit, JetBrains_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
-
-const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit", display: 'swap' });
-const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: 'swap' });
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-serif", display: 'swap' });
 
 import CustomCursor from "@/components/CustomCursor";
 import Preloader from "@/components/Preloader";
@@ -70,12 +65,15 @@ export default function RootLayout({
   return (
     <html lang="es" className="dark" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&family=Outfit:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${outfit.variable} ${jetbrainsMono.variable} ${playfair.variable} bg-[#0A0A0A] text-[#EAEAEA] antialiased`}>
+      <body className="bg-[#0A0A0A] text-[#EAEAEA] antialiased">
         <Preloader />
         <CustomCursor />
         {children}
