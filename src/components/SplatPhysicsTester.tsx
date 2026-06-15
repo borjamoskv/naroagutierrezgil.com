@@ -96,6 +96,15 @@ export default function SplatPhysicsTester() {
       const tick = (time: number) => {
         if (!engine || !canvas || !context) return;
 
+        // Dynamic High-DPI canvas resizing to prevent pixelated/stretched output
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const rectWidth = Math.floor(canvas.clientWidth * dpr);
+        const rectHeight = Math.floor(canvas.clientHeight * dpr);
+        if (canvas.width !== rectWidth || canvas.height !== rectHeight) {
+          canvas.width = rectWidth;
+          canvas.height = rectHeight;
+        }
+
         // FPS calculation
         frameCount++;
         const now = performance.now();
@@ -168,6 +177,10 @@ export default function SplatPhysicsTester() {
         cancelAnimationFrame(animationId);
         canvas.removeEventListener('wheel', handleWheel);
       };
+    };
+
+    initWebGPU = () => {
+      initWebGPU().catch(console.error);
     };
 
     initWebGPU();
