@@ -91,9 +91,9 @@ export default function Preloader() {
       <div className="p-6 md:p-12 w-full z-10 relative mix-blend-difference flex flex-col justify-end h-[30vh]">
         <div className="flex flex-col gap-1 mb-8 opacity-50 font-mono text-[9px] uppercase tracking-widest text-[#2B3BE5]">
           {logs.map((log, i) => (
-            <div key={i} className="animate-[fadeIn_0.2s_ease-out]">> {log}</div>
+            <div key={i} className="animate-[fadeIn_0.2s_ease-out]">&gt; {log}</div>
           ))}
-          {progress < 100 && <div className="animate-pulse">> _</div>}
+          {progress < 100 && <div className="animate-pulse">&gt; _</div>}
         </div>
         
         {/* Massive Progress Bar */}
