@@ -241,6 +241,16 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Statement del Artista */}
+      <section className="relative z-20 w-full min-h-[60svh] flex flex-col justify-center px-8 sm:px-16 bg-[#020202]">
+        <div className="max-w-4xl">
+          <p className="text-white/40 font-sans tracking-[0.4em] uppercase text-xs mb-8">El Arte de la Precisión</p>
+          <h2 className="font-serif text-white text-[5vw] sm:text-[3vw] leading-tight text-balance">
+            "No pinto rostros. <span className="text-white/40">Capturo la luz que queda dentro de las personas cuando creen que nadie las está mirando.</span> Cada retrato es un acto de memoria y presencia."
+          </h2>
+        </div>
+      </section>
+
       {/* Continuous Fullscreen Gallery */}
       <div className="relative z-10 w-full">
         {artworks.map((artwork, i) => (
@@ -314,6 +324,27 @@ export default function Home() {
           </section>
         ))}
       </div>
+
+      {/* El Proceso Maestría */}
+      <section className="relative z-20 w-full py-32 px-8 sm:px-16 bg-[#020202] border-t border-white/5">
+        <h3 className="text-white/40 font-sans tracking-[0.4em] uppercase text-xs mb-16 text-center">La Anatomía de un Encargo</h3>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          {[
+            { step: '01', title: 'AUDITORÍA VISUAL', desc: 'Análisis termodinámico de la fotografía de referencia. Estudio de luces y sombras.' },
+            { step: '02', title: 'PIZARRA VASCA', desc: 'Selección manual y preparación de la piedra natural en el taller.' },
+            { step: '03', title: 'ALQUIMIA CINCÉLICA', desc: 'Entre 3 y 6 semanas de trabajo hiperrealista con técnica mixta y acrílico.' },
+            { step: '04', title: 'KINTSUGI & ENTREGA', desc: 'Barnizado epoxi, certificación de obra y envío protegido nivel museo.' },
+          ].map(p => (
+            <div key={p.step} className="border border-white/10 p-6 flex flex-col justify-between hover:border-white/40 transition-colors">
+              <span className="font-serif text-3xl opacity-30 mb-8">{p.step}</span>
+              <div>
+                <h4 className="font-sans text-xs tracking-widest uppercase mb-3 text-white">{p.title}</h4>
+                <p className="font-sans text-xs opacity-60 leading-relaxed">{p.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* Fase 1: Formulario Inteligente (Pricing Configurator) */}
       <section className="relative z-20 w-full min-h-[100svh] flex flex-col justify-center bg-[#020202] border-t border-white/5">
