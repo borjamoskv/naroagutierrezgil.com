@@ -52,8 +52,10 @@ export default function CustomCursor() {
 
     let width = window.innerWidth;
     let height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.scale(dpr, dpr);
 
     let points: { x: number; y: number; timestamp: number }[] = [];
     let rafId: number;
@@ -70,8 +72,10 @@ export default function CustomCursor() {
     const handleResize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.scale(dpr, dpr);
     };
 
     window.addEventListener("pointermove", handlePointerMove);
@@ -167,12 +171,12 @@ export default function CustomCursor() {
             animation: 'thermalPulse 2s infinite alternate ease-in-out'
           }}
         />
-        <style jsx>{`
+        <style dangerouslySetInnerHTML={{ __html: `
           @keyframes thermalPulse {
             0% { opacity: 0.6; filter: brightness(1); }
             100% { opacity: 1; filter: brightness(1.5); }
           }
-        `}</style>
+        ` }} />
       </div>
     </>
   );
