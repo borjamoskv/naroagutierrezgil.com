@@ -7,7 +7,6 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mon
 
 import CustomCursor from "@/components/CustomCursor";
 import Preloader from "@/components/Preloader";
-import AgentWidget from "@/components/AgentWidget";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://naroagutierrezgil.com'),
@@ -79,7 +78,6 @@ export default function RootLayout({
         <Preloader />
         <CustomCursor />
         {children}
-        <AgentWidget />
       </body>
     </html>
   );

@@ -13,7 +13,6 @@ import HeroFluid from '@/components/HeroFluid';
 import ScrollyTelling from '@/components/ScrollyTelling';
 import InteractiveStudio from '@/components/InteractiveStudio';
 import TakeoverModal from '@/components/TakeoverModal';
-import ColorDock from '@/components/ColorDock';
 import Footer from '@/components/Footer';
 import AnimatedHeroBackground from '@/components/AnimatedHeroBackground';
 
@@ -158,12 +157,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const palettes = ['#2B3BE5', '#C6A87C', '#10B981', '#D9383A', '#D97706', '#8B5CF6', '#06B6D4'];
-    let selectedColor = localStorage.getItem('naroa_primary_color');
-    if (!selectedColor) {
-      selectedColor = palettes[Math.floor(Math.random() * palettes.length)];
-      localStorage.setItem('naroa_primary_color', selectedColor);
-    }
+    const selectedColor = '#2B3BE5';
     setTimeout(() => {
       updatePrimaryColor(selectedColor);
     }, 0);
@@ -347,9 +341,6 @@ export default function Home() {
 
       {/* ── FOOTER VISUAL ── */}
       <Footer />
-
-      {/* Floating Color Mutator Dock */}
-      <ColorDock activeColor={activeColor} onColorSelect={updatePrimaryColor} />
 
       <TakeoverModal 
         artwork={takeoverArtwork} 
