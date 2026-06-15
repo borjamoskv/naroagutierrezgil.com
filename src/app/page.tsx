@@ -267,6 +267,24 @@ export default function Home() {
 
   return (
     <div className={`flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary selection:text-black ${appMode === "ORDEN" ? "bg-[#050505]" : ""}`}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": baseArtworks.map(artwork => ({
+              "@type": "VisualArtwork",
+              "name": artwork.title,
+              "image": `https://naroagutierrezgil.com/assets/${artwork.src}`,
+              "artist": {
+                "@type": "Person",
+                "name": "Naroa Gutiérrez Gil"
+              },
+              "artMedium": "Acrílico sobre pizarra, Kintsugi, Arte Digital"
+            }))
+          })
+        }}
+      />
       {appMode === "CAOS" && webGLReady && (
         <>
           <div id="fluid-physics-container" className="fixed inset-0 z-0 pointer-events-auto animate-[fadeIn_4s_ease-out]">
