@@ -5,6 +5,7 @@
 ## System & Hardening
 | Title | ID | ⚠️ `ORPHANED` | ☁️ `Off-chain` |
 |---|---| ⚠️ `ORPHANED` | ☁️ `Off-chain` |
+| 🏆 HITO: Resolución Estructural del Swarm V2 y Purga Termodinámica | [`222cfbab`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/222cfbab-7816-4a19-b415-570fd568647e) | 🟢 `ACTIVE` | ⛓️ `C5-REAL` |
 | 🏆 HITO: SICA External Synchronization & MCP L1 Handshake | [`92e72821`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/92e72821-e800-4b70-897d-c81c6feb74e3) | ⚠️ `ORPHANED` | ☁️ `Off-chain` |
 | 🏆 HITO: SICA Meta-Level Validation & ULTRAMAP 100k Sovereign Stress Test | [`6a5029d3`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/6a5029d3-051a-422d-81fb-9fab24ae48c1) | ⚠️ `ORPHANED` | ☁️ `Off-chain` |
 | ADHD Thermodynamic Model Blog Injection | [`4edec674`](file:///Users/borjafernandezangulo/.gemini/antigravity/brain/4edec674-b04c-4c1e-9f41-90bb1f32250c) | ⚠️ `ORPHANED` | ☁️ `Off-chain` |
