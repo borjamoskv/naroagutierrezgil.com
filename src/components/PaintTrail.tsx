@@ -20,7 +20,8 @@ export default function PaintTrail() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d", { alpha: true });
+    // EXERGY OMEGA: Bypass compositor queue for zero-latency direct screen rendering
+    const ctx = canvas.getContext("2d", { alpha: true, desynchronized: true });
     if (!ctx) return;
 
     let width = window.innerWidth;
@@ -107,8 +108,8 @@ export default function PaintTrail() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-[45] mix-blend-screen transition-all duration-500"
-      style={{ filter: `blur(${blurAmount}px) contrast(1.5)` }}
+      className="fixed inset-0 pointer-events-none z-[45] mix-blend-screen transform-gpu"
+      style={{ filter: `blur(${blurAmount}px) contrast(1.5)`, willChange: 'filter' }}
     />
   );
 }
