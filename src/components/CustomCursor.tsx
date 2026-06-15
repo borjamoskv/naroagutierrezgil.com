@@ -4,14 +4,12 @@ import { useEffect, useRef, useState } from "react";
 
 export default function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
-  const followerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
-    let followerX = mouseX;
-    let followerY = mouseY;
     let rafId: number;
 
     const onPointerMove = (e: PointerEvent) => {
@@ -20,17 +18,6 @@ export default function CustomCursor() {
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
       }
-    };
-
-    const animate = () => {
-      // Lerp for the follower (physics based smooth follow)
-      followerX += (mouseX - followerX) * 0.15;
-      followerY += (mouseY - followerY) * 0.15;
-
-      if (followerRef.current) {
-        followerRef.current.style.transform = `translate3d(${followerX}px, ${followerY}px, 0)`;
-      }
-      rafId = requestAnimationFrame(animate);
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -49,7 +36,6 @@ export default function CustomCursor() {
 
     window.addEventListener("pointermove", onPointerMove);
     document.addEventListener("mouseover", handleMouseOver);
-    animate();
 
     return () => {
       window.removeEventListener("pointermove", onPointerMove);
@@ -58,7 +44,82 @@ export default function CustomCursor() {
     };
   }, []);
 
-  // Hide default cursor globally when this component mounts
+  // Kintsugi Trail Canvas Logic
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) return;
+
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    let points: { x: number; y: number; age: number }[] = [];
+    let rafId: number;
+
+    const handlePointerMove = (e: PointerEvent) => {
+      // Agregamos puntos con un poco de "ruido" para simular la rotura orgánica de la piedra
+      const jitterX = (Math.random() - 0.5) * 2;
+      const jitterY = (Math.random() - 0.5) * 2;
+      points.push({ x: e.clientX + jitterX, y: e.clientY + jitterY, age: 0 });
+    };
+
+    const handleResize = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    };
+
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("resize", handleResize);
+
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
+      
+      // Envejece los puntos rápidamente (cicatriza y disuelve)
+      points.forEach(p => p.age += 1);
+      points = points.filter(p => p.age < 25); // Desaparece rápido
+
+      if (points.length > 2) {
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        
+        for (let i = 1; i < points.length - 1; i++) {
+          const p = points[i];
+          const nextP = points[i + 1];
+          const xc = (p.x + nextP.x) / 2;
+          const yc = (p.y + nextP.y) / 2;
+          ctx.quadraticCurveTo(p.x, p.y, xc, yc);
+        }
+        
+        const lastP = points[points.length - 1];
+        ctx.lineTo(lastP.x, lastP.y);
+        
+        // Efecto Kintsugi: Oro líquido (#D4AF37)
+        ctx.strokeStyle = `rgba(212, 175, 55, 0.8)`;
+        ctx.lineWidth = 1.5;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "bevel"; // Cortes más afilados
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = "rgba(212, 175, 55, 0.5)";
+        ctx.stroke();
+      }
+
+      rafId = requestAnimationFrame(render);
+    };
+
+    rafId = requestAnimationFrame(render);
+
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
   useEffect(() => {
     document.body.style.cursor = "none";
     const style = document.createElement("style");
@@ -72,22 +133,30 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Core Dot */}
+      {/* Kintsugi Trail Canvas */}
+      <canvas
+        ref={canvasRef}
+        className="fixed inset-0 pointer-events-none z-[9998] mix-blend-screen"
+      />
+      
+      {/* Chispa de oro latente (Pulso térmico) */}
       <div 
         ref={cursorRef} 
-        className="fixed top-0 left-0 w-1.5 h-1.5 bg-[#EAEAEA] rounded-full pointer-events-none z-[9999] mix-blend-difference -translate-x-1/2 -translate-y-1/2"
-      />
-      {/* Physics Follower */}
-      <div 
-        ref={followerRef} 
-        className={`fixed top-0 left-0 border rounded-full pointer-events-none z-[9998] mix-blend-difference -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-out`}
+        className="fixed top-0 left-0 w-1.5 h-1.5 pointer-events-none z-[9999] mix-blend-screen -translate-x-1/2 -translate-y-1/2 transition-transform duration-100 ease-out"
         style={{
-          borderColor: 'var(--primary, #2B3BE5)',
-          backgroundColor: isHovering ? 'rgba(var(--primary-rgb, 43, 59, 229), 0.2)' : 'transparent',
-          width: isHovering ? '48px' : '24px',
-          height: isHovering ? '48px' : '24px'
+          backgroundColor: '#D4AF37',
+          boxShadow: '0 0 10px rgba(212, 175, 55, 0.8), 0 0 2px rgba(255, 255, 255, 0.8)',
+          transform: isHovering ? 'scale(2.5)' : 'scale(1)',
+          animation: 'thermalPulse 2s infinite alternate ease-in-out'
         }}
-      />
+      >
+        <style jsx>{`
+          @keyframes thermalPulse {
+            0% { opacity: 0.6; filter: brightness(1); transform: scale(1); }
+            100% { opacity: 1; filter: brightness(1.5); transform: scale(1.2); }
+          }
+        `}</style>
+      </div>
     </>
   );
 }
