@@ -40,6 +40,8 @@ body::after {
   opacity: 0.022;
   pointer-events: none;
   z-index: 99999;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 /* Lenis Smooth Scrolling */
