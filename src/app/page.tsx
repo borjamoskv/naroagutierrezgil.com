@@ -140,7 +140,8 @@ export default function Home() {
     };
   }, []);
 
-  const [heroTranslateY, setHeroTranslateY] = useState(0);
+  const heroSectionRef = useRef<HTMLDivElement>(null);
+  const descenderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -149,7 +150,14 @@ export default function Home() {
       if (threshold > 0) {
         const progress = Math.min(Math.max(scrollY / threshold, 0), 1);
         const easedProgress = Math.pow(progress, 3.5); // Cubic-quartic hybrid
-        setHeroTranslateY(easedProgress * 100);
+        const translateY = easedProgress * 100;
+        
+        if (heroSectionRef.current) {
+          heroSectionRef.current.style.transform = `translateY(${-translateY}%)`;
+        }
+        if (descenderRef.current) {
+          descenderRef.current.style.opacity = Math.max(0, 0.5 - translateY / 50).toString();
+        }
       }
     };
 
@@ -229,7 +237,8 @@ export default function Home() {
       {/* Sticky Scroll Wrapper for Monolithic Hero */}
       <div className="relative w-full h-[180vh] bg-[#050505]">
         <section 
-          style={{ transform: `translateY(${-heroTranslateY}%)` }}
+          ref={heroSectionRef}
+          style={{ transform: 'translateY(0%)' }}
           className="sticky top-0 w-full h-[100svh] flex flex-col justify-center items-center overflow-hidden z-50 bg-[#050505] will-change-transform"
         >
           {/* El Retrato Monumental - Cero Fricción */}
@@ -249,7 +258,8 @@ export default function Home() {
 
           {/* Indicador sutil de gravedad - La única señal visual */}
           <div 
-            style={{ opacity: Math.max(0, 0.5 - heroTranslateY / 50) }}
+            ref={descenderRef}
+            style={{ opacity: 0.5 }}
             className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 transition-opacity duration-300"
           >
             <span className="text-white/40 font-sans tracking-[0.5em] text-[8px] uppercase">Descender</span>

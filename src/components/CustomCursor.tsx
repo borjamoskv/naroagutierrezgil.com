@@ -117,7 +117,7 @@ export default function CustomCursor() {
 
       // Update gold spark position, scale, and glow based on hover & scroll velocity
       if (cursorRef.current) {
-        const scale = (isHoveringRef.current ? 2.5 : 1.0) * (1 + Math.min(velocity * 0.08, 4));
+        const scale = 1 + Math.min(velocity * 0.08, 4);
         const glow = 10 + Math.min(velocity * 5, 40);
         cursorRef.current.style.transform = `translate3d(${mouseXRef.current}px, ${mouseYRef.current}px, 0) scale(${scale})`;
         cursorRef.current.style.boxShadow = `0 0 ${glow}px rgba(212, 175, 55, 0.9), 0 0 2px rgba(255, 255, 255, 0.9)`;
@@ -153,20 +153,24 @@ export default function CustomCursor() {
         className="fixed inset-0 pointer-events-none z-[9998] mix-blend-screen"
       />
       
+      {/* Outer position tracking element (Zero CSS transition on transform) */}
       <div 
         ref={cursorRef} 
-        className="fixed top-0 left-0 w-1.5 h-1.5 pointer-events-none z-[9999] mix-blend-screen -translate-x-1/2 -translate-y-1/2 transition-transform duration-100 ease-out"
-        style={{
-          backgroundColor: '#D4AF37',
-          boxShadow: '0 0 10px rgba(212, 175, 55, 0.8), 0 0 2px rgba(255, 255, 255, 0.8)',
-          transform: isHovering ? 'scale(2.5)' : 'scale(1)',
-          animation: 'thermalPulse 2s infinite alternate ease-in-out'
-        }}
+        className="fixed top-0 left-0 w-1.5 h-1.5 pointer-events-none z-[9999] mix-blend-screen -translate-x-1/2 -translate-y-1/2 will-change-transform"
       >
+        {/* Inner element handling hover scaling smoothly via CSS transition */}
+        <div
+          className="w-full h-full rounded-full transition-transform duration-300 cubic-bezier(0.25, 1, 0.5, 1)"
+          style={{
+            backgroundColor: '#D4AF37',
+            transform: isHovering ? 'scale(2.5)' : 'scale(1)',
+            animation: 'thermalPulse 2s infinite alternate ease-in-out'
+          }}
+        />
         <style jsx>{`
           @keyframes thermalPulse {
-            0% { opacity: 0.6; filter: brightness(1); transform: scale(1); }
-            100% { opacity: 1; filter: brightness(1.5); transform: scale(1.2); }
+            0% { opacity: 0.6; filter: brightness(1); }
+            100% { opacity: 1; filter: brightness(1.5); }
           }
         `}</style>
       </div>
