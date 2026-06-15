@@ -10,7 +10,6 @@ export default function CustomCursor() {
   const mouseXRef = useRef(0);
   const mouseYRef = useRef(0);
 
-  // Initialize mouse position to center screen
   useEffect(() => {
     mouseXRef.current = window.innerWidth / 2;
     mouseYRef.current = window.innerHeight / 2;
@@ -43,7 +42,7 @@ export default function CustomCursor() {
     };
   }, []);
 
-  // Kintsugi Trail Canvas Logic
+  // Glitch Laser Trail Canvas Logic
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -60,11 +59,16 @@ export default function CustomCursor() {
 
     const handlePointerMove = (e: PointerEvent) => {
       const velocity = (window as any).__scrollVelocity || 0;
-      // Jitter (cracking) increases with scroll velocity
-      const jitterMultiplier = 1 + Math.min(velocity * 0.1, 10);
-      const jitterX = (Math.random() - 0.5) * 2 * jitterMultiplier;
-      const jitterY = (Math.random() - 0.5) * 2 * jitterMultiplier;
-      points.push({ x: e.clientX + jitterX, y: e.clientY + jitterY, timestamp: performance.now() });
+      const jitterMultiplier = 1 + Math.min(velocity * 0.2, 15);
+      const jitterX = (Math.random() - 0.5) * 4 * jitterMultiplier;
+      const jitterY = (Math.random() - 0.5) * 4 * jitterMultiplier;
+      
+      // Strict straight lines occasionally (glitch)
+      if (Math.random() > 0.8 && points.length > 0) {
+        points.push({ x: points[points.length - 1].x, y: e.clientY, timestamp: performance.now() });
+      } else {
+        points.push({ x: e.clientX + jitterX, y: e.clientY + jitterY, timestamp: performance.now() });
+      }
     };
 
     const handleResize = () => {
@@ -81,46 +85,49 @@ export default function CustomCursor() {
       ctx.clearRect(0, 0, width, height);
       
       const velocity = (window as any).__scrollVelocity || 0;
-      
-      // Decay points using absolute time for framerate independence
       const now = performance.now();
-      points = points.filter(p => now - p.timestamp < 400);
+      points = points.filter(p => now - p.timestamp < 200); // Super fast decay for electric feel
 
       if (points.length > 2) {
         ctx.beginPath();
         ctx.moveTo(points[0].x, points[0].y);
         
-        for (let i = 1; i < points.length - 1; i++) {
+        for (let i = 1; i < points.length; i++) {
           const p = points[i];
-          const nextP = points[i + 1];
-          const xc = (p.x + nextP.x) / 2;
-          const yc = (p.y + nextP.y) / 2;
-          ctx.quadraticCurveTo(p.x, p.y, xc, yc);
+          // Sharp angles instead of smooth curves for "industrial laser" feel
+          ctx.lineTo(p.x, p.y);
         }
         
-        const lastP = points[points.length - 1];
-        ctx.lineTo(lastP.x, lastP.y);
+        const opacity = Math.min(0.6 + velocity * 0.05, 1.0);
+        const lineWidth = 1 + Math.min(velocity * 0.02, 2);
+        const glow = 10 + Math.min(velocity * 2, 40);
         
-        // Kintsugi Gold Trail with velocity styling
-        const opacity = Math.min(0.8 + velocity * 0.02, 1.0);
-        const lineWidth = 1.5 * (1 + Math.min(velocity * 0.05, 3));
-        const glow = 8 + Math.min(velocity * 1.5, 30);
-        
-        ctx.strokeStyle = `rgba(212, 175, 55, ${opacity})`;
+        ctx.strokeStyle = `rgba(43, 59, 229, ${opacity})`; // #2B3BE5
         ctx.lineWidth = lineWidth;
-        ctx.lineCap = "round";
-        ctx.lineJoin = "bevel";
+        ctx.lineCap = "square";
+        ctx.lineJoin = "miter";
+        ctx.miterLimit = 2;
         ctx.shadowBlur = glow;
-        ctx.shadowColor = `rgba(212, 175, 55, ${0.5 + Math.min(velocity * 0.05, 0.5)})`;
+        ctx.shadowColor = `rgba(43, 59, 229, ${0.8 + Math.min(velocity * 0.05, 0.5)})`;
+        ctx.stroke();
+
+        // Secondary inner core line (white)
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          ctx.lineTo(points[i].x, points[i].y);
+        }
+        ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.8})`;
+        ctx.lineWidth = lineWidth * 0.3;
+        ctx.shadowBlur = 0;
         ctx.stroke();
       }
 
-      // Update gold spark position, scale, and glow based on hover & scroll velocity
       if (cursorRef.current) {
-        const scale = 1 + Math.min(velocity * 0.08, 4);
-        const glow = 10 + Math.min(velocity * 5, 40);
+        const scale = 1 + Math.min(velocity * 0.05, 3);
+        const glow = 15 + Math.min(velocity * 5, 50);
         cursorRef.current.style.transform = `translate3d(${mouseXRef.current}px, ${mouseYRef.current}px, 0) scale(${scale})`;
-        cursorRef.current.style.boxShadow = `0 0 ${glow}px rgba(212, 175, 55, 0.9), 0 0 2px rgba(255, 255, 255, 0.9)`;
+        cursorRef.current.style.boxShadow = `0 0 ${glow}px rgba(43, 59, 229, 0.9), 0 0 5px rgba(255, 255, 255, 1)`;
       }
 
       rafId = requestAnimationFrame(render);
@@ -153,26 +160,27 @@ export default function CustomCursor() {
         className="fixed inset-0 pointer-events-none z-[9998] mix-blend-screen"
       />
       
-      {/* Outer position tracking element (Zero CSS transition on transform) */}
+      {/* Reticle cursor instead of dot */}
       <div 
         ref={cursorRef} 
-        className="fixed top-0 left-0 w-1.5 h-1.5 pointer-events-none z-[9999] mix-blend-screen -translate-x-1/2 -translate-y-1/2 will-change-transform"
+        className="fixed top-0 left-0 w-3 h-3 pointer-events-none z-[9999] mix-blend-screen -translate-x-1/2 -translate-y-1/2 will-change-transform flex items-center justify-center"
       >
-        {/* Inner element handling hover scaling smoothly via CSS transition */}
         <div
-          className="w-full h-full rounded-full transition-transform duration-300 cubic-bezier(0.25, 1, 0.5, 1)"
+          className="relative w-full h-full transition-transform duration-200 cubic-bezier(0.25, 1, 0.5, 1)"
           style={{
-            backgroundColor: '#D4AF37',
-            transform: isHovering ? 'scale(2.5)' : 'scale(1)',
-            animation: 'thermalPulse 2s infinite alternate ease-in-out'
+            transform: isHovering ? 'scale(2) rotate(45deg)' : 'scale(1) rotate(0deg)'
           }}
-        />
-        <style jsx>{`
-          @keyframes thermalPulse {
-            0% { opacity: 0.6; filter: brightness(1); }
-            100% { opacity: 1; filter: brightness(1.5); }
-          }
-        `}</style>
+        >
+          {/* Top/Bottom bars */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[2px] h-[3px] bg-white shadow-[0_0_8px_#2B3BE5]" />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[2px] h-[3px] bg-white shadow-[0_0_8px_#2B3BE5]" />
+          {/* Left/Right bars */}
+          <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[3px] h-[2px] bg-white shadow-[0_0_8px_#2B3BE5]" />
+          <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[3px] h-[2px] bg-white shadow-[0_0_8px_#2B3BE5]" />
+          
+          {/* Core pulse */}
+          <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[2px] h-[2px] bg-[#2B3BE5] rounded-full transition-opacity ${isHovering ? 'opacity-100' : 'opacity-0'}`} />
+        </div>
       </div>
     </>
   );

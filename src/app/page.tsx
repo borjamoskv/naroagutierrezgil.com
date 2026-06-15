@@ -333,9 +333,32 @@ export default function Home() {
         </section>
       </div>
 
-      <section id="galeria" className="relative z-10 px-4 sm:px-12 py-32 max-w-[1800px] mx-auto w-full">
+      {/* ── STATEMENT DEL ARTISTA ── */}
+      <section id="statement" className="relative z-10 px-6 sm:px-12 py-40 max-w-5xl mx-auto w-full flex flex-col items-center text-center">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] max-w-[800px] max-h-[800px] bg-[#2B3BE5] rounded-full mix-blend-screen filter blur-[200px] opacity-[0.03] pointer-events-none" />
+        
+        <h2 className="text-3xl sm:text-5xl font-serif font-light tracking-widest uppercase text-white mb-16 relative z-10">
+          Exergia Máxima Extraída
+        </h2>
+        
+        <div className="space-y-10 text-white/70 font-light text-xl sm:text-2xl leading-relaxed relative z-10">
+          <p>
+            Sitio de <strong className="text-white font-normal">Naroa Gutiérrez Gil</strong>, artista hiperrealista por encargo con estudio en Bilbao.
+          </p>
+          <p>
+            Su obra no copia fotos: las <strong className="text-[#2B3BE5] font-normal">transmuta</strong>. Texturas de piel, reflejos pintados a mano, luz en los ojos que golpea directo al sistema nervioso del espectador.
+          </p>
+          <div className="pt-8">
+            <p className="text-2xl sm:text-4xl font-serif text-white/90 border-l-[3px] border-[#2B3BE5] pl-8 py-2 text-left italic">
+              "Cada retrato es una máquina de capturar esencia emocional con precisión quirúrgica."
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="galeria" className="relative z-10 px-4 sm:px-12 pb-32 max-w-[1800px] mx-auto w-full">
         <div className="mb-40 text-center flex flex-col items-center">
-          <h2 className="text-5xl sm:text-7xl font-serif font-light tracking-wide text-foreground leading-tight max-w-2xl mx-auto uppercase text-glow">Obras</h2>
+          <h2 className="text-5xl sm:text-7xl font-serif font-light tracking-wide text-foreground leading-tight max-w-2xl mx-auto uppercase text-glow">La Singularidad</h2>
           <div className="w-px h-16 bg-gradient-to-b from-primary/30 to-transparent mt-12"></div>
         </div>
         <div className={`grid w-full px-0 md:px-12 transition-all duration-1000 ${appMode === "ORDEN" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-x-20 items-start" : "grid-cols-1 md:grid-cols-12 gap-8 md:gap-x-12 md:gap-y-0 items-start"}`}>
@@ -410,6 +433,68 @@ export default function Home() {
 
       {/* ── GALERÍA TRIDIMENSIONAL ── */}
       {appMode === "CAOS" && <ThreeDCarousel />}
+
+      {/* ── TESTIMONIOS (Historias de Clientes) ── */}
+      <section className="relative z-10 px-6 sm:px-12 py-40 max-w-[1400px] mx-auto w-full border-t border-white/5 mt-32 relative overflow-hidden group">
+        {/* Background Glitch Elements */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[radial-gradient(circle_at_center,rgba(43,59,229,0.03)_0%,transparent_70%)] pointer-events-none" />
+        <div className="absolute top-10 right-10 text-[200px] font-black italic text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.02)] uppercase select-none pointer-events-none leading-none z-0">
+          IMPACT
+        </div>
+
+        <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end mb-24 gap-8">
+          <div className="flex flex-col">
+            <span className="text-[#2B3BE5] text-[10px] tracking-[0.4em] font-mono mb-4 flex items-center gap-2">
+              <span className="w-1 h-1 bg-[#2B3BE5] rounded-full animate-ping" />
+              TESTIMONIAL DATA
+            </span>
+            <h2 className="text-5xl sm:text-7xl font-serif font-black uppercase tracking-tighter text-white chromatic-text">
+              El Impacto
+            </h2>
+          </div>
+          <p className="text-white/30 font-mono text-[9px] uppercase tracking-widest text-right max-w-[200px]">
+            Extractos de memoria de coleccionistas. Verificación en cadena.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          {[
+            { id: "TX-01", quote: "Texturas y reflejos en pizarra que ninguna foto capta de verdad. Tienes que verlo en persona para entender su densidad.", location: "Madrid", param: "0.982" },
+            { id: "TX-02", quote: "La luz en los ojos es lo que te hipnotiza. Parece que respira dentro de la oscuridad. Autopoiesis visual.", location: "Bilbao", param: "1.104" },
+            { id: "TX-03", quote: "No es un retrato, es una pieza de presencia absoluta. Modifica la exergía de la habitación en la que se encuentra.", location: "Barcelona", param: "0.899" }
+          ].map((testimonio, i) => (
+            <div key={i} className="bg-[#030303] border border-white/5 p-10 relative group hover:border-[#2B3BE5]/40 transition-all duration-700 hover:shadow-[0_0_40px_rgba(43,59,229,0.1)] overflow-hidden">
+              {/* Scanline hover effect */}
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(43,59,229,0.1)_1px,transparent_1px)] bg-[size:100%_4px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+              
+              <div className="flex justify-between items-start mb-12">
+                <span className="text-[#2B3BE5]/50 font-mono text-[10px] tracking-widest">{testimonio.id}</span>
+                <span className="text-white/20 font-mono text-[10px] tracking-widest">P-{testimonio.param}</span>
+              </div>
+
+              <div className="text-[#2B3BE5] text-8xl font-serif absolute top-12 left-6 opacity-10 group-hover:opacity-40 transition-opacity duration-500 leading-none">"</div>
+              
+              <p className="text-white/90 font-serif text-xl italic relative z-10 mb-16 leading-relaxed group-hover:text-white transition-colors duration-500 drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]">
+                {testimonio.quote}
+              </p>
+              
+              <div className="absolute bottom-10 left-10 right-10 flex flex-col gap-3">
+                <div className="w-full h-px bg-white/5 relative overflow-hidden">
+                  <div className="absolute top-0 left-0 h-full bg-[#2B3BE5] w-0 group-hover:w-full transition-all duration-[2000ms] ease-out" />
+                </div>
+                <div className="flex justify-between items-end">
+                  <span className="text-white/40 font-mono text-[9px] tracking-[0.3em] uppercase">
+                    Coleccionista
+                  </span>
+                  <span className="text-[#2B3BE5] font-mono text-[10px] tracking-widest uppercase font-bold">
+                    {testimonio.location}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* ── FOOTER VISUAL ── */}
       <Footer />

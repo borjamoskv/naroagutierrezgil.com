@@ -66,7 +66,7 @@ export default function Biografia() {
           </h1>
           <p className="max-w-3xl text-lg sm:text-2xl font-light tracking-wide text-white/60 leading-relaxed mt-16 border-l border-[#2B3BE5]/30 pl-8 py-2 relative">
             <span className="absolute -left-[1px] top-0 w-[2px] h-1/3 bg-[#2B3BE5] shadow-[0_0_10px_#2B3BE5]" />
-            Artista plástica contemporánea. Una colisión termodinámica entre el <strong className="text-[#2B3BE5] font-normal">hiperrealismo pop</strong> y la arqueología matérica forjada sobre <strong className="text-white font-normal">pizarra natural y mica mineral</strong>.
+            No pinto para decorar. Pinto para capturar la tensión de lo invisible. Forjo retratos sobre <strong className="text-[#2B3BE5] font-normal">pizarra natural, mica mineral</strong> y materiales rescatados, desafiando la resistencia del soporte para desenterrar la mirada humana.
           </p>
         </header>
 
@@ -86,12 +86,12 @@ export default function Biografia() {
           <div className="md:col-span-7 md:pl-12 space-y-8">
             <h2 className="text-4xl font-serif tracking-widest uppercase text-white/80 flex items-center gap-4">
               <span className="w-2 h-2 rounded-full bg-[#2B3BE5] animate-ping" />
-              Trayectoria Artística
+              Mi Trayectoria
             </h2>
             <div className="space-y-6 text-white/60 font-light leading-relaxed text-lg">
-              <p>Establecida en Bilbao, su carrera expositiva despegó en 2010 con <em className="text-white">Espejos del alma</em>, explorando la identidad humana mediante técnicas mixtas sobre madera y metal.</p>
-              <p>La evolución la llevó a hibridar la introspección psicológica con colores vibrantes, culminando en muestras icónicas como <em className="text-white">I see your true colors</em> (2016) y <em className="text-white">Repóker de Reinas</em> (2022).</p>
-              <p>En 2026, consolida su estatus en el circuito contemporáneo urbano con <em className="text-white">DiviNos VaiVenes</em> y su integración en el <strong>Bwall Collective</strong> de Dock Bilbao.</p>
+              <p>Establecida en Bilbao, inicié mi trayectoria en 2010 con <em className="text-white">Espejos del alma</em>, confrontando la identidad humana mediante el choque de técnicas mixtas sobre madera y metal.</p>
+              <p>Mi evolución me arrastró a hibridar la introspección psicológica del retrato con códigos cromáticos saturados de la cultura pop, un proceso plasmado en exposiciones como <em className="text-white">I see your true colors</em> (2016) y <em className="text-white">Repóker de Reinas</em> (2022).</p>
+              <p>En 2026, consolido mi lenguaje en el espacio contemporáneo urbano con <em className="text-white">DiviNos VaiVenes</em> y mi integración en el <strong>Bwall Collective</strong> en Dock Bilbao.</p>
             </div>
           </div>
         </section>
@@ -107,9 +107,9 @@ export default function Biografia() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
             <div className="space-y-8 text-white/70 font-light text-xl leading-relaxed">
-              <p className="border-l-2 border-[#2B3BE5] pl-6 text-2xl font-serif text-white/90">&quot;El lienzo no es un soporte pasivo. Es un yacimiento arqueológico que exige ser rascado.&quot;</p>
-              <p>Un híbrido entre el rigor del <strong>hiperrealismo</strong> anatómico y los códigos cromáticos saturados del <strong>arte pop</strong>.</p>
-              <p>Destaca su abandono de los soportes clásicos en favor de elementos telúricos. Transicionó radicalmente hacia el uso de <strong>mica mineral y pizarra natural</strong> de tejados en ruinas, desafiando el anclaje de pigmentos acrílicos sobre superficies pétreas reflectantes.</p>
+              <p className="border-l-2 border-[#2B3BE5] pl-6 text-2xl font-serif text-white/90">&quot;El lienzo para mí es un soporte inerte. Busco un yacimiento arqueológico que me exija rascar la superficie.&quot;</p>
+              <p>Mi trabajo se sitúa en la frontera entre el rigor milimétrico del <strong>hiperrealismo</strong> anatómico y el impacto estridente del <strong>arte pop</strong>.</p>
+              <p>He abandonado los soportes tradicionales en busca de la resistencia mineral: placas de <strong>pizarra natural</strong> rescatadas de tejados derruidos o láminas translúcidas de <strong>mica mineral</strong>, desafiando las leyes físicas de adhesión del acrílico para dejar que la piedra respire.</p>
             </div>
             <div className="space-y-8 text-white/70 font-light text-xl leading-relaxed">
               <div className="p-8 border border-white/5 bg-white/[0.01] relative group h-full flex flex-col justify-center">

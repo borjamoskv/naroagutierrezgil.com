@@ -28,7 +28,7 @@ const generateCortazarResponse = (input: string): { text: string; options?: { la
       text: 'Las pizarras son fragmentos de tiempo solidificado. Nuestras tarifas aproximadas son:\n\n• Mascotas: desde 250€ (20x30 cm)\n• Retrato Individual: desde 450€ (30x40 cm)\n• Retrato Doble: desde 750€ (40x60 cm)\n\nEl precio final depende del tamaño de la piedra y las horas de cincelado. ¿Te gustaría calcular un presupuesto?',
       options: [
         { label: '🎨 Calcular Presupuesto', action: 'custom_portrait' },
-        { label: '✉️ Escribir a Naroa', action: 'mail:mailto:naroa@naroa.eu' }
+        { label: '✉️ Formulario de Contacto', action: 'route:/contacto' }
       ]
     };
   }
@@ -47,7 +47,7 @@ const generateCortazarResponse = (input: string): { text: string; options?: { la
     return {
       text: 'El acrílico se seca rápido, pero la pizarra exige respeto. Cada obra personalizada suele tomar entre 2 y 4 semanas de preparación, secado y embalaje antes de salir del taller de Bilbao.',
       options: [
-        { label: '✉️ Contactar por Plazos', action: 'mail:mailto:naroa@naroa.eu' },
+        { label: '✉️ Formulario de Contacto', action: 'route:/contacto' },
         { label: '🔄 Menú Principal', action: 'reset' }
       ]
     };
@@ -57,7 +57,7 @@ const generateCortazarResponse = (input: string): { text: string; options?: { la
     return {
       text: 'Enviamos las pizarras protegidas como reliquias desde Bilbao a cualquier rincón de este tablero de ajedrez mundial. El embalaje es extremadamente seguro para evitar fisuras o roturas.',
       options: [
-        { label: '✉️ Consultar Envíos', action: 'mail:mailto:naroa@naroa.eu' },
+        { label: '✉️ Formulario de Contacto', action: 'route:/contacto' },
         { label: '🔄 Menú Principal', action: 'reset' }
       ]
     };
@@ -236,7 +236,7 @@ export default function Mica() {
             sender: 'mica',
             text: 'Puedes escribir directamente a Naroa a través de su correo oficial o ver su portafolio online:',
             options: [
-              { label: '✉️ Email: naroa@naroa.eu', action: 'mail:mailto:naroa@naroa.eu' },
+              { label: '✉️ Formulario de Contacto', action: 'route:/contacto' },
               { label: '🌐 Portafolio Online', action: 'link:https://naroa.online' },
               { label: '🔄 Menú Principal', action: 'reset' }
             ]
@@ -260,6 +260,8 @@ export default function Mica() {
         window.location.href = action.replace('mail:', '');
       } else if (action.startsWith('link:')) {
         window.open(action.replace('link:', ''), '_blank');
+      } else if (action.startsWith('route:')) {
+        window.location.href = action.replace('route:', '');
       }
     }, 800);
   };

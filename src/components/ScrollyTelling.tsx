@@ -22,17 +22,21 @@ export default function ScrollyTelling() {
   }, [])
   
   const getFilters = () => {
-    if (progress < 0.25) return 'brightness(0.05) grayscale(100%) contrast(150%)' // Pizarra Oscura
-    if (progress < 0.5) return 'brightness(0.4) contrast(200%) grayscale(100%) invert(0.8)' // Boceto Espectral
-    if (progress < 0.75) return 'brightness(0.6) contrast(150%) blur(4px) sepia(0.8) hue-rotate(-15deg)' // Mancha Base
-    return 'brightness(1) contrast(110%) blur(0px) sepia(0)' // Obra Final
+    if (progress < 0.16) return 'brightness(0.05) grayscale(100%) contrast(150%)' // I: Selección de la Pizarra
+    if (progress < 0.33) return 'brightness(0.15) contrast(180%) grayscale(80%) sepia(0.2)' // II: Preparación y Sellado
+    if (progress < 0.50) return 'brightness(0.3) contrast(200%) grayscale(60%) invert(0.8)' // III: Encaje y Estructura
+    if (progress < 0.66) return 'brightness(0.5) contrast(160%) blur(2px) sepia(0.5) hue-rotate(-10deg)' // IV: Texturas y Vetas
+    if (progress < 0.83) return 'brightness(0.8) contrast(130%) blur(1px) sepia(0.2) hue-rotate(-5deg)' // V: Resonancia Lumínica
+    return 'brightness(1) contrast(110%) blur(0px) sepia(0)' // VI: El Alma
   }
 
   const getStageText = () => {
-    if (progress < 0.25) return ['I', 'El Mineral']
-    if (progress < 0.5) return ['II', 'La Estructura']
-    if (progress < 0.75) return ['III', 'La Materia']
-    return ['IV', 'El Alma']
+    if (progress < 0.16) return ['I', 'Selección de la Pizarra']
+    if (progress < 0.33) return ['II', 'Preparación y Sellado']
+    if (progress < 0.50) return ['III', 'Encaje y Estructura']
+    if (progress < 0.66) return ['IV', 'Texturas y Vetas']
+    if (progress < 0.83) return ['V', 'Resonancia Lumínica']
+    return ['VI', 'El Alma']
   }
 
   const [stageNum, stageName] = getStageText()

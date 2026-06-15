@@ -1,16 +1,18 @@
+import Link from 'next/link';
+
 export default function Footer() {
   return (
     <footer className="relative pt-40 pb-20 overflow-hidden bg-[#0A0A0A] border-t border-white/5">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.08)_0%,transparent_60%)] z-0 pointer-events-none" />
       
       <div className="relative z-10 max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
-        <a 
-          href="mailto:naroa@naroa.eu" 
-          aria-label="Enviar correo a Naroa"
-          className="text-4xl sm:text-6xl md:text-[7rem] font-serif font-light tracking-tighter text-foreground/70 hover:text-primary transition-colors duration-1000 mb-12 block hover:tracking-normal"
+        <Link 
+          href="/contacto" 
+          aria-label="Establecer contacto y configurar propuesta"
+          className="text-4xl sm:text-6xl md:text-[7rem] font-serif font-light tracking-tighter text-foreground/70 hover:text-primary transition-colors duration-1000 mb-12 block hover:tracking-normal uppercase"
         >
-          naroa@naroa.eu
-        </a>
+          Contacto
+        </Link>
         
         <div className="flex flex-col gap-4 mb-20 items-center">
           <a href="https://naroa.online" aria-label="Acceder al Laboratorio Kinético SOTA" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 text-primary/50 hover:text-primary transition-colors duration-500 px-8 py-3 border border-primary/20 hover:border-primary/50 rounded-sm w-full max-w-sm justify-center">
