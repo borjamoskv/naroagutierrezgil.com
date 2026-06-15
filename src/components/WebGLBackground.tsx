@@ -109,26 +109,41 @@ function StarBackground(props: any) {
       ref.current.rotation.y -= delta / 32;
       
       const positions = ref.current.geometry.attributes.position.array as Float32Array;
-      const mouseVec = new THREE.Vector3(mouse.current.x * 2, mouse.current.y * 2, 0);
+      const mx = mouse.current.x * 2;
+      const my = mouse.current.y * 2;
+      const mz = 0;
       
       for (let i = 0; i < count; i++) {
         const idx = i * 3;
-        const p = new THREE.Vector3(positions[idx], positions[idx+1], positions[idx+2]);
-        const dist = p.distanceTo(mouseVec);
+        let px = positions[idx];
+        let py = positions[idx+1];
+        let pz = positions[idx+2];
+
+        const dx = px - mx;
+        const dy = py - my;
+        const dz = pz - mz;
+        const distSq = dx*dx + dy*dy + dz*dz;
         
-        if (dist < 1.0) {
-          p.lerp(mouseVec, delta * 0.5 * (1 - dist));
-          positions[idx] = p.x;
-          positions[idx+1] = p.y;
-          positions[idx+2] = p.z;
+        if (distSq < 1.0) {
+          const dist = Math.sqrt(distSq);
+          const lerpFactor = delta * 0.5 * (1 - dist);
+          px += (mx - px) * lerpFactor;
+          py += (my - py) * lerpFactor;
+          pz += (mz - pz) * lerpFactor;
         } else {
-          const originDist = p.length();
-          if (originDist < 1.9) p.multiplyScalar(1 + delta * 0.1);
-          if (originDist > 2.1) p.multiplyScalar(1 - delta * 0.1);
-          positions[idx] = p.x;
-          positions[idx+1] = p.y;
-          positions[idx+2] = p.z;
+          const originDistSq = px*px + py*py + pz*pz;
+          if (originDistSq < 3.61) {
+            const factor = 1 + delta * 0.1;
+            px *= factor; py *= factor; pz *= factor;
+          } else if (originDistSq > 4.41) {
+            const factor = 1 - delta * 0.1;
+            px *= factor; py *= factor; pz *= factor;
+          }
         }
+        
+        positions[idx] = px;
+        positions[idx+1] = py;
+        positions[idx+2] = pz;
       }
       ref.current.geometry.attributes.position.needsUpdate = true;
     }

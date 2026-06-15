@@ -55,7 +55,7 @@ export default function CustomCursor() {
     canvas.width = width;
     canvas.height = height;
 
-    let points: { x: number; y: number; age: number }[] = [];
+    let points: { x: number; y: number; timestamp: number }[] = [];
     let rafId: number;
 
     const handlePointerMove = (e: PointerEvent) => {
@@ -64,7 +64,7 @@ export default function CustomCursor() {
       const jitterMultiplier = 1 + Math.min(velocity * 0.1, 10);
       const jitterX = (Math.random() - 0.5) * 2 * jitterMultiplier;
       const jitterY = (Math.random() - 0.5) * 2 * jitterMultiplier;
-      points.push({ x: e.clientX + jitterX, y: e.clientY + jitterY, age: 0 });
+      points.push({ x: e.clientX + jitterX, y: e.clientY + jitterY, timestamp: performance.now() });
     };
 
     const handleResize = () => {
@@ -82,9 +82,9 @@ export default function CustomCursor() {
       
       const velocity = (window as any).__scrollVelocity || 0;
       
-      // Decay points
-      points.forEach(p => p.age += 1);
-      points = points.filter(p => p.age < 25);
+      // Decay points using absolute time for framerate independence
+      const now = performance.now();
+      points = points.filter(p => now - p.timestamp < 400);
 
       if (points.length > 2) {
         ctx.beginPath();
