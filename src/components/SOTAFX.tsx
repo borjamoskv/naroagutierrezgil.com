@@ -14,6 +14,7 @@ export default function SOTAFX() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let dataArray: any = null;
     let animationFrame: number;
+    let scrollFrame: number;
     
     // 4 & 14. Sonido ASMR Taller + Audio Reactivity
     const playBrushSound = () => {
@@ -31,7 +32,6 @@ export default function SOTAFX() {
               let sum = 0;
               for(let i = 0; i < dataArray.length; i++) sum += dataArray[i];
               const avg = sum / dataArray.length;
-              // Map 0-255 to 0-0.03
               const scalePulse = avg / 255 * 0.03;
               document.documentElement.style.setProperty('--audio-pulse', scalePulse.toString());
             }
@@ -54,7 +54,7 @@ export default function SOTAFX() {
         bandpass.frequency.value = 6000;
         
         const gain = audioCtx.createGain();
-        gain.gain.setValueAtTime(0.02, audioCtx.currentTime); // ASMR supersutil
+        gain.gain.setValueAtTime(0.02, audioCtx.currentTime); 
         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
         
         noise.connect(bandpass);
@@ -67,14 +67,35 @@ export default function SOTAFX() {
       }
     };
 
+    // AWWWARDS Scroll Momentum Tracker
+    let lastScrollY = window.scrollY;
+    let scrollVelocity = 0;
+    
+    const updateScroll = () => {
+      const currentScrollY = window.scrollY;
+      const delta = currentScrollY - lastScrollY;
+      
+      // Lerp for smooth inertia
+      scrollVelocity = scrollVelocity + (delta - scrollVelocity) * 0.12;
+      
+      const speed = Math.min(Math.abs(scrollVelocity) / 30, 1);
+      const direction = Math.sign(scrollVelocity);
+      
+      document.documentElement.style.setProperty('--scroll-velocity', speed.toString());
+      document.documentElement.style.setProperty('--scroll-direction', direction.toString());
+      
+      lastScrollY = currentScrollY;
+      scrollFrame = requestAnimationFrame(updateScroll);
+    };
+    updateScroll();
+
     // Lupa, 3D Tilt y Eye-Tracking (13)
     const onMouseMove = (e: MouseEvent) => {
       setPos({ x: e.clientX, y: e.clientY });
       
-      // Eye-Tracking parallax for all gallery images
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
-      const moveX = ((e.clientX / windowWidth) - 0.5) * 12; // -6% to +6%
+      const moveX = ((e.clientX / windowWidth) - 0.5) * 12;
       const moveY = ((e.clientY / windowHeight) - 0.5) * 12;
       document.documentElement.style.setProperty('--eye-x', `${50 + moveX}%`);
       document.documentElement.style.setProperty('--eye-y', `${50 + moveY}%`);
@@ -88,7 +109,6 @@ export default function SOTAFX() {
         const y = ((e.clientY - rect.top) / rect.height) * 100;
         setBgPos({ x: `${x}%`, y: `${y}%` });
 
-        // 3D Tilt + Audio Pulse
         const tiltX = (0.5 - (e.clientY - rect.top) / rect.height) * 25; 
         const tiltY = ((e.clientX - rect.left) / rect.width - 0.5) * 25;
         group.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(calc(1.05 + var(--audio-pulse, 0)), calc(1.05 + var(--audio-pulse, 0)), 1)`;
@@ -123,6 +143,7 @@ export default function SOTAFX() {
         item.removeEventListener('mouseleave', onMouseLeave)
       })
       if (animationFrame) cancelAnimationFrame(animationFrame);
+      if (scrollFrame) cancelAnimationFrame(scrollFrame);
     }
   }, [])
 
@@ -132,11 +153,11 @@ export default function SOTAFX() {
         #galeria .group img {
           object-position: var(--eye-x, 50%) var(--eye-y, 50%);
           transition: object-position 0.1s ease-out;
-          transform: scale(calc(1 + var(--scroll-velocity, 0) * 0.04));
+          transform: scale(calc(1 + var(--scroll-velocity, 0) * 0.08));
           transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         #galeria .group {
-          transform: skewY(calc(var(--scroll-velocity, 0) * var(--scroll-direction, 0) * -1.8deg)) scale3d(calc(1 + var(--audio-pulse, 0)), calc(1 + var(--audio-pulse, 0)), 1);
+          transform: skewY(calc(var(--scroll-velocity, 0) * var(--scroll-direction, 0) * -3.0deg)) scale3d(calc(1 + var(--audio-pulse, 0)), calc(1 + var(--audio-pulse, 0)), 1);
           transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         #galeria .group:hover {
@@ -147,12 +168,12 @@ export default function SOTAFX() {
       {/* Splat Volumetric Engine (Vault Mode) */}
       <SplatVault isVisible={vaultMode} />
       
-      {/* Vault Mode Overlay Mask (To transition) */}
+      {/* Vault Mode Overlay Mask */}
       <div 
-        className={`fixed inset-0 z-[150] pointer-events-none bg-[#0a0a0c] transition-opacity duration-1000 ${vaultMode ? 'opacity-100' : 'opacity-0'}`}
+        className={\`fixed inset-0 z-[150] pointer-events-none bg-[#0a0a0c] transition-opacity duration-1000 \${vaultMode ? 'opacity-100' : 'opacity-0'}\`}
         style={{
-          maskImage: `radial-gradient(circle 350px at ${pos.x}px ${pos.y}px, transparent 0%, black 100%)`,
-          WebkitMaskImage: `radial-gradient(circle 350px at ${pos.x}px ${pos.y}px, transparent 0%, black 100%)`
+          maskImage: \`radial-gradient(circle 350px at \${pos.x}px \${pos.y}px, transparent 0%, black 100%)\`,
+          WebkitMaskImage: \`radial-gradient(circle 350px at \${pos.x}px \${pos.y}px, transparent 0%, black 100%)\`
         }}
       />
 
@@ -164,18 +185,27 @@ export default function SOTAFX() {
         {vaultMode ? 'Encender Luces' : 'Modo Bóveda'}
       </button>
 
-      {/* Lupa Magnética */}
+      {/* Lupa Magnética AWWWARDS */}
       {hoveredSrc && !vaultMode && (
         <div 
-          className="fixed pointer-events-none z-[200] w-56 h-56 rounded-full border-2 border-primary/30 shadow-[0_0_40px_rgba(198,168,124,0.15)] bg-no-repeat transition-opacity duration-300 hidden md:block"
+          className="fixed pointer-events-none z-[200] w-64 h-64 rounded-full border border-primary/20 bg-no-repeat hidden md:block overflow-hidden mix-blend-screen"
           style={{
-            left: pos.x - 112,
-            top: pos.y - 112,
-            backgroundImage: `url(${hoveredSrc})`,
+            left: pos.x - 128,
+            top: pos.y - 128,
+            backgroundImage: \`url(\${hoveredSrc})\`,
             backgroundSize: '250%', 
-            backgroundPosition: `${bgPos.x} ${bgPos.y}`,
+            backgroundPosition: \`\${bgPos.x} \${bgPos.y}\`,
+            boxShadow: '0 0 50px rgba(198,168,124,0.15), inset 0 0 30px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(198,168,124,0.4)',
+            filter: 'contrast(1.15) saturate(1.1) drop-shadow(0 0 20px rgba(198,168,124,0.3))',
+            transform: 'scale(1)',
+            transition: 'opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+            opacity: 1
           }}
         >
+          {/* Glass glare effect */}
+          <div className="absolute inset-0 rounded-full mix-blend-overlay" style={{
+             background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 50%)'
+          }} />
         </div>
       )}
     </>
