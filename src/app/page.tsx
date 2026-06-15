@@ -145,9 +145,6 @@ export default function Home() {
     function raf(time: number) {
       lenis.raf(time);
       const velocity = lenis.velocity;
-      const direction = lenis.direction;
-      document.documentElement.style.setProperty('--scroll-velocity', Math.abs(velocity).toString());
-      document.documentElement.style.setProperty('--scroll-direction', direction.toString());
       if (typeof window !== 'undefined') {
         (window as any).__scrollVelocity = Math.abs(velocity);
       }
