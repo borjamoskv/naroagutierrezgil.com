@@ -314,6 +314,12 @@ export default function Home() {
           style={{ transform: 'translateY(0%)' }}
           className="sticky top-0 w-full h-[100svh] flex flex-col justify-center items-center overflow-hidden z-50 bg-[#050505] will-change-transform"
         >
+          {/* C5-REAL Awwwards Typography Mask */}
+          <div className="absolute inset-0 z-20 flex flex-col justify-center items-center mix-blend-difference pointer-events-none transition-transform duration-100 ease-out" style={{ transform: 'scale(calc(1 + var(--scroll-velocity, 0) * 0.1))' }}>
+            <h1 className="text-[14vw] font-serif font-light text-white tracking-tighter uppercase leading-none opacity-90 transition-transform" style={{ transform: 'translateY(calc(var(--scroll-velocity, 0) * 20px))' }}>Naroa</h1>
+            <h2 className="text-[14vw] font-serif font-light text-white tracking-tighter uppercase leading-none opacity-90 transition-transform" style={{ transform: 'translateY(calc(var(--scroll-velocity, 0) * -20px))' }}>Gutiérrez</h2>
+          </div>
+
           {/* El Retrato Monumental - Cero Fricción */}
           <div className="absolute inset-0 w-full h-full overflow-hidden" style={{ perspective: '1000px' }}>
             <Image 
@@ -341,9 +347,9 @@ export default function Home() {
           <div 
             ref={descenderRef}
             style={{ opacity: 0.5 }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 transition-opacity duration-300"
+            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 transition-opacity duration-300 z-30 mix-blend-difference"
           >
-            <span className="text-white/40 font-sans tracking-[0.5em] text-[8px] uppercase">Descender</span>
+            <span className="text-white font-sans tracking-[0.5em] text-[8px] uppercase">Descender</span>
             <div className="w-px h-16 bg-white/20 relative overflow-hidden">
               <div className="absolute top-0 left-0 w-full h-full bg-white animate-[translateY_2.5s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
             </div>
@@ -360,7 +366,7 @@ export default function Home() {
           {artworks.map((artwork, i) => (
             <div 
               key={i} 
-              className={`group relative overflow-hidden transition-all duration-1000 ${appMode === "ORDEN" ? "col-span-1 p-4 sm:p-8 glass-panel flex flex-col items-center gap-6 mt-0 animate-[fadeIn_0.5s_ease-out_both] hover-glow rounded-xl" : `bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl w-full ${artwork.span || "md:col-span-12 aspect-[4/3]"}`}`}
+              className={`group relative overflow-hidden transition-all duration-1000 ${appMode === "ORDEN" ? "col-span-1 p-4 sm:p-8 glass-panel flex flex-col items-center gap-6 mt-0 animate-[fadeIn_0.5s_ease-out_both] hover-glow rounded-xl" : \`bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl w-full \${artwork.span || "md:col-span-12 aspect-[4/3]"}\`}`}
               style={appMode === "ORDEN" ? { animationDelay: `${(i % 12) * 100}ms` } : {}}
             >
               <div className={`relative w-full ${appMode === "ORDEN" ? "aspect-[4/5] overflow-hidden rounded-md shadow-2xl" : "h-full"}`}>
