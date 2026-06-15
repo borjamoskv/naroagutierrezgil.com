@@ -10,7 +10,6 @@ export default function CustomCursor() {
   useEffect(() => {
     let mouseX = window.innerWidth / 2;
     let mouseY = window.innerHeight / 2;
-    let rafId: number;
 
     const onPointerMove = (e: PointerEvent) => {
       mouseX = e.clientX;
@@ -40,7 +39,6 @@ export default function CustomCursor() {
     return () => {
       window.removeEventListener("pointermove", onPointerMove);
       document.removeEventListener("mouseover", handleMouseOver);
-      cancelAnimationFrame(rafId);
     };
   }, []);
 
