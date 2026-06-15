@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Lenis from 'lenis';
 import dynamic from 'next/dynamic';
 import TakeoverModal from '@/components/TakeoverModal';
+import CommissionFlow from '@/components/CommissionFlow';
 import { useThermodynamicAudio } from '@/hooks/useThermodynamicAudio';
 import { useInertialScroll } from '@/hooks/useInertialScroll';
 
@@ -132,7 +133,7 @@ export default function Home() {
     const handlePointerMove = (e: PointerEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      isHovering = !!(e.target as HTMLElement).closest('.gallery-item');
+      isHovering = !!(e.target as HTMLElement).closest('.gallery-item') || !!(e.target as HTMLElement).closest('button') || !!(e.target as HTMLElement).closest('input') || !!(e.target as HTMLElement).closest('textarea');
     };
 
     const tick = () => {
@@ -314,8 +315,13 @@ export default function Home() {
         ))}
       </div>
 
+      {/* Fase 1: Formulario Inteligente (Pricing Configurator) */}
+      <section className="relative z-20 w-full min-h-[100svh] flex flex-col justify-center bg-[#020202] border-t border-white/5">
+        <CommissionFlow />
+      </section>
+
       {/* Closing Statement */}
-      <section className="relative z-20 w-full h-[60svh] flex flex-col justify-center items-center bg-[#020202]">
+      <section className="relative z-20 w-full h-[40svh] flex flex-col justify-center items-center bg-[#020202] border-t border-white/5">
         <div className="text-center">
           <p className="text-white/8 font-serif uppercase tracking-[0.5em]" style={{ fontSize: 'clamp(32px, 6vw, 90px)' }}>Naroa</p>
           <div className="w-px h-16 bg-white/10 mx-auto mt-8 mb-8" />
