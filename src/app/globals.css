@@ -10,7 +10,7 @@
 
   --font-sans: var(--font-outfit), system-ui, sans-serif;
   --font-mono: var(--font-mono), monospace;
-  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-serif: var(--font-serif), "Playfair Display", ui-serif, Georgia, serif;
 }
 
 :root {
@@ -25,6 +25,8 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-optical-sizing: auto;
   overflow-x: hidden;
   background-image: radial-gradient(circle at 50% 0%, rgba(43, 59, 229, 0.05) 0%, transparent 70%);
 }

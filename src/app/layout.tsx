@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Outfit, JetBrains_Mono } from "next/font/google";
+import { Outfit, JetBrains_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
-const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
-const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit", display: 'swap' });
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: 'swap' });
+const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-serif", display: 'swap' });
 
 import CustomCursor from "@/components/CustomCursor";
 import Preloader from "@/components/Preloader";
@@ -74,7 +75,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${outfit.variable} ${jetbrainsMono.variable} bg-[#0A0A0A] text-[#EAEAEA] antialiased`}>
+      <body className={`${outfit.variable} ${jetbrainsMono.variable} ${playfair.variable} bg-[#0A0A0A] text-[#EAEAEA] antialiased`}>
         <Preloader />
         <CustomCursor />
         {children}
