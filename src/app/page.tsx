@@ -142,6 +142,8 @@ export default function Home() {
 
   const heroSectionRef = useRef<HTMLDivElement>(null);
   const descenderRef = useRef<HTMLDivElement>(null);
+  const heroImageRef = useRef<HTMLImageElement>(null);
+  const heroLightRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -164,6 +166,41 @@ export default function Home() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handlePointerMove = (e: PointerEvent) => {
+      // Calculate cursor position as percentage of viewport
+      const xPct = (e.clientX / window.innerWidth) * 100;
+      const yPct = (e.clientY / window.innerHeight) * 100;
+      
+      // Update light source position directly in DOM
+      if (heroLightRef.current) {
+        heroLightRef.current.style.backgroundImage = `radial-gradient(circle at ${xPct}% ${yPct}%, rgba(212, 175, 55, 0.22) 0%, rgba(43, 59, 229, 0.08) 40%, transparent 75%)`;
+      }
+      
+      // Calculate heavy 3D parallax tilt (max 2.5 degrees)
+      const xTilt = ((e.clientY / window.innerHeight) - 0.5) * -5;
+      const yTilt = ((e.clientX / window.innerWidth) - 0.5) * 5;
+      
+      if (heroImageRef.current) {
+        heroImageRef.current.style.transform = `scale(1.04) rotateX(${xTilt}deg) rotateY(${yTilt}deg)`;
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Press 'm' or 'M' to switch dimension
+      if (e.key.toLowerCase() === 'm') {
+        setAppMode((prev) => (prev === 'ORDEN' ? 'CAOS' : 'ORDEN'));
+      }
+    };
+
+    window.addEventListener('pointermove', handlePointerMove, { passive: true });
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   const updatePrimaryColor = (hex: string) => {
@@ -242,18 +279,26 @@ export default function Home() {
           className="sticky top-0 w-full h-[100svh] flex flex-col justify-center items-center overflow-hidden z-50 bg-[#050505] will-change-transform"
         >
           {/* El Retrato Monumental - Cero Fricción */}
-          <div className="absolute inset-0 w-full h-full">
+          <div className="absolute inset-0 w-full h-full overflow-hidden" style={{ perspective: '1000px' }}>
             <Image 
+              ref={heroImageRef}
               src={resolveSrc('hq-portrait-1-bV-_WHlX.webp')} 
               alt="Naroa Gutiérrez Gil - Impacto Monumental" 
               fill 
               sizes="100vw"
               quality={100}
               priority
-              className="object-cover object-center grayscale-[15%] contrast-[1.1] brightness-[0.8] hover:grayscale-0 hover:brightness-100 transition-all duration-[4s] ease-out"
+              className="object-cover object-center grayscale-[15%] contrast-[1.1] brightness-[0.8] hover:grayscale-0 hover:brightness-100 will-change-transform"
+              style={{
+                transform: 'scale(1.04) rotateX(0deg) rotateY(0deg)',
+                transition: 'transform 1.8s cubic-bezier(0.1, 0.85, 0.2, 1), filter 4s ease-out, brightness 4s ease-out'
+              }}
             />
             {/* Veta dorada sutil (Kintsugi) que reacciona a la luz */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(43,59,229,0.05)_0%,transparent_70%)] mix-blend-color-dodge pointer-events-none" />
+            <div 
+              ref={heroLightRef}
+              className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(43,59,229,0.05)_0%,transparent_70%)] mix-blend-color-dodge pointer-events-none transition-all duration-300 ease-out" 
+            />
           </div>
 
           {/* Indicador sutil de gravedad - La única señal visual */}
