@@ -6,13 +6,10 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Lenis from 'lenis';
 import dynamic from 'next/dynamic';
-import DepthHUD from '@/components/DepthHUD';
-import SOTAFX from '@/components/SOTAFX';
-import Mica from '@/components/Mica';
 import TakeoverModal from '@/components/TakeoverModal';
+import { useThermodynamicAudio } from '@/hooks/useThermodynamicAudio';
+import { useInertialScroll } from '@/hooks/useInertialScroll';
 
-const WebGLBackground = dynamic(() => import('@/components/WebGLBackground'), { ssr: false });
-const PaintTrail = dynamic(() => import('@/components/PaintTrail'), { ssr: false });
 const MacroSplatCanvas = dynamic(() => import('@/components/SplatBenchmarkCanvas'), { ssr: false });
 const SplatPhysicsTester = dynamic(() => import('@/components/SplatPhysicsTester'), { ssr: false });
 const KineticArtwork = dynamic(() => import('@/components/KineticArtwork'), { ssr: false });
@@ -55,6 +52,20 @@ export default function Home() {
   const [isLocal, setIsLocal] = useState(false);
   const cursorRef = useRef<HTMLDivElement>(null);
   const trailRef = useRef<HTMLDivElement>(null);
+
+  // Initialize pure hooks directly at root
+  const { playBrushSound } = useThermodynamicAudio();
+  useInertialScroll();
+
+  useEffect(() => {
+    const initAudio = () => playBrushSound();
+    window.addEventListener('click', initAudio, { once: true });
+    window.addEventListener('touchstart', initAudio, { once: true });
+    return () => {
+      window.removeEventListener('click', initAudio);
+      window.removeEventListener('touchstart', initAudio);
+    };
+  }, [playBrushSound]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -215,7 +226,7 @@ export default function Home() {
       <div ref={cursorRef} className="fixed top-0 left-0 w-2 h-2 bg-white rounded-full pointer-events-none z-[999] -translate-x-1/2 -translate-y-1/2 mix-blend-difference" />
       <div ref={trailRef} className="fixed top-0 left-0 w-12 h-12 border border-white/40 rounded-full pointer-events-none z-[998] -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ease-out" />
 
-      {/* C5-REAL Volumetric Ecosystem */}
+      {/* C5-REAL Volumetric Ecosystem - ONLY PURE WEBGL, ZERO UI PANELS */}
       {webGLReady && (
         <>
           <div className="fixed inset-0 z-0 pointer-events-auto animate-[fadeIn_4s_ease-out]">
@@ -224,13 +235,8 @@ export default function Home() {
           <div className="fixed inset-0 z-10 pointer-events-auto animate-[fadeIn_3s_ease-out] mix-blend-screen">
             <MacroSplatCanvas />
           </div>
-          <DepthHUD />
-          <SOTAFX />
-          <Mica />
         </>
       )}
-
-      <PaintTrail />
 
       {/* Extreme Typography Hero - Chromatic Aberration & Inertial Parallax */}
       <div className="relative w-full h-[180vh] bg-transparent">
