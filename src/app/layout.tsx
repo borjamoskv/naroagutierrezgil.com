@@ -6,39 +6,35 @@ const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit", display: 
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: 'swap' });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-serif", display: 'swap' });
 
-import CustomCursor from "@/components/CustomCursor";
-import Preloader from "@/components/Preloader";
-
 export const metadata: Metadata = {
   metadataBase: new URL('https://naroagutierrezgil.com'),
   title: {
-    default: "Naroa Gutiérrez Gil | Artivista",
+    default: "Naroa Gutiérrez Gil | Artista",
     template: "%s | Naroa Gutiérrez Gil"
   },
-  description: "Portafolio Oficial. Retratos hiperrealistas pop, técnica mixta y texturas termodinámicas en pizarra de la artista visual Naroa Gutiérrez Gil.",
-  keywords: ["Arte Contemporáneo", "Hiperrealismo Pop", "Kintsugi Digital", "Pizarra Vasca", "Naroa Gutiérrez Gil", "Exposición de Arte 2026"],
+  description: "Portafolio oficial. Retratos hiperrealistas en pizarra natural. Arte contemporáneo.",
+  keywords: ["Arte Contemporáneo", "Hiperrealismo", "Kintsugi", "Pizarra", "Naroa Gutiérrez Gil"],
   authors: [{ name: "Naroa Gutiérrez Gil" }],
-  creator: "Borja Moskv",
   openGraph: {
     type: "website",
     locale: "es_ES",
     url: "https://naroagutierrezgil.com",
-    title: "Naroa Gutiérrez Gil | Cimientos de Pizarra",
-    description: "Una experiencia inmersiva WebGL. Retratos pop en técnica mixta y alquimia visual.",
-    siteName: "Naroa Gutiérrez Gil Oficial",
+    title: "Naroa Gutiérrez Gil",
+    description: "Arte sobre pizarra natural. Retratos hiperrealistas y Kintsugi.",
+    siteName: "Naroa Gutiérrez Gil",
     images: [
       {
         url: "/og-image.webp",
         width: 1200,
         height: 630,
-        alt: "Naroa Gutiérrez Gil - Obra en Pizarra",
+        alt: "Naroa Gutiérrez Gil - Arte en Pizarra",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Naroa Gutiérrez Gil | Arte y Termodinámica",
-    description: "Portafolio Oficial Interactivo 2026.",
+    title: "Naroa Gutiérrez Gil",
+    description: "Arte sobre pizarra natural.",
     images: ["/og-image.webp"],
   },
   robots: {
@@ -52,18 +48,15 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "WebSite",
-      "name": "Portafolio Oficial Naroa Gutiérrez Gil",
+      "name": "Naroa Gutiérrez Gil",
       "url": "https://naroagutierrezgil.com",
-      "description": "Galería inmersiva y archivo de obras en técnica mixta sobre pizarra."
+      "description": "Galería inmersiva. Arte sobre pizarra natural."
     },
     {
       "@type": "Person",
       "name": "Naroa Gutiérrez Gil",
       "jobTitle": "Artista Visual",
-      "url": "https://naroagutierrezgil.com",
-      "sameAs": [
-        "https://www.instagram.com/naroa.gutierrez.gil/"
-      ]
+      "url": "https://naroagutierrezgil.com"
     }
   ]
 };
@@ -81,9 +74,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${outfit.variable} ${jetbrainsMono.variable} ${playfair.variable} bg-[#0A0A0A] text-[#EAEAEA] antialiased`}>
-        <Preloader />
-        <CustomCursor />
+      <body className={`${outfit.variable} ${jetbrainsMono.variable} ${playfair.variable} bg-[#020202] text-white antialiased overflow-x-hidden`}>
         {children}
       </body>
     </html>
