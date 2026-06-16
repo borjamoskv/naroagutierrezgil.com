@@ -1,0 +1,145 @@
+══════════════════════════════════════════════════════════════════════
+  ÍNDICE DE ENTREGA DOCUMENTAL
+  Inspección Tributaria · Hacienda Foral de Bizkaia
+══════════════════════════════════════════════════════════════════════
+
+  Contribuyente:   D. Borja Fernández Angulo
+  NIF:             78.900.027-E
+  Ejercicios:      2021 · 2022 · 2023 · 2024
+  Referencia:      2026 0515 0129
+  Fecha entrega:   16 de junio de 2026, 19:32 h
+  Representante:   D. Ricardo Muñiz Fernández-Carvajal
+
+──────────────────────────────────────────────────────────────────────
+  CONTENIDO DEL PAQUETE  (60 archivos · 8.34 MB)
+──────────────────────────────────────────────────────────────────────
+
+  ┌─ 00_INDICE_Y_CERTIFICADO/  (2 archivos · 17.6 KB)
+  │  ├── 00_INDICE_ENTREGA.txt  (6.6 KB)
+  │  └── Certificado_Integridad_SHA256.txt  (11.0 KB)
+  │
+  ┌─ 01_ESCRITOS_PRINCIPALES/  (8 archivos · 1.47 MB)
+  │  ├── 00_PORTADA.pdf  (115.5 KB)
+  │  ├── 00_RESUMEN_EJECUTIVO.pdf  (133.9 KB)
+  │  ├── 01_Escrito_Alegaciones_Final_Hacienda_Bizkaia.pdf  (469.2 KB)
+  │  ├── 01_Escrito_Alegaciones_Final_v4_FORAL_SAFE.html  (21.9 KB)
+  │  ├── 02_Consulta_Vinculante_Bizkaia.md  (3.4 KB)
+  │  ├── Defensa_Tecnica_Final.pdf  (642.5 KB)
+  │  ├── EXPEDIENTE_CRIPTO_BIZKAIA_DEFENSA_vFINAL.zip  (11.8 KB)
+  │  └── HACIENDA_Aportacion_Documental_Bizkaia_v2.1.pdf  (102.5 KB)
+  │
+  ┌─ 02_ANEXOS/  (4 archivos · 412.4 KB)
+  │  ├── ANEXO_A2_Binance_Card_Ledger.pdf  (75.5 KB)
+  │  ├── ANEXO_VI-B_Naturaleza_Financiera_C5.md  (3.0 KB)
+  │  ├── ANEXO_VIA_Certificacion_Perdida_Rollbit.html  (9.6 KB)
+  │  └── ANEXO_VIA_Certificacion_Perdida_Rollbit.pdf  (324.4 KB)
+  │
+  ┌─ 03_CAPTURAS_SESIONES/  (4 archivos · 698.4 KB)
+  │  ├── kraken_activity_no_transactions.png  (140.3 KB)
+  │  ├── kraken_sesion_activa_sin_trades.png  (281.1 KB)
+  │  ├── kucoin_sesion_activa_sin_datos.png  (68.5 KB)
+  │  └── mexc_sesion_activa_sin_datos_recientes.png  (208.5 KB)
+  │
+  ┌─ 04_EXCHANGES_CSVs/  (35 archivos · 4.65 MB)
+  │  ├── Etherscan_ethereum_0x0497586f3ade4c932d9ccc18b065a71dc46c7968.csv  (1.3 KB)
+  │  ├── Etherscan_ethereum_0x4909dd4ece50ba766894ca89c7e61d9950b125a8.csv  (2.9 KB)
+  │  ├── Etherscan_ethereum_0x5247299421a3ff724c41582e5a44c6551d135fd3.csv  (1.83 MB)
+  │  ├── Etherscan_ethereum_0x57b13d49142fa5edc267cf3d40107489875ccaa8.csv  (1.0 KB)
+  │  ├── Etherscan_ethereum_0x6de74ac8bc0c2d562761915e5aaebd24b3a9f791.csv  (25.2 KB)
+  │  ├── Etherscan_ethereum_0x772155bf85a3ade7c6c11b649624e48b6d31138d.csv  (4.7 KB)
+  │  ├── Etherscan_ethereum_0xbd4349bd8d7e5e9656bf15000fd054571647911b.csv  (20.4 KB)
+  │  ├── Etherscan_ethereum_0xcb8e7b0e87b522621dae9c28f9e102cd8e70db34.csv  (23.2 KB)
+  │  ├── Etherscan_ethereum_0xce882d8a6e5c7f5ddda14a26d8fdcbb9b9ec6b7d.csv  (1.3 KB)
+  │  ├── Etherscan_ethereum_0xe07b2790dc8f861e49617f242829fc63dcc0c451.csv  (812 B)
+  │  ├── Etherscan_ethereum_0xe6eb9807e457758035d59042e56eb0061d64de4a.csv  (78.7 KB)
+  │  ├── Etherscan_polygon_0x0497586f3ade4c932d9ccc18b065a71dc46c7968.csv  (33.8 KB)
+  │  ├── Etherscan_polygon_0x4909dd4ece50ba766894ca89c7e61d9950b125a8.csv  (53.8 KB)
+  │  ├── Etherscan_polygon_0x5247299421a3ff724c41582e5a44c6551d135fd3.csv  (1.37 MB)
+  │  ├── Etherscan_polygon_0x57b13d49142fa5edc267cf3d40107489875ccaa8.csv  (22.3 KB)
+  │  ├── Etherscan_polygon_0x6de74ac8bc0c2d562761915e5aaebd24b3a9f791.csv  (88.6 KB)
+  │  ├── Etherscan_polygon_0x772155bf85a3ade7c6c11b649624e48b6d31138d.csv  (44.0 KB)
+  │  ├── Etherscan_polygon_0xbd4349bd8d7e5e9656bf15000fd054571647911b.csv  (132.6 KB)
+  │  ├── Etherscan_polygon_0xcb8e7b0e87b522621dae9c28f9e102cd8e70db34.csv  (55.3 KB)
+  │  ├── Etherscan_polygon_0xce882d8a6e5c7f5ddda14a26d8fdcbb9b9ec6b7d.csv  (41.4 KB)
+  │  ├── Etherscan_polygon_0xe07b2790dc8f861e49617f242829fc63dcc0c451.csv  (36.5 KB)
+  │  ├── Etherscan_polygon_0xe6eb9807e457758035d59042e56eb0061d64de4a.csv  (172.8 KB)
+  │  ├── binance_card_ledger_2021_2024.csv  (11.0 KB)
+  │  ├── binance_history_2021_2024.csv  (35 B)
+  │  ├── gateio_trades_2021_2024.csv  (669 B)
+  │  ├── kraken_2021.csv  (35 B)
+  │  ├── kraken_deposits_2021.csv  (4.4 KB)
+  │  ├── kucoin_trades_2021_2024.csv  (460 B)
+  │  ├── mexc_kucoin_gateio.csv  (40 B)
+  │  ├── mexc_trades_2021_2024.csv  (631 B)
+  │  ├── mexc_trades_2021_2024_scraped.csv  (137 B)
+  │  ├── rollbit_deposits_raw.json  (3.6 KB)
+  │  ├── rollbit_fifo_eur_optimizacion_anual.csv  (225.1 KB)
+  │  ├── rollbit_flujos_onchain.csv  (400.6 KB)
+  │  └── rollbit_withdrawals_raw.json  (2.4 KB)
+  │
+  ┌─ 05_ENS_DOMINIOS/  (2 archivos · 895.7 KB)
+  │  ├── ens_acquisitions_detailed.csv  (584.9 KB)
+  │  └── ens_sales_detailed.csv  (310.8 KB)
+  │
+  ┌─ 06_NFTs_CREADOS/  (3 archivos · 243.9 KB)
+  │  ├── CERTIFICACION_NFTs_C5_REAL.html  (7.8 KB)
+  │  ├── CERTIFICACION_NFTs_C5_REAL.pdf  (234.6 KB)
+  │  └── nft_collections_created.csv  (1.5 KB)
+  │
+  ┌─ 07_INVENTARIO_PATRIMONIAL/  (2 archivos · 16.6 KB)
+  │  ├── inventario_patrimonial_desglosado.csv  (9.2 KB)
+  │  └── inventario_patrimonial_desglosado_2021_2024.csv  (7.5 KB)
+  │
+══════════════════════════════════════════════════════════════════════
+  DESCRIPCIÓN DE SECCIONES
+══════════════════════════════════════════════════════════════════════
+
+  00_INDICE_Y_CERTIFICADO/
+     Índice de entrega, portada y certificado de integridad
+     criptográfica SHA-256 de todos los archivos.
+
+  01_ESCRITOS_PRINCIPALES/
+     Portada, resumen ejecutivo, escrito de alegaciones formales,
+     defensa técnica completa y aportación documental.
+
+  02_ANEXOS/
+     Documentación probatoria complementaria: desglose de
+     tarjeta Binance Card y certificación forense de pérdida
+     patrimonial en Rollbit (on-chain, 1.105 transacciones).
+
+  03_CAPTURAS_SESIONES/
+     Capturas de pantalla de sesiones activas en exchanges
+     que acreditan la ausencia de datos exportables históricos
+     (Kraken, KuCoin, MEXC).
+
+  04_EXCHANGES_CSVs/
+     Extractos brutos de movimientos en exchanges centralizados
+     (Binance, Kraken, MEXC, KuCoin, Gate.io, Rollbit)
+     para los ejercicios 2021-2024.
+
+  05_ENS_DOMINIOS/
+     Detalle de 2.148 adquisiciones y 1.626 ventas de dominios
+     ENS (Ethereum Name Service) con hashes de transacción,
+     precios, y fechas.
+
+  06_NFTs_CREADOS/
+     Listado de las 6 colecciones NFT creadas como hobby personal
+     (sin actividad comercial ni ingresos), con contratos,
+     hashes de minteo y costes de gas.
+
+  07_INVENTARIO_PATRIMONIAL/
+     Inventario patrimonial desglosado por ejercicio fiscal
+     (apertura y cierre 2021-2024), incluyendo cuentas
+     bancarias, wallets y posiciones en exchanges.
+
+══════════════════════════════════════════════════════════════════════
+  VERIFICACIÓN DE INTEGRIDAD
+══════════════════════════════════════════════════════════════════════
+
+  Todos los archivos están firmados criptográficamente con SHA-256.
+  Véase: 00_INDICE_Y_CERTIFICADO/Certificado_Integridad_SHA256.txt
+
+  Para verificar cualquier archivo:
+    shasum -a 256 <nombre_archivo>
+
+══════════════════════════════════════════════════════════════════════

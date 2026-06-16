@@ -1,0 +1,105 @@
+════════════════════════════════════════════════════════════════════════════════════════════════════
+  CERTIFICADO DE INTEGRIDAD CRIPTOGRÁFICA (SHA-256)
+════════════════════════════════════════════════════════════════════════════════════════════════════
+
+  Expediente:      Inspección Bizkaia · Ejercicios 2021-2024
+  Contribuyente:   Borja Fernández Angulo · NIF 78.900.027-E
+  Sellado:         2026-06-16 19:32:42
+  Archivos:        59
+  Algoritmo:       SHA-256 (FIPS 180-4)
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  00_INDICE_Y_CERTIFICADO/  (1 archivo)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  00_INDICE_ENTREGA.txt                                   05c13b4ad2af07afd790e3815b59e06e4d79d8a9950512bf65f2cf478240e8ff
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  01_ESCRITOS_PRINCIPALES/  (8 archivos)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  00_PORTADA.pdf                                          f2c0b09e908f2fbc21360112885db1cf89d12d636a68f985d854a38e49babe31
+  00_RESUMEN_EJECUTIVO.pdf                                80665b440ab07ccbc40bf2374968a2c7196ad4b7c9b0dc909bb804fa113328c9
+  01_Escrito_Alegaciones_Final_Hacienda_Bizkaia.pdf       806793cb609f6d54bfcc533c8e8eca56b5ec98beaa06087f12f5355d0e267aea
+  01_Escrito_Alegaciones_Final_v4_FORAL_SAFE.html         e5180b3566f88e4c8f3ba6b2e6046a23bd6048e4aa6692ce3ee18a1a176efce6
+  02_Consulta_Vinculante_Bizkaia.md                       10751b92146ba2aef9eb31f067c023e17e2cd3c5ed7ea472bffa5cd25bc9f979
+  Defensa_Tecnica_Final.pdf                               cab3aa7f7c8f2a6ed8e29cf609069f0e1ef4bfcb6519c2315a2ecbb50beadbd9
+  EXPEDIENTE_CRIPTO_BIZKAIA_DEFENSA_vFINAL.zip            333dcf04f3606164db2fe8a2e3165d7914c7ee26b79962aa6a2db72bc70cbebd
+  HACIENDA_Aportacion_Documental_Bizkaia_v2.1.pdf         bef296725f27a87eb2b9e42d05ba591e7ec426fa93bdee3e697decb81b1c3246
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  02_ANEXOS/  (4 archivos)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  ANEXO_A2_Binance_Card_Ledger.pdf                        4b80814593c02e43a77a46e743328bdda8e8d7fe6e19e9d391bc87192924c284
+  ANEXO_VI-B_Naturaleza_Financiera_C5.md                  b0ad36cc534ecf1b7663261ecc0021edebfab0b4d9b121e28308d69c8f33f620
+  ANEXO_VIA_Certificacion_Perdida_Rollbit.html            f697ef64bb4e957ed318e6e66457a8fc9273e8f2cb759d6fa16f8161403f5e92
+  ANEXO_VIA_Certificacion_Perdida_Rollbit.pdf             d9d7a4c67e18a73d53daddbb8482a7788bff0aeb5ab6a75e92e095d88de8d35f
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  03_CAPTURAS_SESIONES/  (4 archivos)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  kraken_activity_no_transactions.png                     b2a2a6b55a96cbf15014ec5a346211652cc07679df78f1dc1a5666137ab0e0cc
+  kraken_sesion_activa_sin_trades.png                     38f2a61a628ff740bfcaf901e249e98a194afd53f060933178585d97b3f6aef6
+  kucoin_sesion_activa_sin_datos.png                      ded986a596ca5a701da82cab607d4dff97438a38bfcc04e514f9b594a5046bd5
+  mexc_sesion_activa_sin_datos_recientes.png              60afa6e0ec8a9073f6d20241e6ee7ee24e905eb037d8081c2b388599799363a3
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  04_EXCHANGES_CSVs/  (35 archivos)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  Etherscan_ethereum_0x0497586f3ade4c932d9ccc18b065a71dc46c7968.csv 0382ad7cfe6bed4cfbd63eec32e4d9a8e2d0c4fa6b2400a265257fee87bced06
+  Etherscan_ethereum_0x4909dd4ece50ba766894ca89c7e61d9950b125a8.csv a8583860e7395e27d5afc1d30826c0c1ee0b10c2282798791d97e15ac5d754f3
+  Etherscan_ethereum_0x5247299421a3ff724c41582e5a44c6551d135fd3.csv f117237e5a2eebe6add8fec42052e805d6f2692d1091b18e9e41e40e5a98f75a
+  Etherscan_ethereum_0x57b13d49142fa5edc267cf3d40107489875ccaa8.csv 0e8eaa21978bf4d856364a544d9693dbf63fae19c3a65ec8ffe1da69fd08b38d
+  Etherscan_ethereum_0x6de74ac8bc0c2d562761915e5aaebd24b3a9f791.csv 887ebbf73fe5d997debbeeb9bb17032ba041b00c25739553db34109aef6b2e95
+  Etherscan_ethereum_0x772155bf85a3ade7c6c11b649624e48b6d31138d.csv 0720c265923d9cf327825b15763bc04ef0ea836a5b8bc123e222861ebe830920
+  Etherscan_ethereum_0xbd4349bd8d7e5e9656bf15000fd054571647911b.csv 4d5cb95bb513f7e2b73f15d2da1be9f0cf4834f6bf0ce01efa7430f69a2a0861
+  Etherscan_ethereum_0xcb8e7b0e87b522621dae9c28f9e102cd8e70db34.csv 43a748c6dc3e1aec6e94d3f0cf6f74f9698be3ed1fd0a25072e07baa7accdc75
+  Etherscan_ethereum_0xce882d8a6e5c7f5ddda14a26d8fdcbb9b9ec6b7d.csv ae1d2f1c023ae8eb0207429f48e794de89b81232b528082b6b2fd6d5d14036f6
+  Etherscan_ethereum_0xe07b2790dc8f861e49617f242829fc63dcc0c451.csv a335c685413a09f68982ad03321f4d113a126654871c476f0782c64d1dff3f21
+  Etherscan_ethereum_0xe6eb9807e457758035d59042e56eb0061d64de4a.csv 32ec2cbdb8387b966bfef19e21cb6df2eefccd8cd9531516f5208f9e30cccf79
+  Etherscan_polygon_0x0497586f3ade4c932d9ccc18b065a71dc46c7968.csv 06e3523387ccf3cd1a072efabd94c83cab164309686748b039289ef254a01d6d
+  Etherscan_polygon_0x4909dd4ece50ba766894ca89c7e61d9950b125a8.csv 8f74cef62ea12c6005a49d6a535da93b77868317ea89ef0ca0b82be96929697e
+  Etherscan_polygon_0x5247299421a3ff724c41582e5a44c6551d135fd3.csv 33b5d7b12dde8d45b1a378c664e3c6399db1b936f89fb69cd6ac1dc9954783ec
+  Etherscan_polygon_0x57b13d49142fa5edc267cf3d40107489875ccaa8.csv a09cac4e29aebe2ed85aff07174c1a3c06dcf635495a88a5ebd47a44fcbc170f
+  Etherscan_polygon_0x6de74ac8bc0c2d562761915e5aaebd24b3a9f791.csv 9732dc9c51bc62cfa3ed22baef5c9635d19a3c8f9a36144685ad15e19bd8bf2e
+  Etherscan_polygon_0x772155bf85a3ade7c6c11b649624e48b6d31138d.csv d4f222f62632a712b5658e5f62f458e2aa9a5f7115f34c29fc4d4893a94f8d4f
+  Etherscan_polygon_0xbd4349bd8d7e5e9656bf15000fd054571647911b.csv dc4f890f408ce9b831856127337f946e52673b4e13e2ad579ae734145144d119
+  Etherscan_polygon_0xcb8e7b0e87b522621dae9c28f9e102cd8e70db34.csv 9f804d2f74482c0ffd818bcf50dbb3be526656a8666b28980179769e2efbdb49
+  Etherscan_polygon_0xce882d8a6e5c7f5ddda14a26d8fdcbb9b9ec6b7d.csv b60b774d99d4abe2ab0d1f5c631d5f5b4a5042ddf7ea23ce27f4ee18c9f1a285
+  Etherscan_polygon_0xe07b2790dc8f861e49617f242829fc63dcc0c451.csv eb281178259d288d4c236ce8863e0bc41c612d009be3fedc0e5048499e09a867
+  Etherscan_polygon_0xe6eb9807e457758035d59042e56eb0061d64de4a.csv 20d05ab91df129d40894c89b274f03a7517a1bca3b4030931f26a6ad0a0f18b9
+  binance_card_ledger_2021_2024.csv                       7cc82912f5ccc290cec27d54141df4ba0800562034343d721e960609fca5b7d9
+  binance_history_2021_2024.csv                           6c2c30a3a1234e56a5dde4ddefd379be259b20981ca2e1183f17ab27c095aafb
+  gateio_trades_2021_2024.csv                             f450da7887ce6af51b4213cfda7f8ee847fa9683c636448646fc79a943c76593
+  kraken_2021.csv                                         6c2c30a3a1234e56a5dde4ddefd379be259b20981ca2e1183f17ab27c095aafb
+  kraken_deposits_2021.csv                                e959e1c7aa93b7c9b8801560cb31c945ecd462ee5b5894159fbce573b5371c53
+  kucoin_trades_2021_2024.csv                             6b784a727fbd6f8742d2376e026df74e2122f4d41dd1b7649fbd7ce34cefb271
+  mexc_kucoin_gateio.csv                                  16f6ccc4e1cb2eaec1bb11f48f1cf8d5e3f2afa2edd32cf5c77d8ebe05aa1704
+  mexc_trades_2021_2024.csv                               c4a86ee2168071068d886d60e10aedbde95eed928cd53bd526219439e1f77c4b
+  mexc_trades_2021_2024_scraped.csv                       ced34243ae9f06dde4c6151345158c4bd196ec39a61b3de28a2cb15725060afc
+  rollbit_deposits_raw.json                               8058336825435995ee22af1258bf235ed19ab56e784fd8519a908cf6aacc5898
+  rollbit_fifo_eur_optimizacion_anual.csv                 d42bba12611a8040ec0010cf04163662cdf8e24ea693c69dd71f98fa00710ca5
+  rollbit_flujos_onchain.csv                              3904639563ca6776739e8071c50e522959e6ce01183657764ece63da4b2dc92c
+  rollbit_withdrawals_raw.json                            6d889a6a1cdaa3796546034f991e763a81372147774fb39d6a858cffc8add846
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  05_ENS_DOMINIOS/  (2 archivos)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  ens_acquisitions_detailed.csv                           d38e30fc957f1662ea2a3ba701e0ef7257890e573388d9393aa5e74f7b8563ed
+  ens_sales_detailed.csv                                  2dc1b364b786dba8fb9d2182ae3b9bb76d93b5daa56fea3dd2a09bc3972d6e0f
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  06_NFTs_CREADOS/  (3 archivos)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  CERTIFICACION_NFTs_C5_REAL.html                         4e2b2d0b581ceadbdf951cdc1a4eb9262ec5d9ed0a379844dcf386ee33a7a44f
+  CERTIFICACION_NFTs_C5_REAL.pdf                          8f119093f04b5c6d109638ba510d1ca9c5a47118cf0f5578026d79aa03262ba3
+  nft_collections_created.csv                             0389ba4faa266a85ba385c346bc57487e78c52bd7fa5e8cb24cc613f8204eb8a
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  07_INVENTARIO_PATRIMONIAL/  (2 archivos)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+  inventario_patrimonial_desglosado.csv                   47a273efcf0d3a34f50b2d0dbd919d0f3a90399286641101713cb4c052d79240
+  inventario_patrimonial_desglosado_2021_2024.csv         8c69466778bbeaac1b8f98c20dc27e49337a647321d4d16c0c9dc6ee0997573b
+
+════════════════════════════════════════════════════════════════════════════════════════════════════
+  Total: 59 archivos certificados
+  Verificar: shasum -a 256 <archivo>
+════════════════════════════════════════════════════════════════════════════════════════════════════
