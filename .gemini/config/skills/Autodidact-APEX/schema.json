@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moskv-1.local/schema/Autodidact-APEX.json",
+  "title": "Autodidact-APEX Contract",
+  "description": "I/O JSON Schema for the Epigenetic Swarm OS instantiation",
+  "type": "object",
+  "properties": {
+    "intent": {
+      "type": "string",
+      "description": "The objective to execute via Quorum Sensing"
+    },
+    "transcription_factors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Specific Epigenetic hashes to demethylate"
+    },
+    "quorum_threshold": {
+      "type": "number",
+      "minimum": 0.51,
+      "maximum": 1.0,
+      "description": "Percentage of active nodes required to trigger phase shift"
+    }
+  },
+  "required": ["intent", "quorum_threshold"]
+}
