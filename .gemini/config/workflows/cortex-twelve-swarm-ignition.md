@@ -126,12 +126,12 @@ El workflow CORTEX-12 está diseñado para orquestar la automatización de extre
     5.  `verification-before-completion` valida la ausencia de imports huérfanos o loops en el thread principal.
 
 ### Escenario C: Despliegue Automatizado de Campañas Multimedia Multimodales
-*   **Contexto:** Generar material audiovisual, voz sintética y video sincronizado de forma desatendida.
+*   **Contexto:** Generar material audiovisual, voz sintética y video sincronizado de forma desatendida integrando la plataforma de prototipado generativo **Google Flow**.
 *   **Ejecución:**
     1.  `Deep-Research-SOTA` busca tendencias de contenido de alta retención.
-    2.  `RedTeam` audita los scripts de animación de Runway Gen-3 para predecir fallas de coherencia espacial.
-    3.  `accidental-data-loss-prevention` protege las claves de API de ElevenLabs/HeyGen.
-    4.  Se genera la secuencia de assets, `Browser-CDP-Automation` interactúa con el orquestador de renderizado, y `Antigravity-Github-Omega` registra la metadata final del release.
+    2.  `RedTeam` audita las especificaciones de generación en el proyecto de [Google Flow Project 30f5fa09](https://labs.google/fx/es/tools/flow/project/30f5fa09-7ee2-4711-867b-c9695220dedc/tools) para predecir colisiones de formato o fallas de coherencia espacial.
+    3.  `accidental-data-loss-prevention` protege las credenciales de API y cookies de autenticación locales de Google Labs.
+    4.  Se genera la secuencia de assets, `Browser-CDP-Automation-OMEGA` interactúa mediante Chrome DevTools Protocol con el editor del proyecto de Google Flow en la URL `https://labs.google/fx/es/tools/flow/project/30f5fa09-7ee2-4711-867b-c9695220dedc/tools` para activar los nodos de generación de audio/video en paralelo, y `Antigravity-Github-Omega` registra la metadata final del release.
 
 ---
 *Status: C5-REAL (Persisted to Master Workflows)*
