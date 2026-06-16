@@ -70,6 +70,7 @@ graph TD
 ## ⚡ Activación y Disparadores
 
 *   **Comando Directo:** `/swarm-12-ignition` | `/ignite` | `/cortex-12`
+*   **Ejecutable CLI:** `python3 ~/.gemini/antigravity/scripts/cortex_12_swarm.py`
 *   **Triggers por Voz/Texto:** `"Inicia el enjambre de doce habilidades"`, `"Ignite CORTEX-12 Swarm Pipeline"`, `"Despliega el ciclo completo de ingeniería"`.
 *   **Activación Autónoma:** Hito del sistema que requiere la implementación de un subsistema crítico nuevo que involucre persistencia de datos, interfaz de usuario y alta seguridad.
 
@@ -78,27 +79,27 @@ graph TD
 ## 🔄 Protocolo de Ejecución Paso a Paso
 
 ### Paso 1: Inicialización Dimensional (Fase 1)
-*   **Comando:** `cortex-12 --phase 1`
+*   **Comando:** `python3 ~/.gemini/antigravity/scripts/cortex_12_swarm.py --phase 1`
 *   El sistema invoca a `Autodidact-History-OMEGA` para estudiar los commits recientes. Cruzará los resultados con `Cortex-Research-Loop-OMEGA` y `Deep-Research-SOTA-Edition-OMEGA` para delimitar las asunciones técnicas del proyecto.
 
 ### Paso 2: El Matadero Lógico (Fase 2)
-*   **Comando:** `cortex-12 --phase 2`
+*   **Comando:** `python3 ~/.gemini/antigravity/scripts/cortex_12_swarm.py --phase 2`
 *   La propuesta arquitectónica se entrega a `Agent-Paper-RedTeam-OMEGA` para buscar fallos estructurales. `ouroboros-infinity` actuará como moderador cognitivo, recalculando la entropía estimada.
 
 ### Paso 3: Aislamiento e Inmunidad (Fase 3)
-*   **Comando:** `cortex-12 --phase 3`
+*   **Comando:** `python3 ~/.gemini/antigravity/scripts/cortex_12_swarm.py --phase 3`
 *   `accidental-data-loss-prevention` levanta las paredes del sandbox y `managing-python-dependencies` genera el entorno virtual limpio para la compilación/testeo.
 
 ### Paso 4: Síntesis de UI/UX (Fase 4)
-*   **Comando:** `cortex-12 --phase 4`
+*   **Comando:** `python3 ~/.gemini/antigravity/scripts/cortex_12_swarm.py --phase 4`
 *   Se aplica la inyección del CSS, layouts y modularización WebGL/HTML5 mediante `Aesthetic-Foundry-Omega` bajo la pauta visual mineral y negros absolutos (`#0A0A0A` / `#2B3BE5`).
 
 ### Paso 5: Escrutinio Clínico (Fase 5)
-*   **Comando:** `cortex-12 --phase 5`
+*   **Comando:** `python3 ~/.gemini/antigravity/scripts/cortex_12_swarm.py --phase 5`
 *   `Browser-CDP-Automation-OMEGA` arranca un navegador sin cabecera (headless) para interactuar con la app, y `verification-before-completion` ejecuta las pruebas de estrés sintácticas y semánticas.
 
 ### Paso 6: Consolidación del Ledger (Fase 6)
-*   **Comando:** `cortex-12 --phase 6`
+*   **Comando:** `python3 ~/.gemini/antigravity/scripts/cortex_12_swarm.py --phase 6`
 *   `Antigravity-Github-Omega` registra la mutación exitosa y genera el hash de transacción. Finalmente, `Crystallize-Knowledge-JIT` escribe un nuevo KI documentando las fricciones superadas.
 
 ---
