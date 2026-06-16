@@ -1,0 +1,11 @@
+[flake8]
+max-line-length = 99
+extend-ignore = E402
+per-file-ignores =
+    ui_maestro.py:E501
+    sovereign_system.py:E501
+    mac_control_omega.py:E501
+    noir_overlay.py:F403,F405,E501
+    notch_halo.py:F403,F405,E501
+    master_hud.py:F403,F405,E501
+    physical_maestro.py:F403,F405,E501
