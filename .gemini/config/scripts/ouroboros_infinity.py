@@ -33,7 +33,9 @@ class OuroborosDaemon:
         time.sleep(0.5)
 
         for root, _, files in os.walk(self.target_dir):
-            if any(ignore in root for ignore in ['.git', '.gemini', 'node_modules', 'venv', '.venv']):
+            # Check if any part of the path strictly matches ignore dirs
+            parts = root.split(os.sep)
+            if any(ignore in parts for ignore in ['.git', 'node_modules', 'venv', '.venv']):
                 continue
             
             for file in files:
