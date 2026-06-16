@@ -4,10 +4,10 @@ Last updated: 2026-06-16
 
 ## Summary
 
-- Dirs: `30`
-- YAML OK: `30`
-- Script-backed: `13`
-- Docs-only: `17`
+- Dirs: `36`
+- YAML OK: `36`
+- Script-backed: `14`
+- Docs-only: `22`
 - Missing script links: `0`
 - Ext repo refs: `0`
 
@@ -20,17 +20,22 @@ Last updated: 2026-06-16
 - `Agent-Paper-RedTeam-OMEGA`
 - `Antigravity-Github-Omega`
 - `Architect-OMEGA`
+- `Autodidact-APEX`
 - `Browser-CDP-Automation-OMEGA`
+- `DOM-Frame-Renderer-Omega`
 - `Divergence-Anchor-OMEGA`
 - `Exergy-Maximization-Kernel-OMEGA`
 - `Exergy-Singularity-OMEGA`
 - `Frontier-RevEng-OMEGA`
 - `Honest-Check-OMEGA`
+- `Human-Mosaic-Assembler-OMEGA`
 - `Local-Inference-OMEGA`
 - `Network-Security-L4-OMEGA`
 - `Order-Consolidator-Ω`
+- `SOTA-Alpha-OMEGA`
 - `Zero-Employee-Orchestrator-OMEGA`
 - `accidental-data-loss-prevention`
+- `allet-Forensics-Bizkaia-OMEGA`
 - `art-animator-omega`
 - `managing-python-dependencies`
 - `ouroboros-infinity`
@@ -40,6 +45,7 @@ Last updated: 2026-06-16
 - `APEX-Epistemic-Synthesis-OMEGA` → `verify_APEX-Epistemic-Synthesis-OMEGA.py`
 - `Aesthetic-Foundry-Omega` → `scripts/aesthetic_foundry_omega.py`
 - `Autocognition-OMEGA` → `scripts/cognitive_audit.py`
+- `DIAMOND-Sentinel-OMEGA` → `scripts/diamond_sentinel.py`
 - `Genesis-L5-OMEGA` → `scripts/mitosis_daemon.py`
 - `Grill-Me-OMEGA` → `scripts/grill_me.py`
 - `LEA-OMEGA` → `verify_LEA-OMEGA.py`
