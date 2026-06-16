@@ -49,7 +49,7 @@ def _run_safe(cmd_list: list, timeout: int = 10, stdin_data: str = None) -> str:
             timeout=timeout, input=stdin_data,
         )
         if r.returncode != 0 and r.stderr:
-            log.warning("_run_safe stderr: %s", r.stderr[:200])
+            log.debug("_run_safe stderr: %s", r.stderr[:200])
         return r.stdout.strip()
     except subprocess.TimeoutExpired:
         return "ERROR: timeout"
