@@ -102,4 +102,36 @@ graph TD
 *   `Antigravity-Github-Omega` registra la mutación exitosa y genera el hash de transacción. Finalmente, `Crystallize-Knowledge-JIT` escribe un nuevo KI documentando las fricciones superadas.
 
 ---
+
+## 🎯 Escenarios y Casos de Uso Reales
+
+El workflow CORTEX-12 está diseñado para orquestar la automatización de extremo a extremo en los siguientes escenarios reales de ingeniería:
+
+### Escenario A: Mitigación Express de Vulnerabilidades Críticas (Web3/DeFi)
+*   **Contexto:** Se detecta una vulnerabilidad de reentrada o redondeo asimétrico en un pool activo.
+*   **Ejecución:**
+    1.  `Autodidact-History` y `Deep-Research` reconstruyen el mapa de contratos y comparan con exploits recientes.
+    2.  `RedTeam` diseña el PoC del exploit en local de forma aislada.
+    3.  `data-loss-prevention` blinda la base de datos de producción mientras `managing-dependencies` levanta un nodo Fork local de pruebas.
+    4.  Se inyecta el hotfix, `Browser-CDP` interactúa con la UI local de reclamaciones del pool para validar el flujo completo y `verification` comprueba que los asserts pasen en verde.
+    5.  `Github-Omega` commitea la solución y `Crystallize-Knowledge` sella el incidente en la base de datos de fallos históricos.
+
+### Escenario B: Migración Estética y Refactorización Arquitectónica
+*   **Contexto:** Migrar un módulo legacy con alta deuda técnica hacia una interfaz optimizada bajo la estética Industrial Noir 2026.
+*   **Ejecución:**
+    1.  `Cortex-Research-Loop` mapea el árbol de componentes legacy para identificar clases acopladas.
+    2.  `Ouroboros` reescribe el plan de refactorización para estructurarlo de manera desacoplada.
+    3.  `Aesthetic-Foundry-Omega` introduce el sistema de variables CSS y shaders interactivos WebGL.
+    4.  `Browser-CDP` levanta Google Chrome headless y mide métricas web esenciales (LCP, CLS) para validar que no haya regresión de rendimiento UI.
+    5.  `verification-before-completion` valida la ausencia de imports huérfanos o loops en el thread principal.
+
+### Escenario C: Despliegue Automatizado de Campañas Multimedia Multimodales
+*   **Contexto:** Generar material audiovisual, voz sintética y video sincronizado de forma desatendida.
+*   **Ejecución:**
+    1.  `Deep-Research-SOTA` busca tendencias de contenido de alta retención.
+    2.  `RedTeam` audita los scripts de animación de Runway Gen-3 para predecir fallas de coherencia espacial.
+    3.  `accidental-data-loss-prevention` protege las claves de API de ElevenLabs/HeyGen.
+    4.  Se genera la secuencia de assets, `Browser-CDP-Automation` interactúa con el orquestador de renderizado, y `Antigravity-Github-Omega` registra la metadata final del release.
+
+---
 *Status: C5-REAL (Persisted to Master Workflows)*
