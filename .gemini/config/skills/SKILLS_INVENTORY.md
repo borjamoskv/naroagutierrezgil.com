@@ -4,10 +4,10 @@ Last updated: 2026-06-16
 
 ## Summary
 
-- Dirs: `28`
-- YAML OK: `28`
+- Dirs: `30`
+- YAML OK: `30`
 - Script-backed: `13`
-- Docs-only: `15`
+- Docs-only: `17`
 - Missing script links: `0`
 - Ext repo refs: `0`
 
@@ -22,11 +22,13 @@ Last updated: 2026-06-16
 - `Architect-OMEGA`
 - `Browser-CDP-Automation-OMEGA`
 - `Divergence-Anchor-OMEGA`
+- `Exergy-Maximization-Kernel-OMEGA`
 - `Exergy-Singularity-OMEGA`
 - `Frontier-RevEng-OMEGA`
 - `Honest-Check-OMEGA`
 - `Local-Inference-OMEGA`
 - `Network-Security-L4-OMEGA`
+- `Order-Consolidator-Ω`
 - `Zero-Employee-Orchestrator-OMEGA`
 - `accidental-data-loss-prevention`
 - `art-animator-omega`

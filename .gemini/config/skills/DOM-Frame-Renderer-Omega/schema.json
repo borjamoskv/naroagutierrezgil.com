@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DOM-Frame-Renderer-Omega I/O Contract",
+  "type": "object",
+  "required": ["intent", "causal_parent", "requested_by", "shard_range", "lowpass_locked", "capacity"],
+  "properties": {
+    "intent": { "type": "string" },
+    "causal_parent": { "type": "string" },
+    "requested_by": { "type": "string" },
+    "shard_range": { "type": "array", "items": { "type": "integer" } },
+    "lowpass_locked": { "type": "boolean" },
+    "capacity": { "type": "number", "minimum": 0, "maximum": 1 }
+  }
+}
