@@ -4,23 +4,27 @@
 
   Expediente:      Inspección Bizkaia · Ejercicios 2021-2024
   Contribuyente:   Borja Fernández Angulo · NIF 78.900.027-E
-  Sellado:         2026-06-16 19:32:42
-  Archivos:        59
+  Sellado:         2026-06-16 20:22:08
+  Archivos:        64
   Algoritmo:       SHA-256 (FIPS 180-4)
 
 ────────────────────────────────────────────────────────────────────────────────────────────────────
   00_INDICE_Y_CERTIFICADO/  (1 archivo)
 ────────────────────────────────────────────────────────────────────────────────────────────────────
-  00_INDICE_ENTREGA.txt                                   05c13b4ad2af07afd790e3815b59e06e4d79d8a9950512bf65f2cf478240e8ff
+  00_INDICE_ENTREGA.txt                                   d6067b0616d91f808537e7c8e8468d2685a3f92152737819a3869304568eaaf5
 
 ────────────────────────────────────────────────────────────────────────────────────────────────────
-  01_ESCRITOS_PRINCIPALES/  (8 archivos)
+  01_ESCRITOS_PRINCIPALES/  (12 archivos)
 ────────────────────────────────────────────────────────────────────────────────────────────────────
   00_PORTADA.pdf                                          f2c0b09e908f2fbc21360112885db1cf89d12d636a68f985d854a38e49babe31
   00_RESUMEN_EJECUTIVO.pdf                                80665b440ab07ccbc40bf2374968a2c7196ad4b7c9b0dc909bb804fa113328c9
   01_Escrito_Alegaciones_Final_Hacienda_Bizkaia.pdf       806793cb609f6d54bfcc533c8e8eca56b5ec98beaa06087f12f5355d0e267aea
   01_Escrito_Alegaciones_Final_v4_FORAL_SAFE.html         e5180b3566f88e4c8f3ba6b2e6046a23bd6048e4aa6692ce3ee18a1a176efce6
   02_Consulta_Vinculante_Bizkaia.md                       10751b92146ba2aef9eb31f067c023e17e2cd3c5ed7ea472bffa5cd25bc9f979
+  Aclaracion_Incidencia_Seguridad_y_Tokens_Spam.md        93988a0b3ef71c396c023870961e0b52de1073fc5b9c983bdef71e038eae1b01
+  Aclaracion_KuCoin.md                                    0075790fd304bea368053352e964d211d8113372678b44f671c0a9d827550f2f
+  Calculo_WashTrading_ENS_Interno.md                      da738d57639c61fc6e1a52819b92294ccb6ec174b1576c58a19cd12731dbb5ef
+  Declaracion_Inactividad_82_Wallets.md                   85e57e0512e0e14b648de02a428f02559bd3c8dae6cf4b8b29f326e26b6f3971
   Defensa_Tecnica_Final.pdf                               cab3aa7f7c8f2a6ed8e29cf609069f0e1ef4bfcb6519c2315a2ecbb50beadbd9
   EXPEDIENTE_CRIPTO_BIZKAIA_DEFENSA_vFINAL.zip            333dcf04f3606164db2fe8a2e3165d7914c7ee26b79962aa6a2db72bc70cbebd
   HACIENDA_Aportacion_Documental_Bizkaia_v2.1.pdf         bef296725f27a87eb2b9e42d05ba591e7ec426fa93bdee3e697decb81b1c3246
@@ -42,8 +46,9 @@
   mexc_sesion_activa_sin_datos_recientes.png              60afa6e0ec8a9073f6d20241e6ee7ee24e905eb037d8081c2b388599799363a3
 
 ────────────────────────────────────────────────────────────────────────────────────────────────────
-  04_EXCHANGES_CSVs/  (35 archivos)
+  04_EXCHANGES_CSVs/  (36 archivos)
 ────────────────────────────────────────────────────────────────────────────────────────────────────
+  Etherscan_82_empty_wallets_zero_history.csv             fba83614ad007a75a7be4031c49644537859041dfb406c7891bc75eb688138eb
   Etherscan_ethereum_0x0497586f3ade4c932d9ccc18b065a71dc46c7968.csv 0382ad7cfe6bed4cfbd63eec32e4d9a8e2d0c4fa6b2400a265257fee87bced06
   Etherscan_ethereum_0x4909dd4ece50ba766894ca89c7e61d9950b125a8.csv a8583860e7395e27d5afc1d30826c0c1ee0b10c2282798791d97e15ac5d754f3
   Etherscan_ethereum_0x5247299421a3ff724c41582e5a44c6551d135fd3.csv f117237e5a2eebe6add8fec42052e805d6f2692d1091b18e9e41e40e5a98f75a
@@ -100,6 +105,6 @@
   inventario_patrimonial_desglosado_2021_2024.csv         8c69466778bbeaac1b8f98c20dc27e49337a647321d4d16c0c9dc6ee0997573b
 
 ════════════════════════════════════════════════════════════════════════════════════════════════════
-  Total: 59 archivos certificados
+  Total: 64 archivos certificados
   Verificar: shasum -a 256 <archivo>
 ════════════════════════════════════════════════════════════════════════════════════════════════════

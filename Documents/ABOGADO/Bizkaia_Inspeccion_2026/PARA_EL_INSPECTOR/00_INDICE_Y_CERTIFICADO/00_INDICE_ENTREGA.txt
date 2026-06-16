@@ -7,23 +7,27 @@
   NIF:             78.900.027-E
   Ejercicios:      2021 · 2022 · 2023 · 2024
   Referencia:      2026 0515 0129
-  Fecha entrega:   16 de junio de 2026, 19:32 h
+  Fecha entrega:   16 de junio de 2026, 20:22 h
   Representante:   D. Ricardo Muñiz Fernández-Carvajal
 
 ──────────────────────────────────────────────────────────────────────
-  CONTENIDO DEL PAQUETE  (60 archivos · 8.34 MB)
+  CONTENIDO DEL PAQUETE  (65 archivos · 8.47 MB)
 ──────────────────────────────────────────────────────────────────────
 
-  ┌─ 00_INDICE_Y_CERTIFICADO/  (2 archivos · 17.6 KB)
-  │  ├── 00_INDICE_ENTREGA.txt  (6.6 KB)
-  │  └── Certificado_Integridad_SHA256.txt  (11.0 KB)
+  ┌─ 00_INDICE_Y_CERTIFICADO/  (2 archivos · 23.1 KB)
+  │  ├── 00_INDICE_ENTREGA.txt  (8.8 KB)
+  │  └── Certificado_Integridad_SHA256.txt  (14.3 KB)
   │
-  ┌─ 01_ESCRITOS_PRINCIPALES/  (8 archivos · 1.47 MB)
+  ┌─ 01_ESCRITOS_PRINCIPALES/  (12 archivos · 1.57 MB)
   │  ├── 00_PORTADA.pdf  (115.5 KB)
   │  ├── 00_RESUMEN_EJECUTIVO.pdf  (133.9 KB)
   │  ├── 01_Escrito_Alegaciones_Final_Hacienda_Bizkaia.pdf  (469.2 KB)
   │  ├── 01_Escrito_Alegaciones_Final_v4_FORAL_SAFE.html  (21.9 KB)
   │  ├── 02_Consulta_Vinculante_Bizkaia.md  (3.4 KB)
+  │  ├── Aclaracion_Incidencia_Seguridad_y_Tokens_Spam.md  (4.2 KB)
+  │  ├── Aclaracion_KuCoin.md  (1.7 KB)
+  │  ├── Calculo_WashTrading_ENS_Interno.md  (93.9 KB)
+  │  ├── Declaracion_Inactividad_82_Wallets.md  (5.5 KB)
   │  ├── Defensa_Tecnica_Final.pdf  (642.5 KB)
   │  ├── EXPEDIENTE_CRIPTO_BIZKAIA_DEFENSA_vFINAL.zip  (11.8 KB)
   │  └── HACIENDA_Aportacion_Documental_Bizkaia_v2.1.pdf  (102.5 KB)
@@ -40,7 +44,8 @@
   │  ├── kucoin_sesion_activa_sin_datos.png  (68.5 KB)
   │  └── mexc_sesion_activa_sin_datos_recientes.png  (208.5 KB)
   │
-  ┌─ 04_EXCHANGES_CSVs/  (35 archivos · 4.65 MB)
+  ┌─ 04_EXCHANGES_CSVs/  (36 archivos · 4.66 MB)
+  │  ├── Etherscan_82_empty_wallets_zero_history.csv  (13.9 KB)
   │  ├── Etherscan_ethereum_0x0497586f3ade4c932d9ccc18b065a71dc46c7968.csv  (1.3 KB)
   │  ├── Etherscan_ethereum_0x4909dd4ece50ba766894ca89c7e61d9950b125a8.csv  (2.9 KB)
   │  ├── Etherscan_ethereum_0x5247299421a3ff724c41582e5a44c6551d135fd3.csv  (1.83 MB)
