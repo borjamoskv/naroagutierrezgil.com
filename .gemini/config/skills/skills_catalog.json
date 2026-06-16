@@ -30,16 +30,6 @@
     "runnable": false
   },
   {
-    "requested": "Anergy-OMEGA",
-    "status": "script-backed",
-    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Anergy-OMEGA",
-    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Anergy-OMEGA",
-    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Anergy-OMEGA/SKILL.md",
-    "script": null,
-    "script_path": null,
-    "runnable": false
-  },
-  {
     "requested": "Antigravity-Github-Omega",
     "status": "script-backed",
     "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Antigravity-Github-Omega",
@@ -48,6 +38,16 @@
     "script": null,
     "script_path": null,
     "runnable": false
+  },
+  {
+    "requested": "APEX-Epistemic-Synthesis-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/APEX-Epistemic-Synthesis-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/APEX-Epistemic-Synthesis-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/APEX-Epistemic-Synthesis-OMEGA/SKILL.md",
+    "script": "verify_APEX-Epistemic-Synthesis-OMEGA.py",
+    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/APEX-Epistemic-Synthesis-OMEGA/verify_APEX-Epistemic-Synthesis-OMEGA.py",
+    "runnable": true
   },
   {
     "requested": "Architect-OMEGA",
@@ -80,36 +80,6 @@
     "runnable": true
   },
   {
-    "requested": "Autodidact-History-OMEGA",
-    "status": "script-backed",
-    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Autodidact-History-OMEGA",
-    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Autodidact-History-OMEGA",
-    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Autodidact-History-OMEGA/SKILL.md",
-    "script": "scripts/retrieve_history.py",
-    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Autodidact-History-OMEGA/scripts/retrieve_history.py",
-    "runnable": true
-  },
-  {
-    "requested": "Autodidact-Research-OMEGA",
-    "status": "script-backed",
-    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Autodidact-Research-OMEGA",
-    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Autodidact-Research-OMEGA",
-    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Autodidact-Research-OMEGA/SKILL.md",
-    "script": null,
-    "script_path": null,
-    "runnable": false
-  },
-  {
-    "requested": "Autonomous-Audit-OMEGA",
-    "status": "script-backed",
-    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Autonomous-Audit-OMEGA",
-    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Autonomous-Audit-OMEGA",
-    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Autonomous-Audit-OMEGA/SKILL.md",
-    "script": null,
-    "script_path": null,
-    "runnable": false
-  },
-  {
     "requested": "Browser-CDP-Automation-OMEGA",
     "status": "script-backed",
     "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Browser-CDP-Automation-OMEGA",
@@ -118,26 +88,6 @@
     "script": "scripts/cdp_agent.py",
     "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Browser-CDP-Automation-OMEGA/scripts/cdp_agent.py",
     "runnable": true
-  },
-  {
-    "requested": "CAOS-OMEGA",
-    "status": "script-backed",
-    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/CAOS-OMEGA",
-    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/CAOS-OMEGA",
-    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/CAOS-OMEGA/SKILL.md",
-    "script": "scripts/caos_daemon.py",
-    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/CAOS-OMEGA/scripts/caos_daemon.py",
-    "runnable": true
-  },
-  {
-    "requested": "CORTAZAR",
-    "status": "script-backed",
-    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/CORTAZAR",
-    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/CORTAZAR",
-    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/CORTAZAR/SKILL.md",
-    "script": null,
-    "script_path": null,
-    "runnable": false
   },
   {
     "requested": "Divergence-Anchor-OMEGA",
@@ -150,51 +100,11 @@
     "runnable": false
   },
   {
-    "requested": "Estado-Del-Arte-OMEGA",
-    "status": "script-backed",
-    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Estado-Del-Arte-OMEGA",
-    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Estado-Del-Arte-OMEGA",
-    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Estado-Del-Arte-OMEGA/SKILL.md",
-    "script": "scripts/sota_forge.py",
-    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Estado-Del-Arte-OMEGA/scripts/sota_forge.py",
-    "runnable": true
-  },
-  {
-    "requested": "Exergy-Engine-OMEGA",
-    "status": "script-backed",
-    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Exergy-Engine-OMEGA",
-    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Exergy-Engine-OMEGA",
-    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Exergy-Engine-OMEGA/SKILL.md",
-    "script": null,
-    "script_path": null,
-    "runnable": false
-  },
-  {
-    "requested": "Exergy-Matrix-OMEGA",
-    "status": "script-backed",
-    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Exergy-Matrix-OMEGA",
-    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Exergy-Matrix-OMEGA",
-    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Exergy-Matrix-OMEGA/SKILL.md",
-    "script": null,
-    "script_path": null,
-    "runnable": false
-  },
-  {
     "requested": "Exergy-Singularity-OMEGA",
     "status": "script-backed",
     "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Exergy-Singularity-OMEGA",
     "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Exergy-Singularity-OMEGA",
     "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Exergy-Singularity-OMEGA/SKILL.md",
-    "script": null,
-    "script_path": null,
-    "runnable": false
-  },
-  {
-    "requested": "Finder-Optimizer-OMEGA",
-    "status": "script-backed",
-    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Finder-Optimizer-OMEGA",
-    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Finder-Optimizer-OMEGA",
-    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Finder-Optimizer-OMEGA/SKILL.md",
     "script": null,
     "script_path": null,
     "runnable": false
@@ -238,6 +148,16 @@
     "script": null,
     "script_path": null,
     "runnable": false
+  },
+  {
+    "requested": "LEA-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/LEA-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/LEA-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/LEA-OMEGA/SKILL.md",
+    "script": "verify_LEA-OMEGA.py",
+    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/LEA-OMEGA/verify_LEA-OMEGA.py",
+    "runnable": true
   },
   {
     "requested": "Local-Inference-OMEGA",
@@ -315,8 +235,8 @@
     "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/singularity-nexus",
     "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/singularity-nexus",
     "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/singularity-nexus/SKILL.md",
-    "script": "scripts/singularity_engine.py",
-    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/singularity-nexus/scripts/singularity_engine.py",
+    "script": "verify_singularity-nexus.py",
+    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/singularity-nexus/verify_singularity-nexus.py",
     "runnable": true
   },
   {
@@ -327,6 +247,16 @@
     "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Sortu-APEX/SKILL.md",
     "script": "scripts/sortu.py",
     "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Sortu-APEX/scripts/sortu.py",
+    "runnable": true
+  },
+  {
+    "requested": "Thermodynamic-Context-Compression-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Thermodynamic-Context-Compression-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Thermodynamic-Context-Compression-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Thermodynamic-Context-Compression-OMEGA/SKILL.md",
+    "script": "verify_Thermodynamic-Context-Compression-OMEGA.py",
+    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Thermodynamic-Context-Compression-OMEGA/verify_Thermodynamic-Context-Compression-OMEGA.py",
     "runnable": true
   },
   {

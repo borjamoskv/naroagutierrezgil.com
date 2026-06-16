@@ -1,13 +1,13 @@
 # Skills Inventory
 
-Last updated: 2026-06-15
+Last updated: 2026-06-16
 
 ## Summary
 
-- Dirs: `35`
-- YAML OK: `35`
-- Script-backed: `11`
-- Docs-only: `24`
+- Dirs: `28`
+- YAML OK: `28`
+- Script-backed: `13`
+- Docs-only: `15`
 - Missing script links: `0`
 - Ext repo refs: `0`
 
@@ -18,19 +18,11 @@ Last updated: 2026-06-15
 ## Documentation-Only Skills
 
 - `Agent-Paper-RedTeam-OMEGA`
-- `Anergy-OMEGA`
 - `Antigravity-Github-Omega`
 - `Architect-OMEGA`
-- `Autodidact-Research-OMEGA`
-- `Autonomous-Audit-OMEGA`
 - `Browser-CDP-Automation-OMEGA`
-- `CAOS-OMEGA`
-- `CORTAZAR`
 - `Divergence-Anchor-OMEGA`
-- `Exergy-Engine-OMEGA`
-- `Exergy-Matrix-OMEGA`
 - `Exergy-Singularity-OMEGA`
-- `Finder-Optimizer-OMEGA`
 - `Frontier-RevEng-OMEGA`
 - `Honest-Check-OMEGA`
 - `Local-Inference-OMEGA`
@@ -40,21 +32,22 @@ Last updated: 2026-06-15
 - `art-animator-omega`
 - `managing-python-dependencies`
 - `ouroboros-infinity`
-- `singularity-nexus`
 
 ## Script-Backed Skills
 
+- `APEX-Epistemic-Synthesis-OMEGA` → `verify_APEX-Epistemic-Synthesis-OMEGA.py`
 - `Aesthetic-Foundry-Omega` → `scripts/aesthetic_foundry_omega.py`
 - `Autocognition-OMEGA` → `scripts/cognitive_audit.py`
-- `Autodidact-History-OMEGA` → `scripts/retrieve_history.py`
-- `Estado-Del-Arte-OMEGA` → `scripts/sota_forge.py`
 - `Genesis-L5-OMEGA` → `scripts/mitosis_daemon.py`
 - `Grill-Me-OMEGA` → `scripts/grill_me.py`
+- `LEA-OMEGA` → `verify_LEA-OMEGA.py`
 - `Mac-Control-Ω` → `scripts/mac_control_omega.py`
 - `Python-Extractor-OMEGA` → `scripts/sovereign_python_extractor.py`
 - `Session-Crystallizer-OMEGA` → `scripts/crystallize.py`
 - `Sortu-APEX` → `scripts/sortu.py`
+- `Thermodynamic-Context-Compression-OMEGA` → `verify_Thermodynamic-Context-Compression-OMEGA.py`
 - `Vesicular-Runtime-Omega` → `scripts/run_vesicular.py`
+- `singularity-nexus` → `verify_singularity-nexus.py`
 
 ## Resolution Snapshot
 

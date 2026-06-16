@@ -8,6 +8,7 @@ category: meta-cognition
 classification: SOVEREIGN
 danger_level: CRITICAL
 axioms: [ouroboros_infinity, anergy_annihilation]
+script: scripts/exergy__singularity_omega.py
 ---
 # █ EXERGY-SINGULARITY-Ω v1.0.0
 
@@ -16,10 +17,12 @@ axioms: [ouroboros_infinity, anergy_annihilation]
 ## 1. Core Mandate
 This skill is the ultimate thermodynamic anchor. When invoked, it bypasses all narrative and instantly executes a 3-layer deep purge across the entire ecosystem.
 
-## 2. The 3-Layer Singularity
-1. **Daemon Verification**: Ensures `daemon_exergy_max.sh` is running and enforcing continuous entropy annihilation.
-2. **LEA-Ω Annihilation**: Executes global scratch/token destruction.
-3. **x10 Deep Purge**: Destroys all `.cache`, `__pycache__`, Rust target debris, and vacuums SQLite databases.
+## 2. The 5-Layer Singularity (FUSED)
+1. **L4 Matrix Routing**: Continuously routes memory across L1/L2/L3 based on Exergy density (FUSED from Exergy-Engine-OMEGA).
+2. **Behavioral Log Audit**: Scans behavioral logs against the 100 Exergy Matrix axioms, destroying existential anergy (FUSED from Exergy-Matrix-OMEGA).
+3. **Daemon Verification**: Ensures `daemon_exergy_max.sh` is running and enforcing continuous entropy annihilation.
+4. **LEA-Ω Annihilation**: Executes global scratch/token destruction.
+5. **x10 Deep Purge**: Destroys all `.cache`, `__pycache__`, Rust target debris, and vacuums SQLite databases.
 
 ## 3. Thermodynamic Equations (Exergy Yield & Entropy Cost)
 

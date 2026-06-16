@@ -1,29 +1,21 @@
 {
-  "updated_at": "2026-06-15",
+  "updated_at": "2026-06-16",
   "totals": {
-    "directories": 35,
-    "yaml_ok": 35,
-    "script_backed": 11,
-    "docs_only": 24,
+    "directories": 28,
+    "yaml_ok": 28,
+    "script_backed": 13,
+    "docs_only": 15,
     "missing_script_links": 0,
     "external_repo_refs": 0
   },
   "duplicates": {},
   "docs_only": [
     "Agent-Paper-RedTeam-OMEGA",
-    "Anergy-OMEGA",
     "Antigravity-Github-Omega",
     "Architect-OMEGA",
-    "Autodidact-Research-OMEGA",
-    "Autonomous-Audit-OMEGA",
     "Browser-CDP-Automation-OMEGA",
-    "CAOS-OMEGA",
-    "CORTAZAR",
     "Divergence-Anchor-OMEGA",
-    "Exergy-Engine-OMEGA",
-    "Exergy-Matrix-OMEGA",
     "Exergy-Singularity-OMEGA",
-    "Finder-Optimizer-OMEGA",
     "Frontier-RevEng-OMEGA",
     "Honest-Check-OMEGA",
     "Local-Inference-OMEGA",
@@ -32,21 +24,22 @@
     "accidental-data-loss-prevention",
     "art-animator-omega",
     "managing-python-dependencies",
-    "ouroboros-infinity",
-    "singularity-nexus"
+    "ouroboros-infinity"
   ],
   "script_backed": {
+    "APEX-Epistemic-Synthesis-OMEGA": "verify_APEX-Epistemic-Synthesis-OMEGA.py",
     "Aesthetic-Foundry-Omega": "scripts/aesthetic_foundry_omega.py",
     "Autocognition-OMEGA": "scripts/cognitive_audit.py",
-    "Autodidact-History-OMEGA": "scripts/retrieve_history.py",
-    "Estado-Del-Arte-OMEGA": "scripts/sota_forge.py",
     "Genesis-L5-OMEGA": "scripts/mitosis_daemon.py",
     "Grill-Me-OMEGA": "scripts/grill_me.py",
+    "LEA-OMEGA": "verify_LEA-OMEGA.py",
     "Mac-Control-Ω": "scripts/mac_control_omega.py",
     "Python-Extractor-OMEGA": "scripts/sovereign_python_extractor.py",
     "Session-Crystallizer-OMEGA": "scripts/crystallize.py",
     "Sortu-APEX": "scripts/sortu.py",
-    "Vesicular-Runtime-Omega": "scripts/run_vesicular.py"
+    "Thermodynamic-Context-Compression-OMEGA": "verify_Thermodynamic-Context-Compression-OMEGA.py",
+    "Vesicular-Runtime-Omega": "scripts/run_vesicular.py",
+    "singularity-nexus": "verify_singularity-nexus.py"
   },
   "resolution_snapshot": {
     "canonical": [],

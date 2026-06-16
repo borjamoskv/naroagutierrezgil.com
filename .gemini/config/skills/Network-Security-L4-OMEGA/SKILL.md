@@ -1,6 +1,7 @@
 ---
 name: Network-Security-L4-OMEGA
 description: C5-REAL L4 Network Security, Active Vulnerability Scanning, and Offensive Enumeration Protocol.
+script: scripts/network__security_l4_omega.py
 ---
 # Network-Security-L4-OMEGA
 

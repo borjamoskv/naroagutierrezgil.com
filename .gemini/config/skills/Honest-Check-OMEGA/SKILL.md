@@ -6,6 +6,7 @@ disable-model-invocation: false
 allowed-tools: Read, Bash, Glob, Grep
 effort: high
 tags: [C5-REAL, QA, Audit, Adversarial]
+script: scripts/honest__check_omega.py
 ---
 
 # Honest Reality Check (Adversarial Gradient Protocol)
