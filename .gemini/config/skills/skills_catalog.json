@@ -100,6 +100,16 @@
     "runnable": true
   },
   {
+    "requested": "AXIOM-Terminal-Synthesis",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/AXIOM-Terminal-Synthesis",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/AXIOM-Terminal-Synthesis",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/AXIOM-Terminal-Synthesis/SKILL.md",
+    "script": null,
+    "script_path": null,
+    "runnable": false
+  },
+  {
     "requested": "Browser-CDP-Automation-OMEGA",
     "status": "script-backed",
     "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Browser-CDP-Automation-OMEGA",
@@ -198,6 +208,16 @@
     "script": "scripts/honest__check_omega.py",
     "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Honest-Check-OMEGA/scripts/honest__check_omega.py",
     "runnable": true
+  },
+  {
+    "requested": "HoTT-AGI-Inference-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/HoTT-AGI-Inference-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/HoTT-AGI-Inference-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/HoTT-AGI-Inference-OMEGA/SKILL.md",
+    "script": null,
+    "script_path": null,
+    "runnable": false
   },
   {
     "requested": "Human-Mosaic-Assembler-OMEGA",
@@ -307,6 +327,16 @@
     "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/singularity-nexus/SKILL.md",
     "script": "verify_singularity-nexus.py",
     "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/singularity-nexus/verify_singularity-nexus.py",
+    "runnable": true
+  },
+  {
+    "requested": "Social-Alg-RevEng-OMEGA",
+    "status": "script-backed",
+    "skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Social-Alg-RevEng-OMEGA",
+    "canonical_skill_dir": "/Users/borjafernandezangulo/.gemini/config/skills/Social-Alg-RevEng-OMEGA",
+    "canonical_skill_md": "/Users/borjafernandezangulo/.gemini/config/skills/Social-Alg-RevEng-OMEGA/SKILL.md",
+    "script": "scripts/social_alg_reveng_omega.py",
+    "script_path": "/Users/borjafernandezangulo/.gemini/config/skills/Social-Alg-RevEng-OMEGA/scripts/social_alg_reveng_omega.py",
     "runnable": true
   },
   {

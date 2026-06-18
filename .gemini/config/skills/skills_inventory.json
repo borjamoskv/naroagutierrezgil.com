@@ -1,15 +1,16 @@
 {
-  "updated_at": "2026-06-16",
+  "updated_at": "2026-06-18",
   "totals": {
-    "directories": 36,
-    "yaml_ok": 36,
-    "script_backed": 14,
-    "docs_only": 22,
+    "directories": 39,
+    "yaml_ok": 39,
+    "script_backed": 15,
+    "docs_only": 24,
     "missing_script_links": 0,
     "external_repo_refs": 0
   },
   "duplicates": {},
   "docs_only": [
+    "AXIOM-Terminal-Synthesis",
     "Agent-Paper-RedTeam-OMEGA",
     "Antigravity-Github-Omega",
     "Architect-OMEGA",
@@ -20,6 +21,7 @@
     "Exergy-Maximization-Kernel-OMEGA",
     "Exergy-Singularity-OMEGA",
     "Frontier-RevEng-OMEGA",
+    "HoTT-AGI-Inference-OMEGA",
     "Honest-Check-OMEGA",
     "Human-Mosaic-Assembler-OMEGA",
     "Local-Inference-OMEGA",
@@ -44,6 +46,7 @@
     "Mac-Control-Ω": "scripts/mac_control_omega.py",
     "Python-Extractor-OMEGA": "scripts/sovereign_python_extractor.py",
     "Session-Crystallizer-OMEGA": "scripts/crystallize.py",
+    "Social-Alg-RevEng-OMEGA": "scripts/social_alg_reveng_omega.py",
     "Sortu-APEX": "scripts/sortu.py",
     "Thermodynamic-Context-Compression-OMEGA": "verify_Thermodynamic-Context-Compression-OMEGA.py",
     "Vesicular-Runtime-Omega": "scripts/run_vesicular.py",

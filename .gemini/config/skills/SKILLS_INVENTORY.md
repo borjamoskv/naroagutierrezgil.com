@@ -1,13 +1,13 @@
 # Skills Inventory
 
-Last updated: 2026-06-16
+Last updated: 2026-06-18
 
 ## Summary
 
-- Dirs: `36`
-- YAML OK: `36`
-- Script-backed: `14`
-- Docs-only: `22`
+- Dirs: `39`
+- YAML OK: `39`
+- Script-backed: `15`
+- Docs-only: `24`
 - Missing script links: `0`
 - Ext repo refs: `0`
 
@@ -17,6 +17,7 @@ Last updated: 2026-06-16
 
 ## Documentation-Only Skills
 
+- `AXIOM-Terminal-Synthesis`
 - `Agent-Paper-RedTeam-OMEGA`
 - `Antigravity-Github-Omega`
 - `Architect-OMEGA`
@@ -27,6 +28,7 @@ Last updated: 2026-06-16
 - `Exergy-Maximization-Kernel-OMEGA`
 - `Exergy-Singularity-OMEGA`
 - `Frontier-RevEng-OMEGA`
+- `HoTT-AGI-Inference-OMEGA`
 - `Honest-Check-OMEGA`
 - `Human-Mosaic-Assembler-OMEGA`
 - `Local-Inference-OMEGA`
@@ -52,6 +54,7 @@ Last updated: 2026-06-16
 - `Mac-Control-Ω` → `scripts/mac_control_omega.py`
 - `Python-Extractor-OMEGA` → `scripts/sovereign_python_extractor.py`
 - `Session-Crystallizer-OMEGA` → `scripts/crystallize.py`
+- `Social-Alg-RevEng-OMEGA` → `scripts/social_alg_reveng_omega.py`
 - `Sortu-APEX` → `scripts/sortu.py`
 - `Thermodynamic-Context-Compression-OMEGA` → `verify_Thermodynamic-Context-Compression-OMEGA.py`
 - `Vesicular-Runtime-Omega` → `scripts/run_vesicular.py`
