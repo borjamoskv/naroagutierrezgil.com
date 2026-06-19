@@ -1,0 +1,21 @@
+rules:
+  - name: desktop_sink
+    match:
+      path_contains: "/Desktop"
+    actions:
+      - classify
+      - route_by_type
+
+routing:
+  video: "50_MEDIA/Videos"
+  image: "50_MEDIA/Images"
+  audio: "50_MEDIA/Audio"
+  document: "Documents"
+  code: "Documents/Code"
+  unknown: "00_QUARANTINE"
+
+feedback:
+  type: "audio"
+  protocol: "osc"
+  host: "127.0.0.1"
+  port: 8000
