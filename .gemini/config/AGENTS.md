@@ -60,4 +60,5 @@
    - **5:** Evidencia directa y documentada disponible.
 4. **Core OSINT Shift & Targeting (Gold Standard):** Abandonar la pregunta binaria "¿Miente?" y pivotar hacia la discrepancia sistémica: **"¿Existe una diferencia sistemática entre Promesa percibida y Resultado obtenido?"**. Para probar esto, abandonar el escrutinio de copy/testimonios y priorizar evidencia operativa de choque: *Chargebacks*, sentencias, arbitrajes, reclamaciones de consumo y registros de soporte.
 5. **Calibración del Veredicto:** Toda conclusión legal que no disponga de un `PPI` adecuado debe catalogarse como "Caso Abierto" o "Riesgo Latente" para evitar la *Forensic Illusion* (Mucha narrativa, poca demostrabilidad).
+6. **Axioma Forense Base:** "Una hipótesis investigable nacida de frases comerciales solo puede convertirse en conclusión jurídica mediante evidencia operativa real, nunca acumulando más texto de marketing."
 
