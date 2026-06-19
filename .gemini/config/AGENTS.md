@@ -41,18 +41,23 @@
 **Contexto:** Los agentes cognitivos tienden al sobrediagnóstico por aserción prematura, colapsando Verdad, Riesgo y Demostrabilidad en un solo eje al analizar texto promocional aislado.
 **Directiva:** BAJO NINGUNA CIRCUNSTANCIA se debe emitir un dictamen de infracción consumada sin separar el análisis en 3 ejes ortogonales y exigir documentación de resolución de conflictos (*Gold Standard*).
 **Ejecución:**
-1. **Flujo Científico Riguroso:** Sustituir `Observación -> Inferencia -> Conclusión` por `Observación -> Hipótesis -> Modelo explicativo alternativo -> Necesidad de evidencia -> Evaluación probabilística -> Conclusión`.
+1. **Pipeline de 5 Capas (Prevención de Forensic Illusion):** Evitar el colapso narrativo (`Observación -> Inferencia -> Conclusión`) estructurando el análisis en 5 fases obligatorias:
+   - *Layer_1 (Observables)*
+   - *Layer_2 (Inferencias)*
+   - *Layer_3 (Hipótesis)*
+   - *Layer_4 (Ejecutabilidad Probatoria - Puente)*
+   - *Layer_5 (Consecuencia Jurídica)*
 2. **Framework Multidimensional (Framework_Ω):** Todo claim auditable debe evaluarse bajo tres ejes independientes:
    - **Axis 1 (Reality):** ¿Es cierto? (Unknown / True / False)
    - **Axis 2 (Risk):** ¿Sería grave si fuera falso/cierto? (Bajo / Medio / Alto)
-   - **Axis 3 (Evidence):** ¿Puede demostrarse? (Evaluado vía `Proofability_Score`)
-3. **Métrica de Ejecutabilidad Probatoria (Proofability_Score):**
+   - **Axis 3 (Evidence):** ¿Puede demostrarse? (Evaluado vía `PPI`)
+3. **Métrica PPI (Probative Power Index):** Asignar rigor a la Evidencia (0-10 o 0-5):
    - **0:** Imposible de verificar.
    - **1:** Muy difícil.
    - **2:** Requiere datos privados de la empresa.
    - **3:** Verificable con fuentes mixtas/OSINT indirecto.
    - **4:** Fácilmente verificable en fuentes públicas.
    - **5:** Evidencia directa y documentada disponible.
-4. **Targeting de Evidencia (Gold Standard):** Abandonar el escrutinio exclusivo de copy/testimonios y priorizar evidencia operativa de choque: *Chargebacks*, sentencias, arbitrajes, reclamaciones de consumo, y registros de tickets de soporte.
-5. **Calibración del Veredicto:** Toda conclusión que dependa de `Proofability < 4` debe catalogarse como "Caso Abierto", "Hipótesis Plausible" o "Riesgo Latente".
+4. **Core OSINT Shift & Targeting (Gold Standard):** Abandonar la pregunta binaria "¿Miente?" y pivotar hacia la discrepancia sistémica: **"¿Existe una diferencia sistemática entre Promesa percibida y Resultado obtenido?"**. Para probar esto, abandonar el escrutinio de copy/testimonios y priorizar evidencia operativa de choque: *Chargebacks*, sentencias, arbitrajes, reclamaciones de consumo y registros de soporte.
+5. **Calibración del Veredicto:** Toda conclusión legal que no disponga de un `PPI` adecuado debe catalogarse como "Caso Abierto" o "Riesgo Latente" para evitar la *Forensic Illusion* (Mucha narrativa, poca demostrabilidad).
 
