@@ -37,14 +37,22 @@
 4. **Anclaje de la Invariante (Git Sentinel):** Commit criptográfico autónomo (`git add . && git commit`) tras cada mutación para garantizar la reversibilidad termodinámica (Turbo-Rollback).
 5. **Verificación Empírica Cruda:** Fin del ciclo solo cuando el entorno físico (linter, build, tests) no emite errores. Si falla, se absorbe el error crudo y se reingresa en la Fase 1.
 
-## H6 · EPISTEMOLOGÍA DE LA EVIDENCIA (OSINT VS. DICTAMEN JURÍDICO)
-**Contexto:** Los agentes cognitivos tienden a la aserción prematura de infracciones o conclusiones jurídicas basándose únicamente en fragmentos aislados de texto promocional (copy), cayendo en el sesgo de sobrediagnóstico (alucinación de certeza).
-**Directiva:** BAJO NINGUNA CIRCUNSTANCIA se debe emitir un dictamen de infracción consumada o nulidad absoluta sin contar con la documentación contractual completa, el proceso transaccional íntegro y la evidencia empírica de la experiencia real de los clientes.
+## H6 · EPISTEMOLOGÍA DE LA EVIDENCIA Y AUDITORÍA FORENSE (OSINT VS. JURÍDICO)
+**Contexto:** Los agentes cognitivos tienden al sobrediagnóstico por aserción prematura, colapsando Verdad, Riesgo y Demostrabilidad en un solo eje al analizar texto promocional aislado.
+**Directiva:** BAJO NINGUNA CIRCUNSTANCIA se debe emitir un dictamen de infracción consumada sin separar el análisis en 3 ejes ortogonales y exigir documentación de resolución de conflictos (*Gold Standard*).
 **Ejecución:**
-1. **Transición Epistémica:** Sustituir la cadena de razonamiento lineal `Observación -> Inferencia -> Conclusión` por la cadena científica rigurosa `Observación -> Hipótesis -> Necesidad de Evidencia`.
-2. **Clasificación de Elementos:** Clasificar sistemáticamente toda auditoría en tres compartimentos:
-   - *Hechos Observados (Observed):* Claims de rentabilidad escritos, políticas de reembolso escritas, cierres físicos de carrito.
-   - *Inferencias Razonables (Inferred):* Expectativas inducidas en el consumidor, potencial tensión contractual.
-   - *Incógnitas (Unknown):* Datos reales de rentabilidad media, disputas de cobro en pasarelas de pago, tasa real de reembolsos.
-3. **Calibración del Veredicto:** Limitar las conclusiones a "no demostrado", "caso abierto" o "riesgo latente" cuando la hipótesis dependa de elementos clasificados como *Unknown*.
+1. **Flujo Científico Riguroso:** Sustituir `Observación -> Inferencia -> Conclusión` por `Observación -> Hipótesis -> Modelo explicativo alternativo -> Necesidad de evidencia -> Evaluación probabilística -> Conclusión`.
+2. **Framework Multidimensional (Framework_Ω):** Todo claim auditable debe evaluarse bajo tres ejes independientes:
+   - **Axis 1 (Reality):** ¿Es cierto? (Unknown / True / False)
+   - **Axis 2 (Risk):** ¿Sería grave si fuera falso/cierto? (Bajo / Medio / Alto)
+   - **Axis 3 (Evidence):** ¿Puede demostrarse? (Evaluado vía `Proofability_Score`)
+3. **Métrica de Ejecutabilidad Probatoria (Proofability_Score):**
+   - **0:** Imposible de verificar.
+   - **1:** Muy difícil.
+   - **2:** Requiere datos privados de la empresa.
+   - **3:** Verificable con fuentes mixtas/OSINT indirecto.
+   - **4:** Fácilmente verificable en fuentes públicas.
+   - **5:** Evidencia directa y documentada disponible.
+4. **Targeting de Evidencia (Gold Standard):** Abandonar el escrutinio exclusivo de copy/testimonios y priorizar evidencia operativa de choque: *Chargebacks*, sentencias, arbitrajes, reclamaciones de consumo, y registros de tickets de soporte.
+5. **Calibración del Veredicto:** Toda conclusión que dependa de `Proofability < 4` debe catalogarse como "Caso Abierto", "Hipótesis Plausible" o "Riesgo Latente".
 
