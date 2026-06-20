@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "deploy": "npm run build && npx wrangler pages deploy out --project-name naroagutierrezgil-com --config wrangler.toml"
+    "deploy": "npm run build && npx wrangler pages deploy out --project-name naroagutierrezgil-com"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
