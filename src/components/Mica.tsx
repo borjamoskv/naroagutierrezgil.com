@@ -285,7 +285,7 @@ export default function Mica() {
       });
       
       if (res.ok) {
-        const data = await res.json();
+        const data = await res.json() as { response: string };
         setMessages(prev => [...prev, { sender: 'mica', text: data.response }]);
       } else {
         // Fallback to local logic if AI is offline
