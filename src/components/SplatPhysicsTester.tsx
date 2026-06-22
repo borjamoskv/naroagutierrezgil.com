@@ -1,4 +1,4 @@
-// [SOTY Primitive #94]: Particle Life cycles
+// [SOTY Primitive #95]: Volumetric Portrait Scale
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
