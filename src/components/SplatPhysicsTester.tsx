@@ -1,4 +1,4 @@
-// [SOTY Primitive #10]: Basalt Texture Scaling
+// [SOTY Primitive #11]: Roman Numeral Navigation
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
