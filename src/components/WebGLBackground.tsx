@@ -6,9 +6,8 @@ import { Points, PointMaterial } from "@react-three/drei";
 import { useState, useRef, useEffect } from "react";
 import * as THREE from "three";
 import { inSphere } from "maath/random";
-import type { ThreeElements } from "@react-three/fiber";
 
-function StarBackground(props: ThreeElements['group']) {
+function StarBackground(props: Record<string, unknown>) {
   const ref = useRef<THREE.Points>(null);
   const [color, setColor] = useState("#2B3BE5");
   const particleTypes = useRef<string[]>([]);
