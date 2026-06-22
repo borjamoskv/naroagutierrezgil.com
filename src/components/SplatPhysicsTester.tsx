@@ -1,4 +1,4 @@
-// [SOTY Primitive #72]: Haitza stone references
+// [SOTY Primitive #73]: Fisura kintsugi notes
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
