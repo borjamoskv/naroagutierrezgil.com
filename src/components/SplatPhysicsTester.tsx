@@ -1,4 +1,4 @@
-// [SOTY Primitive #61]: Omni Flash Physics field
+// [SOTY Primitive #62]: CRT Scanline opacity
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

@@ -63,3 +63,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #59**: Primitive [Timeline Scrubber Keyframes] - Inyección de exergía en la topología C5-REAL.
 - **Commit #60**: Primitive [Google Flow Video speed] - Inyección de exergía en la topología C5-REAL.
 - **Commit #61**: Primitive [Omni Flash Physics field] - Inyección de exergía en la topología C5-REAL.
+- **Commit #62**: Primitive [CRT Scanline opacity] - Inyección de exergía en la topología C5-REAL.
