@@ -23,6 +23,8 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
     scars: [],
   };
 
+  private lastKintsugiActive: boolean | null = null;
+
   /**
    * Valida la Epistemología del Estado: La entropía nunca puede ser negativa.
    */
@@ -37,9 +39,13 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
    * cuando el estado termodinámico cambia.
    */
   async onStateUpdate(state: EntropicState) {
-    // Si la entropía supera el umbral crítico y no hay Kintsugi activo, la pizarra se quiebra.
-    if (state.globalEntropy >= 100.0 && !state.kintsugiActive) {
-      this.setState({ ...state, kintsugiActive: true });
+    if (this.lastKintsugiActive === null) {
+      this.lastKintsugiActive = state.kintsugiActive;
+    }
+
+    // Si se acaba de fracturar (kintsugiActive pasa de false a true)
+    if (state.kintsugiActive && !this.lastKintsugiActive) {
+      this.lastKintsugiActive = true;
       this.broadcast(JSON.stringify({ type: 'CANVAS_FRACTURE', message: 'La fricción colectiva ha quebrado la obra. Inyección de resina requerida.' }));
       
       // CORTEX-Guard KV Observability
@@ -50,6 +56,8 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
       } catch {
         // KV write is best-effort; failure is non-critical
       }
+    } else if (!state.kintsugiActive && this.lastKintsugiActive) {
+      this.lastKintsugiActive = false;
     }
   }
 
@@ -78,7 +86,8 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
     const nextState = {
       ...this.state,
       globalEntropy: newEntropy,
-      scars: newScars
+      scars: newScars,
+      kintsugiActive: newEntropy >= 100.0 ? true : this.state.kintsugiActive
     };
 
     this.setState(nextState);
