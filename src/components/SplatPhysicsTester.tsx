@@ -1,4 +1,4 @@
-// [SOTY Primitive #86]: Takeover Modal countdown
+// [SOTY Primitive #87]: Custom Color picker accent
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
