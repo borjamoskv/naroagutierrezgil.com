@@ -12,7 +12,9 @@ const WebGLBackground = dynamic(() => import('@/components/WebGLBackground'), { 
 const PaintTrail = dynamic(() => import('@/components/PaintTrail'), { ssr: false });
 const MacroSplatCanvas = dynamic(() => import('@/components/SplatBenchmarkCanvas'), { ssr: false });
 const SplatPhysicsTester = dynamic(() => import('@/components/SplatPhysicsTester'), { ssr: false });
+const KineticArtwork = dynamic(() => import('@/components/KineticArtwork'), { ssr: false });
 const ThreeDCarousel = dynamic(() => import('@/components/ThreeDCarousel'), { ssr: false });
+const HeroInteractiveCanvas = dynamic(() => import('@/components/HeroInteractiveCanvas'), { ssr: false });
 const LuxuryArtworkViewer = dynamic(() => import('@/components/LuxuryArtworkViewer'), { ssr: false });
 const GoogleFlowStudio = dynamic(() => import('@/components/GoogleFlowStudio'), { ssr: false });
 const DepthHUD = dynamic(() => import('@/components/DepthHUD'), { ssr: false });
@@ -24,9 +26,9 @@ const TakeoverModal = dynamic(() => import('@/components/TakeoverModal'), { ssr:
 const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
 
 const baseArtworks = [
-  { src: 'hq-james-CjsTrO7r.webp', title: 'James Dean', category: 'pop', desc: 'Pop iconography on slate' },
-  { src: 'hq-amy-BRTriASV.webp', title: 'Amy Winehouse', category: 'pop', desc: 'Sinuous expression of voice' },
-  { src: 'hq-johnny-5ueL8eU0.webp', title: 'Johnny Depp', category: 'pop', desc: 'Depth of texture & character' },
+  { src: 'james-new.jpg', title: 'James Dean', category: 'pop', desc: 'Pop iconography on slate' },
+  { src: 'amy-new.jpg', title: 'Amy Winehouse', category: 'pop', desc: 'Sinuous expression of voice' },
+  { src: 'johnny-new.jpg', title: 'Johnny Depp', category: 'pop', desc: 'Depth of texture & character' },
   { src: 'audrey-hepburn-DbIBTtIp.webp', title: 'Audrey Hepburn', category: 'pop', desc: 'Classic elegance on basalt' },
   { src: 'el-gran-dakari-C1tAWAhR.webp', title: 'El Gran Dakari', category: 'mica', desc: 'Shimmering minerals and glaze' },
   { src: 'geisha-MfRtKWdu.webp', title: 'Geisha', category: 'mica', desc: 'Mixture of gold dust and mica' },
