@@ -1,4 +1,4 @@
-// [SOTY Primitive #24]: Chrome DevTools SOTAFX
+// [SOTY Primitive #25]: Durable Object Re-routing
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
