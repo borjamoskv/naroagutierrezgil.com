@@ -1,4 +1,4 @@
-// [SOTY Primitive #122]: Widescreen Alcove Layout
+// [SOTY Primitive #123]: Alcove tabs Roman numbers
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

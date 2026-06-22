@@ -124,3 +124,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #120**: Primitive [SOTAFX Uint8Array generic] - Inyección de exergía en la topología C5-REAL.
 - **Commit #121**: Primitive [SOTAFX SVG URL cleanup] - Inyección de exergía en la topología C5-REAL.
 - **Commit #122**: Primitive [Widescreen Alcove Layout] - Inyección de exergía en la topología C5-REAL.
+- **Commit #123**: Primitive [Alcove tabs Roman numbers] - Inyección de exergía en la topología C5-REAL.
