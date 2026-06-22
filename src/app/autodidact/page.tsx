@@ -8,10 +8,12 @@ import InteractiveSlateCanvas from "@/components/InteractiveSlateCanvas";
 import ScrollMarquee from "@/components/ScrollMarquee";
 import ParallaxHoverCard from "@/components/ParallaxHoverCard";
 import MagneticButton from "@/components/MagneticButton";
+import AudioSynthesizer from "@/components/AudioSynthesizer";
 
 /**
  * Autodidact page - A premium interactive experience inspired by Dennis Snellenberg and Immersive Garden.
  * Explores Naroa Gutiérrez Gil's self-taught journey, raw slate textures, and kintsugi mechanics.
+ * Fits Awwwards 2026 guidelines including Web Audio soundscapes, keyboard controls, and motion reduction accessibility.
  * 
  * Credits: Borja Moskv (borjamoskv) / MOSKV-1 APEX
  */
@@ -20,6 +22,8 @@ export default function AutodidactPage() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [entropyRate, setEntropyRate] = useState(12.4);
+  const [pointerDown, setPointerDown] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Initialize Lenis smooth scroll
@@ -67,8 +71,49 @@ export default function AutodidactPage() {
       setEntropyRate(parseFloat((baseEntropy + Math.random() * 2).toFixed(2)));
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    const handlePointerDown = () => setPointerDown(true);
+    const handlePointerUp = () => setPointerDown(false);
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("pointerup", handlePointerUp);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("pointerup", handlePointerUp);
+    };
+  }, []);
+
+  // Scroll to specific chapter element
+  const scrollToChapter = (idx: number) => {
+    const el = document.getElementById(`chapter-${idx}`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // Keyboard navigation & motion override shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "1") scrollToChapter(1);
+      if (e.key === "2") scrollToChapter(2);
+      if (e.key === "3") scrollToChapter(3);
+      if (e.key === "4") scrollToChapter(4);
+      if (e.key.toLowerCase() === "m") {
+        setReducedMotion((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // Check prefers-reduced-motion media query on mount
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setReducedMotion(true);
+    }
   }, []);
 
   // Chapter details for Naroa's journey
@@ -132,14 +177,14 @@ export default function AutodidactPage() {
       ref={containerRef}
       className="min-h-screen bg-[#050505] text-[#EAEAEA] font-sans selection:bg-[#2B3BE5] selection:text-white overflow-hidden relative"
     >
-      {/* Immersive Garden Background Film Grain & Interactive Kintsugi Canvas */}
+      {/* Immersive Background Film Grain & Interactive Kintsugi Canvas */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <HeroFluid />
       </div>
-      <InteractiveSlateCanvas />
+      <InteractiveSlateCanvas disabled={reducedMotion} />
 
       {/* Floating HUD - Cinematic System Indicators (Immersive Garden style) */}
-      <div className="fixed top-0 left-0 w-full z-40 p-6 sm:p-8 flex justify-between items-start pointer-events-none mix-blend-difference select-none">
+      <div className="fixed top-0 left-0 w-full z-45 p-6 sm:p-8 flex justify-between items-start pointer-events-none mix-blend-difference select-none">
         <div className="flex flex-col gap-1">
           <span className="font-mono text-[9px] tracking-[0.4em] uppercase text-primary">
             SYS_ID: NAROA_AUTODIDACT_KERN
@@ -208,8 +253,8 @@ export default function AutodidactPage() {
             <p>
               Naroa Gutiérrez Gil es una <strong className="text-white font-normal">artivista autodidacta</strong>. Su trayectoria rechaza los lienzos tradicionales para excavar la materia: pizarra rescatada de derribos y mica mineral translúcida. Cada pieza es una batalla física con el mineral.
             </p>
-            <p className="mt-4 text-sm text-white/40">
-              *Nota: Pulsa y arrastra el cursor en cualquier parte de la pantalla para grabar grietas de oro (kintsugi) directamente sobre el soporte digital.
+            <p className="mt-4 text-sm text-white/40 leading-relaxed">
+              *Nota: Pulsa y arrastra el cursor en cualquier parte de la pantalla para grabar grietas de oro (kintsugi) y modular el sintetizador de sonido en tiempo real.
             </p>
           </div>
         </section>
@@ -225,7 +270,7 @@ export default function AutodidactPage() {
               "EL ERROR COMO CURACIÓN",
               "COLISIÓN ELECTRÓNICA // BORJA MOSKV"
             ]}
-            baseSpeed={2.0}
+            baseSpeed={reducedMotion ? 0.0 : 2.0}
             textClassName="font-serif text-5xl md:text-8xl tracking-tight text-white/95 uppercase italic"
           />
         </section>
@@ -242,15 +287,16 @@ export default function AutodidactPage() {
         {/* 3D PARALLAX CARDS GRID (Dennis Snellenberg + Immersive Garden layout) */}
         <section className="mb-56 grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-16">
           {chapters.map((chapter, index) => (
-            <ParallaxHoverCard
-              key={index}
-              src={chapter.src}
-              title={chapter.title}
-              subtitle={chapter.subtitle}
-              chapterNumber={chapter.chapterNumber}
-              details={chapter.details}
-              className={index % 2 === 1 ? "md:translate-y-20" : ""}
-            />
+            <div key={index} id={`chapter-${index + 1}`} className="scroll-mt-32">
+              <ParallaxHoverCard
+                src={chapter.src}
+                title={chapter.title}
+                subtitle={chapter.subtitle}
+                chapterNumber={chapter.chapterNumber}
+                details={chapter.details}
+                className={index % 2 === 1 ? "md:translate-y-20" : ""}
+              />
+            </div>
           ))}
         </section>
 
@@ -306,6 +352,26 @@ export default function AutodidactPage() {
         </section>
 
       </main>
+
+      {/* Dynamic Soundscape Synthesizer */}
+      <AudioSynthesizer
+        pointerDown={pointerDown}
+        pointerX={mousePos.x}
+        pointerY={mousePos.y}
+      />
+
+      {/* Accessible Control HUD (Bottom Left) */}
+      <div className="fixed bottom-6 left-6 z-50 flex gap-4 pointer-events-auto mix-blend-difference select-none text-[9px] font-mono tracking-widest text-white/50">
+        <button
+          onClick={() => setReducedMotion((p) => !p)}
+          className="hover:text-primary transition-colors cursor-pointer"
+          title="Alternar animaciones"
+        >
+          [M] MOVIMIENTO: {reducedMotion ? "REDUCIDO" : "NORMAL"}
+        </button>
+        <span className="hidden sm:inline">|</span>
+        <span className="hidden sm:inline text-white/30">TECLAS [1, 2, 3, 4] NAVEGAN CAPÍTULOS</span>
+      </div>
 
       {/* Cinematic Footer */}
       <footer className="w-full text-center py-16 border-t border-white/5 text-[9px] tracking-[0.3em] uppercase text-white/30 relative z-30 bg-[#050505]">
