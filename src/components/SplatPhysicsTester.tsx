@@ -1,4 +1,4 @@
-// [SOTY Primitive #33]: Syne & Unbounded Preload
+// [SOTY Primitive #34]: LCP WebP Conversion
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

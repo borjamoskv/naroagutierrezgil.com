@@ -35,3 +35,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #31**: Primitive [CRT Scanline Blend Mode] - Inyección de exergía en la topología C5-REAL.
 - **Commit #32**: Primitive [Brutalist Typography Sizing] - Inyección de exergía en la topología C5-REAL.
 - **Commit #33**: Primitive [Syne & Unbounded Preload] - Inyección de exergía en la topología C5-REAL.
+- **Commit #34**: Primitive [LCP WebP Conversion] - Inyección de exergía en la topología C5-REAL.
