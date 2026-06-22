@@ -92,6 +92,7 @@ const frontVertexShader = `
   uniform float uTime;
   uniform float uHover;
   uniform vec2 uMouseUV;
+  uniform float uAppMode;
   
   varying vec2 vUv;
   varying vec3 vNormal;
@@ -103,11 +104,12 @@ const frontVertexShader = `
     
     // Wave displacement simulating slate relief
     float wave = sin(uv.x * 8.0 + uTime * 0.5) * cos(uv.y * 8.0 + uTime * 0.5) * 0.003;
+    float chaosWave = sin(uv.x * 16.0 + uTime * 1.5) * cos(uv.y * 16.0 + uTime * 1.5) * 0.015 * uAppMode;
     
     // Local displacement near the cursor
     float dist = distance(uv, uMouseUV);
     float force = smoothstep(0.25, 0.0, dist);
-    pos.z += wave + force * 0.012 * uHover;
+    pos.z += wave + force * 0.012 * uHover + chaosWave;
     
     vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
     vec4 viewPosition = viewMatrix * modelPosition;
@@ -124,6 +126,7 @@ const frontFragmentShader = `
   uniform vec2 uMouseUV;
   uniform float uHover;
   uniform float uOpacity;
+  uniform float uAppMode;
   
   varying vec2 vUv;
   varying vec3 vNormal;
@@ -163,9 +166,9 @@ const frontFragmentShader = `
       micaSparkle = pow(angleFactor, 48.0) * blink * uHover * 2.2;
     }
     
-    // Kintsugi gold veins (procedural fractures)
+    // Kintsugi gold veins (procedural fractures) - Expand in CAOS mode
     float kintsugiNoise = sin(vUv.x * 24.0 + vUv.y * 36.0 + sin(vUv.x * 50.0) * 0.4);
-    float veinWidth = 0.012 + sin(uTime * 1.2 + vUv.x * 6.0) * 0.003;
+    float veinWidth = 0.012 + sin(uTime * 1.2 + vUv.x * 6.0) * 0.003 + (uAppMode * 0.012);
     float isVein = smoothstep(veinWidth, 0.0, abs(kintsugiNoise - 0.15));
     
     vec3 goldColor = vec3(0.96, 0.72, 0.2); // Gold accent
@@ -185,7 +188,7 @@ const frontFragmentShader = `
     finalColor += goldColor * micaSparkle;
     
     // Blend in gold veins
-    vec3 veinColor = goldColor * (1.2 + glow * 2.5) * (0.85 + 0.15 * sin(uTime * 5.0));
+    vec3 veinColor = goldColor * (1.2 + glow * 2.5 + (uAppMode * 2.0)) * (0.85 + 0.15 * sin(uTime * 5.0));
     finalColor = mix(finalColor, veinColor, isVein * 0.9);
     
     gl_FragColor = vec4(finalColor, uOpacity);
@@ -208,6 +211,21 @@ function KintsugiSplatCard({ url, index, count, _activeIndex, currentAngleRef, s
   const texture = useLoader(THREE.TextureLoader, url);
   const [hovered, setHovered] = useState(false);
   const [mouseUV] = useState(() => new THREE.Vector2(0.5, 0.5));
+  const [appModeVal, setAppModeVal] = useState(0.0);
+
+  // Monitor cursor movement and dimension toggling reactively
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const initialMode = localStorage.getItem('naroa_app_mode') || 'ORDEN';
+      setAppModeVal(initialMode === 'CAOS' ? 1.0 : 0.0);
+    }
+    const handleDimension = (e: Event) => {
+      const mode = (e as CustomEvent).detail;
+      setAppModeVal(mode === 'CAOS' ? 1.0 : 0.0);
+    };
+    window.addEventListener('dimension-changed', handleDimension);
+    return () => window.removeEventListener('dimension-changed', handleDimension);
+  }, []);
 
   // Angular offset of this card in the circle
   const cardOffsetAngle = (index / count) * Math.PI * 2;
@@ -249,7 +267,8 @@ function KintsugiSplatCard({ url, index, count, _activeIndex, currentAngleRef, s
     uTime: { value: 0.0 },
     uMouseUV: { value: mouseUV },
     uHover: { value: 0.0 },
-    uOpacity: { value: 1.0 }
+    uOpacity: { value: 1.0 },
+    uAppMode: { value: 0.0 }
   }), [mouseUV]);
 
   useEffect(() => {
@@ -318,6 +337,11 @@ function KintsugiSplatCard({ url, index, count, _activeIndex, currentAngleRef, s
         frontMaterialRef.current.uniforms.uOpacity.value,
         isSolid ? 1.0 : 0.0,
         delta * 10
+      );
+      frontMaterialRef.current.uniforms.uAppMode.value = THREE.MathUtils.lerp(
+        frontMaterialRef.current.uniforms.uAppMode.value,
+        appModeVal,
+        delta * 5.0
       );
     }
 

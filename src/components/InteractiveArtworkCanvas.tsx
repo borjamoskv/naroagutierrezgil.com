@@ -10,6 +10,7 @@ const kineticVertexShader = `
   uniform float uTime;
   uniform float uHover;
   uniform vec2 uMouse;
+  uniform float uAppMode;
   
   varying vec2 vUv;
   varying vec3 vNormal;
@@ -19,12 +20,14 @@ const kineticVertexShader = `
     vUv = uv;
     vec3 pos = position;
     
-    // Wave deformation representing resin/slate fluid elasticity
+    // Wave deformation representing slate fluid elasticity
     float dist = distance(uv, uMouse);
     float force = smoothstep(0.3, 0.0, dist);
     
-    // Liquid ripple effect under the mouse
-    pos.z += sin(dist * 20.0 - uTime * 4.0) * 0.015 * force * uHover;
+    // Liquid ripple effect under the mouse - intensified in CAOS mode
+    float wave = sin(dist * 20.0 - uTime * 4.0) * 0.015 * force * uHover;
+    float chaosWave = sin(dist * 35.0 - uTime * 6.0) * 0.03 * force * uAppMode;
+    pos.z += wave + chaosWave;
     
     vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
     vec4 viewPosition = viewMatrix * modelPosition;
@@ -40,6 +43,7 @@ const kineticFragmentShader = `
   uniform float uTime;
   uniform vec2 uMouse;
   uniform float uHover;
+  uniform float uAppMode;
   
   varying vec2 vUv;
   varying vec3 vNormal;
@@ -52,12 +56,13 @@ const kineticFragmentShader = `
   void main() {
     vec2 uv = vUv;
     
-    // Subtle lens distortion refraction centered at the cursor
+    // Subtle lens distortion refraction centered at the cursor - intensified in CAOS mode
     float dist = distance(uv, uMouse);
     float force = smoothstep(0.25, 0.0, dist);
     vec2 offsetDir = normalize(uv - uMouse);
     if (dist > 0.001) {
-      uv -= offsetDir * sin(dist * 6.28) * 0.012 * force * uHover;
+      float lensDistortion = 0.012 * uHover + (uAppMode * 0.025);
+      uv -= offsetDir * sin(dist * 6.28) * lensDistortion * force;
     }
     
     vec4 texColor = texture2D(uTexture, uv);
@@ -87,6 +92,11 @@ const kineticFragmentShader = `
     // Golden accent color
     vec3 goldColor = vec3(0.96, 0.72, 0.2);
     
+    // Add micro kintsugi veins inside the card under CAOS mode
+    float kintsugiNoise = sin(vUv.x * 30.0 + vUv.y * 45.0);
+    float veinWidth = 0.008 * uAppMode;
+    float isVein = smoothstep(veinWidth, 0.0, abs(kintsugiNoise - 0.2));
+    
     // Ambient shadows & lighting
     vec3 ambient = texColor.rgb * 0.6;
     vec3 diffuseColor = texColor.rgb * diff * 0.5;
@@ -97,6 +107,10 @@ const kineticFragmentShader = `
     // Inject sparkles
     finalColor += goldColor * micaSparkle;
     
+    // Blend in gold veins
+    vec3 veinColor = goldColor * (1.1 + uAppMode * 1.5);
+    finalColor = mix(finalColor, veinColor, isVein * 0.8);
+    
     gl_FragColor = vec4(finalColor, 1.0);
   }
 `;
@@ -105,12 +119,28 @@ function VolumetricPlane({ url, mouse, isHovered }: { url: string; mouse: THREE.
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const texture = useLoader(THREE.TextureLoader, url);
+  const [appModeVal, setAppModeVal] = useState(0.0);
+
+  // Monitor global dimension state changes reactively
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const initialMode = localStorage.getItem('naroa_app_mode') || 'ORDEN';
+      setAppModeVal(initialMode === 'CAOS' ? 1.0 : 0.0);
+    }
+    const handleDimension = (e: Event) => {
+      const mode = (e as CustomEvent).detail;
+      setAppModeVal(mode === 'CAOS' ? 1.0 : 0.0);
+    };
+    window.addEventListener('dimension-changed', handleDimension);
+    return () => window.removeEventListener('dimension-changed', handleDimension);
+  }, []);
 
   const uniforms = useMemo(() => ({
     uTexture: { value: null as THREE.Texture | null },
     uTime: { value: 0.0 },
     uMouse: { value: mouse },
-    uHover: { value: 0.0 }
+    uHover: { value: 0.0 },
+    uAppMode: { value: 0.0 }
   }), [mouse]);
 
   useEffect(() => {
@@ -129,6 +159,11 @@ function VolumetricPlane({ url, mouse, isHovered }: { url: string; mouse: THREE.
         materialRef.current.uniforms.uHover.value,
         isHovered ? 1.0 : 0.0,
         delta * 6.0
+      );
+      materialRef.current.uniforms.uAppMode.value = THREE.MathUtils.lerp(
+        materialRef.current.uniforms.uAppMode.value,
+        appModeVal,
+        delta * 5.0
       );
     }
   });

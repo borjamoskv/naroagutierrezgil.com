@@ -11,6 +11,7 @@ const heroVertexShader = `
   uniform float uHover;
   uniform vec2 uMouse;
   uniform float uScrollProgress;
+  uniform float uAppMode;
   
   varying vec2 vUv;
   varying vec3 vNormal;
@@ -28,7 +29,10 @@ const heroVertexShader = `
     float dist = distance(uv, uMouse);
     float cursorPush = smoothstep(0.35, 0.0, dist) * 0.04 * (1.0 - uScrollProgress);
     
-    pos.z += slateRelief + cursorPush;
+    // Extra organic chaotic ripple when in CHAOS mode
+    float chaosRipple = sin(uv.x * 24.0 + uTime * 2.5) * cos(uv.y * 24.0 + uTime * 2.5) * 0.035 * uAppMode;
+    
+    pos.z += slateRelief + cursorPush + chaosRipple;
     
     // Apply scroll disintegration deformation
     if (uScrollProgress > 0.01) {
@@ -53,6 +57,7 @@ const heroFragmentShader = `
   uniform vec2 uMouse;
   uniform float uScrollProgress;
   uniform float uOpacity;
+  uniform float uAppMode;
   
   varying vec2 vUv;
   varying vec3 vNormal;
@@ -69,7 +74,14 @@ const heroFragmentShader = `
       discard;
     }
     
-    vec4 texColor = texture2D(uTexture, vUv);
+    // Glitch coordinates offset in CHAOS mode
+    vec2 uv = vUv;
+    if (uAppMode > 0.01) {
+      float glitchForce = sin(uTime * 15.0 + vUv.y * 40.0) * 0.005 * uAppMode;
+      uv.x += glitchForce;
+    }
+    
+    vec4 texColor = texture2D(uTexture, uv);
     
     // Normalize vectors
     vec3 normal = normalize(vNormal);
@@ -99,9 +111,9 @@ const heroFragmentShader = `
       micaSparkle = pow(angleFactor, 64.0) * blink * (0.5 + 0.5 * distanceFactor);
     }
     
-    // Dynamic Gold Kintsugi Fractures
+    // Dynamic Gold Kintsugi Fractures - Expands & flares during CHAOS mode
     float kintsugiNoise = sin(vUv.x * 16.0 + vUv.y * 22.0 + sin(vUv.x * 30.0) * 0.5);
-    float veinWidth = 0.009 + sin(uTime * 1.0 + vUv.x * 4.0) * 0.002;
+    float veinWidth = 0.009 + sin(uTime * 1.0 + vUv.x * 4.0) * 0.002 + (uAppMode * 0.01);
     float isVein = smoothstep(veinWidth, 0.0, abs(kintsugiNoise - 0.25));
     
     vec3 goldColor = vec3(0.96, 0.72, 0.2); // Cobalt-gold standard
@@ -118,7 +130,7 @@ const heroFragmentShader = `
     finalColor += goldColor * micaSparkle * 1.8;
     
     // Inject Kintsugi
-    vec3 veinColor = goldColor * (1.1 + goldVeinGlow * 2.0) * (0.8 + 0.2 * sin(uTime * 3.5));
+    vec3 veinColor = goldColor * (1.1 + goldVeinGlow * 2.0 + (uAppMode * 1.5)) * (0.8 + 0.2 * sin(uTime * 3.5));
     finalColor = mix(finalColor, veinColor, isVein * 0.85);
     
     // Multiplied by opacity and scroll progress fade
@@ -134,9 +146,16 @@ function VolumetricHeroPortrait({ url }: { url: string }) {
   const mouseRef = useRef(new THREE.Vector2(0.5, 0.5));
   const targetMouseRef = useRef(new THREE.Vector2(0.5, 0.5));
   const scrollProgressRef = useRef(0);
+  const [appModeVal, setAppModeVal] = useState(0.0);
 
-  // Monitor cursor movement over the window for global paralax response
+  // Monitor cursor movement and dimension toggling reactively
   useEffect(() => {
+    // Read initial mode from window state
+    if (typeof window !== 'undefined') {
+      const initialMode = localStorage.getItem('naroa_app_mode') || 'ORDEN';
+      setAppModeVal(initialMode === 'CAOS' ? 1.0 : 0.0);
+    }
+
     const handleMouseMove = (e: MouseEvent) => {
       targetMouseRef.current.x = e.clientX / window.innerWidth;
       targetMouseRef.current.y = 1.0 - (e.clientY / window.innerHeight); // Invert Y for WebGL
@@ -148,11 +167,18 @@ function VolumetricHeroPortrait({ url }: { url: string }) {
       scrollProgressRef.current = Math.min(Math.max(scrollY / threshold, 0.0), 1.0);
     };
 
+    const handleDimension = (e: Event) => {
+      const mode = (e as CustomEvent).detail;
+      setAppModeVal(mode === 'CAOS' ? 1.0 : 0.0);
+    };
+
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('dimension-changed', handleDimension);
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('dimension-changed', handleDimension);
     };
   }, []);
 
@@ -161,7 +187,8 @@ function VolumetricHeroPortrait({ url }: { url: string }) {
     uTime: { value: 0.0 },
     uMouse: { value: mouseRef.current },
     uScrollProgress: { value: 0.0 },
-    uOpacity: { value: 0.0 }
+    uOpacity: { value: 0.0 },
+    uAppMode: { value: 0.0 }
   }), []);
 
   useEffect(() => {
@@ -184,6 +211,11 @@ function VolumetricHeroPortrait({ url }: { url: string }) {
         materialRef.current.uniforms.uScrollProgress.value,
         scrollProgressRef.current,
         delta * 6.0
+      );
+      materialRef.current.uniforms.uAppMode.value = THREE.MathUtils.lerp(
+        materialRef.current.uniforms.uAppMode.value,
+        appModeVal,
+        delta * 5.0
       );
       // Smooth fade-in on mount
       materialRef.current.uniforms.uOpacity.value = THREE.MathUtils.lerp(
