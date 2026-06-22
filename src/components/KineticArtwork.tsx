@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+
+const InteractiveArtworkCanvas = dynamic(() => import('./InteractiveArtworkCanvas'), { ssr: false });
 
 interface KineticArtworkProps {
   src: string;
@@ -12,8 +15,17 @@ interface KineticArtworkProps {
   onClick?: () => void;
 }
 
+// Credits: Borja Moskv (borjamoskv) / MOSKV-1 APEX
 export default function KineticArtwork({ src, alt, priority, className, id, onClick }: KineticArtworkProps) {
   const [hovered, setHovered] = useState(false);
+  const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = 1.0 - (e.clientY - rect.top) / rect.height; // Inverted for WebGL Y coordinates
+    setMouse({ x, y });
+  };
 
   return (
     <div 
@@ -22,9 +34,12 @@ export default function KineticArtwork({ src, alt, priority, className, id, onCl
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onMouseMove={handleMouseMove}
     >
       {/* Purged artificial color overlays to protect hyperrealism */}
       <div className="absolute inset-0 ring-1 ring-white/5 group-hover/kinetic:ring-white/20 transition-all duration-700 z-30 pointer-events-none" />
+      
+      {/* Static background image to prevent flashes during WebGL context init */}
       <Image
         src={src}
         alt={alt}
@@ -36,7 +51,16 @@ export default function KineticArtwork({ src, alt, priority, className, id, onCl
           hovered ? 'scale-[1.03]' : 'scale-100'
         }`}
       />
-      {/* External noise grain purged. The slate texture handles its own grain. */}
+
+      {/* WebGL interactive displacement overlay loaded JIT on hover */}
+      {hovered && (
+        <InteractiveArtworkCanvas 
+          url={src} 
+          isHovered={hovered} 
+          mouseX={mouse.x} 
+          mouseY={mouse.y} 
+        />
+      )}
     </div>
   );
 }

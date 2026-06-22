@@ -197,7 +197,6 @@ export class SplatPhysicsEngine {
   
   public async init(): Promise<boolean> {
     if (typeof navigator === 'undefined' || !(navigator as any).gpu) {
-      console.warn("WebGPU not supported on this browser.");
       return false;
     }
     

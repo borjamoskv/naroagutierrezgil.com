@@ -46,8 +46,8 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
         const timestamp = new Date().toISOString();
         const env = (this as unknown as { env: Env }).env;
         await env.RADIANCE_MEMORY.put(`fracture_${timestamp}`, JSON.stringify({ event: 'FRACTURE', scars: state.scars.length, repairs: state.totalRepairs }));
-      } catch (e) {
-        console.warn('Error saving to RADIANCE_MEMORY', e);
+      } catch {
+        // KV write is best-effort; failure is non-critical
       }
     }
   }
@@ -109,8 +109,8 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
         const timestamp = new Date().toISOString();
         const env = (this as unknown as { env: Env }).env;
         await env.RADIANCE_MEMORY.put(`kintsugi_${timestamp}`, JSON.stringify({ event: 'REPAIR', repairNumber: this.state.totalRepairs, totalScars: this.state.scars.length }));
-      } catch (e) {
-        console.warn('Error saving to RADIANCE_MEMORY', e);
+      } catch {
+        // KV write is best-effort; failure is non-critical
       }
     } else {
       this.setState({ ...this.state, globalEntropy: newEntropy });

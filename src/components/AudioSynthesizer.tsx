@@ -81,8 +81,8 @@ export default function AudioSynthesizer({ pointerDown, pointerX, pointerY }: Au
       carveOscRef.current = carveOsc;
 
       setAudioActive(true);
-    } catch (err) {
-      console.warn("Failed to initialize Web Audio API:", err);
+    } catch {
+      // Web Audio API unavailable — graceful degradation
     }
   };
 

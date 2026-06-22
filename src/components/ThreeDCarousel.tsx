@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/immutability */
+
 'use client';
 
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
@@ -329,7 +329,7 @@ function KintsugiSplatCard({ url, index, count, _activeIndex, currentAngleRef, s
     }
   });
 
-  const handlePointerMove = (e: any) => {
+  const handlePointerMove = (e: { stopPropagation: () => void; uv?: THREE.Vector2 }) => {
     e.stopPropagation();
     if (e.uv) {
       mouseUV.copy(e.uv);

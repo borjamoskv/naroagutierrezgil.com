@@ -291,6 +291,7 @@ export default function Contacto() {
 
             </form>
           </div>
+          </ScrollReveal>
 
         </div>
       </main>

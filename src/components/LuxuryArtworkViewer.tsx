@@ -23,7 +23,6 @@ const artworksData = [
     material: 'Pizarra de Tejado Vasco',
     year: '2026',
     audioTitle: 'Summer Monroe (Naroart x Borja Moskv Rework)',
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', // Premium royalty-free demo track
     hotspots: [
       {
         id: 'pizarra',
@@ -61,7 +60,6 @@ const artworksData = [
     material: 'Técnica Mixta y Mica',
     year: '2026',
     audioTitle: 'Lágrimas de Oro (Beat & Texture Rework)',
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
     hotspots: [
       {
         id: 'mica',
@@ -99,7 +97,6 @@ const artworksData = [
     material: 'Pizarra Vasco-Pop',
     year: '2026',
     audioTitle: 'Dakari Rhythm & Mineral Waves',
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
     hotspots: [
       {
         id: 'cantinflowers',
@@ -248,47 +245,17 @@ export default function LuxuryArtworkViewer() {
   const [selectedArtworkIndex, setSelectedArtworkIndex] = useState(0);
   const [activeHotspot, setActiveHotspot] = useState<Hotspot | null>(null);
   const [rotationY, setRotationY] = useState(0);
-  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
-  const [audioProgress, setAudioProgress] = useState(0);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+
 
   const artwork = artworksData[selectedArtworkIndex];
 
   // Sync audio reference on artwork change
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      setIsAudioPlaying(false);
-      setAudioProgress(0);
-    }
     setActiveHotspot(null);
     setRotationY(0); // Reset rotation to front view
   }, [selectedArtworkIndex]);
 
-  // Handle audio play/pause
-  const toggleAudio = () => {
-    if (!audioRef.current) return;
-    if (isAudioPlaying) {
-      audioRef.current.pause();
-      setIsAudioPlaying(false);
-    } else {
-      audioRef.current.play().catch(console.error);
-      setIsAudioPlaying(true);
-    }
-  };
 
-  // Audio progress tracker
-  const handleTimeUpdate = () => {
-    if (audioRef.current) {
-      const progress = (audioRef.current.currentTime / audioRef.current.duration) * 100;
-      setAudioProgress(isNaN(progress) ? 0 : progress);
-    }
-  };
-
-  const handleAudioEnded = () => {
-    setIsAudioPlaying(false);
-    setAudioProgress(0);
-  };
 
   // Manual rotation controls
   const rotateFront = () => setRotationY(0);
@@ -422,72 +389,7 @@ export default function LuxuryArtworkViewer() {
             </div>
           </div>
 
-          {/* Column 3: The Audio Soundscape Player */}
-          <div className="lg:col-span-3 flex flex-col order-3">
-            <div className="border border-white/10 bg-black/60 backdrop-blur-md p-8 rounded-sm shadow-2xl relative">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-[#2B3BE5]/5 rounded-full filter blur-xl pointer-events-none" />
-              
-              <span className="text-[#2B3BE5] font-mono text-[9px] tracking-widest uppercase block mb-4">
-                Symphony & Canvas // Audio Sync
-              </span>
 
-              <h4 className="text-white font-serif text-lg uppercase tracking-wider mb-6">
-                Paisaje Acústico
-              </h4>
-
-              {/* Album art display / spinning vinyl */}
-              <div className="w-32 h-32 mx-auto relative mb-8 flex items-center justify-center">
-                <div className={`w-full h-full rounded-full border-2 border-[#2B3BE5]/20 flex items-center justify-center p-2 relative ${
-                  isAudioPlaying ? 'animate-[spin_10s_linear_infinite]' : ''
-                }`}>
-                  <div className="w-full h-full rounded-full bg-[#111] border border-white/10 flex items-center justify-center relative overflow-hidden">
-                    {/* Vinyl grooves styling */}
-                    <div className="absolute inset-2 rounded-full border border-white/5" />
-                    <div className="absolute inset-4 rounded-full border border-white/5" />
-                    <div className="absolute inset-6 rounded-full border border-[#2B3BE5]/10" />
-                    {/* Center spindle */}
-                    <div className="w-8 h-8 rounded-full bg-black border border-white/20 z-10 flex items-center justify-center">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#2B3BE5]" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Track detail info */}
-              <div className="text-center mb-6">
-                <p className="text-white font-mono text-[10px] tracking-widest uppercase line-clamp-1">
-                  {artwork.audioTitle}
-                </p>
-                <p className="text-white/40 font-mono text-[8px] uppercase tracking-widest mt-1">
-                  Colaboración Estructural: Borja Moskv
-                </p>
-              </div>
-
-              {/* Progress bar */}
-              <div className="w-full h-1 bg-white/10 rounded-full relative mb-8 overflow-hidden">
-                <div 
-                  className="absolute top-0 left-0 h-full bg-[#2B3BE5] transition-all duration-100 ease-linear shadow-[0_0_8px_#2B3BE5]"
-                  style={{ width: `${audioProgress}%` }}
-                />
-              </div>
-
-              {/* Audio controller button */}
-              <button
-                onClick={toggleAudio}
-                className="w-full py-4 bg-white text-black font-sans font-bold text-[10px] tracking-[0.3em] uppercase transition-all duration-300 hover:bg-[#2B3BE5] hover:text-white cursor-pointer hover:shadow-[0_0_20px_rgba(43,59,229,0.3)] rounded-sm"
-              >
-                {isAudioPlaying ? 'Pausar Sonido' : 'Reproducir Rework'}
-              </button>
-
-              {/* Invisible native audio engine */}
-              <audio
-                ref={audioRef}
-                src={artwork.audioUrl}
-                onTimeUpdate={handleTimeUpdate}
-                onEnded={handleAudioEnded}
-              />
-            </div>
-          </div>
 
         </div>
 

@@ -220,7 +220,7 @@ export default function AutodidactPage() {
       </div>
 
       {/* Page Header Back-Link */}
-      <nav className="fixed top-0 left-0 w-full z-50 p-6 sm:p-12 mix-blend-difference pointer-events-auto">
+      <nav className="fixed top-0 left-0 w-full z-50 p-6 sm:p-12 mix-blend-difference pointer-events-auto flex justify-between items-center">
         <Link
           href="/"
           className="group flex items-center gap-4 text-white/50 hover:text-white transition-colors duration-500 w-max"
@@ -228,6 +228,10 @@ export default function AutodidactPage() {
           <div className="w-8 h-[1px] bg-white/30 group-hover:bg-[#2B3BE5] group-hover:w-16 transition-all duration-700" />
           <span className="font-sans text-[9px] tracking-[0.4em] uppercase">Retorno al Laboratorio</span>
         </Link>
+        <div className="flex items-center gap-6">
+          <Link href="/biografia" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Biografía</Link>
+          <Link href="/contacto" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Contacto</Link>
+        </div>
       </nav>
 
       {/* MAIN STORYTELLING TRACK */}

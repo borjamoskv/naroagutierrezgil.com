@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import useLenis from '@/hooks/useLenis';
 import HeroFluid from '@/components/HeroFluid';
+import ScrollReveal from '@/components/ScrollReveal';
+import Footer from '@/components/Footer';
 
 export default function Biografia() {
   useLenis();
@@ -26,14 +28,10 @@ export default function Biografia() {
           <div className="w-8 h-[1px] bg-white/30 group-hover:bg-[#2B3BE5] group-hover:w-16 transition-all duration-700" />
           <span className="font-sans text-[9px] tracking-[0.4em] uppercase">Retorno al Laboratorio</span>
         </Link>
-
-        <Link 
-          href="/autodidact" 
-          className="group flex items-center gap-4 text-white/50 hover:text-white transition-colors duration-500"
-        >
-          <span className="font-sans text-[9px] tracking-[0.4em] uppercase">Experiencia Autodidacta</span>
-          <div className="w-8 h-[1px] bg-white/30 group-hover:bg-[#2B3BE5] group-hover:w-16 transition-all duration-700" />
-        </Link>
+        <div className="flex items-center gap-6">
+          <Link href="/autodidact" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Autodidacta</Link>
+          <Link href="/contacto" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Contacto</Link>
+        </div>
       </nav>
 
       <main className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 pt-40 pb-32">
@@ -60,7 +58,8 @@ export default function Biografia() {
         </header>
 
         {/* TRAYECTORIA */}
-        <section className="mb-40 grid grid-cols-1 md:grid-cols-12 gap-12 items-center reveal-on-scroll">
+        <ScrollReveal>
+        <section className="mb-40 grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
           <div className="md:col-span-5 relative group">
             <div className="absolute inset-0 bg-[#2B3BE5] translate-x-4 translate-y-4 opacity-20 transition-transform duration-700 group-hover:translate-x-6 group-hover:translate-y-6" />
             <div className="relative aspect-[4/5] bg-[#0A0A0A] border border-white/10 overflow-hidden">
@@ -111,7 +110,8 @@ export default function Biografia() {
         </section>
 
         {/* CURIOSIDADES KINÉTICAS */}
-        <section className="mb-40 reveal-on-scroll">
+        <ScrollReveal>
+        <section className="mb-40">
           <h2 className="text-4xl font-serif tracking-widest uppercase text-white/80 mb-16 text-center">
             Datos de Interés
           </h2>
@@ -141,9 +141,11 @@ export default function Biografia() {
             ))}
           </div>
         </section>
+        </ScrollReveal>
 
         {/* COLABORACIONES (Lista Cinemática) */}
-        <section className="mb-40 reveal-on-scroll">
+        <ScrollReveal>
+        <section className="mb-40">
           <div className="border-t border-[#2B3BE5]/30 pt-16">
             <h2 className="text-5xl font-serif tracking-widest uppercase text-white mb-12">Redes & Colisiones</h2>
             <ul className="space-y-8 text-xl font-light text-white/60">
@@ -170,13 +172,12 @@ export default function Biografia() {
             </ul>
           </div>
         </section>
+        </ScrollReveal>
 
       </main>
 
-      {/* Footer Minimalista */}
-      <footer className="w-full text-center py-16 border-t border-white/5 text-[9px] tracking-[0.4em] uppercase text-white/20 bg-[#030303]">
-        Extracción Biográfica Enciclopédica — C5-REAL
-      </footer>
+      {/* Unified Footer */}
+      <Footer />
     </div>
   );
 }

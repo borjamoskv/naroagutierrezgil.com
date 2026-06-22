@@ -30,8 +30,8 @@ export class SplatAudioEngine {
       this.masterGain.connect(this.ctx.destination);
 
       this.isInitialized = true;
-    } catch (e) {
-      console.warn("SplatAudioEngine: Web Audio API not supported or blocked.", e);
+    } catch {
+      // Web Audio API unavailable — graceful degradation
     }
   }
 
