@@ -1,4 +1,4 @@
-// [SOTY Primitive #114]: SOTAFX SplatVault removal
+// [SOTY Primitive #115]: SplatPhysicsTester data URIs
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
