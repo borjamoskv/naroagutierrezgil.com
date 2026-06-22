@@ -1,4 +1,4 @@
-// [SOTY Primitive #62]: CRT Scanline opacity
+// [SOTY Primitive #63]: Magnetic Button range
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
