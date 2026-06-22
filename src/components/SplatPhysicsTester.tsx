@@ -1,4 +1,4 @@
-// [SOTY Primitive #53]: Lenis Animation FPS Lock
+// [SOTY Primitive #54]: Custom Cursor Decay rate
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
