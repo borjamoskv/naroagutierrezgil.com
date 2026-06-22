@@ -1,4 +1,4 @@
-// [SOTY Primitive #35]: Anergy Token Purge
+// [SOTY Primitive #36]: Reduced-Motion Fallbacks
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
