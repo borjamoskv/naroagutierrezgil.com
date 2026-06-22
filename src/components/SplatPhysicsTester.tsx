@@ -1,4 +1,4 @@
-// [SOTY Primitive #66]: Preloader Morphing text
+// [SOTY Primitive #67]: Audio Reactivity Custom CSS
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
