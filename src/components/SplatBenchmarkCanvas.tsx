@@ -254,8 +254,8 @@ function SplatInteractiveCanvas() {
               }
 
               // Speed vector pointing towards target
-              sa.vx = THREE.MathUtils.lerp(sa.vx, (dx / (dist || 1)) * 3.5, 0.05);
-              sa.vy = THREE.MathUtils.lerp(sa.vy, (dy / (dist || 1)) * 3.5, 0.05);
+              sa.vx = sa.vx + ((dx / (dist || 1)) * 3.5 - sa.vx) * 0.05;
+              sa.vy = sa.vy + ((dy / (dist || 1)) * 3.5 - sa.vy) * 0.05;
               sa.x += sa.vx;
               sa.y += sa.vy;
 
