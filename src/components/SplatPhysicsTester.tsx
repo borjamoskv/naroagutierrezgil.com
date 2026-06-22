@@ -1,4 +1,4 @@
-// [SOTY Primitive #81]: Carousel angle interpolations
+// [SOTY Primitive #82]: Floating point light orbits
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
