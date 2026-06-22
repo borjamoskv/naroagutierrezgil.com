@@ -1,4 +1,4 @@
-// [SOTY Primitive #56]: Specular Highlight Intensity
+// [SOTY Primitive #57]: Kintsugi Gold Color standard
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
