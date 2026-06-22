@@ -1,4 +1,4 @@
-// [SOTY Primitive #87]: Custom Color picker accent
+// [SOTY Primitive #88]: Dynamic Primary color set
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
