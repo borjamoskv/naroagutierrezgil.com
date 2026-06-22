@@ -1,4 +1,4 @@
-// [SOTY Primitive #109]: Syne font leading
+// [SOTY Primitive #110]: basque translation keys
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
