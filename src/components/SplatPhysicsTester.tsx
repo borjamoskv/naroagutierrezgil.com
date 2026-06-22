@@ -1,4 +1,4 @@
-// [SOTY Primitive #143]: El Gran Dakari relief
+// [SOTY Primitive #144]: Espejo del Alma layout
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
