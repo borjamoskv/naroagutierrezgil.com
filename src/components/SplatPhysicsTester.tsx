@@ -1,4 +1,4 @@
-// [SOTY Primitive #112]: Knip script dependency fix
+// [SOTY Primitive #113]: Mica compile error cast
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
