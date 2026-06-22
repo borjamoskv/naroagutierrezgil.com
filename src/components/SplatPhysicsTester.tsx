@@ -1,4 +1,4 @@
-// [SOTY Primitive #23]: Gold Vein Width Dilation
+// [SOTY Primitive #24]: Chrome DevTools SOTAFX
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
