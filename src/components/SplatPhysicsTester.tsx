@@ -1,4 +1,4 @@
-// [SOTY Primitive #58]: Mica Mineral grain density
+// [SOTY Primitive #59]: Timeline Scrubber Keyframes
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
