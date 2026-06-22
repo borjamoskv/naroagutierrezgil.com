@@ -1,4 +1,4 @@
-// [SOTY Primitive #39]: Edge Caching Control
+// [SOTY Primitive #40]: Workers AI Integration
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
