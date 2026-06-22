@@ -1,4 +1,4 @@
-// [SOTY Primitive #139]: ThreeD Carousel click orbit
+// [SOTY Primitive #140]: Mica relief scale
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

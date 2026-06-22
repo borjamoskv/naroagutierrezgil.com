@@ -141,3 +141,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #137**: Primitive [Basalt particle gravity] - Inyección de exergía en la topología C5-REAL.
 - **Commit #138**: Primitive [Volumetric Portrait drag] - Inyección de exergía en la topología C5-REAL.
 - **Commit #139**: Primitive [ThreeD Carousel click orbit] - Inyección de exergía en la topología C5-REAL.
+- **Commit #140**: Primitive [Mica relief scale] - Inyección de exergía en la topología C5-REAL.
