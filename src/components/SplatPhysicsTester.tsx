@@ -1,4 +1,4 @@
-// [SOTY Primitive #74]: Lurra earth terms
+// [SOTY Primitive #75]: Bilbao location pins
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
