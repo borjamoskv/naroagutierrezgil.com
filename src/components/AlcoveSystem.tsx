@@ -92,82 +92,56 @@ export default function AlcoveSystem({ activeAlcove, setActiveAlcove, resolveSrc
         </div>
 
         {/* Alcove tabs */}
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-16 border-b border-white/5 pb-4">
+        <div className="flex justify-center gap-12 mb-16 border-b border-white/5 pb-6">
           {alcoveTabs.map(alcove => (
             <button
               key={alcove.id}
               onClick={() => setActiveAlcove(alcove.id as AlcoveId)}
-              className={`flex flex-col items-center py-4 border-b-2 cursor-pointer transition-all duration-300 ${
+              className={`py-2 cursor-pointer transition-all duration-500 font-serif text-lg tracking-widest ${
                 activeAlcove === alcove.id
-                  ? 'border-[#2B3BE5] text-white'
-                  : 'border-transparent text-white/30 hover:text-white/60'
+                  ? 'text-white border-b border-[#2B3BE5] scale-125 font-bold'
+                  : 'text-white/30 hover:text-white/60 border-b border-transparent'
               }`}
             >
-              <span className="font-serif text-xs mb-1 opacity-65">{alcove.num}</span>
-              <span className="font-sans text-[9px] tracking-widest uppercase text-center block leading-normal">
-                {alcove.label}
-              </span>
+              {alcove.num}
             </button>
           ))}
         </div>
 
-        {/* Active Alcove Content Card */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        {/* Active Alcove Content Card (Widescreen Monumental Display) */}
+        <div className="w-full relative bg-neutral-950/80 border border-white/5 rounded-sm overflow-hidden group shadow-2xl aspect-[16/9] md:aspect-[21/9]">
+          <Image
+            src={resolveSrc(data.image)}
+            alt={data.title}
+            fill
+            sizes="100vw"
+            quality={95}
+            className="object-cover transition-transform duration-[3s] ease-out group-hover:scale-105"
+          />
 
-          {/* Description Column */}
-          <div className="lg:col-span-5 flex flex-col">
-            <span className="text-[#2B3BE5] font-mono text-[9px] tracking-widest uppercase mb-4">
-              Arqueología Lítica // Universo {data.universeNum}
+          {/* Vignette overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/30 pointer-events-none transition-all duration-700 group-hover:from-black/95" />
+          
+          {/* Subtle kinetic grid pattern */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 pointer-events-none" />
+
+          {/* Minimal Hover HUD overlay (Reveals text info only when hovered) */}
+          <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-16 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-black/60 backdrop-blur-[3px] pointer-events-none">
+            <span className="text-[#2B3BE5] font-mono text-[9px] tracking-[0.5em] uppercase mb-3">
+              Universo {data.universeNum} // {data.material}
             </span>
-
-            <h3 className="text-3xl sm:text-4xl font-serif font-light text-white uppercase tracking-wider mb-6">
+            <h3 className="text-2xl sm:text-4xl font-serif font-light text-white uppercase tracking-wider mb-4">
               {data.title}
             </h3>
-
-            <p className="text-white/70 font-sans text-sm leading-relaxed mb-8">
+            <p className="text-white/60 font-sans text-xs tracking-wider max-w-xl leading-relaxed">
               {data.description}
             </p>
-
-            {/* Technical Specifications list */}
-            <div className="border-t border-white/10 pt-6">
-              <span className="text-white/30 font-mono text-[9px] tracking-widest uppercase block mb-3">
-                Especificaciones Técnicas
-              </span>
-              <ul className="grid grid-cols-2 gap-y-4 gap-x-8 font-mono text-[10px] text-white/50">
-                <li>
-                  <span className="text-white/30 block mb-1">Materia Prima</span>
-                  <span className="text-white">{data.material}</span>
-                </li>
-                <li>
-                  <span className="text-white/30 block mb-1">Fricción Física</span>
-                  <span className="text-white">{data.friction}</span>
-                </li>
-              </ul>
-            </div>
           </div>
 
-          {/* Display Column */}
-          <div className="lg:col-span-7 flex justify-center relative">
-            <div className="w-full max-w-lg aspect-[4/5] relative bg-neutral-950/80 border border-white/5 rounded-sm overflow-hidden group shadow-2xl">
-              <Image
-                src={resolveSrc(data.image)}
-                alt="Muestra de la técnica de Naroa"
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                quality={95}
-                className="object-cover transition-transform duration-[2.5s] ease-out group-hover:scale-105"
-              />
-
-              {/* Visual frame overlay */}
-              <div className="absolute inset-0 border-[12px] border-black/40 pointer-events-none" />
-
-              {/* Quick Info tag */}
-              <div className="absolute bottom-6 left-6 bg-black/80 backdrop-blur-md px-4 py-2 border border-white/10 text-[9px] font-mono tracking-widest text-white uppercase">
-                [ Muestra Universo {activeAlcove.toUpperCase()} ]
-              </div>
-            </div>
+          {/* Quick HUD overlay in bottom-right (Static, always visible to indicate active universe) */}
+          <div className="absolute bottom-6 right-6 bg-black/85 border border-white/10 px-4 py-2 font-mono text-[9px] tracking-[0.4em] text-white uppercase pointer-events-none">
+            [ U-{data.universeNum} ]
           </div>
-
         </div>
 
       </div>

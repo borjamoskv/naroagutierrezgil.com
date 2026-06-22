@@ -20,12 +20,16 @@ import Footer from "@/components/Footer";
  * Credits: Borja Moskv (borjamoskv) / MOSKV-1 APEX
  */
 export default function AutodidactPage() {
-  const [scrollY, setScrollY] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [entropyRate, setEntropyRate] = useState(12.4);
   const [pointerDown, setPointerDown] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+    return false;
+  });
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Initialize Lenis smooth scroll
@@ -44,8 +48,6 @@ export default function AutodidactPage() {
     requestAnimationFrame(raf);
 
     const handleScroll = () => {
-      setScrollY(window.scrollY);
-      
       if (containerRef.current) {
         const totalHeight = containerRef.current.scrollHeight - window.innerHeight;
         const progress = window.scrollY / (totalHeight || 1);
