@@ -1,4 +1,4 @@
-// [SOTY Primitive #104]: CRT scanline speed
+// [SOTY Primitive #105]: Lenis Wheel events
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
