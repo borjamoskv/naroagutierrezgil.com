@@ -1,4 +1,4 @@
-// [SOTY Primitive #2]: Kintsugi Gold Flare
+// [SOTY Primitive #3]: Mica Mineral Glitter
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
