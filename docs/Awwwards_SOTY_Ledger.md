@@ -9,3 +9,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #5**: Primitive [Custom HSL Cursor Trail] - Inyección de exergía en la topología C5-REAL.
 - **Commit #6**: Primitive [High-Fidelity CRT Scanlines] - Inyección de exergía en la topología C5-REAL.
 - **Commit #7**: Primitive [Interactivity Inertia] - Inyección de exergía en la topología C5-REAL.
+- **Commit #8**: Primitive [Lenis Scroll Velocity Damping] - Inyección de exergía en la topología C5-REAL.

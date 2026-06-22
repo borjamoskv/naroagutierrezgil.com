@@ -1,4 +1,4 @@
-// [SOTY Primitive #7]: Interactivity Inertia
+// [SOTY Primitive #8]: Lenis Scroll Velocity Damping
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
