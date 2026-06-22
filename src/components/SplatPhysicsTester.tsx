@@ -1,4 +1,4 @@
-// [SOTY Primitive #138]: Volumetric Portrait drag
+// [SOTY Primitive #139]: ThreeD Carousel click orbit
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
