@@ -1,4 +1,4 @@
-// [SOTY Primitive #90]: Awwwards Manifest update
+// [SOTY Primitive #91]: Splat Spline Resolution
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
