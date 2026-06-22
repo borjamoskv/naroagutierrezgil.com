@@ -10,7 +10,6 @@ import { inSphere } from "maath/random";
 function StarBackground(props: Record<string, unknown>) {
   const ref = useRef<THREE.Points>(null);
   const [color, setColor] = useState("#2B3BE5");
-  const particleTypes = useRef<string[]>([]);
   
   useEffect(() => {
     const initialColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
@@ -36,35 +35,36 @@ function StarBackground(props: Record<string, unknown>) {
     inSphere(new Float32Array(count * 3), { radius: 2.0 }) as Float32Array
   );
 
+  // Deterministic particle type generator based on index to avoid storing in ref during render
+  const getParticleType = (i: number): 'primary' | 'gold' | 'silver' => {
+    const x = Math.sin(i + 1) * 10000;
+    const rand = x - Math.floor(x);
+    if (rand < 0.7) return 'primary';
+    if (rand < 0.9) return 'gold';
+    return 'silver';
+  };
+
   // Generate mixed mineral colors (70% base, 20% gold, 10% silver/mica)
   const [colors] = useState(() => {
     const arr = new Float32Array(count * 3);
-    const types: string[] = [];
     
     for (let i = 0; i < count; i++) {
       const idx = i * 3;
-      const rand = Math.random();
-      if (rand < 0.7) {
-        types.push('primary');
-        // Initial primary color #2B3BE5
+      const type = getParticleType(i);
+      if (type === 'primary') {
         arr[idx] = 43 / 255;
         arr[idx+1] = 59 / 255;
         arr[idx+2] = 229 / 255;
-      } else if (rand < 0.9) {
-        types.push('gold');
-        // Gold #D4AF37
+      } else if (type === 'gold') {
         arr[idx] = 212 / 255;
         arr[idx+1] = 175 / 255;
         arr[idx+2] = 55 / 255;
       } else {
-        types.push('silver');
-        // Silver/Mica #EAEAEA
         arr[idx] = 234 / 255;
         arr[idx+1] = 234 / 255;
         arr[idx+2] = 234 / 255;
       }
     }
-    particleTypes.current = types;
     return arr;
   });
 
@@ -83,7 +83,7 @@ function StarBackground(props: Record<string, unknown>) {
     const colorsArr = colorAttr.array as Float32Array;
     for (let i = 0; i < count; i++) {
       const idx = i * 3;
-      if (particleTypes.current[i] === 'primary') {
+      if (getParticleType(i) === 'primary') {
         colorsArr[idx] = r;
         colorsArr[idx+1] = g;
         colorsArr[idx+2] = b;
