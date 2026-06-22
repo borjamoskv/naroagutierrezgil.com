@@ -20,10 +20,6 @@ export default function Footer() {
             <span className="font-sans text-[9px] tracking-[0.4em] uppercase">Laboratorio Kinético</span>
           </a>
           
-          <a href="/test-physics" aria-label="Motor WebGPU Splat Physics" className="group flex items-center gap-4 text-white/30 hover:text-white transition-colors duration-500 px-8 py-3 border border-white/10 hover:border-white/30 rounded-sm w-full max-w-sm justify-center">
-            <span className="font-mono text-[9px] tracking-[0.3em] uppercase">WebGPU Physics Engine</span>
-          </a>
-
           <Link href="/autodidact" aria-label="Experiencia Inmersiva Autodidacta" className="group flex items-center gap-4 text-white/30 hover:text-white transition-colors duration-500 px-8 py-3 border border-white/10 hover:border-white/30 rounded-sm w-full max-w-sm justify-center">
             <span className="font-mono text-[9px] tracking-[0.3em] uppercase">Experiencia Autodidacta</span>
           </Link>

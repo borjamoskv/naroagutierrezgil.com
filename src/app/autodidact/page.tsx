@@ -9,6 +9,8 @@ import ScrollMarquee from "@/components/ScrollMarquee";
 import ParallaxHoverCard from "@/components/ParallaxHoverCard";
 import MagneticButton from "@/components/MagneticButton";
 import AudioSynthesizer from "@/components/AudioSynthesizer";
+import ScrollReveal from "@/components/ScrollReveal";
+import Footer from "@/components/Footer";
 
 /**
  * Autodidact page - A premium interactive experience inspired by Dennis Snellenberg and Immersive Garden.
@@ -232,6 +234,7 @@ export default function AutodidactPage() {
       <main className="relative z-20 pt-44 pb-32 max-w-7xl mx-auto px-6 sm:px-12">
         
         {/* HERO INTRO */}
+        <ScrollReveal>
         <section className="mb-44 relative">
           <div className="absolute -left-6 sm:-left-12 top-0 w-[2px] h-full bg-gradient-to-b from-[#2B3BE5] via-[#2B3BE5]/10 to-transparent" />
           
@@ -258,6 +261,7 @@ export default function AutodidactPage() {
             </p>
           </div>
         </section>
+        </ScrollReveal>
 
         {/* MARQUEE RUNNING BANNER (Dennis Snellenberg Style) */}
         <section className="w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] my-32 py-8 bg-[#0F0F0F] border-y border-white/5 overflow-hidden">
@@ -287,20 +291,23 @@ export default function AutodidactPage() {
         {/* 3D PARALLAX CARDS GRID (Dennis Snellenberg + Immersive Garden layout) */}
         <section className="mb-56 grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-16">
           {chapters.map((chapter, index) => (
-            <div key={index} id={`chapter-${index + 1}`} className="scroll-mt-32">
-              <ParallaxHoverCard
-                src={chapter.src}
-                title={chapter.title}
-                subtitle={chapter.subtitle}
-                chapterNumber={chapter.chapterNumber}
-                details={chapter.details}
-                className={index % 2 === 1 ? "md:translate-y-20" : ""}
-              />
-            </div>
+            <ScrollReveal delay={index * 0.15} key={index}>
+              <div id={`chapter-${index + 1}`} className="scroll-mt-32">
+                <ParallaxHoverCard
+                  src={chapter.src}
+                  title={chapter.title}
+                  subtitle={chapter.subtitle}
+                  chapterNumber={chapter.chapterNumber}
+                  details={chapter.details}
+                  className={index % 2 === 1 ? "md:translate-y-20" : ""}
+                />
+              </div>
+            </ScrollReveal>
           ))}
         </section>
 
         {/* THE PEDAGOGY OF ERROR DETAIL SECTION */}
+        <ScrollReveal>
         <section className="mb-44 py-16 px-8 sm:px-16 bg-[#0A0A0A] border border-white/5 rounded-sm relative overflow-hidden">
           <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
           
@@ -319,6 +326,7 @@ export default function AutodidactPage() {
             </p>
           </div>
         </section>
+        </ScrollReveal>
 
         {/* BOTTOM CTA: MAGNETIC NAVIGATION BUTTON (Dennis Snellenberg Style) */}
         <section className="flex flex-col items-center justify-center py-20 text-center">
@@ -373,10 +381,8 @@ export default function AutodidactPage() {
         <span className="hidden sm:inline text-white/30">TECLAS [1, 2, 3, 4] NAVEGAN CAPÍTULOS</span>
       </div>
 
-      {/* Cinematic Footer */}
-      <footer className="w-full text-center py-16 border-t border-white/5 text-[9px] tracking-[0.3em] uppercase text-white/30 relative z-30 bg-[#050505]">
-        Autodidact Immersive Experience · C5-REAL · borjamoskv
-      </footer>
+      {/* Unified Footer */}
+      <Footer />
     </div>
   );
 }

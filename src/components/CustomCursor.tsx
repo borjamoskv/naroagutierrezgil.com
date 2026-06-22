@@ -165,6 +165,8 @@ export default function CustomCursor() {
     };
   }, []);
 
+  if (prefersReduced) return null;
+
   return (
     <>
       <canvas

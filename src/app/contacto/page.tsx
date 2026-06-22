@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Lenis from 'lenis';
+import useLenis from '@/hooks/useLenis';
 import HeroFluid from '@/components/HeroFluid';
+import ScrollReveal from '@/components/ScrollReveal';
+import Footer from '@/components/Footer';
 
 export default function Contacto() {
   const [formData, setFormData] = useState({
@@ -17,25 +19,7 @@ export default function Contacto() {
 
   const [estimatedPrice, setEstimatedPrice] = useState({ min: 450, max: 680 });
 
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
-    });
-
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-
-    return () => lenis.destroy();
-  }, []);
+  useLenis();
 
   // Calcular estimación en caliente (C5-REAL logic)
   useEffect(() => {
@@ -106,7 +90,7 @@ export default function Contacto() {
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 p-6 sm:p-12 mix-blend-difference">
+      <nav className="fixed top-0 w-full z-50 p-6 sm:p-12 mix-blend-difference flex justify-between items-center">
         <Link 
           href="/" 
           className="group flex items-center gap-4 text-white/50 hover:text-white transition-colors duration-500"
@@ -114,6 +98,10 @@ export default function Contacto() {
           <div className="w-8 h-[1px] bg-white/30 group-hover:bg-[#2B3BE5] group-hover:w-16 transition-all duration-700" />
           <span className="font-sans text-[9px] tracking-[0.4em] uppercase">Retorno al Laboratorio</span>
         </Link>
+        <div className="flex items-center gap-6">
+          <Link href="/biografia" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Biografía</Link>
+          <Link href="/autodidact" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Autodidacta</Link>
+        </div>
       </nav>
 
       <main className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 pt-40 pb-32">
@@ -121,7 +109,8 @@ export default function Contacto() {
           
           {/* HEADER & INFO SECTION */}
           <div className="lg:col-span-5 space-y-12">
-            <header className="relative border-l border-[#2B3BE5]/30 pl-8 py-2 reveal-on-scroll">
+            <ScrollReveal>
+            <header className="relative border-l border-[#2B3BE5]/30 pl-8 py-2">
               <span className="text-[#2B3BE5] font-sans tracking-[0.4em] uppercase text-[10px] mb-4 block">
                 Cimientos de Pizarra
               </span>
@@ -129,6 +118,7 @@ export default function Contacto() {
                 Establecer<br />Contacto
               </h1>
             </header>
+            </ScrollReveal>
 
             <div className="space-y-6 text-white/60 font-light text-lg leading-relaxed">
               <p>
@@ -140,7 +130,8 @@ export default function Contacto() {
             </div>
 
             {/* TABLA DE INVERSIÓN */}
-            <div className="p-8 border border-white/5 bg-white/[0.01] rounded-sm space-y-6 reveal-on-scroll">
+            <ScrollReveal delay={0.15}>
+            <div className="p-8 border border-white/5 bg-white/[0.01] rounded-sm space-y-6">
               <h3 className="text-[#2B3BE5] font-serif text-2xl">Rangos de Inversión</h3>
               <div className="space-y-4 text-sm font-sans tracking-wide">
                 <div className="flex justify-between border-b border-white/5 pb-2">
@@ -160,10 +151,12 @@ export default function Contacto() {
                 </p>
               </div>
             </div>
+            </ScrollReveal>
           </div>
 
           {/* FORM SECTION */}
-          <div className="lg:col-span-7 bg-[#0A0A0A] border border-white/10 rounded-sm p-8 sm:p-12 shadow-2xl relative magnetic-glow reveal-on-scroll">
+          <ScrollReveal delay={0.2}>
+          <div className="lg:col-span-7 bg-[#0A0A0A] border border-white/10 rounded-sm p-8 sm:p-12 shadow-2xl relative magnetic-glow">
             <div className="absolute top-0 left-0 w-full h-[2px] bg-[#2B3BE5]" />
 
             <form onSubmit={handleSubmit} className="space-y-8">
@@ -288,6 +281,7 @@ export default function Contacto() {
                   </span>
                 </div>
                 <button
+                  id="btn-submit-contacto"
                   type="submit"
                   className="w-full sm:w-auto px-10 py-5 bg-[#2B3BE5] text-white hover:bg-white hover:text-black font-mono text-[10px] tracking-[0.3em] uppercase rounded-sm transition-all duration-700 cursor-pointer shadow-[0_0_40px_rgba(43,59,229,0.25)] hover:shadow-[0_0_60px_rgba(255,255,255,0.1)] hover:scale-[1.02] active:scale-[0.98]"
                 >
@@ -301,9 +295,7 @@ export default function Contacto() {
         </div>
       </main>
 
-      <footer className="w-full text-center py-16 border-t border-white/5 text-[9px] tracking-[0.4em] uppercase text-white/20 relative z-10 bg-[#030303]">
-        Portal de Alta Precisión Emocional — C5-REAL
-      </footer>
+      <Footer />
     </div>
   );
 }
