@@ -52,3 +52,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #48**: Primitive [Soundscape Frequency Ranges] - Inyección de exergía en la topología C5-REAL.
 - **Commit #49**: Primitive [Keyboard Dimension Hotkeys] - Inyección de exergía en la topología C5-REAL.
 - **Commit #50**: Primitive [Mica Reflection angles] - Inyección de exergía en la topología C5-REAL.
+- **Commit #51**: Primitive [Depth HUD overlay masks] - Inyección de exergía en la topología C5-REAL.

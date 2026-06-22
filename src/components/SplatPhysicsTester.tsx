@@ -1,4 +1,4 @@
-// [SOTY Primitive #50]: Mica Reflection angles
+// [SOTY Primitive #51]: Depth HUD overlay masks
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
