@@ -1,4 +1,4 @@
-// [SOTY Primitive #22]: Mica Blink Frequency
+// [SOTY Primitive #23]: Gold Vein Width Dilation
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

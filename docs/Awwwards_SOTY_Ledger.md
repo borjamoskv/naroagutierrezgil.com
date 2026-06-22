@@ -24,3 +24,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #20**: Primitive [Scroll-Aware Header Hide] - Inyección de exergía en la topología C5-REAL.
 - **Commit #21**: Primitive [Fluid Dynamics Particles] - Inyección de exergía en la topología C5-REAL.
 - **Commit #22**: Primitive [Mica Blink Frequency] - Inyección de exergía en la topología C5-REAL.
+- **Commit #23**: Primitive [Gold Vein Width Dilation] - Inyección de exergía en la topología C5-REAL.
