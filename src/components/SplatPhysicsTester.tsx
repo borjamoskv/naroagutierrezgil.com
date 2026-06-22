@@ -1,4 +1,4 @@
-// [SOTY Primitive #76]: E2E Test Suite verification
+// [SOTY Primitive #77]: Durable Object persist checks
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
