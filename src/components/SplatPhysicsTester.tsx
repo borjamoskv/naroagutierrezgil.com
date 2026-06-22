@@ -1,4 +1,4 @@
-// [SOTY Primitive #73]: Fisura kintsugi notes
+// [SOTY Primitive #74]: Lurra earth terms
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

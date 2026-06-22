@@ -75,3 +75,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #71**: Primitive [basque words integration] - Inyección de exergía en la topología C5-REAL.
 - **Commit #72**: Primitive [Haitza stone references] - Inyección de exergía en la topología C5-REAL.
 - **Commit #73**: Primitive [Fisura kintsugi notes] - Inyección de exergía en la topología C5-REAL.
+- **Commit #74**: Primitive [Lurra earth terms] - Inyección de exergía en la topología C5-REAL.
