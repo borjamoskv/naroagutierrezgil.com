@@ -1,4 +1,4 @@
-// [SOTY Primitive #70]: Custom Cursor Border scale
+// [SOTY Primitive #71]: basque words integration
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
