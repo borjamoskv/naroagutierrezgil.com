@@ -79,7 +79,7 @@ export default function Biografia() {
         </header>
 
         {/* TRAYECTORIA */}
-        <section className="mb-40 grid grid-cols-1 md:grid-cols-12 gap-12 items-center animate-[fadeIn_2s_ease-out_0.8s_both]">
+        <section className="mb-40 grid grid-cols-1 md:grid-cols-12 gap-12 items-center reveal-on-scroll">
           <div className="md:col-span-5 relative group">
             <div className="absolute inset-0 bg-[#2B3BE5] translate-x-4 translate-y-4 opacity-20 transition-transform duration-700 group-hover:translate-x-6 group-hover:translate-y-6" />
             <div className="relative aspect-[4/5] bg-[#0A0A0A] border border-white/10 overflow-hidden">
@@ -130,7 +130,7 @@ export default function Biografia() {
         </section>
 
         {/* CURIOSIDADES KINÉTICAS */}
-        <section className="mb-40 animate-[fadeIn_2s_ease-out_1.4s_both]">
+        <section className="mb-40 reveal-on-scroll">
           <h2 className="text-4xl font-serif tracking-widest uppercase text-white/80 mb-16 text-center">
             Datos de Interés
           </h2>
@@ -146,7 +146,7 @@ export default function Biografia() {
               { t: 'Arqueología industrial', d: 'Recuperó desechos industriales del Cantábrico para mezclar memoria obrera de Bilbao con retratos.' },
               { t: 'Contraste POP', d: 'Descontextualiza el rigor fotográfico bañando las figuras en neones, cianes y magentas de los años 80.' },
             ].map((item, i) => (
-              <div key={i} className="group relative p-10 bg-black border border-white/10 hover:border-transparent transition-all duration-700 flex flex-col justify-between overflow-hidden cursor-default min-h-[300px]">
+              <div key={i} className="group relative p-10 bg-black border border-white/10 hover:border-[#2B3BE5]/20 transition-all duration-700 flex flex-col justify-between overflow-hidden cursor-default min-h-[300px] magnetic-glow">
                 <div className="absolute inset-0 bg-[#2B3BE5] translate-y-[100%] group-hover:translate-y-0 transition-transform duration-700 ease-[cubic-bezier(0.7,0,0.3,1)] opacity-[0.03]" />
                 <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#2B3BE5] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
                 
@@ -162,28 +162,28 @@ export default function Biografia() {
         </section>
 
         {/* COLABORACIONES (Lista Cinemática) */}
-        <section className="mb-40 animate-[fadeIn_2s_ease-out_1.7s_both]">
+        <section className="mb-40 reveal-on-scroll">
           <div className="border-t border-[#2B3BE5]/30 pt-16">
             <h2 className="text-5xl font-serif tracking-widest uppercase text-white mb-12">Redes & Colisiones</h2>
             <ul className="space-y-8 text-xl font-light text-white/60">
               <li className="flex flex-col sm:flex-row sm:items-end gap-2 border-b border-white/5 pb-8 hover:text-white transition-colors duration-500">
-                <span className="text-3xl font-serif text-[#2B3BE5]">Vintage-Shop</span>
+                <span className="text-3xl font-serif text-[#2B3BE5] kinetic-underline">Vintage-Shop</span>
                 <span className="sm:ml-auto text-sm tracking-widest uppercase">Muebles Escultura c/ Fernando Gutiérrez</span>
               </li>
               <li className="flex flex-col sm:flex-row sm:items-end gap-2 border-b border-white/5 pb-8 hover:text-white transition-colors duration-500">
-                <span className="text-3xl font-serif text-[#2B3BE5]">Proyecto Akelarre</span>
+                <span className="text-3xl font-serif text-[#2B3BE5] kinetic-underline">Proyecto Akelarre</span>
                 <span className="sm:ml-auto text-sm tracking-widest uppercase">Estructuras efímeras incendiadas (2019)</span>
               </li>
               <li className="flex flex-col sm:flex-row sm:items-end gap-2 border-b border-white/5 pb-8 hover:text-white transition-colors duration-500">
-                <span className="text-3xl font-serif text-[#2B3BE5]">ZAWP & Fair Saturday</span>
+                <span className="text-3xl font-serif text-[#2B3BE5] kinetic-underline">ZAWP & Fair Saturday</span>
                 <span className="sm:ml-auto text-sm tracking-widest uppercase">Activismo a favor de CEAR-Euskadi</span>
               </li>
               <li className="flex flex-col sm:flex-row sm:items-end gap-2 border-b border-white/5 pb-8 hover:text-white transition-colors duration-500">
-                <span className="text-3xl font-serif text-[#2B3BE5]">Wikitoki</span>
+                <span className="text-3xl font-serif text-[#2B3BE5] kinetic-underline">Wikitoki</span>
                 <span className="sm:ml-auto text-sm tracking-widest uppercase">Prácticas colaborativas artísticas</span>
               </li>
               <li className="flex flex-col sm:flex-row sm:items-end gap-2 border-b border-white/5 pb-8 hover:text-white transition-colors duration-500">
-                <a href="https://borjamoskv.com" target="_blank" rel="noopener noreferrer" className="text-3xl font-serif text-[#2B3BE5] hover:text-white transition-colors">Borja Moskv</a>
+                <a href="https://borjamoskv.com" target="_blank" rel="noopener noreferrer" className="text-3xl font-serif text-[#2B3BE5] hover:text-white transition-colors kinetic-underline">Borja Moskv</a>
                 <span className="sm:ml-auto text-sm tracking-widest uppercase">Arquitectura digital SOTA</span>
               </li>
             </ul>
@@ -193,7 +193,7 @@ export default function Biografia() {
       </main>
 
       {/* Footer Minimalista */}
-      <footer className="w-full text-center py-12 border-t border-white/5 text-[10px] tracking-[0.3em] uppercase text-white/30">
+      <footer className="w-full text-center py-16 border-t border-white/5 text-[9px] tracking-[0.4em] uppercase text-white/20 bg-[#030303]">
         Extracción Biográfica Enciclopédica — C5-REAL
       </footer>
     </div>
