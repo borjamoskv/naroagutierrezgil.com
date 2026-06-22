@@ -104,3 +104,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #100**: Primitive [Granular Synthesis buffer] - Inyección de exergía en la topología C5-REAL.
 - **Commit #101**: Primitive [Granular Synthesis decay] - Inyección de exergía en la topología C5-REAL.
 - **Commit #102**: Primitive [Audio Reactivity scale pulse] - Inyección de exergía en la topología C5-REAL.
+- **Commit #103**: Primitive [Biquad Filter resonance] - Inyección de exergía en la topología C5-REAL.

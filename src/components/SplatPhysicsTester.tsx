@@ -1,4 +1,4 @@
-// [SOTY Primitive #102]: Audio Reactivity scale pulse
+// [SOTY Primitive #103]: Biquad Filter resonance
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
