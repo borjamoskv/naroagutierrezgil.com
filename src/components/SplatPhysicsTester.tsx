@@ -1,4 +1,4 @@
-// [SOTY Primitive #124]: Alcove Hover HUD details
+// [SOTY Primitive #125]: Alcove Quick HUD indicator
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
