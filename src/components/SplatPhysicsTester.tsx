@@ -1,4 +1,4 @@
-// [SOTY Primitive #27]: Eye-Tracking Parallax Response
+// [SOTY Primitive #28]: ASMR Brush Sound Synthesizer
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
