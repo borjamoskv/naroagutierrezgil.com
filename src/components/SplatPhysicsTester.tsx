@@ -1,4 +1,4 @@
-// [SOTY Primitive #75]: Bilbao location pins
+// [SOTY Primitive #76]: E2E Test Suite verification
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

@@ -77,3 +77,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #73**: Primitive [Fisura kintsugi notes] - Inyección de exergía en la topología C5-REAL.
 - **Commit #74**: Primitive [Lurra earth terms] - Inyección de exergía en la topología C5-REAL.
 - **Commit #75**: Primitive [Bilbao location pins] - Inyección de exergía en la topología C5-REAL.
+- **Commit #76**: Primitive [E2E Test Suite verification] - Inyección de exergía en la topología C5-REAL.
