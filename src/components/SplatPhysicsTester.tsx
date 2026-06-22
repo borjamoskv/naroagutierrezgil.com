@@ -1,4 +1,4 @@
-// [SOTY Primitive #44]: WebGL Background Alpha settings
+// [SOTY Primitive #45]: Macro Splat Performance
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
