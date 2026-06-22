@@ -127,3 +127,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #123**: Primitive [Alcove tabs Roman numbers] - Inyección de exergía en la topología C5-REAL.
 - **Commit #124**: Primitive [Alcove Hover HUD details] - Inyección de exergía en la topología C5-REAL.
 - **Commit #125**: Primitive [Alcove Quick HUD indicator] - Inyección de exergía en la topología C5-REAL.
+- **Commit #126**: Primitive [Hero Section copy reduction] - Inyección de exergía en la topología C5-REAL.

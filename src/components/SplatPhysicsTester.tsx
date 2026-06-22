@@ -1,4 +1,4 @@
-// [SOTY Primitive #125]: Alcove Quick HUD indicator
+// [SOTY Primitive #126]: Hero Section copy reduction
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
