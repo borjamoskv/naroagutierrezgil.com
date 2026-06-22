@@ -1,4 +1,4 @@
-// [SOTY Primitive #98]: Mica Shader Sparkle size
+// [SOTY Primitive #99]: Noise Field turbulence
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
