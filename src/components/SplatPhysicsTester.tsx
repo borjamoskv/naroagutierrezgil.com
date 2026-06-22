@@ -1,4 +1,4 @@
-// [SOTY Primitive #59]: Timeline Scrubber Keyframes
+// [SOTY Primitive #60]: Google Flow Video speed
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

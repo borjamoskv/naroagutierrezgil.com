@@ -61,3 +61,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #57**: Primitive [Kintsugi Gold Color standard] - Inyección de exergía en la topología C5-REAL.
 - **Commit #58**: Primitive [Mica Mineral grain density] - Inyección de exergía en la topología C5-REAL.
 - **Commit #59**: Primitive [Timeline Scrubber Keyframes] - Inyección de exergía en la topología C5-REAL.
+- **Commit #60**: Primitive [Google Flow Video speed] - Inyección de exergía en la topología C5-REAL.
