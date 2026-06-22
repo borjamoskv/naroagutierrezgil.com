@@ -1,4 +1,4 @@
-// [SOTY Primitive #96]: Chromaturgy color settings
+// [SOTY Primitive #97]: Basalt Texture Normal maps
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
