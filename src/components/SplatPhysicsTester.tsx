@@ -1,4 +1,4 @@
-// [SOTY Primitive #117]: WebGLBackground props typings
+// [SOTY Primitive #118]: WebGLBackground ThreeElements TS
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
