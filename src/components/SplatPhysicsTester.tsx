@@ -1,4 +1,4 @@
-// [SOTY Primitive #131]: ThreeDCarousel description clean
+// [SOTY Primitive #132]: Footer copyright update
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
