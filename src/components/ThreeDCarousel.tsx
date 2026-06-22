@@ -13,8 +13,8 @@ interface CarouselItem {
 const carouselArtworks: CarouselItem[] = [
   { src: '/assets/el-gran-dakari-C1tAWAhR.webp', title: 'El Gran Dakari' },
   { src: '/assets/geisha-MfRtKWdu.webp', title: 'Geisha' },
-  { src: '/assets/hq-james-CjsTrO7r.webp', title: 'James Dean' },
-  { src: '/assets/hq-amy-BRTriASV.webp', title: 'Amy Winehouse' },
+  { src: '/assets/james-new.webp', title: 'James Dean' },
+  { src: '/assets/amy-new.webp', title: 'Amy Winehouse' },
   { src: '/assets/lagrimas-de-oro-DikHc-Tk.webp', title: 'Lágrimas de Oro' },
   { src: '/assets/la-pensadora-CFHSnMA0.webp', title: 'La Pensadora' }
 ];

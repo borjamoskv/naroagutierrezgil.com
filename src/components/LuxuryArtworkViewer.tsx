@@ -19,7 +19,7 @@ const artworksData = [
   {
     id: 'james',
     title: 'James Dean',
-    src: '/assets/hq-james-CjsTrO7r.webp',
+    src: '/assets/james-new.webp',
     material: 'Pizarra de Tejado Vasco',
     year: '2026',
     audioTitle: 'Summer Monroe (Naroart x Borja Moskv Rework)',

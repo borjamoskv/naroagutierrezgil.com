@@ -64,7 +64,7 @@ export default function ScrollyTelling() {
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(198,168,124,0.15)_0%,transparent_70%)] z-0 mix-blend-screen" />
             
             <Image 
-              src="/assets/hq-amy-BRTriASV.webp"
+              src="/assets/amy-new.webp"
               alt="Proceso Amy"
               fill
               className="object-cover transition-all duration-[1.5s] ease-[cubic-bezier(0.25,1,0.5,1)] z-10 scale-[1.02]"
