@@ -1,4 +1,4 @@
-// [SOTY Primitive #15]: Magnetic Button Pull
+// [SOTY Primitive #16]: Basque Lytic Coordinates
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

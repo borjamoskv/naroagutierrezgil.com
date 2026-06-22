@@ -17,3 +17,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #13**: Primitive [Kintsugi Fracture Soundscapes] - Inyección de exergía en la topología C5-REAL.
 - **Commit #14**: Primitive [Staggered Intersection Observers] - Inyección de exergía en la topología C5-REAL.
 - **Commit #15**: Primitive [Magnetic Button Pull] - Inyección de exergía en la topología C5-REAL.
+- **Commit #16**: Primitive [Basque Lytic Coordinates] - Inyección de exergía en la topología C5-REAL.
