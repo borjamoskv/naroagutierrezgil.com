@@ -110,16 +110,15 @@ export default function SplatPhysicsTester() {
         const mappedX = mousePos.current.x * 1.5 * aspect;
         const mappedY = mousePos.current.y * 1.5;
 
-        // 1. Dispatch Compute Shader for physics deform (with heatRate and zoom)
+        // 1. Dispatch Compute Shader for physics deform (with heatRate and zoom and single user agent)
         engine.runComputePass(
-          mappedX,
-          mappedY,
           time * 0.001,
           isMouseDown.current ? force * 2.0 : force, // double force when clicking
           elasticity,
           damping,
           isMouseDown.current ? 0.08 : 0.04, // heatRate
-          zoomRef.current
+          zoomRef.current,
+          [{ x: mappedX, y: mappedY, isDrawing: isMouseDown.current }]
         );
 
         // 2. Build View Projection Matrix with camera distance & Parallax (Cámara Imposible)
