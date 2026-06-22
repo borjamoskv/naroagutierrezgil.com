@@ -1,4 +1,4 @@
-// [SOTY Primitive #71]: basque words integration
+// [SOTY Primitive #72]: Haitza stone references
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
