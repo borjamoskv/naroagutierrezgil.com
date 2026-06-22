@@ -1,4 +1,4 @@
-// [SOTY Primitive #128]: Philosophy Statement Marquee
+// [SOTY Primitive #129]: ScrollMarquee velocity tracking
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
