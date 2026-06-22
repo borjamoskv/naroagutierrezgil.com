@@ -1,4 +1,4 @@
-// [SOTY Primitive #63]: Magnetic Button range
+// [SOTY Primitive #64]: Preloader Counter progress
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
