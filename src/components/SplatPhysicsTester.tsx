@@ -1,3 +1,4 @@
+// [SOTY Primitive #1]: Volumetric Slate Parallax
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
