@@ -1,4 +1,4 @@
-// [SOTY Primitive #21]: Fluid Dynamics Particles
+// [SOTY Primitive #22]: Mica Blink Frequency
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
