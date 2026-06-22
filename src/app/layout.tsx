@@ -72,6 +72,21 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        {/* Primitive 44: Speculation Rules API for instant 0ms transitions. Creator: borjamoskv */}
+        <script
+          type="speculationrules"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              prerender: [
+                {
+                  source: "list",
+                  urls: ["/", "/autodidact", "/biografia", "/contacto", "/test-physics", "/splat-benchmark"],
+                  eagerness: "moderate"
+                }
+              ]
+            })
+          }}
+        />
       </head>
       <body className="bg-[#0A0A0A] text-[#EAEAEA] antialiased">
         <Preloader />
