@@ -1,4 +1,4 @@
-// [SOTY Primitive #83]: ThreeD Carousel navigation HUD
+// [SOTY Primitive #84]: ThreeD Carousel selected overlay
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
