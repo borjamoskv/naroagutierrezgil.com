@@ -1,4 +1,4 @@
-// [SOTY Primitive #136]: SOTAFX ASMR sound synthesis
+// [SOTY Primitive #137]: Basalt particle gravity
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
