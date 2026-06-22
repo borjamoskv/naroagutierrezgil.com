@@ -36,6 +36,11 @@ interface InteractiveSlateCanvasProps {
 export default function InteractiveSlateCanvas({ disabled = false }: InteractiveSlateCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pointerRef = useRef({ x: 0, y: 0, px: 0, py: 0, isDown: false, active: false });
+  const disabledRef = useRef(disabled);
+
+  useEffect(() => {
+    disabledRef.current = disabled;
+  }, [disabled]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -169,6 +174,11 @@ export default function InteractiveSlateCanvas({ disabled = false }: Interactive
 
     // Animation Loop
     const update = () => {
+      if (disabledRef.current) {
+        ctx.clearRect(0, 0, width, height);
+        rafId = requestAnimationFrame(update);
+        return;
+      }
       ctx.clearRect(0, 0, width, height);
 
       // Render & update cracks
