@@ -1,4 +1,4 @@
-// [SOTY Primitive #146]: Dama de la Pizarra slate
+// [SOTY Primitive #147]: Facciones del Silencio sketch
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
