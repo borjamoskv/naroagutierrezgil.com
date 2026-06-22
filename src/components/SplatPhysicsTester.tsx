@@ -1,4 +1,4 @@
-// [SOTY Primitive #32]: Brutalist Typography Sizing
+// [SOTY Primitive #33]: Syne & Unbounded Preload
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
