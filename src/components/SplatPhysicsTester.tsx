@@ -1,4 +1,4 @@
-// [SOTY Primitive #116]: Bibliografia data URIs
+// [SOTY Primitive #117]: WebGLBackground props typings
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
