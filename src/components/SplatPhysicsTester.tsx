@@ -1,4 +1,4 @@
-// [SOTY Primitive #5]: Custom HSL Cursor Trail
+// [SOTY Primitive #6]: High-Fidelity CRT Scanlines
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

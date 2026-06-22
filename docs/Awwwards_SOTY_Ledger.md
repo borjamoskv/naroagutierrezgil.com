@@ -7,3 +7,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #3**: Primitive [Mica Mineral Glitter] - Inyección de exergía en la topología C5-REAL.
 - **Commit #4**: Primitive [Basque Lytic Branding] - Inyección de exergía en la topología C5-REAL.
 - **Commit #5**: Primitive [Custom HSL Cursor Trail] - Inyección de exergía en la topología C5-REAL.
+- **Commit #6**: Primitive [High-Fidelity CRT Scanlines] - Inyección de exergía en la topología C5-REAL.
