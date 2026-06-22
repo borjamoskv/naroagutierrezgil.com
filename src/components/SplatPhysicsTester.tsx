@@ -1,4 +1,4 @@
-// [SOTY Primitive #48]: Soundscape Frequency Ranges
+// [SOTY Primitive #49]: Keyboard Dimension Hotkeys
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
