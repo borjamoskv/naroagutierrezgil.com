@@ -1,4 +1,4 @@
-// [SOTY Primitive #147]: Facciones del Silencio sketch
+// [SOTY Primitive #148]: Retrato en Tensión epoxi
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
