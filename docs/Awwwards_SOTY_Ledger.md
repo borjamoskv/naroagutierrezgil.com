@@ -132,3 +132,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #128**: Primitive [Philosophy Statement Marquee] - Inyección de exergía en la topología C5-REAL.
 - **Commit #129**: Primitive [ScrollMarquee velocity tracking] - Inyección de exergía en la topología C5-REAL.
 - **Commit #130**: Primitive [ScrollMarquee seamless loop] - Inyección de exergía en la topología C5-REAL.
+- **Commit #131**: Primitive [ThreeDCarousel description clean] - Inyección de exergía en la topología C5-REAL.

@@ -1,4 +1,4 @@
-// [SOTY Primitive #130]: ScrollMarquee seamless loop
+// [SOTY Primitive #131]: ThreeDCarousel description clean
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
