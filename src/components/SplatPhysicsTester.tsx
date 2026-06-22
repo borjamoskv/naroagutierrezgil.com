@@ -1,4 +1,4 @@
-// [SOTY Primitive #119]: WebGLBackground GroupProps JSX
+// [SOTY Primitive #120]: SOTAFX Uint8Array generic
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

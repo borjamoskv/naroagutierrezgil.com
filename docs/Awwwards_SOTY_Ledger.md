@@ -121,3 +121,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #117**: Primitive [WebGLBackground props typings] - Inyección de exergía en la topología C5-REAL.
 - **Commit #118**: Primitive [WebGLBackground ThreeElements TS] - Inyección de exergía en la topología C5-REAL.
 - **Commit #119**: Primitive [WebGLBackground GroupProps JSX] - Inyección de exergía en la topología C5-REAL.
+- **Commit #120**: Primitive [SOTAFX Uint8Array generic] - Inyección de exergía en la topología C5-REAL.
