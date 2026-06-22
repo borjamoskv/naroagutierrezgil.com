@@ -1,4 +1,4 @@
-// [SOTY Primitive #100]: Granular Synthesis buffer
+// [SOTY Primitive #101]: Granular Synthesis decay
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

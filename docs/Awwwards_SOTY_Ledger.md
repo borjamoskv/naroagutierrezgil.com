@@ -102,3 +102,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #98**: Primitive [Mica Shader Sparkle size] - Inyección de exergía en la topología C5-REAL.
 - **Commit #99**: Primitive [Noise Field turbulence] - Inyección de exergía en la topología C5-REAL.
 - **Commit #100**: Primitive [Granular Synthesis buffer] - Inyección de exergía en la topología C5-REAL.
+- **Commit #101**: Primitive [Granular Synthesis decay] - Inyección de exergía en la topología C5-REAL.
