@@ -1,4 +1,4 @@
-// [SOTY Primitive #133]: Contacto form validation
+// [SOTY Primitive #134]: Error boundary CRT design
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
