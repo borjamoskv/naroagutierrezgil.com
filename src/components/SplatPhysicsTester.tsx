@@ -1,4 +1,4 @@
-// [SOTY Primitive #46]: Kintsugi Draw Vector Limits
+// [SOTY Primitive #47]: Interactive Slate Collision
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

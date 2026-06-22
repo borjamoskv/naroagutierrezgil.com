@@ -48,3 +48,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #44**: Primitive [WebGL Background Alpha settings] - Inyección de exergía en la topología C5-REAL.
 - **Commit #45**: Primitive [Macro Splat Performance] - Inyección de exergía en la topología C5-REAL.
 - **Commit #46**: Primitive [Kintsugi Draw Vector Limits] - Inyección de exergía en la topología C5-REAL.
+- **Commit #47**: Primitive [Interactive Slate Collision] - Inyección de exergía en la topología C5-REAL.
