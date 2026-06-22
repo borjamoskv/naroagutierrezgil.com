@@ -1,4 +1,4 @@
-// [SOTY Primitive #40]: Workers AI Integration
+// [SOTY Primitive #41]: Security Headers Hardening
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
