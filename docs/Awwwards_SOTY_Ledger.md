@@ -22,3 +22,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #18**: Primitive [Facciones del Silencio Shader] - Inyección de exergía en la topología C5-REAL.
 - **Commit #19**: Primitive [Volumetric Ambient Lights] - Inyección de exergía en la topología C5-REAL.
 - **Commit #20**: Primitive [Scroll-Aware Header Hide] - Inyección de exergía en la topología C5-REAL.
+- **Commit #21**: Primitive [Fluid Dynamics Particles] - Inyección de exergía en la topología C5-REAL.

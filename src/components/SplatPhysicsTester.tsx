@@ -1,4 +1,4 @@
-// [SOTY Primitive #20]: Scroll-Aware Header Hide
+// [SOTY Primitive #21]: Fluid Dynamics Particles
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
