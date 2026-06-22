@@ -1,4 +1,4 @@
-// [SOTY Primitive #115]: SplatPhysicsTester data URIs
+// [SOTY Primitive #116]: Bibliografia data URIs
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
