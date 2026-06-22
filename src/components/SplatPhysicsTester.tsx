@@ -1,4 +1,4 @@
-// [SOTY Primitive #54]: Custom Cursor Decay rate
+// [SOTY Primitive #55]: Basalt relief wave height
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

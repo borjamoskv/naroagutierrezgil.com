@@ -56,3 +56,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #52**: Primitive [Volumetric Portrait Opacity Fade] - Inyección de exergía en la topología C5-REAL.
 - **Commit #53**: Primitive [Lenis Animation FPS Lock] - Inyección de exergía en la topología C5-REAL.
 - **Commit #54**: Primitive [Custom Cursor Decay rate] - Inyección de exergía en la topología C5-REAL.
+- **Commit #55**: Primitive [Basalt relief wave height] - Inyección de exergía en la topología C5-REAL.
