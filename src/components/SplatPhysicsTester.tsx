@@ -1,4 +1,4 @@
-// [SOTY Primitive #11]: Roman Numeral Navigation
+// [SOTY Primitive #12]: Liquid Ripple Shaders
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

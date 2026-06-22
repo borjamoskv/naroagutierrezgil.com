@@ -13,3 +13,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #9**: Primitive [Volumetric Portrait Glitch] - Inyección de exergía en la topología C5-REAL.
 - **Commit #10**: Primitive [Basalt Texture Scaling] - Inyección de exergía en la topología C5-REAL.
 - **Commit #11**: Primitive [Roman Numeral Navigation] - Inyección de exergía en la topología C5-REAL.
+- **Commit #12**: Primitive [Liquid Ripple Shaders] - Inyección de exergía en la topología C5-REAL.
