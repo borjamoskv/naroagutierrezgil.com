@@ -1,4 +1,4 @@
-// [SOTY Primitive #47]: Interactive Slate Collision
+// [SOTY Primitive #48]: Soundscape Frequency Ranges
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
