@@ -1,4 +1,4 @@
-// [SOTY Primitive #93]: Damping Factor adjustment
+// [SOTY Primitive #94]: Particle Life cycles
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

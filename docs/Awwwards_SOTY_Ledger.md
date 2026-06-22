@@ -95,3 +95,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #91**: Primitive [Splat Spline Resolution] - Inyección de exergía en la topología C5-REAL.
 - **Commit #92**: Primitive [Kintsugi Vector Drawing] - Inyección de exergía en la topología C5-REAL.
 - **Commit #93**: Primitive [Damping Factor adjustment] - Inyección de exergía en la topología C5-REAL.
+- **Commit #94**: Primitive [Particle Life cycles] - Inyección de exergía en la topología C5-REAL.
