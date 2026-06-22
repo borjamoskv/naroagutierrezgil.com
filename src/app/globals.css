@@ -11,6 +11,10 @@
   --font-sans: "Outfit", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
   --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-syne: "Syne", sans-serif;
+  --font-unbounded: "Unbounded", sans-serif;
+  --font-bricolage: "Bricolage Grotesque", sans-serif;
+  --font-space-g: "Space Grotesk", sans-serif;
 }
 
 :root {
@@ -152,4 +156,117 @@ html.lenis, html.lenis body {
 ::selection {
   background: var(--accent);
   color: #fff;
+}
+
+/* Custom Brutalist Display Typography Utility Classes */
+.font-brutal-huge {
+  font-family: "Unbounded", sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  line-height: 0.75;
+  text-transform: uppercase;
+}
+
+.font-brutal-title {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.85;
+  text-transform: uppercase;
+}
+
+.font-brutal-mono {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+/* View Transitions API — Primitive 24 SOTY 2026 */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root) {
+  animation: 0.4s cubic-bezier(0.4, 0, 0.2, 1) both fade-and-scale-out;
+}
+
+::view-transition-new(root) {
+  animation: 0.4s cubic-bezier(0.4, 0, 0.2, 1) both fade-and-scale-in;
+}
+
+@keyframes fade-and-scale-out {
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+    filter: blur(4px);
+  }
+}
+
+@keyframes fade-and-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+    filter: blur(4px);
+  }
+}
+
+::view-transition-group(root) {
+  animation-duration: 0.35s;
+}
+
+/* Scroll-driven reveal utility */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.reveal-on-scroll {
+  animation: reveal-up linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 40%;
+}
+
+/* Blur vignette for depth */
+.blur-vignette {
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%);
+}
+
+/* Magnetic hover glow for interactive elements */
+.magnetic-glow {
+  transition: box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s ease;
+}
+.magnetic-glow:hover {
+  box-shadow: 0 0 40px rgba(43, 59, 229, 0.15), 0 0 80px rgba(43, 59, 229, 0.05);
+  border-color: rgba(43, 59, 229, 0.3);
+}
+
+/* Kinetic text underline */
+.kinetic-underline {
+  position: relative;
+}
+.kinetic-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--accent, #2B3BE5);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.kinetic-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
