@@ -37,13 +37,21 @@ export default function Biografia() {
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 p-6 sm:p-12 mix-blend-difference">
+      <nav className="fixed top-0 w-full z-50 p-6 sm:p-12 mix-blend-difference flex justify-between items-center">
         <Link 
           href="/" 
           className="group flex items-center gap-4 text-white/50 hover:text-white transition-colors duration-500"
         >
           <div className="w-8 h-[1px] bg-white/30 group-hover:bg-[#2B3BE5] group-hover:w-16 transition-all duration-700" />
           <span className="font-sans text-[9px] tracking-[0.4em] uppercase">Retorno al Laboratorio</span>
+        </Link>
+
+        <Link 
+          href="/autodidact" 
+          className="group flex items-center gap-4 text-white/50 hover:text-white transition-colors duration-500"
+        >
+          <span className="font-sans text-[9px] tracking-[0.4em] uppercase">Experiencia Autodidacta</span>
+          <div className="w-8 h-[1px] bg-white/30 group-hover:bg-[#2B3BE5] group-hover:w-16 transition-all duration-700" />
         </Link>
       </nav>
 
