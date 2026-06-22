@@ -1,4 +1,4 @@
-// [SOTY Primitive #144]: Espejo del Alma layout
+// [SOTY Primitive #145]: Mirada del Tiempo polyester
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
