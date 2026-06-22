@@ -1,4 +1,4 @@
-// [SOTY Primitive #68]: Volumetric Star density
+// [SOTY Primitive #69]: WebGL Background Fog values
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

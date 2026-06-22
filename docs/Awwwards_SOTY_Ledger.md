@@ -70,3 +70,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #66**: Primitive [Preloader Morphing text] - Inyección de exergía en la topología C5-REAL.
 - **Commit #67**: Primitive [Audio Reactivity Custom CSS] - Inyección de exergía en la topología C5-REAL.
 - **Commit #68**: Primitive [Volumetric Star density] - Inyección de exergía en la topología C5-REAL.
+- **Commit #69**: Primitive [WebGL Background Fog values] - Inyección de exergía en la topología C5-REAL.
