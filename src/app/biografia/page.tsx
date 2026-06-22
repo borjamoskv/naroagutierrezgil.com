@@ -83,6 +83,7 @@ export default function Biografia() {
             </div>
           </div>
         </section>
+        </ScrollReveal>
 
         {/* ESTILO Y TÉCNICA - MATÉRICO (PIZARRA) */}
         <section className="mb-40 relative p-12 sm:p-20 overflow-hidden border-t border-b border-white/10 bg-black">
