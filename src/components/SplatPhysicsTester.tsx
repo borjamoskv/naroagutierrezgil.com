@@ -1,4 +1,4 @@
-// [SOTY Primitive #140]: Mica relief scale
+// [SOTY Primitive #141]: Lágrimas de Oro contrast
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
