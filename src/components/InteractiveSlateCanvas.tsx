@@ -23,13 +23,17 @@ interface CrackSegment {
   decay: number;
 }
 
+interface InteractiveSlateCanvasProps {
+  disabled?: boolean;
+}
+
 /**
  * InteractiveSlateCanvas component for immersive slate carving and kintsugi effects.
  * Fuses slate carving visual metaphors with glowing gold paths on drag/interaction.
  * 
  * Credits: Borja Moskv (borjamoskv) / MOSKV-1 APEX
  */
-export default function InteractiveSlateCanvas() {
+export default function InteractiveSlateCanvas({ disabled = false }: InteractiveSlateCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pointerRef = useRef({ x: 0, y: 0, px: 0, py: 0, isDown: false, active: false });
 

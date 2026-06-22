@@ -86,6 +86,112 @@ const cardFragmentShader = `
   }
 `;
 
+// Custom Front Face Shader for Slate & Mica Kintsugi (SOTAY-2026 Spec)
+// Credits: Borja Moskv (borjamoskv) / MOSKV-1 APEX
+const frontVertexShader = `
+  uniform float uTime;
+  uniform float uHover;
+  uniform vec2 uMouseUV;
+  
+  varying vec2 vUv;
+  varying vec3 vNormal;
+  varying vec3 vViewPosition;
+  
+  void main() {
+    vUv = uv;
+    vec3 pos = position;
+    
+    // Wave displacement simulating slate relief
+    float wave = sin(uv.x * 8.0 + uTime * 0.5) * cos(uv.y * 8.0 + uTime * 0.5) * 0.003;
+    
+    // Local displacement near the cursor
+    float dist = distance(uv, uMouseUV);
+    float force = smoothstep(0.25, 0.0, dist);
+    pos.z += wave + force * 0.012 * uHover;
+    
+    vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
+    vec4 viewPosition = viewMatrix * modelPosition;
+    gl_Position = projectionMatrix * viewPosition;
+    
+    vNormal = normalMatrix * normal;
+    vViewPosition = -viewPosition.xyz;
+  }
+`;
+
+const frontFragmentShader = `
+  uniform sampler2D uTexture;
+  uniform float uTime;
+  uniform vec2 uMouseUV;
+  uniform float uHover;
+  uniform float uOpacity;
+  
+  varying vec2 vUv;
+  varying vec3 vNormal;
+  varying vec3 vViewPosition;
+  
+  float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+  }
+  
+  void main() {
+    vec4 texColor = texture2D(uTexture, vUv);
+    
+    // Normal lighting calculations
+    vec3 normal = normalize(vNormal);
+    vec3 viewDir = normalize(vViewPosition);
+    
+    // Mouse light source position in local UV space
+    vec3 lightPos = vec3(uMouseUV.x - 0.5, uMouseUV.y - 0.5, 0.3);
+    vec3 surfacePos = vec3(vUv.x - 0.5, vUv.y - 0.5, 0.0);
+    vec3 lightDir = normalize(lightPos - surfacePos);
+    
+    // Diffuse component
+    float diff = max(dot(normal, lightDir), 0.0);
+    
+    // Specular component
+    vec3 halfDir = normalize(lightDir + viewDir);
+    float spec = pow(max(dot(normal, halfDir), 0.0), 32.0);
+    
+    // Mica mineral sparkles (procedural high frequency glittering)
+    float micaFrequency = 180.0;
+    float micaNoise = hash(floor(vUv * micaFrequency));
+    float micaSparkle = 0.0;
+    if (micaNoise > 0.95) {
+      float angleFactor = max(dot(normal, halfDir), 0.0);
+      float speed = 1.5 + micaNoise * 2.0;
+      float blink = 0.4 + 0.6 * sin(uTime * speed + micaNoise * 10.0);
+      micaSparkle = pow(angleFactor, 48.0) * blink * uHover * 2.2;
+    }
+    
+    // Kintsugi gold veins (procedural fractures)
+    float kintsugiNoise = sin(vUv.x * 24.0 + vUv.y * 36.0 + sin(vUv.x * 50.0) * 0.4);
+    float veinWidth = 0.012 + sin(uTime * 1.2 + vUv.x * 6.0) * 0.003;
+    float isVein = smoothstep(veinWidth, 0.0, abs(kintsugiNoise - 0.15));
+    
+    vec3 goldColor = vec3(0.96, 0.72, 0.2); // Gold accent
+    
+    // Hover glow effect near the vein
+    float distToMouse = distance(vUv, uMouseUV);
+    float glow = smoothstep(0.2, 0.0, distToMouse) * uHover;
+    
+    // Ambient light - Noir style
+    vec3 ambient = texColor.rgb * 0.45;
+    vec3 diffuseColor = texColor.rgb * diff * 0.65;
+    vec3 specularColor = vec3(1.0) * spec * 0.3 * uHover;
+    
+    vec3 finalColor = ambient + diffuseColor + specularColor;
+    
+    // Add mica mineral sparkles
+    finalColor += goldColor * micaSparkle;
+    
+    // Blend in gold veins
+    vec3 veinColor = goldColor * (1.2 + glow * 2.5) * (0.85 + 0.15 * sin(uTime * 5.0));
+    finalColor = mix(finalColor, veinColor, isVein * 0.9);
+    
+    gl_FragColor = vec4(finalColor, uOpacity);
+  }
+`;
+
 function KintsugiSplatCard({ url, index, count, _activeIndex, currentAngleRef, setActiveIndex }: {
   url: string;
   index: number;
@@ -97,10 +203,11 @@ function KintsugiSplatCard({ url, index, count, _activeIndex, currentAngleRef, s
   const meshRef = useRef<THREE.Mesh>(null);
   const pointsRef = useRef<THREE.Points>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
-  const solidMaterialRef = useRef<THREE.MeshStandardMaterial>(null);
+  const frontMaterialRef = useRef<THREE.ShaderMaterial>(null);
   
   const texture = useLoader(THREE.TextureLoader, url);
   const [hovered, setHovered] = useState(false);
+  const [mouseUV] = useState(() => new THREE.Vector2(0.5, 0.5));
 
   // Angular offset of this card in the circle
   const cardOffsetAngle = (index / count) * Math.PI * 2;
@@ -137,10 +244,23 @@ function KintsugiSplatCard({ url, index, count, _activeIndex, currentAngleRef, s
     uTime: { value: 0.0 }
   }), []);
 
+  const frontUniforms = useMemo(() => ({
+    uTexture: { value: null as THREE.Texture | null },
+    uTime: { value: 0.0 },
+    uMouseUV: { value: mouseUV },
+    uHover: { value: 0.0 },
+    uOpacity: { value: 1.0 }
+  }), [mouseUV]);
+
   useEffect(() => {
-    if (texture && materialRef.current) {
+    if (texture) {
       texture.minFilter = THREE.LinearFilter;
-      materialRef.current.uniforms.uTexture.value = texture;
+      if (materialRef.current) {
+        materialRef.current.uniforms.uTexture.value = texture;
+      }
+      if (frontMaterialRef.current) {
+        frontMaterialRef.current.uniforms.uTexture.value = texture;
+      }
     }
   }, [texture]);
 
@@ -186,13 +306,19 @@ function KintsugiSplatCard({ url, index, count, _activeIndex, currentAngleRef, s
     const progress = materialRef.current?.uniforms.uProgress.value ?? 0.0;
     const isSolid = progress <= 0.45;
     
-    if (solidMaterialRef.current) {
-      solidMaterialRef.current.opacity = THREE.MathUtils.lerp(
-        solidMaterialRef.current.opacity,
+    const targetHover = hovered ? 1.0 : 0.0;
+    if (frontMaterialRef.current) {
+      frontMaterialRef.current.uniforms.uHover.value = THREE.MathUtils.lerp(
+        frontMaterialRef.current.uniforms.uHover.value,
+        targetHover,
+        delta * 6
+      );
+      frontMaterialRef.current.uniforms.uTime.value = state.clock.getElapsedTime();
+      frontMaterialRef.current.uniforms.uOpacity.value = THREE.MathUtils.lerp(
+        frontMaterialRef.current.uniforms.uOpacity.value,
         isSolid ? 1.0 : 0.0,
         delta * 10
       );
-      solidMaterialRef.current.transparent = true;
     }
 
     if (meshRef.current) {
@@ -202,6 +328,13 @@ function KintsugiSplatCard({ url, index, count, _activeIndex, currentAngleRef, s
       pointsRef.current.visible = !isSolid;
     }
   });
+
+  const handlePointerMove = (e: any) => {
+    e.stopPropagation();
+    if (e.uv) {
+      mouseUV.copy(e.uv);
+    }
+  };
 
   return (
     <>
@@ -213,17 +346,19 @@ function KintsugiSplatCard({ url, index, count, _activeIndex, currentAngleRef, s
           setActiveIndex(index);
         }}
         onPointerOut={() => setHovered(false)}
+        onPointerMove={handlePointerMove}
         onClick={() => setActiveIndex(index)}
         castShadow
         receiveShadow
       >
         <boxGeometry args={[1.2, 1.6, 0.05]} />
-        <meshStandardMaterial
-          ref={solidMaterialRef}
+        <shaderMaterial
+          ref={frontMaterialRef}
           attach="material-4" // Front Face
-          map={texture}
-          roughness={0.15}
-          metalness={0.1}
+          vertexShader={frontVertexShader}
+          fragmentShader={frontFragmentShader}
+          uniforms={frontUniforms}
+          transparent={true}
         />
         {/* Dark rock slate material for sides/back */}
         <meshStandardMaterial attach="material-0" color="#111113" roughness={0.9} />
