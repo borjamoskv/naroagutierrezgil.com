@@ -1,4 +1,4 @@
-// [SOTY Primitive #69]: WebGL Background Fog values
+// [SOTY Primitive #70]: Custom Cursor Border scale
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
