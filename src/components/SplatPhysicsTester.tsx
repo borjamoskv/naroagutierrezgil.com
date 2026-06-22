@@ -1,4 +1,4 @@
-// [SOTY Primitive #3]: Mica Mineral Glitter
+// [SOTY Primitive #4]: Basque Lytic Branding
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
