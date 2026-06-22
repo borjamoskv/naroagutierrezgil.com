@@ -9,6 +9,18 @@ import { SplatAudioEngine } from '@/lib/audio/SplatAudioEngine';
 import { useAgent } from 'agents/react';
 import type { EntropicCanvasAgent, EntropicState } from '@/agents/EntropicCanvasAgent';
 
+interface SwarmAgent {
+  id: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  targetX: number;
+  targetY: number;
+  isDrawing: boolean;
+  color: string;
+}
+
 function makePerspectiveMatrix(fovRad: number, aspect: number, near: number, far: number): Float32Array {
   const f = 1.0 / Math.tan(fovRad / 2.0);
   const out = new Float32Array(16);
@@ -58,9 +70,14 @@ function SplatInteractiveCanvas() {
   const [goldFlash, setGoldFlash] = useState(false);
   const [fps, setFps] = useState(60);
 
-  // Kintsugi Agent Connection (Producción C5-REAL)
+  // Swarm Simulation (100 concurrent visitor agents)
+  const [swarmActive, setSwarmActive] = useState(false);
+  const [swarmAgents, setSwarmAgents] = useState<SwarmAgent[]>([]);
+  const swarmRef = useRef<SwarmAgent[]>([]);
+
+  // Kintsugi Agent Connection (Cloudflare Worker Durable Object)
   const agent = useKintsugiAgent();
-  const { entropy, repairs, scars, kintsugiActive } = agent;
+  const { entropy, repairs, scars, kintsugiActive, applyFriction, injectGold } = agent;
   
   const scarsRef = useRef(scars);
   useEffect(() => {
@@ -107,6 +124,36 @@ function SplatInteractiveCanvas() {
       return () => clearTimeout(timer);
     }
   }, [goldFlash]);
+
+  // Initialize swarm agents
+  const toggleSwarm = () => {
+    if (!swarmActive) {
+      const agents: SwarmAgent[] = [];
+      const colors = ["#2B3BE5", "#F59E0B", "#EAEAEA", "#E22BE5"];
+      for (let i = 0; i < 100; i++) {
+        agents.push({
+          id: i,
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          vx: (Math.random() - 0.5) * 4,
+          vy: (Math.random() - 0.5) * 4,
+          targetX: Math.random() * window.innerWidth,
+          targetY: Math.random() * window.innerHeight,
+          isDrawing: Math.random() > 0.4,
+          color: colors[Math.floor(Math.random() * colors.length)]
+        });
+      }
+      swarmRef.current = agents;
+      setSwarmAgents(agents);
+      setSwarmActive(true);
+      setStatus("SWARM ACTIVE: 100 virtual agents painting slate collaboratively.");
+    } else {
+      swarmRef.current = [];
+      setSwarmAgents([]);
+      setSwarmActive(false);
+      setStatus("SWARM DEACTIVATED: Returning to single user manual sync.");
+    }
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -192,6 +239,42 @@ function SplatInteractiveCanvas() {
             lastFpsUpdateTime = now;
           }
 
+          // Update swarm agents paths
+          if (swarmRef.current.length > 0) {
+            const updated = swarmRef.current.map((sa) => {
+              const dx = sa.targetX - sa.x;
+              const dy = sa.targetY - sa.y;
+              const dist = Math.hypot(dx, dy);
+
+              if (dist < 20) {
+                // Pick new random target
+                sa.targetX = Math.random() * window.innerWidth;
+                sa.targetY = Math.random() * window.innerHeight;
+                sa.isDrawing = Math.random() > 0.3;
+              }
+
+              // Speed vector pointing towards target
+              sa.vx = THREE.MathUtils.lerp(sa.vx, (dx / (dist || 1)) * 3.5, 0.05);
+              sa.vy = THREE.MathUtils.lerp(sa.vy, (dy / (dist || 1)) * 3.5, 0.05);
+              sa.x += sa.vx;
+              sa.y += sa.vy;
+
+              // Periodic friction/gold trigger on the Durable Object
+              if (sa.isDrawing && Math.random() > 0.99) {
+                if (kintsugiActive) {
+                  // Cooperatively inject gold
+                  injectGold(0.4, sa.x, sa.y).catch(() => {});
+                } else {
+                  // Apply friction
+                  applyFriction(sa.x, sa.y, 2.2).catch(() => {});
+                }
+              }
+
+              return sa;
+            });
+            setSwarmAgents([...updated]);
+          }
+
           if (engineRef.current && context) {
             const aspect = canvas.width / canvas.height;
             const mappedX = mousePosRef.current.x * 1.5 * aspect;
@@ -260,7 +343,7 @@ function SplatInteractiveCanvas() {
       isMounted = false;
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [kintsugiActive]);
 
   const handlePointerDown = async (e: React.PointerEvent) => {
     isDownRef.current = true;
@@ -328,12 +411,52 @@ function SplatInteractiveCanvas() {
         onPointerMove={handlePointerMove}
       />
 
-      {/* Thermodynamic State UI */}
-      <div className="absolute top-4 right-4 z-10 border border-[#2B3BE5]/30 p-4 bg-black/50 backdrop-blur-md pointer-events-none">
-        <p className="text-[#2B3BE5] font-bold mb-2 text-[10px] tracking-widest uppercase">Thermodynamic State (KV)</p>
-        <p className="text-white/70 text-[10px] font-mono">Entropía: <span className={kintsugiActive ? 'text-rose-500 font-bold animate-pulse' : 'text-emerald-400'}>{entropy.toFixed(2)}%</span></p>
-        <p className="text-white/70 text-[10px] font-mono">Cicatrices: {repairs}</p>
-        <p className="text-white/70 text-[10px] font-mono">Status: {kintsugiActive ? 'FRACTURADO' : 'ESTABLE'}</p>
+      {/* Swarm Cursors Overlay */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none z-30 mix-blend-screen">
+        {swarmActive && swarmAgents.map((agent) => (
+          <g key={agent.id}>
+            <circle
+              cx={agent.x}
+              cy={agent.y}
+              r={4}
+              fill={agent.color}
+              className="opacity-80 transition-all duration-100 ease-out"
+            />
+            {agent.isDrawing && (
+              <circle
+                cx={agent.x}
+                cy={agent.y}
+                r={12}
+                fill="none"
+                stroke={agent.color}
+                strokeWidth={1}
+                className="opacity-30 animate-ping"
+              />
+            )}
+          </g>
+        ))}
+      </svg>
+
+      {/* Control panel HUD (Top Right) */}
+      <div className="absolute top-4 right-4 z-10 border border-[#2B3BE5]/30 p-4 bg-black/60 backdrop-blur-md pointer-events-auto flex flex-col gap-3">
+        <div>
+          <p className="text-[#2B3BE5] font-bold text-[10px] tracking-widest uppercase">Thermodynamic State (KV)</p>
+          <p className="text-white/70 text-[10px] font-mono mt-1">Entropía: <span className={kintsugiActive ? 'text-rose-500 font-bold animate-pulse' : 'text-emerald-400'}>{entropy.toFixed(2)}%</span></p>
+          <p className="text-white/70 text-[10px] font-mono">Reparaciones: {repairs}</p>
+          <p className="text-white/70 text-[10px] font-mono">Status: {kintsugiActive ? 'FRACTURADO' : 'ESTABLE'}</p>
+          <p className="text-white/70 text-[10px] font-mono">Conexiones: {swarmActive ? "101 (SWARM)" : "1"}</p>
+        </div>
+
+        <button
+          onClick={toggleSwarm}
+          className={`px-4 py-2 border font-mono text-[9px] tracking-widest uppercase transition-all duration-300 cursor-pointer ${
+            swarmActive
+              ? "border-primary bg-primary/20 text-white shadow-[0_0_15px_rgba(43,59,229,0.3)]"
+              : "border-white/10 text-white/50 hover:border-white/30"
+          }`}
+        >
+          {swarmActive ? "Detener 100 Agentes" : "Simular 100 Agentes"}
+        </button>
       </div>
 
       {/* Kintsugi Overlay - Cicatrices de Estado Persistente */}
@@ -350,7 +473,7 @@ function SplatInteractiveCanvas() {
           />
         ))}
       </svg>
-
+ 
       {/* Stark Visual Fracture Overlay when active */}
       {kintsugiActive && (
         <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center z-[25] pointer-events-none">
