@@ -1,4 +1,4 @@
-// [SOTY Primitive #101]: Granular Synthesis decay
+// [SOTY Primitive #102]: Audio Reactivity scale pulse
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
