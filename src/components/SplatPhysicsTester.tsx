@@ -1,4 +1,4 @@
-// [SOTY Primitive #34]: LCP WebP Conversion
+// [SOTY Primitive #35]: Anergy Token Purge
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
