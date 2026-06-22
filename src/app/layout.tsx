@@ -67,7 +67,8 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@100..800&family=Outfit:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Space+Grotesk:wght@300..700&family=Syne:wght@400..800&family=Unbounded:wght@200..900&display=swap" rel="stylesheet" />
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&display=swap" as="style" />
+        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -80,7 +81,7 @@ export default function RootLayout({
               prerender: [
                 {
                   source: "list",
-                  urls: ["/", "/autodidact", "/biografia", "/contacto", "/test-physics", "/splat-benchmark"],
+                  urls: ["/", "/autodidact", "/biografia", "/contacto"],
                   eagerness: "moderate"
                 }
               ]
@@ -89,6 +90,7 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-[#0A0A0A] text-[#EAEAEA] antialiased">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[99999] focus:bg-[#2B3BE5] focus:text-white focus:px-4 focus:py-2 focus:text-sm focus:rounded-sm">Saltar al contenido</a>
         <Preloader />
         <CustomCursor />
         {children}
