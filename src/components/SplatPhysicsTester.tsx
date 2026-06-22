@@ -1,4 +1,4 @@
-// [SOTY Primitive #65]: Preloader Curtain reveal
+// [SOTY Primitive #66]: Preloader Morphing text
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
