@@ -1,4 +1,4 @@
-// [SOTY Primitive #88]: Dynamic Primary color set
+// [SOTY Primitive #89]: Basque Artivism branding
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
