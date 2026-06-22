@@ -1,4 +1,4 @@
-// [SOTY Primitive #79]: Splat Physics testers
+// [SOTY Primitive #80]: Luxury Viewer Hotspots
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

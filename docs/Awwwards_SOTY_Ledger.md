@@ -81,3 +81,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #77**: Primitive [Durable Object persist checks] - Inyección de exergía en la topología C5-REAL.
 - **Commit #78**: Primitive [KV Observability ledgers] - Inyección de exergía en la topología C5-REAL.
 - **Commit #79**: Primitive [Splat Physics testers] - Inyección de exergía en la topología C5-REAL.
+- **Commit #80**: Primitive [Luxury Viewer Hotspots] - Inyección de exergía en la topología C5-REAL.
