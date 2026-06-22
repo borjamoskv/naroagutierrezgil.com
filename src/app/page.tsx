@@ -294,22 +294,8 @@ export default function Home() {
           style={{ transform: 'translateY(0%)' }}
           className="sticky top-0 w-full h-[100svh] flex flex-col justify-center items-center overflow-hidden z-50 bg-[#050505] will-change-transform"
         >
-          <div className="absolute inset-0 w-full h-full overflow-hidden" style={{ perspective: '1000px' }}>
-            <Image 
-              ref={heroImageRef}
-              src={resolveSrc('hq-portrait-1-bV-_WHlX.webp')} 
-              alt="Naroa Gutiérrez Gil - Impacto Monumental" 
-              fill 
-              sizes="100vw"
-              quality={100}
-              priority
-              className="object-cover object-center will-change-transform brightness-[0.7] contrast-[1.1]"
-              style={{
-                transform: 'scale(1.04) rotateX(0deg) rotateY(0deg)',
-                transition: 'filter 4s ease-out, brightness 4s ease-out'
-              }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/85" />
+          <div className="absolute inset-0 w-full h-full overflow-hidden">
+            <HeroInteractiveCanvas url={resolveSrc('naroa-portrait-new.jpg')} />
           </div>
 
           {/* Monumental Hero Typography Overlay */}
@@ -465,11 +451,11 @@ export default function Home() {
                 {/* Artwork display linked to active tab */}
                 <Image
                   src={resolveSrc(
-                    activeAlcove === 'pop' ? 'hq-james-CjsTrO7r.webp' :
+                    activeAlcove === 'pop' ? 'james-new.jpg' :
                     activeAlcove === 'pizarra' ? '601340023_1552126202933462_7815927344957967258_n.jpg' :
                     activeAlcove === 'poliester' ? '612329591_1571120784367337_8798688892093004057_n.jpg' :
                     activeAlcove === 'kintsugi' ? 'lagrimas-de-oro-DikHc-Tk.webp' :
-                    activeAlcove === 'mica' ? 'el-gran-dakari-C1tAWAhR.webp' : 'hq-portrait-1-bV-_WHlX.webp'
+                    activeAlcove === 'mica' ? 'el-gran-dakari-C1tAWAhR.webp' : 'naroa-portrait-new.jpg'
                   )}
                   alt="Muestra de la técnica de Naroa"
                   fill

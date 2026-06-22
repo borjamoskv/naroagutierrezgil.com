@@ -33,7 +33,7 @@ export default function NotFound() {
       </div>
 
       {/* Glitch Overlay */}
-      <div className="absolute inset-0 pointer-events-none mix-blend-difference opacity-10 z-50 bg-[url('/assets/hq-portrait-1-bV-_WHlX.webp')] bg-cover grayscale" style={{ filter: 'contrast(300%)' }} />
+      <div className="absolute inset-0 pointer-events-none mix-blend-difference opacity-10 z-50 bg-[url('/assets/naroa-portrait-new.jpg')] bg-cover grayscale" style={{ filter: 'contrast(300%)' }} />
     </div>
   );
 }
