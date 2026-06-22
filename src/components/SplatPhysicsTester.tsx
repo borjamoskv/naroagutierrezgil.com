@@ -1,4 +1,4 @@
-// [SOTY Primitive #110]: basque translation keys
+// [SOTY Primitive #111]: Anergy dead code sweeps
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
