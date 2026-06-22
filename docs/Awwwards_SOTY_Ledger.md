@@ -40,3 +40,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #36**: Primitive [Reduced-Motion Fallbacks] - Inyección de exergía en la topología C5-REAL.
 - **Commit #37**: Primitive [Accessibility Skip Link] - Inyección de exergía en la topología C5-REAL.
 - **Commit #38**: Primitive [Metadata Router Injection] - Inyección de exergía en la topología C5-REAL.
+- **Commit #39**: Primitive [Edge Caching Control] - Inyección de exergía en la topología C5-REAL.

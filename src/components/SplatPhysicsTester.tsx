@@ -1,4 +1,4 @@
-// [SOTY Primitive #38]: Metadata Router Injection
+// [SOTY Primitive #39]: Edge Caching Control
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
