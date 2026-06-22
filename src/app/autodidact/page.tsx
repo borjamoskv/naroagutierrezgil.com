@@ -113,13 +113,6 @@ export default function AutodidactPage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // Check prefers-reduced-motion media query on mount
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setReducedMotion(true);
-    }
-  }, []);
-
   // Chapter details for Naroa's journey
   const chapters = [
     {
@@ -194,16 +187,16 @@ export default function AutodidactPage() {
             SYS_ID: NAROA_AUTODIDACT_KERN
           </span>
           <span className="font-mono text-[8px] tracking-[0.2em] text-white/30 uppercase">
-            REALITY LEVEL: C5-REAL // CREATOR: borjamoskv
+            REALITY LEVEL: C5-REAL | CREATOR: borjamoskv
           </span>
         </div>
 
         <div className="flex flex-col items-end gap-1 text-right">
           <span className="font-mono text-[9px] tracking-[0.3em] text-white/50 uppercase">
-            COORDS: X: {mousePos.x} // Y: {mousePos.y}
+            COORDS: X: {mousePos.x} | Y: {mousePos.y}
           </span>
           <span className="font-mono text-[9px] tracking-[0.3em] text-primary uppercase">
-            ENTROPY: {entropyRate}% // FRACTURES: ACTIVE
+            ENTROPY: {entropyRate}% | FRACTURES: ACTIVE
           </span>
         </div>
       </div>
@@ -289,12 +282,12 @@ export default function AutodidactPage() {
         <section className="mb-44 max-w-4xl mx-auto text-center flex flex-col items-center">
           <div className="w-[1px] h-16 bg-gradient-to-b from-primary/60 to-transparent mb-12" />
           <h2 className="text-2xl sm:text-4xl font-serif italic text-white leading-relaxed">
-            "El soporte no es un recipiente pasivo. Es un adversario físico. Mi pintura emerge de la fricción con la piedra y el relieve mineral."
+            &ldquo;El soporte no es un recipiente pasivo. Es un adversario físico. Mi pintura emerge de la fricción con la piedra y el relieve mineral.&rdquo;
           </h2>
           <div className="w-[1px] h-16 bg-gradient-to-b from-transparent via-primary/60 to-transparent mt-12" />
         </section>
 
-        {/* 3D PARALLAX CARDS GRID (Dennis Snellenberg + Immersive Garden layout) */}
+        {/* 3D PARALLAX CAR GRID (Dennis Snellenberg + Immersive Garden layout) */}
         <section className="mb-56 grid grid-cols-1 md:grid-cols-2 gap-12 sm:gap-16">
           {chapters.map((chapter, index) => (
             <ScrollReveal delay={index * 0.15} key={index}>
@@ -325,10 +318,10 @@ export default function AutodidactPage() {
               Pedagogía del Caos & Kintsugi Pedagógico
             </h3>
             <p className="text-white/60 font-light text-lg leading-relaxed">
-              En sus talleres libres (<em className="text-white font-normal">"El ReCreo"</em>, <em className="text-white font-normal">"Yo Pinto Mucho"</em>), Naroa enseña sin modelos preestablecidos. El error se abraza de forma terapéutica y reparadora: las imperfecciones en el trazo o la mezcla fallida no se desechan, sino que se destacan, se raspan y se sellan con mica mineral y brillo, convirtiendo la cicatriz del lienzo en el centro luminoso de la obra.
+              En sus talleres libres (<em className="text-white font-normal">&ldquo;El ReCreo&rdquo;</em>, <em className="text-white font-normal">&ldquo;Yo Pinto Mucho&rdquo;</em>), Naroa enseña sin modelos preestablecidos. El error se abraza de forma terapéutica y reparadora: las imperfecciones en el trazo o la mezcla fallida no se desechan, sino que se destacan, se raspan y se sellan con mica mineral y brillo, convirtiendo la cicatriz del lienzo en el centro luminoso de la obra.
             </p>
             <p className="text-white/40 text-sm leading-relaxed border-l-2 border-primary pl-6">
-              "No buscamos copiar un modelo ideal; buscamos liberar la expresión reprimida. La pizarra rota es el soporte de una resiliencia tangible."
+              &ldquo;No buscamos copiar un modelo ideal; buscamos liberar la expresión reprimida. La pizarra rota es el soporte de una resiliencia tangible.&rdquo;
             </p>
           </div>
         </section>
