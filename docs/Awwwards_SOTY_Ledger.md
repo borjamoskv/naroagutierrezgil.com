@@ -144,3 +144,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #140**: Primitive [Mica relief scale] - Inyección de exergía en la topología C5-REAL.
 - **Commit #141**: Primitive [Lágrimas de Oro contrast] - Inyección de exergía en la topología C5-REAL.
 - **Commit #142**: Primitive [Geisha mineral dust glow] - Inyección de exergía en la topología C5-REAL.
+- **Commit #143**: Primitive [El Gran Dakari relief] - Inyección de exergía en la topología C5-REAL.

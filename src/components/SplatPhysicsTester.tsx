@@ -1,4 +1,4 @@
-// [SOTY Primitive #142]: Geisha mineral dust glow
+// [SOTY Primitive #143]: El Gran Dakari relief
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
