@@ -1,4 +1,4 @@
-// [SOTY Primitive #17]: Mica Glitter Blend
+// [SOTY Primitive #18]: Facciones del Silencio Shader
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
