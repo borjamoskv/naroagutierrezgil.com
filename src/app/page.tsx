@@ -4,6 +4,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import Lenis from 'lenis';
 import dynamic from 'next/dynamic';
 import DepthHUD from '@/components/DepthHUD';
@@ -319,7 +320,21 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Dimension Controller */}
+          {/* Navigation Links & Dimension Controller */}
+          <Link
+            href="/biografia"
+            className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2.5 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
+          >
+            Biografía
+          </Link>
+
+          <Link
+            href="/autodidact"
+            className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2.5 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
+          >
+            Autodidacta
+          </Link>
+
           <button 
             onClick={() => setAppMode(prev => prev === 'ORDEN' ? 'CAOS' : 'ORDEN')}
             className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2.5 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
