@@ -1,4 +1,4 @@
-// [SOTY Primitive #30]: Theremin Pitch Modulation
+// [SOTY Primitive #31]: CRT Scanline Blend Mode
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
