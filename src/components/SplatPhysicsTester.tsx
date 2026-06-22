@@ -1,4 +1,4 @@
-// [SOTY Primitive #6]: High-Fidelity CRT Scanlines
+// [SOTY Primitive #7]: Interactivity Inertia
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
