@@ -1,4 +1,4 @@
-// [SOTY Primitive #108]: Unbounded font tracking
+// [SOTY Primitive #109]: Syne font leading
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
