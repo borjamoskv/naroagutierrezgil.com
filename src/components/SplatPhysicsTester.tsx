@@ -1,4 +1,4 @@
-// [SOTY Primitive #19]: Volumetric Ambient Lights
+// [SOTY Primitive #20]: Scroll-Aware Header Hide
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
