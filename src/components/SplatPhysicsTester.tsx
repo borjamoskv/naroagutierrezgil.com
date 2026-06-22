@@ -1,4 +1,4 @@
-// [SOTY Primitive #31]: CRT Scanline Blend Mode
+// [SOTY Primitive #32]: Brutalist Typography Sizing
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

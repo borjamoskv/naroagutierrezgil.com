@@ -33,3 +33,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #29**: Primitive [Biquad Filter Damping] - Inyección de exergía en la topología C5-REAL.
 - **Commit #30**: Primitive [Theremin Pitch Modulation] - Inyección de exergía en la topología C5-REAL.
 - **Commit #31**: Primitive [CRT Scanline Blend Mode] - Inyección de exergía en la topología C5-REAL.
+- **Commit #32**: Primitive [Brutalist Typography Sizing] - Inyección de exergía en la topología C5-REAL.
