@@ -1,4 +1,4 @@
-// [SOTY Primitive #129]: ScrollMarquee velocity tracking
+// [SOTY Primitive #130]: ScrollMarquee seamless loop
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
