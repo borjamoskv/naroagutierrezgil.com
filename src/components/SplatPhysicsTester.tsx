@@ -1,4 +1,4 @@
-// [SOTY Primitive #97]: Basalt Texture Normal maps
+// [SOTY Primitive #98]: Mica Shader Sparkle size
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
