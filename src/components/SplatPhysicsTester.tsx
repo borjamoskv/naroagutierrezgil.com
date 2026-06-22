@@ -1,4 +1,4 @@
-// [SOTY Primitive #45]: Macro Splat Performance
+// [SOTY Primitive #46]: Kintsugi Draw Vector Limits
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
