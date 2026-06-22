@@ -86,3 +86,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #82**: Primitive [Floating point light orbits] - Inyección de exergía en la topología C5-REAL.
 - **Commit #83**: Primitive [ThreeD Carousel navigation HUD] - Inyección de exergía en la topología C5-REAL.
 - **Commit #84**: Primitive [ThreeD Carousel selected overlay] - Inyección de exergía en la topología C5-REAL.
+- **Commit #85**: Primitive [Takeover Modal timer] - Inyección de exergía en la topología C5-REAL.

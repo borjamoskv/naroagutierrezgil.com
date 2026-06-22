@@ -1,4 +1,4 @@
-// [SOTY Primitive #84]: ThreeD Carousel selected overlay
+// [SOTY Primitive #85]: Takeover Modal timer
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
