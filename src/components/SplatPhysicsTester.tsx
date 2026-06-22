@@ -1,4 +1,4 @@
-// [SOTY Primitive #28]: ASMR Brush Sound Synthesizer
+// [SOTY Primitive #29]: Biquad Filter Damping
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

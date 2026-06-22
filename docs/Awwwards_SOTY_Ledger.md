@@ -30,3 +30,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #26**: Primitive [Mica Ceramic reliefs] - Inyección de exergía en la topología C5-REAL.
 - **Commit #27**: Primitive [Eye-Tracking Parallax Response] - Inyección de exergía en la topología C5-REAL.
 - **Commit #28**: Primitive [ASMR Brush Sound Synthesizer] - Inyección de exergía en la topología C5-REAL.
+- **Commit #29**: Primitive [Biquad Filter Damping] - Inyección de exergía en la topología C5-REAL.
