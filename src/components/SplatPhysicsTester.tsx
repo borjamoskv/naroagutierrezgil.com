@@ -1,4 +1,4 @@
-// [SOTY Primitive #64]: Preloader Counter progress
+// [SOTY Primitive #65]: Preloader Curtain reveal
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

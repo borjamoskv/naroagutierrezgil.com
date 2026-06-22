@@ -66,3 +66,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #62**: Primitive [CRT Scanline opacity] - Inyección de exergía en la topología C5-REAL.
 - **Commit #63**: Primitive [Magnetic Button range] - Inyección de exergía en la topología C5-REAL.
 - **Commit #64**: Primitive [Preloader Counter progress] - Inyección de exergía en la topología C5-REAL.
+- **Commit #65**: Primitive [Preloader Curtain reveal] - Inyección de exergía en la topología C5-REAL.
