@@ -1,4 +1,4 @@
-// [SOTY Primitive #121]: SOTAFX SVG URL cleanup
+// [SOTY Primitive #122]: Widescreen Alcove Layout
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
