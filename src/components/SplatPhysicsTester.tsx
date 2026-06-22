@@ -1,4 +1,4 @@
-// [SOTY Primitive #145]: Mirada del Tiempo polyester
+// [SOTY Primitive #146]: Dama de la Pizarra slate
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
