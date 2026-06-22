@@ -1,4 +1,4 @@
-// [SOTY Primitive #52]: Volumetric Portrait Opacity Fade
+// [SOTY Primitive #53]: Lenis Animation FPS Lock
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
