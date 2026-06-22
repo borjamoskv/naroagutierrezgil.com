@@ -1,110 +1,115 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
+
+const WORDS = ["PIZARRA", "KINTSUGI", "MICA", "ARTIVISMO", "NAROA"];
 
 export default function Preloader() {
   const [progress, setProgress] = useState(0);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [logs, setLogs] = useState<string[]>([]);
+  const [visible, setVisible] = useState(true);
+  const [wordIndex, setWordIndex] = useState(0);
+  const [exiting, setExiting] = useState(false);
+
+  const dismiss = useCallback(() => {
+    if (exiting) return;
+    setExiting(true);
+    document.body.style.overflow = '';
+    setTimeout(() => setVisible(false), 1200);
+  }, [exiting]);
 
   useEffect(() => {
-    document.body.style.overflow = "hidden";
-    window.scrollTo(0, 0);
+    document.body.style.overflow = 'hidden';
 
-    const bootLogs = [
-      "INIT CORE KERNEL...",
-      "BYPASSING SECURITY SANDBOX...",
-      "INJECTING EXERGIA [1300_LEVEL]...",
-      "SYNCHRONIZING VISUAL NODES...",
-      "CRONOS OVERRIDE ACTIVE."
-    ];
+    // Progress counter with easing
+    let frame: number;
+    let start: number | null = null;
+    const duration = 2800;
 
-    let current = 0;
-    let logIndex = 0;
-    const interval = setInterval(() => {
-      current += Math.floor(Math.random() * 15) + 1;
-      
-      if (current % 20 < 10 && logIndex < bootLogs.length) {
-        setLogs(prev => [...prev, bootLogs[logIndex++]]);
+    const animate = (timestamp: number) => {
+      if (!start) start = timestamp;
+      const elapsed = timestamp - start;
+      const raw = Math.min(elapsed / duration, 1);
+      // Cubic ease-out
+      const eased = 1 - Math.pow(1 - raw, 3);
+      setProgress(Math.round(eased * 100));
+
+      if (raw < 1) {
+        frame = requestAnimationFrame(animate);
+      } else {
+        dismiss();
       }
+    };
 
-      if (current >= 100) {
-        current = 100;
-        clearInterval(interval);
-        setTimeout(() => {
-          window.scrollTo(0, 0);
-          setIsLoaded(true);
-          document.body.style.overflow = "";
-        }, 1200);
-      }
-      setProgress(current);
-    }, 100);
+    frame = requestAnimationFrame(animate);
+
+    // Cycle words
+    const wordTimer = setInterval(() => {
+      setWordIndex(prev => (prev + 1) % WORDS.length);
+    }, 560);
 
     return () => {
-      clearInterval(interval);
-      document.body.style.overflow = "";
+      cancelAnimationFrame(frame);
+      clearInterval(wordTimer);
+      document.body.style.overflow = '';
     };
-  }, []);
+  }, [dismiss]);
+
+  if (!visible) return null;
 
   return (
     <div
-      className={`fixed inset-0 z-[99999] flex flex-col justify-between bg-[#030303] transition-transform duration-[1s] ease-[cubic-bezier(0.87,0,0.13,1)] ${
-        isLoaded ? "-translate-y-full" : "translate-y-0"
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#030303] transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        exiting ? 'opacity-0 scale-[1.02]' : 'opacity-100 scale-100'
       }`}
+      style={{ willChange: 'opacity, transform' }}
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(43,59,229,0.1)_0%,transparent_70%)] pointer-events-none mix-blend-screen" />
-      
-      {/* Glitch CRT Overlay */}
-      <div 
-        className="absolute inset-0 opacity-40 pointer-events-none mix-blend-overlay"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`
-        }}
-      />
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.5)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_4px,3px_100%] pointer-events-none z-50 mix-blend-overlay opacity-80" />
+      {/* Radial glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_50%,rgba(43,59,229,0.08)_0%,transparent_60%)] pointer-events-none" />
 
-      {/* Top Bar */}
-      <div className="p-6 md:p-12 w-full flex justify-between items-start z-10 relative mix-blend-difference">
-        <span className="font-mono text-[10px] uppercase tracking-widest text-[#2B3BE5] flex flex-col gap-1">
-          <span>OS: MOSKV-L5</span>
-          <span>SYSTEM: NAROAGUTIERREZGIL.COM</span>
+      {/* Top-left system tag */}
+      <div className="absolute top-8 left-8 flex flex-col gap-1">
+        <span className="font-mono text-[8px] tracking-[0.5em] text-white/20 uppercase">
+          SYS_BOOT: NAROA_KERN
         </span>
-        <span className="w-2 h-2 bg-red-600 rounded-full animate-ping" />
+        <span className="font-mono text-[8px] tracking-[0.3em] text-[#2B3BE5]/40 uppercase">
+          C5-REAL // borjamoskv
+        </span>
       </div>
 
-      {/* Center Block */}
-      <div className="flex flex-col items-center gap-6 mix-blend-difference z-10 relative">
-        <h1 className="font-serif font-black text-6xl md:text-9xl text-white tracking-tighter uppercase drop-shadow-[0_0_30px_rgba(43,59,229,0.5)] chromatic-text">
-          Naroa
-        </h1>
-        <div className="flex items-center gap-4">
-          <span className="font-mono text-sm tracking-[0.4em] text-white">
-            BOOT_SEQ
-          </span>
-          <span className="font-mono text-xl font-bold text-[#2B3BE5]">
-            {progress.toString().padStart(3, "0")}%
-          </span>
-        </div>
+      {/* Morphing word */}
+      <div className="relative h-24 flex items-center justify-center overflow-hidden mb-8">
+        <span
+          key={wordIndex}
+          className="font-serif text-5xl sm:text-7xl tracking-[0.15em] text-white/10 uppercase animate-[slideUp_0.5s_cubic-bezier(0.16,1,0.3,1)_both] select-none"
+        >
+          {WORDS[wordIndex]}
+        </span>
       </div>
 
-      {/* Bottom Terminal Block */}
-      <div className="p-6 md:p-12 w-full z-10 relative mix-blend-difference flex flex-col justify-end h-[30vh]">
-        <div className="flex flex-col gap-1 mb-8 opacity-50 font-mono text-[9px] uppercase tracking-widest text-[#2B3BE5]">
-          {logs.map((log, i) => (
-            <div key={i} className="animate-[fadeIn_0.2s_ease-out]">&gt; {log}</div>
-          ))}
-          {progress < 100 && <div className="animate-pulse">&gt; _</div>}
-        </div>
-        
-        {/* Massive Progress Bar */}
-        <div className="w-full h-[2px] bg-white/5 relative overflow-hidden">
-          <div 
-            className="absolute top-0 left-0 h-full bg-[#2B3BE5] transition-all duration-100 ease-out shadow-[0_0_20px_rgba(43,59,229,1)]"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
+      {/* Counter */}
+      <div className="flex items-baseline gap-4 mb-16">
+        <span className="font-mono text-6xl sm:text-8xl font-extralight text-white/90 tabular-nums tracking-tight">
+          {String(progress).padStart(3, '0')}
+        </span>
+        <span className="font-mono text-sm text-white/30 tracking-widest">%</span>
       </div>
 
+      {/* Progress bar */}
+      <div className="w-48 h-[1px] bg-white/10 relative overflow-hidden">
+        <div
+          className="absolute top-0 left-0 h-full bg-[#2B3BE5] transition-all duration-100 ease-linear"
+          style={{ width: `${progress}%` }}
+        />
+        <div
+          className="absolute top-0 left-0 h-full bg-[#2B3BE5] blur-[8px] opacity-60"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+
+      {/* Bottom label */}
+      <span className="absolute bottom-8 font-sans text-[8px] tracking-[0.6em] text-white/15 uppercase">
+        Cargando Yacimiento Digital
+      </span>
     </div>
   );
 }
