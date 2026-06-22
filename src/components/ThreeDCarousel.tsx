@@ -272,6 +272,17 @@ function FloatingLights() {
   );
 }
 
+function CarouselAngleInterpolator({ targetAngle, currentAngleRef }: { targetAngle: number; currentAngleRef: React.MutableRefObject<number> }) {
+  useFrame((_state, delta) => {
+    currentAngleRef.current = THREE.MathUtils.lerp(
+      currentAngleRef.current,
+      targetAngle,
+      delta * 4 // Smooth orbit speed
+    );
+  });
+  return null;
+}
+
 export default function ThreeDCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   
@@ -283,15 +294,6 @@ export default function ThreeDCarousel() {
   useEffect(() => {
     targetAngleRef.current = -activeIndex * (Math.PI * 2 / carouselArtworks.length);
   }, [activeIndex]);
-
-  // Interpolate carousel rotation globally
-  useFrame((_state, delta) => {
-    currentAngleRef.current = THREE.MathUtils.lerp(
-      currentAngleRef.current,
-      targetAngleRef.current,
-      delta * 4 // Smooth orbit speed
-    );
-  });
 
   const nextCard = () => {
     setActiveIndex((prev) => (prev + 1) % carouselArtworks.length);
@@ -327,6 +329,7 @@ export default function ThreeDCarousel() {
           className="z-10"
         >
           <FloatingLights />
+          <CarouselAngleInterpolator targetAngle={targetAngleRef.current} currentAngleRef={currentAngleRef} />
           {carouselArtworks.map((art, idx) => (
             <KintsugiSplatCard
               key={art.src}

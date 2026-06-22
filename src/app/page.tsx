@@ -289,6 +289,46 @@ export default function Home() {
       {appMode === "CAOS" && webGLReady && <SOTAFX />}
       {appMode === "CAOS" && webGLReady && <Mica />}
 
+      {/* Start Stark Top Navigation Header */}
+      <header className="fixed top-0 left-0 w-full px-6 sm:px-12 py-8 flex justify-between items-center z-[210] mix-blend-difference pointer-events-auto select-none text-white animate-[fadeIn_1.5s_ease-out_both]">
+        <div className="flex flex-col">
+          <span className="font-sans text-[10px] tracking-[0.5em] uppercase font-bold text-[var(--primary)]">
+            Naroa Gutiérrez Gil
+          </span>
+          <span className="font-sans text-[8px] tracking-[0.3em] uppercase opacity-40 mt-1">
+            Hiperrealismo // C5-REAL
+          </span>
+        </div>
+
+        <div className="flex items-center gap-6">
+          {/* Color Palette Switcher */}
+          <div className="hidden sm:flex items-center gap-2 bg-black/45 backdrop-blur-md border border-white/5 p-2 rounded-full">
+            {[
+              { hex: '#2B3BE5', label: 'Cobalto' },
+              { hex: '#F59E0B', label: 'Oro' },
+              { hex: '#E52B3B', label: 'Crimson' },
+              { hex: '#10B981', label: 'Esmeralda' }
+            ].map((colorObj) => (
+              <button
+                key={colorObj.hex}
+                onClick={() => updatePrimaryColor(colorObj.hex)}
+                style={{ backgroundColor: colorObj.hex }}
+                title={colorObj.label}
+                className="w-4 h-4 rounded-full border border-white/20 hover:scale-125 transition-transform cursor-pointer"
+              />
+            ))}
+          </div>
+
+          {/* Dimension Controller */}
+          <button 
+            onClick={() => setAppMode(prev => prev === 'ORDEN' ? 'CAOS' : 'ORDEN')}
+            className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2.5 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
+          >
+            DIMENSIÓN: {appMode}
+          </button>
+        </div>
+      </header>
+
       {/* Sticky Scroll Wrapper for Monolithic Hero */}
       <div className="relative w-full h-[180vh] bg-[#050505]">
         <section 
@@ -319,6 +359,16 @@ export default function Home() {
             />
           </div>
 
+          {/* Monumental Hero Typography Overlay */}
+          <div className="absolute inset-0 flex flex-col justify-center items-center z-20 text-center pointer-events-none px-4">
+            <h1 className="font-serif font-black text-6xl sm:text-[10rem] tracking-tighter text-white uppercase mix-blend-difference select-none leading-none animate-[fadeIn_2.0s_ease-out_both] delay-500">
+              N A R O A
+            </h1>
+            <p className="font-sans text-[9px] tracking-[0.5em] text-white/50 uppercase mt-6 max-w-md select-none mix-blend-difference animate-[fadeIn_2.5s_ease-out_both] delay-[1000ms]">
+              Retratos monumentales en pizarra natural
+            </p>
+          </div>
+
           {/* Indicador sutil de gravedad - La única señal visual */}
           <div 
             ref={descenderRef}
@@ -334,41 +384,28 @@ export default function Home() {
       </div>
 
       {/* ── STATEMENT DEL ARTISTA ── */}
-      <section id="statement" className="relative z-10 px-6 sm:px-12 py-40 max-w-5xl mx-auto w-full flex flex-col items-center text-center">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] max-w-[800px] max-h-[800px] bg-[#2B3BE5] rounded-full mix-blend-screen filter blur-[200px] opacity-[0.03] pointer-events-none" />
-        
-        <h2 className="text-3xl sm:text-5xl font-serif font-light tracking-widest uppercase text-white mb-16 relative z-10">
-          Exergia Máxima Extraída
-        </h2>
-        
-        <div className="space-y-10 text-white/70 font-light text-xl sm:text-2xl leading-relaxed relative z-10">
-          <p>
-            Sitio de <strong className="text-white font-normal">Naroa Gutiérrez Gil</strong>, artista hiperrealista por encargo con estudio en Bilbao.
-          </p>
-          <p>
-            Su obra no copia fotos: las <strong className="text-[#2B3BE5] font-normal">transmuta</strong>. Texturas de piel, reflejos pintados a mano, luz en los ojos que golpea directo al sistema nervioso del espectador.
-          </p>
-          <div className="pt-8">
-            <p className="text-2xl sm:text-4xl font-serif text-white/90 border-l-[3px] border-[#2B3BE5] pl-8 py-2 text-left italic">
-              "Cada retrato es una máquina de capturar esencia emocional con precisión quirúrgica."
-            </p>
-          </div>
-        </div>
+      <section id="statement" className="relative z-10 px-6 sm:px-12 py-56 max-w-6xl mx-auto w-full flex flex-col items-center text-center select-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] max-w-[700px] max-h-[700px] bg-[var(--primary)] rounded-full mix-blend-screen filter blur-[200px] opacity-[0.05] pointer-events-none" />
+        <p className="text-3xl sm:text-5xl md:text-6xl font-serif font-black tracking-tight text-white uppercase italic leading-tight max-w-4xl">
+          "El retrato no copia la vida; <span className="text-[var(--primary)] text-glow">transmuta</span> la materia en presencia."
+        </p>
       </section>
 
+      {/* ── LA GALERÍA MONUMENTAL ASIMÉTRICA ── */}
       <section id="galeria" className="relative z-10 px-4 sm:px-12 pb-32 max-w-[1800px] mx-auto w-full">
         <div className="mb-40 text-center flex flex-col items-center">
           <h2 className="text-5xl sm:text-7xl font-serif font-light tracking-wide text-foreground leading-tight max-w-2xl mx-auto uppercase text-glow">La Singularidad</h2>
           <div className="w-px h-16 bg-gradient-to-b from-primary/30 to-transparent mt-12"></div>
         </div>
-        <div className={`grid w-full px-0 md:px-12 transition-all duration-1000 ${appMode === "ORDEN" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-x-20 items-start" : "grid-cols-1 md:grid-cols-12 gap-8 md:gap-x-12 md:gap-y-0 items-start"}`}>
+        
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-x-24 md:gap-y-32 items-start w-full px-0 md:px-12">
           {artworks.map((artwork, i) => (
             <div 
               key={i} 
-              className={`group relative overflow-hidden transition-all duration-1000 ${appMode === "ORDEN" ? "col-span-1 p-4 sm:p-8 glass-panel flex flex-col items-center gap-6 mt-0 animate-[fadeIn_0.5s_ease-out_both] hover-glow rounded-xl" : `bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl w-full ${artwork.span || "md:col-span-12 aspect-[4/3]"}`}`}
-              style={appMode === "ORDEN" ? { animationDelay: `${(i % 12) * 100}ms` } : {}}
+              className={`group relative overflow-hidden transition-all duration-1000 bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl w-full ${artwork.span || "md:col-span-12 aspect-[4/3]"} animate-[fadeIn_0.5s_ease-out_both]`}
+              style={{ animationDelay: `${(i % 12) * 100}ms` }}
             >
-              <div className={`relative w-full ${appMode === "ORDEN" ? "aspect-[4/5] overflow-hidden rounded-md shadow-2xl" : "h-full"}`}>
+              <div className="relative w-full h-full">
                 {appMode === "CAOS" ? (
                   <KineticArtwork
                     src={resolveSrc(artwork.src)}
@@ -394,23 +431,15 @@ export default function Home() {
                 )}
               </div>
               
-              {appMode === "ORDEN" && (
-                <div className="w-full flex flex-col items-center px-4 py-2 border-t border-white/[0.05] gap-3 opacity-80 group-hover:opacity-100 transition-opacity">
-                  <h3 className="font-serif font-bold text-sm sm:text-base tracking-[0.2em] uppercase text-foreground/90 group-hover:text-glow transition-all">{artwork.title}</h3>
-                  <p className="font-sans font-bold text-[8px] tracking-[0.3em] text-primary/80">ACRÍLICO S/ PIZARRA</p>
-                </div>
-              )}
-
-              {appMode === "CAOS" && (
-                <>
-                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.12)_0%,transparent_50%)] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-                  <div className="absolute bottom-6 left-6 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 translate-y-4 group-hover:translate-y-0">
-                    <span className="text-foreground/80 font-sans tracking-[0.2em] text-[10px] uppercase bg-black/50 px-3 py-1 backdrop-blur-md border border-white/10 rounded-sm">
-                      {artwork.title}
-                    </span>
-                  </div>
-                </>
-              )}
+              {/* Stark Hover Info Overlay (Strictly no words on default view) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex flex-col justify-end p-8 pointer-events-none">
+                <span className="text-[var(--primary)] font-mono text-[9px] tracking-[0.4em] uppercase mb-2">
+                  PINTURA S/ PIZARRA
+                </span>
+                <h3 className="text-white font-serif text-2xl uppercase tracking-wider">
+                  {artwork.title}
+                </h3>
+              </div>
             </div>
           ))}
           <div ref={observerRef} className="col-span-1 md:col-span-12 h-32 w-full flex justify-center items-center">
@@ -433,68 +462,6 @@ export default function Home() {
 
       {/* ── GALERÍA TRIDIMENSIONAL ── */}
       {appMode === "CAOS" && <ThreeDCarousel />}
-
-      {/* ── TESTIMONIOS (Historias de Clientes) ── */}
-      <section className="relative z-10 px-6 sm:px-12 py-40 max-w-[1400px] mx-auto w-full border-t border-white/5 mt-32 relative overflow-hidden group">
-        {/* Background Glitch Elements */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[radial-gradient(circle_at_center,rgba(43,59,229,0.03)_0%,transparent_70%)] pointer-events-none" />
-        <div className="absolute top-10 right-10 text-[200px] font-black italic text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.02)] uppercase select-none pointer-events-none leading-none z-0">
-          IMPACT
-        </div>
-
-        <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-end mb-24 gap-8">
-          <div className="flex flex-col">
-            <span className="text-[#2B3BE5] text-[10px] tracking-[0.4em] font-mono mb-4 flex items-center gap-2">
-              <span className="w-1 h-1 bg-[#2B3BE5] rounded-full animate-ping" />
-              TESTIMONIAL DATA
-            </span>
-            <h2 className="text-5xl sm:text-7xl font-serif font-black uppercase tracking-tighter text-white chromatic-text">
-              El Impacto
-            </h2>
-          </div>
-          <p className="text-white/30 font-mono text-[9px] uppercase tracking-widest text-right max-w-[200px]">
-            Extractos de memoria de coleccionistas. Verificación en cadena.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {[
-            { id: "TX-01", quote: "Texturas y reflejos en pizarra que ninguna foto capta de verdad. Tienes que verlo en persona para entender su densidad.", location: "Madrid", param: "0.982" },
-            { id: "TX-02", quote: "La luz en los ojos es lo que te hipnotiza. Parece que respira dentro de la oscuridad. Autopoiesis visual.", location: "Bilbao", param: "1.104" },
-            { id: "TX-03", quote: "No es un retrato, es una pieza de presencia absoluta. Modifica la exergía de la habitación en la que se encuentra.", location: "Barcelona", param: "0.899" }
-          ].map((testimonio, i) => (
-            <div key={i} className="bg-[#030303] border border-white/5 p-10 relative group hover:border-[#2B3BE5]/40 transition-all duration-700 hover:shadow-[0_0_40px_rgba(43,59,229,0.1)] overflow-hidden">
-              {/* Scanline hover effect */}
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(43,59,229,0.1)_1px,transparent_1px)] bg-[size:100%_4px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-              
-              <div className="flex justify-between items-start mb-12">
-                <span className="text-[#2B3BE5]/50 font-mono text-[10px] tracking-widest">{testimonio.id}</span>
-                <span className="text-white/20 font-mono text-[10px] tracking-widest">P-{testimonio.param}</span>
-              </div>
-
-              <div className="text-[#2B3BE5] text-8xl font-serif absolute top-12 left-6 opacity-10 group-hover:opacity-40 transition-opacity duration-500 leading-none">"</div>
-              
-              <p className="text-white/90 font-serif text-xl italic relative z-10 mb-16 leading-relaxed group-hover:text-white transition-colors duration-500 drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]">
-                {testimonio.quote}
-              </p>
-              
-              <div className="absolute bottom-10 left-10 right-10 flex flex-col gap-3">
-                <div className="w-full h-px bg-white/5 relative overflow-hidden">
-                  <div className="absolute top-0 left-0 h-full bg-[#2B3BE5] w-0 group-hover:w-full transition-all duration-[2000ms] ease-out" />
-                </div>
-                <div className="flex justify-between items-end">
-                  <span className="text-white/40 font-mono text-[9px] tracking-[0.3em] uppercase">
-                    Coleccionista
-                  </span>
-                  <span className="text-[#2B3BE5] font-mono text-[10px] tracking-widest uppercase font-bold">
-                    {testimonio.location}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* ── FOOTER VISUAL ── */}
       <Footer />

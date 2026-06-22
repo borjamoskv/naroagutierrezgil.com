@@ -102,13 +102,17 @@ export default function CustomCursor() {
         const lineWidth = 1 + Math.min(velocity * 0.02, 2);
         const glow = 10 + Math.min(velocity * 2, 40);
         
-        ctx.strokeStyle = `rgba(43, 59, 229, ${opacity})`; // #2B3BE5
+        const primaryRGB = typeof window !== 'undefined' 
+          ? getComputedStyle(document.documentElement).getPropertyValue('--primary-rgb').trim() 
+          : '43, 59, 229';
+        const rgb = primaryRGB || '43, 59, 229';
+        ctx.strokeStyle = `rgba(${rgb}, ${opacity})`;
         ctx.lineWidth = lineWidth;
         ctx.lineCap = "square";
         ctx.lineJoin = "miter";
         ctx.miterLimit = 2;
         ctx.shadowBlur = glow;
-        ctx.shadowColor = `rgba(43, 59, 229, ${0.8 + Math.min(velocity * 0.05, 0.5)})`;
+        ctx.shadowColor = `rgba(${rgb}, ${0.8 + Math.min(velocity * 0.05, 0.5)})`;
         ctx.stroke();
 
         // Secondary inner core line (white)
@@ -126,8 +130,11 @@ export default function CustomCursor() {
       if (cursorRef.current) {
         const scale = 1 + Math.min(velocity * 0.05, 3);
         const glow = 15 + Math.min(velocity * 5, 50);
+        const primaryHex = typeof window !== 'undefined'
+          ? getComputedStyle(document.documentElement).getPropertyValue('--primary').trim()
+          : '#2B3BE5';
         cursorRef.current.style.transform = `translate3d(${mouseXRef.current}px, ${mouseYRef.current}px, 0) scale(${scale})`;
-        cursorRef.current.style.boxShadow = `0 0 ${glow}px rgba(43, 59, 229, 0.9), 0 0 5px rgba(255, 255, 255, 1)`;
+        cursorRef.current.style.boxShadow = `0 0 ${glow}px ${primaryHex || '#2B3BE5'}, 0 0 5px rgba(255, 255, 255, 1)`;
       }
 
       rafId = requestAnimationFrame(render);
@@ -172,14 +179,14 @@ export default function CustomCursor() {
           }}
         >
           {/* Top/Bottom bars */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[2px] h-[3px] bg-white shadow-[0_0_8px_#2B3BE5]" />
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[2px] h-[3px] bg-white shadow-[0_0_8px_#2B3BE5]" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[2px] h-[3px] bg-white shadow-[0_0_8px_var(--primary)]" />
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[2px] h-[3px] bg-white shadow-[0_0_8px_var(--primary)]" />
           {/* Left/Right bars */}
-          <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[3px] h-[2px] bg-white shadow-[0_0_8px_#2B3BE5]" />
-          <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[3px] h-[2px] bg-white shadow-[0_0_8px_#2B3BE5]" />
+          <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[3px] h-[2px] bg-white shadow-[0_0_8px_var(--primary)]" />
+          <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[3px] h-[2px] bg-white shadow-[0_0_8px_var(--primary)]" />
           
           {/* Core pulse */}
-          <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[2px] h-[2px] bg-[#2B3BE5] rounded-full transition-opacity ${isHovering ? 'opacity-100' : 'opacity-0'}`} />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[2px] h-[2px] bg-[var(--primary)] rounded-full transition-opacity" style={{ opacity: isHovering ? 1 : 0 }} />
         </div>
       </div>
     </>
