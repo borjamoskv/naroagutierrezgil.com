@@ -1,4 +1,4 @@
-// [SOTY Primitive #80]: Luxury Viewer Hotspots
+// [SOTY Primitive #81]: Carousel angle interpolations
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
