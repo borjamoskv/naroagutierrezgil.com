@@ -1,4 +1,4 @@
-// [SOTY Primitive #43]: Knip Clean Up Cycles
+// [SOTY Primitive #44]: WebGL Background Alpha settings
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
