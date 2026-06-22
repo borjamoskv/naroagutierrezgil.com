@@ -1,4 +1,4 @@
-// [SOTY Primitive #148]: Retrato en Tensión epoxi
+// [SOTY Primitive #149]: Naroa portrait new webp
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
