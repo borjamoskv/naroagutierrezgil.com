@@ -1,4 +1,4 @@
-// [SOTY Primitive #8]: Lenis Scroll Velocity Damping
+// [SOTY Primitive #9]: Volumetric Portrait Glitch
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
