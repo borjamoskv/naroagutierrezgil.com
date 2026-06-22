@@ -1,3 +1,4 @@
+// Autoría: Borja Moskv (borjamoskv) | Realidad: C5-REAL
 import { Agent, Connection, callable } from 'agents';
 import type { KVNamespace } from '@cloudflare/workers-types';
 
@@ -74,13 +75,15 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
       }
     }
 
-    this.setState({
+    const nextState = {
       ...this.state,
       globalEntropy: newEntropy,
       scars: newScars
-    });
+    };
 
-    return this.state;
+    this.setState(nextState);
+
+    return nextState;
   }
 
   /**
@@ -93,29 +96,33 @@ export class EntropicCanvasAgent extends Agent<Env, EntropicState> {
 
     const newEntropy = Math.max(this.state.globalEntropy - amount, 0.0);
     
+    let nextState: EntropicState;
+
     // Si la comunidad logró devolver la entropía a 0
     if (newEntropy === 0.0) {
-      this.setState({
+      nextState = {
         ...this.state,
         globalEntropy: 0,
         kintsugiActive: false,
         totalRepairs: this.state.totalRepairs + 1,
         // Las cicatrices no se borran, quedan selladas en el oro
-      });
-      this.broadcast(JSON.stringify({ type: 'KINTSUGI_COMPLETE', repairNumber: this.state.totalRepairs }));
+      };
+      this.setState(nextState);
+      this.broadcast(JSON.stringify({ type: 'KINTSUGI_COMPLETE', repairNumber: nextState.totalRepairs }));
       
       // CORTEX-Guard KV Observability
       try {
         const timestamp = new Date().toISOString();
         const env = (this as unknown as { env: Env }).env;
-        await env.RADIANCE_MEMORY.put(`kintsugi_${timestamp}`, JSON.stringify({ event: 'REPAIR', repairNumber: this.state.totalRepairs, totalScars: this.state.scars.length }));
+        await env.RADIANCE_MEMORY.put(`kintsugi_${timestamp}`, JSON.stringify({ event: 'REPAIR', repairNumber: nextState.totalRepairs, totalScars: nextState.scars.length }));
       } catch {
         // KV write is best-effort; failure is non-critical
       }
     } else {
-      this.setState({ ...this.state, globalEntropy: newEntropy });
+      nextState = { ...this.state, globalEntropy: newEntropy };
+      this.setState(nextState);
     }
 
-    return this.state;
+    return nextState;
   }
 }

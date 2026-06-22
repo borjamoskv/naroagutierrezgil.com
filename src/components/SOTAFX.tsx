@@ -1,12 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import SplatVault from './SplatVault'
+
 export default function SOTAFX() {
   const [pos, setPos] = useState({ x: -500, y: -500 })
   const [bgPos, setBgPos] = useState({ x: '50%', y: '50%' })
   const [hoveredSrc, setHoveredSrc] = useState<string | null>(null)
-  const [vaultMode, setVaultMode] = useState(false)
   
   useEffect(() => {
     let audioCtx: AudioContext | null = null;
@@ -143,28 +142,8 @@ export default function SOTAFX() {
         }
       `}} />
 
-      {/* Splat Volumetric Engine (Vault Mode) */}
-      <SplatVault isVisible={vaultMode} />
-      
-      {/* Vault Mode Overlay Mask (To transition) */}
-      <div 
-        className={`fixed inset-0 z-[150] pointer-events-none bg-[#0a0a0c] transition-opacity duration-1000 ${vaultMode ? 'opacity-100' : 'opacity-0'}`}
-        style={{
-          maskImage: `radial-gradient(circle 350px at ${pos.x}px ${pos.y}px, transparent 0%, black 100%)`,
-          WebkitMaskImage: `radial-gradient(circle 350px at ${pos.x}px ${pos.y}px, transparent 0%, black 100%)`
-        }}
-      />
-
-      {/* Vault Toggle Button */}
-      <button 
-        onClick={() => setVaultMode(!vaultMode)}
-        className="fixed bottom-8 right-8 z-[250] px-4 py-2 border border-primary/50 text-primary bg-background/50 backdrop-blur font-sans uppercase tracking-[0.2em] text-[10px] hover:bg-primary hover:text-black transition-colors"
-      >
-        {vaultMode ? 'Encender Luces' : 'Modo Bóveda'}
-      </button>
-
       {/* Lupa Magnética */}
-      {hoveredSrc && !vaultMode && (
+      {hoveredSrc && (
         <div 
           className="fixed pointer-events-none z-[200] w-56 h-56 rounded-full border-2 border-primary/30 shadow-[0_0_40px_rgba(198,168,124,0.15)] bg-no-repeat transition-opacity duration-300 hidden md:block"
           style={{
@@ -174,8 +153,7 @@ export default function SOTAFX() {
             backgroundSize: '250%', 
             backgroundPosition: `${bgPos.x} ${bgPos.y}`,
           }}
-        >
-        </div>
+        />
       )}
     </>
   )

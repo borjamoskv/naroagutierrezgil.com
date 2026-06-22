@@ -1,3 +1,4 @@
+// Autoría: Borja Moskv (borjamoskv) | Realidad: C5-REAL
 /**
  * C5-REAL E2E Test Suite for real-time collaborative canvas sync
  * Covers Tiers 1-4, minimum 27 test cases.
@@ -6,6 +7,8 @@ const { spawn } = require('child_process');
 const http = require('http');
 const WebSocket = require('ws');
 const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
 
 const PORT = 8787;
 const BASE_URL = `http://127.0.0.1:${PORT}`;
@@ -138,6 +141,16 @@ function waitFor(conditionFn, timeout = 3000) {
 
 function startWrangler() {
   return new Promise((resolve, reject) => {
+    try {
+      const wranglerDir = path.join(__dirname, '..', '.wrangler');
+      if (fs.existsSync(wranglerDir)) {
+        console.log("Purging .wrangler directory to prevent state pollution...");
+        fs.rmSync(wranglerDir, { recursive: true, force: true });
+      }
+    } catch (e) {
+      console.warn("Failed to purge .wrangler directory:", e.message);
+    }
+
     console.log("Starting wrangler dev server...");
     const wrangler = spawn('npx', ['wrangler', 'dev', '-c', 'wrangler.jsonc', '--port', String(PORT)], {
       stdio: ['ignore', 'pipe', 'pipe'],
