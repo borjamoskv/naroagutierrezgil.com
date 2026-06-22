@@ -1,4 +1,4 @@
-// [SOTY Primitive #9]: Volumetric Portrait Glitch
+// [SOTY Primitive #10]: Basalt Texture Scaling
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

@@ -11,3 +11,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #7**: Primitive [Interactivity Inertia] - Inyección de exergía en la topología C5-REAL.
 - **Commit #8**: Primitive [Lenis Scroll Velocity Damping] - Inyección de exergía en la topología C5-REAL.
 - **Commit #9**: Primitive [Volumetric Portrait Glitch] - Inyección de exergía en la topología C5-REAL.
+- **Commit #10**: Primitive [Basalt Texture Scaling] - Inyección de exergía en la topología C5-REAL.
