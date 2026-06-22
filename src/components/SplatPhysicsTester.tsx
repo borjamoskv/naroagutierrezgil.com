@@ -1,4 +1,4 @@
-// [SOTY Primitive #55]: Basalt relief wave height
+// [SOTY Primitive #56]: Specular Highlight Intensity
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
