@@ -1,4 +1,4 @@
-// [SOTY Primitive #149]: Naroa portrait new webp
+// [SOTY Primitive #150]: APEX Singularity Release
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

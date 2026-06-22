@@ -151,3 +151,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #147**: Primitive [Facciones del Silencio sketch] - Inyección de exergía en la topología C5-REAL.
 - **Commit #148**: Primitive [Retrato en Tensión epoxi] - Inyección de exergía en la topología C5-REAL.
 - **Commit #149**: Primitive [Naroa portrait new webp] - Inyección de exergía en la topología C5-REAL.
+- **Commit #150**: Primitive [APEX Singularity Release] - Inyección de exergía en la topología C5-REAL.
