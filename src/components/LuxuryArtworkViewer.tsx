@@ -309,7 +309,7 @@ export default function LuxuryArtworkViewer() {
           <span className="text-[#2B3BE5] font-mono tracking-[0.4em] text-[9px] uppercase mb-3">
             Exploración de la Materia · Savoir-Faire
           </span>
-          <h2 className="text-4xl sm:text-6xl font-serif font-light tracking-wide text-white uppercase">
+          <h2 className="text-4xl sm:text-6xl font-brutal-title text-white">
             El Arte en Detalle
           </h2>
           <div className="w-12 h-[1px] bg-white/20 mt-6" />

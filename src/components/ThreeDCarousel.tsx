@@ -444,7 +444,7 @@ export default function ThreeDCarousel() {
         <span className="text-primary/70 font-sans tracking-[0.4em] uppercase text-[9px] mb-2 block">
           Arqueología Virtual 3D — #C5-REAL
         </span>
-        <h2 className="text-3xl sm:text-5xl font-serif font-light tracking-wide text-foreground uppercase">
+        <h2 className="text-3xl sm:text-5xl font-brutal-title text-foreground">
           Galería Tridimensional
         </h2>
         <p className="max-w-xl mx-auto text-foreground/40 font-sans text-xs tracking-wider mt-4 leading-relaxed">

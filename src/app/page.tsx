@@ -26,18 +26,18 @@ const TakeoverModal = dynamic(() => import('@/components/TakeoverModal'), { ssr:
 const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
 
 const baseArtworks = [
-  { src: 'james-new.jpg', title: 'James Dean', category: 'pop', desc: 'Pop iconography on slate' },
-  { src: 'amy-new.jpg', title: 'Amy Winehouse', category: 'pop', desc: 'Sinuous expression of voice' },
-  { src: 'johnny-new.jpg', title: 'Johnny Depp', category: 'pop', desc: 'Depth of texture & character' },
+  { src: 'james-new.webp', title: 'James Dean', category: 'pop', desc: 'Pop iconography on slate' },
+  { src: 'amy-new.webp', title: 'Amy Winehouse', category: 'pop', desc: 'Sinuous expression of voice' },
+  { src: 'johnny-new.webp', title: 'Johnny Depp', category: 'pop', desc: 'Depth of texture & character' },
   { src: 'audrey-hepburn-DbIBTtIp.webp', title: 'Audrey Hepburn', category: 'pop', desc: 'Classic elegance on basalt' },
   { src: 'el-gran-dakari-C1tAWAhR.webp', title: 'El Gran Dakari', category: 'mica', desc: 'Shimmering minerals and glaze' },
   { src: 'geisha-MfRtKWdu.webp', title: 'Geisha', category: 'mica', desc: 'Mixture of gold dust and mica' },
   { src: 'lagrimas-de-oro-DikHc-Tk.webp', title: 'Lágrimas de Oro', category: 'kintsugi', desc: 'Fracture lines sealed in gold' },
-  { src: '601340023_1552126202933462_7815927344957967258_n.jpg', title: 'Espejo del Alma I', category: 'pizarra', desc: '100-year-old Basque slate base' },
-  { src: '608211438_1562089535270462_2827127275272133326_n.jpg', title: 'Dama de la Pizarra', category: 'pizarra', desc: 'Natural slate relief work' },
-  { src: '615438426_1577822580363824_2923463327956560352_n.jpg', title: 'Retrato en Tensión', category: 'pizarra', desc: 'Epoxi resin and slate fusion' },
-  { src: '612329591_1571120784367337_8798688892093004057_n.jpg', title: 'Facciones del Silencio', category: 'poliester', desc: 'Translucent polyester sketch' },
-  { src: '622453257_1583899099756172_4197872465466826396_n.jpg', title: 'Mirada del Tiempo', category: 'poliester', desc: 'Washed ink chemistry like X-ray' }
+  { src: '601340023_1552126202933462_7815927344957967258_n.webp', title: 'Espejo del Alma I', category: 'pizarra', desc: '100-year-old Basque slate base' },
+  { src: '608211438_1562089535270462_2827127275272133326_n.webp', title: 'Dama de la Pizarra', category: 'pizarra', desc: 'Natural slate relief work' },
+  { src: '615438426_1577822580363824_2923463327956560352_n.webp', title: 'Retrato en Tensión', category: 'pizarra', desc: 'Epoxi resin and slate fusion' },
+  { src: '612329591_1571120784367337_8798688892093004057_n.webp', title: 'Facciones del Silencio', category: 'poliester', desc: 'Translucent polyester sketch' },
+  { src: '622453257_1583899099756172_4197872465466826396_n.webp', title: 'Mirada del Tiempo', category: 'poliester', desc: 'Washed ink chemistry like X-ray' }
 ];
 
 export default function Home() {
@@ -295,7 +295,7 @@ export default function Home() {
           className="sticky top-0 w-full h-[100svh] flex flex-col justify-center items-center overflow-hidden z-50 bg-[#050505] will-change-transform"
         >
           <div className="absolute inset-0 w-full h-full overflow-hidden">
-            <HeroInteractiveCanvas url={resolveSrc('naroa-portrait-new.jpg')} />
+            <HeroInteractiveCanvas url={resolveSrc('naroa-portrait-new.webp')} />
           </div>
 
           {/* Monumental Hero Typography Overlay */}
@@ -303,8 +303,8 @@ export default function Home() {
             <span className="font-mono text-[9px] tracking-[0.6em] text-white/60 uppercase mb-4 animate-[fadeIn_1.5s_ease-out_both]">
               Savoir-Faire Vasco • Artivismo
             </span>
-            <h1 className="font-serif font-black text-6xl sm:text-[9rem] tracking-tighter text-white uppercase mix-blend-difference select-none leading-none animate-[fadeIn_2.0s_ease-out_both] delay-500">
-              N A R O A
+            <h1 className="font-brutal-huge text-6xl sm:text-[10rem] text-white mix-blend-difference select-none animate-[fadeIn_2.0s_ease-out_both] delay-500">
+              NAROA
             </h1>
             <p className="font-sans text-[9px] tracking-[0.5em] text-white/50 uppercase mt-8 max-w-md select-none mix-blend-difference animate-[fadeIn_2.5s_ease-out_both] delay-[1000ms]">
               Retratos monumentales sobre pizarra y materiales refractarios
@@ -345,7 +345,7 @@ export default function Home() {
               <span className="text-[#2B3BE5] font-mono tracking-[0.4em] text-[9px] uppercase block mb-3">
                 Yacimientos del Retrato
               </span>
-              <h2 className="text-3xl sm:text-5xl font-serif font-light tracking-wide text-white uppercase">
+              <h2 className="text-3xl sm:text-5xl font-brutal-title text-white">
                 Materia & Fisura
               </h2>
             </div>
@@ -451,11 +451,11 @@ export default function Home() {
                 {/* Artwork display linked to active tab */}
                 <Image
                   src={resolveSrc(
-                    activeAlcove === 'pop' ? 'james-new.jpg' :
-                    activeAlcove === 'pizarra' ? '601340023_1552126202933462_7815927344957967258_n.jpg' :
-                    activeAlcove === 'poliester' ? '612329591_1571120784367337_8798688892093004057_n.jpg' :
+                    activeAlcove === 'pop' ? 'james-new.webp' :
+                    activeAlcove === 'pizarra' ? '601340023_1552126202933462_7815927344957967258_n.webp' :
+                    activeAlcove === 'poliester' ? '612329591_1571120784367337_8798688892093004057_n.webp' :
                     activeAlcove === 'kintsugi' ? 'lagrimas-de-oro-DikHc-Tk.webp' :
-                    activeAlcove === 'mica' ? 'el-gran-dakari-C1tAWAhR.webp' : 'naroa-portrait-new.jpg'
+                    activeAlcove === 'mica' ? 'el-gran-dakari-C1tAWAhR.webp' : 'naroa-portrait-new.webp'
                   )}
                   alt="Muestra de la técnica de Naroa"
                   fill

@@ -49,7 +49,7 @@ export default function InteractiveStudio() {
               <span className="w-1.5 h-1.5 bg-red-600 rounded-full animate-ping" />
               COMMISSION PROTOCOL // INITIALIZED
             </span>
-            <h2 className="text-5xl sm:text-7xl font-serif font-black tracking-tighter text-white uppercase chromatic-text">
+            <h2 className="text-5xl sm:text-7xl font-brutal-huge text-white chromatic-text">
               Configurador
             </h2>
           </div>

@@ -44,8 +44,8 @@ const presets: PreSet[] = [
 ];
 
 const timelineArtworks = [
-  { src: '/assets/hq-james-CjsTrO7r.webp', title: 'James Dean', prompt: 'Variación de contraste y grano de carbón' },
-  { src: '/assets/hq-amy-BRTriASV.webp', title: 'Amy Winehouse', prompt: 'Humo volumétrico e iluminación cobalt' },
+  { src: '/assets/james-new.webp', title: 'James Dean', prompt: 'Variación de contraste y grano de carbón' },
+  { src: '/assets/amy-new.webp', title: 'Amy Winehouse', prompt: 'Humo volumétrico e iluminación cobalt' },
   { src: '/assets/lagrimas-de-oro-DikHc-Tk.webp', title: 'Lágrimas de Oro', prompt: 'Inyección de resina con partículas de oro 24k' },
   { src: '/assets/el-gran-dakari-C1tAWAhR.webp', title: 'El Gran Dakari', prompt: 'Glitter mineral dinámico en las pupilas' },
   { src: '/assets/geisha-MfRtKWdu.webp', title: 'Geisha', prompt: 'Luz difusa y velo de mica translúcido' }
@@ -431,7 +431,7 @@ export default function GoogleFlowStudio() {
           <span className="text-[#2B3BE5] font-mono tracking-[0.4em] text-[9px] uppercase mb-3">
             Google Flow × Gemini Omni Flash // Physics-Aware Model
           </span>
-          <h2 className="text-4xl sm:text-6xl font-serif font-light tracking-wide text-white uppercase">
+          <h2 className="text-4xl sm:text-6xl font-brutal-title text-white">
             Laboratorio de Flujo Creativo
           </h2>
           <p className="max-w-xl mx-auto text-white/40 font-sans text-xs tracking-wider mt-4 leading-relaxed">

@@ -119,7 +119,7 @@ export default function AutodidactPage() {
   // Chapter details for Naroa's journey
   const chapters = [
     {
-      src: "/assets/615932964_1577822457030503_2110397705300850911_n.jpg",
+      src: "/assets/615932964_1577822457030503_2110397705300850911_n.webp",
       title: "La Falla de Pizarra",
       subtitle: "La colisión física con el soporte mineral vasco y la mica translúcida.",
       chapterNumber: "CAPÍTULO 01",
@@ -145,7 +145,7 @@ export default function AutodidactPage() {
       ]
     },
     {
-      src: "/assets/292544889_3277546379149645_1460977192858455652_n.jpg",
+      src: "/assets/292544889_3277546379149645_1460977192858455652_n.webp",
       title: "Pedagogía ReCreo",
       subtitle: "Enseñanza libre y curación artística a través de la integración del error.",
       chapterNumber: "CAPÍTULO 03",

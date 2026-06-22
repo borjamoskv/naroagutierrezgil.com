@@ -6,7 +6,7 @@ import Image from 'next/image';
 const heroImages = [
   { src: '/assets/el-gran-dakari-C1tAWAhR.webp', alt: 'El Gran Dakari (Indio)' },
   { src: '/assets/geisha-MfRtKWdu.webp', alt: 'Geisha' },
-  { src: '/assets/hq-james-CjsTrO7r.webp', alt: 'Pop Icon' }
+  { src: '/assets/james-new.webp', alt: 'Pop Icon' }
 ];
 
 export default function AnimatedHeroBackground() {

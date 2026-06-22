@@ -84,7 +84,7 @@ export default function Biografia() {
             <div className="absolute inset-0 bg-[#2B3BE5] translate-x-4 translate-y-4 opacity-20 transition-transform duration-700 group-hover:translate-x-6 group-hover:translate-y-6" />
             <div className="relative aspect-[4/5] bg-[#0A0A0A] border border-white/10 overflow-hidden">
               <Image 
-                src="/assets/Naroa x16.jpeg" 
+                src="/assets/Naroa x16.webp" 
                 alt="Naroa Gutiérrez Gil en su estudio" 
                 fill 
                 className="object-cover grayscale hover:grayscale-0 transition-all duration-1000 scale-105 hover:scale-100" 
