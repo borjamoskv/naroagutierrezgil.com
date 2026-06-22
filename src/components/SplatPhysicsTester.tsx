@@ -1,4 +1,4 @@
-// [SOTY Primitive #127]: Hero Section typography scale
+// [SOTY Primitive #128]: Philosophy Statement Marquee
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
