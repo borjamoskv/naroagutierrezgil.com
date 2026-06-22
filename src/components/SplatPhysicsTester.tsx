@@ -1,4 +1,4 @@
-// [SOTY Primitive #126]: Hero Section copy reduction
+// [SOTY Primitive #127]: Hero Section typography scale
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
