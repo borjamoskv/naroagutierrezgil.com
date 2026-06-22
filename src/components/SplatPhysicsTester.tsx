@@ -1,4 +1,4 @@
-// [SOTY Primitive #18]: Facciones del Silencio Shader
+// [SOTY Primitive #19]: Volumetric Ambient Lights
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
