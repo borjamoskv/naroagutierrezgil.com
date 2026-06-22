@@ -136,3 +136,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #132**: Primitive [Footer copyright update] - Inyección de exergía en la topología C5-REAL.
 - **Commit #133**: Primitive [Contacto form validation] - Inyección de exergía en la topología C5-REAL.
 - **Commit #134**: Primitive [Error boundary CRT design] - Inyección de exergía en la topología C5-REAL.
+- **Commit #135**: Primitive [Speculation Rules API] - Inyección de exergía en la topología C5-REAL.

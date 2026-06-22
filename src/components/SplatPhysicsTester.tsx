@@ -1,4 +1,4 @@
-// [SOTY Primitive #134]: Error boundary CRT design
+// [SOTY Primitive #135]: Speculation Rules API
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
