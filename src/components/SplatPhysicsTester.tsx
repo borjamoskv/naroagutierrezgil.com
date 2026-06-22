@@ -1,4 +1,4 @@
-// [SOTY Primitive #82]: Floating point light orbits
+// [SOTY Primitive #83]: ThreeD Carousel navigation HUD
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
