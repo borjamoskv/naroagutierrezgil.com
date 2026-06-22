@@ -1,4 +1,4 @@
-// [SOTY Primitive #89]: Basque Artivism branding
+// [SOTY Primitive #90]: Awwwards Manifest update
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

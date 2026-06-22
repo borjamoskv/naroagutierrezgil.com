@@ -91,3 +91,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #87**: Primitive [Custom Color picker accent] - Inyección de exergía en la topología C5-REAL.
 - **Commit #88**: Primitive [Dynamic Primary color set] - Inyección de exergía en la topología C5-REAL.
 - **Commit #89**: Primitive [Basque Artivism branding] - Inyección de exergía en la topología C5-REAL.
+- **Commit #90**: Primitive [Awwwards Manifest update] - Inyección de exergía en la topología C5-REAL.
