@@ -1,4 +1,4 @@
-// [SOTY Primitive #26]: Mica Ceramic reliefs
+// [SOTY Primitive #27]: Eye-Tracking Parallax Response
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
