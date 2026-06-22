@@ -1,4 +1,4 @@
-// [SOTY Primitive #16]: Basque Lytic Coordinates
+// [SOTY Primitive #17]: Mica Glitter Blend
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
