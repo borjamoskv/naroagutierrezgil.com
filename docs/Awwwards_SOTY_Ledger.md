@@ -107,3 +107,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #103**: Primitive [Biquad Filter resonance] - Inyección de exergía en la topología C5-REAL.
 - **Commit #104**: Primitive [CRT scanline speed] - Inyección de exergía en la topología C5-REAL.
 - **Commit #105**: Primitive [Lenis Wheel events] - Inyección de exergía en la topología C5-REAL.
+- **Commit #106**: Primitive [Viewport height fallbacks] - Inyección de exergía en la topología C5-REAL.

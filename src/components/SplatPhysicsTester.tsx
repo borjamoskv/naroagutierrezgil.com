@@ -1,4 +1,4 @@
-// [SOTY Primitive #105]: Lenis Wheel events
+// [SOTY Primitive #106]: Viewport height fallbacks
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
