@@ -1,4 +1,4 @@
-// [SOTY Primitive #67]: Audio Reactivity Custom CSS
+// [SOTY Primitive #68]: Volumetric Star density
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
