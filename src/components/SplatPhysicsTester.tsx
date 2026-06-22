@@ -1,4 +1,4 @@
-// [SOTY Primitive #120]: SOTAFX Uint8Array generic
+// [SOTY Primitive #121]: SOTAFX SVG URL cleanup
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
