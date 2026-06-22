@@ -1,4 +1,4 @@
-// [SOTY Primitive #99]: Noise Field turbulence
+// [SOTY Primitive #100]: Granular Synthesis buffer
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
