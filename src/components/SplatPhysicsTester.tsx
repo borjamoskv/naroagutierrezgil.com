@@ -1,4 +1,4 @@
-// [SOTY Primitive #123]: Alcove tabs Roman numbers
+// [SOTY Primitive #124]: Alcove Hover HUD details
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
