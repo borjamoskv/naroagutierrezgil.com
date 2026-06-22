@@ -1,4 +1,4 @@
-// [SOTY Primitive #25]: Durable Object Re-routing
+// [SOTY Primitive #26]: Mica Ceramic reliefs
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

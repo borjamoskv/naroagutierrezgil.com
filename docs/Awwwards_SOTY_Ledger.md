@@ -27,3 +27,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #23**: Primitive [Gold Vein Width Dilation] - Inyección de exergía en la topología C5-REAL.
 - **Commit #24**: Primitive [Chrome DevTools SOTAFX] - Inyección de exergía en la topología C5-REAL.
 - **Commit #25**: Primitive [Durable Object Re-routing] - Inyección de exergía en la topología C5-REAL.
+- **Commit #26**: Primitive [Mica Ceramic reliefs] - Inyección de exergía en la topología C5-REAL.
