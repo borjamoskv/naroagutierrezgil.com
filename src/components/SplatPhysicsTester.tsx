@@ -1,4 +1,4 @@
-// [SOTY Primitive #41]: Security Headers Hardening
+// [SOTY Primitive #42]: Sitemap URL Parsing
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
