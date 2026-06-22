@@ -1,4 +1,4 @@
-// [SOTY Primitive #29]: Biquad Filter Damping
+// [SOTY Primitive #30]: Theremin Pitch Modulation
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
