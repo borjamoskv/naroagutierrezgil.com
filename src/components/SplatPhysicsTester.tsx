@@ -1,4 +1,4 @@
-// [SOTY Primitive #135]: Speculation Rules API
+// [SOTY Primitive #136]: SOTAFX ASMR sound synthesis
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
