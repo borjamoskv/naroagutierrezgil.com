@@ -1,4 +1,4 @@
-// [SOTY Primitive #57]: Kintsugi Gold Color standard
+// [SOTY Primitive #58]: Mica Mineral grain density
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
