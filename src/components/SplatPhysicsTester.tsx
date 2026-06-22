@@ -1,4 +1,4 @@
-// [SOTY Primitive #118]: WebGLBackground ThreeElements TS
+// [SOTY Primitive #119]: WebGLBackground GroupProps JSX
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
