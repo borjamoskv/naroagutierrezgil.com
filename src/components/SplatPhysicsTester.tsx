@@ -1,4 +1,4 @@
-// [SOTY Primitive #85]: Takeover Modal timer
+// [SOTY Primitive #86]: Takeover Modal countdown
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
