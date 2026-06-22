@@ -113,3 +113,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #109**: Primitive [Syne font leading] - Inyección de exergía en la topología C5-REAL.
 - **Commit #110**: Primitive [basque translation keys] - Inyección de exergía en la topología C5-REAL.
 - **Commit #111**: Primitive [Anergy dead code sweeps] - Inyección de exergía en la topología C5-REAL.
+- **Commit #112**: Primitive [Knip script dependency fix] - Inyección de exergía en la topología C5-REAL.

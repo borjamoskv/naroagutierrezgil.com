@@ -1,4 +1,4 @@
-// [SOTY Primitive #111]: Anergy dead code sweeps
+// [SOTY Primitive #112]: Knip script dependency fix
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
