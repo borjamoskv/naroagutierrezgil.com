@@ -1,4 +1,4 @@
-// [SOTY Primitive #37]: Accessibility Skip Link
+// [SOTY Primitive #38]: Metadata Router Injection
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
