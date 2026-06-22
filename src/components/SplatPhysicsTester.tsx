@@ -1,4 +1,4 @@
-// [SOTY Primitive #137]: Basalt particle gravity
+// [SOTY Primitive #138]: Volumetric Portrait drag
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

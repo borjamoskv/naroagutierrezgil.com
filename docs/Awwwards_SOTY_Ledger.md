@@ -139,3 +139,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #135**: Primitive [Speculation Rules API] - Inyección de exergía en la topología C5-REAL.
 - **Commit #136**: Primitive [SOTAFX ASMR sound synthesis] - Inyección de exergía en la topología C5-REAL.
 - **Commit #137**: Primitive [Basalt particle gravity] - Inyección de exergía en la topología C5-REAL.
+- **Commit #138**: Primitive [Volumetric Portrait drag] - Inyección de exergía en la topología C5-REAL.
