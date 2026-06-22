@@ -1,4 +1,4 @@
-// [SOTY Primitive #4]: Basque Lytic Branding
+// [SOTY Primitive #5]: Custom HSL Cursor Trail
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
