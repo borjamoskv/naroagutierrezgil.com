@@ -115,7 +115,7 @@ export default function Contacto() {
         </div>
       </nav>
 
-      <main className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 pt-40 pb-32">
+      <main id="main-content" className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 pt-40 pb-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           
           {/* HEADER & INFO SECTION */}
