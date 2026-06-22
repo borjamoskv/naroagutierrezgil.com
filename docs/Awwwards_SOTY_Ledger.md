@@ -97,3 +97,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #93**: Primitive [Damping Factor adjustment] - Inyección de exergía en la topología C5-REAL.
 - **Commit #94**: Primitive [Particle Life cycles] - Inyección de exergía en la topología C5-REAL.
 - **Commit #95**: Primitive [Volumetric Portrait Scale] - Inyección de exergía en la topología C5-REAL.
+- **Commit #96**: Primitive [Chromaturgy color settings] - Inyección de exergía en la topología C5-REAL.

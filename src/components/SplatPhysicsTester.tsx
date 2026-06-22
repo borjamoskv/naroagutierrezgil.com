@@ -1,4 +1,4 @@
-// [SOTY Primitive #95]: Volumetric Portrait Scale
+// [SOTY Primitive #96]: Chromaturgy color settings
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
