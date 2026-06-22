@@ -16,13 +16,12 @@ export default function Contacto() {
     inversion: '500-1500',
     detalles: ''
   });
-
-  const [estimatedPrice, setEstimatedPrice] = useState({ min: 450, max: 680 });
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
   useLenis();
 
   // Calcular estimación en caliente (C5-REAL logic)
-  useEffect(() => {
+  const getEstimatedPrice = () => {
     let min = 0;
     let max = 0;
 
@@ -49,36 +48,48 @@ export default function Contacto() {
       else { min = 1800; max = 3500; }
     }
 
-    setEstimatedPrice({ min, max });
-  }, [formData.tipo, formData.tamano]);
+    return { min, max };
+  };
+
+  const estimatedPrice = getEstimatedPrice();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+    setSubmitStatus('sending');
+
     const tipoLabel = formData.tipo === 'mascota' ? 'Mascota' : formData.tipo === 'individual' ? 'Retrato Individual' : formData.tipo === 'doble' ? 'Retrato Pareja / Doble' : 'Composición Especial';
     const tamanoLabel = formData.tamano === 'pequeno' ? 'Pequeño (20x30 cm)' : formData.tamano === 'mediano' ? 'Mediano (30x40 cm)' : formData.tamano === 'grande' ? 'Grande (40x60 cm)' : 'Tamaño Personalizado';
     const inversionLabel = formData.inversion === 'bajo' ? 'Menos de 500€' : formData.inversion === '500-1500' ? 'Entre 500€ y 1500€' : 'Más de 1500€';
 
-    const subject = encodeURIComponent(`Solicitud de Encargo: ${tipoLabel} (${formData.nombre})`);
-    const body = encodeURIComponent(
-      `Formulario de Solicitud — naroagutierrezgil.com\n` +
-      `-----------------------------------------------\n` +
-      `Nombre: ${formData.nombre}\n` +
-      `Email: ${formData.email}\n` +
-      `Tipo de Retrato: ${tipoLabel}\n` +
-      `Tamaño: ${tamanoLabel}\n` +
-      `Rango de Inversión Seleccionado: ${inversionLabel}\n` +
-      `Rango Estimado en Web: ${estimatedPrice.min}€ - ${estimatedPrice.max}€\n\n` +
-      `Detalles del encargo:\n${formData.detalles}\n` +
-      `-----------------------------------------------`
-    );
+    try {
+      // TODO: Replace 'placeholder' with actual Formspree form ID
+      const res = await fetch('https://formspree.io/f/placeholder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          email: formData.email,
+          tipo: tipoLabel,
+          tamano: tamanoLabel,
+          inversion: inversionLabel,
+          estimacion: `${estimatedPrice.min}€ - ${estimatedPrice.max}€`,
+          detalles: formData.detalles,
+        }),
+      });
 
-    window.location.href = `mailto:naroa@naroa.eu?subject=${subject}&body=${body}`;
+      if (res.ok) {
+        setSubmitStatus('success');
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch {
+      setSubmitStatus('error');
+    }
   };
 
   return (
@@ -125,7 +136,7 @@ export default function Contacto() {
                 Cada encargo es una conversación silenciosa que se plasma en piedra. No pinto lienzos en serie; cincelo identidades sobre <strong className="text-white">pizarra natural de tejados derruidos</strong> y mica mineral.
               </p>
               <p>
-                Usa este formulario para configurar una propuesta inicial. Al enviarlo, se compilará un desglose técnico que abriremos directamente en tu cliente de correo.
+                Usa este formulario para configurar una propuesta inicial. Al enviarlo, recibiré tu solicitud directamente y responderé en 24-48 horas.
               </p>
             </div>
 
@@ -283,11 +294,29 @@ export default function Contacto() {
                 <button
                   id="btn-submit-contacto"
                   type="submit"
-                  className="w-full sm:w-auto px-10 py-5 bg-[#2B3BE5] text-white hover:bg-white hover:text-black font-mono text-[10px] tracking-[0.3em] uppercase rounded-sm transition-all duration-700 cursor-pointer shadow-[0_0_40px_rgba(43,59,229,0.25)] hover:shadow-[0_0_60px_rgba(255,255,255,0.1)] hover:scale-[1.02] active:scale-[0.98]"
+                  disabled={submitStatus === 'sending' || submitStatus === 'success'}
+                  className={`w-full sm:w-auto px-10 py-5 font-mono text-[10px] tracking-[0.3em] uppercase rounded-sm transition-all duration-700 cursor-pointer ${
+                    submitStatus === 'success'
+                      ? 'bg-emerald-600 text-white shadow-[0_0_40px_rgba(16,185,129,0.25)]'
+                      : submitStatus === 'error'
+                        ? 'bg-red-700 text-white hover:bg-red-600 shadow-[0_0_40px_rgba(220,38,38,0.25)]'
+                        : 'bg-[#2B3BE5] text-white hover:bg-white hover:text-black shadow-[0_0_40px_rgba(43,59,229,0.25)] hover:shadow-[0_0_60px_rgba(255,255,255,0.1)] hover:scale-[1.02] active:scale-[0.98]'
+                  } disabled:opacity-70 disabled:cursor-not-allowed`}
                 >
-                  Enviar Propuesta
+                  {submitStatus === 'sending' ? 'Enviando...' : submitStatus === 'success' ? '✓ Enviado' : submitStatus === 'error' ? 'Error — Reintentar' : 'Enviar Propuesta'}
                 </button>
               </div>
+
+              {submitStatus === 'success' && (
+                <p className="text-[#2B3BE5] font-mono text-[10px] tracking-widest mt-4 text-center">
+                  Propuesta recibida. Responderemos en 24-48h.
+                </p>
+              )}
+              {submitStatus === 'error' && (
+                <p className="text-red-500 font-mono text-[10px] tracking-widest mt-4 text-center">
+                  Error al enviar. Verifica tu conexión e inténtalo de nuevo.
+                </p>
+              )}
 
             </form>
           </div>

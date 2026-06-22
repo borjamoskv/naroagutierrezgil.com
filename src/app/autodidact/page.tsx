@@ -230,7 +230,7 @@ export default function AutodidactPage() {
       </nav>
 
       {/* MAIN STORYTELLING TRACK */}
-      <main className="relative z-20 pt-44 pb-32 max-w-7xl mx-auto px-6 sm:px-12">
+      <main id="main-content" className="relative z-20 pt-44 pb-32 max-w-7xl mx-auto px-6 sm:px-12">
         
         {/* HERO INTRO */}
         <ScrollReveal>

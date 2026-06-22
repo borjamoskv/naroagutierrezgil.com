@@ -3,10 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 
 export default function CustomCursor() {
-  const [prefersReduced, setPrefersReduced] = useState(false);
-  useEffect(() => {
-    setPrefersReduced(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
-  }, []);
+  const [prefersReduced, setPrefersReduced] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+    return false;
+  });
 
   const cursorRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);

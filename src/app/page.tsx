@@ -15,12 +15,10 @@ const HeroSection = dynamic(() => import('@/components/HeroSection'), { ssr: fal
 const PhilosophyStatement = dynamic(() => import('@/components/PhilosophyStatement'), { ssr: false });
 const AlcoveSystem = dynamic(() => import('@/components/AlcoveSystem'), { ssr: false });
 const LuxuryArtworkViewer = dynamic(() => import('@/components/LuxuryArtworkViewer'), { ssr: false });
-const GoogleFlowStudio = dynamic(() => import('@/components/GoogleFlowStudio'), { ssr: false });
 const DepthHUD = dynamic(() => import('@/components/DepthHUD'), { ssr: false });
 const SOTAFX = dynamic(() => import('@/components/SOTAFX'), { ssr: false });
 const Mica = dynamic(() => import('@/components/Mica'), { ssr: false });
 const ScrollyTelling = dynamic(() => import('@/components/ScrollyTelling'), { ssr: false });
-const InteractiveStudio = dynamic(() => import('@/components/InteractiveStudio'), { ssr: false });
 const TakeoverModal = dynamic(() => import('@/components/TakeoverModal'), { ssr: false });
 const ScrollAwareHeader = dynamic(() => import('@/components/ScrollAwareHeader'), { ssr: false });
 const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
@@ -201,7 +199,7 @@ export default function Home() {
   };
 
   return (
-    <div className={`flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary selection:text-black ${appMode === "ORDEN" ? "bg-[#050505]" : ""}`}>
+    <div id="main-content" className={`flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary selection:text-black ${appMode === "ORDEN" ? "bg-[#050505]" : ""}`}>
       
       {/* Dynamic Backgrounds */}
       {appMode === "CAOS" && webGLReady && (
@@ -316,14 +314,6 @@ export default function Home() {
       <Suspense fallback={<div className="w-full h-96 bg-[#050505]" />}>
         <ThreeDCarousel />
       </Suspense>
-
-      {/* START: Google Flow / Omni Flash Creative Studio */}
-      <Suspense fallback={<div className="w-full h-96 bg-[#050505]" />}>
-        <GoogleFlowStudio />
-      </Suspense>
-
-      {/* START: The co-creation request form (Concierge Customizer) */}
-      <InteractiveStudio />
 
       {/* START: Dynamic Scrollytelling for CAOS mode details */}
       {appMode === "CAOS" && <ScrollyTelling />}

@@ -34,7 +34,7 @@ export default function Biografia() {
         </div>
       </nav>
 
-      <main className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 pt-40 pb-32">
+      <main id="main-content" className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 pt-40 pb-32">
         
         {/* HEADER MEGA KINÉTICO */}
         <header className="mb-40 relative pt-20">
