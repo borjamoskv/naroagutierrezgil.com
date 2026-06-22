@@ -14,6 +14,7 @@ const MacroSplatCanvas = dynamic(() => import('@/components/SplatBenchmarkCanvas
 const SplatPhysicsTester = dynamic(() => import('@/components/SplatPhysicsTester'), { ssr: false });
 const ThreeDCarousel = dynamic(() => import('@/components/ThreeDCarousel'), { ssr: false });
 const LuxuryArtworkViewer = dynamic(() => import('@/components/LuxuryArtworkViewer'), { ssr: false });
+const GoogleFlowStudio = dynamic(() => import('@/components/GoogleFlowStudio'), { ssr: false });
 const DepthHUD = dynamic(() => import('@/components/DepthHUD'), { ssr: false });
 const SOTAFX = dynamic(() => import('@/components/SOTAFX'), { ssr: false });
 const Mica = dynamic(() => import('@/components/Mica'), { ssr: false });
@@ -495,6 +496,9 @@ export default function Home() {
 
       {/* START: 3D Orbital slates gallery */}
       <ThreeDCarousel />
+
+      {/* START: Google Flow / Omni Flash Creative Studio */}
+      <GoogleFlowStudio />
 
       {/* START: The co-creation request form (Concierge Customizer) */}
       <InteractiveStudio />

@@ -280,16 +280,32 @@ function SplatInteractiveCanvas() {
             const mappedX = mousePosRef.current.x * 1.5 * aspect;
             const mappedY = mousePosRef.current.y * 1.5;
 
+            // Compile list of active agents (user + 100 swarm agents) for the WebGPU compute pass
+            const activeAgentsList = [
+              { x: mappedX, y: mappedY, isDrawing: isDownRef.current }
+            ];
+
+            if (swarmActive) {
+              swarmRef.current.forEach((sa) => {
+                const saMappedX = ((sa.x / window.innerWidth) * 2.0 - 1.0) * 1.5 * aspect;
+                const saMappedY = -((sa.y / window.innerHeight) * 2.0 - 1.0) * 1.5;
+                activeAgentsList.push({
+                  x: saMappedX,
+                  y: saMappedY,
+                  isDrawing: sa.isDrawing
+                });
+              });
+            }
+
             // Run compute shader (Physics update)
             engineRef.current.runComputePass(
-              mappedX,
-              mappedY,
               time * 0.001,
               isDownRef.current ? 0.16 : 0.08, // force
               0.02, // elasticity
               0.96, // damping
               isDownRef.current ? 0.08 : 0.04, // heatRate
-              zoomRef.current
+              zoomRef.current,
+              activeAgentsList
             );
 
             // Camera ViewProjection + Parallax Matrix

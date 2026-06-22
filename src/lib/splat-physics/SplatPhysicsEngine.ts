@@ -24,14 +24,22 @@ const GPUBufferUsage = {
 };
 
 const PHYSICS_COMPUTE_SHADER = `
+struct AgentData {
+  pos: vec2<f32>,
+  isDrawing: f32,
+  padding: f32,
+}
+
 struct PhysicsUniforms {
-  mousePos: vec2<f32>,
   time: f32,
   force: f32,
   elasticity: f32,
   damping: f32,
   heatRate: f32,
   zoom: f32,
+  agentCount: f32,
+  padding: f32,
+  agents: array<AgentData, 101>,
 }
 
 @group(0) @binding(0) var<uniform> uniforms: PhysicsUniforms;
@@ -55,25 +63,34 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
   let springVector = orig - pos;
   let springForce = springVector * uniforms.elasticity;
 
-  // 2. Cursor interaction (repulsion & thermodynamic heat excitation)
-  let distVec = pos.xy - uniforms.mousePos;
-  let dist = length(distVec);
-  
+  // 2. Multi-agent interaction (repulsion & thermodynamic heat excitation)
   var repulsion = vec3<f32>(0.0);
-  if (dist < 0.6) {
-    let strength = (0.6 - dist) * uniforms.force;
-    // Push away in XY, and bump out in Z
-    repulsion = vec3<f32>(normalize(distVec) * strength * 0.8, strength * 1.5);
+  let limit = i32(uniforms.agentCount);
+  for (var i: i32 = 0; i < limit; i = i + 1) {
+    let agent = uniforms.agents[i];
+    let distVec = pos.xy - agent.pos;
+    let dist = length(distVec);
     
-    // Accumulate heat (Thermodynamic human impact)
-    heat = heat + (0.6 - dist) * uniforms.heatRate;
+    if (dist < 0.6) {
+      let isDrawing = agent.isDrawing;
+      let forceMult = isDrawing * 0.8 + 0.2;
+      let strength = (0.6 - dist) * uniforms.force * forceMult;
+      
+      var dir = vec2<f32>(0.0);
+      if (dist > 0.001) {
+        dir = normalize(distVec);
+      }
+      repulsion = repulsion + vec3<f32>(dir * strength * 0.8, strength * 1.5);
+      
+      // Accumulate heat (Thermodynamic impact)
+      heat = heat + (0.6 - dist) * uniforms.heatRate * forceMult;
+    }
   }
 
   // Heat decay / damping over time
   heat = heat * 0.94;
 
   // 3. Physics integration
-  // Thermal vibration: heat oscillates the positions dynamically
   let thermalNoise = vec3<f32>(
     sin(uniforms.time * 60.0 + f32(idx)) * 0.04 * heat,
     cos(uniforms.time * 50.0 + f32(idx)) * 0.04 * heat,
@@ -265,9 +282,9 @@ export class SplatPhysicsEngine {
     this.device.queue.writeBuffer(this.velocityBuffer, 0, velocities);
     
     // 4. Uniform Buffers
-    // Compute Uniform: vec2 mousePos, float time, float force, float elasticity, float damping, float heatRate, float zoom (32 bytes)
+    // Compute Uniform: Header parameters + 101 agents array = 1648 bytes
     this.computeUniformBuffer = this.device.createBuffer({
-      size: 32, // 8 floats = 32 bytes
+      size: 1648, // 8 floats header + 101 * 4 floats = 412 floats = 1648 bytes
       usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
     });
     
@@ -299,27 +316,44 @@ export class SplatPhysicsEngine {
   }
   
   public runComputePass(
-    mouseX: number,
-    mouseY: number,
     time: number,
     force: number,
     elasticity: number,
     damping: number,
     heatRate: number,
-    zoom: number
+    zoom: number,
+    agentsList: Array<{ x: number; y: number; isDrawing: boolean }>
   ) {
     if (!this.device || !this.computePipeline || !this.computeBindGroup || !this.computeUniformBuffer) return;
     
-    // Write Uniforms
-    const uniformData = new Float32Array([
-      mouseX, mouseY,
+    const limit = Math.min(agentsList.length, 101);
+    
+    // Header data: 8 floats = 32 bytes
+    const headerData = [
       time,
       force,
       elasticity,
       damping,
       heatRate,
-      zoom
-    ]);
+      zoom,
+      limit, // agentCount
+      0.0    // padding
+    ];
+    
+    // Compiling full array: 412 floats = 1648 bytes
+    const uniformData = new Float32Array(412);
+    uniformData.set(headerData, 0);
+    
+    // Map each agent data: 4 floats per agent (16 bytes)
+    for (let i = 0; i < limit; i++) {
+      const startIdx = 8 + i * 4;
+      const agent = agentsList[i];
+      uniformData[startIdx] = agent.x;
+      uniformData[startIdx + 1] = agent.y;
+      uniformData[startIdx + 2] = agent.isDrawing ? 1.0 : 0.0;
+      uniformData[startIdx + 3] = 0.0; // padding
+    }
+    
     this.device.queue.writeBuffer(this.computeUniformBuffer, 0, uniformData);
     
     // Dispatch
