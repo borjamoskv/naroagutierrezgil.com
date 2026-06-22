@@ -1,9 +1,6 @@
-/* eslint-disable react-hooks/immutability */
-/* eslint-disable react-hooks/set-state-in-effect */
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import Link from 'next/link';
 import Lenis from 'lenis';
 import dynamic from 'next/dynamic';
@@ -14,7 +11,9 @@ const MacroSplatCanvas = dynamic(() => import('@/components/SplatBenchmarkCanvas
 const SplatPhysicsTester = dynamic(() => import('@/components/SplatPhysicsTester'), { ssr: false });
 const KineticArtwork = dynamic(() => import('@/components/KineticArtwork'), { ssr: false });
 const ThreeDCarousel = dynamic(() => import('@/components/ThreeDCarousel'), { ssr: false });
-const HeroInteractiveCanvas = dynamic(() => import('@/components/HeroInteractiveCanvas'), { ssr: false });
+const HeroSection = dynamic(() => import('@/components/HeroSection'), { ssr: false });
+const PhilosophyStatement = dynamic(() => import('@/components/PhilosophyStatement'), { ssr: false });
+const AlcoveSystem = dynamic(() => import('@/components/AlcoveSystem'), { ssr: false });
 const LuxuryArtworkViewer = dynamic(() => import('@/components/LuxuryArtworkViewer'), { ssr: false });
 const GoogleFlowStudio = dynamic(() => import('@/components/GoogleFlowStudio'), { ssr: false });
 const DepthHUD = dynamic(() => import('@/components/DepthHUD'), { ssr: false });
@@ -89,7 +88,7 @@ export default function Home() {
       lenis.raf(time);
       const velocity = lenis.velocity;
       if (typeof window !== 'undefined') {
-        (window as any).__scrollVelocity = Math.abs(velocity);
+        (window as unknown as { __scrollVelocity: number }).__scrollVelocity = Math.abs(velocity);
       }
       animationId = requestAnimationFrame(raf);
     }
@@ -258,6 +257,7 @@ export default function Home() {
             </div>
 
             <Link
+              id="nav-biografia"
               href="/biografia"
               className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
             >
@@ -265,6 +265,7 @@ export default function Home() {
             </Link>
 
             <Link
+              id="nav-autodidact"
               href="/autodidact"
               className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
             >
@@ -272,6 +273,7 @@ export default function Home() {
             </Link>
 
             <Link
+              id="nav-contacto"
               href="/contacto"
               className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
             >
@@ -279,6 +281,7 @@ export default function Home() {
             </Link>
 
             <button 
+              id="btn-dimension-toggle"
               onClick={() => setAppMode(prev => prev === 'ORDEN' ? 'CAOS' : 'ORDEN')}
               className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
             >
@@ -296,205 +299,28 @@ export default function Home() {
       </ScrollAwareHeader>
 
       {/* Hero Section */}
-      <div className="relative w-full h-[180vh] bg-[#050505]">
-        <section 
-          ref={heroSectionRef}
-          style={{ transform: 'translateY(0%)' }}
-          className="sticky top-0 w-full h-[100svh] flex flex-col justify-center items-center overflow-hidden z-50 bg-[#050505] will-change-transform"
-        >
-          <div className="absolute inset-0 w-full h-full overflow-hidden">
-            <HeroInteractiveCanvas url={resolveSrc('naroa-portrait-new.webp')} />
-          </div>
-
-          {/* Monumental Hero Typography Overlay */}
-          <div className="absolute inset-0 flex flex-col justify-center items-center z-20 text-center pointer-events-none px-4">
-            <span className="font-mono text-[9px] tracking-[0.6em] text-white/60 uppercase mb-4 animate-[fadeIn_1.5s_ease-out_both]">
-              Savoir-Faire Vasco • Artivismo
-            </span>
-            <h1 className="font-brutal-huge text-6xl sm:text-[10rem] text-white mix-blend-difference select-none animate-[fadeIn_2.0s_ease-out_both] delay-500">
-              NAROA
-            </h1>
-            <p className="font-sans text-[9px] tracking-[0.5em] text-white/50 uppercase mt-8 max-w-md select-none mix-blend-difference animate-[fadeIn_2.5s_ease-out_both] delay-[1000ms]">
-              Retratos monumentales sobre pizarra y materiales refractarios
-            </p>
-          </div>
-
-          {/* Gravity indicator */}
-          <div 
-            ref={descenderRef}
-            style={{ opacity: 0.5 }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 transition-opacity duration-300"
-          >
-            <span className="text-white/40 font-sans tracking-[0.5em] text-[8px] uppercase">Descender</span>
-            <div className="w-px h-16 bg-white/20 relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-full bg-white animate-[translateY_2.5s_cubic-bezier(0.65,0,0.35,1)_infinite]" />
-            </div>
-          </div>
-        </section>
-      </div>
+      <HeroSection resolveSrc={resolveSrc} heroSectionRef={heroSectionRef} descenderRef={descenderRef} />
 
       {/* Philosophy Section */}
-      <section id="statement" className="relative z-10 px-6 sm:px-12 py-48 max-w-6xl mx-auto w-full flex flex-col items-center text-center select-none">
-        <span className="text-[var(--primary)] font-mono text-[9px] tracking-[0.5em] uppercase mb-6">
-          Física de la Materia y la Fisura
-        </span>
-        <p className="text-2xl sm:text-4xl md:text-5xl font-serif font-light tracking-wide text-white leading-relaxed max-w-4xl italic">
-          "El lienzo no es un soporte; es la materia misma que <span className="text-[var(--primary)] text-glow font-normal">gobierna la forma</span>. En Naroa, la pizarra centenaria, la mica mineral y el kintsugi se alían en retratos que son calibres de memoria."
-        </p>
-        <div className="w-16 h-[1px] bg-[#2B3BE5]/30 mt-12" />
-      </section>
+      <PhilosophyStatement />
 
       {/* Mediums & Excavations Tab System */}
-      <section id="alcobas" className="relative z-10 px-6 sm:px-12 py-32 bg-black/60 border-t border-white/5 overflow-hidden">
-        <div className="max-w-7xl mx-auto w-full">
-          
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-20">
-            <div>
-              <span className="text-[#2B3BE5] font-mono tracking-[0.4em] text-[9px] uppercase block mb-3">
-                Yacimientos del Retrato
-              </span>
-              <h2 className="text-3xl sm:text-5xl font-brutal-title text-white">
-                Materia & Fisura
-              </h2>
-            </div>
-            <p className="max-w-md text-white/40 font-sans text-xs tracking-wider leading-relaxed">
-              Explore los 6 pilares constructivos donde la técnica mixta y el soporte de pizarra desafían los límites bidimensionales de la pintura.
-            </p>
-          </div>
-
-          {/* Alcove tabs */}
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-16 border-b border-white/5 pb-4">
-            {[
-              { id: 'pop', num: 'I', label: 'El Retrato Pop' },
-              { id: 'pizarra', num: 'II', label: 'Pizarra Centenaria' },
-              { id: 'poliester', num: 'III', label: 'Poliéster Translúcido' },
-              { id: 'kintsugi', num: 'IV', label: 'Kintsugi Accidental' },
-              { id: 'mica', num: 'V', label: 'Mica & Cerámica' },
-              { id: 'reverso', num: 'VI', label: 'El Reverso Acústico' }
-            ].map(alcove => (
-              <button
-                key={alcove.id}
-                onClick={() => setActiveAlcove(alcove.id as any)}
-                className={`flex flex-col items-center py-4 border-b-2 cursor-pointer transition-all duration-300 ${
-                  activeAlcove === alcove.id
-                    ? 'border-[#2B3BE5] text-white'
-                    : 'border-transparent text-white/30 hover:text-white/60'
-                }`}
-              >
-                <span className="font-serif text-xs mb-1 opacity-65">{alcove.num}</span>
-                <span className="font-sans text-[9px] tracking-widest uppercase text-center block leading-normal">
-                  {alcove.label}
-                </span>
-              </button>
-            ))}
-          </div>
-
-          {/* Active Alcove Content Card */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-            
-            {/* Description Column */}
-            <div className="lg:col-span-5 flex flex-col">
-              <span className="text-[#2B3BE5] font-mono text-[9px] tracking-widest uppercase mb-4">
-                Arqueología Lítica // Universo {activeAlcove === 'pop' && 'I'}
-                {activeAlcove === 'pizarra' && 'II'}
-                {activeAlcove === 'poliester' && 'III'}
-                {activeAlcove === 'kintsugi' && 'IV'}
-                {activeAlcove === 'mica' && 'V'}
-                {activeAlcove === 'reverso' && 'VI'}
-              </span>
-              
-              <h3 className="text-3xl sm:text-4xl font-serif font-light text-white uppercase tracking-wider mb-6">
-                {activeAlcove === 'pop' && 'El Retrato Pop Monumental'}
-                {activeAlcove === 'pizarra' && 'La Pizarra de Tejado Vasco'}
-                {activeAlcove === 'poliester' && 'El Papel Poliéster Translúcido'}
-                {activeAlcove === 'kintsugi' && 'Kintsugi Accidental & Costras'}
-                {activeAlcove === 'mica' && 'La Mica Mineral y los Ojos de Cristal'}
-                {activeAlcove === 'reverso' && 'El Reverso del Lienzo y la Acústica'}
-              </h3>
-
-              <p className="text-white/70 font-sans text-sm leading-relaxed mb-8">
-                {activeAlcove === 'pop' && 'La cara no es una similitud física; es una máscara emocional. Rostros icónicos del cine y de la música se plasman sobre un soporte indómito, logrando una confrontación de alta fidelidad entre la saturación del acrílico y la aspereza del basalto.'}
-                {activeAlcove === 'pizarra' && 'Material recuperado directamente de derribos de tejados tradicionales en Bilbao. Sometidas a cortes geográficos, sellado con resina epoxi de brillo espejo y rematadas con bordes rotos, las pizarras representan el concepto de refugio, hogar y dureza ancestral.'}
-                {activeAlcove === 'poliester' && 'Un laboratorio químico de tintas diluidas con agua de colonia. Los trazos disueltos sobre poliéster translúcido crean siluetas orgánicas flotantes, semejantes a radiografías de huesos o fluidos en tensión lumínica.'}
-                {activeAlcove === 'kintsugi' && 'Nacido por un error en pandemia mezclando cola blanca barata y acrílico. La costra del lienzo se resquebraja al secarse. En lugar de descartarlo, la artista raspa la herida y la rellena con barnices de oro, transformando la falla física en una veta de luz.'}
-                {activeAlcove === 'mica' && 'Escamas de mica mineral encoladas que reflejan destellos aleatorios según el punto de vista del espectador. Se complementa con las pupilas del retrato, pintadas en capas cerámicas 3D aplicadas con palillo de dientes para lograr un relieve ocular realista.'}
-                {activeAlcove === 'reverso' && 'El lienzo físico guarda secretos en su reverso: cartas escritas por el retratado, códigos QR que reproducen el paisaje acústico electrónico compuesto especialmente por el productor Borja Moskv, y el alter ego masculino "Aaron".'}
-              </p>
-
-              {/* Technical Specifications list */}
-              <div className="border-t border-white/10 pt-6">
-                <span className="text-white/30 font-mono text-[9px] tracking-widest uppercase block mb-3">
-                  Especificaciones Técnicas
-                </span>
-                <ul className="grid grid-cols-2 gap-y-4 gap-x-8 font-mono text-[10px] text-white/50">
-                  <li>
-                    <span className="text-white/30 block mb-1">Materia Prima</span>
-                    <span className="text-white">
-                      {activeAlcove === 'pop' && 'Acrílico & Basalto'}
-                      {activeAlcove === 'pizarra' && 'Pizarra Vasco-Lítica'}
-                      {activeAlcove === 'poliester' && 'Tinta y Poliéster'}
-                      {activeAlcove === 'kintsugi' && 'Cola, Acrílico & Oro'}
-                      {activeAlcove === 'mica' && 'Mica, Barniz de Vidrio'}
-                      {activeAlcove === 'reverso' && 'QR & Ledger Criptográfico'}
-                    </span>
-                  </li>
-                  <li>
-                    <span className="text-white/30 block mb-1">Fricción Física</span>
-                    <span className="text-white">
-                      {activeAlcove === 'pop' && 'Grosor 2cm a 4cm'}
-                      {activeAlcove === 'pizarra' && 'Corte Rústico Manual'}
-                      {activeAlcove === 'poliester' && 'Sin Fricción (Líquido)'}
-                      {activeAlcove === 'kintsugi' && 'Fractura Termodinámica'}
-                      {activeAlcove === 'mica' && 'Escamas Cristalizadas'}
-                      {activeAlcove === 'reverso' && 'Flujo Dual Reverso'}
-                    </span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* Display Column */}
-            <div className="lg:col-span-7 flex justify-center relative">
-              <div className="w-full max-w-lg aspect-[4/5] relative bg-neutral-950/80 border border-white/5 rounded-sm overflow-hidden group shadow-2xl">
-                {/* Artwork display linked to active tab */}
-                <Image
-                  src={resolveSrc(
-                    activeAlcove === 'pop' ? 'james-new.webp' :
-                    activeAlcove === 'pizarra' ? '601340023_1552126202933462_7815927344957967258_n.webp' :
-                    activeAlcove === 'poliester' ? '612329591_1571120784367337_8798688892093004057_n.webp' :
-                    activeAlcove === 'kintsugi' ? 'lagrimas-de-oro-DikHc-Tk.webp' :
-                    activeAlcove === 'mica' ? 'el-gran-dakari-C1tAWAhR.webp' : 'naroa-portrait-new.webp'
-                  )}
-                  alt="Muestra de la técnica de Naroa"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  quality={95}
-                  className="object-cover transition-transform duration-[2.5s] ease-out group-hover:scale-105"
-                />
-                
-                {/* Visual frame overlay */}
-                <div className="absolute inset-0 border-[12px] border-black/40 pointer-events-none" />
-                
-                {/* Quick Info tag */}
-                <div className="absolute bottom-6 left-6 bg-black/80 backdrop-blur-md px-4 py-2 border border-white/10 text-[9px] font-mono tracking-widest text-white uppercase">
-                  [ Muestra Universo {activeAlcove.toUpperCase()} ]
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      </section>
+      <AlcoveSystem activeAlcove={activeAlcove} setActiveAlcove={setActiveAlcove} resolveSrc={resolveSrc} />
 
       {/* START: Interactive 3D Canvas Sandbox Details Viewer */}
-      <LuxuryArtworkViewer />
+      <Suspense fallback={<div className="w-full h-96 bg-[#050505]" />}>
+        <LuxuryArtworkViewer />
+      </Suspense>
 
       {/* START: 3D Orbital slates gallery */}
-      <ThreeDCarousel />
+      <Suspense fallback={<div className="w-full h-96 bg-[#050505]" />}>
+        <ThreeDCarousel />
+      </Suspense>
 
       {/* START: Google Flow / Omni Flash Creative Studio */}
-      <GoogleFlowStudio />
+      <Suspense fallback={<div className="w-full h-96 bg-[#050505]" />}>
+        <GoogleFlowStudio />
+      </Suspense>
 
       {/* START: The co-creation request form (Concierge Customizer) */}
       <InteractiveStudio />
