@@ -10,7 +10,7 @@ export default function SOTAFX() {
   useEffect(() => {
     let audioCtx: AudioContext | null = null;
     let analyser: AnalyserNode | null = null;
-    let dataArray: Uint8Array | null = null;
+    let dataArray: Uint8Array<ArrayBuffer> | null = null;
     let animationFrame: number;
     
     // 4 & 14. Sonido ASMR Taller + Audio Reactivity
@@ -25,7 +25,7 @@ export default function SOTAFX() {
           
           const updateAudioReactivity = () => {
             if (analyser && dataArray) {
-              analyser.getByteFrequencyData(dataArray);
+              analyser.getByteFrequencyData(dataArray as any);
               let sum = 0;
               for(let i = 0; i < dataArray.length; i++) sum += dataArray[i];
               const avg = sum / dataArray.length;
