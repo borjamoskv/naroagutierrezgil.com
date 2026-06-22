@@ -121,7 +121,7 @@ export default function Contacto() {
           
           {/* HEADER & INFO SECTION */}
           <div className="lg:col-span-5 space-y-12">
-            <header className="relative border-l border-[#2B3BE5]/30 pl-8 py-2">
+            <header className="relative border-l border-[#2B3BE5]/30 pl-8 py-2 reveal-on-scroll">
               <span className="text-[#2B3BE5] font-sans tracking-[0.4em] uppercase text-[10px] mb-4 block">
                 Cimientos de Pizarra
               </span>
@@ -140,7 +140,7 @@ export default function Contacto() {
             </div>
 
             {/* TABLA DE INVERSIÓN */}
-            <div className="p-8 border border-white/5 bg-white/[0.01] rounded-sm space-y-6">
+            <div className="p-8 border border-white/5 bg-white/[0.01] rounded-sm space-y-6 reveal-on-scroll">
               <h3 className="text-[#2B3BE5] font-serif text-2xl">Rangos de Inversión</h3>
               <div className="space-y-4 text-sm font-sans tracking-wide">
                 <div className="flex justify-between border-b border-white/5 pb-2">
@@ -163,7 +163,7 @@ export default function Contacto() {
           </div>
 
           {/* FORM SECTION */}
-          <div className="lg:col-span-7 bg-[#0A0A0A] border border-white/10 rounded-sm p-8 sm:p-12 shadow-2xl relative">
+          <div className="lg:col-span-7 bg-[#0A0A0A] border border-white/10 rounded-sm p-8 sm:p-12 shadow-2xl relative magnetic-glow reveal-on-scroll">
             <div className="absolute top-0 left-0 w-full h-[2px] bg-[#2B3BE5]" />
 
             <form onSubmit={handleSubmit} className="space-y-8">
@@ -289,7 +289,7 @@ export default function Contacto() {
                 </div>
                 <button
                   type="submit"
-                  className="w-full sm:w-auto px-8 py-4 bg-[#2B3BE5] text-white hover:bg-white hover:text-black font-sans text-xs tracking-[0.2em] uppercase rounded-sm transition-all duration-500 cursor-pointer shadow-[0_0_30px_rgba(43,59,229,0.2)] hover:shadow-none"
+                  className="w-full sm:w-auto px-10 py-5 bg-[#2B3BE5] text-white hover:bg-white hover:text-black font-mono text-[10px] tracking-[0.3em] uppercase rounded-sm transition-all duration-700 cursor-pointer shadow-[0_0_40px_rgba(43,59,229,0.25)] hover:shadow-[0_0_60px_rgba(255,255,255,0.1)] hover:scale-[1.02] active:scale-[0.98]"
                 >
                   Enviar Propuesta
                 </button>
@@ -301,7 +301,7 @@ export default function Contacto() {
         </div>
       </main>
 
-      <footer className="w-full text-center py-12 border-t border-white/5 text-[10px] tracking-[0.3em] uppercase text-white/30 relative z-10">
+      <footer className="w-full text-center py-16 border-t border-white/5 text-[9px] tracking-[0.4em] uppercase text-white/20 relative z-10 bg-[#030303]">
         Portal de Alta Precisión Emocional — C5-REAL
       </footer>
     </div>

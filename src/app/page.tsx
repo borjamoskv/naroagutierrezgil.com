@@ -23,6 +23,7 @@ const Mica = dynamic(() => import('@/components/Mica'), { ssr: false });
 const ScrollyTelling = dynamic(() => import('@/components/ScrollyTelling'), { ssr: false });
 const InteractiveStudio = dynamic(() => import('@/components/InteractiveStudio'), { ssr: false });
 const TakeoverModal = dynamic(() => import('@/components/TakeoverModal'), { ssr: false });
+const ScrollAwareHeader = dynamic(() => import('@/components/ScrollAwareHeader'), { ssr: false });
 const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
 
 const baseArtworks = [
@@ -226,7 +227,7 @@ export default function Home() {
       )}
 
       {/* Header & Navigation */}
-      <header className="fixed top-0 left-0 w-full px-6 sm:px-12 py-6 flex flex-col justify-between items-center z-[210] mix-blend-difference pointer-events-auto select-none text-white border-b border-white/5 bg-black/20 backdrop-blur-md animate-[fadeIn_1.5s_ease-out_both]">
+      <ScrollAwareHeader className="fixed top-0 left-0 w-full px-6 sm:px-12 py-6 flex flex-col justify-between items-center z-[210] mix-blend-difference pointer-events-auto select-none text-white border-b border-white/5 bg-black/20 animate-[fadeIn_1.5s_ease-out_both]">
         <div className="w-full flex justify-between items-center">
           <div className="flex flex-col">
             <span className="font-sans text-[10px] tracking-[0.5em] uppercase font-bold text-[var(--primary)]">
@@ -270,6 +271,13 @@ export default function Home() {
               Autodidacta
             </Link>
 
+            <Link
+              href="/contacto"
+              className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
+            >
+              Contacto
+            </Link>
+
             <button 
               onClick={() => setAppMode(prev => prev === 'ORDEN' ? 'CAOS' : 'ORDEN')}
               className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
@@ -285,7 +293,7 @@ export default function Home() {
             Laboratorio de Pintura & Alquimia Lítica • Bilbao 2026
           </span>
         </div>
-      </header>
+      </ScrollAwareHeader>
 
       {/* Hero Section */}
       <div className="relative w-full h-[180vh] bg-[#050505]">
