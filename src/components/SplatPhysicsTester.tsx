@@ -1,4 +1,4 @@
-// [SOTY Primitive #141]: Lágrimas de Oro contrast
+// [SOTY Primitive #142]: Geisha mineral dust glow
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
