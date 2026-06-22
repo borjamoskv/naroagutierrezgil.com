@@ -222,12 +222,12 @@ export default function Home() {
         </>
       )}
 
-      {/* START: Cartier-inspired Luxury Nav Bar */}
+      {/* Header & Navigation */}
       <header className="fixed top-0 left-0 w-full px-6 sm:px-12 py-6 flex flex-col justify-between items-center z-[210] mix-blend-difference pointer-events-auto select-none text-white border-b border-white/5 bg-black/20 backdrop-blur-md animate-[fadeIn_1.5s_ease-out_both]">
         <div className="w-full flex justify-between items-center">
           <div className="flex flex-col">
             <span className="font-sans text-[10px] tracking-[0.5em] uppercase font-bold text-[var(--primary)]">
-              Maison Naroa
+              Naroa Gutiérrez Gil
             </span>
             <span className="font-sans text-[7px] tracking-[0.3em] uppercase opacity-40 mt-1">
               Hiperrealismo Pop & Alquimia Vasca
@@ -276,10 +276,10 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Subtitle / Event Tracker mimicking Cartier W&W layout */}
+        {/* Laboratorio HUD Subtitle */}
         <div className="w-full mt-4 pt-3 border-t border-white/5 flex justify-center">
           <span className="font-sans text-[8px] tracking-[0.4em] text-white/50 uppercase">
-            Watches & Wonders 2026 • Colección de Retratos e Invariantes
+            Laboratorio de Pintura & Alquimia Lítica • Bilbao 2026
           </span>
         </div>
       </header>
@@ -336,10 +336,10 @@ export default function Home() {
         </section>
       </div>
 
-      {/* START: Cartier Brand Philosophy Section */}
+      {/* Philosophy Section */}
       <section id="statement" className="relative z-10 px-6 sm:px-12 py-48 max-w-6xl mx-auto w-full flex flex-col items-center text-center select-none">
         <span className="text-[var(--primary)] font-mono text-[9px] tracking-[0.5em] uppercase mb-6">
-          Creador de Formas y Alquimia
+          Física de la Materia y la Fisura
         </span>
         <p className="text-2xl sm:text-4xl md:text-5xl font-serif font-light tracking-wide text-white leading-relaxed max-w-4xl italic">
           "El lienzo no es un soporte; es la materia misma que <span className="text-[var(--primary)] text-glow font-normal">gobierna la forma</span>. En Naroa, la pizarra centenaria, la mica mineral y el kintsugi se alían en retratos que son calibres de memoria."
@@ -347,17 +347,17 @@ export default function Home() {
         <div className="w-16 h-[1px] bg-[#2B3BE5]/30 mt-12" />
       </section>
 
-      {/* START: The 6 Alcoves / Universes Showcase (Cartier Clone Tab system) */}
+      {/* Mediums & Excavations Tab System */}
       <section id="alcobas" className="relative z-10 px-6 sm:px-12 py-32 bg-black/60 border-t border-white/5 overflow-hidden">
         <div className="max-w-7xl mx-auto w-full">
           
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-20">
             <div>
               <span className="text-[#2B3BE5] font-mono tracking-[0.4em] text-[9px] uppercase block mb-3">
-                Exposición Temática
+                Yacimientos del Retrato
               </span>
               <h2 className="text-3xl sm:text-5xl font-serif font-light tracking-wide text-white uppercase">
-                Los Universos del Retrato
+                Materia & Fisura
               </h2>
             </div>
             <p className="max-w-md text-white/40 font-sans text-xs tracking-wider leading-relaxed">
@@ -398,7 +398,7 @@ export default function Home() {
             {/* Description Column */}
             <div className="lg:col-span-5 flex flex-col">
               <span className="text-[#2B3BE5] font-mono text-[9px] tracking-widest uppercase mb-4">
-                Savoir-Faire // Universo {activeAlcove === 'pop' && 'I'}
+                Arqueología Lítica // Universo {activeAlcove === 'pop' && 'I'}
                 {activeAlcove === 'pizarra' && 'II'}
                 {activeAlcove === 'poliester' && 'III'}
                 {activeAlcove === 'kintsugi' && 'IV'}
