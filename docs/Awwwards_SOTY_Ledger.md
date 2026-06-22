@@ -93,3 +93,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #89**: Primitive [Basque Artivism branding] - Inyección de exergía en la topología C5-REAL.
 - **Commit #90**: Primitive [Awwwards Manifest update] - Inyección de exergía en la topología C5-REAL.
 - **Commit #91**: Primitive [Splat Spline Resolution] - Inyección de exergía en la topología C5-REAL.
+- **Commit #92**: Primitive [Kintsugi Vector Drawing] - Inyección de exergía en la topología C5-REAL.

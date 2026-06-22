@@ -1,4 +1,4 @@
-// [SOTY Primitive #91]: Splat Spline Resolution
+// [SOTY Primitive #92]: Kintsugi Vector Drawing
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
