@@ -1,4 +1,4 @@
-// [SOTY Primitive #106]: Viewport height fallbacks
+// [SOTY Primitive #107]: Brutalist typography kerning
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
