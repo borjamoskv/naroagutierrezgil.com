@@ -1,4 +1,4 @@
-// [SOTY Primitive #14]: Staggered Intersection Observers
+// [SOTY Primitive #15]: Magnetic Button Pull
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
