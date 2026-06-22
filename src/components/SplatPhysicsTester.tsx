@@ -1,4 +1,4 @@
-// [SOTY Primitive #92]: Kintsugi Vector Drawing
+// [SOTY Primitive #93]: Damping Factor adjustment
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
