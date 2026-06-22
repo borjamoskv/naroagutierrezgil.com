@@ -1,4 +1,4 @@
-// [SOTY Primitive #51]: Depth HUD overlay masks
+// [SOTY Primitive #52]: Volumetric Portrait Opacity Fade
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
