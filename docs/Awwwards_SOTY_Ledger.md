@@ -115,3 +115,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #111**: Primitive [Anergy dead code sweeps] - Inyección de exergía en la topología C5-REAL.
 - **Commit #112**: Primitive [Knip script dependency fix] - Inyección de exergía en la topología C5-REAL.
 - **Commit #113**: Primitive [Mica compile error cast] - Inyección de exergía en la topología C5-REAL.
+- **Commit #114**: Primitive [SOTAFX SplatVault removal] - Inyección de exergía en la topología C5-REAL.

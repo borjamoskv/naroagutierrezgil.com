@@ -1,4 +1,4 @@
-// [SOTY Primitive #113]: Mica compile error cast
+// [SOTY Primitive #114]: SOTAFX SplatVault removal
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
