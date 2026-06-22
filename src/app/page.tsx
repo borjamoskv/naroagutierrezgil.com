@@ -202,14 +202,9 @@ export default function Home() {
       
       {/* Dynamic Backgrounds */}
       {appMode === "CAOS" && webGLReady && (
-        <>
-          <div id="fluid-physics-container" className="fixed inset-0 z-0 pointer-events-auto animate-[fadeIn_4s_ease-out]">
-            <SplatPhysicsTester />
-          </div>
-          <div id="macro-splat-container" className="fixed inset-0 z-10 pointer-events-auto animate-[fadeIn_3s_ease-out] mix-blend-screen">
-            <MacroSplatCanvas />
-          </div>
-        </>
+        <div id="macro-splat-container" className="fixed inset-0 z-0 pointer-events-auto animate-[fadeIn_3s_ease-out]">
+          <MacroSplatCanvas />
+        </div>
       )}
 
       {appMode === "ORDEN" && (

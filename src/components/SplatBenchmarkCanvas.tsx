@@ -1,12 +1,24 @@
 /* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { WebGPUSplatSimulator } from '@/lib/splat-physics/WebGPUSplatPhysics';
+import { SplatPhysicsEngine } from '@/lib/splat-physics/SplatPhysicsEngine';
 import { SplatAudioEngine } from '@/lib/audio/SplatAudioEngine';
 
 import { useAgent } from 'agents/react';
 import type { EntropicCanvasAgent, EntropicState } from '@/agents/EntropicCanvasAgent';
+
+function makePerspectiveMatrix(fovRad: number, aspect: number, near: number, far: number): Float32Array {
+  const f = 1.0 / Math.tan(fovRad / 2.0);
+  const out = new Float32Array(16);
+  out[0] = f / aspect;
+  out[5] = f;
+  out[10] = (far + near) / (near - far);
+  out[11] = -1.0;
+  out[14] = (2.0 * far * near) / (near - far);
+  return out;
+}
 
 function useKintsugiAgent() {
   const agent = useAgent<EntropicCanvasAgent, EntropicState>({
@@ -34,14 +46,17 @@ function useKintsugiAgent() {
 function SplatInteractiveCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [status, setStatus] = useState<string>('Initializing C5-REAL Splat Physics Engine...');
-  const simulatorRef = useRef<WebGPUSplatSimulator | null>(null);
+  const engineRef = useRef<SplatPhysicsEngine | null>(null);
   const audioEngineRef = useRef<SplatAudioEngine | null>(null);
+  
   const isDownRef = useRef(false);
-  const mousePosRef = useRef({ x: -1000, y: -1000 });
-  const lastMouseRef = useRef({ x: -1000, y: -1000, time: 0 });
+  const mousePosRef = useRef({ x: -10.0, y: -10.0 });
+  const lastMouseRef = useRef({ x: -10.0, y: -10.0, time: 0 });
+  const zoomRef = useRef(1.0);
 
   const [flash, setFlash] = useState(false);
   const [goldFlash, setGoldFlash] = useState(false);
+  const [fps, setFps] = useState(60);
 
   // Kintsugi Agent Connection (Producción C5-REAL)
   const agent = useKintsugiAgent();
@@ -58,22 +73,16 @@ function SplatInteractiveCanvas() {
       try {
         const data = JSON.parse(e.data);
         if (data.type === 'CANVAS_FRACTURE') {
-          // 1. Trigger visual screen flash
           setFlash(true);
-          // 2. Play Audio crack sound via playGrain
           if (audioEngineRef.current) {
             audioEngineRef.current.playGrain(500.0, 500.0);
           }
-          // 3. Update status message
           setStatus('CANVAS FRACTURED: La fricción colectiva ha quebrado la obra. Inyección de resina requerida.');
         } else if (data.type === 'KINTSUGI_COMPLETE') {
-          // 1. Trigger golden UI flash transition
           setGoldFlash(true);
-          // 2. Play audio repair grain sound
           if (audioEngineRef.current) {
             audioEngineRef.current.playGrain(200.0, 50.0);
           }
-          // 3. Update status message
           setStatus('[C5-REAL ENGINE ACTIVE]: Kintsugi completo. La obra ha sido reparada y reforzada con oro.');
         }
       } catch (err) {}
@@ -100,42 +109,155 @@ function SplatInteractiveCanvas() {
   }, [goldFlash]);
 
   useEffect(() => {
-    if (!canvasRef.current) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
     
     let animationFrameId: number;
-    const splatCount = 200000; // Increased count for better visual density
+    let isMounted = true;
+    const splatCount = 100000; // 100k particles for high-fidelity Slate plaque rendering
+
+    let frameCount = 0;
+    let lastFpsUpdateTime = performance.now();
 
     const initEngine = async () => {
       try {
-        const simulator = new WebGPUSplatSimulator();
-        await simulator.init(splatCount);
-        simulatorRef.current = simulator;
-        
+        const engine = new SplatPhysicsEngine();
+        const success = await engine.init();
+        if (!success || !isMounted) {
+          setStatus('ERROR: WebGPU no soportado en este navegador.');
+          return;
+        }
+        engineRef.current = engine;
+
+        const context = canvas.getContext('webgpu') as any;
+        if (!context) {
+          setStatus('ERROR: No se pudo obtener el contexto WebGPU del canvas.');
+          return;
+        }
+
+        const presentationFormat = (navigator as any).gpu.getPreferredCanvasFormat();
+        context.configure({
+          device: engine.device!,
+          format: presentationFormat,
+          alphaMode: 'opaque'
+        });
+
+        // Generate particle positions resembling a textured slate plaque
+        const positions = new Float32Array(splatCount * 4);
+        const gridSide = Math.sqrt(splatCount); // ~316 particles per side
+        for (let i = 0; i < splatCount; i++) {
+          const row = Math.floor(i / gridSide);
+          const col = i % gridSide;
+          const x = ((col / gridSide) - 0.5) * 3.0;
+          const y = ((row / gridSide) - 0.5) * 3.0;
+          const z = Math.sin(x * 6.0) * Math.cos(y * 6.0) * 0.08 + (Math.random() - 0.5) * 0.02;
+          
+          const idx = i * 4;
+          positions[idx] = x;
+          positions[idx + 1] = y;
+          positions[idx + 2] = z;
+          positions[idx + 3] = 1.0;
+        }
+
+        engine.setupData(positions);
+
         const audio = new SplatAudioEngine();
         await audio.init();
         audioEngineRef.current = audio;
 
-        setStatus(`C5-REAL ENGINE ACTIVE: Loaded .splat into WebGPU Compute at 60fps.`);
-        const renderLoop = () => {
+        setStatus(`C5-REAL ENGINE ACTIVE: Loaded 100K Splats in WebGPU Compute.`);
+
+        const handleResize = () => {
+          if (!canvas) return;
+          canvas.width = canvas.clientWidth;
+          canvas.height = canvas.clientHeight;
+        };
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Initial setup
+
+        const renderLoop = (time: number) => {
+          if (!isMounted) return;
+
           if (window.scrollY > window.innerHeight) {
             animationFrameId = requestAnimationFrame(renderLoop);
             return;
           }
 
-          if (simulatorRef.current) {
-            simulatorRef.current.step(mousePosRef.current.x, mousePosRef.current.y, isDownRef.current, splatCount);
+          // FPS calculation
+          frameCount++;
+          const now = performance.now();
+          if (now - lastFpsUpdateTime >= 1000) {
+            setFps(Math.round((frameCount * 1000) / (now - lastFpsUpdateTime)));
+            frameCount = 0;
+            lastFpsUpdateTime = now;
           }
+
+          if (engineRef.current && context) {
+            const aspect = canvas.width / canvas.height;
+            const mappedX = mousePosRef.current.x * 1.5 * aspect;
+            const mappedY = mousePosRef.current.y * 1.5;
+
+            // Run compute shader (Physics update)
+            engineRef.current.runComputePass(
+              mappedX,
+              mappedY,
+              time * 0.001,
+              isDownRef.current ? 0.16 : 0.08, // force
+              0.02, // elasticity
+              0.96, // damping
+              isDownRef.current ? 0.08 : 0.04, // heatRate
+              zoomRef.current
+            );
+
+            // Camera ViewProjection + Parallax Matrix
+            const proj = makePerspectiveMatrix(Math.PI / 4, aspect, 0.1, 100.0);
+            const parallaxX = mousePosRef.current.x * 0.25;
+            const parallaxY = mousePosRef.current.y * 0.25;
+            const currentDistance = -3.5 / zoomRef.current;
+            
+            const viewProj = new Float32Array(16);
+            viewProj.set(proj);
+            viewProj[12] = proj[0] * parallaxX + viewProj[12];
+            viewProj[13] = proj[5] * parallaxY + viewProj[13];
+            viewProj[14] = proj[10] * currentDistance + viewProj[14];
+            viewProj[15] = proj[11] * currentDistance;
+
+            // Get dynamic primary color from doc style
+            const computedStyle = getComputedStyle(document.documentElement);
+            const primaryColor = computedStyle.getPropertyValue('--primary').trim() || '#2B3BE5';
+            const cleanHex = primaryColor.replace('#', '');
+            const r = parseInt(cleanHex.substring(0, 2), 16) / 255;
+            const g = parseInt(cleanHex.substring(2, 4), 16) / 255;
+            const b = parseInt(cleanHex.substring(4, 6), 16) / 255;
+
+            // Render to WebGPU context
+            engineRef.current.render(context, viewProj, [r, g, b], zoomRef.current, mappedX, mappedY);
+          }
+
           animationFrameId = requestAnimationFrame(renderLoop);
         };
-        renderLoop();
+
+        animationFrameId = requestAnimationFrame(renderLoop);
+
+        const handleWheel = (e: WheelEvent) => {
+          e.preventDefault();
+          zoomRef.current = Math.max(1.0, Math.min(5.0, zoomRef.current - e.deltaY * 0.0025));
+        };
+        canvas.addEventListener('wheel', handleWheel, { passive: false });
+
+        return () => {
+          window.removeEventListener('resize', handleResize);
+          canvas.removeEventListener('wheel', handleWheel);
+        };
       } catch (err: unknown) {
-        setStatus(`ERROR: ${(err as Error).message}. Verifica flags de WebGPU en el navegador.`);
+        setStatus(`ERROR: ${(err as Error).message}. Verifica flags de WebGPU.`);
       }
     };
 
     initEngine();
 
     return () => {
+      isMounted = false;
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
@@ -152,28 +274,33 @@ function SplatInteractiveCanvas() {
   const handlePointerMove = (e: React.PointerEvent) => {
     const rect = canvasRef.current?.getBoundingClientRect();
     if (rect) {
-      mousePosRef.current.x = e.clientX - rect.left;
-      mousePosRef.current.y = e.clientY - rect.top;
+      // Normalize pointer coords to [-1.0, 1.0] for WebGPU projection
+      const x = ((e.clientX - rect.left) / rect.width) * 2.0 - 1.0;
+      const y = -(((e.clientY - rect.top) / rect.height) * 2.0 - 1.0);
+      
+      mousePosRef.current = { x, y };
+      
+      const pixelX = e.clientX - rect.left;
+      const pixelY = e.clientY - rect.top;
       
       if (isDownRef.current) {
         const now = performance.now();
         const dt = now - lastMouseRef.current.time;
         if (dt > 0) {
-          const dx = mousePosRef.current.x - lastMouseRef.current.x;
-          const dy = mousePosRef.current.y - lastMouseRef.current.y;
+          const dx = pixelX - lastMouseRef.current.x;
+          const dy = pixelY - lastMouseRef.current.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           const velocity = (dist / dt) * 1000.0; // px per second
           
           if (audioEngineRef.current) {
-            audioEngineRef.current.playGrain(velocity, 150.0); // 150 is interaction force
+            audioEngineRef.current.playGrain(velocity, 150.0);
           }
         }
-        lastMouseRef.current = { x: mousePosRef.current.x, y: mousePosRef.current.y, time: now };
+        lastMouseRef.current = { x: pixelX, y: pixelY, time: now };
       }
     }
     
     if (isDownRef.current && !kintsugiActive) {
-       // Pseudo-throttle para no saturar KV en desarrollo
        if (Math.random() > 0.95) { 
          agent.applyFriction(e.clientX, e.clientY, 2.5).catch(console.error);
        }
@@ -189,14 +316,12 @@ function SplatInteractiveCanvas() {
 
   return (
     <div className="relative w-full h-full bg-[#0A0A0A] overflow-hidden">
-      <div className="absolute top-4 left-4 z-10 font-mono text-xs text-[#2B3BE5] pointer-events-none opacity-0 hover:opacity-100 transition-opacity">
-        <p className="text-white/30">{status}</p>
+      <div className="absolute top-4 left-4 z-10 font-mono text-xs text-[#2B3BE5] pointer-events-none opacity-40 hover:opacity-100 transition-opacity">
+        <p className="text-white/30">{status} // {fps} FPS</p>
       </div>
       <canvas 
         ref={canvasRef} 
-        width={1000}
-        height={1000}
-        className="w-full h-full cursor-crosshair mix-blend-screen absolute inset-0"
+        className="w-full h-full cursor-crosshair absolute inset-0 touch-none"
         onPointerDown={handlePointerDown}
         onPointerUp={handlePointerUp}
         onPointerLeave={handlePointerUp}
@@ -267,7 +392,7 @@ export default function SplatBenchmarkCanvas() {
   if (!interacted) {
     return (
       <div 
-        className="relative w-full h-full bg-[#0A0A0A] overflow-hidden cursor-crosshair flex flex-col items-center justify-center border border-white/5 hover:border-primary/30 transition-colors duration-500 group"
+        className="relative w-full h-full bg-[#0A0A0A] overflow-hidden cursor-crosshair flex flex-col items-center justify-center border border-white/5 hover:border-primary/30 transition-colors duration-500 group pointer-events-auto"
         onPointerDown={() => setInteracted(true)}
       >
         <div className="absolute top-4 left-4 z-10 font-mono text-[9px] text-[#2B3BE5] pointer-events-none tracking-widest uppercase">
