@@ -109,3 +109,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #105**: Primitive [Lenis Wheel events] - Inyección de exergía en la topología C5-REAL.
 - **Commit #106**: Primitive [Viewport height fallbacks] - Inyección de exergía en la topología C5-REAL.
 - **Commit #107**: Primitive [Brutalist typography kerning] - Inyección de exergía en la topología C5-REAL.
+- **Commit #108**: Primitive [Unbounded font tracking] - Inyección de exergía en la topología C5-REAL.

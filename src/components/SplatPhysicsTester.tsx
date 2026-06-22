@@ -1,4 +1,4 @@
-// [SOTY Primitive #107]: Brutalist typography kerning
+// [SOTY Primitive #108]: Unbounded font tracking
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
