@@ -1,4 +1,4 @@
-// [SOTY Primitive #13]: Kintsugi Fracture Soundscapes
+// [SOTY Primitive #14]: Staggered Intersection Observers
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

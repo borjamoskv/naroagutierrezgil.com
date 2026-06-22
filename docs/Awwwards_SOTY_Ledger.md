@@ -15,3 +15,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #11**: Primitive [Roman Numeral Navigation] - Inyección de exergía en la topología C5-REAL.
 - **Commit #12**: Primitive [Liquid Ripple Shaders] - Inyección de exergía en la topología C5-REAL.
 - **Commit #13**: Primitive [Kintsugi Fracture Soundscapes] - Inyección de exergía en la topología C5-REAL.
+- **Commit #14**: Primitive [Staggered Intersection Observers] - Inyección de exergía en la topología C5-REAL.
