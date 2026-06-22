@@ -1,4 +1,4 @@
-// [SOTY Primitive #77]: Durable Object persist checks
+// [SOTY Primitive #78]: KV Observability ledgers
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
