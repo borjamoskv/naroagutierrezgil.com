@@ -1,4 +1,4 @@
-// [SOTY Primitive #36]: Reduced-Motion Fallbacks
+// [SOTY Primitive #37]: Accessibility Skip Link
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 

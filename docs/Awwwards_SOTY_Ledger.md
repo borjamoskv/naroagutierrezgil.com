@@ -38,3 +38,4 @@ Este ledger registra las mutaciones incrementales de la exergía del proyecto.
 - **Commit #34**: Primitive [LCP WebP Conversion] - Inyección de exergía en la topología C5-REAL.
 - **Commit #35**: Primitive [Anergy Token Purge] - Inyección de exergía en la topología C5-REAL.
 - **Commit #36**: Primitive [Reduced-Motion Fallbacks] - Inyección de exergía en la topología C5-REAL.
+- **Commit #37**: Primitive [Accessibility Skip Link] - Inyección de exergía en la topología C5-REAL.
