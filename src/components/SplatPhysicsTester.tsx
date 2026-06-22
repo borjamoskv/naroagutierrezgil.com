@@ -1,4 +1,4 @@
-// [SOTY Primitive #103]: Biquad Filter resonance
+// [SOTY Primitive #104]: CRT scanline speed
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
