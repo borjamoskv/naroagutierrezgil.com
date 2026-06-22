@@ -7,73 +7,49 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Lenis from 'lenis';
 import dynamic from 'next/dynamic';
-import DepthHUD from '@/components/DepthHUD';
-import SOTAFX from '@/components/SOTAFX';
-import Mica from '@/components/Mica';
-import HeroFluid from '@/components/HeroFluid';
-import ScrollyTelling from '@/components/ScrollyTelling';
-import InteractiveStudio from '@/components/InteractiveStudio';
-import TakeoverModal from '@/components/TakeoverModal';
-import Footer from '@/components/Footer';
-import AnimatedHeroBackground from '@/components/AnimatedHeroBackground';
 
 const WebGLBackground = dynamic(() => import('@/components/WebGLBackground'), { ssr: false });
 const PaintTrail = dynamic(() => import('@/components/PaintTrail'), { ssr: false });
 const MacroSplatCanvas = dynamic(() => import('@/components/SplatBenchmarkCanvas'), { ssr: false });
 const SplatPhysicsTester = dynamic(() => import('@/components/SplatPhysicsTester'), { ssr: false });
-const KineticArtwork = dynamic(() => import('@/components/KineticArtwork'), { ssr: false });
 const ThreeDCarousel = dynamic(() => import('@/components/ThreeDCarousel'), { ssr: false });
-
-const getImageUrl = (src: string) => {
-  if (src.startsWith('http')) {
-    return src;
-  }
-  return `/assets/${src}`;
-};
+const LuxuryArtworkViewer = dynamic(() => import('@/components/LuxuryArtworkViewer'), { ssr: false });
+const DepthHUD = dynamic(() => import('@/components/DepthHUD'), { ssr: false });
+const SOTAFX = dynamic(() => import('@/components/SOTAFX'), { ssr: false });
+const Mica = dynamic(() => import('@/components/Mica'), { ssr: false });
+const ScrollyTelling = dynamic(() => import('@/components/ScrollyTelling'), { ssr: false });
+const InteractiveStudio = dynamic(() => import('@/components/InteractiveStudio'), { ssr: false });
+const TakeoverModal = dynamic(() => import('@/components/TakeoverModal'), { ssr: false });
+const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
 
 const baseArtworks = [
-  // Local Original Facebook/HQ Scans
-  { src: 'Naroa x16.jpeg', title: 'Alquimia en Pizarra', span: 'col-span-1 md:col-span-10 md:col-start-2 md:row-span-2 aspect-[4/5]' },
-  { src: '601340023_1552126202933462_7815927344957967258_n.jpg', title: 'Espejo del Alma I', span: 'col-span-1 md:col-span-5 md:col-start-1 mt-0 md:mt-32 aspect-[3/4]' },
-  { src: '608211438_1562089535270462_2827127275272133326_n.jpg', title: 'Dama de la Pizarra', span: 'col-span-1 md:col-span-6 md:col-start-7 mt-0 md:-mt-20 aspect-square' },
-  { src: '612329591_1571120784367337_8798688892093004057_n.jpg', title: 'Facciones del Silencio', span: 'col-span-1 md:col-span-7 md:col-start-3 mt-12 md:mt-40 aspect-[16/9]' },
-  { src: '615438426_1577822580363824_2923463327956560352_n.jpg', title: 'Retrato en Tensión', span: 'col-span-1 md:col-span-4 md:col-start-1 mt-0 md:mt-24 aspect-[4/5]' },
-  { src: '615443765_1577822577030491_9008867371114744175_n.jpg', title: 'Estudio de Luz', span: 'col-span-1 md:col-span-5 md:col-start-8 mt-0 md:-mt-48 aspect-[3/4]' },
-  { src: '615955827_1577822687030480_2386611372471959463_n.jpg', title: 'Materia y Silencio', span: 'col-span-1 md:col-span-12 md:col-start-1 mt-12 md:mt-32 aspect-[21/9]' },
-  { src: '616115287_1577822747030474_1432330062205548806_n.jpg', title: 'Retrato de Fama I', span: 'col-span-1 md:col-span-6 md:col-start-2 mt-0 aspect-square' },
-  { src: '616822144_1580323063447109_589182952237233174_n.jpg', title: 'Retrato del Viento', span: 'col-span-1 md:col-span-4 md:col-start-9 mt-0 md:mt-40 aspect-[4/5]' },
-  { src: '622453257_1583899099756172_4197872465466826396_n.jpg', title: 'Mirada del Tiempo', span: 'col-span-1 md:col-span-8 md:col-start-3 mt-12 md:mt-24 aspect-[16/10]' },
-  { src: '292544889_3277546379149645_1460977192858455652_n.jpg', title: 'Proceso I', span: 'col-span-1 md:col-span-3 md:col-start-1 mt-0 md:mt-12 aspect-[3/4]' },
-  { src: '594972277_1543116283834454_8672784625256696657_n.jpg', title: 'Proceso II', span: 'col-span-1 md:col-span-3 md:col-start-5 mt-0 md:-mt-20 aspect-square' },
-  { src: '600258291_1552125946266821_6847049145049928090_n.jpg', title: 'Proceso III', span: 'col-span-1 md:col-span-3 md:col-start-9 mt-0 md:mt-32 aspect-[4/5]' },
-  { src: '615932964_1577822457030503_2110397705300850911_n.jpg', title: 'Textura Epoxi', span: 'col-span-1 md:col-span-10 md:col-start-2 mt-12 md:mt-32 aspect-video' },
-  { src: '616035859_1577822453697170_3937842745320602184_n.jpg', title: 'Corte Mineral', span: 'col-span-1 md:col-span-6 md:col-start-1 mt-0 md:mt-20 aspect-square' },
-  { src: '616198291_1577822413697174_3337151405885426240_n.jpg', title: 'Superficie Táctil', span: 'col-span-1 md:col-span-5 md:col-start-8 mt-0 md:-mt-10 aspect-[3/4]' },
-  { src: '616994481_1577822437030505_8337096648607967605_n.jpg', title: 'Fusión Material', span: 'col-span-1 md:col-span-12 mt-12 md:mt-40 aspect-[21/9]' },
-  { src: '648843106_1623950012417747_2278290628706124542_n.jpg', title: 'Resonancia Magnética', span: 'col-span-1 md:col-span-10 md:col-start-2 mt-12 md:mt-24 aspect-[4/5]' },
-  // Iconos Pop
-  { src: 'hq-james-CjsTrO7r.webp', title: 'James Dean', span: 'col-span-1 md:col-span-8 md:col-start-1 mt-12 md:mt-0 aspect-square' },
-  { src: 'hq-amy-BRTriASV.webp', title: 'Amy Winehouse', span: 'col-span-1 md:col-span-4 md:col-start-9 mt-0 md:mt-40 aspect-[4/5]' },
-  { src: 'hq-portrait-1-bV-_WHlX.webp', title: 'Retrato I', span: 'col-span-1 md:col-span-5 md:col-start-2 mt-12 md:mt-24 aspect-[3/4]' },
-  { src: 'el-gran-dakari-C1tAWAhR.webp', title: 'El Gran Dakari', span: 'col-span-1 md:col-span-6 md:col-start-7 mt-0 md:-mt-20 aspect-square' },
-  { src: 'hq-johnny-5ueL8eU0.webp', title: 'Johnny Depp', span: 'col-span-1 md:col-span-12 mt-12 md:mt-40 aspect-[21/9]' },
-  { src: 'marilyn-rocks--qPeLHxE.webp', title: 'Marilyn Rocks', span: 'col-span-1 md:col-span-5 md:col-start-1 mt-0 aspect-[4/5]' },
-  { src: 'audrey-hepburn-DbIBTtIp.webp', title: 'Audrey Hepburn', span: 'col-span-1 md:col-span-6 md:col-start-7 mt-0 md:mt-32 aspect-[4/5]' },
-  { src: 'geisha-MfRtKWdu.webp', title: 'Geisha', span: 'col-span-1 md:col-span-8 md:col-start-3 mt-12 md:mt-24 aspect-[16/9]' },
-  { src: 'lagrimas-de-oro-DikHc-Tk.webp', title: 'Lágrimas de Oro', span: 'col-span-1 md:col-span-5 md:col-start-1 mt-0 md:mt-12 aspect-[3/4]' },
-  { src: 'love-DA7L_L5F.webp', title: 'Love', span: 'col-span-1 md:col-span-5 md:col-start-8 mt-0 md:-mt-32 aspect-square' },
-  { src: 'la-pensadora-CFHSnMA0.webp', title: 'La Pensadora', span: 'col-span-1 md:col-span-10 md:col-start-2 mt-12 md:mt-40 aspect-video' }
+  { src: 'hq-james-CjsTrO7r.webp', title: 'James Dean', category: 'pop', desc: 'Pop iconography on slate' },
+  { src: 'hq-amy-BRTriASV.webp', title: 'Amy Winehouse', category: 'pop', desc: 'Sinuous expression of voice' },
+  { src: 'hq-johnny-5ueL8eU0.webp', title: 'Johnny Depp', category: 'pop', desc: 'Depth of texture & character' },
+  { src: 'audrey-hepburn-DbIBTtIp.webp', title: 'Audrey Hepburn', category: 'pop', desc: 'Classic elegance on basalt' },
+  { src: 'el-gran-dakari-C1tAWAhR.webp', title: 'El Gran Dakari', category: 'mica', desc: 'Shimmering minerals and glaze' },
+  { src: 'geisha-MfRtKWdu.webp', title: 'Geisha', category: 'mica', desc: 'Mixture of gold dust and mica' },
+  { src: 'lagrimas-de-oro-DikHc-Tk.webp', title: 'Lágrimas de Oro', category: 'kintsugi', desc: 'Fracture lines sealed in gold' },
+  { src: '601340023_1552126202933462_7815927344957967258_n.jpg', title: 'Espejo del Alma I', category: 'pizarra', desc: '100-year-old Basque slate base' },
+  { src: '608211438_1562089535270462_2827127275272133326_n.jpg', title: 'Dama de la Pizarra', category: 'pizarra', desc: 'Natural slate relief work' },
+  { src: '615438426_1577822580363824_2923463327956560352_n.jpg', title: 'Retrato en Tensión', category: 'pizarra', desc: 'Epoxi resin and slate fusion' },
+  { src: '612329591_1571120784367337_8798688892093004057_n.jpg', title: 'Facciones del Silencio', category: 'poliester', desc: 'Translucent polyester sketch' },
+  { src: '622453257_1583899099756172_4197872465466826396_n.jpg', title: 'Mirada del Tiempo', category: 'poliester', desc: 'Washed ink chemistry like X-ray' }
 ];
 
 export default function Home() {
-  const [artworks, setArtworks] = useState(baseArtworks);
-  const observerRef = useRef<HTMLDivElement | null>(null);
-  const [takeoverArtwork, setTakeoverArtwork] = useState<{ src: string; title: string } | null>(null);
-  const [takeoverCountdown, setTakeoverCountdown] = useState(4);
   const [appMode, setAppMode] = useState<"CAOS" | "ORDEN">("ORDEN");
   const [webGLReady, setWebGLReady] = useState(false);
+  const [activeAlcove, setActiveAlcove] = useState<'pop' | 'pizarra' | 'poliester' | 'kintsugi' | 'mica' | 'reverso'>('pop');
+  const [takeoverArtwork, setTakeoverArtwork] = useState<{ src: string; title: string } | null>(null);
+  const [takeoverCountdown, setTakeoverCountdown] = useState(4);
   const [isLocal, setIsLocal] = useState(false);
 
+  const heroImageRef = useRef<HTMLImageElement>(null);
+  const descenderRef = useRef<HTMLDivElement>(null);
+  const heroSectionRef = useRef<HTMLDivElement>(null);
+
+  // Sync Dimension changed custom events
   useEffect(() => {
     const handleRequest = (e: Event) => {
       setAppMode((e as CustomEvent).detail);
@@ -102,44 +78,6 @@ export default function Home() {
     }
   }, []);
 
-  const takeoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const takeoverIntervalRef = useRef<NodeJS.Timeout | null>(null);
-
-  const closeTakeover = () => {
-    setTakeoverArtwork(null);
-    document.body.style.overflow = '';
-    if (takeoverTimeoutRef.current) clearTimeout(takeoverTimeoutRef.current);
-    if (takeoverIntervalRef.current) clearInterval(takeoverIntervalRef.current);
-  };
-
-  const triggerTakeover = (artwork: { src: string; title: string }) => {
-    if (takeoverTimeoutRef.current) clearTimeout(takeoverTimeoutRef.current);
-    if (takeoverIntervalRef.current) clearInterval(takeoverIntervalRef.current);
-
-    setTakeoverArtwork(artwork);
-    setTakeoverCountdown(4);
-    document.body.style.overflow = 'hidden';
-
-    let count = 4;
-    takeoverIntervalRef.current = setInterval(() => {
-      count -= 1;
-      setTakeoverCountdown(count);
-    }, 1000);
-
-    takeoverTimeoutRef.current = setTimeout(() => {
-      setTakeoverArtwork(null);
-      document.body.style.overflow = '';
-      if (takeoverIntervalRef.current) clearInterval(takeoverIntervalRef.current);
-    }, 4000);
-  };
-
-  useEffect(() => {
-    return () => {
-      if (takeoverTimeoutRef.current) clearTimeout(takeoverTimeoutRef.current);
-      if (takeoverIntervalRef.current) clearInterval(takeoverIntervalRef.current);
-    };
-  }, []);
-
   useEffect(() => {
     const lenis = new Lenis();
     let animationId: number;
@@ -158,18 +96,14 @@ export default function Home() {
     };
   }, []);
 
-  const heroSectionRef = useRef<HTMLDivElement>(null);
-  const descenderRef = useRef<HTMLDivElement>(null);
-  const heroImageRef = useRef<HTMLImageElement>(null);
-  const heroLightRef = useRef<HTMLDivElement>(null);
-
+  // Parallax scroll for hero section
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const threshold = window.innerHeight * 0.8;
       if (threshold > 0) {
         const progress = Math.min(Math.max(scrollY / threshold, 0), 1);
-        const easedProgress = Math.pow(progress, 3.5); // Cubic-quartic hybrid
+        const easedProgress = Math.pow(progress, 3.5);
         const translateY = easedProgress * 100;
         
         if (heroSectionRef.current) {
@@ -180,39 +114,24 @@ export default function Home() {
         }
       }
     };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Handle tilt and escape keys
   useEffect(() => {
     const handlePointerMove = (e: PointerEvent) => {
-      // Calculate cursor position as percentage of viewport
-      const xPct = (e.clientX / window.innerWidth) * 100;
-      const yPct = (e.clientY / window.innerHeight) * 100;
-      
-      // The code steps back. We no longer cast artificial colored light over the original art.
-      if (heroLightRef.current) {
-        heroLightRef.current.style.opacity = '0';
-      }
-      
-      // Calculate heavy 3D parallax tilt (max 2.5 degrees)
       const xTilt = ((e.clientY / window.innerHeight) - 0.5) * -5;
       const yTilt = ((e.clientX / window.innerWidth) - 0.5) * 5;
-      
       if (heroImageRef.current) {
         heroImageRef.current.style.transform = `scale(1.04) rotateX(${xTilt}deg) rotateY(${yTilt}deg)`;
       }
     };
-
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Press 'm' or 'M' to switch dimension
       if (e.key.toLowerCase() === 'm') {
         setAppMode((prev) => (prev === 'ORDEN' ? 'CAOS' : 'ORDEN'));
       }
     };
-
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
     window.addEventListener('keydown', handleKeyDown);
     return () => {
@@ -220,6 +139,19 @@ export default function Home() {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
+
+  const getImageUrl = (src: string) => {
+    if (src.startsWith('http')) return src;
+    return `/assets/${src}`;
+  };
+
+  const resolveSrc = (src: string) => {
+    const url = getImageUrl(src);
+    if (isLocal && url.startsWith("/")) {
+      return `/assets/${src}`;
+    }
+    return url;
+  };
 
   const updatePrimaryColor = (hex: string) => {
     if (typeof window === 'undefined') return;
@@ -238,36 +170,37 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const selectedColor = '#2B3BE5';
-    setTimeout(() => {
-      updatePrimaryColor(selectedColor);
-    }, 0);
+    updatePrimaryColor('#2B3BE5');
   }, []);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          // Cap infinite scroll at 3 iterations to prevent DOM memory leaks and layout thrashing
-          setArtworks((prev) => prev.length < baseArtworks.length * 3 ? [...prev, ...baseArtworks] : prev);
-        }
-      },
-      { threshold: 0.1, rootMargin: '600px' }
-    );
-    if (observerRef.current) observer.observe(observerRef.current);
-    return () => observer.disconnect();
-  }, []);
+  // Takeover modal handlers
+  const triggerTakeover = (artwork: { src: string; title: string }) => {
+    setTakeoverArtwork(artwork);
+    setTakeoverCountdown(4);
+    document.body.style.overflow = 'hidden';
+    const interval = setInterval(() => {
+      setTakeoverCountdown(prev => prev - 1);
+    }, 1000);
+    const timeout = setTimeout(() => {
+      setTakeoverArtwork(null);
+      document.body.style.overflow = '';
+      clearInterval(interval);
+    }, 4000);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  };
 
-  const resolveSrc = (src: string) => {
-    const url = getImageUrl(src);
-    if (isLocal && url.startsWith("/")) {
-      return `/assets/${src}`;
-    }
-    return url;
+  const closeTakeover = () => {
+    setTakeoverArtwork(null);
+    document.body.style.overflow = '';
   };
 
   return (
     <div className={`flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary selection:text-black ${appMode === "ORDEN" ? "bg-[#050505]" : ""}`}>
+      
+      {/* Dynamic Backgrounds */}
       {appMode === "CAOS" && webGLReady && (
         <>
           <div id="fluid-physics-container" className="fixed inset-0 z-0 pointer-events-auto animate-[fadeIn_4s_ease-out]">
@@ -286,72 +219,83 @@ export default function Home() {
       )}
       
       <PaintTrail />
-      {appMode === "CAOS" && webGLReady && <DepthHUD />}
-      {appMode === "CAOS" && webGLReady && <SOTAFX />}
-      {appMode === "CAOS" && webGLReady && <Mica />}
+      {appMode === "CAOS" && webGLReady && (
+        <>
+          <DepthHUD />
+          <SOTAFX />
+          <Mica />
+        </>
+      )}
 
-      {/* Start Stark Top Navigation Header */}
-      <header className="fixed top-0 left-0 w-full px-6 sm:px-12 py-8 flex justify-between items-center z-[210] mix-blend-difference pointer-events-auto select-none text-white animate-[fadeIn_1.5s_ease-out_both]">
-        <div className="flex flex-col">
-          <span className="font-sans text-[10px] tracking-[0.5em] uppercase font-bold text-[var(--primary)]">
-            Naroa Gutiérrez Gil
-          </span>
-          <span className="font-sans text-[8px] tracking-[0.3em] uppercase opacity-40 mt-1">
-            Hiperrealismo // C5-REAL
-          </span>
-        </div>
-
-        <div className="flex items-center gap-6">
-          {/* Color Palette Switcher */}
-          <div className="hidden sm:flex items-center gap-2 bg-black/45 backdrop-blur-md border border-white/5 p-2 rounded-full">
-            {[
-              { hex: '#2B3BE5', label: 'Cobalto' },
-              { hex: '#F59E0B', label: 'Oro' },
-              { hex: '#E52B3B', label: 'Crimson' },
-              { hex: '#10B981', label: 'Esmeralda' }
-            ].map((colorObj) => (
-              <button
-                key={colorObj.hex}
-                onClick={() => updatePrimaryColor(colorObj.hex)}
-                style={{ backgroundColor: colorObj.hex }}
-                title={colorObj.label}
-                className="w-4 h-4 rounded-full border border-white/20 hover:scale-125 transition-transform cursor-pointer"
-              />
-            ))}
+      {/* START: Cartier-inspired Luxury Nav Bar */}
+      <header className="fixed top-0 left-0 w-full px-6 sm:px-12 py-6 flex flex-col justify-between items-center z-[210] mix-blend-difference pointer-events-auto select-none text-white border-b border-white/5 bg-black/20 backdrop-blur-md animate-[fadeIn_1.5s_ease-out_both]">
+        <div className="w-full flex justify-between items-center">
+          <div className="flex flex-col">
+            <span className="font-sans text-[10px] tracking-[0.5em] uppercase font-bold text-[var(--primary)]">
+              Maison Naroa
+            </span>
+            <span className="font-sans text-[7px] tracking-[0.3em] uppercase opacity-40 mt-1">
+              Hiperrealismo Pop & Alquimia Vasca
+            </span>
           </div>
 
-          {/* Navigation Links & Dimension Controller */}
-          <Link
-            href="/biografia"
-            className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2.5 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
-          >
-            Biografía
-          </Link>
+          <div className="flex items-center gap-6">
+            {/* Color Palette Switcher */}
+            <div className="hidden md:flex items-center gap-2 bg-black/45 backdrop-blur-md border border-white/5 p-2 rounded-full">
+              {[
+                { hex: '#2B3BE5', label: 'Cobalto' },
+                { hex: '#F59E0B', label: 'Oro' },
+                { hex: '#E52B3B', label: 'Crimson' },
+                { hex: '#10B981', label: 'Esmeralda' }
+              ].map((colorObj) => (
+                <button
+                  key={colorObj.hex}
+                  onClick={() => updatePrimaryColor(colorObj.hex)}
+                  style={{ backgroundColor: colorObj.hex }}
+                  title={colorObj.label}
+                  className="w-3.5 h-3.5 rounded-full border border-white/20 hover:scale-125 transition-transform cursor-pointer"
+                />
+              ))}
+            </div>
 
-          <Link
-            href="/autodidact"
-            className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2.5 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
-          >
-            Autodidacta
-          </Link>
+            <Link
+              href="/biografia"
+              className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
+            >
+              Biografía
+            </Link>
 
-          <button 
-            onClick={() => setAppMode(prev => prev === 'ORDEN' ? 'CAOS' : 'ORDEN')}
-            className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2.5 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
-          >
-            DIMENSIÓN: {appMode}
-          </button>
+            <Link
+              href="/autodidact"
+              className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
+            >
+              Autodidacta
+            </Link>
+
+            <button 
+              onClick={() => setAppMode(prev => prev === 'ORDEN' ? 'CAOS' : 'ORDEN')}
+              className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
+            >
+              Dimensión: {appMode}
+            </button>
+          </div>
+        </div>
+
+        {/* Subtitle / Event Tracker mimicking Cartier W&W layout */}
+        <div className="w-full mt-4 pt-3 border-t border-white/5 flex justify-center">
+          <span className="font-sans text-[8px] tracking-[0.4em] text-white/50 uppercase">
+            Watches & Wonders 2026 • Colección de Retratos e Invariantes
+          </span>
         </div>
       </header>
 
-      {/* Sticky Scroll Wrapper for Monolithic Hero */}
+      {/* Hero Section */}
       <div className="relative w-full h-[180vh] bg-[#050505]">
         <section 
           ref={heroSectionRef}
           style={{ transform: 'translateY(0%)' }}
           className="sticky top-0 w-full h-[100svh] flex flex-col justify-center items-center overflow-hidden z-50 bg-[#050505] will-change-transform"
         >
-          {/* El Retrato Monumental - Cero Fricción */}
           <div className="absolute inset-0 w-full h-full overflow-hidden" style={{ perspective: '1000px' }}>
             <Image 
               ref={heroImageRef}
@@ -361,30 +305,29 @@ export default function Home() {
               sizes="100vw"
               quality={100}
               priority
-              className="object-cover object-center will-change-transform"
+              className="object-cover object-center will-change-transform brightness-[0.7] contrast-[1.1]"
               style={{
                 transform: 'scale(1.04) rotateX(0deg) rotateY(0deg)',
                 transition: 'filter 4s ease-out, brightness 4s ease-out'
               }}
             />
-            {/* Veta dorada sutil (Kintsugi) que reacciona a la luz */}
-            <div 
-              ref={heroLightRef}
-              className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(43,59,229,0.05)_0%,transparent_70%)] mix-blend-color-dodge pointer-events-none transition-all duration-300 ease-out" 
-            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/85" />
           </div>
 
           {/* Monumental Hero Typography Overlay */}
           <div className="absolute inset-0 flex flex-col justify-center items-center z-20 text-center pointer-events-none px-4">
-            <h1 className="font-serif font-black text-6xl sm:text-[10rem] tracking-tighter text-white uppercase mix-blend-difference select-none leading-none animate-[fadeIn_2.0s_ease-out_both] delay-500">
+            <span className="font-mono text-[9px] tracking-[0.6em] text-white/60 uppercase mb-4 animate-[fadeIn_1.5s_ease-out_both]">
+              Savoir-Faire Vasco • Artivismo
+            </span>
+            <h1 className="font-serif font-black text-6xl sm:text-[9rem] tracking-tighter text-white uppercase mix-blend-difference select-none leading-none animate-[fadeIn_2.0s_ease-out_both] delay-500">
               N A R O A
             </h1>
-            <p className="font-sans text-[9px] tracking-[0.5em] text-white/50 uppercase mt-6 max-w-md select-none mix-blend-difference animate-[fadeIn_2.5s_ease-out_both] delay-[1000ms]">
-              Retratos monumentales en pizarra natural
+            <p className="font-sans text-[9px] tracking-[0.5em] text-white/50 uppercase mt-8 max-w-md select-none mix-blend-difference animate-[fadeIn_2.5s_ease-out_both] delay-[1000ms]">
+              Retratos monumentales sobre pizarra y materiales refractarios
             </p>
           </div>
 
-          {/* Indicador sutil de gravedad - La única señal visual */}
+          {/* Gravity indicator */}
           <div 
             ref={descenderRef}
             style={{ opacity: 0.5 }}
@@ -398,87 +341,172 @@ export default function Home() {
         </section>
       </div>
 
-      {/* ── STATEMENT DEL ARTISTA ── */}
-      <section id="statement" className="relative z-10 px-6 sm:px-12 py-56 max-w-6xl mx-auto w-full flex flex-col items-center text-center select-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] max-w-[700px] max-h-[700px] bg-[var(--primary)] rounded-full mix-blend-screen filter blur-[200px] opacity-[0.05] pointer-events-none" />
-        <p className="text-3xl sm:text-5xl md:text-6xl font-serif font-black tracking-tight text-white uppercase italic leading-tight max-w-4xl">
-          "El retrato no copia la vida; <span className="text-[var(--primary)] text-glow">transmuta</span> la materia en presencia."
+      {/* START: Cartier Brand Philosophy Section */}
+      <section id="statement" className="relative z-10 px-6 sm:px-12 py-48 max-w-6xl mx-auto w-full flex flex-col items-center text-center select-none">
+        <span className="text-[var(--primary)] font-mono text-[9px] tracking-[0.5em] uppercase mb-6">
+          Creador de Formas y Alquimia
+        </span>
+        <p className="text-2xl sm:text-4xl md:text-5xl font-serif font-light tracking-wide text-white leading-relaxed max-w-4xl italic">
+          "El lienzo no es un soporte; es la materia misma que <span className="text-[var(--primary)] text-glow font-normal">gobierna la forma</span>. En Naroa, la pizarra centenaria, la mica mineral y el kintsugi se alían en retratos que son calibres de memoria."
         </p>
+        <div className="w-16 h-[1px] bg-[#2B3BE5]/30 mt-12" />
       </section>
 
-      {/* ── LA GALERÍA MONUMENTAL ASIMÉTRICA ── */}
-      <section id="galeria" className="relative z-10 px-4 sm:px-12 pb-32 max-w-[1800px] mx-auto w-full">
-        <div className="mb-40 text-center flex flex-col items-center">
-          <h2 className="text-5xl sm:text-7xl font-serif font-light tracking-wide text-foreground leading-tight max-w-2xl mx-auto uppercase text-glow">La Singularidad</h2>
-          <div className="w-px h-16 bg-gradient-to-b from-primary/30 to-transparent mt-12"></div>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-x-24 md:gap-y-32 items-start w-full px-0 md:px-12">
-          {artworks.map((artwork, i) => (
-            <div 
-              key={i} 
-              className={`group relative overflow-hidden transition-all duration-1000 bg-[#0A0A0A] rounded-sm ring-1 ring-white/5 shadow-2xl w-full ${artwork.span || "md:col-span-12 aspect-[4/3]"} animate-[fadeIn_0.5s_ease-out_both]`}
-              style={{ animationDelay: `${(i % 12) * 100}ms` }}
-            >
-              <div className="relative w-full h-full">
-                {appMode === "CAOS" ? (
-                  <KineticArtwork
-                    src={resolveSrc(artwork.src)}
-                    alt={`Obra de arte: ${artwork.title}`}
-                    priority={i < 4}
-                    className="transition-transform duration-[2s] ease-[var(--ease-spring)] will-change-transform transform-gpu group-hover:scale-[1.03]"
-                    id={artwork.src.split('.')[0].replace(/[^a-zA-Z0-9-]/g, '')}
-                    onClick={() => triggerTakeover(artwork)}
-                  />
-                ) : (
-                  <div className="w-full h-full cursor-pointer" onClick={() => triggerTakeover(artwork)}>
-                    <Image 
-                      src={resolveSrc(artwork.src)} 
-                      alt={artwork.title} 
-                      fill 
-                      sizes="(max-width: 768px) 100vw, 80vw"
-                      quality={100}
-                      className="object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-[1.03]" 
-                      priority={i < 4}
-                      loading={i >= 4 ? "lazy" : undefined}
-                    />
-                  </div>
-                )}
-              </div>
-              
-              {/* Stark Hover Info Overlay (Strictly no words on default view) */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 flex flex-col justify-end p-8 pointer-events-none">
-                <span className="text-[var(--primary)] font-mono text-[9px] tracking-[0.4em] uppercase mb-2">
-                  PINTURA S/ PIZARRA
+      {/* START: The 6 Alcoves / Universes Showcase (Cartier Clone Tab system) */}
+      <section id="alcobas" className="relative z-10 px-6 sm:px-12 py-32 bg-black/60 border-t border-white/5 overflow-hidden">
+        <div className="max-w-7xl mx-auto w-full">
+          
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-20">
+            <div>
+              <span className="text-[#2B3BE5] font-mono tracking-[0.4em] text-[9px] uppercase block mb-3">
+                Exposición Temática
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-serif font-light tracking-wide text-white uppercase">
+                Los Universos del Retrato
+              </h2>
+            </div>
+            <p className="max-w-md text-white/40 font-sans text-xs tracking-wider leading-relaxed">
+              Explore los 6 pilares constructivos donde la técnica mixta y el soporte de pizarra desafían los límites bidimensionales de la pintura.
+            </p>
+          </div>
+
+          {/* Alcove tabs */}
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-16 border-b border-white/5 pb-4">
+            {[
+              { id: 'pop', num: 'I', label: 'El Retrato Pop' },
+              { id: 'pizarra', num: 'II', label: 'Pizarra Centenaria' },
+              { id: 'poliester', num: 'III', label: 'Poliéster Translúcido' },
+              { id: 'kintsugi', num: 'IV', label: 'Kintsugi Accidental' },
+              { id: 'mica', num: 'V', label: 'Mica & Cerámica' },
+              { id: 'reverso', num: 'VI', label: 'El Reverso Acústico' }
+            ].map(alcove => (
+              <button
+                key={alcove.id}
+                onClick={() => setActiveAlcove(alcove.id as any)}
+                className={`flex flex-col items-center py-4 border-b-2 cursor-pointer transition-all duration-300 ${
+                  activeAlcove === alcove.id
+                    ? 'border-[#2B3BE5] text-white'
+                    : 'border-transparent text-white/30 hover:text-white/60'
+                }`}
+              >
+                <span className="font-serif text-xs mb-1 opacity-65">{alcove.num}</span>
+                <span className="font-sans text-[9px] tracking-widest uppercase text-center block leading-normal">
+                  {alcove.label}
                 </span>
-                <h3 className="text-white font-serif text-2xl uppercase tracking-wider">
-                  {artwork.title}
-                </h3>
+              </button>
+            ))}
+          </div>
+
+          {/* Active Alcove Content Card */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+            
+            {/* Description Column */}
+            <div className="lg:col-span-5 flex flex-col">
+              <span className="text-[#2B3BE5] font-mono text-[9px] tracking-widest uppercase mb-4">
+                Savoir-Faire // Universo {activeAlcove === 'pop' && 'I'}
+                {activeAlcove === 'pizarra' && 'II'}
+                {activeAlcove === 'poliester' && 'III'}
+                {activeAlcove === 'kintsugi' && 'IV'}
+                {activeAlcove === 'mica' && 'V'}
+                {activeAlcove === 'reverso' && 'VI'}
+              </span>
+              
+              <h3 className="text-3xl sm:text-4xl font-serif font-light text-white uppercase tracking-wider mb-6">
+                {activeAlcove === 'pop' && 'El Retrato Pop Monumental'}
+                {activeAlcove === 'pizarra' && 'La Pizarra de Tejado Vasco'}
+                {activeAlcove === 'poliester' && 'El Papel Poliéster Translúcido'}
+                {activeAlcove === 'kintsugi' && 'Kintsugi Accidental & Costras'}
+                {activeAlcove === 'mica' && 'La Mica Mineral y los Ojos de Cristal'}
+                {activeAlcove === 'reverso' && 'El Reverso del Lienzo y la Acústica'}
+              </h3>
+
+              <p className="text-white/70 font-sans text-sm leading-relaxed mb-8">
+                {activeAlcove === 'pop' && 'La cara no es una similitud física; es una máscara emocional. Rostros icónicos del cine y de la música se plasman sobre un soporte indómito, logrando una confrontación de alta fidelidad entre la saturación del acrílico y la aspereza del basalto.'}
+                {activeAlcove === 'pizarra' && 'Material recuperado directamente de derribos de tejados tradicionales en Bilbao. Sometidas a cortes geográficos, sellado con resina epoxi de brillo espejo y rematadas con bordes rotos, las pizarras representan el concepto de refugio, hogar y dureza ancestral.'}
+                {activeAlcove === 'poliester' && 'Un laboratorio químico de tintas diluidas con agua de colonia. Los trazos disueltos sobre poliéster translúcido crean siluetas orgánicas flotantes, semejantes a radiografías de huesos o fluidos en tensión lumínica.'}
+                {activeAlcove === 'kintsugi' && 'Nacido por un error en pandemia mezclando cola blanca barata y acrílico. La costra del lienzo se resquebraja al secarse. En lugar de descartarlo, la artista raspa la herida y la rellena con barnices de oro, transformando la falla física en una veta de luz.'}
+                {activeAlcove === 'mica' && 'Escamas de mica mineral encoladas que reflejan destellos aleatorios según el punto de vista del espectador. Se complementa con las pupilas del retrato, pintadas en capas cerámicas 3D aplicadas con palillo de dientes para lograr un relieve ocular realista.'}
+                {activeAlcove === 'reverso' && 'El lienzo físico guarda secretos en su reverso: cartas escritas por el retratado, códigos QR que reproducen el paisaje acústico electrónico compuesto especialmente por el productor Borja Moskv, y el alter ego masculino "Aaron".'}
+              </p>
+
+              {/* Technical Specifications list */}
+              <div className="border-t border-white/10 pt-6">
+                <span className="text-white/30 font-mono text-[9px] tracking-widest uppercase block mb-3">
+                  Especificaciones Técnicas
+                </span>
+                <ul className="grid grid-cols-2 gap-y-4 gap-x-8 font-mono text-[10px] text-white/50">
+                  <li>
+                    <span className="text-white/30 block mb-1">Materia Prima</span>
+                    <span className="text-white">
+                      {activeAlcove === 'pop' && 'Acrílico & Basalto'}
+                      {activeAlcove === 'pizarra' && 'Pizarra Vasco-Lítica'}
+                      {activeAlcove === 'poliester' && 'Tinta y Poliéster'}
+                      {activeAlcove === 'kintsugi' && 'Cola, Acrílico & Oro'}
+                      {activeAlcove === 'mica' && 'Mica, Barniz de Vidrio'}
+                      {activeAlcove === 'reverso' && 'QR & Ledger Criptográfico'}
+                    </span>
+                  </li>
+                  <li>
+                    <span className="text-white/30 block mb-1">Fricción Física</span>
+                    <span className="text-white">
+                      {activeAlcove === 'pop' && 'Grosor 2cm a 4cm'}
+                      {activeAlcove === 'pizarra' && 'Corte Rústico Manual'}
+                      {activeAlcove === 'poliester' && 'Sin Fricción (Líquido)'}
+                      {activeAlcove === 'kintsugi' && 'Fractura Termodinámica'}
+                      {activeAlcove === 'mica' && 'Escamas Cristalizadas'}
+                      {activeAlcove === 'reverso' && 'Flujo Dual Reverso'}
+                    </span>
+                  </li>
+                </ul>
               </div>
             </div>
-          ))}
-          <div ref={observerRef} className="col-span-1 md:col-span-12 h-32 w-full flex justify-center items-center">
-            <div className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
+
+            {/* Display Column */}
+            <div className="lg:col-span-7 flex justify-center relative">
+              <div className="w-full max-w-lg aspect-[4/5] relative bg-neutral-950/80 border border-white/5 rounded-sm overflow-hidden group shadow-2xl">
+                {/* Artwork display linked to active tab */}
+                <Image
+                  src={resolveSrc(
+                    activeAlcove === 'pop' ? 'hq-james-CjsTrO7r.webp' :
+                    activeAlcove === 'pizarra' ? '601340023_1552126202933462_7815927344957967258_n.jpg' :
+                    activeAlcove === 'poliester' ? '612329591_1571120784367337_8798688892093004057_n.jpg' :
+                    activeAlcove === 'kintsugi' ? 'lagrimas-de-oro-DikHc-Tk.webp' :
+                    activeAlcove === 'mica' ? 'el-gran-dakari-C1tAWAhR.webp' : 'hq-portrait-1-bV-_WHlX.webp'
+                  )}
+                  alt="Muestra de la técnica de Naroa"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  quality={95}
+                  className="object-cover transition-transform duration-[2.5s] ease-out group-hover:scale-105"
+                />
+                
+                {/* Visual frame overlay */}
+                <div className="absolute inset-0 border-[12px] border-black/40 pointer-events-none" />
+                
+                {/* Quick Info tag */}
+                <div className="absolute bottom-6 left-6 bg-black/80 backdrop-blur-md px-4 py-2 border border-white/10 text-[9px] font-mono tracking-widest text-white uppercase">
+                  [ Muestra Universo {activeAlcove.toUpperCase()} ]
+                </div>
+              </div>
+            </div>
+
           </div>
+
         </div>
       </section>
 
-      {/* ── SEPARADOR VISUAL ── */}
-      <div className="relative w-full py-20 flex justify-center items-center overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(43,59,229,0.03)_0%,transparent_50%)] z-0 pointer-events-none" />
-        <div className="w-[1px] h-32 bg-gradient-to-b from-transparent via-primary/30 to-transparent relative z-10"></div>
-      </div>
+      {/* START: Interactive 3D Canvas Sandbox Details Viewer */}
+      <LuxuryArtworkViewer />
 
-      {/* ── SCROLLYTELLING (Evolución de la Obra) ── */}
+      {/* START: 3D Orbital slates gallery */}
+      <ThreeDCarousel />
+
+      {/* START: The co-creation request form (Concierge Customizer) */}
+      <InteractiveStudio />
+
+      {/* START: Dynamic Scrollytelling for CAOS mode details */}
       {appMode === "CAOS" && <ScrollyTelling />}
 
-      {/* ── EL TALLER INTERACTIVO ── */}
-      {appMode === "CAOS" && <InteractiveStudio />}
-
-      {/* ── GALERÍA TRIDIMENSIONAL ── */}
-      {appMode === "CAOS" && <ThreeDCarousel />}
-
-      {/* ── FOOTER VISUAL ── */}
       <Footer />
 
       <TakeoverModal 
