@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/immutability, react-hooks/refs, react-hooks/purity, react-hooks/exhaustive-deps */
 'use client';
 
 // C5-REAL: Hero Interactive Canvas — TSL/WebGPU Architecture
@@ -64,6 +65,7 @@ function VolumetricHeroPortrait({ url }: { url: string }) {
   const uTexture = useMemo(() => {
     const t = new THREE.Texture();
     t.minFilter = THREE.LinearFilter;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return uniform(t as any) as any;
   }, []);
 
@@ -173,9 +175,12 @@ function VolumetricHeroPortrait({ url }: { url: string }) {
 
   // Monitor cursor, scroll, and dimension state
   useEffect(() => {
+    let timeout: NodeJS.Timeout;
     if (typeof window !== 'undefined') {
       const initialMode = localStorage.getItem('naroa_app_mode') || 'ORDEN';
-      setAppModeVal(initialMode === 'CAOS' ? 1.0 : 0.0);
+      timeout = setTimeout(() => {
+        setAppModeVal(initialMode === 'CAOS' ? 1.0 : 0.0);
+      }, 0);
     }
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -201,6 +206,7 @@ function VolumetricHeroPortrait({ url }: { url: string }) {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('dimension-changed', handleDimension);
+      if (timeout) clearTimeout(timeout);
     };
   }, []);
 

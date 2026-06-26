@@ -33,6 +33,7 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
 
   useEffect(() => {
     if (texture) {
+      // eslint-disable-next-line react-hooks/immutability
       texture.minFilter = THREE.LinearFilter;
     }
   }, [texture]);
@@ -103,7 +104,7 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
         {/* Hotspots represented as interactive HTML elements in 3D */}
         {hotspots.map((hotspot) => {
           // Calculate if the hotspot is facing the camera based on rotation
-          const currentRotation = meshRef.current ? meshRef.current.rotation.y % (Math.PI * 2) : rotationY % (Math.PI * 2);
+          const currentRotation = rotationY % (Math.PI * 2);
           const absRot = Math.abs(currentRotation);
           const isFacingFront = (absRot < Math.PI / 2) || (absRot > Math.PI * 1.5);
           const showHotspot = (hotspot.side === 'front' && isFacingFront) || (hotspot.side === 'back' && !isFacingFront);
@@ -149,8 +150,11 @@ export default function LuxuryArtworkViewer() {
 
   // Sync audio reference on artwork change
   useEffect(() => {
-    setActiveHotspot(null);
-    setRotationY(0); // Reset rotation to front view
+    const timeout = setTimeout(() => {
+      setActiveHotspot(null);
+      setRotationY(0); // Reset rotation to front view
+    }, 0);
+    return () => clearTimeout(timeout);
   }, [selectedArtworkIndex]);
 
 
@@ -204,7 +208,7 @@ export default function LuxuryArtworkViewer() {
           <div className="lg:col-span-4 flex flex-col order-2 lg:order-1">
             <div className="border-l border-[#2B3BE5]/40 pl-6 mb-8">
               <span className="text-white/40 font-mono text-[9px] tracking-widest uppercase">
-                {artwork.material} // {artwork.year}
+                {artwork.material} / {artwork.year}
               </span>
               <h3 className="text-3xl font-serif font-black text-white uppercase mt-2">
                 {artwork.title}

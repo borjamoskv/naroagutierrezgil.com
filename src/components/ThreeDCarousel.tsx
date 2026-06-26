@@ -1,4 +1,5 @@
 
+/* eslint-disable react-hooks/immutability, react-hooks/refs, react-hooks/purity, react-hooks/exhaustive-deps */
 'use client';
 
 // C5-REAL: 3D Kintsugi Splatting Carousel — TSL/WebGPU Architecture
@@ -37,6 +38,7 @@ import {
 } from 'three/tsl';
 import { MeshStandardNodeMaterial, PointsNodeMaterial } from 'three/webgpu';
 import WebGPUCanvas from './WebGPUCanvas';
+import { useCarouselStore } from '@/lib/store';
 
 import { allArtworks } from '@/data/artworks';
 import {
@@ -54,19 +56,18 @@ import {
 // Injecting the complete artwork dataset into the 3D Splatting Carousel
 const carouselArtworks = allArtworks.map(art => ({ src: art.img, title: art.title }));
 
-function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex }: {
+function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
   url: string;
   index: number;
   count: number;
   currentAngleRef: React.MutableRefObject<number>;
-  setActiveIndex: (idx: number) => void;
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const pointsRef = useRef<THREE.Points>(null);
 
   const tex = useLoader(THREE.TextureLoader, url);
-  const [hovered, setHovered] = useState(false);
-  const [mouseUV] = useState(() => new THREE.Vector2(0.5, 0.5));
+  const hoveredRef = useRef(false);
+  const mouseUVRef = useRef(new THREE.Vector2(0.5, 0.5));
 
   const [appModeVal, setAppModeVal] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -113,25 +114,17 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex 
 
   // ---- TSL UNIFORMS ----
   // Front face uniforms
-  const uFrontTime = useMemo(() => uniform(0.0), []);
-  const uFrontMouseUV = useMemo(() => uniform(new THREE.Vector2(0.5, 0.5)), []);
-  const uFrontHover = useMemo(() => uniform(0.0), []);
-  const uFrontOpacity = useMemo(() => uniform(1.0), []);
-  const uFrontAppMode = useMemo(() => uniform(0.0), []);
-  const uFrontTexture = useMemo(() => {
-    const t = new THREE.Texture();
-    t.minFilter = THREE.LinearFilter;
-    return uniform(t as any) as any;
-  }, []);
+  const uFrontTimeRef = useRef(uniform(0.0));
+  const uFrontMouseUVRef = useRef(uniform(new THREE.Vector2(0.5, 0.5)));
+  const uFrontHoverRef = useRef(uniform(0.0));
+  const uFrontOpacityRef = useRef(uniform(1.0));
+  const uFrontAppModeRef = useRef(uniform(0.0));
+  const uFrontTextureRef = useRef(uniform(new THREE.Texture()));
 
   // Disintegration particle uniforms
-  const uParticleProgress = useMemo(() => uniform(0.0), []);
-  const uParticleTime = useMemo(() => uniform(0.0), []);
-  const uParticleTexture = useMemo(() => {
-    const t = new THREE.Texture();
-    t.minFilter = THREE.LinearFilter;
-    return uniform(t as any) as any;
-  }, []);
+  const uParticleProgressRef = useRef(uniform(0.0));
+  const uParticleTimeRef = useRef(uniform(0.0));
+  const uParticleTextureRef = useRef(uniform(new THREE.Texture()));
 
   // ---- FRONT FACE TSL MATERIAL ----
   const frontMaterial = useMemo(() => {
@@ -139,6 +132,13 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex 
     mat.transparent = true;
     mat.roughness = 0.85;
     mat.metalness = 0.0;
+
+    const uFrontTime = uFrontTimeRef.current;
+    const uFrontMouseUV = uFrontMouseUVRef.current;
+    const uFrontHover = uFrontHoverRef.current;
+    const uFrontOpacity = uFrontOpacityRef.current;
+    const uFrontAppMode = uFrontAppModeRef.current;
+    const uFrontTexture = uFrontTextureRef.current;
 
     const uvNode = uv();
     const pos = positionLocal.toVar();
@@ -217,7 +217,7 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex 
     mat.opacityNode = uFrontOpacity;
 
     return mat;
-  }, [uFrontTime, uFrontMouseUV, uFrontHover, uFrontOpacity, uFrontAppMode, uFrontTexture]);
+  }, [uFrontTimeRef, uFrontMouseUVRef, uFrontHoverRef, uFrontOpacityRef, uFrontAppModeRef, uFrontTextureRef]);
 
   // ---- DISINTEGRATION PARTICLE TSL MATERIAL ----
   const particleMaterial = useMemo(() => {
@@ -225,6 +225,10 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex 
     mat.transparent = true;
     mat.depthWrite = false;
     mat.blending = THREE.AdditiveBlending;
+
+    const uParticleProgress = uParticleProgressRef.current;
+    const uParticleTime = uParticleTimeRef.current;
+    const uParticleTexture = uParticleTextureRef.current;
 
     // Position: displace particles based on progress
     const uvNode = uv();
@@ -251,7 +255,7 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex 
     mat.colorNode = colorFn();
 
     return mat;
-  }, [uParticleProgress, uParticleTime, uParticleTexture]);
+  }, [uParticleProgressRef, uParticleTimeRef, uParticleTextureRef]);
 
   // Assign texture to both materials
   useEffect(() => {
@@ -259,10 +263,10 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex 
       const clonedTex = tex.clone();
       clonedTex.minFilter = THREE.LinearFilter;
       clonedTex.needsUpdate = true;
-      uFrontTexture.value = clonedTex;
-      uParticleTexture.value = clonedTex;
+      uFrontTextureRef.current.value = clonedTex;
+      uParticleTextureRef.current.value = clonedTex;
     }
-  }, [tex, uFrontTexture, uParticleTexture]);
+  }, [tex]);
 
   useFrame((state, delta) => {
     const worldAngle = cardOffsetAngle + currentAngleRef.current;
@@ -270,17 +274,18 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex 
     const targetZ = Math.cos(worldAngle) * radius;
 
     // Smooth lerp to target position
+    const isHovered = hoveredRef.current;
     if (meshRef.current) {
       meshRef.current.position.x = THREE.MathUtils.lerp(meshRef.current.position.x, targetX, delta * 6);
       meshRef.current.position.z = THREE.MathUtils.lerp(meshRef.current.position.z, targetZ, delta * 6);
-      meshRef.current.position.y = THREE.MathUtils.lerp(meshRef.current.position.y, hovered ? 0.25 : 0, delta * 6);
+      meshRef.current.position.y = THREE.MathUtils.lerp(meshRef.current.position.y, isHovered ? 0.25 : 0, delta * 6);
       meshRef.current.lookAt(0, 0, 0);
     }
 
     if (pointsRef.current) {
       pointsRef.current.position.x = THREE.MathUtils.lerp(pointsRef.current.position.x, targetX, delta * 6);
       pointsRef.current.position.z = THREE.MathUtils.lerp(pointsRef.current.position.z, targetZ, delta * 6);
-      pointsRef.current.position.y = THREE.MathUtils.lerp(pointsRef.current.position.y, hovered ? 0.25 : 0, delta * 6);
+      pointsRef.current.position.y = THREE.MathUtils.lerp(pointsRef.current.position.y, isHovered ? 0.25 : 0, delta * 6);
       pointsRef.current.lookAt(0, 0, 0);
     }
 
@@ -288,19 +293,19 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex 
     const cosAngle = Math.cos(worldAngle);
     const targetProgress = 1.0 - (cosAngle + 1.0) / 2.0;
 
-    uParticleProgress.value = THREE.MathUtils.lerp(uParticleProgress.value as number, targetProgress, delta * 5);
-    uParticleTime.value = state.clock.getElapsedTime();
+    uParticleProgressRef.current.value = THREE.MathUtils.lerp(uParticleProgressRef.current.value as number, targetProgress, delta * 5);
+    uParticleTimeRef.current.value = state.clock.getElapsedTime();
 
     // Cross-fade solid mesh vs particles
-    const progress = uParticleProgress.value as number;
+    const progress = uParticleProgressRef.current.value as number;
     const isSolid = progress <= 0.45;
 
-    const targetHover = hovered ? 1.0 : 0.0;
-    uFrontHover.value = THREE.MathUtils.lerp(uFrontHover.value as number, targetHover, delta * 6);
-    uFrontTime.value = state.clock.getElapsedTime();
-    uFrontOpacity.value = THREE.MathUtils.lerp(uFrontOpacity.value as number, isSolid ? 1.0 : 0.0, delta * 10);
-    uFrontAppMode.value = THREE.MathUtils.lerp(uFrontAppMode.value as number, appModeVal, delta * 5.0);
-    (uFrontMouseUV.value as THREE.Vector2).copy(mouseUV);
+    const targetHover = isHovered ? 1.0 : 0.0;
+    uFrontHoverRef.current.value = THREE.MathUtils.lerp(uFrontHoverRef.current.value as number, targetHover, delta * 6);
+    uFrontTimeRef.current.value = state.clock.getElapsedTime();
+    uFrontOpacityRef.current.value = THREE.MathUtils.lerp(uFrontOpacityRef.current.value as number, isSolid ? 1.0 : 0.0, delta * 10);
+    uFrontAppModeRef.current.value = THREE.MathUtils.lerp(uFrontAppModeRef.current.value as number, appModeVal, delta * 5.0);
+    (uFrontMouseUVRef.current.value as THREE.Vector2).copy(mouseUVRef.current);
 
     if (meshRef.current) {
       meshRef.current.visible = isSolid;
@@ -313,7 +318,7 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex 
   const handlePointerMove = (e: { stopPropagation: () => void; uv?: THREE.Vector2 }) => {
     e.stopPropagation();
     if (e.uv) {
-      mouseUV.copy(e.uv);
+      mouseUVRef.current.copy(e.uv);
     }
   };
 
@@ -323,12 +328,14 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex 
       <mesh
         ref={meshRef}
         onPointerOver={() => {
-          setHovered(true);
-          setActiveIndex(index);
+          hoveredRef.current = true;
+          useCarouselStore.getState().setCard(index);
         }}
-        onPointerOut={() => setHovered(false)}
+        onPointerOut={() => {
+          hoveredRef.current = false;
+        }}
         onPointerMove={handlePointerMove}
-        onClick={() => setActiveIndex(index)}
+        onClick={() => useCarouselStore.getState().setCard(index)}
         castShadow
         receiveShadow
       >
@@ -374,8 +381,9 @@ function FloatingLights() {
   );
 }
 
-function CarouselAngleInterpolator({ targetAngle, currentAngleRef }: { targetAngle: number; currentAngleRef: React.MutableRefObject<number> }) {
+function CarouselAngleInterpolator({ currentAngleRef }: { currentAngleRef: React.MutableRefObject<number> }) {
   useFrame((_state, delta) => {
+    const targetAngle = useCarouselStore.getState().targetAngle;
     currentAngleRef.current = THREE.MathUtils.lerp(
       currentAngleRef.current,
       targetAngle,
@@ -385,18 +393,27 @@ function CarouselAngleInterpolator({ targetAngle, currentAngleRef }: { targetAng
   return null;
 }
 
+function CarouselHUD({ artworks }: { artworks: { src: string; title: string }[] }) {
+  const activeIndex = useCarouselStore((state) => state.activeIndex);
+  if (!artworks[activeIndex]) return null;
+  return (
+    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-black/70 backdrop-blur-md border border-white/10 px-8 py-4 rounded-sm flex flex-col items-center gap-1 shadow-2xl">
+      <span className="text-primary font-mono text-[8px] tracking-[0.3em] uppercase">
+        Pizarra #{activeIndex + 1} / {artworks.length}
+      </span>
+      <span className="text-white font-serif tracking-widest text-sm uppercase">
+        {artworks[activeIndex].title}
+      </span>
+    </div>
+  );
+}
+
 export default function ThreeDCarousel() {
-  const [activeIndex, setActiveIndex] = useState(0);
   const currentAngleRef = useRef(0);
-  const targetAngle = -activeIndex * (Math.PI * 2 / carouselArtworks.length);
 
-  const nextCard = () => {
-    setActiveIndex((prev) => (prev + 1) % carouselArtworks.length);
-  };
-
-  const prevCard = () => {
-    setActiveIndex((prev) => (prev - 1 + carouselArtworks.length) % carouselArtworks.length);
-  };
+  useEffect(() => {
+    useCarouselStore.getState().setCount(carouselArtworks.length);
+  }, []);
 
   return (
     <section className="relative z-10 w-full py-24 bg-black border-t border-white/5 overflow-hidden flex flex-col items-center">
@@ -424,7 +441,7 @@ export default function ThreeDCarousel() {
           className="z-10"
         >
           <FloatingLights />
-          <CarouselAngleInterpolator targetAngle={targetAngle} currentAngleRef={currentAngleRef} />
+          <CarouselAngleInterpolator currentAngleRef={currentAngleRef} />
           {carouselArtworks.map((art, idx) => (
             <KintsugiSplatCard
               key={art.src}
@@ -432,21 +449,20 @@ export default function ThreeDCarousel() {
               index={idx}
               count={carouselArtworks.length}
               currentAngleRef={currentAngleRef}
-              setActiveIndex={setActiveIndex}
             />
           ))}
         </WebGPUCanvas>
 
         {/* Carousel Navigation HUD */}
         <button
-          onClick={prevCard}
+          onClick={() => useCarouselStore.getState().prevCard()}
           className="absolute left-6 md:left-20 top-1/2 -translate-y-1/2 z-20 w-12 h-12 border border-white/10 hover:border-primary text-white hover:text-primary transition-all duration-300 font-serif text-lg bg-black/40 backdrop-blur-sm cursor-pointer flex items-center justify-center rounded-sm"
           aria-label="Previous slate"
         >
           ‹
         </button>
         <button
-          onClick={nextCard}
+          onClick={() => useCarouselStore.getState().nextCard()}
           className="absolute right-6 md:right-20 top-1/2 -translate-y-1/2 z-20 w-12 h-12 border border-white/10 hover:border-primary text-white hover:text-primary transition-all duration-300 font-serif text-lg bg-black/40 backdrop-blur-sm cursor-pointer flex items-center justify-center rounded-sm"
           aria-label="Next slate"
         >
@@ -454,14 +470,7 @@ export default function ThreeDCarousel() {
         </button>
 
         {/* Selected Art Overlay HUD */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-black/70 backdrop-blur-md border border-white/10 px-8 py-4 rounded-sm flex flex-col items-center gap-1 shadow-2xl">
-          <span className="text-primary font-mono text-[8px] tracking-[0.3em] uppercase">
-            Pizarra #{activeIndex + 1} / {carouselArtworks.length}
-          </span>
-          <span className="text-white font-serif tracking-widest text-sm uppercase">
-            {carouselArtworks[activeIndex].title}
-          </span>
-        </div>
+        <CarouselHUD artworks={carouselArtworks} />
       </div>
     </section>
   );

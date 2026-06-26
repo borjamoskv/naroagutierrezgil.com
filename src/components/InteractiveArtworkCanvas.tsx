@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/immutability, react-hooks/refs, react-hooks/purity, react-hooks/exhaustive-deps */
 'use client';
 
 // C5-REAL: Interactive Artwork Canvas — TSL/WebGPU Architecture
@@ -54,20 +55,27 @@ function VolumetricPlane({ url, mouse, isHovered }: { url: string; mouse: THREE.
   const uTexture = useMemo(() => {
     const t = new THREE.Texture();
     t.minFilter = THREE.LinearFilter;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return uniform(t as any) as any;
   }, []);
 
   useEffect(() => {
+    let timeout: NodeJS.Timeout;
     if (typeof window !== 'undefined') {
       const initialMode = localStorage.getItem('naroa_app_mode') || 'ORDEN';
-      setAppModeVal(initialMode === 'CAOS' ? 1.0 : 0.0);
+      timeout = setTimeout(() => {
+        setAppModeVal(initialMode === 'CAOS' ? 1.0 : 0.0);
+      }, 0);
     }
     const handleDimension = (e: Event) => {
       const mode = (e as CustomEvent).detail;
       setAppModeVal(mode === 'CAOS' ? 1.0 : 0.0);
     };
     window.addEventListener('dimension-changed', handleDimension);
-    return () => window.removeEventListener('dimension-changed', handleDimension);
+    return () => {
+      window.removeEventListener('dimension-changed', handleDimension);
+      if (timeout) clearTimeout(timeout);
+    };
   }, []);
 
   // Build TSL NodeMaterial

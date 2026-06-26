@@ -68,7 +68,7 @@ export default function AlcoveSystem({ activeAlcove, setActiveAlcove, resolveSrc
           {/* Minimal Hover HUD overlay (Reveals text info only when hovered) */}
           <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-16 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-black/60 backdrop-blur-[3px] pointer-events-none">
             <span className="text-[#2B3BE5] font-mono text-[9px] tracking-[0.5em] uppercase mb-3">
-              Universo {data.universeNum} // {data.material}
+              Universo {data.universeNum} / {data.material}
             </span>
             <h3 className="text-2xl sm:text-4xl font-serif font-light text-white uppercase tracking-wider mb-4">
               {data.title}

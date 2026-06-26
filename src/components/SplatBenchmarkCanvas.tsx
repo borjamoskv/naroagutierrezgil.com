@@ -416,7 +416,7 @@ function SplatInteractiveCanvas() {
   return (
     <div className="relative w-full h-full bg-[#0A0A0A] overflow-hidden">
       <div className="absolute top-4 left-4 z-10 font-mono text-xs text-[#2B3BE5] pointer-events-none opacity-40 hover:opacity-100 transition-opacity">
-        <p className="text-white/30">{status} // {fps} FPS</p>
+        <p className="text-white/30">{status} | {fps} FPS</p>
       </div>
       <canvas 
         ref={canvasRef} 

@@ -34,6 +34,7 @@ const WebGPUCanvas = forwardRef<HTMLCanvasElement, WebGPUCanvasProps>(
           try {
             // Dynamic import to avoid SSR bundling issues
             const THREE_WEBGPU = await import('three/webgpu');
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const renderer = new THREE_WEBGPU.WebGPURenderer(canvasProps as any);
             await renderer.init();
             return renderer;

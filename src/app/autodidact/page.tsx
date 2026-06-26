@@ -34,8 +34,7 @@ export default function AutodidactPage() {
       <div className="mt-32 max-w-4xl w-full border border-white/5 p-8 md:p-16 bg-[#0A0A0A] text-center">
         <h3 className="font-mono text-xs tracking-[0.4em] text-[#555] uppercase mb-6">Manifiesto Material</h3>
         <p className="font-serif text-lg md:text-2xl text-[#EAEAEA] italic opacity-80 leading-relaxed">
-          "No pinto sobre la piedra para dominarla, sino para revelar la tensión exacta en la que 
-          la luz del sujeto y el peso de la tierra logran el equilibrio."
+          {"\"No pinto sobre la piedra para dominarla, sino para revelar la tensión exacta en la que la luz del sujeto y el peso de la tierra logran el equilibrio.\""}
         </p>
       </div>
     </main>

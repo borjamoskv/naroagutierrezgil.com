@@ -1,14 +1,11 @@
-'use client';
-
-import { useEffect, useRef } from 'react';
 import Link from 'next/link';
-import HeroInteractiveCanvas from '@/components/HeroInteractiveCanvas';
-import GalleryArtwork from '@/components/GalleryArtwork';
-import ScrollyTelling from '@/components/ScrollyTelling';
-import SOTAFX from '@/components/SOTAFX';
-import ThreeDCarousel from '@/components/ThreeDCarousel';
-
+import dynamic from 'next/dynamic';
 import { allArtworks } from '@/data/artworks';
+
+const SOTAFX = dynamic(() => import('@/components/SOTAFX'), { ssr: false });
+const HeroInteractiveCanvas = dynamic(() => import('@/components/HeroInteractiveCanvas'), { ssr: false });
+const ScrollyTelling = dynamic(() => import('@/components/ScrollyTelling'), { ssr: false });
+const ThreeDCarousel = dynamic(() => import('@/components/ThreeDCarousel'), { ssr: false });
 
 export default function Home() {
   const artworks = allArtworks;

@@ -25,6 +25,7 @@ export default function SOTAFX() {
           
           const updateAudioReactivity = () => {
             if (analyser && dataArray) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               analyser.getByteFrequencyData(dataArray as any);
               let sum = 0;
               for(let i = 0; i < dataArray.length; i++) sum += dataArray[i];
