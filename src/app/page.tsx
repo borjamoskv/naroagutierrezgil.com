@@ -7,12 +7,12 @@ import GalleryArtwork from '@/components/GalleryArtwork';
 
 export default function Home() {
   const artworks = [
-    { title: 'DiviNos Amy', year: '2026', tech: 'Técnica Mixta con Hoja de Oro', img: '/assets/amy-new.webp' },
+    { title: 'Autorretrato Creador', year: '2026', tech: 'Pizarra Centenaria / Monóculo Pintado', img: '/assets/naroa-portrait-new.webp' },
+    { title: 'Marilyn en Oro', year: '2025', tech: 'Acrílico y Hoja de Oro s/ Pizarra', img: '/assets/marilyn-new.webp' },
+    { title: 'Cantinflowers', year: '2024', tech: 'Técnica Mixta y Resina', img: '/assets/cantinflowers-new.webp' },
+    { title: 'El Actor y el Humo', year: '2025', tech: 'Pizarra Bruta y Acrílico', img: '/assets/johnny-new.webp' },
+    { title: 'Sonrisa Mineral', year: '2023', tech: 'Hiperrealismo s/ Pizarra', img: '/assets/hq-portrait-1-bV-_WHlX.webp' },
     { title: 'The Golden Couple', year: '2024', tech: 'Acrílico y Hoja de Oro', img: '/assets/james-new.webp' },
-    { title: 'Pippilotta', year: '2024', tech: 'Técnica Mixta y Barniz', img: '/assets/audrey-hepburn-DbIBTtIp.webp' },
-    { title: 'Rosetta', year: '2023', tech: 'Acrílico y Mica s/ Pizarra', img: '/assets/rosetta-new.webp' },
-    { title: 'Espejo del Alma I', year: '2024', tech: 'Base de pizarra centenaria vasca', img: '/assets/601340023_1552126202933462_7815927344957967258_n.webp' },
-    { title: 'Dama de la Pizarra', year: '2025', tech: 'Acrílico sobre relieve de pizarra', img: '/assets/608211438_1562089535270462_2827127275272133326_n.webp' },
   ];
 
   return (
