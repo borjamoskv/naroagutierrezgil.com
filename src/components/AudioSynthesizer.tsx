@@ -1,22 +1,25 @@
+// SYS_ID: AUDIO_SYNTHESIZER_OMEGA
+// STATE: C5-REAL
+// AESTHETIC: INDUSTRIAL_NOIR_2026
+// CREATOR: borjamoskv
+
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
 import MagneticButton from "./MagneticButton";
 
-interface AudioSynthesizerProps {
-  pointerDown: boolean;
-  pointerX: number;
-  pointerY: number;
-}
-
 /**
  * AudioSynthesizer component that uses the Web Audio API to create a live, responsive atmospheric soundscape.
  * Creates an ambient drone (Industrial Noir) and synthesizes crystalline resonance when carving kintsugi lines.
+ * Self-tracks pointer positions to enable clean global drop-in.
+ * Reacts to the 'data-borja' global state to transition between warm ambient drone and deep industrial rumble.
  * 
- * Credits: Borja Moskv (borjamoskv) / MOSKV-1 APEX
+ * Credits & Production: Borja Moskv (borjamoskv) / MOSKV-1 APEX
  */
-export default function AudioSynthesizer({ pointerDown, pointerX, pointerY }: AudioSynthesizerProps) {
+export default function AudioSynthesizer() {
   const [audioActive, setAudioActive] = useState(false);
+  const [isBorjaActive, setIsBorjaActive] = useState(false);
+  
   const audioCtxRef = useRef<AudioContext | null>(null);
   
   // Ambient drone nodes
@@ -28,6 +31,54 @@ export default function AudioSynthesizer({ pointerDown, pointerX, pointerY }: Au
   // Scratching/Carving synthesis nodes
   const carveOscRef = useRef<OscillatorNode | null>(null);
   const carveGainRef = useRef<GainNode | null>(null);
+
+  // Pointer state tracked locally
+  const [pointerDown, setPointerDown] = useState(false);
+  const [pointerPos, setPointerPos] = useState({ x: 0, y: 0 });
+
+  // Listen to mouse/touch events globally
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setPointerPos({ x: e.clientX, y: e.clientY });
+    };
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches[0]) {
+        setPointerPos({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+      }
+    };
+    const handleMouseDown = () => setPointerDown(true);
+    const handleMouseUp = () => setPointerDown(false);
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("mousedown", handleMouseDown, { passive: true });
+    window.addEventListener("mouseup", handleMouseUp, { passive: true });
+    window.addEventListener("touchstart", handleMouseDown, { passive: true });
+    window.addEventListener("touchend", handleMouseUp, { passive: true });
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("touchstart", handleMouseDown);
+      window.removeEventListener("touchend", handleMouseUp);
+    };
+  }, []);
+
+  // Listen to data-borja global HTML attribute mutation
+  useEffect(() => {
+    const checkBorja = () => {
+      const root = document.documentElement;
+      setIsBorjaActive(root.getAttribute("data-borja") === "true");
+    };
+    checkBorja();
+
+    const observer = new MutationObserver(checkBorja);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-borja"] });
+
+    return () => observer.disconnect();
+  }, []);
 
   const initAudio = () => {
     if (audioCtxRef.current) return;
@@ -106,13 +157,13 @@ export default function AudioSynthesizer({ pointerDown, pointerX, pointerY }: Au
     const ctx = audioCtxRef.current;
     if (!filter || !ctx || ctx.state !== "running") return;
 
-    const widthPct = pointerX / window.innerWidth;
-    const heightPct = pointerY / window.innerHeight;
+    const widthPct = pointerPos.x / window.innerWidth;
+    const heightPct = pointerPos.y / window.innerHeight;
     
     // Map cursor X/Y to filter cutoff frequency (100Hz to 600Hz)
     const targetFreq = 100 + (widthPct * 400) + (heightPct * 100);
     filter.frequency.setTargetAtTime(targetFreq, ctx.currentTime, 0.1);
-  }, [pointerX, pointerY]);
+  }, [pointerPos]);
 
   // Handle carving resonance on pointer drag
   useEffect(() => {
@@ -123,7 +174,7 @@ export default function AudioSynthesizer({ pointerDown, pointerX, pointerY }: Au
 
     if (pointerDown) {
       // Map pointer Y to frequency (300Hz to 1200Hz)
-      const pctY = pointerY / window.innerHeight;
+      const pctY = pointerPos.y / window.innerHeight;
       const freq = 1200 - pctY * 900;
       
       carveOsc.frequency.setTargetAtTime(freq, ctx.currentTime, 0.05);
@@ -133,7 +184,28 @@ export default function AudioSynthesizer({ pointerDown, pointerX, pointerY }: Au
       // Fade out carve synthesizer gain
       carveGain.gain.setTargetAtTime(0.0, ctx.currentTime, 0.1);
     }
-  }, [pointerDown, pointerY]);
+  }, [pointerDown, pointerPos]);
+
+  // Mutate soundscape based on Borja mode (Industrial Noir)
+  useEffect(() => {
+    const ctx = audioCtxRef.current;
+    const filter = filterRef.current;
+    const osc1 = osc1Ref.current;
+    const osc2 = osc2Ref.current;
+    if (!ctx || !osc1 || !osc2 || !filter || ctx.state !== "running") return;
+
+    if (isBorjaActive) {
+      // Darker, heavier industrial drone (C1 notes)
+      filter.frequency.setTargetAtTime(70, ctx.currentTime, 1.5);
+      osc1.frequency.setTargetAtTime(32.70, ctx.currentTime, 2.0); // C1 sub rumble
+      osc2.frequency.setTargetAtTime(32.90, ctx.currentTime, 2.0); // detuned sub rumble
+    } else {
+      // Warm ambient drone (A1 notes)
+      filter.frequency.setTargetAtTime(110, ctx.currentTime, 1.5);
+      osc1.frequency.setTargetAtTime(55.00, ctx.currentTime, 2.0); // A1 note
+      osc2.frequency.setTargetAtTime(55.40, ctx.currentTime, 2.0); // detuned A1
+    }
+  }, [isBorjaActive]);
 
   return (
     <div className="fixed bottom-6 right-6 z-50 pointer-events-auto mix-blend-difference">

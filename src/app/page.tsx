@@ -1,16 +1,32 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { allArtworks } from '@/data/artworks';
+import HeroInteractiveCanvas from '@/components/HeroInteractiveCanvas';
+import GalleryArtwork from '@/components/GalleryArtwork';
+import ScrollyTelling from '@/components/ScrollyTelling';
+import SOTAFX from '@/components/SOTAFX';
+import ThreeDCarousel from '@/components/ThreeDCarousel';
 
-const SOTAFX = dynamic(() => import('@/components/SOTAFX'), { ssr: false });
-const HeroInteractiveCanvas = dynamic(() => import('@/components/HeroInteractiveCanvas'), { ssr: false });
-const ScrollyTelling = dynamic(() => import('@/components/ScrollyTelling'), { ssr: false });
-const ThreeDCarousel = dynamic(() => import('@/components/ThreeDCarousel'), { ssr: false });
+import { allArtworks } from '@/data/artworks';
 
 export default function Home() {
   const artworks = allArtworks;
+  const [isBorja, setIsBorja] = useState(false);
+
+  useEffect(() => {
+    const checkBorja = () => {
+      const root = document.documentElement;
+      setIsBorja(root.getAttribute('data-borja') === 'true');
+    };
+    checkBorja();
+
+    const observer = new MutationObserver(checkBorja);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-borja'] });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <main className="w-full flex flex-col items-center cursor-none overflow-x-hidden">
@@ -25,9 +41,15 @@ export default function Home() {
         </div>
         
         <div className="z-10 text-center mix-blend-overlay pointer-events-none mt-12 md:mt-0">
-          <h1 className="text-6xl md:text-8xl tracking-[0.4em] md:tracking-[0.6em] font-light uppercase opacity-90 pl-4 md:pl-8 text-[#E0E0E0]">NAROA</h1>
-          <p className="text-xs md:text-sm tracking-[0.3em] md:tracking-[0.4em] mt-6 font-mono opacity-60 text-[#E0E0E0]">PERCEPCIÓN • TENSIÓN • GRAVEDAD</p>
-          <p className="mt-12 text-[0.6rem] tracking-[0.3em] opacity-40 text-[#E0E0E0]">BILBAO, ESPAÑA</p>
+          <h1 className="text-6xl md:text-8xl tracking-[0.4em] md:tracking-[0.6em] font-light uppercase opacity-90 pl-4 md:pl-8 text-[#E0E0E0]">
+            {isBorja ? 'BORJA' : 'NAROA'}
+          </h1>
+          <p className="text-xs md:text-sm tracking-[0.3em] md:tracking-[0.4em] mt-6 font-mono opacity-60 text-[#E0E0E0]">
+            {isBorja ? 'DEMIURGO • EXERGÍA • ORDEN' : 'PERCEPCIÓN • TENSIÓN • GRAVEDAD'}
+          </p>
+          <p className="mt-12 text-[0.6rem] tracking-[0.3em] opacity-40 text-[#E0E0E0]">
+            {isBorja ? 'APEX CORE' : 'BILBAO, ESPAÑA'}
+          </p>
         </div>
         
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[0.6rem] tracking-[0.3em] text-[#888] font-mono animate-pulse pointer-events-none mix-blend-difference">
