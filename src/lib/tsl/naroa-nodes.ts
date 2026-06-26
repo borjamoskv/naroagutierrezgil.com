@@ -7,11 +7,6 @@
 
 import {
   Fn,
-  uniform,
-  texture,
-  uv,
-  positionLocal,
-  normalLocal,
   vec2,
   vec3,
   vec4,
@@ -24,13 +19,10 @@ import {
   pow,
   floor,
   fract,
-  length,
   distance,
   smoothstep,
-  mix,
   max,
   step,
-  time as timerGlobal,
 } from 'three/tsl';
 import type { Node } from 'three/webgpu';
 

@@ -10,7 +10,7 @@ interface CarouselState {
   setCount: (count: number) => void;
 }
 
-export const useCarouselStore = create<CarouselState>((set, get) => ({
+export const useCarouselStore = create<CarouselState>((set) => ({
   activeIndex: 0,
   targetAngle: 0,
   itemCount: 0,

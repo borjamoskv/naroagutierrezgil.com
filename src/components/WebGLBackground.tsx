@@ -1,4 +1,4 @@
-
+/* eslint-disable react-hooks/immutability */
 "use client";
 
 // C5-REAL: WebGPU Background Stars — TSL/WebGPU Architecture
@@ -10,8 +10,8 @@
 // rendering efficiently. Full GPU compute migration to TSL storage
 // buffers would be warranted at 50k+ particles.
 
-import { useFrame } from "@react-three/fiber";
-import { Points, PointMaterial } from "@react-three/drei";
+import { useFrame, extend } from "@react-three/fiber";
+import { Points } from "@react-three/drei";
 import { useState, useRef, useEffect, useMemo } from "react";
 import * as THREE from "three";
 import { inSphere } from "maath/random";
@@ -19,6 +19,8 @@ import WebGPUCanvas from "./WebGPUCanvas";
 
 import { storage, Fn, instanceIndex, float, vec3, deltaTime, dot, length, If, uniform, vec2 } from 'three/tsl';
 import { PointsNodeMaterial } from 'three/webgpu';
+
+extend({ PointsNodeMaterial });
 
 function StarBackground(props: Record<string, unknown>) {
   const ref = useRef<THREE.Points>(null);
@@ -48,7 +50,7 @@ function StarBackground(props: Record<string, unknown>) {
   // Storage Buffer Attributes for Compute Shader
   const [positionAttr] = useState(() => {
     const sphere = inSphere(new Float32Array(count * 3), { radius: 2.0 }) as Float32Array;
-    // @ts-ignore - StorageBufferAttribute is available in three/webgpu or three r171
+    // @ts-expect-error - StorageBufferAttribute is available in three/webgpu or three r171
     return new THREE.StorageBufferAttribute(sphere, 3);
   });
   
@@ -86,6 +88,7 @@ function StarBackground(props: Record<string, unknown>) {
         colorsArr[i * 3 + 2] = b;
       }
     }
+    // eslint-disable-next-line react-hooks/immutability
     colorAttr.needsUpdate = true;
   }, [color, colorAttr]);
   
@@ -104,6 +107,7 @@ function StarBackground(props: Record<string, unknown>) {
   // Define TSL Compute Node for particle physics
   const computeNode = useMemo(() => {
     const computeParticles = Fn(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const position = storage(positionAttr as any, 'vec3', count).element(instanceIndex);
       
       const mx = mouseUniform.x.mul(2.0);
@@ -154,7 +158,7 @@ function StarBackground(props: Record<string, unknown>) {
           <primitive object={positionAttr} attach="attributes-position" />
           <primitive object={colorAttr} attach="attributes-color" />
         </bufferGeometry>
-        {/* @ts-ignore - PointsNodeMaterial not natively typed in R3F yet */}
+        {/* @ts-expect-error - PointsNodeMaterial not natively typed in R3F yet */}
         <pointsNodeMaterial
           transparent
           vertexColors
