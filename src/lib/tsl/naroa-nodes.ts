@@ -33,7 +33,7 @@ import {
   time as timerGlobal,
 } from 'three/tsl';
 import type { Node } from 'three/webgpu';
-type ShaderNodeObject<T> = any;
+type ShaderNodeObject<T> = T;
 
 // ============================================================================
 // PRIMITIVE: Hash function for procedural noise
