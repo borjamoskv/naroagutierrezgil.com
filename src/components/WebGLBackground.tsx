@@ -1,11 +1,21 @@
 
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
+// C5-REAL: WebGPU Background Stars — TSL/WebGPU Architecture
+// Credits: Borja Moskv (borjamoskv) / MOSKV-1 APEX
+// Migrated from CPU-bound particle physics to WebGPU Canvas.
+// The particle update logic (mouse attraction, boundary constraints)
+// still runs on CPU via useFrame since the particle count (5k) is
+// well within CPU budget and the Drei <Points> component handles
+// rendering efficiently. Full GPU compute migration to TSL storage
+// buffers would be warranted at 50k+ particles.
+
+import { useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import { useState, useRef, useEffect } from "react";
 import * as THREE from "three";
 import { inSphere } from "maath/random";
+import WebGPUCanvas from "./WebGPUCanvas";
 
 function StarBackground(props: Record<string, unknown>) {
   const ref = useRef<THREE.Points>(null);
@@ -168,14 +178,13 @@ function StarBackground(props: Record<string, unknown>) {
 export default function WebGLBackground() {
   return (
     <div className="absolute inset-0 z-0 bg-[#0A0A0A]">
-      <Canvas 
+      <WebGPUCanvas 
         camera={{ position: [0, 0, 1] }} 
-        dpr={[1, 1.5]} 
-        gl={{ powerPreference: "high-performance", alpha: false, antialias: false }}
+        dpr={[1, 1.5]}
       >
         <fog attach="fog" args={['#0A0A0A', 0.5, 2]} />
         <StarBackground />
-      </Canvas>
+      </WebGPUCanvas>
     </div>
   );
 }

@@ -1,7 +1,4 @@
-export const metadata = {
-  title: "Contacto | Naroa Gutiérrez Gil",
-  description: "Formulario de inscripción para adquisición de obras e información del estudio.",
-};
+'use client';
 
 export default function ContactoPage() {
   return (

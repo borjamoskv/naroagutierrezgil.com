@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
 import CustomCursorWrapper from "@/components/CustomCursorWrapper";
-import AaronProtocol from "@/components/AaronProtocol";
+import BorjaProtocol from "@/components/BorjaProtocol";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://naroagutierrezgil.com'),
@@ -26,7 +26,7 @@ export default function RootLayout({
         
         {/* Custom Cursor C5-REAL inyectado via Client Component para no romper el Server Layout */}
         <CustomCursorWrapper />
-        <AaronProtocol />
+        <BorjaProtocol />
 
         {/* Global Navigation - Minimalist Silent Commerce */}
         <nav className="fixed top-8 right-12 z-[100] flex gap-8 mix-blend-difference pointer-events-auto">

@@ -1,8 +1,3 @@
-export const metadata = {
-  title: "Estudio & Autodidacta | Naroa Gutiérrez Gil",
-  description: "Filosofía autodidacta y exploración de materiales del estudio de Naroa Gutiérrez.",
-};
-
 export default function AutodidactPage() {
   return (
     <main className="w-full min-h-screen pt-48 pb-32 px-6 md:px-24 flex flex-col items-center">
