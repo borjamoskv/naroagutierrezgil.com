@@ -35,8 +35,11 @@ import {
   mix,
   max,
   step,
+  storage,
+  compute,
+  instanceIndex
 } from 'three/tsl';
-import { MeshStandardNodeMaterial, PointsNodeMaterial } from 'three/webgpu';
+import { MeshStandardNodeMaterial, PointsNodeMaterial, StorageBufferAttribute } from 'three/webgpu';
 import WebGPUCanvas from './WebGPUCanvas';
 import { useCarouselStore } from '@/lib/store';
 
@@ -90,11 +93,18 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
   const cardOffsetAngle = (index / count) * Math.PI * 2;
   const radius = Math.max(2.5, (count * 1.4) / (2 * Math.PI));
 
-  // Grid for particle system
-  const gridResolution = 80;
-  const [positions, uvs] = useMemo(() => {
-    const posArr = new Float32Array(gridResolution * gridResolution * 3);
-    const uvArr = new Float32Array(gridResolution * gridResolution * 2);
+  // Disintegration particle uniforms
+  const uParticleProgressRef = useRef(uniform(0.0));
+  const uParticleTimeRef = useRef(uniform(0.0));
+  const uParticleTextureRef = useRef(uniform(new THREE.Texture() as any) as any);
+
+  // Compute Shader buffers for particle system
+  const gridResolution = 150; // Massively increased for WebGPU SOTA
+  const particleCount = gridResolution * gridResolution;
+  const { computeNode, positionAttribute, uvAttribute } = useMemo(() => {
+    const basePos = new Float32Array(particleCount * 3);
+    const currPos = new Float32Array(particleCount * 3);
+    const uvArr = new Float32Array(particleCount * 2);
 
     for (let i = 0; i < gridResolution; i++) {
       for (let j = 0; j < gridResolution; j++) {
@@ -102,14 +112,45 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
         const v = j / (gridResolution - 1);
         const idx3 = (i * gridResolution + j) * 3;
         const idx2 = (i * gridResolution + j) * 2;
-        posArr[idx3] = (u - 0.5) * 1.2;
-        posArr[idx3 + 1] = (v - 0.5) * 1.6;
-        posArr[idx3 + 2] = 0;
+        
+        const x = (u - 0.5) * 1.2;
+        const y = (v - 0.5) * 1.6;
+        
+        basePos[idx3] = x;
+        basePos[idx3 + 1] = y;
+        basePos[idx3 + 2] = 0;
+        
+        currPos[idx3] = x;
+        currPos[idx3 + 1] = y;
+        currPos[idx3 + 2] = 0;
+        
         uvArr[idx2] = u;
         uvArr[idx2 + 1] = v;
       }
     }
-    return [posArr, uvArr];
+
+    const basePosAttr = new StorageBufferAttribute(basePos, 3);
+    const currPosAttr = new StorageBufferAttribute(currPos, 3);
+    const uvAttr = new THREE.BufferAttribute(uvArr, 2);
+
+    const basePosStorage = storage(basePosAttr, 'vec3', particleCount);
+    const currentPosStorage = storage(currPosAttr, 'vec3', particleCount);
+
+    const computeParticlesFn = Fn(() => {
+      const baseP = basePosStorage.element(instanceIndex);
+      const currP = currentPosStorage.element(instanceIndex);
+      
+      const u = float(instanceIndex).mod(gridResolution).div(float(gridResolution - 1));
+      const v = floor(float(instanceIndex).div(gridResolution)).div(float(gridResolution - 1));
+      const uvNode = vec2(u, v);
+
+      const displace = disintegrationDisplace(uvNode, uParticleProgressRef.current, uParticleTimeRef.current);
+      currP.assign(baseP.add(displace));
+    });
+
+    const computeNode = compute(computeParticlesFn(), particleCount);
+
+    return { computeNode, positionAttribute: currPosAttr, uvAttribute: uvAttr };
   }, []);
 
   // ---- TSL UNIFORMS ----
@@ -120,11 +161,6 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
   const uFrontOpacityRef = useRef(uniform(1.0));
   const uFrontAppModeRef = useRef(uniform(0.0));
   const uFrontTextureRef = useRef(uniform(new THREE.Texture() as any) as any);
-
-  // Disintegration particle uniforms
-  const uParticleProgressRef = useRef(uniform(0.0));
-  const uParticleTimeRef = useRef(uniform(0.0));
-  const uParticleTextureRef = useRef(uniform(new THREE.Texture() as any) as any);
 
   // ---- FRONT FACE TSL MATERIAL ----
   const frontMaterial = useMemo(() => {
@@ -230,11 +266,8 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
     const uParticleTime = uParticleTimeRef.current;
     const uParticleTexture = uParticleTextureRef.current;
 
-    // Position: displace particles based on progress
-    const uvNode = uv();
-    const pos = positionLocal.toVar();
-    const displace = disintegrationDisplace(uvNode, uParticleProgress, uParticleTime);
-    mat.positionNode = pos.add(displace);
+    // Position: read automatically from geometry attributes which are linked to StorageBuffer
+    mat.positionNode = positionLocal.toVar();
 
     // Size: shimmer effect
     const shimmer = float(1.0).add(sin(uParticleTime.mul(5.0).add(uv().x.mul(10.0))).mul(0.2));
@@ -313,6 +346,16 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
     if (pointsRef.current) {
       pointsRef.current.visible = !isSolid;
     }
+
+    // Phase 2: Compute Node Dispatch
+    if (!isSolid || targetProgress > 0.0) {
+      const gl = state.gl as any;
+      if (gl.computeAsync) {
+        gl.computeAsync(computeNode); // WebGPU async compute pipeline
+      } else if (gl.compute) {
+        gl.compute(computeNode); // WebGPU sync compute pipeline
+      }
+    }
   });
 
   const handlePointerMove = (e: { stopPropagation: () => void; uv?: THREE.Vector2 }) => {
@@ -353,8 +396,8 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
       {/* Disintegrated Points System (renders when rotating away) */}
       <points ref={pointsRef} visible={false}>
         <bufferGeometry>
-          <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-          <bufferAttribute attach="attributes-uv" args={[uvs, 2]} />
+          <bufferAttribute attach="attributes-position" args={[positionAttribute]} />
+          <bufferAttribute attach="attributes-uv" args={[uvAttribute, 2]} />
         </bufferGeometry>
         <primitive object={particleMaterial} attach="material" />
       </points>
