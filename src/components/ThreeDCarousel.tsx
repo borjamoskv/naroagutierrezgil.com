@@ -5,19 +5,11 @@ import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { useRef, useState, useMemo, useEffect } from 'react';
 import * as THREE from 'three';
 
-interface CarouselItem {
-  src: string;
-  title: string;
-}
+import { artworksData } from '@/data/artworks';
 
-const carouselArtworks: CarouselItem[] = [
-  { src: '/assets/el-gran-dakari-C1tAWAhR.webp', title: 'El Gran Dakari' },
-  { src: '/assets/geisha-MfRtKWdu.webp', title: 'Geisha' },
-  { src: '/assets/james-new.webp', title: 'James Dean' },
-  { src: '/assets/amy-new.webp', title: 'Amy Winehouse' },
-  { src: '/assets/lagrimas-de-oro-DikHc-Tk.webp', title: 'Lágrimas de Oro' },
-  { src: '/assets/la-pensadora-CFHSnMA0.webp', title: 'La Pensadora' }
-];
+const carouselArtworks = artworksData
+  .filter(art => ['dakari', 'geisha', 'james', 'amy', 'lagrimas', 'pensadora'].includes(art.id))
+  .map(art => ({ src: \`/assets/\${art.src}\`, title: art.title }));
 
 // Custom Vertex Shader for JIT Particle Disintegration (Splat Effect)
 const cardVertexShader = `
