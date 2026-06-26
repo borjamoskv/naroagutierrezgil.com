@@ -1,318 +1,79 @@
 'use client';
 
-import { useState, useEffect, useRef, Suspense } from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
-import Lenis from 'lenis';
-import dynamic from 'next/dynamic';
-
-const WebGLBackground = dynamic(() => import('@/components/WebGLBackground'), { ssr: false });
-const PaintTrail = dynamic(() => import('@/components/PaintTrail'), { ssr: false });
-const MacroSplatCanvas = dynamic(() => import('@/components/SplatBenchmarkCanvas'), { ssr: false });
-const SplatPhysicsTester = dynamic(() => import('@/components/SplatPhysicsTester'), { ssr: false });
-const KineticArtwork = dynamic(() => import('@/components/KineticArtwork'), { ssr: false });
-const ThreeDCarousel = dynamic(() => import('@/components/ThreeDCarousel'), { ssr: false });
-const HeroSection = dynamic(() => import('@/components/HeroSection'), { ssr: false });
-const PhilosophyStatement = dynamic(() => import('@/components/PhilosophyStatement'), { ssr: false });
-const AlcoveSystem = dynamic(() => import('@/components/AlcoveSystem'), { ssr: false });
-const LuxuryArtworkViewer = dynamic(() => import('@/components/LuxuryArtworkViewer'), { ssr: false });
-const DepthHUD = dynamic(() => import('@/components/DepthHUD'), { ssr: false });
-const SOTAFX = dynamic(() => import('@/components/SOTAFX'), { ssr: false });
-const Mica = dynamic(() => import('@/components/Mica'), { ssr: false });
-const ScrollyTelling = dynamic(() => import('@/components/ScrollyTelling'), { ssr: false });
-const TakeoverModal = dynamic(() => import('@/components/TakeoverModal'), { ssr: false });
-const ScrollAwareHeader = dynamic(() => import('@/components/ScrollAwareHeader'), { ssr: false });
-const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
-
-
 
 export default function Home() {
-  const [appMode, setAppMode] = useState<"CAOS" | "ORDEN">("ORDEN");
-  const [webGLReady, setWebGLReady] = useState(false);
-  const [activeAlcove, setActiveAlcove] = useState<'pop' | 'pizarra' | 'poliester' | 'kintsugi' | 'mica' | 'reverso'>('pop');
-  const [takeoverArtwork, setTakeoverArtwork] = useState<{ src: string; title: string } | null>(null);
-  const [takeoverCountdown, setTakeoverCountdown] = useState(4);
-  const [isLocal, setIsLocal] = useState(false);
-
-  const heroImageRef = useRef<HTMLImageElement>(null);
-  const descenderRef = useRef<HTMLDivElement>(null);
-  const heroSectionRef = useRef<HTMLDivElement>(null);
-
-  // Sync Dimension changed custom events
-  useEffect(() => {
-    const handleRequest = (e: Event) => {
-      setAppMode((e as CustomEvent).detail);
-    };
-    window.addEventListener('request-dimension-toggle', handleRequest);
-    return () => window.removeEventListener('request-dimension-toggle', handleRequest);
-  }, []);
+  const heroBgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    window.dispatchEvent(new CustomEvent('dimension-changed', { detail: appMode }));
-  }, [appMode]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const hostname = window.location.hostname;
-      if (hostname === "localhost" || hostname === "127.0.0.1" || hostname.includes("local")) {
-        setIsLocal(true);
-      }
-    }
-    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
-      const id = requestIdleCallback(() => setWebGLReady(true), { timeout: 2000 });
-      return () => cancelIdleCallback(id);
-    } else {
-      const t = setTimeout(() => setWebGLReady(true), 500);
-      return () => clearTimeout(t);
-    }
-  }, []);
-
-  useEffect(() => {
-    const lenis = new Lenis();
-    let animationId: number;
-    function raf(time: number) {
-      lenis.raf(time);
-      const velocity = lenis.velocity;
-      if (typeof window !== 'undefined') {
-        (window as unknown as { __scrollVelocity: number }).__scrollVelocity = Math.abs(velocity);
-      }
-      animationId = requestAnimationFrame(raf);
-    }
-    animationId = requestAnimationFrame(raf);
-    return () => {
-      lenis.destroy();
-      cancelAnimationFrame(animationId);
-    };
-  }, []);
-
-  // Parallax scroll for hero section
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const threshold = window.innerHeight * 0.8;
-      if (threshold > 0) {
-        const progress = Math.min(Math.max(scrollY / threshold, 0), 1);
-        const easedProgress = Math.pow(progress, 3.5);
-        const translateY = easedProgress * 100;
-        
-        if (heroSectionRef.current) {
-          heroSectionRef.current.style.transform = `translateY(${-translateY}%)`;
-        }
-        if (descenderRef.current) {
-          descenderRef.current.style.opacity = Math.max(0, 0.5 - translateY / 50).toString();
-        }
+    const handleMouseMove = (e: MouseEvent) => {
+      if (heroBgRef.current) {
+        const x = (window.innerWidth - e.pageX * 2) / 100;
+        const y = (window.innerHeight - e.pageY * 2) / 100;
+        heroBgRef.current.style.transform = `translateX(${x}px) translateY(${y}px) scale(1.1)`;
       }
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    document.addEventListener('mousemove', handleMouseMove);
+    return () => document.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Handle tilt and escape keys
-  useEffect(() => {
-    const handlePointerMove = (e: PointerEvent) => {
-      const xTilt = ((e.clientY / window.innerHeight) - 0.5) * -5;
-      const yTilt = ((e.clientX / window.innerWidth) - 0.5) * 5;
-      if (heroImageRef.current) {
-        heroImageRef.current.style.transform = `scale(1.04) rotateX(${xTilt}deg) rotateY(${yTilt}deg)`;
-      }
-    };
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === 'm') {
-        setAppMode((prev) => (prev === 'ORDEN' ? 'CAOS' : 'ORDEN'));
-      }
-    };
-    window.addEventListener('pointermove', handlePointerMove, { passive: true });
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('pointermove', handlePointerMove);
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
-
-  const getImageUrl = (src: string) => {
-    if (src.startsWith('http')) return src;
-    return `/assets/${src}`;
-  };
-
-  const resolveSrc = (src: string) => {
-    const url = getImageUrl(src);
-    if (isLocal && url.startsWith("/")) {
-      return `/assets/${src}`;
-    }
-    return url;
-  };
-
-  const updatePrimaryColor = (hex: string) => {
-    if (typeof window === 'undefined') return;
-    document.documentElement.style.setProperty('--primary', hex);
-    document.documentElement.style.setProperty('--color-primary', hex);
-    document.documentElement.style.setProperty('--accent', hex);
-    
-    const cleanHex = hex.replace('#', '');
-    const r = parseInt(cleanHex.substring(0, 2), 16);
-    const g = parseInt(cleanHex.substring(2, 4), 16);
-    const b = parseInt(cleanHex.substring(4, 6), 16);
-    document.documentElement.style.setProperty('--primary-rgb', `${r}, ${g}, ${b}`);
-    
-    localStorage.setItem('naroa_primary_color', hex);
-    window.dispatchEvent(new CustomEvent('naroa-color-change', { detail: hex }));
-  };
-
-  useEffect(() => {
-    updatePrimaryColor('#2B3BE5');
-  }, []);
-
-  // Takeover modal handlers
-  const triggerTakeover = (artwork: { src: string; title: string }) => {
-    setTakeoverArtwork(artwork);
-    setTakeoverCountdown(4);
-    document.body.style.overflow = 'hidden';
-    const interval = setInterval(() => {
-      setTakeoverCountdown(prev => prev - 1);
-    }, 1000);
-    const timeout = setTimeout(() => {
-      setTakeoverArtwork(null);
-      document.body.style.overflow = '';
-      clearInterval(interval);
-    }, 4000);
-    return () => {
-      clearInterval(interval);
-      clearTimeout(timeout);
-    };
-  };
-
-  const closeTakeover = () => {
-    setTakeoverArtwork(null);
-    document.body.style.overflow = '';
-  };
+  const artworks = [
+    { title: 'DiviNos Amy', year: '2026', tech: 'Técnica Mixta con Hoja de Oro', img: '/assets/amy-new.webp' },
+    { title: 'The Golden Couple', year: '2024', tech: 'Acrílico y Hoja de Oro', img: '/assets/james-new.webp' },
+    { title: 'Pippilotta', year: '2024', tech: 'Técnica Mixta y Barniz', img: '/assets/audrey-hepburn-DbIBTtIp.webp' },
+    { title: 'Rosetta', year: '2023', tech: 'Acrílico y Mica s/ Pizarra', img: '/assets/rosetta-new.webp' },
+    { title: 'Espejo del Alma I', year: '2024', tech: 'Base de pizarra centenaria vasca', img: '/assets/601340023_1552126202933462_7815927344957967258_n.webp' },
+    { title: 'Dama de la Pizarra', year: '2025', tech: 'Acrílico sobre relieve de pizarra', img: '/assets/608211438_1562089535270462_2827127275272133326_n.webp' },
+  ];
 
   return (
-    <div id="main-content" className={`flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary selection:text-black ${appMode === "ORDEN" ? "bg-[#050505]" : ""}`}>
+    <main className="w-full flex flex-col items-center">
       
-      {/* Dynamic Backgrounds */}
-      {appMode === "CAOS" && webGLReady && (
-        <div id="macro-splat-container" className="fixed inset-0 z-0 pointer-events-auto animate-[fadeIn_3s_ease-out]">
-          <MacroSplatCanvas />
-        </div>
-      )}
-
-      {appMode === "ORDEN" && (
-        <div id="webgl-container" className="absolute inset-0 z-0 pointer-events-none">
-          <WebGLBackground />
-        </div>
-      )}
-      
-      <PaintTrail />
-      {appMode === "CAOS" && webGLReady && (
-        <>
-          <DepthHUD />
-          <SOTAFX />
-          <Mica />
-        </>
-      )}
-
-      {/* Header & Navigation */}
-      <ScrollAwareHeader className="fixed top-0 left-0 w-full px-6 sm:px-12 py-6 flex flex-col justify-between items-center z-[210] mix-blend-difference pointer-events-auto select-none text-white border-b border-white/5 bg-black/20 animate-[fadeIn_1.5s_ease-out_both]">
-        <div className="w-full flex justify-between items-center">
-          <div className="flex flex-col">
-            <span className="font-sans text-[10px] tracking-[0.5em] uppercase font-bold text-[var(--primary)]">
-              Naroa Gutiérrez Gil
-            </span>
-            <span className="font-sans text-[7px] tracking-[0.3em] uppercase opacity-40 mt-1">
-              Hiperrealismo Pop & Alquimia Vasca
-            </span>
-          </div>
-
-          <div className="flex items-center gap-6">
-            {/* Color Palette Switcher */}
-            <div className="hidden md:flex items-center gap-2 bg-black/45 backdrop-blur-md border border-white/5 p-2 rounded-full">
-              {[
-                { hex: '#2B3BE5', label: 'Cobalto' },
-                { hex: '#F59E0B', label: 'Oro' },
-                { hex: '#E52B3B', label: 'Crimson' },
-                { hex: '#10B981', label: 'Esmeralda' }
-              ].map((colorObj) => (
-                <button
-                  key={colorObj.hex}
-                  onClick={() => updatePrimaryColor(colorObj.hex)}
-                  style={{ backgroundColor: colorObj.hex }}
-                  title={colorObj.label}
-                  className="w-3.5 h-3.5 rounded-full border border-white/20 hover:scale-125 transition-transform cursor-pointer"
-                />
-              ))}
-            </div>
-
-            <Link
-              id="nav-biografia"
-              href="/biografia"
-              className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
-            >
-              Biografía
-            </Link>
-
-            <Link
-              id="nav-autodidact"
-              href="/autodidact"
-              className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
-            >
-              Autodidacta
-            </Link>
-
-            <Link
-              id="nav-contacto"
-              href="/contacto"
-              className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
-            >
-              Contacto
-            </Link>
-
-            <button 
-              id="btn-dimension-toggle"
-              onClick={() => setAppMode(prev => prev === 'ORDEN' ? 'CAOS' : 'ORDEN')}
-              className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
-            >
-              Dimensión: {appMode}
-            </button>
-          </div>
-        </div>
-
-        {/* Laboratorio HUD Subtitle */}
-        <div className="w-full mt-4 pt-3 border-t border-white/5 flex justify-center">
-          <span className="font-sans text-[8px] tracking-[0.4em] text-white/50 uppercase">
-            Laboratorio de Pintura & Alquimia Lítica • Bilbao 2026
-          </span>
-        </div>
-      </ScrollAwareHeader>
-
       {/* Hero Section */}
-      <HeroSection resolveSrc={resolveSrc} heroSectionRef={heroSectionRef} descenderRef={descenderRef} />
+      <section className="h-screen w-full relative flex items-center justify-center overflow-hidden">
+        <img 
+          ref={heroBgRef}
+          src="/assets/amy-new.webp" 
+          alt="NAROA Hero" 
+          className="absolute top-0 left-0 w-full h-full object-cover opacity-[0.35] transition-transform duration-500 ease-out"
+        />
+        <div className="z-10 text-center mix-blend-overlay pointer-events-none">
+          <h1 className="text-6xl md:text-8xl tracking-[0.4em] md:tracking-[0.6em] font-light uppercase opacity-90 pl-4 md:pl-8">NAROA</h1>
+          <p className="text-xs md:text-sm tracking-[0.3em] md:tracking-[0.4em] mt-6 font-mono opacity-60">PERCEPCIÓN • TENSIÓN • GRAVEDAD</p>
+          <p className="mt-12 text-[0.6rem] tracking-[0.3em] opacity-40">BILBAO, ESPAÑA</p>
+        </div>
+      </section>
 
-      {/* Philosophy Section */}
-      <PhilosophyStatement />
+      {/* Galería Inmersiva */}
+      <section className="px-6 py-32 md:p-32 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 max-w-[1800px] w-full">
+        {artworks.map((art, idx) => (
+          <article key={idx} className="relative overflow-hidden aspect-[4/5] bg-[#0A0A0A] group border border-white/5">
+            <img 
+              src={art.img} 
+              alt={art.title} 
+              className="w-full h-full object-cover grayscale-[30%] opacity-80 transition-all duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105"
+            />
+            <div className="absolute inset-x-0 bottom-0 p-8 md:p-12 bg-gradient-to-t from-black/95 via-black/60 to-transparent translate-y-12 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100 pointer-events-none flex flex-col justify-end">
+              <h3 className="text-2xl md:text-3xl font-light mb-2 tracking-widest uppercase">{art.title}</h3>
+              <p className="text-xs text-[#888] font-mono tracking-widest uppercase">{art.year} | {art.tech}</p>
+              
+              <div className="mt-8 overflow-hidden pointer-events-auto">
+                <Link href="/contacto" className="inline-block px-6 py-3 border border-white/20 text-[0.6rem] md:text-xs uppercase tracking-[0.2em] text-white/80 transition-all duration-500 hover:bg-white hover:text-black hover:border-white">
+                  Inscripción & Detalles
+                </Link>
+              </div>
+            </div>
+          </article>
+        ))}
+      </section>
 
-      {/* Mediums & Excavations Tab System */}
-      <AlcoveSystem activeAlcove={activeAlcove} setActiveAlcove={setActiveAlcove} resolveSrc={resolveSrc} />
-
-      {/* START: Interactive 3D Canvas Sandbox Details Viewer */}
-      <Suspense fallback={<div className="w-full h-96 bg-[#050505]" />}>
-        <LuxuryArtworkViewer />
-      </Suspense>
-
-      {/* START: 3D Orbital slates gallery */}
-      <Suspense fallback={<div className="w-full h-96 bg-[#050505]" />}>
-        <ThreeDCarousel />
-      </Suspense>
-
-      {/* START: Dynamic Scrollytelling for CAOS mode details */}
-      {appMode === "CAOS" && <ScrollyTelling />}
-
-      <Footer />
-
-      <TakeoverModal 
-        artwork={takeoverArtwork} 
-        countdown={takeoverCountdown} 
-        getImageUrl={resolveSrc} 
-        onClose={closeTakeover}
-      />
-    </div>
+      {/* Footer Inmersivo */}
+      <footer className="w-full text-center py-32 border-t border-white/5 bg-[#030303] flex flex-col items-center justify-center gap-4">
+        <h4 className="text-xl md:text-2xl tracking-[0.5em] font-light opacity-80 uppercase">NAROA</h4>
+        <p className="text-[0.6rem] text-[#555] tracking-[0.3em] font-mono uppercase">ESTUDIO & LABORATORIO</p>
+        <p className="text-[0.5rem] text-[#333] tracking-[0.2em] mt-8 uppercase">&copy; 2026 NAROA GUTIÉRREZ GIL</p>
+      </footer>
+    </main>
   );
 }
