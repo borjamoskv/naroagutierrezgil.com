@@ -21,7 +21,7 @@
 
 ## 3. CONCEPTUALIZACIÓN (EPISTEMOLOGÍA)
 - **El Disfraz y el Espejo**: El retrato no es similitud física, es una máscara emocional. 
-- **Género Fluido ("Aaron")**: Creación de su alter ego masculino (anagrama) para desafiar barreras de género normativas.
+
 - **Reverso del Lienzo**: Uso de la parte trasera de la obra para cartas ocultas, códigos QR (con audios del retratado) y fragmentos de bocetos.
 - **Acompañamiento Libre ("El ReCreo", "Yo Pinto Mucho")**: Enseñanza sin modelos obligatorios. Uso del fallo como recurso de sanación (kintsugi pedagógico).
 

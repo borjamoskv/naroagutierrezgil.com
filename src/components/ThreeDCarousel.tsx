@@ -5,11 +5,10 @@ import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { useRef, useState, useMemo, useEffect } from 'react';
 import * as THREE from 'three';
 
-import { artworksData } from '@/data/artworks';
+import { allArtworks } from '@/data/artworks';
 
-const carouselArtworks = artworksData
-  .filter(art => ['dakari', 'geisha', 'james', 'amy', 'lagrimas', 'pensadora'].includes(art.id))
-  .map(art => ({ src: `/assets/${art.src}`, title: art.title }));
+// Injecting the complete 22-piece physical dataset into the 3D Splatting Carousel
+const carouselArtworks = allArtworks.map(art => ({ src: art.img, title: art.title }));
 
 // Custom Vertex Shader for JIT Particle Disintegration (Splat Effect)
 const cardVertexShader = `
@@ -223,7 +222,8 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex 
 
   // Angular offset of this card in the circle
   const cardOffsetAngle = (index / count) * Math.PI * 2;
-  const radius = 2.5;
+  // Dynamic radius based on the number of items to prevent overlap
+  const radius = Math.max(2.5, (count * 1.4) / (2 * Math.PI));
 
   // Grid for particle system
   const gridResolution = 80;

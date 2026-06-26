@@ -62,7 +62,7 @@ export const alcoveData: Record<AlcoveId, AlcoveData> = {
   reverso: {
     universeNum: 'VI',
     title: 'El Reverso del Lienzo y la Acústica',
-    description: 'El lienzo físico guarda secretos en su reverso: cartas escritas por el retratado, códigos QR que reproducen el paisaje acústico electrónico compuesto especialmente por el productor Borja Moskv, y el alter ego masculino "Aaron".',
+    description: 'El lienzo físico guarda secretos en su reverso: cartas escritas por el retratado y códigos QR que reproducen el paisaje acústico electrónico compuesto especialmente por el productor Borja Moskv.',
     material: 'QR & Ledger Criptográfico',
     friction: 'Flujo Dual Reverso',
     image: 'naroa-portrait-new.webp',

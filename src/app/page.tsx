@@ -6,6 +6,7 @@ import HeroInteractiveCanvas from '@/components/HeroInteractiveCanvas';
 import GalleryArtwork from '@/components/GalleryArtwork';
 import ScrollyTelling from '@/components/ScrollyTelling';
 import SOTAFX from '@/components/SOTAFX';
+import ThreeDCarousel from '@/components/ThreeDCarousel';
 
 import { allArtworks } from '@/data/artworks';
 
@@ -38,18 +39,8 @@ export default function Home() {
       {/* Excavación Termodinámica (Scrollytelling) */}
       <ScrollyTelling />
 
-      {/* Galería Inmersiva SOTA */}
-      <section id="galeria" className="px-6 py-32 md:p-32 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 max-w-[1800px] w-full bg-[#050505] relative z-30">
-        {artworks.map((art, idx) => (
-          <GalleryArtwork 
-            key={idx} 
-            title={art.title} 
-            year={art.year} 
-            tech={art.tech} 
-            img={art.img} 
-          />
-        ))}
-      </section>
+      {/* Galería Inmersiva SOTA - WebGL Carousel */}
+      <ThreeDCarousel />
 
       {/* Footer Inmersivo */}
       <footer className="w-full text-center py-32 border-t border-white/5 bg-[#030303] flex flex-col items-center justify-center gap-4 relative z-10">
