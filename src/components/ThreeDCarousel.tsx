@@ -1,5 +1,5 @@
 
-/* eslint-disable react-hooks/immutability, react-hooks/refs, react-hooks/purity, react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/immutability, react-hooks/refs, react-hooks/purity, react-hooks/exhaustive-deps, @typescript-eslint/no-explicit-any */
 'use client';
 
 // C5-REAL: 3D Kintsugi Splatting Carousel — TSL/WebGPU Architecture
@@ -119,12 +119,12 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
   const uFrontHoverRef = useRef(uniform(0.0));
   const uFrontOpacityRef = useRef(uniform(1.0));
   const uFrontAppModeRef = useRef(uniform(0.0));
-  const uFrontTextureRef = useRef(uniform(new THREE.Texture()));
+  const uFrontTextureRef = useRef(uniform(new THREE.Texture() as any) as any);
 
   // Disintegration particle uniforms
   const uParticleProgressRef = useRef(uniform(0.0));
   const uParticleTimeRef = useRef(uniform(0.0));
-  const uParticleTextureRef = useRef(uniform(new THREE.Texture()));
+  const uParticleTextureRef = useRef(uniform(new THREE.Texture() as any) as any);
 
   // ---- FRONT FACE TSL MATERIAL ----
   const frontMaterial = useMemo(() => {

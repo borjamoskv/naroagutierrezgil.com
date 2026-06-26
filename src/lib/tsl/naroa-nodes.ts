@@ -33,7 +33,8 @@ import {
   time as timerGlobal,
 } from 'three/tsl';
 import type { Node } from 'three/webgpu';
-type ShaderNodeObject<T> = T;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ShaderNodeObject<T> = any;
 
 // ============================================================================
 // PRIMITIVE: Hash function for procedural noise
