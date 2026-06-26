@@ -34,13 +34,13 @@ import {
 } from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
-export type ShaderNodeObject<T> = T extends Node ? T : Node;
+export type ShaderNodeObject<T = any> = Node<any>;
 
 // ============================================================================
 // PRIMITIVE: Hash function for procedural noise
 // Equivalent to GLSL: fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123)
 // ============================================================================
-export const hashVec2 = /*@__PURE__*/ Fn(([p_immutable]: [ShaderNodeObject<Node>]) => {
+export const hashVec2 = /*@__PURE__*/ Fn(([p_immutable]: [any]) => {
   const p = vec2(p_immutable);
   return fract(sin(dot(p, vec2(127.1, 311.7))).mul(43758.5453123));
 });
@@ -50,7 +50,7 @@ export const hashVec2 = /*@__PURE__*/ Fn(([p_immutable]: [ShaderNodeObject<Node>
 // Used by: Hero, Carousel Front, Gallery Cards
 // ============================================================================
 export const slateRelief = /*@__PURE__*/ Fn(
-  ([uvCoord, timeVal, intensity]: [ShaderNodeObject<Node>, ShaderNodeObject<Node>, ShaderNodeObject<Node>]) => {
+  ([uvCoord, timeVal, intensity]: [any, any, any]) => {
     const u = vec2(uvCoord);
     const t = float(timeVal);
     const amp = float(intensity);
@@ -64,7 +64,7 @@ export const slateRelief = /*@__PURE__*/ Fn(
 // CHAOS RIPPLE: Extra organic displacement in CAOS mode
 // ============================================================================
 export const chaosRipple = /*@__PURE__*/ Fn(
-  ([uvCoord, timeVal, appMode]: [ShaderNodeObject<Node>, ShaderNodeObject<Node>, ShaderNodeObject<Node>]) => {
+  ([uvCoord, timeVal, appMode]: [any, any, any]) => {
     const u = vec2(uvCoord);
     const t = float(timeVal);
     const mode = float(appMode);
@@ -79,7 +79,7 @@ export const chaosRipple = /*@__PURE__*/ Fn(
 // CURSOR PUSH: Local displacement near the mouse position
 // ============================================================================
 export const cursorPush = /*@__PURE__*/ Fn(
-  ([uvCoord, mouseUV, strength]: [ShaderNodeObject<Node>, ShaderNodeObject<Node>, ShaderNodeObject<Node>]) => {
+  ([uvCoord, mouseUV, strength]: [any, any, any]) => {
     const u = vec2(uvCoord);
     const m = vec2(mouseUV);
     const s = float(strength);
@@ -104,14 +104,14 @@ export const micaSparkles = /*@__PURE__*/ Fn(
     frequency,
     threshold,
   ]: [
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
+    any,
+    any,
+    any,
+    any,
+    any,
+    any,
+    any,
+    any,
   ]) => {
     const u = vec2(uvCoord);
     const t = float(timeVal);
@@ -145,11 +145,11 @@ export const kintsugiVeins = /*@__PURE__*/ Fn(
     freqX,
     freqY,
   ]: [
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
+    any,
+    any,
+    any,
+    any,
+    any,
   ]) => {
     const u = vec2(uvCoord);
     const t = float(timeVal);
@@ -177,11 +177,11 @@ export const cursorLighting = /*@__PURE__*/ Fn(
     viewDir,
     zOffset,
   ]: [
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
+    any,
+    any,
+    any,
+    any,
+    any,
   ]) => {
     const u = vec2(uvCoord);
     const m = vec2(mouseUV);
@@ -212,9 +212,9 @@ export const disintegrationDisplace = /*@__PURE__*/ Fn(
     progress,
     timeVal,
   ]: [
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
-    ShaderNodeObject<Node>,
+    any,
+    any,
+    any,
   ]) => {
     const u = vec2(uvCoord);
     const prog = float(progress);

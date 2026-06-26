@@ -44,7 +44,7 @@ import { MeshStandardNodeMaterial, PointsNodeMaterial, StorageBufferAttribute } 
 import WebGPUCanvas from './WebGPUCanvas';
 import { useCarouselStore } from '@/lib/store';
 
-import { allArtworks } from '@/data/artworks';
+import { allArtworks, artworksData } from '@/data/artworks';
 import {
   hashVec2,
   slateRelief,
@@ -79,7 +79,7 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
   const activeIndex = useCarouselStore((state) => state.activeIndex);
   useEffect(() => {
     if (activeIndex !== index) {
-      setIsFlipped(false);
+      queueMicrotask(() => setIsFlipped(false));
     }
   }, [activeIndex, index]);
 
@@ -481,8 +481,8 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
       {/* Disintegrated Points System (renders when rotating away) */}
       <points ref={pointsRef} visible={false}>
         <bufferGeometry>
-          <bufferAttribute attach="attributes-position" args={[positionAttribute]} />
-          <bufferAttribute attach="attributes-uv" args={[uvAttribute, 2]} />
+          <bufferAttribute attach="attributes-position" args={[positionAttribute] as any} />
+          <bufferAttribute attach="attributes-uv" args={[uvAttribute, 2] as any} />
         </bufferGeometry>
         <primitive object={particleMaterial} attach="material" />
       </points>

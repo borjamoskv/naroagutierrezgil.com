@@ -82,7 +82,7 @@ export default function NarrativeTimeline() {
         {/* Background OSINT texture */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.02] select-none text-justify flex flex-wrap gap-2 overflow-hidden text-[0.4rem] leading-none text-white font-mono z-0 mix-blend-screen">
           {Array.from({ length: 200 }).map((_, i) => (
-            <span key={i}>OSINT-TRACK-{events[activeIdx]?.year}-{Math.random().toString(36).substring(7)} </span>
+            <span key={i}>OSINT-TRACK-{events[activeIdx]?.year}-{i.toString(36).padStart(4, '0')} </span>
           ))}
         </div>
 
