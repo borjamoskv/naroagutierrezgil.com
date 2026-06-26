@@ -9,6 +9,7 @@
 
 import { useFrame, useLoader } from '@react-three/fiber';
 import { useRef, useState, useMemo, useEffect } from 'react';
+import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 import {
   Fn,
@@ -71,6 +72,26 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
   const tex = useLoader(THREE.TextureLoader, url);
   const hoveredRef = useRef(false);
   const mouseUVRef = useRef(new THREE.Vector2(0.5, 0.5));
+
+  const [isFlipped, setIsFlipped] = useState(false);
+  const flipAngleRef = useRef(0);
+
+  const activeIndex = useCarouselStore((state) => state.activeIndex);
+  useEffect(() => {
+    if (activeIndex !== index) {
+      setIsFlipped(false);
+    }
+  }, [activeIndex, index]);
+
+  const item = allArtworks[index];
+  const richData = useMemo(() => {
+    return artworksData.find(a => a.title.toLowerCase() === item.title.toLowerCase()) || null;
+  }, [item.title]);
+
+  const reversoTitle = richData?.hotspots?.find(h => h.side === 'back')?.title || 'REGISTRO DE OBRA';
+  const reversoDescription = richData?.hotspots?.find(h => h.side === 'back')?.description || 
+    `Obra original de Naroart creada en el año ${item.year} empleando la técnica: ${item.tech}.`;
+  const audioTitle = richData?.audioTitle || 'Atmósfera de Taller / ASMR Soundscape';
 
   const [appModeVal, setAppModeVal] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -308,11 +329,15 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
 
     // Smooth lerp to target position
     const isHovered = hoveredRef.current;
+    const targetFlipAngle = isFlipped ? Math.PI : 0;
+    flipAngleRef.current = THREE.MathUtils.lerp(flipAngleRef.current, targetFlipAngle, delta * 6);
+
     if (meshRef.current) {
       meshRef.current.position.x = THREE.MathUtils.lerp(meshRef.current.position.x, targetX, delta * 6);
       meshRef.current.position.z = THREE.MathUtils.lerp(meshRef.current.position.z, targetZ, delta * 6);
       meshRef.current.position.y = THREE.MathUtils.lerp(meshRef.current.position.y, isHovered ? 0.25 : 0, delta * 6);
       meshRef.current.lookAt(0, 0, 0);
+      meshRef.current.rotateY(flipAngleRef.current);
     }
 
     if (pointsRef.current) {
@@ -320,6 +345,7 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
       pointsRef.current.position.z = THREE.MathUtils.lerp(pointsRef.current.position.z, targetZ, delta * 6);
       pointsRef.current.position.y = THREE.MathUtils.lerp(pointsRef.current.position.y, isHovered ? 0.25 : 0, delta * 6);
       pointsRef.current.lookAt(0, 0, 0);
+      pointsRef.current.rotateY(flipAngleRef.current);
     }
 
     // DISINTEGRATION MATH
@@ -378,7 +404,14 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
           hoveredRef.current = false;
         }}
         onPointerMove={handlePointerMove}
-        onClick={() => useCarouselStore.getState().setCard(index)}
+        onClick={() => {
+          const activeIdx = useCarouselStore.getState().activeIndex;
+          if (activeIdx === index) {
+            setIsFlipped((prev) => !prev);
+          } else {
+            useCarouselStore.getState().setCard(index);
+          }
+        }}
         castShadow
         receiveShadow
       >
@@ -391,6 +424,58 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
         <meshStandardMaterial attach="material-2" color="#111113" roughness={0.9} />
         <meshStandardMaterial attach="material-3" color="#111113" roughness={0.9} />
         <meshStandardMaterial attach="material-5" color="#08080a" roughness={0.95} />
+
+        {/* Back face HTML overlay */}
+        {isFlipped && (
+          <Html
+            position={[0, 0, -0.026]} // Slightly behind the back surface
+            rotation={[0, Math.PI, 0]} // Rotated 180 degrees to face outwards when card is flipped
+            transform
+            occlude
+            distanceFactor={1.2}
+            className="w-[220px] h-[300px] bg-[#09090b]/95 border border-white/10 p-5 flex flex-col justify-between text-white font-mono select-none rounded-sm shadow-2xl"
+          >
+            <div 
+              className="flex flex-col justify-between h-full text-[10px] text-zinc-400 cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsFlipped(false);
+              }}
+            >
+              <div className="flex justify-between border-b border-white/10 pb-2">
+                <span>REVERSO DE OBRA</span>
+                <span>{item.year || '2026'}</span>
+              </div>
+              
+              <div className="my-4">
+                <h4 className="text-white font-semibold text-xs tracking-wider uppercase mb-2">
+                  {reversoTitle}
+                </h4>
+                <p className="text-[9px] leading-relaxed text-zinc-500">
+                  {reversoDescription}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-4 border-t border-white/10 pt-4">
+                {/* Stylized QR Code SVG */}
+                <div className="w-12 h-12 bg-white p-1 rounded-sm flex-shrink-0">
+                  <svg viewBox="0 0 29 29" className="w-full h-full text-black" fill="currentColor">
+                    <path d="M0 0h9v9H0zm1 1v7h7V1zm20-1h9v9h-9zm1 1v7h7V1zM0 20h9v9H0zm1 1v7h7v-7zm13-8h3v3h-3zm3 3h3v3h-3zm-3 3h3v3h-3zm9-6h3v3h-3zm0 6h3v3h-3zm-6-3h3v3h-3zm6-3h3v3h-3z" />
+                  </svg>
+                </div>
+                <div className="flex flex-col gap-1 text-[8px] overflow-hidden">
+                  <span className="text-white tracking-widest uppercase">AUDIO QR ACTIVE</span>
+                  <span className="text-zinc-600 truncate max-w-[130px]">{audioTitle}</span>
+                </div>
+              </div>
+
+              <div className="flex justify-between items-end border-t border-white/10 pt-2 text-[8px] tracking-widest text-zinc-600">
+                <span>FIRMADO: N.G.G</span>
+                <span>PROD: BORJAMOSKV</span>
+              </div>
+            </div>
+          </Html>
+        )}
       </mesh>
 
       {/* Disintegrated Points System (renders when rotating away) */}

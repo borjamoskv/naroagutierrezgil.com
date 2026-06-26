@@ -7,7 +7,9 @@ import HeroInteractiveCanvas from '@/components/HeroInteractiveCanvas';
 import GalleryArtwork from '@/components/GalleryArtwork';
 import ScrollyTelling from '@/components/ScrollyTelling';
 import SOTAFX from '@/components/SOTAFX';
+
 import ThreeDCarousel from '@/components/ThreeDCarousel';
+import NarrativeTimeline from '@/components/NarrativeTimeline';
 
 import { allArtworks } from '@/data/artworks';
 
@@ -59,6 +61,9 @@ export default function Home() {
 
       {/* Excavación Termodinámica (Scrollytelling) */}
       <ScrollyTelling />
+
+      {/* Dossier Forense y Biografía (OSINT Narrative) */}
+      <NarrativeTimeline />
 
       {/* Galería Inmersiva SOTA - WebGL Carousel */}
       <ThreeDCarousel />
