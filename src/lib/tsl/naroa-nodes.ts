@@ -34,13 +34,11 @@ import {
 } from 'three/tsl';
 import type { Node } from 'three/webgpu';
 
-export type ShaderNodeObject<T = any> = Node<any>;
-
 // ============================================================================
 // PRIMITIVE: Hash function for procedural noise
 // Equivalent to GLSL: fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123)
 // ============================================================================
-export const hashVec2 = /*@__PURE__*/ Fn(([p_immutable]: [any]) => {
+export const hashVec2 = /*@__PURE__*/ Fn(([p_immutable]: [Node<"vec2">]) => {
   const p = vec2(p_immutable);
   return fract(sin(dot(p, vec2(127.1, 311.7))).mul(43758.5453123));
 });
@@ -50,7 +48,7 @@ export const hashVec2 = /*@__PURE__*/ Fn(([p_immutable]: [any]) => {
 // Used by: Hero, Carousel Front, Gallery Cards
 // ============================================================================
 export const slateRelief = /*@__PURE__*/ Fn(
-  ([uvCoord, timeVal, intensity]: [any, any, any]) => {
+  ([uvCoord, timeVal, intensity]: [Node<"vec2">, Node<"float">, Node<"float">]) => {
     const u = vec2(uvCoord);
     const t = float(timeVal);
     const amp = float(intensity);
@@ -64,7 +62,7 @@ export const slateRelief = /*@__PURE__*/ Fn(
 // CHAOS RIPPLE: Extra organic displacement in CAOS mode
 // ============================================================================
 export const chaosRipple = /*@__PURE__*/ Fn(
-  ([uvCoord, timeVal, appMode]: [any, any, any]) => {
+  ([uvCoord, timeVal, appMode]: [Node<"vec2">, Node<"float">, Node<"float">]) => {
     const u = vec2(uvCoord);
     const t = float(timeVal);
     const mode = float(appMode);
@@ -79,7 +77,7 @@ export const chaosRipple = /*@__PURE__*/ Fn(
 // CURSOR PUSH: Local displacement near the mouse position
 // ============================================================================
 export const cursorPush = /*@__PURE__*/ Fn(
-  ([uvCoord, mouseUV, strength]: [any, any, any]) => {
+  ([uvCoord, mouseUV, strength]: [Node<"vec2">, Node<"vec2">, Node<"float">]) => {
     const u = vec2(uvCoord);
     const m = vec2(mouseUV);
     const s = float(strength);
@@ -104,14 +102,14 @@ export const micaSparkles = /*@__PURE__*/ Fn(
     frequency,
     threshold,
   ]: [
-    any,
-    any,
-    any,
-    any,
-    any,
-    any,
-    any,
-    any,
+    Node<"vec2">,
+    Node<"float">,
+    Node<"vec3">,
+    Node<"vec3">,
+    Node<"float">,
+    Node<"float">,
+    Node<"float">,
+    Node<"float">,
   ]) => {
     const u = vec2(uvCoord);
     const t = float(timeVal);
@@ -145,11 +143,11 @@ export const kintsugiVeins = /*@__PURE__*/ Fn(
     freqX,
     freqY,
   ]: [
-    any,
-    any,
-    any,
-    any,
-    any,
+    Node<"vec2">,
+    Node<"float">,
+    Node<"float">,
+    Node<"float">,
+    Node<"float">,
   ]) => {
     const u = vec2(uvCoord);
     const t = float(timeVal);
@@ -177,11 +175,11 @@ export const cursorLighting = /*@__PURE__*/ Fn(
     viewDir,
     zOffset,
   ]: [
-    any,
-    any,
-    any,
-    any,
-    any,
+    Node<"vec2">,
+    Node<"vec2">,
+    Node<"vec3">,
+    Node<"vec3">,
+    Node<"float">,
   ]) => {
     const u = vec2(uvCoord);
     const m = vec2(mouseUV);
@@ -212,9 +210,9 @@ export const disintegrationDisplace = /*@__PURE__*/ Fn(
     progress,
     timeVal,
   ]: [
-    any,
-    any,
-    any,
+    Node<"vec2">,
+    Node<"float">,
+    Node<"float">,
   ]) => {
     const u = vec2(uvCoord);
     const prog = float(progress);

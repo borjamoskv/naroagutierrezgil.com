@@ -3,13 +3,14 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import HeroInteractiveCanvas from '@/components/HeroInteractiveCanvas';
-import GalleryArtwork from '@/components/GalleryArtwork';
-import ScrollyTelling from '@/components/ScrollyTelling';
-import SOTAFX from '@/components/SOTAFX';
 
-import ThreeDCarousel from '@/components/ThreeDCarousel';
+import GalleryArtwork from '@/components/GalleryArtwork';
 import NarrativeTimeline from '@/components/NarrativeTimeline';
+
+const SOTAFX = dynamic(() => import('@/components/SOTAFX'), { ssr: false });
+const HeroInteractiveCanvas = dynamic(() => import('@/components/HeroInteractiveCanvas'), { ssr: false });
+const ScrollyTelling = dynamic(() => import('@/components/ScrollyTelling'), { ssr: false });
+const ThreeDCarousel = dynamic(() => import('@/components/ThreeDCarousel'), { ssr: false });
 
 import { allArtworks } from '@/data/artworks';
 
