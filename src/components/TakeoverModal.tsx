@@ -14,7 +14,10 @@ export default function TakeoverModal({ artwork, countdown, getImageUrl, onClose
   const [randomId, setRandomId] = useState<string>('');
 
   useEffect(() => {
-    setRandomId(Math.random().toString(36).substring(2, 10).toUpperCase());
+    const timeout = setTimeout(() => {
+      setRandomId(Math.random().toString(36).substring(2, 10).toUpperCase());
+    }, 0);
+    return () => clearTimeout(timeout);
   }, []);
 
   useEffect(() => {

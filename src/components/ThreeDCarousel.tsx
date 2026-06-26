@@ -267,17 +267,17 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex 
 
   useEffect(() => {
     if (texture) {
-      // Modify property using index syntax to bypass React Compiler's strict read-only tracking
-      const tex = texture as any;
-      tex['minFilter'] = THREE.LinearFilter;
+      const clonedTex = texture.clone();
+      clonedTex.minFilter = THREE.LinearFilter;
+      clonedTex.needsUpdate = true;
       if (materialRef.current) {
-        materialRef.current.uniforms.uTexture.value = texture;
+        materialRef.current.uniforms.uTexture.value = clonedTex;
       }
       if (frontMaterialRef.current) {
-        frontMaterialRef.current.uniforms.uTexture.value = texture;
+        frontMaterialRef.current.uniforms.uTexture.value = clonedTex;
       }
     }
-  }, [texture]);;
+  }, [texture]);
 
   useFrame((state, delta) => {
     // Current world angle of this card

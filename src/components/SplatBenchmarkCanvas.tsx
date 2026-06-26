@@ -426,7 +426,6 @@ function SplatInteractiveCanvas() {
         onPointerLeave={handlePointerUp}
         onPointerMove={handlePointerMove}
       />
-
       {/* Swarm Cursors Overlay */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none z-30 mix-blend-screen">
         {swarmActive && swarmAgents.map((agent) => (
