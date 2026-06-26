@@ -9,7 +9,7 @@ import { artworksData } from '@/data/artworks';
 
 const carouselArtworks = artworksData
   .filter(art => ['dakari', 'geisha', 'james', 'amy', 'lagrimas', 'pensadora'].includes(art.id))
-  .map(art => ({ src: \`/assets/\${art.src}\`, title: art.title }));
+  .map(art => ({ src: `/assets/${art.src}`, title: art.title }));
 
 // Custom Vertex Shader for JIT Particle Disintegration (Splat Effect)
 const cardVertexShader = `

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 interface TakeoverModalProps {
@@ -11,6 +11,12 @@ interface TakeoverModalProps {
 }
 
 export default function TakeoverModal({ artwork, countdown, getImageUrl, onClose }: TakeoverModalProps) {
+  const [randomId, setRandomId] = useState<string>('');
+
+  useEffect(() => {
+    setRandomId(Math.random().toString(36).substring(2, 10).toUpperCase());
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -98,7 +104,7 @@ export default function TakeoverModal({ artwork, countdown, getImageUrl, onClose
             {artwork.title}
           </h2>
           <div className="w-full h-px bg-gradient-to-r from-[#2B3BE5]/50 to-transparent mt-4 mb-2" />
-          <span className="text-xs font-mono text-white/30 tracking-widest uppercase">ID: {Math.random().toString(36).substring(2, 10).toUpperCase()}</span>
+          <span className="text-xs font-mono text-white/30 tracking-widest uppercase">ID: {randomId}</span>
         </div>
 
         <div className="mt-4 md:mt-0 flex flex-row items-end gap-6 backdrop-blur-2xl bg-black/50 border border-white/5 p-6 md:p-8">

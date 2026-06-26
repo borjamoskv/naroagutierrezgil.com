@@ -11,7 +11,7 @@ const artworksData = allArtworksData
   .filter(art => ['james', 'lagrimas', 'dakari'].includes(art.id))
   .map(art => ({
     ...art,
-    src: \`/assets/\${art.src}\`,
+    src: `/assets/${art.src}`,
     material: art.material || '',
     year: art.year || '',
     audioTitle: art.audioTitle || '',

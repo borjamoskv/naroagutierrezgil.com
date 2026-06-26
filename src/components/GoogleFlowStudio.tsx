@@ -47,7 +47,7 @@ import { artworksData } from '@/data/artworks';
 
 const timelineArtworks = artworksData
   .filter(art => ['james', 'amy', 'lagrimas', 'dakari', 'geisha'].includes(art.id))
-  .map(art => ({ src: \`/assets/\${art.src}\`, title: art.title, prompt: art.prompt || '' }));
+  .map(art => ({ src: `/assets/${art.src}`, title: art.title, prompt: art.prompt || '' }));
 
 /**
  * GoogleFlowStudio component for multimodal canvas flow editing and physical rendering.

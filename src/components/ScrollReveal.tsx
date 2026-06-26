@@ -23,8 +23,8 @@ export default function ScrollReveal({
   useEffect(() => {
     // Respect prefers-reduced-motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setIsVisible(true);
-      return;
+      const timeoutId = setTimeout(() => setIsVisible(true), 0);
+      return () => clearTimeout(timeoutId);
     }
 
     const observer = new IntersectionObserver(

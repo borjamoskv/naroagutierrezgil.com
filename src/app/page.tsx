@@ -4,20 +4,20 @@ import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import HeroInteractiveCanvas from '@/components/HeroInteractiveCanvas';
 import GalleryArtwork from '@/components/GalleryArtwork';
+import ScrollyTelling from '@/components/ScrollyTelling';
+import SOTAFX from '@/components/SOTAFX';
+
+import { allArtworks } from '@/data/artworks';
 
 export default function Home() {
-  const artworks = [
-    { title: 'Autorretrato Creador', year: '2026', tech: 'Pizarra Centenaria / Monóculo Pintado', img: '/assets/naroa-portrait-new.webp' },
-    { title: 'Marilyn en Oro', year: '2025', tech: 'Acrílico y Hoja de Oro s/ Pizarra', img: '/assets/marilyn-new.webp' },
-    { title: 'Cantinflowers', year: '2024', tech: 'Técnica Mixta y Resina', img: '/assets/cantinflowers-new.webp' },
-    { title: 'El Actor y el Humo', year: '2025', tech: 'Pizarra Bruta y Acrílico', img: '/assets/johnny-new.webp' },
-    { title: 'Sonrisa Mineral', year: '2023', tech: 'Hiperrealismo s/ Pizarra', img: '/assets/hq-portrait-1-bV-_WHlX.webp' },
-    { title: 'The Golden Couple', year: '2024', tech: 'Acrílico y Hoja de Oro', img: '/assets/james-new.webp' },
-  ];
+  const artworks = allArtworks;
 
   return (
-    <main className="w-full flex flex-col items-center cursor-none">
+    <main className="w-full flex flex-col items-center cursor-none overflow-x-hidden">
       
+      {/* Sistema C5-REAL de Partículas, Lupa y Audio Sensorial */}
+      <SOTAFX />
+
       {/* Hero Section - 100% Pantalla WebGL */}
       <section className="h-screen w-full relative flex items-center justify-center overflow-hidden bg-[#050505]">
         <div className="absolute inset-0 w-full h-full">
@@ -35,8 +35,11 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Excavación Termodinámica (Scrollytelling) */}
+      <ScrollyTelling />
+
       {/* Galería Inmersiva SOTA */}
-      <section className="px-6 py-32 md:p-32 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 max-w-[1800px] w-full bg-[#050505]">
+      <section id="galeria" className="px-6 py-32 md:p-32 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 max-w-[1800px] w-full bg-[#050505] relative z-30">
         {artworks.map((art, idx) => (
           <GalleryArtwork 
             key={idx} 
