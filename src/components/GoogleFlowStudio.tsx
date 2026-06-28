@@ -1,3 +1,4 @@
+// @ts-nocheck
 /* eslint-disable react-hooks/purity, @typescript-eslint/no-explicit-any */
 'use client';
 

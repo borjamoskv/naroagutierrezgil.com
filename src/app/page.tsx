@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic';
 import GalleryArtwork from '@/components/GalleryArtwork';
 import NarrativeTimeline from '@/components/NarrativeTimeline';
 
-const SOTAFX = dynamic(() => import('@/components/SOTAFX'), { ssr: false });
+const VisualFX = dynamic(() => import('@/components/VisualFX'), { ssr: false });
 const HeroInteractiveCanvas = dynamic(() => import('@/components/HeroInteractiveCanvas'), { ssr: false });
 const ScrollyTelling = dynamic(() => import('@/components/ScrollyTelling'), { ssr: false });
 const ThreeDCarousel = dynamic(() => import('@/components/ThreeDCarousel'), { ssr: false });
@@ -35,7 +35,7 @@ export default function Home() {
     <main className="w-full flex flex-col items-center cursor-none overflow-x-hidden">
       
       {/* Sistema C5-REAL de Partículas, Lupa y Audio Sensorial */}
-      <SOTAFX />
+      <VisualFX />
 
       {/* Hero Section - 100% Pantalla WebGL */}
       <section className="h-screen w-full relative flex items-center justify-center overflow-hidden bg-[#050505]">
@@ -66,7 +66,7 @@ export default function Home() {
       {/* Dossier Forense y Biografía (OSINT Narrative) */}
       <NarrativeTimeline />
 
-      {/* Galería Inmersiva SOTA - WebGL Carousel */}
+      {/* Galería Inmersiva - WebGL Carousel */}
       <ThreeDCarousel />
 
       {/* Footer Inmersivo */}

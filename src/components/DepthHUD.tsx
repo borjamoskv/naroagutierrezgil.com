@@ -25,7 +25,7 @@ export default function DepthHUD() {
         timeRef.current.innerText = `T_RUNTIME: ${elapsed}s`;
       }
 
-      // Dynamic distortion based on scroll velocity (SOTA UI physics)
+      // Dynamic distortion based on scroll velocity (Kinetic UI physics)
       if (hudRef.current) {
         const skew = Math.min(velocity * 0.2, 5);
         const blur = Math.min(velocity * 0.1, 4);

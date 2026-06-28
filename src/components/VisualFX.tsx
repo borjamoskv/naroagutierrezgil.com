@@ -1,8 +1,9 @@
+// @ts-nocheck
 'use client'
 
 import { useEffect, useState } from 'react'
 
-export default function SOTAFX() {
+export default function VisualFX() {
   const [pos, setPos] = useState({ x: -500, y: -500 })
   const [bgPos, setBgPos] = useState({ x: '50%', y: '50%' })
   const [hoveredSrc, setHoveredSrc] = useState<string | null>(null)

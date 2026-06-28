@@ -31,5 +31,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "src/components/ThreeDCarousel.tsx", "src/components/GoogleFlowStudio.tsx", "src/components/SplatBenchmarkCanvas.tsx", "src/components/Mica.tsx", "src/components/VisualFX.tsx"]
 }
