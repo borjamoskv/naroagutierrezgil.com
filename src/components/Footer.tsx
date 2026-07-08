@@ -15,7 +15,7 @@ export default function Footer() {
         </Link>
         
         <div className="flex flex-col gap-4 mb-20 items-center">
-          <a href="https://naroa.online" aria-label="Acceder al Laboratorio Kinético" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 text-primary/50 hover:text-primary transition-colors duration-500 px-8 py-3 border border-primary/20 hover:border-primary/50 rounded-sm w-full max-w-sm justify-center">
+          <a href="https://naroa.online" aria-label="Acceder al Laboratorio Kinético SOTA" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 text-primary/50 hover:text-primary transition-colors duration-500 px-8 py-3 border border-primary/20 hover:border-primary/50 rounded-sm w-full max-w-sm justify-center">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
             <span className="font-sans text-[9px] tracking-[0.4em] uppercase">Laboratorio Kinético</span>
           </a>

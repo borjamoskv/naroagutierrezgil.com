@@ -1,191 +1,164 @@
-/* eslint-disable react-hooks/immutability, react-hooks/refs, react-hooks/purity, react-hooks/exhaustive-deps */
 'use client';
 
-// C5-REAL: Hero Interactive Canvas — TSL/WebGPU Architecture
-// Credits: Borja Moskv (borjamoskv) / MOSKV-1 APEX
-// Migrated from GLSL ShaderMaterial to TSL NodeMaterial
-
-import { useFrame, useLoader } from '@react-three/fiber';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { useRef, useState, useMemo, useEffect } from 'react';
 import * as THREE from 'three';
-import {
-  Fn,
-  uniform,
-  texture,
-  uv,
-  positionLocal,
-  normalLocal,
-  vec2,
-  vec3,
-  vec4,
-  float,
-  sin,
-  cos,
-  abs,
-  dot,
-  normalize,
-  pow,
-  floor,
-  fract,
-  length,
-  distance,
-  smoothstep,
-  mix,
-  max,
-  step,
-  If,
-} from 'three/tsl';
-import { MeshStandardNodeMaterial } from 'three/webgpu';
-import WebGPUCanvas from './WebGPUCanvas';
-import {
-  hashVec2,
-  slateRelief,
-  chaosRipple,
-  cursorPush,
-  micaSparkles,
-  kintsugiVeins,
-  cursorLighting,
-  GOLD_COLOR,
-} from '@/lib/tsl/naroa-nodes';
+
+// Shaders for the Monumental Slate Portrait in Hero Section
+// Credits: Borja Moskv (borjamoskv) / MOSKV-1 APEX
+const heroVertexShader = `
+  uniform float uTime;
+  uniform float uHover;
+  uniform vec2 uMouse;
+  uniform float uScrollProgress;
+  uniform float uAppMode;
+  
+  varying vec2 vUv;
+  varying vec3 vNormal;
+  varying vec3 vViewPosition;
+  varying float vDepth;
+  
+  void main() {
+    vUv = uv;
+    vec3 pos = position;
+    
+    // Wave movement simulating slate relief
+    float slateRelief = sin(uv.x * 12.0 + uTime * 0.2) * cos(uv.y * 12.0 + uTime * 0.2) * 0.01;
+    
+    // Extrude based on cursor distance
+    float dist = distance(uv, uMouse);
+    float cursorPush = smoothstep(0.35, 0.0, dist) * 0.04 * (1.0 - uScrollProgress);
+    
+    // Extra organic chaotic ripple when in CHAOS mode
+    float chaosRipple = sin(uv.x * 24.0 + uTime * 2.5) * cos(uv.y * 24.0 + uTime * 2.5) * 0.035 * uAppMode;
+    
+    pos.z += slateRelief + cursorPush + chaosRipple;
+    
+    // Apply scroll disintegration deformation
+    if (uScrollProgress > 0.01) {
+      pos.x += sin(uv.y * 10.0 + uTime * 2.0) * 0.15 * uScrollProgress;
+      pos.y += cos(uv.x * 10.0 + uTime * 2.0) * 0.15 * uScrollProgress;
+      pos.z += uScrollProgress * 0.5;
+    }
+    
+    vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
+    vec4 viewPosition = viewMatrix * modelPosition;
+    gl_Position = projectionMatrix * viewPosition;
+    
+    vNormal = normalMatrix * normal;
+    vViewPosition = -viewPosition.xyz;
+    vDepth = pos.z;
+  }
+`;
+
+const heroFragmentShader = `
+  uniform sampler2D uTexture;
+  uniform float uTime;
+  uniform vec2 uMouse;
+  uniform float uScrollProgress;
+  uniform float uOpacity;
+  uniform float uAppMode;
+  
+  varying vec2 vUv;
+  varying vec3 vNormal;
+  varying vec3 vViewPosition;
+  varying float vDepth;
+  
+  float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+  }
+  
+  void main() {
+    // Scroll disintegration dissolve
+    if (uScrollProgress > 0.85) {
+      discard;
+    }
+    
+    // Glitch coordinates offset in CHAOS mode
+    vec2 uv = vUv;
+    if (uAppMode > 0.01) {
+      float glitchForce = sin(uTime * 15.0 + vUv.y * 40.0) * 0.005 * uAppMode;
+      uv.x += glitchForce;
+    }
+    
+    vec4 texColor = texture2D(uTexture, uv);
+    
+    // Normalize vectors
+    vec3 normal = normalize(vNormal);
+    vec3 viewDir = normalize(vViewPosition);
+    
+    // Mouse light point in UV space
+    vec3 lightPos = vec3(uMouse.x - 0.5, uMouse.y - 0.5, 0.45);
+    vec3 surfacePos = vec3(vUv.x - 0.5, vUv.y - 0.5, vDepth);
+    vec3 lightDir = normalize(lightPos - surfacePos);
+    
+    // Diffuse component (spotlight effect)
+    float distanceFactor = 1.0 - smoothstep(0.0, 0.7, distance(vUv, uMouse));
+    float diff = max(dot(normal, lightDir), 0.0) * (0.4 + 0.6 * distanceFactor);
+    
+    // Specular highlight
+    vec3 halfDir = normalize(lightDir + viewDir);
+    float spec = pow(max(dot(normal, halfDir), 0.0), 32.0);
+    
+    // Procedural Mica Sparkles
+    float micaFrequency = 200.0;
+    float micaNoise = hash(floor(vUv * micaFrequency));
+    float micaSparkle = 0.0;
+    if (micaNoise > 0.94) {
+      float angleFactor = max(dot(normal, halfDir), 0.0);
+      float speed = 1.2 + micaNoise * 1.8;
+      float blink = 0.3 + 0.7 * sin(uTime * speed + micaNoise * 12.0);
+      micaSparkle = pow(angleFactor, 64.0) * blink * (0.5 + 0.5 * distanceFactor);
+    }
+    
+    // Dynamic Gold Kintsugi Fractures - Expands & flares during CHAOS mode
+    float kintsugiNoise = sin(vUv.x * 16.0 + vUv.y * 22.0 + sin(vUv.x * 30.0) * 0.5);
+    float veinWidth = 0.009 + sin(uTime * 1.0 + vUv.x * 4.0) * 0.002 + (uAppMode * 0.01);
+    float isVein = smoothstep(veinWidth, 0.0, abs(kintsugiNoise - 0.25));
+    
+    vec3 goldColor = vec3(0.96, 0.72, 0.2); // Cobalt-gold standard
+    float goldVeinGlow = smoothstep(0.3, 0.0, distance(vUv, uMouse));
+    
+    // Ambient shadows & lighting
+    vec3 ambient = texColor.rgb * 0.5;
+    vec3 diffuseColor = texColor.rgb * diff * 0.7;
+    vec3 specularColor = vec3(1.0) * spec * 0.25;
+    
+    vec3 finalColor = ambient + diffuseColor + specularColor;
+    
+    // Sparkle overlay
+    finalColor += goldColor * micaSparkle * 1.8;
+    
+    // Inject Kintsugi
+    vec3 veinColor = goldColor * (1.1 + goldVeinGlow * 2.0 + (uAppMode * 1.5)) * (0.8 + 0.2 * sin(uTime * 3.5));
+    finalColor = mix(finalColor, veinColor, isVein * 0.85);
+    
+    // Multiplied by opacity and scroll progress fade
+    float alpha = uOpacity * (1.0 - uScrollProgress);
+    gl_FragColor = vec4(finalColor, alpha);
+  }
+`;
 
 function VolumetricHeroPortrait({ url }: { url: string }) {
   const meshRef = useRef<THREE.Mesh>(null);
-  const tex = useLoader(THREE.TextureLoader, url);
+  const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const texture = useLoader(THREE.TextureLoader, url);
   const mouseRef = useRef(new THREE.Vector2(0.5, 0.5));
   const targetMouseRef = useRef(new THREE.Vector2(0.5, 0.5));
   const scrollProgressRef = useRef(0);
   const [appModeVal, setAppModeVal] = useState(0.0);
 
-  // TSL uniforms — mutable .value
-  const uTime = useMemo(() => uniform(0.0), []);
-  const uMouse = useMemo(() => uniform(new THREE.Vector2(0.5, 0.5)), []);
-  const uScrollProgress = useMemo(() => uniform(0.0), []);
-  const uOpacity = useMemo(() => uniform(0.0), []);
-  const uAppMode = useMemo(() => uniform(0.0), []);
-  const uTexture = useMemo(() => {
-    const t = new THREE.Texture();
-    t.minFilter = THREE.LinearFilter;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return uniform(t as any) as any;
-  }, []);
-
-  // Build TSL NodeMaterial
-  const material = useMemo(() => {
-    const mat = new MeshStandardNodeMaterial();
-    mat.transparent = true;
-    mat.depthWrite = true;
-    mat.roughness = 0.85;
-    mat.metalness = 0.0;
-
-    // ---- VERTEX: Position Node ----
-    const uvNode = uv();
-    const pos = positionLocal.toVar();
-
-    // Slate relief displacement
-    const relief = slateRelief(uvNode, uTime, float(0.01));
-
-    // Cursor push
-    const cursorDist = distance(uvNode, uMouse);
-    const cursorForce = smoothstep(float(0.35), float(0.0), cursorDist);
-    const push = cursorForce.mul(0.04).mul(float(1.0).sub(uScrollProgress));
-
-    // Chaos ripple in CAOS mode
-    const chaos = chaosRipple(uvNode, uTime, uAppMode);
-
-    // Scroll disintegration deformation
-    const scrollX = sin(uvNode.y.mul(10.0).add(uTime.mul(2.0))).mul(0.15).mul(uScrollProgress);
-    const scrollY = cos(uvNode.x.mul(10.0).add(uTime.mul(2.0))).mul(0.15).mul(uScrollProgress);
-    const scrollZ = uScrollProgress.mul(0.5);
-
-    const displaced = vec3(
-      pos.x.add(scrollX),
-      pos.y.add(scrollY),
-      pos.z.add(relief).add(push).add(chaos).add(scrollZ)
-    );
-    mat.positionNode = displaced;
-
-    // ---- FRAGMENT: Color Node ----
-    const colorFn = Fn(() => {
-      const texUv = uv().toVar();
-
-      // Glitch coordinates in CHAOS mode
-      const glitchForce = sin(uTime.mul(15.0).add(texUv.y.mul(40.0))).mul(0.005).mul(uAppMode);
-      const glitchedUv = vec2(texUv.x.add(glitchForce), texUv.y);
-
-      const texColor = texture(uTexture, glitchedUv);
-
-      // Normalized vectors for lighting
-      const normal = normalize(normalLocal);
-      const viewDir = normalize(vec3(0.0, 0.0, 1.0));
-
-      // Cursor light
-      const lightResult = cursorLighting(uv(), uMouse, normal, viewDir, float(0.45));
-      const diff = lightResult.x;
-      const spec = lightResult.y;
-      const distFactor = lightResult.z;
-
-      // Half direction for sparkles
-      const lightPos = vec3(uMouse.x.sub(0.5), uMouse.y.sub(0.5), float(0.45));
-      const surfacePos = vec3(uv().x.sub(0.5), uv().y.sub(0.5), float(0.0));
-      const lightDir = normalize(lightPos.sub(surfacePos));
-      const halfDir = normalize(lightDir.add(viewDir));
-
-      // Mica sparkles
-      const sparkle = micaSparkles(
-        uv(), uTime, normal, halfDir,
-        float(1.0), // always active for hero
-        float(0.5).add(float(0.5).mul(distFactor)),
-        float(200.0), // frequency
-        float(0.94)   // threshold
-      );
-
-      // Kintsugi veins
-      const vein = kintsugiVeins(uv(), uTime, uAppMode, float(16.0), float(22.0));
-
-      // Glow near mouse for veins
-      const goldVeinGlow = smoothstep(float(0.3), float(0.0), distance(uv(), uMouse));
-
-      // Compose lighting
-      const ambient = texColor.rgb.mul(0.5);
-      const diffuseColor = texColor.rgb.mul(diff).mul(0.7);
-      const specularColor = vec3(1.0, 1.0, 1.0).mul(spec).mul(0.25);
-
-      const litColor = ambient.add(diffuseColor).add(specularColor);
-
-      // Add sparkles
-      const withSparkles = litColor.add(GOLD_COLOR.mul(sparkle).mul(1.8));
-
-      // Inject kintsugi
-      const veinColor = GOLD_COLOR.mul(
-        float(1.1).add(goldVeinGlow.mul(2.0)).add(uAppMode.mul(1.5))
-      ).mul(float(0.8).add(float(0.2).mul(sin(uTime.mul(3.5)))));
-
-      const finalColor = mix(withSparkles, veinColor, vein.mul(0.85));
-
-      return vec4(finalColor, float(1.0));
-    });
-
-    mat.colorNode = colorFn();
-
-    // ---- FRAGMENT: Opacity Node ----
-    mat.opacityNode = uOpacity.mul(float(1.0).sub(uScrollProgress));
-
-    return mat;
-  }, [uTime, uMouse, uScrollProgress, uOpacity, uAppMode, uTexture]);
-
-  // Monitor cursor, scroll, and dimension state
+  // Monitor cursor movement and dimension toggling reactively
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
+    // Read initial mode from window state
     if (typeof window !== 'undefined') {
       const initialMode = localStorage.getItem('naroa_app_mode') || 'ORDEN';
-      timeout = setTimeout(() => {
-        setAppModeVal(initialMode === 'CAOS' ? 1.0 : 0.0);
-      }, 0);
+      setAppModeVal(initialMode === 'CAOS' ? 1.0 : 0.0);
     }
 
     const handleMouseMove = (e: MouseEvent) => {
       targetMouseRef.current.x = e.clientX / window.innerWidth;
-      targetMouseRef.current.y = 1.0 - (e.clientY / window.innerHeight);
+      targetMouseRef.current.y = 1.0 - (e.clientY / window.innerHeight); // Invert Y for WebGL
     };
 
     const handleScroll = () => {
@@ -206,46 +179,76 @@ function VolumetricHeroPortrait({ url }: { url: string }) {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('dimension-changed', handleDimension);
-      if (timeout) clearTimeout(timeout);
     };
   }, []);
 
-  // Assign texture once loaded
+  const uniforms = useMemo(() => ({
+    uTexture: { value: null as THREE.Texture | null },
+    uTime: { value: 0.0 },
+    uMouse: { value: mouseRef.current },
+    uScrollProgress: { value: 0.0 },
+    uOpacity: { value: 0.0 },
+    uAppMode: { value: 0.0 }
+  }), []);
+
   useEffect(() => {
-    if (tex) {
-      tex.minFilter = THREE.LinearFilter;
-      uTexture.value = tex;
+    if (texture) {
+      texture.minFilter = THREE.LinearFilter;
+      if (materialRef.current) {
+        materialRef.current.uniforms.uTexture.value = texture;
+      }
     }
-  }, [tex, uTexture]);
+  }, [texture]);
 
   useFrame((state, delta) => {
     // Lerp mouse coordinates for smooth inertia
     mouseRef.current.x = THREE.MathUtils.lerp(mouseRef.current.x, targetMouseRef.current.x, delta * 5.0);
     mouseRef.current.y = THREE.MathUtils.lerp(mouseRef.current.y, targetMouseRef.current.y, delta * 5.0);
 
-    // Update TSL uniforms
-    uTime.value = state.clock.getElapsedTime();
-    (uMouse.value as THREE.Vector2).set(mouseRef.current.x, mouseRef.current.y);
-    uScrollProgress.value = THREE.MathUtils.lerp(uScrollProgress.value as number, scrollProgressRef.current, delta * 6.0);
-    uAppMode.value = THREE.MathUtils.lerp(uAppMode.value as number, appModeVal, delta * 5.0);
-    // Smooth fade-in on mount
-    uOpacity.value = THREE.MathUtils.lerp(uOpacity.value as number, 1.0, delta * 2.0);
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value = state.clock.getElapsedTime();
+      materialRef.current.uniforms.uScrollProgress.value = THREE.MathUtils.lerp(
+        materialRef.current.uniforms.uScrollProgress.value,
+        scrollProgressRef.current,
+        delta * 6.0
+      );
+      materialRef.current.uniforms.uAppMode.value = THREE.MathUtils.lerp(
+        materialRef.current.uniforms.uAppMode.value,
+        appModeVal,
+        delta * 5.0
+      );
+      // Smooth fade-in on mount
+      materialRef.current.uniforms.uOpacity.value = THREE.MathUtils.lerp(
+        materialRef.current.uniforms.uOpacity.value,
+        1.0,
+        delta * 2.0
+      );
+    }
 
-    // Apply camera/plane parallax rotation
+    // Apply absolute camera/plane parallax rotation
     if (meshRef.current) {
       const tiltX = (mouseRef.current.y - 0.5) * 0.12;
       const tiltY = (mouseRef.current.x - 0.5) * -0.12;
       meshRef.current.rotation.x = THREE.MathUtils.lerp(meshRef.current.rotation.x, tiltX, delta * 4.0);
       meshRef.current.rotation.y = THREE.MathUtils.lerp(meshRef.current.rotation.y, tiltY, delta * 4.0);
-
+      
       // Move back slightly on scroll
       meshRef.current.position.z = THREE.MathUtils.lerp(meshRef.current.position.z, -scrollProgressRef.current * 1.5, delta * 4.0);
     }
   });
 
+  // Scale plane aspect ratio dynamically to match portrait structure
   return (
-    <mesh ref={meshRef} castShadow receiveShadow material={material}>
+    <mesh ref={meshRef} castShadow receiveShadow>
       <planeGeometry args={[2.8, 3.5, 64, 64]} />
+      <shaderMaterial
+        ref={materialRef}
+        vertexShader={heroVertexShader}
+        fragmentShader={heroFragmentShader}
+        uniforms={uniforms}
+        transparent={true}
+        depthWrite={true}
+      />
     </mesh>
   );
 }
@@ -255,8 +258,8 @@ export default function HeroInteractiveCanvas({ url }: { url: string }) {
     <div className="w-full h-full relative z-10">
       {/* Background glow vignette inside the canvas space */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(43,59,229,0.04)_0%,transparent_70%)] pointer-events-none z-0" />
-
-      <WebGPUCanvas
+      
+      <Canvas
         camera={{ position: [0, 0, 3.2], fov: 60 }}
         dpr={[1, 1.5]}
         className="w-full h-full"
@@ -265,7 +268,7 @@ export default function HeroInteractiveCanvas({ url }: { url: string }) {
         <ambientLight intensity={0.6} />
         <directionalLight position={[2, 4, 3]} intensity={1.0} castShadow />
         <VolumetricHeroPortrait url={url} />
-      </WebGPUCanvas>
+      </Canvas>
     </div>
   );
 }

@@ -53,8 +53,8 @@ export default function InteractiveSlateCanvas({ disabled = false }: Interactive
     canvas.width = width;
     canvas.height = height;
 
-    const particles: Particle[] = [];
-    const cracks: CrackSegment[] = [];
+    let particles: Particle[] = [];
+    let cracks: CrackSegment[] = [];
     let rafId: number;
 
     const handleResize = () => {

@@ -65,7 +65,7 @@ export default function CustomCursor() {
     let rafId: number;
 
     const handlePointerMove = (e: PointerEvent) => {
-      const velocity = (window as unknown as { __scrollVelocity?: number }).__scrollVelocity || 0;
+      const velocity = (window as any).__scrollVelocity || 0;
       const jitterMultiplier = 1 + Math.min(velocity * 0.2, 15);
       const jitterX = (Math.random() - 0.5) * 4 * jitterMultiplier;
       const jitterY = (Math.random() - 0.5) * 4 * jitterMultiplier;
@@ -91,7 +91,7 @@ export default function CustomCursor() {
     const render = () => {
       ctx.clearRect(0, 0, width, height);
       
-      const velocity = (window as unknown as { __scrollVelocity?: number }).__scrollVelocity || 0;
+      const velocity = (window as any).__scrollVelocity || 0;
       const now = performance.now();
       points = points.filter(p => now - p.timestamp < 200); // Super fast decay for electric feel
 

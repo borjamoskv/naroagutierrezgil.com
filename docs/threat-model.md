@@ -1,1 +1,4 @@
-/Users/borjafernandezangulo/10_PROJECTS/cortexpersist-monorepo/docs/threat-model.md
+# THREAT MODEL
+
+> **Epistemic Dependency Graph (EDG) Risk Envelope**
+- Evaluates generative blast radius and outlines the node boundaries.

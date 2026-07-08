@@ -1,9 +1,8 @@
-// @ts-nocheck
 'use client'
 
 import { useEffect, useState } from 'react'
 
-export default function VisualFX() {
+export default function SOTAFX() {
   const [pos, setPos] = useState({ x: -500, y: -500 })
   const [bgPos, setBgPos] = useState({ x: '50%', y: '50%' })
   const [hoveredSrc, setHoveredSrc] = useState<string | null>(null)
@@ -11,7 +10,7 @@ export default function VisualFX() {
   useEffect(() => {
     let audioCtx: AudioContext | null = null;
     let analyser: AnalyserNode | null = null;
-    let dataArray: Uint8Array | null = null;
+    let dataArray: Uint8Array<ArrayBuffer> | null = null;
     let animationFrame: number;
     
     // 4 & 14. Sonido ASMR Taller + Audio Reactivity
@@ -26,7 +25,6 @@ export default function VisualFX() {
           
           const updateAudioReactivity = () => {
             if (analyser && dataArray) {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               analyser.getByteFrequencyData(dataArray as any);
               let sum = 0;
               for(let i = 0; i < dataArray.length; i++) sum += dataArray[i];

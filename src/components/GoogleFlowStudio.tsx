@@ -1,5 +1,3 @@
-// @ts-nocheck
-/* eslint-disable react-hooks/purity, @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -45,11 +43,13 @@ const presets: PreSet[] = [
   }
 ];
 
-import { artworksData } from '@/data/artworks';
-
-const timelineArtworks = artworksData
-  .filter(art => ['james', 'amy', 'lagrimas', 'dakari', 'geisha'].includes(art.id))
-  .map(art => ({ src: `/assets/${art.src}`, title: art.title, prompt: art.prompt || '' }));
+const timelineArtworks = [
+  { src: '/assets/james-new.webp', title: 'James Dean', prompt: 'Variación de contraste y grano de carbón' },
+  { src: '/assets/amy-new.webp', title: 'Amy Winehouse', prompt: 'Humo volumétrico e iluminación cobalt' },
+  { src: '/assets/lagrimas-de-oro-DikHc-Tk.webp', title: 'Lágrimas de Oro', prompt: 'Inyección de resina con partículas de oro 24k' },
+  { src: '/assets/el-gran-dakari-C1tAWAhR.webp', title: 'El Gran Dakari', prompt: 'Glitter mineral dinámico en las pupilas' },
+  { src: '/assets/geisha-MfRtKWdu.webp', title: 'Geisha', prompt: 'Luz difusa y velo de mica translúcido' }
+];
 
 /**
  * GoogleFlowStudio component for multimodal canvas flow editing and physical rendering.

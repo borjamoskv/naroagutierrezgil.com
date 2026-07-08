@@ -1,26 +1,11 @@
-/* eslint-disable react-hooks/immutability */
+
 "use client";
 
-// C5-REAL: WebGPU Background Stars — TSL/WebGPU Architecture
-// Credits: Borja Moskv (borjamoskv) / MOSKV-1 APEX
-// Migrated from CPU-bound particle physics to WebGPU Canvas.
-// The particle update logic (mouse attraction, boundary constraints)
-// still runs on CPU via useFrame since the particle count (5k) is
-// well within CPU budget and the Drei <Points> component handles
-// rendering efficiently. Full GPU compute migration to TSL storage
-// buffers would be warranted at 50k+ particles.
-
-import { useFrame, extend } from "@react-three/fiber";
-import { Points } from "@react-three/drei";
-import { useState, useRef, useEffect, useMemo } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Points, PointMaterial } from "@react-three/drei";
+import { useState, useRef, useEffect } from "react";
 import * as THREE from "three";
 import { inSphere } from "maath/random";
-import WebGPUCanvas from "./WebGPUCanvas";
-
-import { storage, Fn, instanceIndex, float, vec3, deltaTime, dot, length, If, uniform, vec2 } from 'three/tsl';
-import { PointsNodeMaterial } from 'three/webgpu';
-
-extend({ PointsNodeMaterial });
 
 function StarBackground(props: Record<string, unknown>) {
   const ref = useRef<THREE.Points>(null);
@@ -46,33 +31,50 @@ function StarBackground(props: Record<string, unknown>) {
   }, []);
 
   const count = 5000;
-  
-  // Storage Buffer Attributes for Compute Shader
-  const [positionAttr] = useState(() => {
-    const sphere = inSphere(new Float32Array(count * 3), { radius: 2.0 }) as Float32Array;
-    // @ts-expect-error - StorageBufferAttribute is available in three/webgpu or three r171
-    return new THREE.StorageBufferAttribute(sphere, 3);
-  });
-  
-  const [colorAttr] = useState(() => {
+  const [sphere] = useState(() => 
+    inSphere(new Float32Array(count * 3), { radius: 2.0 }) as Float32Array
+  );
+
+  // Deterministic particle type generator based on index to avoid storing in ref during render
+  const getParticleType = (i: number): 'primary' | 'gold' | 'silver' => {
+    const x = Math.sin(i + 1) * 10000;
+    const rand = x - Math.floor(x);
+    if (rand < 0.7) return 'primary';
+    if (rand < 0.9) return 'gold';
+    return 'silver';
+  };
+
+  // Generate mixed mineral colors (70% base, 20% gold, 10% silver/mica)
+  const [colors] = useState(() => {
     const arr = new Float32Array(count * 3);
+    
     for (let i = 0; i < count; i++) {
-      const x = Math.sin(i + 1) * 10000;
-      const rand = x - Math.floor(x);
       const idx = i * 3;
-      if (rand < 0.7) { // primary
-        arr[idx] = 43 / 255; arr[idx+1] = 59 / 255; arr[idx+2] = 229 / 255;
-      } else if (rand < 0.9) { // gold
-        arr[idx] = 212 / 255; arr[idx+1] = 175 / 255; arr[idx+2] = 55 / 255;
-      } else { // silver
-        arr[idx] = 234 / 255; arr[idx+1] = 234 / 255; arr[idx+2] = 234 / 255;
+      const type = getParticleType(i);
+      if (type === 'primary') {
+        arr[idx] = 43 / 255;
+        arr[idx+1] = 59 / 255;
+        arr[idx+2] = 229 / 255;
+      } else if (type === 'gold') {
+        arr[idx] = 212 / 255;
+        arr[idx+1] = 175 / 255;
+        arr[idx+2] = 55 / 255;
+      } else {
+        arr[idx] = 234 / 255;
+        arr[idx+1] = 234 / 255;
+        arr[idx+2] = 234 / 255;
       }
     }
-    return new THREE.BufferAttribute(arr, 3);
+    return arr;
   });
 
   // Dynamically update primary particle colors on base color change
   useEffect(() => {
+    if (!ref.current) return;
+    const geometry = ref.current.geometry;
+    const colorAttr = geometry.getAttribute('color') as THREE.BufferAttribute;
+    if (!colorAttr) return;
+    
     const cleanHex = color.replace('#', '');
     const r = parseInt(cleanHex.substring(0, 2), 16) / 255;
     const g = parseInt(cleanHex.substring(2, 4), 16) / 255;
@@ -80,19 +82,16 @@ function StarBackground(props: Record<string, unknown>) {
 
     const colorsArr = colorAttr.array as Float32Array;
     for (let i = 0; i < count; i++) {
-      const x = Math.sin(i + 1) * 10000;
-      const rand = x - Math.floor(x);
-      if (rand < 0.7) {
-        colorsArr[i * 3] = r;
-        colorsArr[i * 3 + 1] = g;
-        colorsArr[i * 3 + 2] = b;
+      const idx = i * 3;
+      if (getParticleType(i) === 'primary') {
+        colorsArr[idx] = r;
+        colorsArr[idx+1] = g;
+        colorsArr[idx+2] = b;
       }
     }
-    // eslint-disable-next-line react-hooks/immutability
     colorAttr.needsUpdate = true;
-  }, [color, colorAttr]);
+  }, [color]);
   
-  const mouseUniform = useMemo(() => uniform(vec2(0, 0)), []);
   const mouse = useRef(new THREE.Vector2(0, 0));
   
   useEffect(() => {
@@ -104,62 +103,56 @@ function StarBackground(props: Record<string, unknown>) {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Define TSL Compute Node for particle physics
-  const computeNode = useMemo(() => {
-    const computeParticles = Fn(() => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const position = storage(positionAttr as any, 'vec3', count).element(instanceIndex);
-      
-      const mx = mouseUniform.x.mul(2.0);
-      const my = mouseUniform.y.mul(2.0);
-      const mouseVec = vec3(mx, my, float(0.0));
-      
-      const diff = mouseVec.sub(position);
-      const distSq = dot(diff, diff);
-      const delta = deltaTime;
-      
-      If(distSq.lessThan(1.0), () => {
-        const dist = length(diff);
-        const lerpFactor = delta.mul(0.5).mul(float(1.0).sub(dist));
-        position.addAssign(diff.mul(lerpFactor));
-      }).Else(() => {
-        const originDistSq = dot(position, position);
-        If(originDistSq.lessThan(3.61), () => {
-          const factor = float(1.0).add(delta.mul(0.1));
-          position.mulAssign(factor);
-        }).ElseIf(originDistSq.greaterThan(4.41), () => {
-          const factor = float(1.0).sub(delta.mul(0.1));
-          position.mulAssign(factor);
-        });
-      });
-    });
-    return computeParticles().compute(count);
-  }, [positionAttr, mouseUniform, count]);
-
-  // Execute Compute Shader in Render Loop
   useFrame((state, delta) => {
-    mouseUniform.value.x = mouse.current.x;
-    mouseUniform.value.y = mouse.current.y;
-    
     if (ref.current) {
       ref.current.rotation.x -= delta / 22;
       ref.current.rotation.y -= delta / 32;
+      
+      const positions = ref.current.geometry.attributes.position.array as Float32Array;
+      const mx = mouse.current.x * 2;
+      const my = mouse.current.y * 2;
+      const mz = 0;
+      
+      for (let i = 0; i < count; i++) {
+        const idx = i * 3;
+        let px = positions[idx];
+        let py = positions[idx+1];
+        let pz = positions[idx+2];
+
+        const dx = px - mx;
+        const dy = py - my;
+        const dz = pz - mz;
+        const distSq = dx*dx + dy*dy + dz*dz;
+        
+        if (distSq < 1.0) {
+          const dist = Math.sqrt(distSq);
+          const lerpFactor = delta * 0.5 * (1 - dist);
+          px += (mx - px) * lerpFactor;
+          py += (my - py) * lerpFactor;
+          pz += (mz - pz) * lerpFactor;
+        } else {
+          const originDistSq = px*px + py*py + pz*pz;
+          if (originDistSq < 3.61) {
+            const factor = 1 + delta * 0.1;
+            px *= factor; py *= factor; pz *= factor;
+          } else if (originDistSq > 4.41) {
+            const factor = 1 - delta * 0.1;
+            px *= factor; py *= factor; pz *= factor;
+          }
+        }
+        
+        positions[idx] = px;
+        positions[idx+1] = py;
+        positions[idx+2] = pz;
+      }
+      ref.current.geometry.attributes.position.needsUpdate = true;
     }
-    
-    // Dispatch GPU compute manually since WebGPURenderer is active
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    void (state.gl as any).computeAsync(computeNode);
   });
 
   return (
     <group rotation={[0, 0, Math.PI / 4]}>
-      <points ref={ref} frustumCulled={false} {...props}>
-        <bufferGeometry>
-          <primitive object={positionAttr} attach="attributes-position" />
-          <primitive object={colorAttr} attach="attributes-color" />
-        </bufferGeometry>
-        {/* @ts-expect-error - PointsNodeMaterial not natively typed in R3F yet */}
-        <pointsNodeMaterial
+      <Points ref={ref} positions={sphere} colors={colors} stride={3} frustumCulled={false} {...props}>
+        <PointMaterial
           transparent
           vertexColors
           size={0.005}
@@ -167,7 +160,7 @@ function StarBackground(props: Record<string, unknown>) {
           depthWrite={false}
           opacity={0.65}
         />
-      </points>
+      </Points>
     </group>
   );
 }
@@ -175,13 +168,14 @@ function StarBackground(props: Record<string, unknown>) {
 export default function WebGLBackground() {
   return (
     <div className="absolute inset-0 z-0 bg-[#0A0A0A]">
-      <WebGPUCanvas 
+      <Canvas 
         camera={{ position: [0, 0, 1] }} 
-        dpr={[1, 1.5]}
+        dpr={[1, 1.5]} 
+        gl={{ powerPreference: "high-performance", alpha: false, antialias: false }}
       >
         <fog attach="fog" args={['#0A0A0A', 0.5, 2]} />
         <StarBackground />
-      </WebGPUCanvas>
+      </Canvas>
     </div>
   );
 }

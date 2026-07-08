@@ -4,7 +4,6 @@ import { useState } from 'react';
 
 export default function InteractiveStudio() {
   const [step, setStep] = useState(1);
-  const [outputHash] = useState(() => Math.random().toString(16).substring(2, 10));
   const [config, setConfig] = useState({
     size: '',
     material: '',
@@ -140,7 +139,7 @@ export default function InteractiveStudio() {
             <div className="sticky top-32 border border-white/10 bg-[#050505] p-8">
               <div className="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
                 <span className="text-white/50 font-mono text-[10px] tracking-widest uppercase">OUTPUT HASH</span>
-                <span className="text-[#2B3BE5] font-mono text-[10px]">{outputHash}</span>
+                <span className="text-[#2B3BE5] font-mono text-[10px]">{Math.random().toString(16).substring(2, 10)}</span>
               </div>
               
               <ul className="space-y-6 mb-12">

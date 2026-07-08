@@ -1,4 +1,3 @@
-// @ts-nocheck
 /* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
@@ -6,9 +5,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { SplatPhysicsEngine } from '@/lib/splat-physics/SplatPhysicsEngine';
 import { SplatAudioEngine } from '@/lib/audio/SplatAudioEngine';
-
-import { useAgent } from 'agents/react';
-import type { EntropicCanvasAgent, EntropicState } from '@/agents/EntropicCanvasAgent';
 
 interface SwarmAgent {
   id: number;
@@ -34,26 +30,15 @@ function makePerspectiveMatrix(fovRad: number, aspect: number, near: number, far
 }
 
 function useKintsugiAgent() {
-  const agent = useAgent<EntropicCanvasAgent, EntropicState>({
-    agent: "EntropicCanvasAgent",
-    name: "global-canvas",
-  });
+  const entropy = 0;
+  const repairs = 0;
+  const scars: any[] = [];
+  const kintsugiActive = false;
 
-  const state = agent.state;
-  const entropy = state?.globalEntropy ?? 0;
-  const repairs = state?.totalRepairs ?? 0;
-  const scars = state?.scars ?? [];
-  const kintsugiActive = state?.kintsugiActive ?? false;
+  const applyFriction = async (x: number, y: number, intensity: number) => {};
+  const injectGold = async (intensity: number, x: number, y: number) => {};
 
-  const applyFriction = async (x: number, y: number, intensity: number) => {
-    return agent.stub.applyFriction(x, y, intensity);
-  };
-
-  const injectGold = async (intensity: number, x: number, y: number) => {
-    return agent.stub.injectGold(intensity);
-  };
-
-  return { entropy, repairs, scars, kintsugiActive, applyFriction, injectGold, socket: agent };
+  return { entropy, repairs, scars, kintsugiActive, applyFriction, injectGold, socket: null };
 }
 
 function SplatInteractiveCanvas() {
@@ -87,30 +72,7 @@ function SplatInteractiveCanvas() {
 
   // WebSocket message listener
   useEffect(() => {
-    const handleMessage = (e: MessageEvent) => {
-      try {
-        const data = JSON.parse(e.data);
-        if (data.type === 'CANVAS_FRACTURE') {
-          setFlash(true);
-          if (audioEngineRef.current) {
-            audioEngineRef.current.playGrain(500.0, 500.0);
-          }
-          setStatus('CANVAS FRACTURED: La fricción colectiva ha quebrado la obra. Inyección de resina requerida.');
-        } else if (data.type === 'KINTSUGI_COMPLETE') {
-          setGoldFlash(true);
-          if (audioEngineRef.current) {
-            audioEngineRef.current.playGrain(200.0, 50.0);
-          }
-          setStatus('[C5-REAL ENGINE ACTIVE]: Kintsugi completo. La obra ha sido reparada y reforzada con oro.');
-        }
-      } catch (err) {}
-    };
-    
-    agent.socket.addEventListener('message', handleMessage);
-    return () => {
-      agent.socket.removeEventListener('message', handleMessage);
-    };
-  }, [agent.socket]);
+  }, []);
 
   useEffect(() => {
     if (flash) {
@@ -417,7 +379,7 @@ function SplatInteractiveCanvas() {
   return (
     <div className="relative w-full h-full bg-[#0A0A0A] overflow-hidden">
       <div className="absolute top-4 left-4 z-10 font-mono text-xs text-[#2B3BE5] pointer-events-none opacity-40 hover:opacity-100 transition-opacity">
-        <p className="text-white/30">{status} | {fps} FPS</p>
+        <p className="text-white/30">{status} // {fps} FPS</p>
       </div>
       <canvas 
         ref={canvasRef} 
@@ -427,6 +389,7 @@ function SplatInteractiveCanvas() {
         onPointerLeave={handlePointerUp}
         onPointerMove={handlePointerMove}
       />
+
       {/* Swarm Cursors Overlay */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none z-30 mix-blend-screen">
         {swarmActive && swarmAgents.map((agent) => (

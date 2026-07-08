@@ -1,99 +1,216 @@
-// @ts-nocheck
 
-/* eslint-disable react-hooks/immutability, react-hooks/refs, react-hooks/purity, react-hooks/exhaustive-deps, @typescript-eslint/no-explicit-any */
 'use client';
 
-// C5-REAL: 3D Kintsugi Splatting Carousel — TSL/WebGPU Architecture
-// Credits: Borja Moskv (borjamoskv) / MOSKV-1 APEX
-// Migrated from GLSL ShaderMaterial to TSL NodeMaterial
-// 4 GLSL shaders → 2 TSL NodeMaterials (front face + disintegration particles)
-
-import { useFrame, useLoader } from '@react-three/fiber';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { useRef, useState, useMemo, useEffect } from 'react';
-import { Html } from '@react-three/drei';
 import * as THREE from 'three';
-import {
-  Fn,
-  uniform,
-  texture,
-  uv,
-  positionLocal,
-  normalLocal,
-  vec2,
-  vec3,
-  vec4,
-  float,
-  sin,
-  cos,
-  abs,
-  dot,
-  normalize,
-  pow,
-  floor,
-  fract,
-  length,
-  distance,
-  smoothstep,
-  mix,
-  max,
-  step,
-  storage,
-  compute,
-  instanceIndex
-} from 'three/tsl';
-import { MeshStandardNodeMaterial, PointsNodeMaterial, StorageBufferAttribute } from 'three/webgpu';
-import WebGPUCanvas from './WebGPUCanvas';
-import { useCarouselStore } from '@/lib/store';
 
-import { allArtworks, artworksData } from '@/data/artworks';
-import {
-  hashVec2,
-  slateRelief,
-  chaosRipple,
-  cursorPush,
-  micaSparkles,
-  kintsugiVeins,
-  cursorLighting,
-  disintegrationDisplace,
-  GOLD_COLOR,
-} from '@/lib/tsl/naroa-nodes';
+interface CarouselItem {
+  src: string;
+  title: string;
+}
 
-// Injecting the complete artwork dataset into the 3D Splatting Carousel
-const carouselArtworks = allArtworks.map(art => ({ src: art.img, title: art.title }));
+const carouselArtworks: CarouselItem[] = [
+  { src: '/assets/el-gran-dakari-C1tAWAhR.webp', title: 'El Gran Dakari' },
+  { src: '/assets/geisha-MfRtKWdu.webp', title: 'Geisha' },
+  { src: '/assets/james-new.webp', title: 'James Dean' },
+  { src: '/assets/amy-new.webp', title: 'Amy Winehouse' },
+  { src: '/assets/lagrimas-de-oro-DikHc-Tk.webp', title: 'Lágrimas de Oro' },
+  { src: '/assets/la-pensadora-CFHSnMA0.webp', title: 'La Pensadora' }
+];
 
-function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
+// Custom Vertex Shader for JIT Particle Disintegration (Splat Effect)
+const cardVertexShader = `
+  uniform float uProgress;
+  uniform float uTime;
+  
+  varying vec2 vUv;
+  
+  // Hash function for random particle direction
+  float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+  }
+
+  void main() {
+    vUv = uv;
+    vec3 pos = position;
+    
+    if (uProgress > 0.01) {
+      // Create random displacement vector based on position
+      float h1 = hash(uv * 13.0) - 0.5;
+      float h2 = hash(uv * 17.0) - 0.5;
+      float h3 = hash(uv * 23.0) - 0.5;
+      vec3 displace = vec3(h1, h2, h3) * 1.5;
+      
+      // Add wave-like turbulence
+      displace.x += sin(position.y * 3.0 + uTime * 2.0) * 0.15;
+      displace.y += cos(position.x * 3.0 + uTime * 2.0) * 0.15;
+      
+      // Disintegrate out based on progress
+      pos += displace * uProgress;
+    }
+    
+    vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
+    vec4 viewPosition = viewMatrix * modelPosition;
+    gl_Position = projectionMatrix * viewPosition;
+    
+    // Scale particle size in 3D space with a gold/mica shimmer effect
+    float shimmer = 1.0 + sin(uTime * 5.0 + uv.x * 10.0) * 0.2;
+    gl_PointSize = (18.0 / -viewPosition.z) * shimmer;
+  }
+`;
+
+const cardFragmentShader = `
+  uniform sampler2D uTexture;
+  uniform float uProgress;
+  uniform float uTime;
+  
+  varying vec2 vUv;
+  
+  void main() {
+    // Circle shape for particles
+    vec2 temp = gl_PointCoord - vec2(0.5);
+    if (length(temp) > 0.5) {
+      discard;
+    }
+    
+    vec4 texColor = texture2D(uTexture, vUv);
+    
+    // Morph color into golden/mica splat particles when disintegrating
+    vec3 goldColor = vec3(0.96, 0.72, 0.2) * (0.8 + sin(uTime * 3.0 + vUv.y * 5.0) * 0.2);
+    vec3 mixedColor = mix(texColor.rgb, goldColor, uProgress * 0.8);
+    
+    // Soft particle alpha falloff
+    float alpha = smoothstep(0.5, 0.1, length(temp)) * (1.0 - uProgress * 0.3);
+    gl_FragColor = vec4(mixedColor, alpha * 0.9);
+  }
+`;
+
+// Custom Front Face Shader for Slate & Mica Kintsugi (SOTAY-2026 Spec)
+// Credits: Borja Moskv (borjamoskv) / MOSKV-1 APEX
+const frontVertexShader = `
+  uniform float uTime;
+  uniform float uHover;
+  uniform vec2 uMouseUV;
+  uniform float uAppMode;
+  
+  varying vec2 vUv;
+  varying vec3 vNormal;
+  varying vec3 vViewPosition;
+  
+  void main() {
+    vUv = uv;
+    vec3 pos = position;
+    
+    // Wave displacement simulating slate relief
+    float wave = sin(uv.x * 8.0 + uTime * 0.5) * cos(uv.y * 8.0 + uTime * 0.5) * 0.003;
+    float chaosWave = sin(uv.x * 16.0 + uTime * 1.5) * cos(uv.y * 16.0 + uTime * 1.5) * 0.015 * uAppMode;
+    
+    // Local displacement near the cursor
+    float dist = distance(uv, uMouseUV);
+    float force = smoothstep(0.25, 0.0, dist);
+    pos.z += wave + force * 0.012 * uHover + chaosWave;
+    
+    vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
+    vec4 viewPosition = viewMatrix * modelPosition;
+    gl_Position = projectionMatrix * viewPosition;
+    
+    vNormal = normalMatrix * normal;
+    vViewPosition = -viewPosition.xyz;
+  }
+`;
+
+const frontFragmentShader = `
+  uniform sampler2D uTexture;
+  uniform float uTime;
+  uniform vec2 uMouseUV;
+  uniform float uHover;
+  uniform float uOpacity;
+  uniform float uAppMode;
+  
+  varying vec2 vUv;
+  varying vec3 vNormal;
+  varying vec3 vViewPosition;
+  
+  float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+  }
+  
+  void main() {
+    vec4 texColor = texture2D(uTexture, vUv);
+    
+    // Normal lighting calculations
+    vec3 normal = normalize(vNormal);
+    vec3 viewDir = normalize(vViewPosition);
+    
+    // Mouse light source position in local UV space
+    vec3 lightPos = vec3(uMouseUV.x - 0.5, uMouseUV.y - 0.5, 0.3);
+    vec3 surfacePos = vec3(vUv.x - 0.5, vUv.y - 0.5, 0.0);
+    vec3 lightDir = normalize(lightPos - surfacePos);
+    
+    // Diffuse component
+    float diff = max(dot(normal, lightDir), 0.0);
+    
+    // Specular component
+    vec3 halfDir = normalize(lightDir + viewDir);
+    float spec = pow(max(dot(normal, halfDir), 0.0), 32.0);
+    
+    // Mica mineral sparkles (procedural high frequency glittering)
+    float micaFrequency = 180.0;
+    float micaNoise = hash(floor(vUv * micaFrequency));
+    float micaSparkle = 0.0;
+    if (micaNoise > 0.95) {
+      float angleFactor = max(dot(normal, halfDir), 0.0);
+      float speed = 1.5 + micaNoise * 2.0;
+      float blink = 0.4 + 0.6 * sin(uTime * speed + micaNoise * 10.0);
+      micaSparkle = pow(angleFactor, 48.0) * blink * uHover * 2.2;
+    }
+    
+    // Kintsugi gold veins (procedural fractures) - Expand in CAOS mode
+    float kintsugiNoise = sin(vUv.x * 24.0 + vUv.y * 36.0 + sin(vUv.x * 50.0) * 0.4);
+    float veinWidth = 0.012 + sin(uTime * 1.2 + vUv.x * 6.0) * 0.003 + (uAppMode * 0.012);
+    float isVein = smoothstep(veinWidth, 0.0, abs(kintsugiNoise - 0.15));
+    
+    vec3 goldColor = vec3(0.96, 0.72, 0.2); // Gold accent
+    
+    // Hover glow effect near the vein
+    float distToMouse = distance(vUv, uMouseUV);
+    float glow = smoothstep(0.2, 0.0, distToMouse) * uHover;
+    
+    // Ambient light - Noir style
+    vec3 ambient = texColor.rgb * 0.45;
+    vec3 diffuseColor = texColor.rgb * diff * 0.65;
+    vec3 specularColor = vec3(1.0) * spec * 0.3 * uHover;
+    
+    vec3 finalColor = ambient + diffuseColor + specularColor;
+    
+    // Add mica mineral sparkles
+    finalColor += goldColor * micaSparkle;
+    
+    // Blend in gold veins
+    vec3 veinColor = goldColor * (1.2 + glow * 2.5 + (uAppMode * 2.0)) * (0.85 + 0.15 * sin(uTime * 5.0));
+    finalColor = mix(finalColor, veinColor, isVein * 0.9);
+    
+    gl_FragColor = vec4(finalColor, uOpacity);
+  }
+`;
+function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex }: {
   url: string;
   index: number;
   count: number;
   currentAngleRef: React.MutableRefObject<number>;
+  setActiveIndex: (idx: number) => void;
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const pointsRef = useRef<THREE.Points>(null);
-
-  const tex = useLoader(THREE.TextureLoader, url);
-  const hoveredRef = useRef(false);
-  const mouseUVRef = useRef(new THREE.Vector2(0.5, 0.5));
-
-  const [isFlipped, setIsFlipped] = useState(false);
-  const flipAngleRef = useRef(0);
-
-  const activeIndex = useCarouselStore((state) => state.activeIndex);
-  useEffect(() => {
-    if (activeIndex !== index) {
-      queueMicrotask(() => setIsFlipped(false));
-    }
-  }, [activeIndex, index]);
-
-  const item = allArtworks[index];
-  const richData = useMemo(() => {
-    return artworksData.find(a => a.title.toLowerCase() === item.title.toLowerCase()) || null;
-  }, [item.title]);
-
-  const reversoTitle = richData?.hotspots?.find(h => h.side === 'back')?.title || 'REGISTRO DE OBRA';
-  const reversoDescription = richData?.hotspots?.find(h => h.side === 'back')?.description || 
-    `Obra original de Naroart creada en el año ${item.year} empleando la técnica: ${item.tech}.`;
-  const audioTitle = richData?.audioTitle || 'Atmósfera de Taller / ASMR Soundscape';
-
+  const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const frontMaterialRef = useRef<THREE.ShaderMaterial>(null);
+  
+  const texture = useLoader(THREE.TextureLoader, url);
+  const [hovered, setHovered] = useState(false);
+  const [mouseUV] = useState(() => new THREE.Vector2(0.5, 0.5));
+  
+  // Safe state initializer to avoid calling setState during effect execution
   const [appModeVal, setAppModeVal] = useState(() => {
     if (typeof window !== 'undefined') {
       const initialMode = localStorage.getItem('naroa_app_mode') || 'ORDEN';
@@ -102,6 +219,7 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
     return 0.0;
   });
 
+  // Monitor cursor movement and dimension toggling reactively
   useEffect(() => {
     const handleDimension = (e: Event) => {
       const mode = (e as CustomEvent).detail;
@@ -113,259 +231,123 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
 
   // Angular offset of this card in the circle
   const cardOffsetAngle = (index / count) * Math.PI * 2;
-  const radius = Math.max(2.5, (count * 1.4) / (2 * Math.PI));
+  const radius = 2.5;
 
-  // Disintegration particle uniforms
-  const uParticleProgressRef = useRef(uniform(0.0));
-  const uParticleTimeRef = useRef(uniform(0.0));
-  const uParticleTextureRef = useRef(uniform(new THREE.Texture() as any) as any);
-
-  // Compute Shader buffers for particle system
-  const gridResolution = 150; // Massively increased for WebGPU
-  const particleCount = gridResolution * gridResolution;
-  const { computeNode, positionAttribute, uvAttribute } = useMemo(() => {
-    const basePos = new Float32Array(particleCount * 3);
-    const currPos = new Float32Array(particleCount * 3);
-    const uvArr = new Float32Array(particleCount * 2);
-
+  // Grid for particle system
+  const gridResolution = 80;
+  const [positions, uvs] = useMemo(() => {
+    const posArr = new Float32Array(gridResolution * gridResolution * 3);
+    const uvArr = new Float32Array(gridResolution * gridResolution * 2);
+    
     for (let i = 0; i < gridResolution; i++) {
       for (let j = 0; j < gridResolution; j++) {
         const u = i / (gridResolution - 1);
         const v = j / (gridResolution - 1);
+        
         const idx3 = (i * gridResolution + j) * 3;
         const idx2 = (i * gridResolution + j) * 2;
         
-        const x = (u - 0.5) * 1.2;
-        const y = (v - 0.5) * 1.6;
-        
-        basePos[idx3] = x;
-        basePos[idx3 + 1] = y;
-        basePos[idx3 + 2] = 0;
-        
-        currPos[idx3] = x;
-        currPos[idx3 + 1] = y;
-        currPos[idx3 + 2] = 0;
+        posArr[idx3] = (u - 0.5) * 1.2;     // Width matches boxGeometry
+        posArr[idx3 + 1] = (v - 0.5) * 1.6; // Height matches boxGeometry
+        posArr[idx3 + 2] = 0;
         
         uvArr[idx2] = u;
         uvArr[idx2 + 1] = v;
       }
     }
-
-    const basePosAttr = new StorageBufferAttribute(basePos, 3);
-    const currPosAttr = new StorageBufferAttribute(currPos, 3);
-    const uvAttr = new THREE.BufferAttribute(uvArr, 2);
-
-    const basePosStorage = storage(basePosAttr, 'vec3', particleCount);
-    const currentPosStorage = storage(currPosAttr, 'vec3', particleCount);
-
-    const computeParticlesFn = Fn(() => {
-      const baseP = basePosStorage.element(instanceIndex);
-      const currP = currentPosStorage.element(instanceIndex);
-      
-      const u = float(instanceIndex).mod(gridResolution).div(float(gridResolution - 1));
-      const v = floor(float(instanceIndex).div(gridResolution)).div(float(gridResolution - 1));
-      const uvNode = vec2(u, v);
-
-      const displace = disintegrationDisplace(uvNode, uParticleProgressRef.current, uParticleTimeRef.current);
-      currP.assign(baseP.add(displace));
-    });
-
-    const computeNode = compute(computeParticlesFn(), particleCount);
-
-    return { computeNode, positionAttribute: currPosAttr, uvAttribute: uvAttr };
+    return [posArr, uvArr];
   }, []);
 
-  // ---- TSL UNIFORMS ----
-  // Front face uniforms
-  const uFrontTimeRef = useRef(uniform(0.0));
-  const uFrontMouseUVRef = useRef(uniform(new THREE.Vector2(0.5, 0.5)));
-  const uFrontHoverRef = useRef(uniform(0.0));
-  const uFrontOpacityRef = useRef(uniform(1.0));
-  const uFrontAppModeRef = useRef(uniform(0.0));
-  const uFrontTextureRef = useRef(uniform(new THREE.Texture() as any) as any);
+  const uniforms = useMemo(() => ({
+    uTexture: { value: null as THREE.Texture | null },
+    uProgress: { value: 0.0 },
+    uTime: { value: 0.0 }
+  }), []);
 
-  // ---- FRONT FACE TSL MATERIAL ----
-  const frontMaterial = useMemo(() => {
-    const mat = new MeshStandardNodeMaterial();
-    mat.transparent = true;
-    mat.roughness = 0.85;
-    mat.metalness = 0.0;
+  const frontUniforms = useMemo(() => ({
+    uTexture: { value: null as THREE.Texture | null },
+    uTime: { value: 0.0 },
+    uMouseUV: { value: mouseUV },
+    uHover: { value: 0.0 },
+    uOpacity: { value: 1.0 },
+    uAppMode: { value: 0.0 }
+  }), [mouseUV]);
 
-    const uFrontTime = uFrontTimeRef.current;
-    const uFrontMouseUV = uFrontMouseUVRef.current;
-    const uFrontHover = uFrontHoverRef.current;
-    const uFrontOpacity = uFrontOpacityRef.current;
-    const uFrontAppMode = uFrontAppModeRef.current;
-    const uFrontTexture = uFrontTextureRef.current;
-
-    const uvNode = uv();
-    const pos = positionLocal.toVar();
-
-    // Wave displacement simulating slate relief
-    const wave = sin(uvNode.x.mul(8.0).add(uFrontTime.mul(0.5)))
-      .mul(cos(uvNode.y.mul(8.0).add(uFrontTime.mul(0.5))))
-      .mul(0.003);
-
-    // Chaos wave
-    const chaosWave = sin(uvNode.x.mul(16.0).add(uFrontTime.mul(1.5)))
-      .mul(cos(uvNode.y.mul(16.0).add(uFrontTime.mul(1.5))))
-      .mul(0.015)
-      .mul(uFrontAppMode);
-
-    // Local displacement near cursor
-    const dist = distance(uvNode, uFrontMouseUV);
-    const force = smoothstep(float(0.25), float(0.0), dist);
-    const zDisp = wave.add(force.mul(0.012).mul(uFrontHover)).add(chaosWave);
-
-    mat.positionNode = vec3(pos.x, pos.y, pos.z.add(zDisp));
-
-    // ---- FRAGMENT: Color Node ----
-    const colorFn = Fn(() => {
-      const texColor = texture(uFrontTexture, uv());
-
-      const normal = normalize(normalLocal);
-      const viewDir = normalize(vec3(0.0, 0.0, 1.0));
-
-      // Mouse light source
-      const lightPos = vec3(uFrontMouseUV.x.sub(0.5), uFrontMouseUV.y.sub(0.5), float(0.3));
-      const surfacePos = vec3(uv().x.sub(0.5), uv().y.sub(0.5), float(0.0));
-      const lightDir = normalize(lightPos.sub(surfacePos));
-
-      const diff = max(dot(normal, lightDir), float(0.0));
-      const halfDir = normalize(lightDir.add(viewDir));
-      const spec = pow(max(dot(normal, halfDir), float(0.0)), float(32.0));
-
-      // Mica sparkles
-      const micaNoise = hashVec2(floor(uv().mul(180.0)));
-      const angleFactor = max(dot(normal, halfDir), float(0.0));
-      const speed = float(1.5).add(micaNoise.mul(2.0));
-      const blink = float(0.4).add(float(0.6).mul(sin(uFrontTime.mul(speed).add(micaNoise.mul(10.0)))));
-      const micaSparkle = pow(angleFactor, float(48.0)).mul(blink).mul(uFrontHover).mul(2.2)
-        .mul(step(float(0.95), micaNoise));
-
-      // Kintsugi gold veins
-      const kintsugiNoise = sin(uv().x.mul(24.0).add(uv().y.mul(36.0)).add(sin(uv().x.mul(50.0)).mul(0.4)));
-      const veinWidth = float(0.012)
-        .add(sin(uFrontTime.mul(1.2).add(uv().x.mul(6.0))).mul(0.003))
-        .add(uFrontAppMode.mul(0.012));
-      const isVein = smoothstep(veinWidth, float(0.0), abs(kintsugiNoise.sub(0.15)));
-
-      // Hover glow near the vein
-      const distToMouse = distance(uv(), uFrontMouseUV);
-      const glow = smoothstep(float(0.2), float(0.0), distToMouse).mul(uFrontHover);
-
-      // Lighting composition
-      const ambient = texColor.rgb.mul(0.45);
-      const diffuseColor = texColor.rgb.mul(diff).mul(0.65);
-      const specularColor = vec3(1.0, 1.0, 1.0).mul(spec).mul(0.3).mul(uFrontHover);
-
-      const litColor = ambient.add(diffuseColor).add(specularColor);
-      const withSparkles = litColor.add(GOLD_COLOR.mul(micaSparkle));
-
-      // Gold veins
-      const veinColor = GOLD_COLOR
-        .mul(float(1.2).add(glow.mul(2.5)).add(uFrontAppMode.mul(2.0)))
-        .mul(float(0.85).add(float(0.15).mul(sin(uFrontTime.mul(5.0)))));
-      const finalColor = mix(withSparkles, veinColor, isVein.mul(0.9));
-
-      return vec4(finalColor, float(1.0));
-    });
-
-    mat.colorNode = colorFn();
-    mat.opacityNode = uFrontOpacity;
-
-    return mat;
-  }, [uFrontTimeRef, uFrontMouseUVRef, uFrontHoverRef, uFrontOpacityRef, uFrontAppModeRef, uFrontTextureRef]);
-
-  // ---- DISINTEGRATION PARTICLE TSL MATERIAL ----
-  const particleMaterial = useMemo(() => {
-    const mat = new PointsNodeMaterial();
-    mat.transparent = true;
-    mat.depthWrite = false;
-    mat.blending = THREE.AdditiveBlending;
-
-    const uParticleProgress = uParticleProgressRef.current;
-    const uParticleTime = uParticleTimeRef.current;
-    const uParticleTexture = uParticleTextureRef.current;
-
-    // Position: read automatically from geometry attributes which are linked to StorageBuffer
-    mat.positionNode = positionLocal.toVar();
-
-    // Size: shimmer effect
-    const shimmer = float(1.0).add(sin(uParticleTime.mul(5.0).add(uv().x.mul(10.0))).mul(0.2));
-    mat.sizeNode = float(18.0).mul(shimmer);
-    mat.sizeAttenuation = true;
-
-    // Color: morph from texture to gold
-    const colorFn = Fn(() => {
-      const texColor = texture(uParticleTexture, uv());
-      const goldMorph = GOLD_COLOR.mul(
-        float(0.8).add(sin(uParticleTime.mul(3.0).add(uv().y.mul(5.0))).mul(0.2))
-      );
-      const mixedColor = mix(texColor.rgb, goldMorph, uParticleProgress.mul(0.8));
-      const alpha = float(1.0).sub(uParticleProgress.mul(0.3)).mul(0.9);
-      return vec4(mixedColor, alpha);
-    });
-
-    mat.colorNode = colorFn();
-
-    return mat;
-  }, [uParticleProgressRef, uParticleTimeRef, uParticleTextureRef]);
-
-  // Assign texture to both materials
   useEffect(() => {
-    if (tex) {
-      const clonedTex = tex.clone();
-      clonedTex.minFilter = THREE.LinearFilter;
-      clonedTex.needsUpdate = true;
-      uFrontTextureRef.current.value = clonedTex;
-      uParticleTextureRef.current.value = clonedTex;
+    if (texture) {
+      // Modify property using index syntax to bypass React Compiler's strict read-only tracking
+      const tex = texture as any;
+      tex['minFilter'] = THREE.LinearFilter;
+      if (materialRef.current) {
+        materialRef.current.uniforms.uTexture.value = texture;
+      }
+      if (frontMaterialRef.current) {
+        frontMaterialRef.current.uniforms.uTexture.value = texture;
+      }
     }
-  }, [tex]);
+  }, [texture]);;
 
   useFrame((state, delta) => {
+    // Current world angle of this card
     const worldAngle = cardOffsetAngle + currentAngleRef.current;
+    
+    // Position on the orbit circle
     const targetX = Math.sin(worldAngle) * radius;
     const targetZ = Math.cos(worldAngle) * radius;
 
     // Smooth lerp to target position
-    const isHovered = hoveredRef.current;
-    const targetFlipAngle = isFlipped ? Math.PI : 0;
-    flipAngleRef.current = THREE.MathUtils.lerp(flipAngleRef.current, targetFlipAngle, delta * 6);
-
     if (meshRef.current) {
       meshRef.current.position.x = THREE.MathUtils.lerp(meshRef.current.position.x, targetX, delta * 6);
       meshRef.current.position.z = THREE.MathUtils.lerp(meshRef.current.position.z, targetZ, delta * 6);
-      meshRef.current.position.y = THREE.MathUtils.lerp(meshRef.current.position.y, isHovered ? 0.25 : 0, delta * 6);
+      meshRef.current.position.y = THREE.MathUtils.lerp(meshRef.current.position.y, hovered ? 0.25 : 0, delta * 6);
       meshRef.current.lookAt(0, 0, 0);
-      meshRef.current.rotateY(flipAngleRef.current);
     }
-
+    
     if (pointsRef.current) {
       pointsRef.current.position.x = THREE.MathUtils.lerp(pointsRef.current.position.x, targetX, delta * 6);
       pointsRef.current.position.z = THREE.MathUtils.lerp(pointsRef.current.position.z, targetZ, delta * 6);
-      pointsRef.current.position.y = THREE.MathUtils.lerp(pointsRef.current.position.y, isHovered ? 0.25 : 0, delta * 6);
+      pointsRef.current.position.y = THREE.MathUtils.lerp(pointsRef.current.position.y, hovered ? 0.25 : 0, delta * 6);
       pointsRef.current.lookAt(0, 0, 0);
-      pointsRef.current.rotateY(flipAngleRef.current);
     }
 
-    // DISINTEGRATION MATH
+    // DISINTEGRATION MATH:
+    // cos(worldAngle) is 1.0 when card is directly in front, and -1.0 when directly in back.
+    // uProgress goes from 0.0 (front, fully solid) to 1.0 (back, fully disintegrated).
     const cosAngle = Math.cos(worldAngle);
     const targetProgress = 1.0 - (cosAngle + 1.0) / 2.0;
+    
+    if (materialRef.current) {
+      materialRef.current.uniforms.uProgress.value = THREE.MathUtils.lerp(
+        materialRef.current.uniforms.uProgress.value,
+        targetProgress,
+        delta * 5
+      );
+      materialRef.current.uniforms.uTime.value = state.clock.getElapsedTime();
+    }
 
-    uParticleProgressRef.current.value = THREE.MathUtils.lerp(uParticleProgressRef.current.value as number, targetProgress, delta * 5);
-    uParticleTimeRef.current.value = state.clock.getElapsedTime();
-
-    // Cross-fade solid mesh vs particles
-    const progress = uParticleProgressRef.current.value as number;
+    // Cross-fade solid mesh opacity and points visibility
+    const progress = materialRef.current?.uniforms.uProgress.value ?? 0.0;
     const isSolid = progress <= 0.45;
-
-    const targetHover = isHovered ? 1.0 : 0.0;
-    uFrontHoverRef.current.value = THREE.MathUtils.lerp(uFrontHoverRef.current.value as number, targetHover, delta * 6);
-    uFrontTimeRef.current.value = state.clock.getElapsedTime();
-    uFrontOpacityRef.current.value = THREE.MathUtils.lerp(uFrontOpacityRef.current.value as number, isSolid ? 1.0 : 0.0, delta * 10);
-    uFrontAppModeRef.current.value = THREE.MathUtils.lerp(uFrontAppModeRef.current.value as number, appModeVal, delta * 5.0);
-    (uFrontMouseUVRef.current.value as THREE.Vector2).copy(mouseUVRef.current);
+    
+    const targetHover = hovered ? 1.0 : 0.0;
+    if (frontMaterialRef.current) {
+      frontMaterialRef.current.uniforms.uHover.value = THREE.MathUtils.lerp(
+        frontMaterialRef.current.uniforms.uHover.value,
+        targetHover,
+        delta * 6
+      );
+      frontMaterialRef.current.uniforms.uTime.value = state.clock.getElapsedTime();
+      frontMaterialRef.current.uniforms.uOpacity.value = THREE.MathUtils.lerp(
+        frontMaterialRef.current.uniforms.uOpacity.value,
+        isSolid ? 1.0 : 0.0,
+        delta * 10
+      );
+      frontMaterialRef.current.uniforms.uAppMode.value = THREE.MathUtils.lerp(
+        frontMaterialRef.current.uniforms.uAppMode.value,
+        appModeVal,
+        delta * 5.0
+      );
+    }
 
     if (meshRef.current) {
       meshRef.current.visible = isSolid;
@@ -373,22 +355,12 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
     if (pointsRef.current) {
       pointsRef.current.visible = !isSolid;
     }
-
-    // Phase 2: Compute Node Dispatch
-    if (!isSolid || targetProgress > 0.0) {
-      const gl = state.gl as any;
-      if (gl.computeAsync) {
-        gl.computeAsync(computeNode); // WebGPU async compute pipeline
-      } else if (gl.compute) {
-        gl.compute(computeNode); // WebGPU sync compute pipeline
-      }
-    }
   });
 
   const handlePointerMove = (e: { stopPropagation: () => void; uv?: THREE.Vector2 }) => {
     e.stopPropagation();
     if (e.uv) {
-      mouseUVRef.current.copy(e.uv);
+      mouseUV.copy(e.uv);
     }
   };
 
@@ -398,94 +370,47 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef }: {
       <mesh
         ref={meshRef}
         onPointerOver={() => {
-          hoveredRef.current = true;
-          useCarouselStore.getState().setCard(index);
+          setHovered(true);
+          setActiveIndex(index);
         }}
-        onPointerOut={() => {
-          hoveredRef.current = false;
-        }}
+        onPointerOut={() => setHovered(false)}
         onPointerMove={handlePointerMove}
-        onClick={() => {
-          const activeIdx = useCarouselStore.getState().activeIndex;
-          if (activeIdx === index) {
-            setIsFlipped((prev) => !prev);
-          } else {
-            useCarouselStore.getState().setCard(index);
-          }
-        }}
+        onClick={() => setActiveIndex(index)}
         castShadow
         receiveShadow
       >
         <boxGeometry args={[1.2, 1.6, 0.05]} />
-        {/* Front face uses TSL material */}
-        <primitive object={frontMaterial} attach="material-4" />
+        <shaderMaterial
+          ref={frontMaterialRef}
+          attach="material-4" // Front Face
+          vertexShader={frontVertexShader}
+          fragmentShader={frontFragmentShader}
+          uniforms={frontUniforms}
+          transparent={true}
+        />
         {/* Dark rock slate material for sides/back */}
         <meshStandardMaterial attach="material-0" color="#111113" roughness={0.9} />
         <meshStandardMaterial attach="material-1" color="#111113" roughness={0.9} />
         <meshStandardMaterial attach="material-2" color="#111113" roughness={0.9} />
         <meshStandardMaterial attach="material-3" color="#111113" roughness={0.9} />
         <meshStandardMaterial attach="material-5" color="#08080a" roughness={0.95} />
-
-        {/* Back face HTML overlay */}
-        {isFlipped && (
-          <Html
-            position={[0, 0, -0.026]} // Slightly behind the back surface
-            rotation={[0, Math.PI, 0]} // Rotated 180 degrees to face outwards when card is flipped
-            transform
-            occlude
-            distanceFactor={1.2}
-            className="w-[220px] h-[300px] bg-[#09090b]/95 border border-white/10 p-5 flex flex-col justify-between text-white font-mono select-none rounded-sm shadow-2xl"
-          >
-            <div 
-              className="flex flex-col justify-between h-full text-[10px] text-zinc-400 cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsFlipped(false);
-              }}
-            >
-              <div className="flex justify-between border-b border-white/10 pb-2">
-                <span>REVERSO DE OBRA</span>
-                <span>{item.year || '2026'}</span>
-              </div>
-              
-              <div className="my-4">
-                <h4 className="text-white font-semibold text-xs tracking-wider uppercase mb-2">
-                  {reversoTitle}
-                </h4>
-                <p className="text-[9px] leading-relaxed text-zinc-500">
-                  {reversoDescription}
-                </p>
-              </div>
-
-              <div className="flex items-center gap-4 border-t border-white/10 pt-4">
-                {/* Stylized QR Code SVG */}
-                <div className="w-12 h-12 bg-white p-1 rounded-sm flex-shrink-0">
-                  <svg viewBox="0 0 29 29" className="w-full h-full text-black" fill="currentColor">
-                    <path d="M0 0h9v9H0zm1 1v7h7V1zm20-1h9v9h-9zm1 1v7h7V1zM0 20h9v9H0zm1 1v7h7v-7zm13-8h3v3h-3zm3 3h3v3h-3zm-3 3h3v3h-3zm9-6h3v3h-3zm0 6h3v3h-3zm-6-3h3v3h-3zm6-3h3v3h-3z" />
-                  </svg>
-                </div>
-                <div className="flex flex-col gap-1 text-[8px] overflow-hidden">
-                  <span className="text-white tracking-widest uppercase">AUDIO QR ACTIVE</span>
-                  <span className="text-zinc-600 truncate max-w-[130px]">{audioTitle}</span>
-                </div>
-              </div>
-
-              <div className="flex justify-between items-end border-t border-white/10 pt-2 text-[8px] tracking-widest text-zinc-600">
-                <span>FIRMADO: N.G.G</span>
-                <span>PROD: BORJAMOSKV</span>
-              </div>
-            </div>
-          </Html>
-        )}
       </mesh>
 
       {/* Disintegrated Points System (renders when rotating away) */}
       <points ref={pointsRef} visible={false}>
         <bufferGeometry>
-          <bufferAttribute attach="attributes-position" args={[positionAttribute] as any} />
-          <bufferAttribute attach="attributes-uv" args={[uvAttribute, 2] as any} />
+          <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+          <bufferAttribute attach="attributes-uv" args={[uvs, 2]} />
         </bufferGeometry>
-        <primitive object={particleMaterial} attach="material" />
+        <shaderMaterial
+          ref={materialRef}
+          vertexShader={cardVertexShader}
+          fragmentShader={cardFragmentShader}
+          uniforms={uniforms}
+          transparent={true}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
       </points>
     </>
   );
@@ -509,40 +434,31 @@ function FloatingLights() {
     </>
   );
 }
-
-function CarouselAngleInterpolator({ currentAngleRef }: { currentAngleRef: React.MutableRefObject<number> }) {
+function CarouselAngleInterpolator({ targetAngle, currentAngleRef }: { targetAngle: number; currentAngleRef: React.MutableRefObject<number> }) {
   useFrame((_state, delta) => {
-    const targetAngle = useCarouselStore.getState().targetAngle;
     currentAngleRef.current = THREE.MathUtils.lerp(
       currentAngleRef.current,
       targetAngle,
-      delta * 4
+      delta * 4 // Smooth orbit speed
     );
   });
   return null;
 }
 
-function CarouselHUD({ artworks }: { artworks: { src: string; title: string }[] }) {
-  const activeIndex = useCarouselStore((state) => state.activeIndex);
-  if (!artworks[activeIndex]) return null;
-  return (
-    <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-black/70 backdrop-blur-md border border-white/10 px-8 py-4 rounded-sm flex flex-col items-center gap-1 shadow-2xl">
-      <span className="text-primary font-mono text-[8px] tracking-[0.3em] uppercase">
-        Pizarra #{activeIndex + 1} / {artworks.length}
-      </span>
-      <span className="text-white font-serif tracking-widest text-sm uppercase">
-        {artworks[activeIndex].title}
-      </span>
-    </div>
-  );
-}
-
 export default function ThreeDCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  
+  // Thread-safe value for interpolation in useFrame
   const currentAngleRef = useRef(0);
+  const targetAngle = -activeIndex * (Math.PI * 2 / carouselArtworks.length);
 
-  useEffect(() => {
-    useCarouselStore.getState().setCount(carouselArtworks.length);
-  }, []);
+  const nextCard = () => {
+    setActiveIndex((prev) => (prev + 1) % carouselArtworks.length);
+  };
+
+  const prevCard = () => {
+    setActiveIndex((prev) => (prev - 1 + carouselArtworks.length) % carouselArtworks.length);
+  };
 
   return (
     <section className="relative z-10 w-full py-24 bg-black border-t border-white/5 overflow-hidden flex flex-col items-center">
@@ -562,15 +478,15 @@ export default function ThreeDCarousel() {
       <div className="w-full h-[600px] relative">
         {/* Glow halo behind canvas */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(43,59,229,0.06)_0%,transparent_60%)] pointer-events-none z-0" />
-
-        <WebGPUCanvas
+        
+        <Canvas
           camera={{ position: [0, 0, 4.0], fov: 60 }}
           dpr={[1, 1.5]}
           shadows
           className="z-10"
         >
           <FloatingLights />
-          <CarouselAngleInterpolator currentAngleRef={currentAngleRef} />
+          <CarouselAngleInterpolator targetAngle={targetAngle} currentAngleRef={currentAngleRef} />
           {carouselArtworks.map((art, idx) => (
             <KintsugiSplatCard
               key={art.src}
@@ -578,20 +494,21 @@ export default function ThreeDCarousel() {
               index={idx}
               count={carouselArtworks.length}
               currentAngleRef={currentAngleRef}
+              setActiveIndex={setActiveIndex}
             />
           ))}
-        </WebGPUCanvas>
+        </Canvas>
 
         {/* Carousel Navigation HUD */}
-        <button
-          onClick={() => useCarouselStore.getState().prevCard()}
+        <button 
+          onClick={prevCard}
           className="absolute left-6 md:left-20 top-1/2 -translate-y-1/2 z-20 w-12 h-12 border border-white/10 hover:border-primary text-white hover:text-primary transition-all duration-300 font-serif text-lg bg-black/40 backdrop-blur-sm cursor-pointer flex items-center justify-center rounded-sm"
           aria-label="Previous slate"
         >
           ‹
         </button>
-        <button
-          onClick={() => useCarouselStore.getState().nextCard()}
+        <button 
+          onClick={nextCard}
           className="absolute right-6 md:right-20 top-1/2 -translate-y-1/2 z-20 w-12 h-12 border border-white/10 hover:border-primary text-white hover:text-primary transition-all duration-300 font-serif text-lg bg-black/40 backdrop-blur-sm cursor-pointer flex items-center justify-center rounded-sm"
           aria-label="Next slate"
         >
@@ -599,7 +516,14 @@ export default function ThreeDCarousel() {
         </button>
 
         {/* Selected Art Overlay HUD */}
-        <CarouselHUD artworks={carouselArtworks} />
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-black/70 backdrop-blur-md border border-white/10 px-8 py-4 rounded-sm flex flex-col items-center gap-1 shadow-2xl">
+          <span className="text-primary font-mono text-[8px] tracking-[0.3em] uppercase">
+            Pizarra #{activeIndex + 1} / {carouselArtworks.length}
+          </span>
+          <span className="text-white font-serif tracking-widest text-sm uppercase">
+            {carouselArtworks[activeIndex].title}
+          </span>
+        </div>
       </div>
     </section>
   );

@@ -5,18 +5,120 @@ import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 
-import { artworksData as allArtworksData, Hotspot } from '@/data/artworks';
+interface Hotspot {
+  id: string;
+  x: number;
+  y: number;
+  z: number;
+  title: string;
+  description: string;
+  side: 'front' | 'back';
+}
 
-const artworksData = allArtworksData
-  .filter(art => ['james', 'lagrimas', 'dakari'].includes(art.id))
-  .map(art => ({
-    ...art,
-    src: '/assets/' + art.src,
-    material: art.material || '',
-    year: art.year || '',
-    audioTitle: art.audioTitle || '',
-    hotspots: art.hotspots || []
-  }));
+const artworksData = [
+  {
+    id: 'james',
+    title: 'James Dean',
+    src: '/assets/james-new.webp',
+    material: 'Pizarra de Tejado Vasco',
+    year: '2026',
+    audioTitle: 'Summer Monroe (Naroart x Borja Moskv Rework)',
+    hotspots: [
+      {
+        id: 'pizarra',
+        x: -0.4,
+        y: 0.5,
+        z: 0.03,
+        title: 'Pizarra Centenaria',
+        description: 'Pizarra de tejado vasco recuperada de derribos históricos en Bilbao, sellada con resinas epoxi y pulida a mano.',
+        side: 'front'
+      },
+      {
+        id: 'kintsugi',
+        x: 0.2,
+        y: -0.3,
+        z: 0.03,
+        title: 'Kintsugi Accidental',
+        description: 'Textura de cola y acrílico resquebrajada naturalmente y rellenada con esmalte de oro líquido para sanar la grieta.',
+        side: 'front'
+      },
+      {
+        id: 'reverso-qr',
+        x: 0,
+        y: 0,
+        z: -0.03,
+        title: 'Ledger de Autenticidad',
+        description: 'Firma física de la artista, QR criptográfico y enlace al re-work musical electrónico compuesto junto a Borja Moskv.',
+        side: 'back'
+      }
+    ] as Hotspot[]
+  },
+  {
+    id: 'lagrimas',
+    title: 'Lágrimas de Oro',
+    src: '/assets/lagrimas-de-oro-DikHc-Tk.webp',
+    material: 'Técnica Mixta y Mica',
+    year: '2026',
+    audioTitle: 'Lágrimas de Oro (Beat & Texture Rework)',
+    hotspots: [
+      {
+        id: 'mica',
+        x: 0.3,
+        y: 0.4,
+        z: 0.03,
+        title: 'Mica Shimmer',
+        description: 'Láminas minerales de mica encoladas en relieve que interactúan dinámicamente según la incidencia de la luz física.',
+        side: 'front'
+      },
+      {
+        id: 'ojos',
+        x: -0.1,
+        y: 0.1,
+        z: 0.03,
+        title: 'Gesto de Cristal',
+        description: 'Pupila tridimensional construida mediante microcapas superpuestas de barniz cerámico denso aplicadas con palillo.',
+        side: 'front'
+      },
+      {
+        id: 'reverso-firmas',
+        x: 0.1,
+        y: -0.4,
+        z: -0.03,
+        title: 'Sello de Creador',
+        description: 'Crédito de autoría a Borja Moskv y Naroart, detallando el balance de exergía física del proceso de cocción del lienzo.',
+        side: 'back'
+      }
+    ] as Hotspot[]
+  },
+  {
+    id: 'dakari',
+    title: 'El Gran Dakari',
+    src: '/assets/el-gran-dakari-C1tAWAhR.webp',
+    material: 'Pizarra Vasco-Pop',
+    year: '2026',
+    audioTitle: 'Dakari Rhythm & Mineral Waves',
+    hotspots: [
+      {
+        id: 'cantinflowers',
+        x: -0.2,
+        y: -0.4,
+        z: 0.03,
+        title: 'Fusión Cantinflowers',
+        description: 'Mezcla termodinámica de cola blanca y acrílico de alta densidad que genera texturas volcánicas resquebrajadas.',
+        side: 'front'
+      },
+      {
+        id: 'pop',
+        x: 0.2,
+        y: 0.3,
+        z: 0.03,
+        title: 'Hiperrealismo Pop',
+        description: 'Trazo de alta precisión y saturación cromática cobalto que desafía la naturaleza rústica del soporte de pizarra.',
+        side: 'front'
+      }
+    ] as Hotspot[]
+  }
+];
 
 function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot, rotationY, setRotationY }: {
   src: string;
@@ -33,7 +135,6 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
 
   useEffect(() => {
     if (texture) {
-      // eslint-disable-next-line react-hooks/immutability
       texture.minFilter = THREE.LinearFilter;
     }
   }, [texture]);
@@ -104,7 +205,7 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
         {/* Hotspots represented as interactive HTML elements in 3D */}
         {hotspots.map((hotspot) => {
           // Calculate if the hotspot is facing the camera based on rotation
-          const currentRotation = rotationY % (Math.PI * 2);
+          const currentRotation = meshRef.current ? meshRef.current.rotation.y % (Math.PI * 2) : rotationY % (Math.PI * 2);
           const absRot = Math.abs(currentRotation);
           const isFacingFront = (absRot < Math.PI / 2) || (absRot > Math.PI * 1.5);
           const showHotspot = (hotspot.side === 'front' && isFacingFront) || (hotspot.side === 'back' && !isFacingFront);
@@ -150,11 +251,8 @@ export default function LuxuryArtworkViewer() {
 
   // Sync audio reference on artwork change
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setActiveHotspot(null);
-      setRotationY(0); // Reset rotation to front view
-    }, 0);
-    return () => clearTimeout(timeout);
+    setActiveHotspot(null);
+    setRotationY(0); // Reset rotation to front view
   }, [selectedArtworkIndex]);
 
 
@@ -208,7 +306,7 @@ export default function LuxuryArtworkViewer() {
           <div className="lg:col-span-4 flex flex-col order-2 lg:order-1">
             <div className="border-l border-[#2B3BE5]/40 pl-6 mb-8">
               <span className="text-white/40 font-mono text-[9px] tracking-widest uppercase">
-                {artwork.material} / {artwork.year}
+                {artwork.material} // {artwork.year}
               </span>
               <h3 className="text-3xl font-serif font-black text-white uppercase mt-2">
                 {artwork.title}
