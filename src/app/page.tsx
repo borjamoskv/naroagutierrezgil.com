@@ -278,6 +278,16 @@ export default function Home() {
               Contacto
             </Link>
 
+            <a
+              id="nav-laboratorio"
+              href="https://naroa.online"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)] text-primary"
+            >
+              Laboratorio 3D
+            </a>
+
             <button 
               id="btn-dimension-toggle"
               onClick={() => setAppMode(prev => prev === 'ORDEN' ? 'CAOS' : 'ORDEN')}
