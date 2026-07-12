@@ -11,7 +11,7 @@ interface Message {
 const defaultInitialMessage: Message[] = [
   {
     sender: 'mica',
-    text: 'Hola. Soy Otra Naro, el reflejo mineral en el taller de Naroa. ¿Quieres perpetuar una mirada, una mascota o un recuerdo en pizarra natural?',
+    text: 'Bienvenidos al estudio de Naroa Gutiérrez Gil. Su obra hiperrealista transforma la pizarra natural y la textura de los minerales en retratos eternos. ¿Deseas solicitar que Naroa inmortalice tu historia o la de los tuyos en piedra?',
     options: [
       { label: '🎨 Retrato por Encargo', action: 'custom_portrait' },
       { label: '💰 Ver Tarifas', action: 'view_rates' },
@@ -25,9 +25,9 @@ const generateCortazarResponse = (input: string): { text: string; options?: { la
   
   if (query.includes('precio') || query.includes('tarifa') || query.includes('cuanto') || query.includes('cuesta') || query.includes('valen') || query.includes('€') || query.includes('cost')) {
     return {
-      text: 'Las pizarras son fragmentos de tiempo solidificado. Nuestras tarifas aproximadas son:\n\n• Mascotas: desde 250€ (20x30 cm)\n• Retrato Individual: desde 450€ (30x40 cm)\n• Retrato Doble: desde 750€ (40x60 cm)\n\nEl precio final depende del tamaño de la piedra y las horas de cincelado. ¿Te gustaría calcular un presupuesto?',
+      text: 'La tarifa depende del tamaño de la pizarra natural y las horas de cincelado al detalle requeridas por Naroa. Aproximadamente:\n\n• Mascotas: desde 250€ (20x30 cm)\n• Retrato Individual: desde 450€ (30x40 cm)\n• Retrato Doble: desde 750€ (40x60 cm)\n\n¿Te gustaría perfilar una solicitud de retrato?',
       options: [
-        { label: '🎨 Calcular Presupuesto', action: 'custom_portrait' },
+        { label: '🎨 Perfilar Solicitud', action: 'custom_portrait' },
         { label: '✉️ Formulario de Contacto', action: 'route:/contacto' }
       ]
     };
@@ -35,9 +35,9 @@ const generateCortazarResponse = (input: string): { text: string; options?: { la
   
   if (query.includes('encargo') || query.includes('personalizado') || query.includes('retrato') || query.includes('pedir') || query.includes('pintar') || query.includes('foto')) {
     return {
-      text: 'Cincelar una mirada en la pizarra es una rayuela de confianza. Sí, realizamos retratos personalizados (humanos, mascotas, o composiciones de autor). ¿Quieres que diseñemos una propuesta?',
+      text: 'Naroa acepta encargos bajo demanda. Plasma rostros humanos, miradas, o mascotas con una fidelidad hiperrealista que se funde con la rudeza de la pizarra. ¿Deseas iniciar una petición para ser retratado/a?',
       options: [
-        { label: '🎨 Iniciar Configurador', action: 'custom_portrait' },
+        { label: '🎨 Iniciar Solicitud', action: 'custom_portrait' },
         { label: '🔄 Menú Principal', action: 'reset' }
       ]
     };
@@ -45,9 +45,9 @@ const generateCortazarResponse = (input: string): { text: string; options?: { la
 
   if (query.includes('tiempo') || query.includes('tarda') || query.includes('plazo') || query.includes('dias') || query.includes('fecha') || query.includes('tardas')) {
     return {
-      text: 'El acrílico se seca rápido, pero la pizarra exige respeto. Cada obra personalizada suele tomar entre 2 y 4 semanas de preparación, secado y embalaje antes de salir del taller de Bilbao.',
+      text: 'El hiperrealismo sobre pizarra exige un alto nivel de detalle, respeto al secado y tratamiento de la piedra. Una obra personalizada suele requerir entre 2 y 4 semanas de preparación minuciosa en el taller.',
       options: [
-        { label: '✉️ Formulario de Contacto', action: 'route:/contacto' },
+        { label: '✉️ Contactar al Estudio', action: 'route:/contacto' },
         { label: '🔄 Menú Principal', action: 'reset' }
       ]
     };
@@ -55,9 +55,9 @@ const generateCortazarResponse = (input: string): { text: string; options?: { la
 
   if (query.includes('envio') || query.includes('mandar') || query.includes('correo') || query.includes('direccion') || query.includes('bilbao') || query.includes('enviar')) {
     return {
-      text: 'Enviamos las pizarras protegidas como reliquias desde Bilbao a cualquier rincón de este tablero de ajedrez mundial. El embalaje es extremadamente seguro para evitar fisuras o roturas.',
+      text: 'Las obras se envían desde el taller en Bilbao con un embalaje técnico de alta protección, garantizando que la pizarra llegue intacta a cualquier destino.',
       options: [
-        { label: '✉️ Formulario de Contacto', action: 'route:/contacto' },
+        { label: '✉️ Consultar Destino', action: 'route:/contacto' },
         { label: '🔄 Menú Principal', action: 'reset' }
       ]
     };
@@ -65,7 +65,7 @@ const generateCortazarResponse = (input: string): { text: string; options?: { la
 
   if (query.includes('hola') || query.includes('buenas') || query.includes('saludos') || query.includes('hello')) {
     return {
-      text: 'Hola. Desde este lado del espejo, las palabras flotan como polvo de pizarra. ¿Deseas encargar una obra o simplemente curiosear en el taller?',
+      text: 'Hola. El estudio de Naroa Gutiérrez Gil se centra en la obra hiperrealista sobre técnica mixta y soportes atípicos. ¿Quieres información sobre encargos personalizados?',
       options: [
         { label: '🎨 Encargar Retrato', action: 'custom_portrait' },
         { label: '💰 Ver Tarifas', action: 'view_rates' },
@@ -75,10 +75,9 @@ const generateCortazarResponse = (input: string): { text: string; options?: { la
   }
 
   const fallbacks = [
-    'A veces el pincel no sigue la mano, sino el sentido de las vetas de la piedra. ¿Hay alguna obra en la galería que te mire de vuelta?',
-    'Un cronopio pintaba sobre pizarra y se olvidó de que la lluvia borra las tizas, pero el acrílico resiste el diluvio. ¿Qué estás buscando hoy?',
-    'En el fondo de cada retrato hay una rayuela invisible. Dime qué buscas, a ver si el azar nos encuentra en la siguiente casilla.',
-    'Los famas prefieren lienzos perfectamente lisos. Nosotros preferimos la pizarra: irregular, áspera y cargada de sombras. ¿Quieres ver tarifas o empezar un encargo?'
+    'El arte hiperrealista de Naroa detiene el tiempo. Si buscas inmortalizar una imagen, este es el lugar. ¿Te ayudo con información de encargos?',
+    'Naroa transforma la luz y la textura en emociones tangibles sobre la pizarra. ¿Deseas solicitar ser retratado/a?',
+    'Estamos a tu disposición para proporcionarte información sobre las obras de Naroa Gutiérrez Gil o los retratos por encargo.'
   ];
   const text = fallbacks[Math.floor(Math.random() * fallbacks.length)];
   
@@ -302,29 +301,28 @@ export default function Mica() {
 
   return (
     <>
-      {/* Floating Sparkle Toggle Button */}
+      {/* Floating Sparkle Toggle Button (Miniaturizado y discreto) */}
       <button
         aria-label="Alternar Asistente Mica"
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-24 right-8 z-[250] flex items-center justify-center w-12 h-12 rounded-full border border-primary/40 bg-background/80 backdrop-blur shadow-[0_0_30px_rgba(43,59,229,0.2)] hover:scale-105 active:scale-95 transition-all duration-300 group cursor-pointer"
+        className="fixed bottom-6 right-6 z-[250] flex items-center justify-center w-8 h-8 rounded-full border border-primary/20 bg-black/60 backdrop-blur-md shadow-lg hover:scale-110 active:scale-95 transition-all duration-300 group cursor-pointer"
       >
-        <span className="absolute inset-0 rounded-full bg-primary/10 animate-ping pointer-events-none opacity-50" />
-        <div className="w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_12px_rgba(43,59,229,1)] group-hover:scale-125 transition-transform duration-300" />
+        <div className="w-1.5 h-1.5 rounded-full bg-primary/70 group-hover:bg-primary transition-colors duration-300" />
         
-        <span className="absolute right-14 font-sans text-[8px] tracking-[0.3em] uppercase text-primary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-black/80 px-2 py-1 border border-primary/20 rounded-sm">
-          Otra Naro
+        <span className="absolute right-10 font-sans text-[7px] tracking-[0.2em] uppercase text-white/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap bg-black/80 px-2 py-1 rounded-sm">
+          Mica
         </span>
       </button>
 
-      {/* Tiny Chat Overlay */}
+      {/* Tiny Chat Overlay (Discreto) */}
       {isOpen && (
-        <div className="fixed bottom-40 right-8 z-[250] w-[335px] max-h-[500px] bg-[#0A0A0A]/95 backdrop-blur border border-primary/20 rounded-sm shadow-[0_10px_50px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden animate-[fadeIn_0.4s_ease-out]">
+        <div className="fixed bottom-16 right-6 z-[250] w-[280px] max-h-[400px] bg-neutral-950/95 backdrop-blur-md border border-white/5 rounded-md shadow-2xl flex flex-col overflow-hidden animate-[fadeIn_0.3s_ease-out]">
           
           {/* Header */}
-          <div className="p-4 border-b border-white/5 flex items-center justify-between bg-black/40">
+          <div className="p-3 border-b border-white/5 flex items-center justify-between bg-black/40">
             <div className="flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <span className="font-sans text-[10px] tracking-[0.3em] uppercase text-primary font-medium">Otra Naro</span>
+              <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse opacity-70" />
+              <span className="font-sans text-[8px] tracking-[0.2em] uppercase text-white/70 font-medium">Otra Naro</span>
             </div>
             <div className="flex items-center gap-3">
               <button 
@@ -336,14 +334,14 @@ export default function Mica() {
                   setSelections({ type: '', size: '' });
                   setMessages(defaultInitialMessage);
                 }} 
-                className="text-white/30 hover:text-primary transition-colors text-[9px] uppercase tracking-wider font-sans border-0 bg-transparent cursor-pointer"
+                className="text-white/30 hover:text-white transition-colors text-[8px] uppercase tracking-wider font-sans border-0 bg-transparent cursor-pointer"
                 title="Limpiar Conversación"
               >
-                Limpiar
+                Reset
               </button>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-foreground/40 hover:text-white text-xs bg-transparent border-0 cursor-pointer"
+                className="text-white/40 hover:text-white text-[10px] bg-transparent border-0 cursor-pointer"
               >
                 ✕
               </button>
@@ -351,19 +349,19 @@ export default function Mica() {
           </div>
 
           {/* Messages Logs */}
-          <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-3 scrollbar-thin select-none max-h-[280px]">
+          <div className="flex-1 p-3 overflow-y-auto flex flex-col gap-2 scrollbar-thin select-none max-h-[220px]">
             {messages.map((msg, i) => (
               <div
                 key={i}
-                className={`flex flex-col max-w-[85%] ${
+                className={`flex flex-col max-w-[90%] ${
                   msg.sender === 'user' ? 'self-end items-end' : 'self-start items-start'
                 }`}
               >
                 <div
-                  className={`p-3 text-[10px] font-sans tracking-wide leading-relaxed rounded-sm ${
+                  className={`p-2.5 text-[9px] font-sans tracking-wide leading-relaxed rounded-md ${
                     msg.sender === 'user'
-                      ? 'bg-primary/10 border border-primary/30 text-primary'
-                      : 'bg-white/5 text-foreground/80'
+                      ? 'bg-primary/20 text-white border border-primary/20'
+                      : 'bg-white/5 text-white/80'
                   }`}
                   style={{ whiteSpace: 'pre-line' }}
                 >
@@ -374,10 +372,10 @@ export default function Mica() {
             
             {isTyping && (
               <div className="self-start flex flex-col max-w-[85%] items-start">
-                <div className="p-3 bg-white/5 text-foreground/50 rounded-sm flex gap-1 items-center">
-                  <span className="w-1.5 h-1.5 rounded-full bg-foreground/30 animate-bounce" style={{ animationDelay: '0ms' }} />
-                  <span className="w-1.5 h-1.5 rounded-full bg-foreground/30 animate-bounce" style={{ animationDelay: '150ms' }} />
-                  <span className="w-1.5 h-1.5 rounded-full bg-foreground/30 animate-bounce" style={{ animationDelay: '300ms' }} />
+                <div className="p-2.5 bg-white/5 text-white/50 rounded-md flex gap-1 items-center">
+                  <span className="w-1 h-1 rounded-full bg-white/30 animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="w-1 h-1 rounded-full bg-white/30 animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="w-1 h-1 rounded-full bg-white/30 animate-bounce" style={{ animationDelay: '300ms' }} />
                 </div>
               </div>
             )}
@@ -387,12 +385,12 @@ export default function Mica() {
 
           {/* Quick Options Area */}
           {messages[messages.length - 1]?.options && (
-            <div className="p-3 border-t border-white/5 bg-black/20 flex flex-col gap-1.5 max-h-[120px] overflow-y-auto">
+            <div className="p-2 border-t border-white/5 bg-black/20 flex flex-col gap-1 max-h-[100px] overflow-y-auto">
               {messages[messages.length - 1].options?.map((opt, i) => (
                 <button
                   key={i}
                   onClick={() => handleOptionClick(opt.action, opt.label)}
-                  className="w-full text-left p-2.5 border border-white/5 hover:border-primary/40 hover:text-primary transition-all duration-300 text-[9px] font-sans tracking-widest uppercase rounded-sm bg-black/40 cursor-pointer"
+                  className="w-full text-left p-2 hover:bg-white/5 transition-all duration-300 text-[8px] font-sans tracking-widest uppercase rounded-sm text-white/70 hover:text-white cursor-pointer"
                 >
                   {opt.label}
                 </button>
@@ -403,19 +401,19 @@ export default function Mica() {
           {/* Text Input Area */}
           <form 
             onSubmit={handleSendMessage}
-            className="p-3 border-t border-white/5 bg-[#050505] flex gap-2"
+            className="p-2 border-t border-white/5 bg-black flex gap-2"
           >
             <input
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Pregúntame sobre tarifas, envíos..."
-              className="flex-1 bg-white/5 border border-white/10 focus:border-primary/50 focus:outline-none px-3 py-2 text-[10px] font-sans text-foreground placeholder-white/25 rounded-sm transition-colors"
+              placeholder="Escribe algo..."
+              className="flex-1 bg-transparent border-0 focus:outline-none px-2 py-1 text-[9px] font-sans text-white placeholder-white/30 transition-colors"
             />
             <button
               type="submit"
               disabled={!inputValue.trim() || isTyping}
-              className="px-3 bg-primary text-black hover:bg-white disabled:bg-white/5 disabled:text-white/20 transition-all font-sans text-[9px] tracking-widest uppercase font-semibold rounded-sm cursor-pointer"
+              className="px-2 text-[var(--primary)] disabled:text-white/20 transition-colors font-sans text-[9px] tracking-widest uppercase cursor-pointer bg-transparent border-0"
             >
               Enviar
             </button>
