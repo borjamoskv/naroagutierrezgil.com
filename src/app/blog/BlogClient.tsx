@@ -1,15 +1,13 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
-import useLenis from '@/hooks/useLenis';
 import HeroFluid from '@/components/HeroFluid';
 import ScrollReveal from '@/components/ScrollReveal';
 import Footer from '@/components/Footer';
+import { BlogPost } from '@/lib/blogData';
 
-import { BLOG_POSTS } from '@/lib/blogData';
+interface BlogClientProps {
 
-export default function BlogPage() {
+export default function BlogClient({ initialPosts }: BlogClientProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
@@ -27,8 +25,8 @@ export default function BlogPage() {
   const categories = ['Todos', 'Exposiciones', 'Talleres', 'Encuentros'];
 
   const filteredPosts = selectedCategory === 'Todos'
-    ? BLOG_POSTS
-    : BLOG_POSTS.filter(post => post.category === selectedCategory);
+    ? initialPosts
+    : initialPosts.filter(post => post.category === selectedCategory);
 
   return (
     <div className="min-h-screen bg-[#050505] text-[#EAEAEA] font-sans selection:bg-[#2B3BE5] selection:text-white overflow-hidden relative">

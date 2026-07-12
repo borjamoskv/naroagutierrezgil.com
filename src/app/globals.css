@@ -32,6 +32,51 @@ body {
   background-image: radial-gradient(circle at 50% 0%, rgba(43, 59, 229, 0.05) 0%, transparent 70%);
 }
 
+@layer utilities {
+  .chromatic-text {
+    background-image: linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.8) 0%,
+      rgba(0, 255, 0, 0.8) 50%,
+      rgba(0, 0, 255, 0.8) 100%
+    );
+    background-clip: text;
+    color: transparent;
+    mix-blend-mode: screen;
+    animation: chromatic 8s linear infinite;
+  }
+
+  .wp-content-renderer img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 2rem 0;
+    filter: grayscale(100%);
+    transition: filter 0.5s ease;
+  }
+  
+  .wp-content-renderer img:hover {
+    filter: grayscale(0%);
+  }
+
+  .wp-content-renderer a {
+    color: #2B3BE5;
+    text-decoration: underline;
+    text-decoration-color: rgba(43, 59, 229, 0.3);
+    text-underline-offset: 4px;
+    transition: all 0.3s ease;
+  }
+
+  .wp-content-renderer a:hover {
+    color: #fff;
+    text-decoration-color: #2B3BE5;
+  }
+
+  .wp-content-renderer p {
+    margin-bottom: 1.5rem;
+  }
+}
+
 body::after {
   content: "";
   position: fixed;

@@ -36,7 +36,7 @@ const alcoveData: Record<AlcoveId, { universeNum: string; title: string; descrip
     description: 'Material recuperado directamente de derribos de tejados tradicionales en Bilbao. Sometidas a cortes geográficos, sellado con resina epoxi de brillo espejo y rematadas con bordes rotos, las pizarras representan el concepto de refugio, hogar y dureza ancestral.',
     material: 'Pizarra Vasco-Lítica',
     friction: 'Corte Rústico Manual',
-    image: '601340023_1552126202933462_7815927344957967258_n.webp',
+    image: 'espejo-alma-piensa.webp',
   },
   poliester: {
     universeNum: 'III',
@@ -52,7 +52,7 @@ const alcoveData: Record<AlcoveId, { universeNum: string; title: string; descrip
     description: 'Nacido por un error en pandemia mezclando cola blanca barata y acrílico. La costra del lienzo se resquebraja al secarse. En lugar de descartarlo, la artista raspa la herida y la rellena con barnices de oro, transformando la falla física en una veta de luz.',
     material: 'Cola, Acrílico & Oro',
     friction: 'Fractura Termodinámica',
-    image: 'lagrimas-de-oro-DikHc-Tk.webp',
+    image: 'cantinflas-kintsugi.webp',
   },
   mica: {
     universeNum: 'V',

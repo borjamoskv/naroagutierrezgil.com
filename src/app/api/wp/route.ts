@@ -28,7 +28,7 @@ export async function GET() {
       const pubDate = pubDateRaw ? new Date(pubDateRaw).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
       
       const imgMatch = itemXml.match(/media:content[^>]+url="([^"]+)"/);
-      let image = imgMatch ? imgMatch[1] : '/assets/amy-new.webp';
+      const image = imgMatch ? imgMatch[1] : '/assets/amy-new.webp';
       
       items.push({ title: title.trim(), link: link.trim(), pubDate, image });
     }

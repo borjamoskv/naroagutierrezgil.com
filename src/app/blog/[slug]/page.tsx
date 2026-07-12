@@ -1,4 +1,4 @@
-import { BLOG_POSTS } from '@/lib/blogData';
+import { getBlogPosts } from '@/lib/blogData';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Metadata } from 'next';
@@ -6,14 +6,16 @@ import Footer from '@/components/Footer';
 import ReadingProgress from '@/components/ReadingProgress';
 
 export async function generateStaticParams() {
-  return BLOG_POSTS.map((post) => ({
+  const posts = await getBlogPosts();
+  return posts.map((post) => ({
     slug: post.slug,
   }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
+  const posts = await getBlogPosts();
+  const post = posts.find((p) => p.slug === slug);
 
   if (!post) {
     return { title: 'Post no encontrado' };
@@ -56,15 +58,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const postIndex = BLOG_POSTS.findIndex((p) => p.slug === slug);
-  const post = BLOG_POSTS[postIndex];
+  const posts = await getBlogPosts();
+  const postIndex = posts.findIndex((p) => p.slug === slug);
+  const post = posts[postIndex];
 
   if (!post) {
     notFound();
   }
 
-  const prevPost = postIndex > 0 ? BLOG_POSTS[postIndex - 1] : null;
-  const nextPost = postIndex < BLOG_POSTS.length - 1 ? BLOG_POSTS[postIndex + 1] : null;
+  const prevPost = postIndex > 0 ? posts[postIndex - 1] : null;
+  const nextPost = postIndex < posts.length - 1 ? posts[postIndex + 1] : null;
 
   return (
     <div className="min-h-screen bg-[#050505] text-[#EAEAEA] font-sans selection:bg-[#2B3BE5] selection:text-white overflow-hidden relative">
@@ -128,9 +131,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <p className="text-xl md:text-2xl text-white/90 font-serif leading-relaxed mb-12 pl-6 border-l-2 border-[#2B3BE5]">
               {post.excerpt}
             </p>
-            <div className="space-y-8 text-lg font-sans text-white/60">
-              <p>{post.content}</p>
-            </div>
+            <div 
+              className="space-y-8 text-lg font-sans text-white/60 wp-content-renderer"
+              dangerouslySetInnerHTML={{ __html: post.content }}
+            />
           </div>
         </article>
 
