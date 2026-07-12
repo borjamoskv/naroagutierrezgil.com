@@ -3,6 +3,8 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
+import { EffectComposer, Bloom, DepthOfField, Noise } from '@react-three/postprocessing';
+import { BlendFunction } from 'postprocessing';
 import { useState, useRef, useEffect } from "react";
 import * as THREE from "three";
 import { inSphere } from "maath/random";
@@ -56,13 +58,15 @@ function StarBackground(props: Record<string, unknown>) {
         arr[idx+1] = 59 / 255;
         arr[idx+2] = 229 / 255;
       } else if (type === 'gold') {
-        arr[idx] = 212 / 255;
-        arr[idx+1] = 175 / 255;
-        arr[idx+2] = 55 / 255;
+        // Boosted HDR values for Bloom
+        arr[idx] = (212 / 255) * 1.5;
+        arr[idx+1] = (175 / 255) * 1.5;
+        arr[idx+2] = (55 / 255) * 1.5;
       } else {
-        arr[idx] = 234 / 255;
-        arr[idx+1] = 234 / 255;
-        arr[idx+2] = 234 / 255;
+        // Boosted HDR values for Silver Mica
+        arr[idx] = (234 / 255) * 1.2;
+        arr[idx+1] = (234 / 255) * 1.2;
+        arr[idx+2] = (234 / 255) * 1.2;
       }
     }
     return arr;
@@ -84,9 +88,9 @@ function StarBackground(props: Record<string, unknown>) {
     for (let i = 0; i < count; i++) {
       const idx = i * 3;
       if (getParticleType(i) === 'primary') {
-        colorsArr[idx] = r;
-        colorsArr[idx+1] = g;
-        colorsArr[idx+2] = b;
+        colorsArr[idx] = r * 1.5; // Boost for bloom
+        colorsArr[idx+1] = g * 1.5;
+        colorsArr[idx+2] = b * 1.5;
       }
     }
     colorAttr.needsUpdate = true;
@@ -124,12 +128,14 @@ function StarBackground(props: Record<string, unknown>) {
         const dz = pz - mz;
         const distSq = dx*dx + dy*dy + dz*dz;
         
-        if (distSq < 1.0) {
+        // C5-REAL Thermomechanical Ripple
+        if (distSq < 1.5) {
           const dist = Math.sqrt(distSq);
-          const lerpFactor = delta * 0.5 * (1 - dist);
-          px += (mx - px) * lerpFactor;
-          py += (my - py) * lerpFactor;
-          pz += (mz - pz) * lerpFactor;
+          const force = (1.5 - dist) / 1.5; // normalized force
+          // Repel instead of attract for physical fluid feel
+          px += (dx / dist) * force * delta * 0.5;
+          py += (dy / dist) * force * delta * 0.5;
+          pz += (dz / dist) * force * delta * 0.5;
         } else {
           const originDistSq = px*px + py*py + pz*pz;
           if (originDistSq < 3.61) {
@@ -155,10 +161,11 @@ function StarBackground(props: Record<string, unknown>) {
         <PointMaterial
           transparent
           vertexColors
-          size={0.005}
+          size={0.008}
           sizeAttenuation={true}
           depthWrite={false}
-          opacity={0.65}
+          opacity={0.85}
+          blending={THREE.AdditiveBlending}
         />
       </Points>
     </group>
@@ -171,10 +178,17 @@ export default function WebGLBackground() {
       <Canvas 
         camera={{ position: [0, 0, 1] }} 
         dpr={[1, 1.5]} 
-        gl={{ powerPreference: "high-performance", alpha: false, antialias: false }}
+        gl={{ powerPreference: "high-performance", alpha: false, antialias: false, stencil: false, depth: false }}
       >
         <fog attach="fog" args={['#0A0A0A', 0.5, 2]} />
         <StarBackground />
+        
+        {/* SOTA AWWWARDS Physical Volume Post-Processing */}
+        <EffectComposer disableNormalPass multisampling={0}>
+          <DepthOfField focusDistance={0.0} focalLength={0.02} bokehScale={2} height={480} />
+          <Bloom luminanceThreshold={0.5} mipmapBlur intensity={2.5} radius={0.8} />
+          <Noise opacity={0.02} blendFunction={BlendFunction.OVERLAY} />
+        </EffectComposer>
       </Canvas>
     </div>
   );

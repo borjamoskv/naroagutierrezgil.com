@@ -1,11 +1,15 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import useLenis from '@/hooks/useLenis';
 import HeroFluid from '@/components/HeroFluid';
 import ScrollReveal from '@/components/ScrollReveal';
 import Footer from '@/components/Footer';
 import { BlogPost } from '@/lib/blogData';
 
 interface BlogClientProps {
+  initialPosts: BlogPost[];
+}
 
 export default function BlogClient({ initialPosts }: BlogClientProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
