@@ -234,44 +234,44 @@ export default function Home() {
         </>
       )}
 
-      {/* Header & Navigation */}
-      <ScrollAwareHeader className="fixed top-6 left-1/2 -translate-x-1/2 w-[max-content] px-1.5 py-1.5 flex items-center z-[210] pointer-events-auto select-none text-white border border-white/10 rounded-[2rem] animate-[fadeIn_1.5s_ease-out_both] shadow-[0_0_40px_rgba(0,0,0,0.8)]">
+      {/* Floating Pill Navigation */}
+      <ScrollAwareHeader className="fixed top-6 left-1/2 -translate-x-1/2 w-auto px-2 py-2 flex items-center z-[210] pointer-events-auto select-none text-white rounded-full animate-[fadeIn_1.5s_ease-out_both] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.8)] border border-white/10">
         <div className="flex items-center gap-1">
-          <span className="font-sans text-xs font-bold text-white px-4 cursor-default">
-            N
-          </span>
-
-          <Link
-            href="/"
-            className="font-mono text-[10px] tracking-widest uppercase bg-[var(--primary)]/10 text-[var(--primary)] border border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-[2rem]"
-          >
-            Home
+          <Link href="/" className="group flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-[var(--primary)] transition-colors duration-300 ml-1 mr-2">
+            <span className="font-sans text-sm font-black text-white group-hover:text-black transition-colors duration-300">N</span>
           </Link>
 
           <button
+            onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
+          >
+            Inicio
+          </button>
+
+          <button
             onClick={() => document.getElementById('alcove-system')?.scrollIntoView({ behavior: 'smooth' })}
-            className="font-mono text-[10px] tracking-widest uppercase bg-transparent hover:bg-white/5 border border-transparent hover:border-white/20 text-white/70 hover:text-white px-4 py-2 transition-all cursor-pointer rounded-[2rem]"
+            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
           >
             Obra
           </button>
 
           <Link
             href="/biografia"
-            className="font-mono text-[10px] tracking-widest uppercase bg-transparent hover:bg-white/5 border border-transparent hover:border-white/20 text-white/70 hover:text-white px-4 py-2 transition-all cursor-pointer rounded-[2rem]"
+            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
           >
             Trayectoria
           </Link>
 
           <Link
             href="/autodidact"
-            className="font-mono text-[10px] tracking-widest uppercase bg-transparent hover:bg-white/5 border border-transparent hover:border-white/20 text-white/70 hover:text-white px-4 py-2 transition-all cursor-pointer rounded-[2rem]"
+            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
           >
-            Sobre mí
+            Filosofía
           </Link>
 
           <Link
             href="/contacto"
-            className="font-mono text-[10px] tracking-widest uppercase bg-transparent hover:bg-[var(--primary)]/10 border border-[var(--primary)]/30 hover:border-[var(--primary)] text-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-[2rem]"
+            className="ml-2 font-mono text-[9.5px] tracking-[0.2em] uppercase bg-[var(--primary)] hover:bg-white text-white hover:text-black px-5 py-2.5 transition-all duration-300 cursor-pointer rounded-full font-bold shadow-[0_0_15px_rgba(var(--primary-rgb),0.4)] hover:shadow-[0_0_20px_rgba(255,255,255,0.6)]"
           >
             Contacto
           </Link>
@@ -279,9 +279,9 @@ export default function Home() {
       </ScrollAwareHeader>
 
       {/* Floating Utilities (Dimension & Color Palette) */}
-      <div className="fixed bottom-6 left-6 z-[210] flex flex-col gap-3 pointer-events-auto items-start animate-[fadeIn_2s_ease-out_both]">
+      <div className="fixed bottom-8 left-8 z-[210] flex flex-col gap-4 pointer-events-auto items-start animate-[fadeIn_2s_ease-out_both] mix-blend-difference">
         {/* Color Palette Switcher */}
-        <div className="hidden md:flex items-center gap-2 bg-black/40 backdrop-blur-xl border border-white/10 px-3 py-2 rounded-full shadow-lg">
+        <div className="hidden md:flex items-center gap-3 bg-[#111]/80 backdrop-blur-2xl border border-white/10 px-4 py-3 rounded-full shadow-2xl">
           {[
             { hex: '#2B3BE5', label: 'Cobalto' },
             { hex: '#F59E0B', label: 'Oro' },
@@ -293,16 +293,20 @@ export default function Home() {
               onClick={() => updatePrimaryColor(colorObj.hex)}
               style={{ backgroundColor: colorObj.hex }}
               title={colorObj.label}
-              className="w-3 h-3 rounded-full border border-white/20 hover:scale-125 transition-transform cursor-pointer"
-            />
+              className="relative w-3.5 h-3.5 rounded-full hover:scale-125 transition-all duration-300 cursor-pointer ring-1 ring-white/20 hover:ring-white/80 outline-none"
+            >
+              <div className="absolute inset-0 rounded-full shadow-[0_0_10px_currentColor] opacity-0 hover:opacity-100 transition-opacity" />
+            </button>
           ))}
         </div>
 
         <button 
           onClick={() => setAppMode(prev => prev === 'ORDEN' ? 'CAOS' : 'ORDEN')}
-          className="font-mono text-[9px] tracking-widest uppercase bg-black/40 backdrop-blur-xl hover:bg-black/80 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-full shadow-lg text-white"
+          className="group flex items-center gap-3 font-mono text-[10px] tracking-[0.25em] uppercase bg-[#111]/80 backdrop-blur-2xl hover:bg-white border border-white/10 hover:border-white px-5 py-3 transition-all duration-500 cursor-pointer rounded-full shadow-2xl text-white hover:text-black overflow-hidden relative"
         >
-          Dimensión: <span className="text-[var(--primary)]">{appMode}</span>
+          <div className="absolute inset-0 bg-[var(--primary)] opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+          <span className="relative z-10 opacity-50 group-hover:opacity-100 transition-opacity">DIMENSIÓN</span>
+          <span className="relative z-10 text-[var(--primary)] group-hover:text-black font-bold transition-colors">{appMode}</span>
         </button>
       </div>
 
