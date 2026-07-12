@@ -7,12 +7,23 @@ import HeroFluid from '@/components/HeroFluid';
 import ScrollReveal from '@/components/ScrollReveal';
 import Footer from '@/components/Footer';
 
-const renderKineticText = (text: string, baseClass: string, hoverClass: string) => (
-  text.split('').map((char, i) => (
-    <span key={i} className={`inline-block transition-all duration-500 cursor-default ${baseClass} ${hoverClass}`}>
-      {char === ' ' ? '\u00A0' : char}
-    </span>
-  ))
+const renderKineticText = (text: string, baseClass: string, hoverClass: string, staggerOffset: number = 0) => (
+  text.split('').map((char, i) => {
+    const randomRotate = (i % 3 === 0) ? '-rotate-12' : (i % 2 === 0) ? 'rotate-6' : 'rotate-12';
+    const randomTranslate = (i % 2 === 0) ? '-translate-y-4' : (i % 3 === 0) ? 'translate-y-3' : '-translate-y-2';
+    const randomScale = (i % 3 === 0) ? 'scale-125' : 'scale-110';
+    const delay = staggerOffset + (i * 0.05);
+
+    return (
+      <span 
+        key={i} 
+        style={{ animationDelay: `${delay}s` }}
+        className={`inline-block transition-all duration-500 cursor-default animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_both] ${baseClass} ${hoverClass} hover:${randomRotate} hover:${randomTranslate} hover:${randomScale}`}
+      >
+        {char === ' ' ? '\u00A0' : char}
+      </span>
+    );
+  })
 );
 
 export default function Biografia() {
@@ -51,13 +62,13 @@ export default function Biografia() {
           <div className="absolute -left-6 sm:-left-12 top-0 w-[2px] h-full bg-gradient-to-b from-[#2B3BE5] via-[#2B3BE5]/20 to-transparent" />
           <h1 className="text-[12vw] md:text-[8rem] font-serif font-light leading-[0.8] tracking-tighter uppercase mb-6 drop-shadow-2xl select-none relative">
             <span className="flex overflow-hidden">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] chromatic-text flex">
-                {renderKineticText('Naroa', 'text-transparent [-webkit-text-stroke:1px_rgba(234,234,234,0.3)]', 'hover:[-webkit-text-stroke:1px_#2B3BE5] hover:text-[#2B3BE5] hover:drop-shadow-[0_0_20px_rgba(43,59,229,0.8)] hover:scale-110')}
+              <span className="chromatic-text flex">
+                {renderKineticText('Naroa', 'text-transparent [-webkit-text-stroke:1px_rgba(234,234,234,0.3)]', 'hover:[-webkit-text-stroke:1px_#2B3BE5] hover:text-[#2B3BE5] hover:drop-shadow-[0_0_20px_rgba(43,59,229,0.8)]', 0.1)}
               </span>
             </span>
             <span className="flex overflow-hidden mt-2">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] chromatic-text flex">
-                {renderKineticText('Gutiérrez', 'text-[#EAEAEA]', 'hover:text-[#2B3BE5] hover:drop-shadow-[0_0_20px_rgba(43,59,229,0.8)] hover:-translate-y-2')}
+              <span className="chromatic-text flex">
+                {renderKineticText('Gutiérrez', 'text-[#EAEAEA]', 'hover:text-[#2B3BE5] hover:drop-shadow-[0_0_20px_rgba(43,59,229,0.8)]', 0.2)}
               </span>
             </span>
             <span className="absolute top-[35%] left-[25%] md:left-[35%] z-20 pointer-events-none">
