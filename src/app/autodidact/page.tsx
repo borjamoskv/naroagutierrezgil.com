@@ -226,8 +226,9 @@ export default function AutodidactPage() {
       </ScrollAwareHeader>
 
       {/* Floating HUD - Cinematic System Indicators (Immersive Garden style) */}
-      <div className="fixed top-24 left-8 z-45 flex flex-col gap-1 pointer-events-none mix-blend-difference select-none opacity-60">
-        <span className="font-mono text-[9px] tracking-[0.4em] uppercase text-[var(--primary)]">
+      <div className="fixed top-24 left-8 z-45 flex flex-col gap-2 pointer-events-none select-none opacity-80 bg-[#111]/40 backdrop-blur-md border border-white/5 p-4 rounded-xl shadow-2xl">
+        <span className="font-mono text-[9px] tracking-[0.4em] uppercase text-[var(--primary)] flex items-center gap-2">
+          <span className="w-1.5 h-1.5 bg-[var(--primary)] rounded-full animate-pulse shadow-[0_0_10px_currentColor]" />
           SYS_ID: NAROA_AUTODIDACT_KERN
         </span>
         <span className="font-mono text-[8px] tracking-[0.2em] text-white/50 uppercase">
@@ -235,9 +236,9 @@ export default function AutodidactPage() {
         </span>
       </div>
 
-      <div className="fixed top-24 right-8 z-45 flex flex-col items-end gap-1 text-right pointer-events-none mix-blend-difference select-none opacity-60">
+      <div className="fixed top-24 right-8 z-45 flex flex-col items-end gap-2 text-right pointer-events-none select-none opacity-80 bg-[#111]/40 backdrop-blur-md border border-white/5 p-4 rounded-xl shadow-2xl">
         <span className="font-mono text-[9px] tracking-[0.3em] text-white/70 uppercase">
-          COORDS: X: {mousePos.x} | Y: {mousePos.y}
+          COORDS: <span className="text-white/40">X: {mousePos.x} | Y: {mousePos.y}</span>
         </span>
         <span className="font-mono text-[9px] tracking-[0.3em] text-[var(--primary)] uppercase">
           ENTROPY: {entropyRate}% | FRACTURES: ACTIVE
@@ -396,16 +397,27 @@ export default function AutodidactPage() {
       />
 
       {/* Accessible Control HUD (Bottom Left) */}
-      <div className="fixed bottom-6 left-6 z-50 flex gap-4 pointer-events-auto mix-blend-difference select-none text-[9px] font-mono tracking-widest text-white/50">
-        <button
-          onClick={() => setReducedMotion((p) => !p)}
-          className="hover:text-[var(--primary)] transition-colors cursor-pointer"
-          title="Alternar animaciones"
-        >
-          [M] MOVIMIENTO: {reducedMotion ? "REDUCIDO" : "NORMAL"}
-        </button>
-        <span className="hidden sm:inline">|</span>
-        <span className="hidden sm:inline text-white/30">TECLAS [1, 2, 3, 4] NAVEGAN CAPÍTULOS</span>
+      <div className="fixed bottom-8 left-8 z-50 flex gap-4 pointer-events-auto select-none">
+        <div className="flex items-center gap-4 bg-[#111]/80 backdrop-blur-2xl border border-white/10 px-5 py-3 rounded-full shadow-2xl">
+          <button
+            onClick={() => setReducedMotion((p) => !p)}
+            className="group flex items-center gap-2 font-mono text-[10px] tracking-[0.25em] uppercase transition-all duration-500 cursor-pointer text-white/50 hover:text-white"
+            title="Alternar animaciones"
+          >
+            <span>MOVIMIENTO:</span>
+            <span className="text-[var(--primary)] font-bold">{reducedMotion ? "REDUCIDO" : "NORMAL"}</span>
+            <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[8px] border border-white/20 px-1 ml-1 rounded">M</span>
+          </button>
+          
+          <div className="w-[1px] h-4 bg-white/10 hidden sm:block" />
+          
+          <div className="hidden sm:flex items-center gap-2 font-mono text-[9px] tracking-[0.25em] text-white/30">
+            NAVEGAR:
+            <div className="flex gap-1">
+              {[1,2,3,4].map(n => <span key={n} className="border border-white/10 rounded px-1">{n}</span>)}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Unified Footer */}
