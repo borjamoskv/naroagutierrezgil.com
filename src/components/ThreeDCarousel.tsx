@@ -284,6 +284,8 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex,
       // Modify property using index syntax to bypass React Compiler's strict read-only tracking
       const tex = texture as any;
       tex['minFilter'] = THREE.LinearFilter;
+      tex['colorSpace'] = THREE.SRGBColorSpace;
+      tex['needsUpdate'] = true;
       if (materialRef.current) {
         materialRef.current.uniforms.uTexture.value = texture;
       }
@@ -291,7 +293,7 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex,
         frontMaterialRef.current.uniforms.uTexture.value = texture;
       }
     }
-  }, [texture]);;
+  }, [texture]);
 
   useFrame((state, delta) => {
     // Current world angle of this card

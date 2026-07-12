@@ -164,7 +164,7 @@ export default function AutodidactPage() {
       ]
     },
     {
-      src: "/assets/292544889_3277546379149645_1460977192858455652_n.webp",
+      src: "/assets/hacer_el_indio_1783824336337.webp",
       title: "Pedagogía ReCreo",
       subtitle: "Enseñanza libre y curación artística a través de la integración del error.",
       chapterNumber: "CAPÍTULO 03",
