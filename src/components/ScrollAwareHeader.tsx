@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef, ReactNode } from "react";
+import { useEffect, useState, ReactNode } from "react";
 
 interface ScrollAwareHeaderProps {
   children: ReactNode;
@@ -11,56 +11,34 @@ interface ScrollAwareHeaderProps {
 export default function ScrollAwareHeader({
   children,
   className = '',
-  threshold = 80,
+  threshold = 20,
 }: ScrollAwareHeaderProps) {
-  const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const lastScrollY = useRef(0);
-  const ticking = useRef(false);
 
   useEffect(() => {
     const onScroll = () => {
-      if (!ticking.current) {
-        requestAnimationFrame(() => {
-          const currentY = window.scrollY;
-          const delta = currentY - lastScrollY.current;
-
-          // Only trigger after threshold
-          if (currentY > threshold) {
-            setScrolled(true);
-            if (delta > 5) {
-              setHidden(true); // scrolling down
-            } else if (delta < -5) {
-              setHidden(false); // scrolling up
-            }
-          } else {
-            setScrolled(false);
-            setHidden(false);
-          }
-
-          lastScrollY.current = currentY;
-          ticking.current = false;
-        });
-        ticking.current = true;
-      }
+      setScrolled(window.scrollY > threshold);
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
+    // Check initial scroll position
+    onScroll();
+    
     return () => window.removeEventListener('scroll', onScroll);
   }, [threshold]);
 
   return (
     <header
-      className={className}
+      className={`${className} transition-all duration-300 ease-out`}
       style={{
-        transform: hidden ? 'translateY(-110%)' : 'translateY(0)',
-        transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.3s ease',
-        backdropFilter: scrolled ? 'blur(16px) saturate(180%)' : 'none',
-        WebkitBackdropFilter: scrolled ? 'blur(16px) saturate(180%)' : 'none',
-        willChange: 'transform',
+        backdropFilter: scrolled ? 'blur(16px) saturate(180%)' : 'blur(4px)',
+        WebkitBackdropFilter: scrolled ? 'blur(16px) saturate(180%)' : 'blur(4px)',
+        backgroundColor: scrolled ? 'rgba(10, 10, 10, 0.85)' : 'rgba(10, 10, 10, 0.4)',
+        borderColor: scrolled ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.05)',
       }}
     >
       {children}
     </header>
   );
 }
+

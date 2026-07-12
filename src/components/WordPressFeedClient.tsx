@@ -8,22 +8,33 @@ interface WPPost {
   pubDate: string;
   image: string;
 }
+interface WPAPIResponse {
+  items?: WPPost[];
+  error?: string;
+}
 
 export default function WordPressFeedClient() {
   const [posts, setPosts] = useState<WPPost[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/wp')
+    const controller = new AbortController();
+    
+    fetch('/api/wp', { signal: controller.signal })
       .then(res => res.json())
-      .then((data: any) => {
-        if (data && data.items) setPosts(data.items);
+      .then((data: WPAPIResponse) => {
+        if (data.items) {
+          setPosts(data.items);
+        }
         setLoading(false);
       })
       .catch(err => {
+        if (err.name === 'AbortError') return;
         console.error('Failed to load WP posts', err);
         setLoading(false);
       });
+
+    return () => controller.abort();
   }, []);
 
   if (loading) return (
