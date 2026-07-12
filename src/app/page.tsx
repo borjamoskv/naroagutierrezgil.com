@@ -43,7 +43,8 @@ export default function Home() {
   const [appMode, setAppMode] = useState<"CAOS" | "ORDEN">("ORDEN");
   const [webGLReady, setWebGLReady] = useState(false);
   const [activeAlcove, setActiveAlcove] = useState<'pop' | 'pizarra' | 'poliester' | 'kintsugi' | 'mica' | 'reverso'>('pop');
-  const [takeoverArtwork, setTakeoverArtwork] = useState<{ src: string; title: string } | null>(null);
+  const [takeoverArtwork, setTakeoverArtwork] = useState<{ src: string; title: string; category?: string; desc?: string } | null>(null);
+  const [isPersistentTakeover, setIsPersistentTakeover] = useState(false);
   const [takeoverCountdown, setTakeoverCountdown] = useState(4);
   const [isLocal, setIsLocal] = useState(false);
 
@@ -176,9 +177,10 @@ export default function Home() {
   }, []);
 
   // Takeover modal handlers
-  const triggerTakeover = (artwork: { src: string; title: string }) => {
+  const triggerTakeover = (artwork: { src: string; title: string; category?: string; desc?: string }) => {
     setTakeoverArtwork(artwork);
     setTakeoverCountdown(4);
+    setIsPersistentTakeover(false);
     document.body.style.overflow = 'hidden';
     const interval = setInterval(() => {
       setTakeoverCountdown(prev => prev - 1);
@@ -194,8 +196,15 @@ export default function Home() {
     };
   };
 
+  const openFullscreenArtwork = (artwork: { src: string; title: string; category?: string; desc?: string }) => {
+    setTakeoverArtwork(artwork);
+    setIsPersistentTakeover(true);
+    document.body.style.overflow = 'hidden';
+  };
+
   const closeTakeover = () => {
     setTakeoverArtwork(null);
+    setIsPersistentTakeover(false);
     document.body.style.overflow = '';
   };
 
@@ -314,16 +323,16 @@ export default function Home() {
       <PhilosophyStatement />
 
       {/* Mediums & Excavations Tab System */}
-      <AlcoveSystem activeAlcove={activeAlcove} setActiveAlcove={setActiveAlcove} resolveSrc={resolveSrc} />
+      <AlcoveSystem activeAlcove={activeAlcove} setActiveAlcove={setActiveAlcove} resolveSrc={resolveSrc} onExpand={openFullscreenArtwork} />
 
       {/* START: Interactive 3D Canvas Sandbox Details Viewer */}
       <Suspense fallback={<div className="w-full h-96 bg-[#050505]" />}>
-        <LuxuryArtworkViewer />
+        <LuxuryArtworkViewer onExpand={openFullscreenArtwork} />
       </Suspense>
 
       {/* START: 3D Orbital slates gallery */}
       <Suspense fallback={<div className="w-full h-96 bg-[#050505]" />}>
-        <ThreeDCarousel />
+        <ThreeDCarousel onExpand={openFullscreenArtwork} />
       </Suspense>
 
       {/* START: Dynamic Scrollytelling for CAOS mode details */}
@@ -334,7 +343,8 @@ export default function Home() {
 
       <TakeoverModal 
         artwork={takeoverArtwork} 
-        countdown={takeoverCountdown} 
+        countdown={isPersistentTakeover ? null : takeoverCountdown} 
+        isPersistent={isPersistentTakeover}
         getImageUrl={resolveSrc} 
         onClose={closeTakeover}
       />

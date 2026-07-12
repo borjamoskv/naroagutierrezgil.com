@@ -114,7 +114,10 @@ export default function AlcoveSystem({ activeAlcove, setActiveAlcove, resolveSrc
         </div>
 
         {/* Active Alcove Content Card (Widescreen Monumental Display) */}
-        <div className="w-full relative bg-neutral-950 border-y sm:border border-white/10 overflow-hidden group shadow-2xl aspect-[4/5] sm:aspect-[21/9]">
+        <div 
+          onClick={() => onExpand && onExpand({ src: data.image, title: data.title, category: data.material, desc: data.description })}
+          className="w-full relative bg-neutral-950 border-y sm:border border-white/10 overflow-hidden group shadow-2xl aspect-[4/5] sm:aspect-[21/9] cursor-pointer"
+        >
           
           <Image
             src={resolveSrc(data.image)}
@@ -156,8 +159,8 @@ export default function AlcoveSystem({ activeAlcove, setActiveAlcove, resolveSrc
           </div>
 
           {/* Quick HUD overlay in bottom-right (Static, always visible to indicate active universe) */}
-          <div className="absolute top-6 right-6 sm:bottom-6 sm:top-auto sm:right-6 bg-black border border-white/20 px-6 py-3 font-mono text-[10px] tracking-[0.5em] text-[var(--primary)] uppercase pointer-events-none backdrop-blur-xl">
-            [ U-{data.universeNum} ]
+          <div className="absolute top-6 right-6 sm:bottom-6 sm:top-auto sm:right-6 bg-black border border-white/20 group-hover:border-primary/50 px-6 py-3 font-mono text-[10px] tracking-[0.5em] text-[var(--primary)] uppercase pointer-events-none backdrop-blur-xl transition-colors">
+            [ U-{data.universeNum} ] • HAZ CLIC PARA AMPLIAR
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { Canvas, useFrame, useLoader } from '@react-three/fiber';
+import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
 import { useRef, useMemo, useEffect, useState } from 'react';
 import * as THREE from 'three';
 
@@ -44,6 +44,7 @@ const kineticFragmentShader = `
   uniform vec2 uMouse;
   uniform float uHover;
   uniform float uAppMode;
+  uniform vec2 uUvScale;
   
   varying vec2 vUv;
   varying vec3 vNormal;
@@ -54,9 +55,10 @@ const kineticFragmentShader = `
   }
   
   void main() {
-    vec2 uv = vUv;
+    // Apply center cover scaling
+    vec2 uv = (vUv - 0.5) * uUvScale + 0.5;
     
-    // Extreme lens distortion refraction centered at the cursor
+    // Subtle lens distortion refraction centered at the cursor - intensified in CAOS mode
     float dist = distance(uv, uMouse);
     float force = smoothstep(0.4, 0.0, dist);
     vec2 offsetDir = normalize(uv - uMouse);
@@ -130,6 +132,7 @@ function VolumetricPlane({ url, mouse, isHovered }: { url: string; mouse: THREE.
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const texture = useLoader(THREE.TextureLoader, url);
   const [appModeVal, setAppModeVal] = useState(0.0);
+  const { width, height } = useThree((state) => state.viewport);
 
   // Monitor global dimension state changes reactively
   useEffect(() => {
@@ -145,12 +148,28 @@ function VolumetricPlane({ url, mouse, isHovered }: { url: string; mouse: THREE.
     return () => window.removeEventListener('dimension-changed', handleDimension);
   }, []);
 
+  // Compute cover scale vectors based on aspect ratios
+  const uvScale = useMemo(() => {
+    const scale = new THREE.Vector2(1, 1);
+    if (!texture || !texture.image) return scale;
+    const textureAspect = texture.image.width / texture.image.height;
+    const viewportAspect = width / height;
+
+    if (textureAspect > viewportAspect) {
+      scale.set(viewportAspect / textureAspect, 1);
+    } else {
+      scale.set(1, textureAspect / viewportAspect);
+    }
+    return scale;
+  }, [texture, width, height]);
+
   const uniforms = useMemo(() => ({
     uTexture: { value: null as THREE.Texture | null },
     uTime: { value: 0.0 },
     uMouse: { value: mouse },
     uHover: { value: 0.0 },
-    uAppMode: { value: 0.0 }
+    uAppMode: { value: 0.0 },
+    uUvScale: { value: new THREE.Vector2(1, 1) }
   }), [mouse]);
 
   useEffect(() => {
@@ -175,12 +194,13 @@ function VolumetricPlane({ url, mouse, isHovered }: { url: string; mouse: THREE.
         appModeVal,
         delta * 5.0
       );
+      materialRef.current.uniforms.uUvScale.value.copy(uvScale);
     }
   });
 
   return (
     <mesh ref={meshRef}>
-      <planeGeometry args={[2.0, 2.5, 32, 32]} />
+      <planeGeometry args={[width, height, 32, 32]} />
       <shaderMaterial
         ref={materialRef}
         vertexShader={kineticVertexShader}
