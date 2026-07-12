@@ -74,72 +74,88 @@ export default function AlcoveSystem({ activeAlcove, setActiveAlcove, resolveSrc
   const data = alcoveData[activeAlcove];
 
   return (
-    <section id="alcobas" className="relative z-10 px-6 sm:px-12 py-32 bg-black/60 border-t border-white/5 overflow-hidden">
-      <div className="max-w-7xl mx-auto w-full">
+    <section id="alcobas" className="relative z-10 px-0 sm:px-12 py-32 bg-black border-t border-white/5 overflow-hidden">
+      <div className="max-w-[100rem] mx-auto w-full">
 
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-20">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mb-20 px-6 sm:px-0">
           <div>
-            <span className="text-[#2B3BE5] font-mono tracking-[0.4em] text-[9px] uppercase block mb-3">
+            <span className="text-[var(--primary)] font-mono tracking-[0.5em] text-[10px] uppercase block mb-4 border-l-2 border-[var(--primary)] pl-4">
               Yacimientos del Retrato
             </span>
-            <h2 className="text-3xl sm:text-5xl font-brutal-title text-white">
-              Materia & Fisura
+            <h2 className="text-4xl sm:text-7xl font-sans font-black text-white uppercase tracking-tighter leading-none mix-blend-difference">
+              Materia <br/> & Fisura
             </h2>
           </div>
-          <p className="max-w-md text-white/40 font-sans text-xs tracking-wider leading-relaxed">
-            Explore los 6 pilares constructivos donde la técnica mixta y el soporte de pizarra desafían los límites bidimensionales de la pintura.
+          <p className="max-w-md text-white/50 font-mono text-xs tracking-widest leading-relaxed border-t border-white/10 pt-4">
+            Explore los 6 pilares constructivos donde la técnica mixta y el soporte de pizarra desafían los límites bidimensionales de la pintura contemporánea.
           </p>
         </div>
 
-        {/* Alcove tabs */}
-        <div className="flex justify-center gap-12 mb-16 border-b border-white/5 pb-6">
+        {/* Alcove tabs - Brutalist Navigation */}
+        <div className="flex flex-wrap justify-center sm:justify-start gap-4 sm:gap-12 mb-16 px-6 sm:px-0">
           {alcoveTabs.map(alcove => (
             <button
               key={alcove.id}
               onClick={() => setActiveAlcove(alcove.id as AlcoveId)}
-              className={`py-2 cursor-pointer transition-all duration-500 font-serif text-lg tracking-widest ${
+              className={`relative py-2 sm:py-4 cursor-pointer transition-all duration-500 font-mono text-sm sm:text-lg tracking-[0.3em] overflow-hidden group ${
                 activeAlcove === alcove.id
-                  ? 'text-white border-b border-[#2B3BE5] scale-125 font-bold'
-                  : 'text-white/30 hover:text-white/60 border-b border-transparent'
+                  ? 'text-white font-bold'
+                  : 'text-white/30 hover:text-white/80'
               }`}
             >
-              {alcove.num}
+              <span className="relative z-10">{alcove.num}</span>
+              {/* Animated underline */}
+              <div className={`absolute bottom-0 left-0 h-[2px] bg-[var(--primary)] transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] ${
+                activeAlcove === alcove.id ? 'w-full' : 'w-0 group-hover:w-full'
+              }`} />
             </button>
           ))}
         </div>
 
         {/* Active Alcove Content Card (Widescreen Monumental Display) */}
-        <div className="w-full relative bg-neutral-950/80 border border-white/5 rounded-sm overflow-hidden group shadow-2xl aspect-[16/9] md:aspect-[21/9]">
+        <div className="w-full relative bg-neutral-950 border-y sm:border border-white/10 overflow-hidden group shadow-2xl aspect-[4/5] sm:aspect-[21/9]">
+          
           <Image
             src={resolveSrc(data.image)}
             alt={data.title}
             fill
             sizes="100vw"
-            quality={95}
-            className="object-cover transition-transform duration-[3s] ease-out group-hover:scale-105"
+            quality={100}
+            className="object-cover transition-transform duration-[4s] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:scale-110 filter contrast-125 saturate-50 group-hover:saturate-100"
           />
 
-          {/* Vignette overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/30 pointer-events-none transition-all duration-700 group-hover:from-black/95" />
+          {/* CRT Scanline Overlay */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none opacity-40 mix-blend-overlay" />
           
-          {/* Subtle kinetic grid pattern */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:40px_40px] opacity-20 pointer-events-none" />
+          {/* Vignette overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none transition-all duration-700 group-hover:from-black/90" />
+
+          {/* Colossal Number Overlay */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] sm:text-[30vw] font-black text-white/5 font-sans leading-none pointer-events-none mix-blend-overlay transition-transform duration-1000 group-hover:scale-150">
+            {data.universeNum}
+          </div>
 
           {/* Minimal Hover HUD overlay (Reveals text info only when hovered) */}
-          <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-16 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-black/60 backdrop-blur-[3px] pointer-events-none">
-            <span className="text-[#2B3BE5] font-mono text-[9px] tracking-[0.5em] uppercase mb-3">
-              Universo {data.universeNum} // {data.material}
-            </span>
-            <h3 className="text-2xl sm:text-4xl font-serif font-light text-white uppercase tracking-wider mb-4">
-              {data.title}
-            </h3>
-            <p className="text-white/60 font-sans text-xs tracking-wider max-w-xl leading-relaxed">
-              {data.description}
-            </p>
+          <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-20 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-1000 bg-transparent sm:bg-black/60 sm:backdrop-blur-md pointer-events-none">
+            
+            <div className="translate-y-0 sm:translate-y-10 group-hover:translate-y-0 transition-transform duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)]">
+              <span className="text-[var(--primary)] font-mono text-[10px] tracking-[0.6em] uppercase mb-4 block animate-pulse">
+                System: {data.universeNum} // {data.material}
+              </span>
+              
+              <h3 className="text-3xl sm:text-6xl font-sans font-black text-white uppercase tracking-tighter mb-6 leading-none shadow-black drop-shadow-2xl">
+                {data.title}
+              </h3>
+              
+              <p className="text-white/80 font-mono text-xs sm:text-sm tracking-wider max-w-2xl leading-relaxed border-l border-[var(--primary)] pl-6 bg-black/40 p-4 backdrop-blur-lg">
+                {data.description}
+              </p>
+            </div>
+
           </div>
 
           {/* Quick HUD overlay in bottom-right (Static, always visible to indicate active universe) */}
-          <div className="absolute bottom-6 right-6 bg-black/85 border border-white/10 px-4 py-2 font-mono text-[9px] tracking-[0.4em] text-white uppercase pointer-events-none">
+          <div className="absolute top-6 right-6 sm:bottom-6 sm:top-auto sm:right-6 bg-black border border-white/20 px-6 py-3 font-mono text-[10px] tracking-[0.5em] text-[var(--primary)] uppercase pointer-events-none backdrop-blur-xl">
             [ U-{data.universeNum} ]
           </div>
         </div>
@@ -148,3 +164,4 @@ export default function AlcoveSystem({ activeAlcove, setActiveAlcove, resolveSrc
     </section>
   );
 }
+
