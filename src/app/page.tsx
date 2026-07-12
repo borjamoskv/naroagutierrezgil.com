@@ -235,95 +235,76 @@ export default function Home() {
       )}
 
       {/* Header & Navigation */}
-      <ScrollAwareHeader className="fixed top-0 left-0 w-full px-6 sm:px-12 py-6 flex flex-col justify-between items-center z-[210] mix-blend-difference pointer-events-auto select-none text-white border-b border-white/5 bg-black/20 animate-[fadeIn_1.5s_ease-out_both]">
-        <div className="w-full flex justify-between items-center">
-          <div className="flex flex-col">
-            <span className="font-sans text-[10px] tracking-[0.5em] uppercase font-bold text-[var(--primary)]">
-              Naroa Gutiérrez Gil
-            </span>
-            <span className="font-sans text-[7px] tracking-[0.3em] uppercase opacity-40 mt-1">
-              Hiperrealismo Pop & Alquimia Vasca
-            </span>
-          </div>
-
-          <div className="flex items-center gap-6">
-            {/* Color Palette Switcher */}
-            <div className="hidden md:flex items-center gap-2 bg-black/45 backdrop-blur-md border border-white/5 p-2 rounded-full">
-              {[
-                { hex: '#2B3BE5', label: 'Cobalto' },
-                { hex: '#F59E0B', label: 'Oro' },
-                { hex: '#E52B3B', label: 'Crimson' },
-                { hex: '#10B981', label: 'Esmeralda' }
-              ].map((colorObj) => (
-                <button
-                  key={colorObj.hex}
-                  onClick={() => updatePrimaryColor(colorObj.hex)}
-                  style={{ backgroundColor: colorObj.hex }}
-                  title={colorObj.label}
-                  className="w-3.5 h-3.5 rounded-full border border-white/20 hover:scale-125 transition-transform cursor-pointer"
-                />
-              ))}
-            </div>
-
-            <Link
-              id="nav-biografia"
-              href="/biografia"
-              className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
-            >
-              Biografía
-            </Link>
-
-            <Link
-              id="nav-autodidact"
-              href="/autodidact"
-              className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
-            >
-              Autodidacta
-            </Link>
-
-            <Link
-              id="nav-blog"
-              href="/blog"
-              className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
-            >
-              Bitácora
-            </Link>
-
-            <Link
-              id="nav-contacto"
-              href="/contacto"
-              className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
-            >
-              Contacto
-            </Link>
-
-            <a
-              id="nav-laboratorio"
-              href="https://naroa.online"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)] text-primary"
-            >
-              Laboratorio 3D
-            </a>
-
-            <button 
-              id="btn-dimension-toggle"
-              onClick={() => setAppMode(prev => prev === 'ORDEN' ? 'CAOS' : 'ORDEN')}
-              className="font-mono text-[9px] tracking-widest uppercase bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-sm shadow-[0_0_15px_rgba(255,255,255,0.02)]"
-            >
-              Dimensión: {appMode}
-            </button>
-          </div>
-        </div>
-
-        {/* Laboratorio HUD Subtitle */}
-        <div className="w-full mt-4 pt-3 border-t border-white/5 flex justify-center">
-          <span className="font-sans text-[8px] tracking-[0.4em] text-white/50 uppercase">
-            Laboratorio de Pintura & Alquimia Lítica • Bilbao 2026
+      <ScrollAwareHeader className="fixed top-6 left-1/2 -translate-x-1/2 w-[max-content] px-1.5 py-1.5 flex items-center z-[210] pointer-events-auto select-none text-white border border-white/10 rounded-[2rem] animate-[fadeIn_1.5s_ease-out_both] shadow-[0_0_40px_rgba(0,0,0,0.8)]">
+        <div className="flex items-center gap-1">
+          <span className="font-sans text-xs font-bold text-white px-4 cursor-default">
+            N
           </span>
+
+          <Link
+            href="/"
+            className="font-mono text-[10px] tracking-widest uppercase bg-[var(--primary)]/10 text-[var(--primary)] border border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-[2rem]"
+          >
+            Home
+          </Link>
+
+          <button
+            onClick={() => document.getElementById('alcove-system')?.scrollIntoView({ behavior: 'smooth' })}
+            className="font-mono text-[10px] tracking-widest uppercase bg-transparent hover:bg-white/5 border border-transparent hover:border-white/20 text-white/70 hover:text-white px-4 py-2 transition-all cursor-pointer rounded-[2rem]"
+          >
+            Obra
+          </button>
+
+          <Link
+            href="/biografia"
+            className="font-mono text-[10px] tracking-widest uppercase bg-transparent hover:bg-white/5 border border-transparent hover:border-white/20 text-white/70 hover:text-white px-4 py-2 transition-all cursor-pointer rounded-[2rem]"
+          >
+            Trayectoria
+          </Link>
+
+          <Link
+            href="/autodidact"
+            className="font-mono text-[10px] tracking-widest uppercase bg-transparent hover:bg-white/5 border border-transparent hover:border-white/20 text-white/70 hover:text-white px-4 py-2 transition-all cursor-pointer rounded-[2rem]"
+          >
+            Sobre mí
+          </Link>
+
+          <Link
+            href="/contacto"
+            className="font-mono text-[10px] tracking-widest uppercase bg-transparent hover:bg-[var(--primary)]/10 border border-[var(--primary)]/30 hover:border-[var(--primary)] text-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-[2rem]"
+          >
+            Contacto
+          </Link>
         </div>
       </ScrollAwareHeader>
+
+      {/* Floating Utilities (Dimension & Color Palette) */}
+      <div className="fixed bottom-6 left-6 z-[210] flex flex-col gap-3 pointer-events-auto items-start animate-[fadeIn_2s_ease-out_both]">
+        {/* Color Palette Switcher */}
+        <div className="hidden md:flex items-center gap-2 bg-black/40 backdrop-blur-xl border border-white/10 px-3 py-2 rounded-full shadow-lg">
+          {[
+            { hex: '#2B3BE5', label: 'Cobalto' },
+            { hex: '#F59E0B', label: 'Oro' },
+            { hex: '#E52B3B', label: 'Crimson' },
+            { hex: '#10B981', label: 'Esmeralda' }
+          ].map((colorObj) => (
+            <button
+              key={colorObj.hex}
+              onClick={() => updatePrimaryColor(colorObj.hex)}
+              style={{ backgroundColor: colorObj.hex }}
+              title={colorObj.label}
+              className="w-3 h-3 rounded-full border border-white/20 hover:scale-125 transition-transform cursor-pointer"
+            />
+          ))}
+        </div>
+
+        <button 
+          onClick={() => setAppMode(prev => prev === 'ORDEN' ? 'CAOS' : 'ORDEN')}
+          className="font-mono text-[9px] tracking-widest uppercase bg-black/40 backdrop-blur-xl hover:bg-black/80 border border-white/10 hover:border-[var(--primary)] px-4 py-2 transition-all cursor-pointer rounded-full shadow-lg text-white"
+        >
+          Dimensión: <span className="text-[var(--primary)]">{appMode}</span>
+        </button>
+      </div>
 
       {/* Hero Section */}
       <HeroSection resolveSrc={resolveSrc} heroSectionRef={heroSectionRef} descenderRef={descenderRef} />
