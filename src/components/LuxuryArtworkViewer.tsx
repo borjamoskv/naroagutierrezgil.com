@@ -3,6 +3,8 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { Html, Environment, Float, ContactShadows, Lightformer } from '@react-three/drei';
+import { EffectComposer, Bloom, Vignette, ChromaticAberration, Noise } from '@react-three/postprocessing';
+import { BlendFunction } from 'postprocessing';
 import * as THREE from 'three';
 
 // Shaders for Interactive Canvas Details Viewer
@@ -663,6 +665,21 @@ export default function LuxuryArtworkViewer({ onExpand }: { onExpand?: (artwork:
 
                 {/* Hyper-realistic physical shadow on an invisible floor plane */}
                 <ContactShadows position={[0, -1.3, 0]} opacity={0.65} scale={5} blur={2.5} far={4} color="#000000" />
+
+                {/* SOTA AWWWARDS Post-Processing Pipeline */}
+                <EffectComposer disableNormalPass multisampling={8}>
+                  {/* Glowing gold veins and mica mineral reflections */}
+                  <Bloom luminanceThreshold={1.2} mipmapBlur intensity={1.5} />
+                  {/* Lens dispersion (Chromatic Aberration) based on edge radius */}
+                  <ChromaticAberration 
+                    blendFunction={BlendFunction.NORMAL}
+                    offset={new THREE.Vector2(0.0005, 0.0005)}
+                  />
+                  {/* Subtle film grain for physical camera feel */}
+                  <Noise opacity={0.035} blendFunction={BlendFunction.OVERLAY} />
+                  {/* Darkened edges focusing attention on the artwork */}
+                  <Vignette eskil={false} offset={0.1} darkness={1.1} />
+                </EffectComposer>
               </Canvas>
             </div>
 
