@@ -6,6 +6,7 @@ import useLenis from '@/hooks/useLenis';
 import HeroFluid from '@/components/HeroFluid';
 import ScrollReveal from '@/components/ScrollReveal';
 import Footer from '@/components/Footer';
+import GlobalNavigation from '@/components/GlobalNavigation';
 
 export default function Contacto() {
   const [formData, setFormData] = useState({
@@ -58,7 +59,7 @@ export default function Contacto() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitStatus('sending');
 
@@ -66,30 +67,32 @@ export default function Contacto() {
     const tamanoLabel = formData.tamano === 'pequeno' ? 'Pequeño (20x30 cm)' : formData.tamano === 'mediano' ? 'Mediano (30x40 cm)' : formData.tamano === 'grande' ? 'Grande (40x60 cm)' : 'Tamaño Personalizado';
     const inversionLabel = formData.inversion === 'bajo' ? 'Menos de 500€' : formData.inversion === '500-1500' ? 'Entre 500€ y 1500€' : 'Más de 1500€';
 
-    try {
-      // TODO: Replace 'placeholder' with actual Formspree form ID
-      const res = await fetch('https://formspree.io/f/placeholder', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          nombre: formData.nombre,
-          email: formData.email,
-          tipo: tipoLabel,
-          tamano: tamanoLabel,
-          inversion: inversionLabel,
-          estimacion: `${estimatedPrice.min}€ - ${estimatedPrice.max}€`,
-          detalles: formData.detalles,
-        }),
-      });
+    const subject = encodeURIComponent(`Propuesta de Obra: ${tipoLabel} - ${formData.nombre}`);
+    const body = encodeURIComponent(`Hola Naroa,
 
-      if (res.ok) {
-        setSubmitStatus('success');
-      } else {
-        setSubmitStatus('error');
-      }
-    } catch {
-      setSubmitStatus('error');
-    }
+Soy ${formData.nombre} (${formData.email}) y me gustaría encargar una obra.
+
+DETALLES TÉCNICOS:
+------------------
+- Tipo: ${tipoLabel}
+- Tamaño: ${tamanoLabel}
+- Presupuesto Previsto: ${inversionLabel}
+- Estimación de la Calculadora: ${estimatedPrice.min}€ - ${estimatedPrice.max}€
+
+IDEA / CONCEPTO:
+----------------
+${formData.detalles}
+
+¡Espero tus comentarios!
+`);
+
+    // Abre el cliente de correo por defecto
+    window.location.href = `mailto:naroa.gutierrez.gil@gmail.com?subject=${subject}&body=${body}`;
+    
+    // Asumimos éxito al abrir el cliente
+    setTimeout(() => {
+      setSubmitStatus('success');
+    }, 1000);
   };
 
   return (
@@ -101,19 +104,7 @@ export default function Contacto() {
       </div>
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 p-6 sm:p-12 mix-blend-difference flex justify-between items-center">
-        <Link 
-          href="/" 
-          className="group flex items-center gap-4 text-white/50 hover:text-white transition-colors duration-500"
-        >
-          <div className="w-8 h-[1px] bg-white/30 group-hover:bg-[#2B3BE5] group-hover:w-16 transition-all duration-700" />
-          <span className="font-sans text-[9px] tracking-[0.4em] uppercase">Retorno al Laboratorio</span>
-        </Link>
-        <div className="flex items-center gap-6">
-          <Link href="/biografia" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Biografía</Link>
-          <Link href="/autodidact" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Autodidacta</Link>
-        </div>
-      </nav>
+      <GlobalNavigation />
 
       <main id="main-content" className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 pt-40 pb-32">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">

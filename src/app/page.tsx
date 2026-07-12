@@ -20,7 +20,7 @@ const SOTAFX = dynamic(() => import('@/components/SOTAFX'), { ssr: false });
 const Mica = dynamic(() => import('@/components/Mica'), { ssr: false });
 const ScrollyTelling = dynamic(() => import('@/components/ScrollyTelling'));
 const TakeoverModal = dynamic(() => import('@/components/TakeoverModal'));
-const GlobalNavigation = dynamic(() => import('@/components/GlobalNavigation'), { ssr: false });
+const GlobalNavigation = dynamic(() => import('@/components/GlobalNavigation'));
 const Footer = dynamic(() => import('@/components/Footer'));
 const WordPressPortal = dynamic(() => import('@/components/WordPressPortal'));
 const WordPressFeedClient = dynamic(() => import('@/components/WordPressFeedClient'));

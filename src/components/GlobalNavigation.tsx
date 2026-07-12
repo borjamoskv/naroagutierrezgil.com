@@ -1,16 +1,28 @@
+"use client";
+
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import ScrollAwareHeader from './ScrollAwareHeader';
 
 export default function GlobalNavigation() {
+  const pathname = usePathname();
+  const router = useRouter();
+
   const scrollToTop = () => {
-    if (typeof window !== 'undefined') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (pathname === '/') {
+      if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      router.push('/');
     }
   };
 
   const scrollToAlcove = () => {
-    if (typeof document !== 'undefined') {
-      document.getElementById('alcove-system')?.scrollIntoView({ behavior: 'smooth' });
+    if (pathname === '/') {
+      if (typeof document !== 'undefined') {
+        document.getElementById('alcove-system')?.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      router.push('/#alcove-system');
     }
   };
 
