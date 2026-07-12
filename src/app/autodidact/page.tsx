@@ -11,6 +11,7 @@ import MagneticButton from "@/components/MagneticButton";
 import AudioSynthesizer from "@/components/AudioSynthesizer";
 import ScrollReveal from "@/components/ScrollReveal";
 import Footer from "@/components/Footer";
+import ScrollAwareHeader from "@/components/ScrollAwareHeader";
 
 /**
  * Autodidact page - A premium interactive experience inspired by Dennis Snellenberg and Immersive Garden.
@@ -180,32 +181,74 @@ export default function AutodidactPage() {
       </div>
       <InteractiveSlateCanvas disabled={reducedMotion} />
 
-      {/* Floating HUD - Cinematic System Indicators (Immersive Garden style) */}
-      <div className="fixed top-0 left-0 w-full z-45 p-6 sm:p-8 flex justify-between items-start pointer-events-none mix-blend-difference select-none">
-        <div className="flex flex-col gap-1">
-          <span className="font-mono text-[9px] tracking-[0.4em] uppercase text-primary">
-            SYS_ID: NAROA_AUTODIDACT_KERN
-          </span>
-          <span className="font-mono text-[8px] tracking-[0.2em] text-white/30 uppercase">
-            REALITY LEVEL: C5-REAL | CREATOR: borjamoskv
-          </span>
-        </div>
+      {/* Floating Pill Navigation */}
+      <ScrollAwareHeader className="fixed top-6 left-1/2 -translate-x-1/2 w-auto px-2 py-2 flex items-center z-[210] pointer-events-auto select-none text-white rounded-full animate-[fadeIn_1.5s_ease-out_both] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.8)] border border-white/10 mix-blend-normal bg-[#111]/80 backdrop-blur-2xl">
+        <div className="flex items-center gap-1">
+          <Link href="/" className="group flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-[var(--primary)] transition-colors duration-300 ml-1 mr-2">
+            <span className="font-sans text-sm font-black text-white group-hover:text-black transition-colors duration-300">N</span>
+          </Link>
 
-        <div className="flex flex-col items-end gap-1 text-right">
-          <span className="font-mono text-[9px] tracking-[0.3em] text-white/50 uppercase">
-            COORDS: X: {mousePos.x} | Y: {mousePos.y}
-          </span>
-          <span className="font-mono text-[9px] tracking-[0.3em] text-primary uppercase">
-            ENTROPY: {entropyRate}% | FRACTURES: ACTIVE
-          </span>
+          <Link
+            href="/"
+            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
+          >
+            Inicio
+          </Link>
+
+          <Link
+            href="/#alcove-system"
+            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
+          >
+            Obra
+          </Link>
+
+          <Link
+            href="/biografia"
+            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
+          >
+            Trayectoria
+          </Link>
+
+          <button
+            onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-white/10 text-[var(--primary)] px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
+          >
+            Filosofía
+          </button>
+
+          <Link
+            href="/contacto"
+            className="ml-2 font-mono text-[9.5px] tracking-[0.2em] uppercase bg-[var(--primary)] hover:bg-white text-white hover:text-black px-5 py-2.5 transition-all duration-300 cursor-pointer rounded-full font-bold shadow-[0_0_15px_rgba(var(--primary-rgb),0.4)] hover:shadow-[0_0_20px_rgba(255,255,255,0.6)]"
+          >
+            Contacto
+          </Link>
         </div>
+      </ScrollAwareHeader>
+
+      {/* Floating HUD - Cinematic System Indicators (Immersive Garden style) */}
+      <div className="fixed top-24 left-8 z-45 flex flex-col gap-1 pointer-events-none mix-blend-difference select-none opacity-60">
+        <span className="font-mono text-[9px] tracking-[0.4em] uppercase text-[var(--primary)]">
+          SYS_ID: NAROA_AUTODIDACT_KERN
+        </span>
+        <span className="font-mono text-[8px] tracking-[0.2em] text-white/50 uppercase">
+          REALITY LEVEL: C5-REAL | CREATOR: borjamoskv
+        </span>
+      </div>
+
+      <div className="fixed top-24 right-8 z-45 flex flex-col items-end gap-1 text-right pointer-events-none mix-blend-difference select-none opacity-60">
+        <span className="font-mono text-[9px] tracking-[0.3em] text-white/70 uppercase">
+          COORDS: X: {mousePos.x} | Y: {mousePos.y}
+        </span>
+        <span className="font-mono text-[9px] tracking-[0.3em] text-[var(--primary)] uppercase">
+          ENTROPY: {entropyRate}% | FRACTURES: ACTIVE
+        </span>
       </div>
 
       {/* Vertical Navigation Bar (Side progress tracker) */}
       <div className="fixed left-8 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-8 items-center pointer-events-auto mix-blend-difference">
         <div className="relative w-[2px] h-32 bg-white/10 overflow-hidden">
           <div
-            className="absolute top-0 left-0 w-full bg-primary transition-all duration-300"
+            className="absolute top-0 left-0 w-full bg-[var(--primary)] transition-all duration-300"
             style={{ height: `${scrollProgress * 100}%` }}
           />
         </div>
@@ -213,22 +256,6 @@ export default function AutodidactPage() {
           SCROLL PROGRESS
         </span>
       </div>
-
-      {/* Page Header Back-Link */}
-      <nav className="fixed top-0 left-0 w-full z-50 p-6 sm:p-12 mix-blend-difference pointer-events-auto flex justify-between items-center">
-        <Link
-          href="/"
-          className="group flex items-center gap-4 text-white/50 hover:text-white transition-colors duration-500 w-max"
-        >
-          <div className="w-8 h-[1px] bg-white/30 group-hover:bg-[#2B3BE5] group-hover:w-16 transition-all duration-700" />
-          <span className="font-sans text-[9px] tracking-[0.4em] uppercase">Retorno al Laboratorio</span>
-        </Link>
-        <div className="flex items-center gap-6">
-          <Link href="/biografia" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Biografía</Link>
-          <Link href="/blog" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Bitácora</Link>
-          <Link href="/contacto" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Contacto</Link>
-        </div>
-      </nav>
 
       {/* MAIN STORYTELLING TRACK */}
       <main id="main-content" className="relative z-20 pt-44 pb-32 max-w-7xl mx-auto px-6 sm:px-12">
@@ -251,8 +278,8 @@ export default function AutodidactPage() {
             </span>
           </h1>
 
-          <div className="max-w-2xl text-lg sm:text-xl font-light text-white/60 leading-relaxed border-l border-primary/20 pl-8 py-4 mt-12 relative">
-            <div className="absolute left-0 top-0 w-[1px] h-12 bg-primary shadow-[0_0_10px_rgba(43,59,229,1)]" />
+          <div className="max-w-2xl text-lg sm:text-xl font-light text-white/60 leading-relaxed border-l border-[var(--primary)]/20 pl-8 py-4 mt-12 relative">
+            <div className="absolute left-0 top-0 w-[1px] h-12 bg-[var(--primary)] shadow-[0_0_10px_rgba(43,59,229,1)]" />
             <p>
               Naroa Gutiérrez Gil es una <strong className="text-white font-normal">artivista autodidacta</strong>. Su trayectoria rechaza los lienzos tradicionales para excavar la materia: pizarra rescatada de derribos y mica mineral translúcida. Cada pieza es una batalla física con el mineral.
             </p>
@@ -309,10 +336,10 @@ export default function AutodidactPage() {
         {/* THE PEDAGOGY OF ERROR DETAIL SECTION */}
         <ScrollReveal>
         <section className="mb-44 py-16 px-8 sm:px-16 bg-[#0A0A0A] border border-white/5 rounded-sm relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[var(--primary)]/5 rounded-full blur-[100px] pointer-events-none" />
           
           <div className="max-w-3xl space-y-8 relative z-10">
-            <span className="font-mono text-[9px] tracking-[0.4em] text-primary uppercase">
+            <span className="font-mono text-[9px] tracking-[0.4em] text-[var(--primary)] uppercase">
               METODOLOGÍA DE SANACIÓN // EL RECREO
             </span>
             <h3 className="font-serif text-4xl sm:text-5xl uppercase tracking-wide text-white">
@@ -321,7 +348,7 @@ export default function AutodidactPage() {
             <p className="text-white/60 font-light text-lg leading-relaxed">
               En sus talleres libres (<em className="text-white font-normal">&ldquo;El ReCreo&rdquo;</em>, <em className="text-white font-normal">&ldquo;Yo Pinto Mucho&rdquo;</em>), Naroa enseña sin modelos preestablecidos. El error se abraza de forma terapéutica y reparadora: las imperfecciones en el trazo o la mezcla fallida no se desechan, sino que se destacan, se raspan y se sellan con mica mineral y brillo, convirtiendo la cicatriz del lienzo en el centro luminoso de la obra.
             </p>
-            <p className="text-white/40 text-sm leading-relaxed border-l-2 border-primary pl-6">
+            <p className="text-white/40 text-sm leading-relaxed border-l-2 border-[var(--primary)] pl-6">
               &ldquo;No buscamos copiar un modelo ideal; buscamos liberar la expresión reprimida. La pizarra rota es el soporte de una resiliencia tangible.&rdquo;
             </p>
           </div>
@@ -340,7 +367,7 @@ export default function AutodidactPage() {
               <MagneticButton
                 range={70}
                 strength={0.3}
-                className="px-10 py-6 bg-primary hover:bg-[#1E2BC5] text-white font-mono text-xs tracking-[0.3em] uppercase rounded-full shadow-[0_0_30px_rgba(43,59,229,0.3)] transition-all"
+                className="px-10 py-6 bg-[var(--primary)] hover:bg-[#1E2BC5] text-white font-mono text-xs tracking-[0.3em] uppercase rounded-full shadow-[0_0_30px_rgba(43,59,229,0.3)] transition-all"
               >
                 Volver a la Galería
               </MagneticButton>
@@ -372,7 +399,7 @@ export default function AutodidactPage() {
       <div className="fixed bottom-6 left-6 z-50 flex gap-4 pointer-events-auto mix-blend-difference select-none text-[9px] font-mono tracking-widest text-white/50">
         <button
           onClick={() => setReducedMotion((p) => !p)}
-          className="hover:text-primary transition-colors cursor-pointer"
+          className="hover:text-[var(--primary)] transition-colors cursor-pointer"
           title="Alternar animaciones"
         >
           [M] MOVIMIENTO: {reducedMotion ? "REDUCIDO" : "NORMAL"}
