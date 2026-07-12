@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import useLenis from '@/hooks/useLenis';
 import HeroFluid from '@/components/HeroFluid';
 import ScrollReveal from '@/components/ScrollReveal';
