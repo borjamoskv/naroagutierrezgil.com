@@ -67,6 +67,26 @@ const heroFragmentShader = `
   float hash(vec2 p) {
     return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
   }
+
+  // FBM (Fractal Brownian Motion) for Slate Texture
+  float noise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    vec2 u = f*f*(3.0-2.0*f);
+    return mix(mix(hash(i + vec2(0.0,0.0)), hash(i + vec2(1.0,0.0)), u.x),
+               mix(hash(i + vec2(0.0,1.0)), hash(i + vec2(1.0,1.0)), u.x), u.y);
+  }
+
+  float fbm(vec2 p) {
+    float f = 0.0;
+    float w = 0.5;
+    for (int i = 0; i < 5; i++) {
+      f += w * noise(p);
+      p *= 2.0;
+      w *= 0.5;
+    }
+    return f;
+  }
   
   void main() {
     // Scroll disintegration dissolve
@@ -74,66 +94,77 @@ const heroFragmentShader = `
       discard;
     }
     
-    // Glitch coordinates offset in CHAOS mode
     vec2 uv = vUv;
+    
+    // 1. Excavación Volumétrica: Oscuridad casi absoluta, la luz revela la materia
+    float distToMouse = distance(uv, uMouse);
+    float lightIntensity = smoothstep(0.45, 0.02, distToMouse);
+    
+    // 2. Realidad Inestable / CHAOS Mode Glitch
     if (uAppMode > 0.01) {
-      float glitchForce = sin(uTime * 15.0 + vUv.y * 40.0) * 0.005 * uAppMode;
+      float glitchForce = sin(uTime * 15.0 + vUv.y * 40.0) * 0.008 * uAppMode;
       uv.x += glitchForce;
     }
     
     vec4 texColor = texture2D(uTexture, uv);
     
-    // Normalize vectors
-    vec3 normal = normalize(vNormal);
+    // Bump mapping procedural: Slate texture
+    float bump = fbm(uv * 15.0);
+    
+    // Avoid calculating derivatives manually on standard WebGL if dFdx is not supported natively, 
+    // but in WebGL2 it is. We can do a small offset if needed, but dFdx/dFdy is standard in most environments now.
+    // However, to ensure 100% compatibility, we use a simple procedural offset.
+    float bumpX = fbm(uv * 15.0 + vec2(0.01, 0.0));
+    float bumpY = fbm(uv * 15.0 + vec2(0.0, 0.01));
+    vec3 normal = normalize(vNormal + vec3(bumpX - bump, bumpY - bump, 0.0) * 8.0);
     vec3 viewDir = normalize(vViewPosition);
     
-    // Mouse light point in UV space
-    vec3 lightPos = vec3(uMouse.x - 0.5, uMouse.y - 0.5, 0.45);
+    // Dynamic Spotlight
+    vec3 lightPos = vec3(uMouse.x - 0.5, uMouse.y - 0.5, 0.3 + 0.2 * uAppMode);
     vec3 surfacePos = vec3(vUv.x - 0.5, vUv.y - 0.5, vDepth);
     vec3 lightDir = normalize(lightPos - surfacePos);
     
-    // Diffuse component (spotlight effect)
-    float distanceFactor = 1.0 - smoothstep(0.0, 0.7, distance(vUv, uMouse));
-    float diff = max(dot(normal, lightDir), 0.0) * (0.4 + 0.6 * distanceFactor);
+    float diff = max(dot(normal, lightDir), 0.0);
     
-    // Specular highlight
     vec3 halfDir = normalize(lightDir + viewDir);
-    float spec = pow(max(dot(normal, halfDir), 0.0), 32.0);
+    float spec = pow(max(dot(normal, halfDir), 0.0), 48.0);
     
-    // Procedural Mica Sparkles
-    float micaFrequency = 200.0;
-    float micaNoise = hash(floor(vUv * micaFrequency));
+    // 3. Microscopio Neural: Mica procedimental (Escamas de mineral)
+    float micaFrequency = 300.0;
+    float micaNoise = hash(floor(vUv * micaFrequency) + uTime * 0.1 * uAppMode);
     float micaSparkle = 0.0;
-    if (micaNoise > 0.94) {
-      float angleFactor = max(dot(normal, halfDir), 0.0);
-      float speed = 1.2 + micaNoise * 1.8;
-      float blink = 0.3 + 0.7 * sin(uTime * speed + micaNoise * 12.0);
-      micaSparkle = pow(angleFactor, 64.0) * blink * (0.5 + 0.5 * distanceFactor);
+    if (micaNoise > 0.95) {
+      float speed = 1.0 + micaNoise * 2.0;
+      float blink = 0.5 + 0.5 * sin(uTime * speed + micaNoise * 20.0);
+      micaSparkle = pow(max(dot(normal, halfDir), 0.0), 128.0) * blink * lightIntensity * 3.0;
     }
     
-    // Dynamic Gold Kintsugi Fractures - Expands & flares during CHAOS mode
-    float kintsugiNoise = sin(vUv.x * 16.0 + vUv.y * 22.0 + sin(vUv.x * 30.0) * 0.5);
-    float veinWidth = 0.009 + sin(uTime * 1.0 + vUv.x * 4.0) * 0.002 + (uAppMode * 0.01);
-    float isVein = smoothstep(veinWidth, 0.0, abs(kintsugiNoise - 0.25));
+    // 4. Kintsugi Reactivo
+    float kintsugiNoise = fbm(vUv * 8.0 + sin(vUv.y * 10.0));
+    float veinWidth = 0.005 + (uAppMode * 0.015);
+    float isVein = smoothstep(veinWidth, 0.0, abs(kintsugiNoise - 0.45));
     
-    vec3 goldColor = vec3(0.96, 0.72, 0.2); // Cobalt-gold standard
-    float goldVeinGlow = smoothstep(0.3, 0.0, distance(vUv, uMouse));
+    vec3 goldColor = vec3(1.0, 0.8, 0.2);
+    float goldVeinGlow = smoothstep(0.4, 0.0, distToMouse);
     
-    // Ambient shadows & lighting
-    vec3 ambient = texColor.rgb * 0.5;
-    vec3 diffuseColor = texColor.rgb * diff * 0.7;
-    vec3 specularColor = vec3(1.0) * spec * 0.25;
+    // El "lienzo" base está atrapado en la piedra (oscurecido hasta que la luz rasante pasa)
+    vec3 ambient = texColor.rgb * 0.08; // Oscuridad casi total
+    vec3 diffuseColor = texColor.rgb * diff * lightIntensity * 2.5; 
+    vec3 specularColor = vec3(0.9, 0.9, 1.0) * spec * lightIntensity * 0.5;
     
     vec3 finalColor = ambient + diffuseColor + specularColor;
     
-    // Sparkle overlay
-    finalColor += goldColor * micaSparkle * 1.8;
+    // Injection of Minerals & Kintsugi
+    finalColor += vec3(0.8, 0.9, 1.0) * micaSparkle;
     
-    // Inject Kintsugi
-    vec3 veinColor = goldColor * (1.1 + goldVeinGlow * 2.0 + (uAppMode * 1.5)) * (0.8 + 0.2 * sin(uTime * 3.5));
-    finalColor = mix(finalColor, veinColor, isVein * 0.85);
+    vec3 veinColor = goldColor * (1.0 + goldVeinGlow * 3.0 + (uAppMode * 2.0));
+    finalColor = mix(finalColor, veinColor, isVein * (0.3 + 0.7 * lightIntensity));
     
-    // Multiplied by opacity and scroll progress fade
+    // CAOS MODE: Termodinámica / Emisión de energía
+    if (uAppMode > 0.01) {
+      finalColor += vec3(0.1, 0.3, 0.9) * fbm(uv * 5.0 - uTime) * uAppMode * lightIntensity * 0.5;
+    }
+    
     float alpha = uOpacity * (1.0 - uScrollProgress);
     gl_FragColor = vec4(finalColor, alpha);
   }
