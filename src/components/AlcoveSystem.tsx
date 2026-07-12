@@ -8,6 +8,7 @@ interface AlcoveSystemProps {
   activeAlcove: AlcoveId;
   setActiveAlcove: (id: AlcoveId) => void;
   resolveSrc: (src: string) => string;
+  onExpand?: (artwork: { src: string; title: string; category?: string; desc?: string }) => void;
 }
 
 const alcoveTabs = [
@@ -70,7 +71,7 @@ const alcoveData: Record<AlcoveId, { universeNum: string; title: string; descrip
   },
 };
 
-export default function AlcoveSystem({ activeAlcove, setActiveAlcove, resolveSrc }: AlcoveSystemProps) {
+export default function AlcoveSystem({ activeAlcove, setActiveAlcove, resolveSrc, onExpand }: AlcoveSystemProps) {
   const data = alcoveData[activeAlcove];
 
   return (
