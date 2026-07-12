@@ -17,7 +17,7 @@ const carouselArtworks: CarouselItem[] = [
   { src: '/assets/geisha-MfRtKWdu.webp', title: 'Geisha', category: 'Técnica Mixta', desc: 'Mezcla de polvos de oro, mica y acrílicos en relieve.' },
   { src: '/assets/james-new.webp', title: 'James Dean', category: 'Retrato Pop', desc: 'Iconografía pop monumental pintada sobre pizarra de tejado vasco.' },
   { src: '/assets/amy-new.webp', title: 'Amy Winehouse', category: 'Retrato Pop', desc: 'Trazo hiperrealista y sinuoso que captura la esencia de la voz.' },
-  { src: '/assets/lagrimas-de-oro-DikHc-Tk.webp', title: 'Lágrimas de Oro', category: 'Kintsugi Accidental', desc: 'Líneas de fractura curadas con esmalte de oro líquido.' },
+  { src: '/assets/espejo-alma-piensa.webp', title: 'Espejo del Alma', category: 'Pizarra Centenaria', desc: 'Basque roof slate frame with expressive gaze & peacock feather details.' },
   { src: '/assets/la-pensadora-CFHSnMA0.webp', title: 'La Pensadora', category: 'Taller', desc: 'Estudio de mirada y reflexión sobre soporte lítico.' }
 ];
 

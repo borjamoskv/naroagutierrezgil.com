@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { Html, Environment, Float, ContactShadows, Lightformer } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette, ChromaticAberration, Noise } from '@react-three/postprocessing';
@@ -165,10 +166,10 @@ const artworksData = [
     ] as Hotspot[]
   },
   {
-    id: 'lagrimas',
-    title: 'Lágrimas de Oro',
-    src: '/assets/lagrimas-de-oro-DikHc-Tk.webp',
-    material: 'Técnica Mixta y Mica',
+    id: 'cantinflas',
+    title: 'Cantinflas',
+    src: '/assets/cantinflas-kintsugi.webp',
+    material: 'Kintsugi Accidental',
     year: '2026',
     audioTitle: 'Lágrimas de Oro (Beat & Texture Rework)',
     hotspots: [
@@ -574,13 +575,19 @@ export default function LuxuryArtworkViewer({ onExpand }: { onExpand?: (artwork:
                   </button>
                 )}
               </div>
-              <div>
+              <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => onExpand && onExpand({ src: artwork.src, title: artwork.title, category: artwork.material, desc: `Obra original creada en el año ${artwork.year}.` })}
-                  className="font-mono text-[9px] tracking-widest uppercase bg-black hover:bg-white/5 border border-white/10 hover:border-[#2B3BE5] px-4 py-2 transition-all cursor-pointer rounded-sm text-white/70 hover:text-white flex items-center gap-2 self-start"
+                  className="font-mono text-[9px] tracking-widest uppercase bg-black hover:bg-white/5 border border-white/10 hover:border-[#2B3BE5] px-4 py-2 transition-all cursor-pointer rounded-sm text-white/70 hover:text-white flex items-center gap-2"
                 >
-                  <span>🔍 Ampliar Obra [Pantalla Completa]</span>
+                  <span>🔍 Ampliar Obra</span>
                 </button>
+                <Link
+                  href={`/contacto?obra=${artwork.id}&action=adquirir`}
+                  className="font-mono text-[9px] tracking-widest uppercase bg-[var(--primary)] hover:bg-white border border-[var(--primary)] hover:border-white px-5 py-2 transition-all cursor-pointer rounded-sm text-white hover:text-black font-bold shadow-[0_0_10px_rgba(var(--primary-rgb),0.3)] flex items-center gap-2"
+                >
+                  <span>🛒 Adquirir / Encargar</span>
+                </Link>
               </div>
             </div>
 
