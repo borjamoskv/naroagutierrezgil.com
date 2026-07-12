@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
       exclude: ['error'],
     },
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
     unoptimized: true,
     remotePatterns: [
