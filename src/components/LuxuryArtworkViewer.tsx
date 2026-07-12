@@ -1,9 +1,118 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 import * as THREE from 'three';
+
+// Shaders for Interactive Canvas Details Viewer
+// Credits: Borja Moskv (borjamoskv) / MOSKV-1 APEX
+const frontVertexShader = `
+  uniform float uTime;
+  uniform float uHover;
+  uniform vec2 uMouseUV;
+  uniform float uAppMode;
+  
+  varying vec2 vUv;
+  varying vec3 vNormal;
+  varying vec3 vViewPosition;
+  
+  void main() {
+    vUv = uv;
+    vec3 pos = position;
+    
+    // Wave displacement simulating slate relief
+    float wave = sin(uv.x * 8.0 + uTime * 0.5) * cos(uv.y * 8.0 + uTime * 0.5) * 0.003;
+    float chaosWave = sin(uv.x * 16.0 + uTime * 1.5) * cos(uv.y * 16.0 + uTime * 1.5) * 0.015 * uAppMode;
+    
+    // Local displacement near the cursor
+    float dist = distance(uv, uMouseUV);
+    float force = smoothstep(0.25, 0.0, dist);
+    pos.z += wave + force * 0.012 * uHover + chaosWave;
+    
+    vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
+    vec4 viewPosition = viewMatrix * modelPosition;
+    gl_Position = projectionMatrix * viewPosition;
+    
+    vNormal = normalMatrix * normal;
+    vViewPosition = -viewPosition.xyz;
+  }
+`;
+
+const frontFragmentShader = `
+  uniform sampler2D uTexture;
+  uniform float uTime;
+  uniform vec2 uMouseUV;
+  uniform float uHover;
+  uniform float uOpacity;
+  uniform float uAppMode;
+  
+  varying vec2 vUv;
+  varying vec3 vNormal;
+  varying vec3 vViewPosition;
+  
+  float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+  }
+  
+  void main() {
+    vec4 texColor = texture2D(uTexture, vUv);
+    
+    // Normal lighting calculations
+    vec3 normal = normalize(vNormal);
+    vec3 viewDir = normalize(vViewPosition);
+    
+    // Mouse light source position in local UV space
+    vec3 lightPos = vec3(uMouseUV.x - 0.5, uMouseUV.y - 0.5, 0.3);
+    vec3 surfacePos = vec3(vUv.x - 0.5, vUv.y - 0.5, 0.0);
+    vec3 lightDir = normalize(lightPos - surfacePos);
+    
+    // Diffuse component
+    float diff = max(dot(normal, lightDir), 0.0);
+    
+    // Specular component
+    vec3 halfDir = normalize(lightDir + viewDir);
+    float spec = pow(max(dot(normal, halfDir), 0.0), 32.0);
+    
+    // Mica mineral sparkles (procedural glittering)
+    float micaFrequency = 180.0;
+    float micaNoise = hash(floor(vUv * micaFrequency));
+    float micaSparkle = 0.0;
+    if (micaNoise > 0.95) {
+      float angleFactor = max(dot(normal, halfDir), 0.0);
+      float speed = 1.5 + micaNoise * 2.0;
+      float blink = 0.4 + 0.6 * sin(uTime * speed + micaNoise * 10.0);
+      micaSparkle = pow(angleFactor, 48.0) * blink * uHover * 2.2;
+    }
+    
+    // Kintsugi gold veins (procedural fractures) - Expand in CAOS mode
+    float kintsugiNoise = sin(vUv.x * 24.0 + vUv.y * 36.0 + sin(vUv.x * 50.0) * 0.4);
+    float veinWidth = 0.012 + sin(uTime * 1.2 + vUv.x * 6.0) * 0.003 + (uAppMode * 0.012);
+    float isVein = smoothstep(veinWidth, 0.0, abs(kintsugiNoise - 0.15));
+    
+    vec3 goldColor = vec3(0.96, 0.72, 0.2); // Gold accent
+    
+    // Hover glow effect near the vein
+    float distToMouse = distance(vUv, uMouseUV);
+    float glow = smoothstep(0.2, 0.0, distToMouse) * uHover;
+    
+    // Ambient light - Noir style
+    vec3 ambient = texColor.rgb * 0.45;
+    vec3 diffuseColor = texColor.rgb * diff * 0.65;
+    vec3 specularColor = vec3(1.0) * spec * 0.3 * uHover;
+    
+    vec3 finalColor = ambient + diffuseColor + specularColor;
+    
+    // Add mica mineral sparkles
+    finalColor += goldColor * micaSparkle;
+    
+    // Blend in gold veins
+    vec3 veinColor = goldColor * (1.2 + glow * 2.5 + (uAppMode * 2.0)) * (0.85 + 0.15 * sin(uTime * 5.0));
+    finalColor = mix(finalColor, veinColor, isVein * 0.9);
+    
+    gl_FragColor = vec4(finalColor, uOpacity);
+  }
+`;
 
 interface Hotspot {
   id: string;
@@ -166,13 +275,43 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
   setRotationY: (y: number) => void;
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
+  const frontMaterialRef = useRef<THREE.ShaderMaterial>(null);
   const texture = useLoader(THREE.TextureLoader, src);
   const isDragging = useRef(false);
   const previousMousePosition = useRef({ x: 0, y: 0 });
+  const [hovered, setHovered] = useState(false);
+  const mouseUV = useRef(new THREE.Vector2(0.5, 0.5));
+  const [appModeVal, setAppModeVal] = useState(0.0);
+
+  // Monitor global dimension state changes reactively
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const initialMode = localStorage.getItem('naroa_app_mode') || 'ORDEN';
+      setAppModeVal(initialMode === 'CAOS' ? 1.0 : 0.0);
+    }
+    const handleDimension = (e: Event) => {
+      const mode = (e as CustomEvent).detail;
+      setAppModeVal(mode === 'CAOS' ? 1.0 : 0.0);
+    };
+    window.addEventListener('dimension-changed', handleDimension);
+    return () => window.removeEventListener('dimension-changed', handleDimension);
+  }, []);
+
+  const frontUniforms = useMemo(() => ({
+    uTexture: { value: null as THREE.Texture | null },
+    uTime: { value: 0.0 },
+    uMouseUV: { value: mouseUV.current },
+    uHover: { value: 0.0 },
+    uOpacity: { value: 1.0 },
+    uAppMode: { value: 0.0 }
+  }), []);
 
   useEffect(() => {
     if (texture) {
       texture.minFilter = THREE.LinearFilter;
+      if (frontMaterialRef.current) {
+        frontMaterialRef.current.uniforms.uTexture.value = texture;
+      }
     }
   }, [texture]);
 
@@ -180,12 +319,25 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
   useFrame((state, delta) => {
     if (meshRef.current && !isDragging.current) {
       // Lerp current mesh rotation to target rotationY set by button controls or dragging
-      meshRef.current.rotation.y = THREE.MathUtils.lerp(meshRef.current.rotation.y, rotationY, delta * 4);
+      meshRef.current.rotation.y = THREE.MathUtils.lerp(meshRef.current.rotation.y, rotationY, delta * 5);
       
-      // Brutalist heavy floating animation (Lissajous curve approximation)
-      meshRef.current.position.y = Math.sin(state.clock.getElapsedTime() * 1.8) * 0.08 + Math.cos(state.clock.getElapsedTime() * 0.6) * 0.04;
-      meshRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.9) * 0.06;
-      meshRef.current.rotation.z = Math.cos(state.clock.getElapsedTime() * 1.3) * 0.03;
+      // Gentle floating animation
+      meshRef.current.position.y = Math.sin(state.clock.getElapsedTime() * 0.8) * 0.05;
+      meshRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.4) * 0.03;
+    }
+
+    if (frontMaterialRef.current) {
+      frontMaterialRef.current.uniforms.uTime.value = state.clock.getElapsedTime();
+      frontMaterialRef.current.uniforms.uHover.value = THREE.MathUtils.lerp(
+        frontMaterialRef.current.uniforms.uHover.value,
+        hovered ? 1.0 : 0.0,
+        delta * 6.0
+      );
+      frontMaterialRef.current.uniforms.uAppMode.value = THREE.MathUtils.lerp(
+        frontMaterialRef.current.uniforms.uAppMode.value,
+        appModeVal,
+        delta * 5.0
+      );
     }
   });
 
@@ -202,6 +354,14 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
         onPointerUp={() => {
           isDragging.current = false;
         }}
+        onPointerOver={(e) => {
+          e.stopPropagation();
+          setHovered(true);
+        }}
+        onPointerOut={(e) => {
+          e.stopPropagation();
+          setHovered(false);
+        }}
         onPointerMove={(e) => {
           if (isDragging.current && meshRef.current) {
             const deltaX = e.clientX - previousMousePosition.current.x;
@@ -209,6 +369,8 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
             setRotationY(newRotY);
             meshRef.current.rotation.y = newRotY;
             previousMousePosition.current = { x: e.clientX, y: e.clientY };
+          } else if (e.uv) {
+            mouseUV.current.copy(e.uv);
           }
         }}
       >
@@ -224,12 +386,14 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
         {/* Bottom Side */}
         <meshStandardMaterial attach="material-3" color="#111113" roughness={0.9} />
         
-        {/* Front Face (Artwork) */}
-        <meshStandardMaterial 
+        {/* Front Face (Artwork with interactive shaders) */}
+        <shaderMaterial 
+          ref={frontMaterialRef}
           attach="material-4" 
-          map={texture} 
-          roughness={0.4} 
-          metalness={0.2}
+          vertexShader={frontVertexShader}
+          fragmentShader={frontFragmentShader}
+          uniforms={frontUniforms}
+          transparent={true}
         />
         
         {/* Back Face (Natural slate backing + signature + QR code symbol) */}

@@ -449,31 +449,85 @@ function FloatingLights() {
     </>
   );
 }
-function CarouselAngleInterpolator({ targetAngle, currentAngleRef }: { targetAngle: number; currentAngleRef: React.MutableRefObject<number> }) {
+function CarouselAngleInterpolator({ targetAngle, currentAngleRef, isIdle, targetAngleRef }: {
+  targetAngle: number;
+  currentAngleRef: React.MutableRefObject<number>;
+  isIdle: boolean;
+  targetAngleRef: React.MutableRefObject<number>;
+}) {
+  const velocityRef = useRef(0);
+
   useFrame((_state, delta) => {
-    currentAngleRef.current = THREE.MathUtils.lerp(
-      currentAngleRef.current,
-      targetAngle,
-      delta * 4 // Smooth orbit speed
-    );
+    const dt = Math.min(delta, 0.1); // Prevent physics explosion on lag spikes
+
+    if (isIdle) {
+      // Very slow and smooth continuous automatic rotation
+      targetAngleRef.current += 0.06 * dt;
+
+      // Soft spring to follow the slowly moving target angle
+      const tension = 30;
+      const damping = 12;
+      const diff = currentAngleRef.current - targetAngleRef.current;
+      const force = -tension * diff - damping * velocityRef.current;
+      velocityRef.current += force * dt;
+      currentAngleRef.current += velocityRef.current * dt;
+    } else {
+      // High-precision interactive spring with bounce overshoot effect on button clicks
+      targetAngleRef.current = targetAngle;
+
+      const tension = 120;
+      const damping = 18;
+      const diff = currentAngleRef.current - targetAngle;
+      const force = -tension * diff - damping * velocityRef.current;
+      velocityRef.current += force * dt;
+      currentAngleRef.current += velocityRef.current * dt;
+    }
   });
   return null;
 }
 
 export default function ThreeDCarousel({ onExpand }: { onExpand?: (artwork: { src: string; title: string; category?: string; desc?: string }) => void }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  
-  // Thread-safe value for interpolation in useFrame
+  const [isIdle, setIsIdle] = useState(true);
+  const lastInteractionTime = useRef(0);
+
+  // Thread-safe values for interpolation in useFrame
   const currentAngleRef = useRef(0);
-  const targetAngle = -activeIndex * (Math.PI * 2 / carouselArtworks.length);
+  const targetAngleRef = useRef(0);
+  const baseAngle = -activeIndex * (Math.PI * 2 / carouselArtworks.length);
+
+  const registerInteraction = () => {
+    setIsIdle(false);
+    lastInteractionTime.current = Date.now();
+  };
 
   const nextCard = () => {
+    registerInteraction();
     setActiveIndex((prev) => (prev + 1) % carouselArtworks.length);
   };
 
   const prevCard = () => {
+    registerInteraction();
     setActiveIndex((prev) => (prev - 1 + carouselArtworks.length) % carouselArtworks.length);
   };
+
+  // Sync target ref when active index is mutated via click
+  useEffect(() => {
+    if (!isIdle) {
+      targetAngleRef.current = baseAngle;
+    }
+  }, [activeIndex, isIdle, baseAngle]);
+
+  // Handle return to automatic rotation in idle state after 8s of inactivity
+  useEffect(() => {
+    const checkIdle = setInterval(() => {
+      if (!isIdle && Date.now() - lastInteractionTime.current > 8000) {
+        setIsIdle(true);
+        targetAngleRef.current = currentAngleRef.current; // Start rotating from current position
+      }
+    }, 1000);
+    return () => clearInterval(checkIdle);
+  }, [isIdle]);
 
   return (
     <section className="relative z-10 w-full py-24 bg-black border-t border-white/5 overflow-hidden flex flex-col items-center">
@@ -501,7 +555,7 @@ export default function ThreeDCarousel({ onExpand }: { onExpand?: (artwork: { sr
           className="z-10"
         >
           <FloatingLights />
-          <CarouselAngleInterpolator targetAngle={targetAngle} currentAngleRef={currentAngleRef} />
+          <CarouselAngleInterpolator targetAngle={baseAngle} currentAngleRef={currentAngleRef} isIdle={isIdle} targetAngleRef={targetAngleRef} />
           {carouselArtworks.map((art, idx) => (
             <KintsugiSplatCard
               key={art.src}

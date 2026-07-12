@@ -16,8 +16,8 @@ export default function WordPressFeedClient() {
   useEffect(() => {
     fetch('/api/wp')
       .then(res => res.json())
-      .then(data => {
-        if (data.items) setPosts(data.items);
+      .then((data: any) => {
+        if (data && data.items) setPosts(data.items);
         setLoading(false);
       })
       .catch(err => {

@@ -30,6 +30,7 @@ export default function Biografia() {
         </Link>
         <div className="flex items-center gap-6">
           <Link href="/autodidact" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Autodidacta</Link>
+          <Link href="/blog" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Bitácora</Link>
           <Link href="/contacto" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Contacto</Link>
         </div>
       </nav>
