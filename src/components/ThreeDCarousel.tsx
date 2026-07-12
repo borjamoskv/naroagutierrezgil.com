@@ -8,15 +8,17 @@ import * as THREE from 'three';
 interface CarouselItem {
   src: string;
   title: string;
+  category?: string;
+  desc?: string;
 }
 
 const carouselArtworks: CarouselItem[] = [
-  { src: '/assets/el-gran-dakari-C1tAWAhR.webp', title: 'El Gran Dakari' },
-  { src: '/assets/geisha-MfRtKWdu.webp', title: 'Geisha' },
-  { src: '/assets/james-new.webp', title: 'James Dean' },
-  { src: '/assets/amy-new.webp', title: 'Amy Winehouse' },
-  { src: '/assets/lagrimas-de-oro-DikHc-Tk.webp', title: 'Lágrimas de Oro' },
-  { src: '/assets/la-pensadora-CFHSnMA0.webp', title: 'La Pensadora' }
+  { src: '/assets/el-gran-dakari-C1tAWAhR.webp', title: 'El Gran Dakari', category: 'Mica & Cerámica', desc: 'Relieve de mica mineral y esmalte cerámico denso.' },
+  { src: '/assets/geisha-MfRtKWdu.webp', title: 'Geisha', category: 'Técnica Mixta', desc: 'Mezcla de polvos de oro, mica y acrílicos en relieve.' },
+  { src: '/assets/james-new.webp', title: 'James Dean', category: 'Retrato Pop', desc: 'Iconografía pop monumental pintada sobre pizarra de tejado vasco.' },
+  { src: '/assets/amy-new.webp', title: 'Amy Winehouse', category: 'Retrato Pop', desc: 'Trazo hiperrealista y sinuoso que captura la esencia de la voz.' },
+  { src: '/assets/lagrimas-de-oro-DikHc-Tk.webp', title: 'Lágrimas de Oro', category: 'Kintsugi Accidental', desc: 'Líneas de fractura curadas con esmalte de oro líquido.' },
+  { src: '/assets/la-pensadora-CFHSnMA0.webp', title: 'La Pensadora', category: 'Taller', desc: 'Estudio de mirada y reflexión sobre soporte lítico.' }
 ];
 
 // Custom Vertex Shader for JIT Particle Disintegration (Splat Effect)
@@ -35,28 +37,30 @@ const cardVertexShader = `
     vUv = uv;
     vec3 pos = position;
     
-    if (uProgress > 0.01) {
-      // Create random displacement vector based on position
+    if (uProgress > 0.005) {
+      // Create violent random displacement vector based on position
       float h1 = hash(uv * 13.0) - 0.5;
       float h2 = hash(uv * 17.0) - 0.5;
       float h3 = hash(uv * 23.0) - 0.5;
-      vec3 displace = vec3(h1, h2, h3) * 1.5;
+      vec3 displace = vec3(h1, h2, h3) * 3.5;
       
-      // Add wave-like turbulence
-      displace.x += sin(position.y * 3.0 + uTime * 2.0) * 0.15;
-      displace.y += cos(position.x * 3.0 + uTime * 2.0) * 0.15;
+      // Add heavy wave-like turbulence (curl noise approximation)
+      displace.x += sin(position.y * 6.0 + uTime * 5.0) * 0.4;
+      displace.y += cos(position.x * 6.0 + uTime * 5.0) * 0.4;
+      displace.z += sin(position.x * 8.0 + uTime * 6.0) * 0.5;
       
-      // Disintegrate out based on progress
-      pos += displace * uProgress;
+      // Disintegrate out aggressively based on progress (ease out)
+      float pSq = uProgress * uProgress;
+      pos += displace * pSq * 1.5;
     }
     
     vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
     vec4 viewPosition = viewMatrix * modelPosition;
     gl_Position = projectionMatrix * viewPosition;
     
-    // Scale particle size in 3D space with a gold/mica shimmer effect
-    float shimmer = 1.0 + sin(uTime * 5.0 + uv.x * 10.0) * 0.2;
-    gl_PointSize = (18.0 / -viewPosition.z) * shimmer;
+    // Scale particle size in 3D space with an intense gold/mica shimmer effect
+    float shimmer = 1.0 + sin(uTime * 8.0 + uv.x * 15.0) * 0.4;
+    gl_PointSize = (26.0 / -viewPosition.z) * shimmer;
   }
 `;
 
@@ -76,13 +80,13 @@ const cardFragmentShader = `
     
     vec4 texColor = texture2D(uTexture, vUv);
     
-    // Morph color into golden/mica splat particles when disintegrating
-    vec3 goldColor = vec3(0.96, 0.72, 0.2) * (0.8 + sin(uTime * 3.0 + vUv.y * 5.0) * 0.2);
-    vec3 mixedColor = mix(texColor.rgb, goldColor, uProgress * 0.8);
+    // Morph color aggressively into golden/mica splat particles when disintegrating
+    vec3 goldColor = vec3(0.98, 0.82, 0.2) * (1.2 + sin(uTime * 6.0 + vUv.y * 8.0) * 0.4);
+    vec3 mixedColor = mix(texColor.rgb, goldColor, uProgress * 1.2);
     
     // Soft particle alpha falloff
-    float alpha = smoothstep(0.5, 0.1, length(temp)) * (1.0 - uProgress * 0.3);
-    gl_FragColor = vec4(mixedColor, alpha * 0.9);
+    float alpha = smoothstep(0.5, 0.1, length(temp)) * (1.0 - uProgress * 0.5);
+    gl_FragColor = vec4(mixedColor, alpha * 0.95);
   }
 `;
 
@@ -102,14 +106,14 @@ const frontVertexShader = `
     vUv = uv;
     vec3 pos = position;
     
-    // Wave displacement simulating slate relief
-    float wave = sin(uv.x * 8.0 + uTime * 0.5) * cos(uv.y * 8.0 + uTime * 0.5) * 0.003;
-    float chaosWave = sin(uv.x * 16.0 + uTime * 1.5) * cos(uv.y * 16.0 + uTime * 1.5) * 0.015 * uAppMode;
+    // Brutal wave displacement simulating slate relief
+    float wave = sin(uv.x * 12.0 + uTime * 1.5) * cos(uv.y * 12.0 + uTime * 1.5) * 0.008;
+    float chaosWave = sin(uv.x * 24.0 + uTime * 4.0) * cos(uv.y * 24.0 + uTime * 4.0) * 0.03 * uAppMode;
     
-    // Local displacement near the cursor
+    // Aggressive local displacement near the cursor
     float dist = distance(uv, uMouseUV);
-    float force = smoothstep(0.25, 0.0, dist);
-    pos.z += wave + force * 0.012 * uHover + chaosWave;
+    float force = smoothstep(0.35, 0.0, dist);
+    pos.z += wave + force * 0.02 * uHover + chaosWave;
     
     vec4 modelPosition = modelMatrix * vec4(pos, 1.0);
     vec4 viewPosition = viewMatrix * modelPosition;
@@ -144,7 +148,7 @@ const frontFragmentShader = `
     vec3 viewDir = normalize(vViewPosition);
     
     // Mouse light source position in local UV space
-    vec3 lightPos = vec3(uMouseUV.x - 0.5, uMouseUV.y - 0.5, 0.3);
+    vec3 lightPos = vec3(uMouseUV.x - 0.5, uMouseUV.y - 0.5, 0.4);
     vec3 surfacePos = vec3(vUv.x - 0.5, vUv.y - 0.5, 0.0);
     vec3 lightDir = normalize(lightPos - surfacePos);
     
@@ -153,53 +157,55 @@ const frontFragmentShader = `
     
     // Specular component
     vec3 halfDir = normalize(lightDir + viewDir);
-    float spec = pow(max(dot(normal, halfDir), 0.0), 32.0);
+    float spec = pow(max(dot(normal, halfDir), 0.0), 48.0);
     
     // Mica mineral sparkles (procedural high frequency glittering)
-    float micaFrequency = 180.0;
+    float micaFrequency = 200.0;
     float micaNoise = hash(floor(vUv * micaFrequency));
     float micaSparkle = 0.0;
-    if (micaNoise > 0.95) {
+    if (micaNoise > 0.94) {
       float angleFactor = max(dot(normal, halfDir), 0.0);
-      float speed = 1.5 + micaNoise * 2.0;
-      float blink = 0.4 + 0.6 * sin(uTime * speed + micaNoise * 10.0);
-      micaSparkle = pow(angleFactor, 48.0) * blink * uHover * 2.2;
+      float speed = 2.0 + micaNoise * 3.0;
+      float blink = 0.4 + 0.6 * sin(uTime * speed + micaNoise * 20.0);
+      micaSparkle = pow(angleFactor, 32.0) * blink * uHover * 4.0;
     }
     
-    // Kintsugi gold veins (procedural fractures) - Expand in CAOS mode
-    float kintsugiNoise = sin(vUv.x * 24.0 + vUv.y * 36.0 + sin(vUv.x * 50.0) * 0.4);
-    float veinWidth = 0.012 + sin(uTime * 1.2 + vUv.x * 6.0) * 0.003 + (uAppMode * 0.012);
+    // Kintsugi gold veins (procedural fractures) - Expand radically in CAOS mode
+    float kintsugiNoise = sin(vUv.x * 30.0 + vUv.y * 40.0 + sin(vUv.x * 60.0 + uTime) * 0.6);
+    float veinWidth = 0.015 + sin(uTime * 2.0 + vUv.x * 10.0) * 0.005 + (uAppMode * 0.02);
     float isVein = smoothstep(veinWidth, 0.0, abs(kintsugiNoise - 0.15));
     
-    vec3 goldColor = vec3(0.96, 0.72, 0.2); // Gold accent
+    vec3 goldColor = vec3(0.98, 0.78, 0.2); // Intense Gold accent
     
     // Hover glow effect near the vein
     float distToMouse = distance(vUv, uMouseUV);
-    float glow = smoothstep(0.2, 0.0, distToMouse) * uHover;
+    float glow = smoothstep(0.3, 0.0, distToMouse) * uHover;
     
-    // Ambient light - Noir style
+    // Ambient light - Brutalist Noir style
     vec3 ambient = texColor.rgb * 0.45;
-    vec3 diffuseColor = texColor.rgb * diff * 0.65;
-    vec3 specularColor = vec3(1.0) * spec * 0.3 * uHover;
+    vec3 diffuseColor = texColor.rgb * diff * 0.7;
+    vec3 specularColor = vec3(1.0) * spec * 0.5 * uHover;
     
     vec3 finalColor = ambient + diffuseColor + specularColor;
     
     // Add mica mineral sparkles
     finalColor += goldColor * micaSparkle;
     
-    // Blend in gold veins
-    vec3 veinColor = goldColor * (1.2 + glow * 2.5 + (uAppMode * 2.0)) * (0.85 + 0.15 * sin(uTime * 5.0));
-    finalColor = mix(finalColor, veinColor, isVein * 0.9);
+    // Blend in gold veins with blooming intensity
+    vec3 veinColor = goldColor * (1.5 + glow * 3.5 + (uAppMode * 3.0)) * (0.8 + 0.2 * sin(uTime * 8.0));
+    finalColor = mix(finalColor, veinColor, isVein * 0.95);
     
     gl_FragColor = vec4(finalColor, uOpacity);
   }
 `;
-function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex }: {
+function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex, onExpand, activeIndex }: {
   url: string;
   index: number;
   count: number;
   currentAngleRef: React.MutableRefObject<number>;
   setActiveIndex: (idx: number) => void;
+  onExpand?: (artwork: { src: string; title: string; category?: string; desc?: string }) => void;
+  activeIndex: number;
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const pointsRef = useRef<THREE.Points>(null);
@@ -375,7 +381,16 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex 
         }}
         onPointerOut={() => setHovered(false)}
         onPointerMove={handlePointerMove}
-        onClick={() => setActiveIndex(index)}
+        onClick={(e) => {
+          e.stopPropagation();
+          if (activeIndex === index) {
+            if (onExpand) {
+              onExpand(carouselArtworks[index]);
+            }
+          } else {
+            setActiveIndex(index);
+          }
+        }}
         castShadow
         receiveShadow
       >
@@ -445,7 +460,7 @@ function CarouselAngleInterpolator({ targetAngle, currentAngleRef }: { targetAng
   return null;
 }
 
-export default function ThreeDCarousel() {
+export default function ThreeDCarousel({ onExpand }: { onExpand?: (artwork: { src: string; title: string; category?: string; desc?: string }) => void }) {
   const [activeIndex, setActiveIndex] = useState(0);
   
   // Thread-safe value for interpolation in useFrame
@@ -495,6 +510,8 @@ export default function ThreeDCarousel() {
               count={carouselArtworks.length}
               currentAngleRef={currentAngleRef}
               setActiveIndex={setActiveIndex}
+              onExpand={onExpand}
+              activeIndex={activeIndex}
             />
           ))}
         </Canvas>
@@ -516,9 +533,12 @@ export default function ThreeDCarousel() {
         </button>
 
         {/* Selected Art Overlay HUD */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-black/70 backdrop-blur-md border border-white/10 px-8 py-4 rounded-sm flex flex-col items-center gap-1 shadow-2xl">
-          <span className="text-primary font-mono text-[8px] tracking-[0.3em] uppercase">
-            Pizarra #{activeIndex + 1} / {carouselArtworks.length}
+        <div 
+          onClick={() => onExpand && onExpand(carouselArtworks[activeIndex])}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 pointer-events-auto bg-black/70 hover:bg-black/90 border border-white/10 hover:border-primary/50 px-8 py-4 rounded-sm flex flex-col items-center gap-1 shadow-2xl cursor-pointer group transition-all duration-300"
+        >
+          <span className="text-primary font-mono text-[8px] tracking-[0.3em] uppercase group-hover:scale-105 transition-transform">
+            Pizarra #{activeIndex + 1} / {carouselArtworks.length} • [ AMPLIAR ]
           </span>
           <span className="text-white font-serif tracking-widest text-sm uppercase">
             {carouselArtworks[activeIndex].title}

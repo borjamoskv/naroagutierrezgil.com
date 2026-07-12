@@ -11,82 +11,82 @@ interface Message {
 const defaultInitialMessage: Message[] = [
   {
     sender: 'mica',
-    text: 'Bienvenidos al estudio de Naroa Gutiérrez Gil. Su obra hiperrealista transforma la pizarra natural y la textura de los minerales en retratos eternos. ¿Deseas solicitar que Naroa inmortalice tu historia o la de los tuyos en piedra?',
+    text: 'Hola. Este es un espacio dedicado al arte de Naroa Gutiérrez Gil. ¿Te gustaría ser retratado/a por ella o encargar una obra en pizarra natural?',
     options: [
-      { label: '🎨 Retrato por Encargo', action: 'custom_portrait' },
+      { label: '🎨 Ser Retratado por Naroa', action: 'custom_portrait' },
       { label: '💰 Ver Tarifas', action: 'view_rates' },
-      { label: '✉️ Contacto Directo', action: 'direct_contact' }
+      { label: '✉️ Contactar con Naroa', action: 'direct_contact' }
     ]
   }
 ];
 
-const generateCortazarResponse = (input: string): { text: string; options?: { label: string; action: string }[] } => {
+const generateMicaResponse = (input: string): { text: string; options?: { label: string; action: string }[] } => {
   const query = input.toLowerCase().trim();
   
   if (query.includes('precio') || query.includes('tarifa') || query.includes('cuanto') || query.includes('cuesta') || query.includes('valen') || query.includes('€') || query.includes('cost')) {
     return {
-      text: 'La tarifa depende del tamaño de la pizarra natural y las horas de cincelado al detalle requeridas por Naroa. Aproximadamente:\n\n• Mascotas: desde 250€ (20x30 cm)\n• Retrato Individual: desde 450€ (30x40 cm)\n• Retrato Doble: desde 750€ (40x60 cm)\n\n¿Te gustaría perfilar una solicitud de retrato?',
+      text: 'El arte de Naroa se plasma en pizarra natural recuperada. Las tarifas orientativas son:\n\n• Mascotas: desde 250€ (20x30 cm)\n• Retrato Individual: desde 450€ (30x40 cm)\n• Retrato Doble: desde 750€ (40x60 cm)\n\n¿Te gustaría definir una propuesta para ser retratado/a por Naroa?',
       options: [
-        { label: '🎨 Perfilar Solicitud', action: 'custom_portrait' },
-        { label: '✉️ Formulario de Contacto', action: 'route:/contacto' }
+        { label: '🎨 Definir Retrato', action: 'custom_portrait' },
+        { label: '✉️ Contactar con Naroa', action: 'route:/contacto' }
       ]
     };
   }
   
   if (query.includes('encargo') || query.includes('personalizado') || query.includes('retrato') || query.includes('pedir') || query.includes('pintar') || query.includes('foto')) {
     return {
-      text: 'Naroa acepta encargos bajo demanda. Plasma rostros humanos, miradas, o mascotas con una fidelidad hiperrealista que se funde con la rudeza de la pizarra. ¿Deseas iniciar una petición para ser retratado/a?',
+      text: 'Naroa realiza retratos personalizados (personas, mascotas o composiciones conjuntas) pintados a mano sobre pizarra o poliéster. ¿Quieres configurar los detalles de tu obra?',
       options: [
-        { label: '🎨 Iniciar Solicitud', action: 'custom_portrait' },
-        { label: '🔄 Menú Principal', action: 'reset' }
+        { label: '🎨 Configurar Retrato', action: 'custom_portrait' },
+        { label: '🔄 Volver al Inicio', action: 'reset' }
       ]
     };
   }
 
   if (query.includes('tiempo') || query.includes('tarda') || query.includes('plazo') || query.includes('dias') || query.includes('fecha') || query.includes('tardas')) {
     return {
-      text: 'El hiperrealismo sobre pizarra exige un alto nivel de detalle, respeto al secado y tratamiento de la piedra. Una obra personalizada suele requerir entre 2 y 4 semanas de preparación minuciosa en el taller.',
+      text: 'Cada retrato es único y requiere un proceso minucioso de pintura y secado. El plazo estimado de entrega suele ser de 2 a 4 semanas desde el taller en Bilbao.',
       options: [
-        { label: '✉️ Contactar al Estudio', action: 'route:/contacto' },
-        { label: '🔄 Menú Principal', action: 'reset' }
+        { label: '✉️ Contacto directo', action: 'route:/contacto' },
+        { label: '🔄 Volver al Inicio', action: 'reset' }
       ]
     };
   }
 
   if (query.includes('envio') || query.includes('mandar') || query.includes('correo') || query.includes('direccion') || query.includes('bilbao') || query.includes('enviar')) {
     return {
-      text: 'Las obras se envían desde el taller en Bilbao con un embalaje técnico de alta protección, garantizando que la pizarra llegue intacta a cualquier destino.',
+      text: 'Nuestras obras se envían desde Bilbao en embalajes de madera de alta protección para garantizar su perfecta recepción en cualquier destino.',
       options: [
-        { label: '✉️ Consultar Destino', action: 'route:/contacto' },
-        { label: '🔄 Menú Principal', action: 'reset' }
+        { label: '✉️ Formulario de Contacto', action: 'route:/contacto' },
+        { label: '🔄 Volver al Inicio', action: 'reset' }
       ]
     };
   }
 
   if (query.includes('hola') || query.includes('buenas') || query.includes('saludos') || query.includes('hello')) {
     return {
-      text: 'Hola. El estudio de Naroa Gutiérrez Gil se centra en la obra hiperrealista sobre técnica mixta y soportes atípicos. ¿Quieres información sobre encargos personalizados?',
+      text: 'Hola. Este es un espacio dedicado a las obras y retratos de Naroa Gutiérrez Gil. ¿Cómo te gustaría proceder?',
       options: [
-        { label: '🎨 Encargar Retrato', action: 'custom_portrait' },
+        { label: '🎨 Ser Retratado por Naroa', action: 'custom_portrait' },
         { label: '💰 Ver Tarifas', action: 'view_rates' },
-        { label: '🔄 Menú Principal', action: 'reset' }
+        { label: '🔄 Volver al Inicio', action: 'reset' }
       ]
     };
   }
 
   const fallbacks = [
-    'El arte hiperrealista de Naroa detiene el tiempo. Si buscas inmortalizar una imagen, este es el lugar. ¿Te ayudo con información de encargos?',
-    'Naroa transforma la luz y la textura en emociones tangibles sobre la pizarra. ¿Deseas solicitar ser retratado/a?',
-    'Estamos a tu disposición para proporcionarte información sobre las obras de Naroa Gutiérrez Gil o los retratos por encargo.'
+    'Naroa trabaja con pizarras de tejado recuperadas, resina, acrílicos y mica mineral. ¿Te gustaría encargar un retrato personalizado?',
+    'El propósito de este taller es dar forma a tus miradas y recuerdos. ¿Quieres ver las tarifas o configurar tu retrato por Naroa?',
+    'Puedes encargar un retrato individual, de pareja o de tu mascota. ¿Deseas ver las opciones disponibles?'
   ];
   const text = fallbacks[Math.floor(Math.random() * fallbacks.length)];
   
   return {
     text,
     options: [
-      { label: '🎨 Encargar Retrato', action: 'custom_portrait' },
+      { label: '🎨 Configurar Retrato', action: 'custom_portrait' },
       { label: '💰 Ver Tarifas', action: 'view_rates' },
-      { label: '🔄 Menú Principal', action: 'reset' }
+      { label: '🔄 Volver al Inicio', action: 'reset' }
     ]
   };
 };
@@ -160,7 +160,7 @@ export default function Mica() {
           ...prev,
           {
             sender: 'mica',
-            text: 'Excelente elección. Un retrato en pizarra es eterno. ¿Qué tipo de retrato deseas realizar?',
+            text: 'Entendido. Un retrato en pizarra es una forma duradera de plasmar una imagen. ¿Qué tipo de retrato prefieres?',
             options: [
               { label: '🐾 Mascota', action: 'select_type_mascota' },
               { label: '👤 Individual', action: 'select_type_individual' },
@@ -177,7 +177,7 @@ export default function Mica() {
           ...prev,
           {
             sender: 'mica',
-            text: `Perfecto, un retrato de tipo ${typeLabel}. ¿En qué formato y tamaño de pizarra te gustaría plasmarlo?`,
+            text: `De acuerdo, un retrato de tipo ${typeLabel}. ¿En qué formato y tamaño de pizarra te gustaría plasmarlo?`,
             options: [
               { label: '📏 Pequeño (20x30 cm)', action: 'select_size_pequeno' },
               { label: '📏 Mediano (30x40 cm)', action: 'select_size_mediano' },
@@ -209,7 +209,7 @@ export default function Mica() {
           ...prev,
           {
             sender: 'mica',
-            text: `He preparado tu propuesta. Retrato ${finalSelections.type} (${finalSelections.size}) sobre pizarra natural. Estimación aproximada: desde ${price}. ¿Deseas enviar la solicitud directamente a Naroa para concretar detalles?`,
+            text: `He preparado la propuesta: Retrato ${finalSelections.type} (${finalSelections.size}) sobre pizarra natural. Estimación aproximada: desde ${price}. ¿Deseas enviar los detalles a Naroa por correo para concretar el encargo?`,
             options: [
               { label: '✉️ Enviar Solicitud por Email', action: `mail:${mailUrl}` },
               { label: '🔄 Empezar de nuevo', action: 'reset' }
@@ -249,9 +249,9 @@ export default function Mica() {
             sender: 'mica',
             text: '¿En qué puedo ayudarte ahora?',
             options: [
-              { label: '🎨 Retrato por Encargo', action: 'custom_portrait' },
+              { label: '🎨 Ser Retratado por Naroa', action: 'custom_portrait' },
               { label: '💰 Ver Tarifas', action: 'view_rates' },
-              { label: '✉️ Contacto Directo', action: 'direct_contact' }
+              { label: '✉️ Contactar con Naroa', action: 'direct_contact' }
             ]
           }
         ]);
@@ -288,11 +288,11 @@ export default function Mica() {
         setMessages(prev => [...prev, { sender: 'mica', text: data.response }]);
       } else {
         // Fallback to local logic if AI is offline
-        const botResponse = generateCortazarResponse(userText);
+        const botResponse = generateMicaResponse(userText);
         setMessages(prev => [...prev, { sender: 'mica', text: botResponse.text, options: botResponse.options }]);
       }
     } catch (err) {
-      const botResponse = generateCortazarResponse(userText);
+      const botResponse = generateMicaResponse(userText);
       setMessages(prev => [...prev, { sender: 'mica', text: botResponse.text, options: botResponse.options }]);
     } finally {
       setIsTyping(false);
@@ -322,7 +322,7 @@ export default function Mica() {
           <div className="p-3 border-b border-white/5 flex items-center justify-between bg-black/40">
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse opacity-70" />
-              <span className="font-sans text-[8px] tracking-[0.2em] uppercase text-white/70 font-medium">Otra Naro</span>
+              <span className="font-sans text-[8px] tracking-[0.2em] uppercase text-white/70 font-medium">Mica (Taller)</span>
             </div>
             <div className="flex items-center gap-3">
               <button 

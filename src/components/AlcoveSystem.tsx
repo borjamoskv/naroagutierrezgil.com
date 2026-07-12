@@ -121,14 +121,14 @@ export default function AlcoveSystem({ activeAlcove, setActiveAlcove, resolveSrc
             fill
             sizes="100vw"
             quality={100}
-            className="object-cover transition-transform duration-[4s] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:scale-110 filter contrast-125 saturate-50 group-hover:saturate-100"
+            className="object-cover transition-transform duration-[6s] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:scale-[1.20] filter contrast-125 saturate-50 group-hover:contrast-150 group-hover:saturate-150"
           />
 
           {/* CRT Scanline Overlay */}
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none opacity-40 mix-blend-overlay" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none opacity-50 mix-blend-overlay" />
           
           {/* Vignette overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none transition-all duration-700 group-hover:from-black/90" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none transition-all duration-1000 group-hover:from-black" />
 
           {/* Colossal Number Overlay */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[40vw] sm:text-[30vw] font-black text-white/5 font-sans leading-none pointer-events-none mix-blend-overlay transition-transform duration-1000 group-hover:scale-150">

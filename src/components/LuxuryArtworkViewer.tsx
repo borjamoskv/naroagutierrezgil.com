@@ -117,6 +117,43 @@ const artworksData = [
         side: 'front'
       }
     ] as Hotspot[]
+  },
+  {
+    id: 'audre',
+    title: 'AUDRE...',
+    src: '/assets/audrey-hepburn-DbIBTtIp.webp',
+    material: 'Acrílico & Basalto',
+    year: '2026',
+    audioTitle: 'Audrey (Classic & Mineral Waves)',
+    hotspots: [
+      {
+        id: 'elegance',
+        x: -0.3,
+        y: 0.4,
+        z: 0.03,
+        title: 'Elegancia Eterna',
+        description: 'La sobriedad y pureza del rostro iconográfico capturado en acrílico de alta saturación sobre basalto liso.',
+        side: 'front'
+      },
+      {
+        id: 'basalto',
+        x: 0.3,
+        y: -0.3,
+        z: 0.03,
+        title: 'Soporte Volcánico',
+        description: 'Una pesada losa de basalto cortada a mano, que actúa como el lienzo rústico pero refinado para la obra pop.',
+        side: 'front'
+      },
+      {
+        id: 'reverso-audre',
+        x: 0.1,
+        y: -0.2,
+        z: -0.03,
+        title: 'Firma y QR Criptográfico',
+        description: 'El reverso de la losa incluye la firma física de Naroart, y un código QR enlazado a la sonorización experimental de Borja Moskv.',
+        side: 'back'
+      }
+    ] as Hotspot[]
   }
 ];
 
@@ -143,11 +180,12 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
   useFrame((state, delta) => {
     if (meshRef.current && !isDragging.current) {
       // Lerp current mesh rotation to target rotationY set by button controls or dragging
-      meshRef.current.rotation.y = THREE.MathUtils.lerp(meshRef.current.rotation.y, rotationY, delta * 5);
+      meshRef.current.rotation.y = THREE.MathUtils.lerp(meshRef.current.rotation.y, rotationY, delta * 4);
       
-      // Gentle floating animation
-      meshRef.current.position.y = Math.sin(state.clock.getElapsedTime() * 0.8) * 0.05;
-      meshRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.4) * 0.03;
+      // Brutalist heavy floating animation (Lissajous curve approximation)
+      meshRef.current.position.y = Math.sin(state.clock.getElapsedTime() * 1.8) * 0.08 + Math.cos(state.clock.getElapsedTime() * 0.6) * 0.04;
+      meshRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.9) * 0.06;
+      meshRef.current.rotation.z = Math.cos(state.clock.getElapsedTime() * 1.3) * 0.03;
     }
   });
 
@@ -241,11 +279,51 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
   );
 }
 
-export default function LuxuryArtworkViewer() {
+export default function LuxuryArtworkViewer({ onExpand }: { onExpand?: (artwork: { src: string; title: string; category?: string; desc?: string }) => void }) {
   const [selectedArtworkIndex, setSelectedArtworkIndex] = useState(0);
   const [activeHotspot, setActiveHotspot] = useState<Hotspot | null>(null);
   const [rotationY, setRotationY] = useState(0);
 
+  const speakAudreyQuote = () => {
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
+    
+    // Stop any ongoing speech
+    window.speechSynthesis.cancel();
+
+    const quotes = [
+      "Elegance is the only beauty that never fades.",
+      "Nothing is impossible, the word itself says 'I'm possible'!",
+      "The most important thing is to enjoy your life - to be happy - it's all that matters.",
+      "For beautiful eyes, look for the good in others; for beautiful lips, speak only words of kindness; and for poise, walk with the knowledge that you are never alone."
+    ];
+
+    const quote = quotes[Math.floor(Math.random() * quotes.length)];
+    const utterance = new SpeechSynthesisUtterance(quote);
+
+    // Try to get a high-quality female English voice with a British accent (en-GB)
+    const voices = window.speechSynthesis.getVoices();
+    const selectedVoice = voices.find(v => v.lang === 'en-GB' && v.name.toLowerCase().includes('female')) ||
+                          voices.find(v => v.lang === 'en-GB' && v.name.toLowerCase().includes('google')) ||
+                          voices.find(v => v.lang === 'en-GB') ||
+                          voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('female')) ||
+                          voices.find(v => v.lang.startsWith('en'));
+
+    if (selectedVoice) {
+      utterance.voice = selectedVoice;
+    }
+
+    utterance.rate = 0.85;  // Elegant and soft tempo
+    utterance.pitch = 1.15; // Soft feminine high pitch
+    utterance.volume = 1.0;
+
+    window.speechSynthesis.speak(utterance);
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.getVoices();
+    }
+  }, []);
 
   const artwork = artworksData[selectedArtworkIndex];
 
@@ -287,7 +365,12 @@ export default function LuxuryArtworkViewer() {
           {artworksData.map((art, idx) => (
             <button
               key={art.id}
-              onClick={() => setSelectedArtworkIndex(idx)}
+              onClick={() => {
+                setSelectedArtworkIndex(idx);
+                if (art.id === 'audre') {
+                  speakAudreyQuote();
+                }
+              }}
               className={`font-mono text-[9px] sm:text-[10px] tracking-widest uppercase pb-3 transition-all duration-300 border-b cursor-pointer ${
                 idx === selectedArtworkIndex
                   ? 'border-[#2B3BE5] text-white font-bold'
@@ -304,13 +387,37 @@ export default function LuxuryArtworkViewer() {
           
           {/* Column 1: Info & Hotspots details */}
           <div className="lg:col-span-4 flex flex-col order-2 lg:order-1">
-            <div className="border-l border-[#2B3BE5]/40 pl-6 mb-8">
-              <span className="text-white/40 font-mono text-[9px] tracking-widest uppercase">
-                {artwork.material} // {artwork.year}
-              </span>
-              <h3 className="text-3xl font-serif font-black text-white uppercase mt-2">
-                {artwork.title}
-              </h3>
+            <div className="border-l border-[#2B3BE5]/40 pl-6 mb-8 flex flex-col gap-3">
+              <div className="flex justify-between items-start w-full">
+                <div>
+                  <span className="text-white/40 font-mono text-[9px] tracking-widest uppercase">
+                    {artwork.material} // {artwork.year}
+                  </span>
+                  <h3 className="text-3xl font-serif font-black text-white uppercase mt-2">
+                    {artwork.title}
+                  </h3>
+                </div>
+                {artwork.id === 'audre' && (
+                  <button
+                    onClick={speakAudreyQuote}
+                    className="bg-black/60 border border-white/10 hover:border-primary px-3 py-1.5 rounded-sm font-mono text-[8px] tracking-widest uppercase text-primary hover:text-white transition-all cursor-pointer shadow-[0_0_15px_rgba(255,255,255,0.02)] flex items-center gap-2"
+                    title="Escuchar voz de Audrey"
+                  >
+                    <svg className="w-3.5 h-3.5 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    </svg>
+                    Voice
+                  </button>
+                )}
+              </div>
+              <div>
+                <button
+                  onClick={() => onExpand && onExpand({ src: artwork.src, title: artwork.title, category: artwork.material, desc: `Obra original creada en el año ${artwork.year}.` })}
+                  className="font-mono text-[9px] tracking-widest uppercase bg-black hover:bg-white/5 border border-white/10 hover:border-[#2B3BE5] px-4 py-2 transition-all cursor-pointer rounded-sm text-white/70 hover:text-white flex items-center gap-2 self-start"
+                >
+                  <span>🔍 Ampliar Obra [Pantalla Completa]</span>
+                </button>
+              </div>
             </div>
 
             {/* Dynamic details card based on active hotspot */}

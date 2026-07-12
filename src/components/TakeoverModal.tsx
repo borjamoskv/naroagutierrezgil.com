@@ -4,13 +4,14 @@ import { useEffect } from 'react';
 import Image from 'next/image';
 
 interface TakeoverModalProps {
-  artwork: { src: string; title: string } | null;
-  countdown: number;
+  artwork: { src: string; title: string; category?: string; desc?: string } | null;
+  countdown?: number | null;
+  isPersistent?: boolean;
   getImageUrl: (src: string) => string;
   onClose: () => void;
 }
 
-export default function TakeoverModal({ artwork, countdown, getImageUrl, onClose }: TakeoverModalProps) {
+export default function TakeoverModal({ artwork, countdown, isPersistent = false, getImageUrl, onClose }: TakeoverModalProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -22,6 +23,8 @@ export default function TakeoverModal({ artwork, countdown, getImageUrl, onClose
   }, [onClose]);
 
   if (!artwork) return null;
+
+  const showCountdown = !isPersistent && countdown !== undefined && countdown !== null;
 
   return (
     <div 
@@ -35,11 +38,11 @@ export default function TakeoverModal({ artwork, countdown, getImageUrl, onClose
           onClose();
         }}
         aria-label="Cerrar modal"
-        className="absolute top-8 right-8 z-[1000] font-mono text-[10px] tracking-[0.4em] text-white/40 hover:text-[#2B3BE5] border border-white/5 hover:border-[#2B3BE5]/50 bg-black/60 backdrop-blur-xl px-6 py-3 transition-all duration-500 hover:shadow-[0_0_20px_rgba(43,59,229,0.4)] pointer-events-auto group"
+        className="absolute top-8 right-8 z-[1000] font-mono text-[10px] tracking-[0.4em] text-white/40 hover:text-[#2B3BE5] border border-white/5 hover:border-[#2B3BE5]/50 bg-black/60 backdrop-blur-xl px-6 py-3 transition-all duration-500 hover:shadow-[0_0_20px_rgba(43,59,229,0.4)] pointer-events-auto group cursor-pointer"
       >
         <span className="relative z-10 flex items-center gap-3">
           <span className="w-1 h-1 bg-white/40 group-hover:bg-[#2B3BE5] transition-colors rounded-full" />
-          ABORT SEQUENCE [ESC]
+          CERRAR VISTA [ESC]
         </span>
       </button>
 
@@ -55,27 +58,25 @@ export default function TakeoverModal({ artwork, countdown, getImageUrl, onClose
       {/* Deep Chromatic background aura */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(43,59,229,0.15)_0%,transparent_80%)] mix-blend-color-dodge pointer-events-none" />
 
-      {/* Massive Outlined CRONOS Watermark */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-serif italic text-[25vw] leading-none font-black text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.03)] uppercase pointer-events-none select-none z-0 mix-blend-difference opacity-50">
-        CRONOS
+      {/* Massive Outlined Watermark */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-serif italic text-[22vw] leading-none font-black text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.02)] uppercase pointer-events-none select-none z-0 mix-blend-difference opacity-50">
+        NAROART
       </div>
 
-      {/* Amplified Artwork container with brutalist glitch border */}
+      {/* Amplified Artwork container with brutalist border */}
       <div 
         onClick={(e) => e.stopPropagation()}
-        className="relative w-[95vw] h-[75vh] md:w-[75vw] md:h-[80vh] border border-[#2B3BE5]/30 bg-[#050505] shadow-[0_0_150px_rgba(43,59,229,0.15)] z-10 overflow-hidden group"
+        className="relative w-[95vw] h-[70vh] md:w-[75vw] md:h-[75vh] border border-[#2B3BE5]/30 bg-[#050505] shadow-[0_0_150px_rgba(43,59,229,0.15)] z-10 overflow-hidden group"
       >
         <Image
           src={getImageUrl(artwork.src)}
           alt={artwork.title}
           fill
-          className="object-cover contrast-[1.15] brightness-[0.8] saturate-[0.1] transition-all duration-[5000ms] scale-[1.05] group-hover:scale-110 group-hover:saturate-100 group-hover:brightness-100 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
+          className="object-contain contrast-[1.05] brightness-[0.95] saturate-[0.95] transition-all duration-[5000ms] scale-[1.01] group-hover:scale-105 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
           sizes="(max-width: 768px) 100vw, 80vw"
           quality={100}
           priority
         />
-        {/* Dynamic Glitch Overlay */}
-        <div className="absolute inset-0 bg-[#2B3BE5] mix-blend-color opacity-30 group-hover:opacity-0 transition-opacity duration-1000" />
         
         {/* Frame reticles */}
         <div className="absolute top-4 left-4 w-4 h-4 border-t border-l border-white/30" />
@@ -89,33 +90,54 @@ export default function TakeoverModal({ artwork, countdown, getImageUrl, onClose
         
         <div className="flex flex-col gap-2 backdrop-blur-2xl bg-black/50 border border-white/5 p-6 md:p-8 max-w-xl">
           <div className="flex items-center gap-4 mb-2">
-            <span className="w-2 h-2 bg-red-600 rounded-full animate-ping" />
-            <span className="text-[10px] tracking-[0.6em] uppercase text-[#2B3BE5] font-bold">
-              SYSTEM OVERRIDE
+            <span className="w-1.5 h-1.5 bg-[#2B3BE5] rounded-full" />
+            <span className="text-[9px] tracking-[0.6em] uppercase text-[#2B3BE5] font-bold">
+              ARTWORK PREVIEW
             </span>
           </div>
-          <h2 className="text-4xl sm:text-7xl font-serif font-black uppercase tracking-tighter text-white/90 chromatic-text">
+          <h2 className="text-3xl sm:text-5xl font-serif font-black uppercase tracking-tighter text-white/90">
             {artwork.title}
           </h2>
-          <div className="w-full h-px bg-gradient-to-r from-[#2B3BE5]/50 to-transparent mt-4 mb-2" />
-          <span className="text-xs font-mono text-white/30 tracking-widest uppercase">ID: {Math.random().toString(36).substring(2, 10).toUpperCase()}</span>
+          {artwork.desc && (
+            <>
+              <div className="w-full h-px bg-gradient-to-r from-[#2B3BE5]/50 to-transparent mt-3 mb-2" />
+              <p className="text-[10px] font-sans text-white/60 tracking-wider leading-relaxed">
+                {artwork.desc}
+              </p>
+            </>
+          )}
         </div>
 
-        <div className="mt-4 md:mt-0 flex flex-row items-end gap-6 backdrop-blur-2xl bg-black/50 border border-white/5 p-6 md:p-8">
-          <div className="flex flex-col items-end justify-end h-full">
-            <span className="text-[9px] tracking-[0.4em] uppercase text-white/30 mb-2">TERMINATION IN</span>
-            <div className="flex items-baseline gap-1">
-              <span className="text-6xl font-mono font-black text-white/90 tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">{countdown}</span>
-              <span className="text-xl text-[#2B3BE5] font-mono font-bold tracking-widest">.00</span>
+        {showCountdown ? (
+          <div className="mt-4 md:mt-0 flex flex-row items-end gap-6 backdrop-blur-2xl bg-black/50 border border-white/5 p-6 md:p-8">
+            <div className="flex flex-col items-end justify-end h-full">
+              <span className="text-[9px] tracking-[0.4em] uppercase text-white/30 mb-2">TERMINATION IN</span>
+              <div className="flex items-baseline gap-1">
+                <span className="text-6xl font-mono font-black text-white/90 tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]">{countdown}</span>
+                <span className="text-xl text-[#2B3BE5] font-mono font-bold tracking-widest">.00</span>
+              </div>
+            </div>
+            <div className="w-[3px] h-20 bg-white/5 relative overflow-hidden">
+              <div 
+                className="absolute bottom-0 left-0 w-full bg-[#2B3BE5] transition-all duration-[4000ms] ease-linear shadow-[0_0_20px_rgba(43,59,229,1)]"
+                style={{ height: `${((countdown || 0) / 4) * 100}%` }}
+              />
             </div>
           </div>
-          <div className="w-[3px] h-20 bg-white/5 relative overflow-hidden">
-            <div 
-              className="absolute bottom-0 left-0 w-full bg-[#2B3BE5] transition-all duration-[4000ms] ease-linear shadow-[0_0_20px_rgba(43,59,229,1)]"
-              style={{ height: `${(countdown / 4) * 100}%` }}
-            />
+        ) : (
+          <div className="mt-4 md:mt-0 flex flex-col items-end backdrop-blur-2xl bg-black/50 border border-white/5 p-6 md:p-8">
+            {artwork.category && (
+              <>
+                <span className="text-[8px] tracking-[0.4em] uppercase text-white/30 mb-1">CATEGORÍA / MEDIO</span>
+                <span className="text-[10px] font-mono text-white/80 uppercase tracking-widest">{artwork.category}</span>
+                <div className="w-20 h-px bg-white/10 my-3" />
+              </>
+            )}
+            <span className="text-[8px] tracking-[0.3em] uppercase text-[#2B3BE5] font-bold">
+              [ CLIC EN CUALQUIER ZONA PARA CERRAR ]
+            </span>
           </div>
-        </div>
+        )}
 
       </div>
     </div>
