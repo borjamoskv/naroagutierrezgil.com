@@ -7,6 +7,14 @@ import HeroFluid from '@/components/HeroFluid';
 import ScrollReveal from '@/components/ScrollReveal';
 import Footer from '@/components/Footer';
 
+const renderKineticText = (text: string, baseClass: string, hoverClass: string) => (
+  text.split('').map((char, i) => (
+    <span key={i} className={`inline-block transition-all duration-500 cursor-default ${baseClass} ${hoverClass}`}>
+      {char === ' ' ? '\u00A0' : char}
+    </span>
+  ))
+);
+
 export default function Biografia() {
   useLenis();
 
@@ -43,10 +51,14 @@ export default function Biografia() {
           <div className="absolute -left-6 sm:-left-12 top-0 w-[2px] h-full bg-gradient-to-b from-[#2B3BE5] via-[#2B3BE5]/20 to-transparent" />
           <h1 className="text-[12vw] md:text-[8rem] font-serif font-light leading-[0.8] tracking-tighter uppercase mb-6 drop-shadow-2xl select-none relative">
             <span className="flex overflow-hidden">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:1px_rgba(234,234,234,0.3)] hover:[-webkit-text-stroke:1px_#2B3BE5] transition-all duration-1000 cursor-default chromatic-text">Naroa</span>
+              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] chromatic-text flex">
+                {renderKineticText('Naroa', 'text-transparent [-webkit-text-stroke:1px_rgba(234,234,234,0.3)]', 'hover:[-webkit-text-stroke:1px_#2B3BE5] hover:text-[#2B3BE5] hover:drop-shadow-[0_0_20px_rgba(43,59,229,0.8)] hover:scale-110')}
+              </span>
             </span>
             <span className="flex overflow-hidden mt-2">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-[#EAEAEA] chromatic-text">Gutiérrez</span>
+              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] chromatic-text flex">
+                {renderKineticText('Gutiérrez', 'text-[#EAEAEA]', 'hover:text-[#2B3BE5] hover:drop-shadow-[0_0_20px_rgba(43,59,229,0.8)] hover:-translate-y-2')}
+              </span>
             </span>
             <span className="absolute top-[35%] left-[25%] md:left-[35%] z-20 pointer-events-none">
               <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-[#2B3BE5] font-hand lowercase text-[18vw] md:text-[12rem] -rotate-3 opacity-90 mix-blend-screen drop-shadow-[0_20px_50px_rgba(43,59,229,0.3)] chromatic-text">Gil</span>

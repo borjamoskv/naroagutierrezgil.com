@@ -11,6 +11,15 @@ import ParallaxHoverCard from "@/components/ParallaxHoverCard";
 import MagneticButton from "@/components/MagneticButton";
 import AudioSynthesizer from "@/components/AudioSynthesizer";
 import ScrollReveal from "@/components/ScrollReveal";
+
+const renderKineticText = (text: string, baseClass: string, hoverClass: string) => (
+  text.split('').map((char, i) => (
+    <span key={i} className={`inline-block transition-all duration-500 cursor-default ${baseClass} ${hoverClass}`}>
+      {char === ' ' ? '\u00A0' : char}
+    </span>
+  ))
+);
+
 const GlobalNavigation = dynamic(() => import('@/components/GlobalNavigation'), { ssr: false });
 const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
 
@@ -228,13 +237,13 @@ export default function AutodidactPage() {
           
           <h1 className="text-[11vw] md:text-[7rem] font-serif font-black leading-[0.85] tracking-tighter uppercase mb-8 drop-shadow-2xl select-none">
             <span className="block overflow-hidden">
-              <span className="inline-block animate-[slideUp_1.6s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:1px_rgba(234,234,234,0.35)] hover:[-webkit-text-stroke:1px_#2B3BE5] transition-all duration-1000">
-                AUTO
+              <span className="inline-flex animate-[slideUp_1.6s_cubic-bezier(0.16,1,0.3,1)_0.1s_both]">
+                {renderKineticText('AUTO', 'text-transparent [-webkit-text-stroke:1px_rgba(234,234,234,0.35)]', 'hover:[-webkit-text-stroke:1px_#2B3BE5] hover:text-[#2B3BE5] hover:drop-shadow-[0_0_30px_rgba(43,59,229,0.8)] hover:scale-110')}
               </span>
             </span>
             <span className="block overflow-hidden">
-              <span className="inline-block animate-[slideUp_1.6s_cubic-bezier(0.16,1,0.3,1)_0.3s_both] text-white text-glow">
-                didact
+              <span className="inline-flex animate-[slideUp_1.6s_cubic-bezier(0.16,1,0.3,1)_0.3s_both] text-glow">
+                {renderKineticText('didact', 'text-white', 'hover:text-[#2B3BE5] hover:drop-shadow-[0_0_30px_rgba(43,59,229,1)] hover:-translate-y-4')}
               </span>
             </span>
           </h1>

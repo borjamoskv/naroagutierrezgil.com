@@ -97,6 +97,8 @@ export default function RootLayout({
         <Preloader />
         <CustomCursor />
         {children}
+        {/* Cloudflare Web Analytics (Zero-Entropy Telemetry) */}
+        <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "REPLACE_WITH_YOUR_CF_TOKEN"}'></script>
       </body>
     </html>
   );
