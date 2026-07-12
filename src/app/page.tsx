@@ -22,6 +22,7 @@ const ScrollyTelling = dynamic(() => import('@/components/ScrollyTelling'), { ss
 const TakeoverModal = dynamic(() => import('@/components/TakeoverModal'), { ssr: false });
 const ScrollAwareHeader = dynamic(() => import('@/components/ScrollAwareHeader'), { ssr: false });
 const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
+const WordPressPortal = dynamic(() => import('@/components/WordPressPortal'), { ssr: false });
 
 const baseArtworks = [
   { src: 'james-new.webp', title: 'James Dean', category: 'pop', desc: 'Pop iconography on slate' },
@@ -328,6 +329,7 @@ export default function Home() {
       {/* START: Dynamic Scrollytelling for CAOS mode details */}
       {appMode === "CAOS" && <ScrollyTelling />}
 
+      <WordPressPortal />
       <Footer />
 
       <TakeoverModal 
