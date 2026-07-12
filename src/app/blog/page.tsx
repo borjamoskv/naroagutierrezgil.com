@@ -7,90 +7,7 @@ import HeroFluid from '@/components/HeroFluid';
 import ScrollReveal from '@/components/ScrollReveal';
 import Footer from '@/components/Footer';
 
-interface BlogPost {
-  title: string;
-  date: string;
-  category: string;
-  tags: string[];
-  excerpt: string;
-  image: string;
-  url: string;
-}
-
-const BLOG_POSTS: BlogPost[] = [
-  {
-    title: "Bwall Collective en el Dock: brotes de alma y manos",
-    date: "01/06/2026",
-    category: "Exposiciones",
-    tags: ["Colectiva", "Dock Bilbao", "Feminismo", "Olatz Arrese"],
-    excerpt: "Nuevas sinergias y colisiones artísticas de tinte femenino en Dock Bilbao. Siete creadoras visuales germinan muros con arte y ritmo de vinilo.",
-    image: "https://naroagutierrez.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-27-at-15.00.32.jpeg?w=800",
-    url: "https://naroagutierrez.wordpress.com/2026/06/01/bwall-collective-en-el-dock-brotes-de-alma-y-manos/"
-  },
-  {
-    title: "Autorretratos: Mujeres a través del Espejo",
-    date: "14/05/2026",
-    category: "Talleres",
-    tags: ["Marienea", "Identidad", "Autorretrato", "Sanación"],
-    excerpt: "Un viaje íntimo frente al espejo gestado en Marienea (Basauri). Un ramillete de mujeres valientes indaga en su propia identidad plasmando sus almas en libretas.",
-    image: "https://naroagutierrez.wordpress.com/wp-content/uploads/2026/05/autorretratos-marienea-png.png?w=800",
-    url: "https://naroagutierrez.wordpress.com/2026/05/14/autorretratos-mujeres-a-traves-del-espejo/"
-  },
-  {
-    title: "Muestra «DiviNos VaiVenes» en Politena",
-    date: "15/01/2026",
-    category: "Exposiciones",
-    tags: ["Individual", "Politena", "Pizarra", "Pop"],
-    excerpt: "Selección de retratos pop sobre pizarra y soportes recuperados en el espacio Politena de Bilbao. Un recorrido por miradas intensas y relieves lágricos.",
-    image: "https://naroagutierrez.wordpress.com/wp-content/uploads/2026/01/6-foto-100-auto.jpg?w=800",
-    url: "https://naroagutierrez.wordpress.com/2026/01/15/divinos-vaivenes-muestra-plastica-en-politena-espacio-de-arte/"
-  },
-  {
-    title: "Azoka en Lataska, Sopela",
-    date: "22/05/2025",
-    category: "Encuentros",
-    tags: ["Sopela", "Lataska", "Feria", "Artesanía"],
-    excerpt: "Domingos de arte con aroma costero y sabor a hogar. Piezas únicas sobre pizarra, láminas Fine Art y encuentro matérico junto al mar.",
-    image: "https://naroagutierrez.wordpress.com/wp-content/uploads/2025/05/0-aazoka-en-lataska.png?w=800",
-    url: "https://naroagutierrez.wordpress.com/2025/05/22/25-mayo-2025-azoka-en-lataska-sopela/"
-  },
-  {
-    title: "Udaberriko Jaia 2025: Market en Sopelana",
-    date: "09/05/2025",
-    category: "Encuentros",
-    tags: ["Sopela", "Market", "Primavera", "Diseño"],
-    excerpt: "Celebrando la llegada del buen tiempo en Uribe Kosta. Una exhibición al aire libre de piezas limitadas y obras en técnica mixta.",
-    image: "https://naroagutierrez.wordpress.com/wp-content/uploads/2026/05/gif-olatz-flores-para-gif.gif",
-    url: "https://naroagutierrez.wordpress.com/2025/05/09/udaberriko-jaia-2025-market-en-sopelana-18-de-mayo/"
-  },
-  {
-    title: "El ReCreo: Espacio de Creación para recreArte",
-    date: "12/01/2024",
-    category: "Talleres",
-    tags: ["Formación", "Yo Pinto Mucho", "Kintsugi Pedagógico", "Libre"],
-    excerpt: "Nace un refugio de acompañamiento creativo libre en Uribarri. Un espacio multigeneracional para jugar con la pintura y revalorizar el error.",
-    image: "https://naroagutierrez.wordpress.com/wp-content/uploads/2024/01/el-recreo5.jpg?w=800",
-    url: "https://naroagutierrez.wordpress.com/2024/01/12/el-recreo-espacio-de-creacion-para-recrearte/"
-  },
-  {
-    title: "Muestra Colectiva «Emakumeen arteaN»",
-    date: "16/12/2022",
-    category: "Exposiciones",
-    tags: ["Feminismo", "Colectiva", "Uribarri", "Mujeres Artistas"],
-    excerpt: "Encuentro y visibilización de creadoras locales en el corazón de Bilbao. Una muestra que celebra el poder colectivo del arte femenino.",
-    image: "https://naroagutierrez.wordpress.com/wp-content/uploads/2026/05/foto-grupo-ok.png?w=800",
-    url: "https://naroagutierrez.wordpress.com/2022/12/16/muestra-colectiva-emakumeen-artean/"
-  },
-  {
-    title: "Repóker de Reinas: VAIVENES en Siarte",
-    date: "22/03/2022",
-    category: "Exposiciones",
-    tags: ["Siarte", "Pop", "Espejo", "Retratos"],
-    excerpt: "Cinco reinas y cinco miradas pop cargadas de turbulencias internas. Retratos en tensión que desafían los moldes y los reflejos del alma.",
-    image: "https://naroagutierrez.wordpress.com/wp-content/uploads/2026/05/gif-2022.gif",
-    url: "https://naroagutierrez.wordpress.com/2022/03/22/repoker-de-reinas-vaivenes-en-siarte/"
-  }
-];
+import { BLOG_POSTS } from '@/lib/blogData';
 
 export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
@@ -235,9 +152,7 @@ export default function BlogPage() {
                   </div>
 
                   <a
-                    href={post.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href={`/blog/${post.slug}`}
                     className="inline-flex items-center gap-3 font-mono text-[9px] tracking-[0.2em] uppercase text-primary hover:text-white transition-colors duration-500 group/link"
                   >
                     <span>Leer artículo completo</span>
