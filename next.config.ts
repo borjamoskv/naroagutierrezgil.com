@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   experimental: {
-    optimizePackageImports: ['framer-motion', 'lucide-react', 'three', '@react-three/fiber', '@react-three/drei'],
+    optimizePackageImports: ['three', '@react-three/fiber', '@react-three/drei'],
   },
   images: {
     unoptimized: true,

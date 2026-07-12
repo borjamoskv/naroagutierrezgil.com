@@ -30,7 +30,7 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       throw new Error(`Failed to fetch posts: ${res.status}`);
     }
     
-    const data = await res.json();
+    const data: any = await res.json();
     
     if (!data || !data.posts) {
       return [];

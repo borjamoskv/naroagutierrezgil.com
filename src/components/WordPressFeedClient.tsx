@@ -21,8 +21,8 @@ export default function WordPressFeedClient() {
     const controller = new AbortController();
     
     fetch('/api/wp', { signal: controller.signal })
-      .then(res => res.json())
-      .then((data: WPAPIResponse) => {
+      .then(res => res.json() as Promise<WPAPIResponse>)
+      .then((data) => {
         if (data.items) {
           setPosts(data.items);
         }

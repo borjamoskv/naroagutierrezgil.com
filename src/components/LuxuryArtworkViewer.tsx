@@ -667,17 +667,13 @@ export default function LuxuryArtworkViewer({ onExpand }: { onExpand?: (artwork:
                 <ContactShadows position={[0, -1.3, 0]} opacity={0.65} scale={5} blur={2.5} far={4} color="#000000" />
 
                 {/* SOTA AWWWARDS Post-Processing Pipeline */}
-                <EffectComposer disableNormalPass multisampling={8}>
-                  {/* Glowing gold veins and mica mineral reflections */}
+                <EffectComposer multisampling={8}>
                   <Bloom luminanceThreshold={1.2} mipmapBlur intensity={1.5} />
-                  {/* Lens dispersion (Chromatic Aberration) based on edge radius */}
                   <ChromaticAberration 
                     blendFunction={BlendFunction.NORMAL}
                     offset={new THREE.Vector2(0.0005, 0.0005)}
                   />
-                  {/* Subtle film grain for physical camera feel */}
                   <Noise opacity={0.035} blendFunction={BlendFunction.OVERLAY} />
-                  {/* Darkened edges focusing attention on the artwork */}
                   <Vignette eskil={false} offset={0.1} darkness={1.1} />
                 </EffectComposer>
               </Canvas>

@@ -136,7 +136,7 @@ export default function AudioSynthesizer({ pointerDown, pointerX, pointerY }: Au
   }, [pointerDown, pointerY]);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 pointer-events-auto mix-blend-difference">
+    <div className="fixed bottom-6 right-6 z-50 pointer-events-auto">
       <MagneticButton
         onClick={toggleAudio}
         range={50}

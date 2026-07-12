@@ -184,7 +184,7 @@ export default function WebGLBackground() {
         <StarBackground />
         
         {/* SOTA AWWWARDS Physical Volume Post-Processing */}
-        <EffectComposer disableNormalPass multisampling={0}>
+        <EffectComposer multisampling={0}>
           <DepthOfField focusDistance={0.0} focalLength={0.02} bokehScale={2} height={480} />
           <Bloom luminanceThreshold={0.5} mipmapBlur intensity={2.5} radius={0.8} />
           <Noise opacity={0.02} blendFunction={BlendFunction.OVERLAY} />
