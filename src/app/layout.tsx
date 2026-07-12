@@ -84,7 +84,7 @@ export default function RootLayout({
               prerender: [
                 {
                   source: "list",
-                  urls: ["/", "/autodidact", "/biografia", "/contacto"],
+                  urls: ["/", "/autodidact", "/biografia", "/contacto", "/blog"],
                   eagerness: "moderate"
                 }
               ]

@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import KineticArtwork from './KineticArtwork';
 
 type AlcoveId = 'pop' | 'pizarra' | 'poliester' | 'kintsugi' | 'mica' | 'reverso';
 
@@ -119,13 +120,11 @@ export default function AlcoveSystem({ activeAlcove, setActiveAlcove, resolveSrc
           className="w-full relative bg-neutral-950 border-y sm:border border-white/10 overflow-hidden group shadow-2xl aspect-[4/5] sm:aspect-[21/9] cursor-pointer"
         >
           
-          <Image
+          <KineticArtwork
             src={resolveSrc(data.image)}
             alt={data.title}
-            fill
-            sizes="100vw"
-            quality={100}
-            className="object-cover transition-transform duration-[6s] ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:scale-[1.20] filter contrast-125 saturate-50 group-hover:contrast-150 group-hover:saturate-150"
+            priority={true}
+            className="w-full h-full object-cover filter contrast-125 saturate-50 group-hover:saturate-100"
           />
 
           {/* CRT Scanline Overlay */}
