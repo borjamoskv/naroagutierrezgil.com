@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { Html } from '@react-three/drei';
+import { Html, Environment } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Shaders for Interactive Canvas Details Viewer
@@ -378,13 +378,13 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
         <boxGeometry args={[1.6, 2.0, 0.06]} />
         
         {/* Left Side */}
-        <meshStandardMaterial attach="material-0" color="#141416" roughness={0.9} />
+        <meshPhysicalMaterial attach="material-0" color="#141416" roughness={0.8} metalness={0.2} clearcoat={0.1} />
         {/* Right Side */}
-        <meshStandardMaterial attach="material-1" color="#141416" roughness={0.9} />
+        <meshPhysicalMaterial attach="material-1" color="#141416" roughness={0.8} metalness={0.2} clearcoat={0.1} />
         {/* Top Side */}
-        <meshStandardMaterial attach="material-2" color="#1c1c1e" roughness={0.9} />
+        <meshPhysicalMaterial attach="material-2" color="#1c1c1e" roughness={0.8} metalness={0.2} clearcoat={0.1} />
         {/* Bottom Side */}
-        <meshStandardMaterial attach="material-3" color="#111113" roughness={0.9} />
+        <meshPhysicalMaterial attach="material-3" color="#111113" roughness={0.8} metalness={0.2} clearcoat={0.1} />
         
         {/* Front Face (Artwork with interactive shaders) */}
         <shaderMaterial 
@@ -397,11 +397,13 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
         />
         
         {/* Back Face (Natural slate backing + signature + QR code symbol) */}
-        <meshStandardMaterial 
+        <meshPhysicalMaterial 
           attach="material-5" 
           color="#0d0d0f" 
-          roughness={0.95} 
-          metalness={0.1}
+          roughness={0.9} 
+          metalness={0.3}
+          clearcoat={0.05}
+          clearcoatRoughness={0.8}
         />
 
         {/* Hotspots represented as interactive HTML elements in 3D */}
@@ -637,11 +639,15 @@ export default function LuxuryArtworkViewer({ onExpand }: { onExpand?: (artwork:
                 camera={{ position: [0, 0, 3.2], fov: 50 }}
                 dpr={[1, 1.5]}
                 shadows
+                gl={{ toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.2 }}
               >
-                <ambientLight intensity={0.6} />
-                <directionalLight position={[3, 5, 2]} intensity={1.2} castShadow />
-                <directionalLight position={[-3, -2, -2]} intensity={0.5} />
-                <pointLight position={[0, 2, 4]} intensity={0.8} />
+                <ambientLight intensity={0.4} />
+                <directionalLight position={[3, 5, 2]} intensity={1.5} castShadow shadow-bias={-0.0001} />
+                <directionalLight position={[-3, -2, -2]} intensity={0.8} color="#2B3BE5" />
+                <pointLight position={[0, 2, 4]} intensity={1.0} color="#F59E0B" distance={10} />
+                
+                {/* AWWWARDS LEVEL HYPERREALISM: Image-Based Lighting */}
+                <Environment preset="city" />
                 
                 <InteractiveCanvasModel
                   src={artwork.src}
