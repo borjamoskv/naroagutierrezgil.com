@@ -63,27 +63,55 @@ export default function TakeoverModal({ artwork, countdown, isPersistent = false
         NAROART
       </div>
 
-      {/* Amplified Artwork container with brutalist border */}
+      {/* Amplified Artwork container occupying FULL SCREEN */}
       <div 
         onClick={(e) => e.stopPropagation()}
-        className="relative w-[95vw] h-[70vh] md:w-[75vw] md:h-[75vh] border border-[#2B3BE5]/30 bg-[#050505] shadow-[0_0_150px_rgba(43,59,229,0.15)] z-10 overflow-hidden group"
+        className="absolute inset-0 z-10 overflow-hidden group perspective-[2000px]"
+        onMouseMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width;
+          const y = (e.clientY - rect.top) / rect.height;
+          e.currentTarget.style.setProperty('--mouse-x', `${x * 100}%`);
+          e.currentTarget.style.setProperty('--mouse-y', `${y * 100}%`);
+          e.currentTarget.style.setProperty('--rotate-y', `${(x - 0.5) * 10}deg`);
+          e.currentTarget.style.setProperty('--rotate-x', `${-(y - 0.5) * 10}deg`);
+        }}
       >
-        <Image
-          src={getImageUrl(artwork.src)}
-          alt={artwork.title}
-          fill
-          className="object-contain contrast-[1.05] brightness-[0.95] saturate-[0.95] transition-all duration-[5000ms] scale-[1.01] group-hover:scale-105 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
-          sizes="(max-width: 768px) 100vw, 80vw"
-          quality={100}
-          priority
-        />
-        
-        {/* Frame reticles */}
-        <div className="absolute top-4 left-4 w-4 h-4 border-t border-l border-white/30" />
-        <div className="absolute top-4 right-4 w-4 h-4 border-t border-r border-white/30" />
-        <div className="absolute bottom-4 left-4 w-4 h-4 border-b border-l border-white/30" />
-        <div className="absolute bottom-4 right-4 w-4 h-4 border-b border-r border-white/30" />
+        <div className="absolute inset-0 transition-transform duration-200 ease-out preserve-3d" style={{ transform: 'rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) scale(1.02)' }}>
+          <Image
+            src={getImageUrl(artwork.src)}
+            alt={artwork.title}
+            fill
+            className="object-contain contrast-[1.05] brightness-[0.95] saturate-[0.95] transition-all duration-[5000ms] scale-[1.01] group-hover:scale-105 ease-[cubic-bezier(0.2,0.8,0.2,1)] drop-shadow-[0_0_100px_rgba(255,255,255,0.05)]"
+            style={{ filter: 'url(#art-wink)' }}
+            sizes="100vw"
+            quality={100}
+            priority
+          />
+          {/* Interactive Glare / Wink Effect */}
+          <div 
+            className="absolute inset-0 mix-blend-overlay pointer-events-none transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+            style={{
+              background: 'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.3) 0%, transparent 40%)'
+            }}
+          />
+          {/* Subtle automated Wink sweep */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-[rgba(255,255,255,0.1)] to-transparent -translate-x-full animate-[shimmerWink_6s_infinite_cubic-bezier(0.4,0,0.2,1)] mix-blend-overlay pointer-events-none" />
+        </div>
       </div>
+
+      {/* SVG Wink Filter definition */}
+      <svg className="hidden">
+        <filter id="art-wink">
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="1" result="noise" />
+          <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.5 0" in="noise" result="coloredNoise" />
+          <feDisplacementMap in="SourceGraphic" in2="coloredNoise" xChannelSelector="R" yChannelSelector="G" scale="0">
+            <animate attributeName="scale" values="0; 15; 0; 0" keyTimes="0; 0.02; 0.04; 1" dur="7s" repeatCount="indefinite" />
+          </feDisplacementMap>
+        </filter>
+      </svg>
+        
+
 
       {/* HUD info overlays */}
       <div className="absolute bottom-6 left-6 right-6 md:bottom-12 md:left-12 md:right-12 z-[100] flex flex-col md:flex-row md:items-end justify-between pointer-events-none">

@@ -311,7 +311,10 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
 
   useEffect(() => {
     if (texture) {
-      texture.minFilter = THREE.LinearFilter;
+      const tex = texture as any;
+      tex['minFilter'] = THREE.LinearFilter;
+      tex['colorSpace'] = THREE.SRGBColorSpace;
+      tex['needsUpdate'] = true;
       if (frontMaterialRef.current) {
         frontMaterialRef.current.uniforms.uTexture.value = texture;
       }
