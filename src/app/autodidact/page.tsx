@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Lenis from "lenis";
+import dynamic from "next/dynamic";
 import HeroFluid from "@/components/HeroFluid";
 import InteractiveSlateCanvas from "@/components/InteractiveSlateCanvas";
 import ScrollMarquee from "@/components/ScrollMarquee";
@@ -10,8 +11,8 @@ import ParallaxHoverCard from "@/components/ParallaxHoverCard";
 import MagneticButton from "@/components/MagneticButton";
 import AudioSynthesizer from "@/components/AudioSynthesizer";
 import ScrollReveal from "@/components/ScrollReveal";
-import Footer from "@/components/Footer";
-import ScrollAwareHeader from "@/components/ScrollAwareHeader";
+const GlobalNavigation = dynamic(() => import('@/components/GlobalNavigation'), { ssr: false });
+const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
 
 /**
  * Autodidact page - A premium interactive experience inspired by Dennis Snellenberg and Immersive Garden.
@@ -182,48 +183,7 @@ export default function AutodidactPage() {
       <InteractiveSlateCanvas disabled={reducedMotion} />
 
       {/* Floating Pill Navigation */}
-      <ScrollAwareHeader className="fixed top-6 left-1/2 -translate-x-1/2 w-auto px-2 py-2 flex items-center z-[210] pointer-events-auto select-none text-white rounded-full animate-[fadeIn_1.5s_ease-out_both] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.8)] border border-white/10 mix-blend-normal bg-[#111]/80 backdrop-blur-2xl">
-        <div className="flex items-center gap-1">
-          <Link href="/" className="group flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-[var(--primary)] transition-colors duration-300 ml-1 mr-2">
-            <span className="font-sans text-sm font-black text-white group-hover:text-black transition-colors duration-300">N</span>
-          </Link>
-
-          <Link
-            href="/"
-            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
-          >
-            Inicio
-          </Link>
-
-          <Link
-            href="/#alcove-system"
-            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
-          >
-            Obra
-          </Link>
-
-          <Link
-            href="/biografia"
-            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
-          >
-            Trayectoria
-          </Link>
-
-          <button
-            onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-white/10 text-[var(--primary)] px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
-          >
-            Filosofía
-          </button>
-
-          <Link
-            href="/contacto"
-            className="ml-2 font-mono text-[9.5px] tracking-[0.2em] uppercase bg-[var(--primary)] hover:bg-white text-white hover:text-black px-5 py-2.5 transition-all duration-300 cursor-pointer rounded-full font-bold shadow-[0_0_15px_rgba(var(--primary-rgb),0.4)] hover:shadow-[0_0_20px_rgba(255,255,255,0.6)]"
-          >
-            Contacto
-          </Link>
-        </div>
-      </ScrollAwareHeader>
+      <GlobalNavigation />
 
       {/* Floating HUD - Cinematic System Indicators (Immersive Garden style) */}
       <div className="fixed top-24 left-8 z-45 flex flex-col gap-2 pointer-events-none select-none opacity-80 bg-[#111]/40 backdrop-blur-md border border-white/5 p-4 rounded-xl shadow-2xl">

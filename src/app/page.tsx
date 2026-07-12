@@ -11,19 +11,19 @@ const MacroSplatCanvas = dynamic(() => import('@/components/SplatBenchmarkCanvas
 const SplatPhysicsTester = dynamic(() => import('@/components/SplatPhysicsTester'), { ssr: false });
 const KineticArtwork = dynamic(() => import('@/components/KineticArtwork'), { ssr: false });
 const ThreeDCarousel = dynamic(() => import('@/components/ThreeDCarousel'), { ssr: false });
-const HeroSection = dynamic(() => import('@/components/HeroSection'), { ssr: false });
-const PhilosophyStatement = dynamic(() => import('@/components/PhilosophyStatement'), { ssr: false });
-const AlcoveSystem = dynamic(() => import('@/components/AlcoveSystem'), { ssr: false });
+const HeroSection = dynamic(() => import('@/components/HeroSection'));
+const PhilosophyStatement = dynamic(() => import('@/components/PhilosophyStatement'));
+const AlcoveSystem = dynamic(() => import('@/components/AlcoveSystem'));
 const LuxuryArtworkViewer = dynamic(() => import('@/components/LuxuryArtworkViewer'), { ssr: false });
 const DepthHUD = dynamic(() => import('@/components/DepthHUD'), { ssr: false });
 const SOTAFX = dynamic(() => import('@/components/SOTAFX'), { ssr: false });
 const Mica = dynamic(() => import('@/components/Mica'), { ssr: false });
-const ScrollyTelling = dynamic(() => import('@/components/ScrollyTelling'), { ssr: false });
-const TakeoverModal = dynamic(() => import('@/components/TakeoverModal'), { ssr: false });
-const ScrollAwareHeader = dynamic(() => import('@/components/ScrollAwareHeader'), { ssr: false });
-const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
-const WordPressPortal = dynamic(() => import('@/components/WordPressPortal'), { ssr: false });
-const WordPressFeedClient = dynamic(() => import('@/components/WordPressFeedClient'), { ssr: false });
+const ScrollyTelling = dynamic(() => import('@/components/ScrollyTelling'));
+const TakeoverModal = dynamic(() => import('@/components/TakeoverModal'));
+const GlobalNavigation = dynamic(() => import('@/components/GlobalNavigation'), { ssr: false });
+const Footer = dynamic(() => import('@/components/Footer'));
+const WordPressPortal = dynamic(() => import('@/components/WordPressPortal'));
+const WordPressFeedClient = dynamic(() => import('@/components/WordPressFeedClient'));
 
 const baseArtworks = [
   { src: 'james-new.webp', title: 'James Dean', category: 'pop', desc: 'Pop iconography on slate' },
@@ -235,51 +235,10 @@ export default function Home() {
       )}
 
       {/* Floating Pill Navigation */}
-      <ScrollAwareHeader className="fixed top-6 left-1/2 -translate-x-1/2 w-auto px-2 py-2 flex items-center z-[210] pointer-events-auto select-none text-white rounded-full animate-[fadeIn_1.5s_ease-out_both] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.8)] border border-white/10">
-        <div className="flex items-center gap-1">
-          <Link href="/" className="group flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-[var(--primary)] transition-colors duration-300 ml-1 mr-2">
-            <span className="font-sans text-sm font-black text-white group-hover:text-black transition-colors duration-300">N</span>
-          </Link>
-
-          <button
-            onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
-          >
-            Inicio
-          </button>
-
-          <button
-            onClick={() => document.getElementById('alcove-system')?.scrollIntoView({ behavior: 'smooth' })}
-            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
-          >
-            Obra
-          </button>
-
-          <Link
-            href="/biografia"
-            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
-          >
-            Trayectoria
-          </Link>
-
-          <Link
-            href="/autodidact"
-            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
-          >
-            Filosofía
-          </Link>
-
-          <Link
-            href="/contacto"
-            className="ml-2 font-mono text-[9.5px] tracking-[0.2em] uppercase bg-[var(--primary)] hover:bg-white text-white hover:text-black px-5 py-2.5 transition-all duration-300 cursor-pointer rounded-full font-bold shadow-[0_0_15px_rgba(var(--primary-rgb),0.4)] hover:shadow-[0_0_20px_rgba(255,255,255,0.6)]"
-          >
-            Contacto
-          </Link>
-        </div>
-      </ScrollAwareHeader>
+      <GlobalNavigation />
 
       {/* Floating Utilities (Dimension & Color Palette) */}
-      <div className="fixed bottom-8 left-8 z-[210] flex flex-col gap-4 pointer-events-auto items-start animate-[fadeIn_2s_ease-out_both] mix-blend-difference">
+      <div className="fixed bottom-8 left-8 z-[210] flex flex-col gap-4 pointer-events-auto items-start animate-[fadeIn_2s_ease-out_both]">
         {/* Color Palette Switcher */}
         <div className="hidden md:flex items-center gap-3 bg-[#111]/80 backdrop-blur-2xl border border-white/10 px-4 py-3 rounded-full shadow-2xl">
           {[
