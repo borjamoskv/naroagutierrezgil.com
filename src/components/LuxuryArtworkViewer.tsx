@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { Html, Environment } from '@react-three/drei';
+import { Html, Environment, Float, ContactShadows, Lightformer } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Shaders for Interactive Canvas Details Viewer
@@ -320,10 +320,6 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
     if (meshRef.current && !isDragging.current) {
       // Lerp current mesh rotation to target rotationY set by button controls or dragging
       meshRef.current.rotation.y = THREE.MathUtils.lerp(meshRef.current.rotation.y, rotationY, delta * 5);
-      
-      // Gentle floating animation
-      meshRef.current.position.y = Math.sin(state.clock.getElapsedTime() * 0.8) * 0.05;
-      meshRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.4) * 0.03;
     }
 
     if (frontMaterialRef.current) {
@@ -646,17 +642,27 @@ export default function LuxuryArtworkViewer({ onExpand }: { onExpand?: (artwork:
                 <directionalLight position={[-3, -2, -2]} intensity={0.8} color="#2B3BE5" />
                 <pointLight position={[0, 2, 4]} intensity={1.0} color="#F59E0B" distance={10} />
                 
-                {/* AWWWARDS LEVEL HYPERREALISM: Image-Based Lighting */}
-                <Environment preset="city" />
-                
-                <InteractiveCanvasModel
-                  src={artwork.src}
-                  hotspots={artwork.hotspots}
-                  activeHotspot={activeHotspot}
-                  setActiveHotspot={setActiveHotspot}
-                  rotationY={rotationY}
-                  setRotationY={setRotationY}
-                />
+                {/* AWWWARDS LEVEL HYPERREALISM: Studio Lighting Environment */}
+                <Environment preset="city" resolution={512}>
+                  {/* Lightformers act as physical studio softboxes reflecting off the clearcoat resin */}
+                  <Lightformer form="rect" intensity={2} position={[2, 3, 3]} scale={[5, 1, 1]} target={[0, 0, 0]} />
+                  <Lightformer form="rect" intensity={3} color="#2B3BE5" position={[-3, -1, -1]} scale={[3, 5, 1]} target={[0, 0, 0]} />
+                  <Lightformer form="circle" intensity={1.5} color="#F59E0B" position={[0, 5, -2]} scale={[2, 2, 1]} target={[0, 0, 0]} />
+                </Environment>
+
+                <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.4} floatingRange={[-0.05, 0.05]}>
+                  <InteractiveCanvasModel
+                    src={artwork.src}
+                    hotspots={artwork.hotspots}
+                    activeHotspot={activeHotspot}
+                    setActiveHotspot={setActiveHotspot}
+                    rotationY={rotationY}
+                    setRotationY={setRotationY}
+                  />
+                </Float>
+
+                {/* Hyper-realistic physical shadow on an invisible floor plane */}
+                <ContactShadows position={[0, -1.3, 0]} opacity={0.65} scale={5} blur={2.5} far={4} color="#000000" />
               </Canvas>
             </div>
 
