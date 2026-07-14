@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-import CustomCursor from "@/components/CustomCursor";
-import Preloader from "@/components/Preloader";
+import ClientWrapper from "@/components/ClientWrapper";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://naroagutierrezgil.com'),
@@ -94,8 +93,7 @@ export default function RootLayout({
       </head>
       <body className="bg-[#0A0A0A] text-[#EAEAEA] antialiased">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[99999] focus:bg-[#2B3BE5] focus:text-white focus:px-4 focus:py-2 focus:text-sm focus:rounded-sm">Saltar al contenido</a>
-        <Preloader />
-        <CustomCursor />
+        <ClientWrapper />
         {children}
       </body>
     </html>

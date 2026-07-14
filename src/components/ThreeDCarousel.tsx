@@ -551,7 +551,7 @@ export default function ThreeDCarousel({ onExpand }: { onExpand?: (artwork: { sr
         <Canvas
           camera={{ position: [0, 0, 4.0], fov: 60 }}
           dpr={[1, 1.5]}
-          shadows
+          shadows={{ type: THREE.PCFShadowMap }}
           className="z-10"
         >
           <FloatingLights />

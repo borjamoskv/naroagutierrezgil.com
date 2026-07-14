@@ -10,11 +10,26 @@ export const onRequest: PagesFunction = async (context: EventContext) => {
   
   const host = url.hostname;
   
-  // TEMPORARILY DISABLED REDIRECTS FOR TESTING ON PAGES.DEV
-  // if (host.includes('.pages.dev') || host === 'naroa.online' || host === 'www.naroagutierrezgil.com') {
-  //   url.hostname = 'naroagutierrezgil.com';
-  //   return Response.redirect(url.toString(), 301);
-  // }
+  // Enrutamiento de Dominio Dual (Sanedrín de Arte)
+  // naroa.online -> Bóveda transaccional (/shop, /recreo, /cdn-cgi)
+  // naroagutierrezgil.com -> Templo 3D Awwwards (/)
+  if (host === 'www.naroagutierrezgil.com' || host.includes('.pages.dev')) {
+    // Canonicalize to root domain for Awwwards
+    url.hostname = 'naroagutierrezgil.com';
+    return Response.redirect(url.toString(), 301);
+  }
+
+  // Cross-domain logic: If someone tries to access /shop on the Templo, redirect to Bóveda
+  if (host === 'naroagutierrezgil.com' && (url.pathname.startsWith('/shop') || url.pathname.startsWith('/recreo'))) {
+    url.hostname = 'naroa.online';
+    return Response.redirect(url.toString(), 301);
+  }
+
+  // If someone tries to access the Templo root on the Bóveda, redirect to Templo
+  if (host === 'naroa.online' && url.pathname === '/') {
+    url.hostname = 'naroagutierrezgil.com';
+    return Response.redirect(url.toString(), 301);
+  }
 
   // Local fallback for Cloudflare Images resize paths
   if (host === 'localhost' || host === '127.0.0.1') {

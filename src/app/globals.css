@@ -12,6 +12,12 @@
   --font-mono: "JetBrains Mono", monospace;
   --font-serif: "Playfair Display", ui-serif, Georgia, serif;
 
+  --animate-shimmerWink: shimmerWink 6s infinite cubic-bezier(0.4, 0, 0.2, 1);
+  @keyframes shimmerWink {
+    0%, 100% { transform: translateX(-100%) skewX(-15deg); }
+    50% { transform: translateX(200%) skewX(-15deg); }
+  }
+
 }
 
 :root {

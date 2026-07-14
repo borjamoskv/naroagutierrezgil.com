@@ -636,7 +636,7 @@ export default function LuxuryArtworkViewer({ onExpand }: { onExpand?: (artwork:
               <Canvas
                 camera={{ position: [0, 0, 3.2], fov: 50 }}
                 dpr={[1, 1.5]}
-                shadows
+                shadows={{ type: THREE.PCFShadowMap }}
                 gl={{ toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.2 }}
               >
                 <ambientLight intensity={0.4} />

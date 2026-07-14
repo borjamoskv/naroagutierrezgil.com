@@ -8,9 +8,7 @@ const nextConfig: NextConfig = {
       exclude: ['error'],
     },
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+
   typescript: {
     ignoreBuildErrors: true,
   },

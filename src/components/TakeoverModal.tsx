@@ -66,17 +66,57 @@ export default function TakeoverModal({ artwork, countdown, isPersistent = false
       {/* Amplified Artwork container with brutalist border */}
       <div 
         onClick={(e) => e.stopPropagation()}
-        className="relative w-[95vw] h-[70vh] md:w-[75vw] md:h-[75vh] border border-[#2B3BE5]/30 bg-[#050505] shadow-[0_0_150px_rgba(43,59,229,0.15)] z-10 overflow-hidden group"
+        onMouseMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const rotX = ((y / rect.height) - 0.5) * -10;
+          const rotY = ((x / rect.width) - 0.5) * 10;
+          e.currentTarget.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
+          e.currentTarget.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
+          e.currentTarget.style.setProperty('--rotate-x', `${rotX}deg`);
+          e.currentTarget.style.setProperty('--rotate-y', `${rotY}deg`);
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.setProperty('--rotate-x', `0deg`);
+          e.currentTarget.style.setProperty('--rotate-y', `0deg`);
+          e.currentTarget.style.setProperty('--mouse-x', `50%`);
+          e.currentTarget.style.setProperty('--mouse-y', `50%`);
+        }}
+        className="relative w-[95vw] h-[70vh] md:w-[75vw] md:h-[75vh] border border-[#2B3BE5]/30 bg-[#050505] shadow-[0_0_150px_rgba(43,59,229,0.15)] z-10 overflow-hidden group perspective-[1000px]"
       >
-        <Image
-          src={getImageUrl(artwork.src)}
-          alt={artwork.title}
-          fill
-          className="object-contain contrast-[1.05] brightness-[0.95] saturate-[0.95] transition-all duration-[5000ms] scale-[1.01] group-hover:scale-105 ease-[cubic-bezier(0.2,0.8,0.2,1)]"
-          sizes="(max-width: 768px) 100vw, 80vw"
-          quality={100}
-          priority
-        />
+        <div className="absolute inset-0 transition-transform duration-200 ease-out preserve-3d" style={{ transform: 'rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) scale(1.02)' }}>
+          <Image
+            src={getImageUrl(artwork.src)}
+            alt={artwork.title}
+            fill
+            className="object-contain contrast-[1.05] brightness-[0.95] saturate-[0.95] transition-all duration-[5000ms] scale-[1.01] group-hover:scale-105 ease-[cubic-bezier(0.2,0.8,0.2,1)] drop-shadow-[0_0_100px_rgba(255,255,255,0.05)]"
+            style={{ filter: 'url(#art-wink)' }}
+            sizes="(max-width: 768px) 100vw, 80vw"
+            quality={100}
+            priority
+          />
+          {/* Interactive Glare / Wink Effect */}
+          <div 
+            className="absolute inset-0 mix-blend-overlay pointer-events-none transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+            style={{
+              background: 'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255,255,255,0.3) 0%, transparent 40%)'
+            }}
+          />
+          {/* Subtle automated Wink sweep */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-[rgba(255,255,255,0.1)] to-transparent -translate-x-full animate-[shimmerWink_3s_infinite] mix-blend-overlay pointer-events-none" />
+        </div>
+
+      {/* SVG Wink Filter definition */}
+      <svg className="hidden">
+        <filter id="art-wink">
+          <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="1" result="noise" />
+          <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.5 0" in="noise" result="coloredNoise" />
+          <feDisplacementMap in="SourceGraphic" in2="coloredNoise" xChannelSelector="R" yChannelSelector="G" scale="0">
+            <animate attributeName="scale" values="0; 15; 0; 0" keyTimes="0; 0.02; 0.04; 1" dur="7s" repeatCount="indefinite" />
+          </feDisplacementMap>
+        </filter>
+      </svg>
         
         {/* Frame reticles */}
         <div className="absolute top-4 left-4 w-4 h-4 border-t border-l border-white/30" />

@@ -463,12 +463,20 @@ function SplatInteractiveCanvas() {
             <p className="text-white/70 font-mono text-xs leading-relaxed uppercase mb-6">
               La fricción colectiva ha quebrado la obra. Inyección de resina de oro requerida para sanar las cicatrices.
             </p>
-            <button 
-              className="px-6 py-3 bg-amber-500 text-black font-bold font-sans tracking-widest text-[10px] uppercase cursor-pointer hover:bg-amber-400 transition-all rounded-sm shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:scale-105"
-              onClick={handleInjectGold}
-            >
-              Inyección Colaborativa de Oro
-            </button>
+            <div className="flex flex-col gap-4">
+              <button 
+                className="px-6 py-3 bg-amber-500 text-black font-bold font-sans tracking-widest text-[10px] uppercase cursor-pointer hover:bg-amber-400 transition-all rounded-sm shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:scale-105"
+                onClick={handleInjectGold}
+              >
+                Inyección Colaborativa de Oro
+              </button>
+              <a 
+                href="https://naroa.online/shop" 
+                className="px-6 py-3 border-2 border-white bg-transparent text-white font-bold font-sans tracking-widest text-[10px] uppercase cursor-pointer hover:bg-white hover:text-black transition-all rounded-sm shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] text-center block"
+              >
+                Adquirir Materia (Ir a la Bóveda ↗)
+              </a>
+            </div>
           </div>
           {/* Cracks SVG overlay */}
           <svg className="absolute inset-0 w-full h-full pointer-events-none mix-blend-screen" viewBox="0 0 1000 1000" preserveAspectRatio="none">
