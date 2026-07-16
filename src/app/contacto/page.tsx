@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useState } from 'react';
 import useLenis from '@/hooks/useLenis';
 import HeroFluid from '@/components/HeroFluid';
 import ScrollReveal from '@/components/ScrollReveal';
@@ -9,39 +8,38 @@ import Footer from '@/components/Footer';
 import GlobalNavigation from '@/components/GlobalNavigation';
 
 export default function Contacto() {
-  const [formData, setFormData] = useState({
-    nombre: '',
-    email: '',
-    tipo: 'individual',
-    tamano: 'mediano',
-    inversion: '500-1500',
-    detalles: ''
-  });
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
-
-  useLenis();
-
-  useEffect(() => {
+  const [formData, setFormData] = useState(() => {
+    const initial = {
+      nombre: '',
+      email: '',
+      tipo: 'individual',
+      tamano: 'mediano',
+      inversion: '500-1500',
+      detalles: ''
+    };
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
       const obra = params.get('obra');
       const action = params.get('action');
-      
       if (action === 'encargo') {
-        setFormData(prev => ({
-          ...prev,
+        return {
+          ...initial,
           tipo: 'especial',
           detalles: 'Hola Naroa, me gustaría iniciar el proceso para un encargo de obra personalizada.'
-        }));
+        };
       } else if (obra) {
-        setFormData(prev => ({
-          ...prev,
+        return {
+          ...initial,
           tipo: 'individual',
           detalles: `Hola Naroa, me interesa adquirir la obra: ${obra.toUpperCase()} (ID/Hash: ${obra}).`
-        }));
+        };
       }
     }
-  }, []);
+    return initial;
+  });
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+
+  useLenis();
 
   // Calcular estimación en caliente (C5-REAL logic)
   const getEstimatedPrice = () => {
