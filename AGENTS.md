@@ -21,6 +21,8 @@
 - Type hints strict (Python). `strict: true` (TypeScript). Explicit types over `any`.
 - Docstrings only when they add causal context, not obvious descriptions.
 - No decorative prose in code. Every comment must justify a non-obvious decision.
+- ALWAYS check and adhere to [STYLE_MANUAL.md](file:///Users/borjafernandezangulo/10_PROJECTS/naroagutierrezgil.com/STYLE_MANUAL.md) for any frontend UI components to conform to "GPT-5.6 Sol Cinematic Premium".
+
 
 ## Agent Constraints
 - NEVER introduce generic `try/except Exception` or `catch(e)` blocks.
