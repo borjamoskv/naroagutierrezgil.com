@@ -1,40 +1,111 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
+import useLenis from '@/hooks/useLenis';
+import HeroFluid from '@/components/HeroFluid';
+import ScrollReveal from '@/components/ScrollReveal';
+import Footer from '@/components/Footer';
 
 export default function RecreoPage() {
+  useLenis();
+
   return (
-    <div className="min-h-screen bg-white text-black font-sans flex flex-col items-center py-20 px-4">
-      {/* Brutalismo Clínico / Blanco Absoluto */}
-      <header className="w-full max-w-6xl flex justify-between items-end mb-16 border-b-2 border-black pb-4">
-        <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">El ReCreo</h1>
-        <div className="text-right">
-          <p className="text-sm font-bold uppercase tracking-widest">Educación Estructural</p>
-          <Link href="https://naroagutierrezgil.com" className="text-xs uppercase hover:underline">Volver al Templo ↗</Link>
+    <div className="min-h-screen bg-[#050505] text-[#EAEAEA] font-sans selection:bg-[#2B3BE5] selection:text-white overflow-hidden relative">
+      {/* Background FX */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute top-0 right-1/4 w-[50vw] h-[50vw] bg-[#2B3BE5] rounded-full mix-blend-screen filter blur-[150px] opacity-10 animate-pulse" />
+        <HeroFluid />
+      </div>
+
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full z-50 p-6 sm:p-12 mix-blend-difference flex justify-between items-center">
+        <Link 
+          href="/" 
+          className="group flex items-center gap-4 text-white/50 hover:text-white transition-colors duration-500"
+        >
+          <div className="w-8 h-[1px] bg-white/30 group-hover:bg-[#2B3BE5] group-hover:w-16 transition-all duration-700" />
+          <span className="font-sans text-[9px] tracking-[0.4em] uppercase">Retorno al Laboratorio</span>
+        </Link>
+        <div className="flex items-center gap-6">
+          <Link href="/biografia" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Biografía</Link>
+          <Link href="/contacto" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Contacto</Link>
+          <Link href="/shop" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Bóveda</Link>
         </div>
-      </header>
-      
-      <main className="w-full max-w-6xl">
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold uppercase mb-4">Módulos de Transferencia</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <article className="border-2 border-black p-8 hover:bg-black hover:text-white transition-colors duration-300 cursor-pointer">
-              <h3 className="text-xl font-black uppercase mb-4">Taller de Técnica PBR</h3>
-              <p className="text-sm leading-relaxed opacity-80 mb-8">
-                Transducción de pigmentos físicos a materiales `MeshPhysicalMaterial`. Dominio de la luz HDRI sobre oro y resina.
+      </nav>
+
+      <main id="main-content" className="relative z-10 max-w-6xl mx-auto px-6 sm:px-12 pt-40 pb-32">
+        <ScrollReveal>
+          <header className="w-full flex flex-col md:flex-row justify-between items-start md:items-end mb-20 border-b border-[#2B3BE5]/30 pb-8 gap-4">
+            <div>
+              <span className="text-[#2B3BE5] font-mono tracking-[0.4em] uppercase text-[10px] mb-2 block">
+                Pedagogía del Caos & Kintsugi Pedagógico
+              </span>
+              <h1 className="text-5xl md:text-7xl font-serif font-black uppercase tracking-tight text-white leading-none">
+                El ReCreo
+              </h1>
+            </div>
+            <div className="text-left md:text-right">
+              <p className="text-sm font-mono text-white/40 uppercase tracking-widest">
+                Educación Estructural
               </p>
-              <button className="uppercase text-xs font-bold underline">Reservar Plaza</button>
-            </article>
-            
-            <article className="border-2 border-black p-8 hover:bg-black hover:text-white transition-colors duration-300 cursor-pointer">
-              <h3 className="text-xl font-black uppercase mb-4">Escaneo Fotogramétrico</h3>
-              <p className="text-sm leading-relaxed opacity-80 mb-8">
-                De lienzo 2D a nube de puntos 3D (Gaussian Splats). Captura volumétrica con rigor termodinámico.
+              <p className="text-xs text-[#F59E0B] font-mono uppercase tracking-[0.2em] mt-1">
+                Estado: C5-REAL
               </p>
-              <button className="uppercase text-xs font-bold underline">Reservar Plaza</button>
-            </article>
+            </div>
+          </header>
+        </ScrollReveal>
+
+        <section className="mb-20 space-y-12">
+          <ScrollReveal delay={0.1}>
+            <div className="max-w-3xl text-lg sm:text-xl font-light text-white/60 leading-relaxed">
+              <p>
+                Un espacio de aprendizaje no normativo donde el <strong className="text-white">error se transmuta en materia de sanación</strong>. No enseñamos reglas académicas estáticas, guiamos la colisión física con el soporte mineral.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8">
+            <ScrollReveal delay={0.15}>
+              <article className="bg-[#0A0A0A] border border-white/10 rounded-sm p-8 sm:p-10 hover:border-[#2B3BE5]/50 transition-all duration-700 group relative overflow-hidden shadow-2xl flex flex-col justify-between min-h-[350px]">
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-[#2B3BE5] scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
+                <div className="space-y-4">
+                  <span className="font-mono text-[9px] tracking-widest text-[#F59E0B] uppercase">Módulo 01</span>
+                  <h3 className="text-2xl font-serif text-white group-hover:text-[#2B3BE5] transition-colors duration-500 uppercase">Taller de Técnica PBR</h3>
+                  <p className="text-white/60 font-light leading-relaxed text-sm">
+                    Transducción de pigmentos físicos a materiales interactivos tridimensionales. Dominio de la refracción y el reflejo de luz HDRI sobre oro, resinas pulidas y mica mineral.
+                  </p>
+                </div>
+                <div className="pt-8">
+                  <button className="px-6 py-3 border border-white/10 hover:border-white hover:bg-white hover:text-black font-mono text-[9px] tracking-[0.3em] uppercase rounded-sm transition-all duration-500 w-full text-center">
+                    Reservar Plaza
+                  </button>
+                </div>
+              </article>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.2}>
+              <article className="bg-[#0A0A0A] border border-white/10 rounded-sm p-8 sm:p-10 hover:border-[#2B3BE5]/50 transition-all duration-700 group relative overflow-hidden shadow-2xl flex flex-col justify-between min-h-[350px]">
+                <div className="absolute top-0 left-0 w-full h-[2px] bg-[#2B3BE5] scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
+                <div className="space-y-4">
+                  <span className="font-mono text-[9px] tracking-widest text-[#F59E0B] uppercase">Módulo 02</span>
+                  <h3 className="text-2xl font-serif text-white group-hover:text-[#2B3BE5] transition-colors duration-500 uppercase">Escaneo Fotogramétrico</h3>
+                  <p className="text-white/60 font-light leading-relaxed text-sm">
+                    De lienzo 2D a nube de puntos 3D (Gaussian Splats). Captura volumétrica con rigor termodinámico, iluminada por focos direccionales y lista para interacción kinetica.
+                  </p>
+                </div>
+                <div className="pt-8">
+                  <button className="px-6 py-3 border border-white/10 hover:border-white hover:bg-white hover:text-black font-mono text-[9px] tracking-[0.3em] uppercase rounded-sm transition-all duration-500 w-full text-center">
+                    Reservar Plaza
+                  </button>
+                </div>
+              </article>
+            </ScrollReveal>
           </div>
         </section>
       </main>
+
+      <Footer />
     </div>
   );
 }
