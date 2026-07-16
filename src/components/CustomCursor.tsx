@@ -1,8 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export default function CustomCursor() {
+  const pathname = usePathname();
+  const isLightPage = pathname?.startsWith('/shop') || pathname?.startsWith('/recreo');
+
   const [prefersReduced, setPrefersReduced] = useState(() => {
     if (typeof window !== "undefined") {
       return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -173,13 +177,13 @@ export default function CustomCursor() {
     <>
       <canvas
         ref={canvasRef}
-        className="fixed inset-0 pointer-events-none z-[9998] mix-blend-screen"
+        className={`fixed inset-0 pointer-events-none z-[9998] ${isLightPage ? 'mix-blend-difference' : 'mix-blend-screen'}`}
       />
       
       {/* Reticle cursor instead of dot */}
       <div 
         ref={cursorRef} 
-        className="fixed top-0 left-0 w-3 h-3 pointer-events-none z-[9999] mix-blend-screen -translate-x-1/2 -translate-y-1/2 will-change-transform flex items-center justify-center"
+        className={`fixed top-0 left-0 w-3 h-3 pointer-events-none z-[9999] ${isLightPage ? 'mix-blend-difference' : 'mix-blend-screen'} -translate-x-1/2 -translate-y-1/2 will-change-transform flex items-center justify-center`}
       >
         <div
           className="relative w-full h-full transition-transform duration-200 cubic-bezier(0.25, 1, 0.5, 1)"
