@@ -21,7 +21,9 @@ const Mica = dynamic(() => import('@/components/Mica'), { ssr: false });
 const ScrollyTelling = dynamic(() => import('@/components/ScrollyTelling'));
 const TakeoverModal = dynamic(() => import('@/components/TakeoverModal'));
 const GlobalNavigation = dynamic(() => import('@/components/GlobalNavigation'));
+const HorizontalParallaxGallery = dynamic(() => import('@/components/HorizontalParallaxGallery'), { ssr: false });
 const Footer = dynamic(() => import('@/components/Footer'));
+
 const WordPressPortal = dynamic(() => import('@/components/WordPressPortal'));
 
 const baseArtworks = [
@@ -271,8 +273,12 @@ export default function HomeClient({ feedChildren }: { feedChildren?: React.Reac
       {/* Philosophy Section */}
       <PhilosophyStatement />
 
+      {/* Immersive Horizontal Parallax Gallery */}
+      <HorizontalParallaxGallery onExpand={openFullscreenArtwork} />
+
       {/* Mediums & Excavations Tab System */}
       <AlcoveSystem activeAlcove={activeAlcove} setActiveAlcove={setActiveAlcove} resolveSrc={resolveSrc} onExpand={openFullscreenArtwork} />
+
 
       {/* START: Interactive 3D Canvas Sandbox Details Viewer */}
       <Suspense fallback={<div className="w-full h-96 bg-[#050505]" />}>
