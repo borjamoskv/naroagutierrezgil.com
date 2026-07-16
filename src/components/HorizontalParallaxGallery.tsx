@@ -109,12 +109,19 @@ export default function HorizontalParallaxGallery({ onExpand }: HorizontalParall
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
     
+    // Set custom CSS variables for interactive mouse spotlight shine
+    const mouseX = ((e.clientX - rect.left) / rect.width) * 100;
+    const mouseY = ((e.clientY - rect.top) / rect.height) * 100;
+    card.style.setProperty('--mouse-x', `${mouseX}%`);
+    card.style.setProperty('--mouse-y', `${mouseY}%`);
+
     // Max 10 degrees tilt
     setTilts((prev) => ({
       ...prev,
       [id]: { x: -y * 10, y: x * 10 },
     }));
   };
+
 
   const handleMouseLeave = (id: string) => {
     setTilts((prev) => ({
@@ -250,7 +257,24 @@ export default function HorizontalParallaxGallery({ onExpand }: HorizontalParall
                   }}
                 >
                   {/* Subtle Inner Volumetric Spotlight Overlay */}
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(255,255,255,0.03)_0%,transparent_60%)] pointer-events-none" />
+                  <div 
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10"
+                    style={{
+                      background: `radial-gradient(circle 280px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.05), transparent 80%)`
+                    }}
+                  />
+                  {/* Ambient Border Glow tracking the mouse */}
+                  <div 
+                    className="absolute inset-0 border border-transparent group-hover:border-white/10 transition-colors pointer-events-none z-30"
+                    style={{
+                      background: `radial-gradient(circle 180px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.08), transparent 80%)`,
+                      WebkitMaskImage: 'linear-gradient(black, black)',
+                      maskImage: 'linear-gradient(black, black)',
+                      WebkitMaskComposite: 'xor',
+                      maskComposite: 'exclude',
+                    }}
+                  />
+
 
                   {/* Gigantic Artwork Image Wrapper (Parallax Box) */}
                   <div 
