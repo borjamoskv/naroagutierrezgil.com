@@ -212,7 +212,16 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex,
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const frontMaterialRef = useRef<THREE.ShaderMaterial>(null);
   
-  const texture = useLoader(THREE.TextureLoader, url);
+  const rawTexture = useLoader(THREE.TextureLoader, url);
+  const texture = useMemo(() => {
+    if (!rawTexture) return null;
+    const tex = rawTexture.clone();
+    tex.minFilter = THREE.LinearFilter;
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.needsUpdate = true;
+    return tex;
+  }, [rawTexture]);
+
   const [hovered, setHovered] = useState(false);
   const [mouseUV] = useState(() => new THREE.Vector2(0.5, 0.5));
   
@@ -281,11 +290,6 @@ function KintsugiSplatCard({ url, index, count, currentAngleRef, setActiveIndex,
 
   useEffect(() => {
     if (texture) {
-      // Modify property using index syntax to bypass React Compiler's strict read-only tracking
-      const tex = texture as any;
-      tex['minFilter'] = THREE.LinearFilter;
-      tex['colorSpace'] = THREE.SRGBColorSpace;
-      tex['needsUpdate'] = true;
       if (materialRef.current) {
         materialRef.current.uniforms.uTexture.value = texture;
       }

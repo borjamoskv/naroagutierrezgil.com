@@ -1,6 +1,5 @@
 {
   "ignore": [
-    ".wrangler/**",
     "functions/**"
   ]
 }
