@@ -6,6 +6,7 @@ import useLenis from '@/hooks/useLenis';
 import HeroFluid from '@/components/HeroFluid';
 import ScrollReveal from '@/components/ScrollReveal';
 import Footer from '@/components/Footer';
+import GlobalNavigation from '@/components/GlobalNavigation';
 
 export default function ShopPage() {
   useLenis();
@@ -24,25 +25,7 @@ export default function ShopPage() {
         <HeroFluid />
       </div>
 
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 p-6 sm:p-12 mix-blend-difference flex justify-between items-center">
-        <Link 
-          href="/" 
-          className="group flex items-center gap-4 text-white/50 hover:text-white transition-colors duration-500"
-        >
-          <div className="w-8 h-[1px] bg-white/30 group-hover:bg-[#2B3BE5] group-hover:w-16 transition-all duration-700" />
-          <span className="font-sans text-[9px] tracking-[0.4em] uppercase">Retorno al Laboratorio</span>
-        </Link>
-        <div className="flex items-center gap-6">
-          <Link href="/biografia" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Biografía</Link>
-          <Link href="/autodidact" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Autodidacta</Link>
-          <Link href="/blog" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Bitácora</Link>
-          <Link href="/recreo" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">El ReCreo</Link>
-          <Link href="/shop" className="font-sans text-[9px] tracking-[0.4em] uppercase text-[#2B3BE5] font-bold">Bóveda</Link>
-          <Link href="/contacto" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Contacto</Link>
-        </div>
-
-      </nav>
+      <GlobalNavigation />
 
       <main id="main-content" className="relative z-10 max-w-6xl mx-auto px-6 sm:px-12 pt-40 pb-32">
         <ScrollReveal>
