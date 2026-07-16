@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 
 export default function CustomCursor() {
   const pathname = usePathname();
-  const isLightPage = pathname?.startsWith('/shop') || pathname?.startsWith('/recreo');
+  const isLightPage = pathname?.startsWith('/shop');
+
 
   const [prefersReduced, setPrefersReduced] = useState(() => {
     if (typeof window !== "undefined") {

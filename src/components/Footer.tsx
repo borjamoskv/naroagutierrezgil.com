@@ -27,10 +27,10 @@ export default function Footer() {
 
         <div className="flex flex-wrap gap-8 justify-center mb-16 text-[9px] tracking-[0.4em] uppercase text-white/40">
           <Link href="/blog" className="hover:text-primary transition-colors duration-500">Bitácora</Link>
-          <Link href="/recreo" className="hover:text-primary transition-colors duration-500">El ReCreo</Link>
           <Link href="/shop" className="hover:text-primary transition-colors duration-500">Bóveda</Link>
           <Link href="/biografia" className="hover:text-primary transition-colors duration-500">Trayectoria</Link>
         </div>
+
 
 
         <div className="flex flex-col sm:flex-row items-center justify-between w-full max-w-3xl pt-12 border-t border-white/5 text-foreground/30 font-sans text-xs tracking-widest uppercase">

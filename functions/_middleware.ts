@@ -11,7 +11,7 @@ export const onRequest: PagesFunction = async (context: EventContext) => {
   const host = url.hostname;
   
   // Enrutamiento de Dominio Dual (Sanedrín de Arte)
-  // naroa.online -> Bóveda transaccional (/shop, /recreo, /cdn-cgi)
+  // naroa.online -> Bóveda transaccional (/shop, /cdn-cgi)
   // naroagutierrezgil.com -> Templo 3D Awwwards (/)
   if (host === 'www.naroagutierrezgil.com' || host.includes('.pages.dev')) {
     // Canonicalize to root domain for Awwwards
@@ -20,10 +20,11 @@ export const onRequest: PagesFunction = async (context: EventContext) => {
   }
 
   // Cross-domain logic: If someone tries to access /shop on the Templo, redirect to Bóveda
-  if (host === 'naroagutierrezgil.com' && (url.pathname.startsWith('/shop') || url.pathname.startsWith('/recreo'))) {
+  if (host === 'naroagutierrezgil.com' && url.pathname.startsWith('/shop')) {
     url.hostname = 'naroa.online';
     return Response.redirect(url.toString(), 301);
   }
+
 
   // If someone tries to access the Templo root on the Bóveda, redirect to Templo
   if (host === 'naroa.online' && url.pathname === '/') {
