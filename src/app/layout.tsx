@@ -95,6 +95,8 @@ export default function RootLayout({
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[99999] focus:bg-[#2B3BE5] focus:text-white focus:px-4 focus:py-2 focus:text-sm focus:rounded-sm">Saltar al contenido</a>
         <ClientWrapper />
         {children}
+        {/* Cloudflare Web Analytics (Zero-Entropy Telemetry) */}
+        <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "REPLACE_WITH_YOUR_CF_TOKEN"}'></script>
       </body>
     </html>
   );

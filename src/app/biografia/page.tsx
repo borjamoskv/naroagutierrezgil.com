@@ -7,8 +7,43 @@ import HeroFluid from '@/components/HeroFluid';
 import ScrollReveal from '@/components/ScrollReveal';
 import Footer from '@/components/Footer';
 
+import { useState, useRef } from 'react';
+
+const renderKineticText = (text: string, baseClass: string, hoverClass: string, staggerOffset: number = 0) => (
+  text.split('').map((char, i) => {
+    const randomRotate = (i % 3 === 0) ? '-rotate-12' : (i % 2 === 0) ? 'rotate-6' : 'rotate-12';
+    const randomTranslate = (i % 2 === 0) ? '-translate-y-4' : (i % 3 === 0) ? 'translate-y-3' : '-translate-y-2';
+    const randomScale = (i % 3 === 0) ? 'scale-125' : 'scale-110';
+    const delay = staggerOffset + (i * 0.05);
+
+    return (
+      <span 
+        key={i} 
+        style={{ animationDelay: `${delay}s` }}
+        className={`inline-block transition-all duration-500 cursor-default animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_both] ${baseClass} ${hoverClass} hover:${randomRotate} hover:${randomTranslate} hover:${randomScale}`}
+      >
+        {char === ' ' ? '\u00A0' : char}
+      </span>
+    );
+  })
+);
+
 export default function Biografia() {
   useLenis();
+
+  // Parallax SOTA Hover State
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const mouseX = (e.clientX - rect.left) / rect.width - 0.5;
+    const mouseY = (e.clientY - rect.top) / rect.height - 0.5;
+    const maxTilt = 12; // High intensity parallax for SOTA
+    setTilt({ x: -mouseY * maxTilt, y: mouseX * maxTilt });
+  };
 
   return (
     <div className="min-h-screen bg-[#050505] text-[#EAEAEA] font-sans selection:bg-[#2B3BE5] selection:text-white overflow-hidden">
@@ -47,10 +82,14 @@ export default function Biografia() {
           <div className="absolute -left-6 sm:-left-12 top-0 w-[2px] h-full bg-gradient-to-b from-[#2B3BE5] via-[#2B3BE5]/20 to-transparent" />
           <h1 className="text-[12vw] md:text-[8rem] font-serif font-light leading-[0.8] tracking-tighter uppercase mb-6 drop-shadow-2xl select-none relative">
             <span className="flex overflow-hidden">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:1px_rgba(234,234,234,0.3)] hover:[-webkit-text-stroke:1px_#2B3BE5] transition-all duration-1000 cursor-default chromatic-text">Naroa</span>
+              <span className="chromatic-text flex">
+                {renderKineticText('Naroa', 'text-transparent [-webkit-text-stroke:1px_rgba(234,234,234,0.3)]', 'hover:[-webkit-text-stroke:1px_#2B3BE5] hover:text-[#2B3BE5] hover:drop-shadow-[0_0_20px_rgba(43,59,229,0.8)]', 0.1)}
+              </span>
             </span>
             <span className="flex overflow-hidden mt-2">
-              <span className="animate-[slideUp_1.5s_cubic-bezier(0.16,1,0.3,1)_0.2s_both] text-[#EAEAEA] chromatic-text">Gutiérrez</span>
+              <span className="chromatic-text flex">
+                {renderKineticText('Gutiérrez', 'text-[#EAEAEA]', 'hover:text-[#2B3BE5] hover:drop-shadow-[0_0_20px_rgba(43,59,229,0.8)]', 0.2)}
+              </span>
             </span>
             <span className="absolute top-[35%] left-[25%] md:left-[35%] z-20 pointer-events-none">
               <span className="inline-block animate-[slideUp_2s_cubic-bezier(0.16,1,0.3,1)_0.4s_both] text-[#2B3BE5] font-hand lowercase text-[18vw] md:text-[12rem] -rotate-3 opacity-90 mix-blend-screen drop-shadow-[0_20px_50px_rgba(43,59,229,0.3)] chromatic-text">Gil</span>
@@ -65,15 +104,40 @@ export default function Biografia() {
         {/* TRAYECTORIA */}
         <ScrollReveal>
         <section className="mb-40 grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
-          <div className="md:col-span-5 relative group">
-            <div className="absolute inset-0 bg-[#2B3BE5] translate-x-4 translate-y-4 opacity-20 transition-transform duration-700 group-hover:translate-x-6 group-hover:translate-y-6" />
-            <div className="relative aspect-[4/5] bg-[#0A0A0A] border border-white/10 overflow-hidden">
+          <div 
+            className="md:col-span-5 relative group"
+            ref={cardRef}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => { setIsHovered(false); setTilt({ x: 0, y: 0 }); }}
+            style={{ perspective: "1000px" }}
+          >
+            <div 
+              className="absolute inset-0 bg-[#2B3BE5] translate-x-4 translate-y-4 opacity-20 transition-transform duration-700" 
+              style={{
+                transform: `translate3d(16px, 16px, -50px) rotateX(${tilt.x * 0.5}deg) rotateY(${tilt.y * 0.5}deg)`,
+                transition: isHovered ? "transform 0.1s ease-out" : "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)"
+              }}
+            />
+            <div 
+              className="relative aspect-[4/5] bg-[#0A0A0A] border border-white/10 overflow-hidden shadow-2xl"
+              style={{
+                transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isHovered ? 1.05 : 1.0})`,
+                transition: isHovered ? "transform 0.1s ease-out" : "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)",
+                transformStyle: "preserve-3d"
+              }}
+            >
               <Image 
                 src="/assets/Naroa x16.webp" 
                 alt="Naroa Gutiérrez Gil en su estudio" 
                 fill 
-                className="object-cover grayscale hover:grayscale-0 transition-all duration-1000 scale-105 hover:scale-100" 
+                className="object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100" 
+                style={{
+                  transform: `translateZ(30px) scale(1.1)`,
+                  transformOrigin: "center center"
+                }}
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60" />
             </div>
           </div>
           <div className="md:col-span-7 md:pl-12 space-y-8">

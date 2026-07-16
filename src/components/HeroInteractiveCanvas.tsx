@@ -220,7 +220,10 @@ function VolumetricHeroPortrait({ url }: { url: string }) {
 
   useEffect(() => {
     if (texture) {
-      texture.minFilter = THREE.LinearFilter;
+      const tex = texture as any;
+      tex['minFilter'] = THREE.LinearFilter;
+      tex['colorSpace'] = THREE.SRGBColorSpace;
+      tex['needsUpdate'] = true;
       if (materialRef.current) {
         materialRef.current.uniforms.uTexture.value = texture;
       }

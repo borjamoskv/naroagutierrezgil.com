@@ -1,49 +1,11 @@
-'use client';
+import { BlogPost } from '@/lib/blogData';
 
-import { useEffect, useState } from 'react';
-
-interface WPPost {
-  title: string;
-  link: string;
-  pubDate: string;
-  image: string;
-}
-interface WPAPIResponse {
-  items?: WPPost[];
-  error?: string;
+interface WordPressFeedServerProps {
+  posts: BlogPost[];
 }
 
-export default function WordPressFeedClient() {
-  const [posts, setPosts] = useState<WPPost[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    
-    fetch('/api/wp', { signal: controller.signal })
-      .then(res => res.json())
-      .then((data: WPAPIResponse) => {
-        if (data.items) {
-          setPosts(data.items);
-        }
-        setLoading(false);
-      })
-      .catch(err => {
-        if (err.name === 'AbortError') return;
-        console.error('Failed to load WP posts', err);
-        setLoading(false);
-      });
-
-    return () => controller.abort();
-  }, []);
-
-  if (loading) return (
-    <div className="w-full h-48 flex items-center justify-center border border-white/5 bg-[#050505] animate-pulse relative z-20 max-w-7xl mx-auto mt-12 mb-24 rounded-sm">
-      <span className="font-mono text-[9px] text-[var(--primary)] uppercase tracking-widest">Sintonizando señal de WordPress...</span>
-    </div>
-  );
-
-  if (posts.length === 0) return null;
+export default function WordPressFeedServer({ posts }: WordPressFeedServerProps) {
+  if (!posts || posts.length === 0) return null;
 
   return (
     <div className="w-full max-w-7xl mx-auto px-6 sm:px-12 mt-12 mb-24 relative z-20">
@@ -62,9 +24,7 @@ export default function WordPressFeedClient() {
         {posts.map((post, i) => (
           <a 
             key={i} 
-            href={post.link} 
-            target="_blank" 
-            rel="noopener noreferrer"
+            href={`/blog/${post.slug}`}
             className="group relative flex flex-col bg-[#0a0a0a] border border-white/5 hover:border-[var(--primary)]/50 transition-all duration-500 overflow-hidden rounded-sm shadow-[0_0_20px_rgba(0,0,0,0.5)]"
           >
             <div className="h-56 w-full overflow-hidden relative bg-black">
@@ -75,16 +35,16 @@ export default function WordPressFeedClient() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
               
               <div className="absolute top-4 left-4">
-                <span className="font-mono text-[8px] tracking-widest text-black bg-[var(--primary)] px-2 py-1 uppercase">Crónica</span>
+                <span className="font-mono text-[8px] tracking-widest text-black bg-[var(--primary)] px-2 py-1 uppercase">{post.category}</span>
               </div>
             </div>
             <div className="p-6 flex flex-col flex-grow relative">
-              <span className="font-mono text-[9px] tracking-widest text-[var(--primary)] mb-3">{post.pubDate}</span>
+              <span className="font-mono text-[9px] tracking-widest text-[var(--primary)] mb-3">{post.date}</span>
               <h4 className="font-sans text-lg font-bold text-white uppercase tracking-tight group-hover:text-[var(--primary)] transition-colors line-clamp-3 leading-tight">
                 {post.title}
               </h4>
               <div className="mt-8 flex items-center text-white/30 group-hover:text-white transition-colors">
-                <span className="font-mono text-[9px] tracking-widest uppercase">Leer más en WordPress</span>
+                <span className="font-mono text-[9px] tracking-widest uppercase">Leer más</span>
                 <svg className="ml-2 w-3 h-3 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
               </div>
             </div>

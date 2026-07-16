@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    optimizePackageImports: ['three', '@react-three/fiber', '@react-three/drei'],
+  },
   images: {
     unoptimized: true,
     remotePatterns: [

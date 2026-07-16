@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useMemo } from 'react';
+import Link from 'next/link';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { Html, Environment, Float, ContactShadows, Lightformer } from '@react-three/drei';
 import { EffectComposer, Bloom, Vignette, ChromaticAberration, Noise } from '@react-three/postprocessing';
@@ -165,10 +166,10 @@ const artworksData = [
     ] as Hotspot[]
   },
   {
-    id: 'lagrimas',
-    title: 'Lágrimas de Oro',
-    src: '/assets/lagrimas-de-oro-DikHc-Tk.webp',
-    material: 'Técnica Mixta y Mica',
+    id: 'cantinflas',
+    title: 'Cantinflas',
+    src: '/assets/cantinflas-kintsugi.webp',
+    material: 'Kintsugi Accidental',
     year: '2026',
     audioTitle: 'Lágrimas de Oro (Beat & Texture Rework)',
     hotspots: [
@@ -310,7 +311,10 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
 
   useEffect(() => {
     if (texture) {
-      texture.minFilter = THREE.LinearFilter;
+      const tex = texture as any;
+      tex['minFilter'] = THREE.LinearFilter;
+      tex['colorSpace'] = THREE.SRGBColorSpace;
+      tex['needsUpdate'] = true;
       if (frontMaterialRef.current) {
         frontMaterialRef.current.uniforms.uTexture.value = texture;
       }
@@ -574,13 +578,19 @@ export default function LuxuryArtworkViewer({ onExpand }: { onExpand?: (artwork:
                   </button>
                 )}
               </div>
-              <div>
+              <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => onExpand && onExpand({ src: artwork.src, title: artwork.title, category: artwork.material, desc: `Obra original creada en el año ${artwork.year}.` })}
-                  className="font-mono text-[9px] tracking-widest uppercase bg-black hover:bg-white/5 border border-white/10 hover:border-[#2B3BE5] px-4 py-2 transition-all cursor-pointer rounded-sm text-white/70 hover:text-white flex items-center gap-2 self-start"
+                  className="font-mono text-[9px] tracking-widest uppercase bg-black hover:bg-white/5 border border-white/10 hover:border-[#2B3BE5] px-4 py-2 transition-all cursor-pointer rounded-sm text-white/70 hover:text-white flex items-center gap-2"
                 >
-                  <span>🔍 Ampliar Obra [Pantalla Completa]</span>
+                  <span>🔍 Ampliar Obra</span>
                 </button>
+                <Link
+                  href={`/contacto?obra=${artwork.id}&action=adquirir`}
+                  className="font-mono text-[9px] tracking-widest uppercase bg-[var(--primary)] hover:bg-white border border-[var(--primary)] hover:border-white px-5 py-2 transition-all cursor-pointer rounded-sm text-white hover:text-black font-bold shadow-[0_0_10px_rgba(var(--primary-rgb),0.3)] flex items-center gap-2"
+                >
+                  <span>🛒 Adquirir / Encargar</span>
+                </Link>
               </div>
             </div>
 
@@ -667,17 +677,13 @@ export default function LuxuryArtworkViewer({ onExpand }: { onExpand?: (artwork:
                 <ContactShadows position={[0, -1.3, 0]} opacity={0.65} scale={5} blur={2.5} far={4} color="#000000" />
 
                 {/* SOTA AWWWARDS Post-Processing Pipeline */}
-                <EffectComposer disableNormalPass multisampling={8}>
-                  {/* Glowing gold veins and mica mineral reflections */}
+                <EffectComposer multisampling={8}>
                   <Bloom luminanceThreshold={1.2} mipmapBlur intensity={1.5} />
-                  {/* Lens dispersion (Chromatic Aberration) based on edge radius */}
                   <ChromaticAberration 
                     blendFunction={BlendFunction.NORMAL}
                     offset={new THREE.Vector2(0.0005, 0.0005)}
                   />
-                  {/* Subtle film grain for physical camera feel */}
                   <Noise opacity={0.035} blendFunction={BlendFunction.OVERLAY} />
-                  {/* Darkened edges focusing attention on the artwork */}
                   <Vignette eskil={false} offset={0.1} darkness={1.1} />
                 </EffectComposer>
               </Canvas>

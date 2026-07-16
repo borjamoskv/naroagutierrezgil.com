@@ -11,7 +11,7 @@ const MacroSplatCanvas = dynamic(() => import('@/components/SplatBenchmarkCanvas
 const SplatPhysicsTester = dynamic(() => import('@/components/SplatPhysicsTester'), { ssr: false });
 const KineticArtwork = dynamic(() => import('@/components/KineticArtwork'), { ssr: false });
 const ThreeDCarousel = dynamic(() => import('@/components/ThreeDCarousel'), { ssr: false });
-import HeroSection from '@/components/HeroSection';
+const HeroSection = dynamic(() => import('@/components/HeroSection'));
 const PhilosophyStatement = dynamic(() => import('@/components/PhilosophyStatement'));
 const AlcoveSystem = dynamic(() => import('@/components/AlcoveSystem'));
 const LuxuryArtworkViewer = dynamic(() => import('@/components/LuxuryArtworkViewer'), { ssr: false });
@@ -20,8 +20,8 @@ const SOTAFX = dynamic(() => import('@/components/SOTAFX'), { ssr: false });
 const Mica = dynamic(() => import('@/components/Mica'), { ssr: false });
 const ScrollyTelling = dynamic(() => import('@/components/ScrollyTelling'));
 const TakeoverModal = dynamic(() => import('@/components/TakeoverModal'));
-import GlobalNavigation from '@/components/GlobalNavigation';
-import Footer from '@/components/Footer';
+const GlobalNavigation = dynamic(() => import('@/components/GlobalNavigation'));
+const Footer = dynamic(() => import('@/components/Footer'));
 const WordPressPortal = dynamic(() => import('@/components/WordPressPortal'));
 
 const baseArtworks = [

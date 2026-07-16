@@ -63,7 +63,7 @@ export default function TakeoverModal({ artwork, countdown, isPersistent = false
         NAROART
       </div>
 
-      {/* Amplified Artwork container with brutalist border */}
+      {/* Amplified Artwork container occupying FULL SCREEN */}
       <div 
         onClick={(e) => e.stopPropagation()}
         onMouseMove={(e) => {
@@ -104,8 +104,15 @@ export default function TakeoverModal({ artwork, countdown, isPersistent = false
             }}
           />
           {/* Subtle automated Wink sweep */}
-          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-[rgba(255,255,255,0.1)] to-transparent -translate-x-full animate-[shimmerWink_3s_infinite] mix-blend-overlay pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-[rgba(255,255,255,0.1)] to-transparent -translate-x-full animate-[shimmerWink_6s_infinite_cubic-bezier(0.4,0,0.2,1)] mix-blend-overlay pointer-events-none" />
         </div>
+
+        {/* Frame reticles */}
+        <div className="absolute top-4 left-4 w-4 h-4 border-t border-l border-white/30" />
+        <div className="absolute top-4 right-4 w-4 h-4 border-t border-r border-white/30" />
+        <div className="absolute bottom-4 left-4 w-4 h-4 border-b border-l border-white/30" />
+        <div className="absolute bottom-4 right-4 w-4 h-4 border-b border-r border-white/30" />
+      </div>
 
       {/* SVG Wink Filter definition */}
       <svg className="hidden">
@@ -118,12 +125,7 @@ export default function TakeoverModal({ artwork, countdown, isPersistent = false
         </filter>
       </svg>
         
-        {/* Frame reticles */}
-        <div className="absolute top-4 left-4 w-4 h-4 border-t border-l border-white/30" />
-        <div className="absolute top-4 right-4 w-4 h-4 border-t border-r border-white/30" />
-        <div className="absolute bottom-4 left-4 w-4 h-4 border-b border-l border-white/30" />
-        <div className="absolute bottom-4 right-4 w-4 h-4 border-b border-r border-white/30" />
-      </div>
+
 
       {/* HUD info overlays */}
       <div className="absolute bottom-6 left-6 right-6 md:bottom-12 md:left-12 md:right-12 z-[100] flex flex-col md:flex-row md:items-end justify-between pointer-events-none">

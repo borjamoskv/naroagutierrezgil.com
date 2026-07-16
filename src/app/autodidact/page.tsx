@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Lenis from "lenis";
+import dynamic from "next/dynamic";
 import HeroFluid from "@/components/HeroFluid";
 import InteractiveSlateCanvas from "@/components/InteractiveSlateCanvas";
 import ScrollMarquee from "@/components/ScrollMarquee";
@@ -10,8 +11,28 @@ import ParallaxHoverCard from "@/components/ParallaxHoverCard";
 import MagneticButton from "@/components/MagneticButton";
 import AudioSynthesizer from "@/components/AudioSynthesizer";
 import ScrollReveal from "@/components/ScrollReveal";
-import Footer from "@/components/Footer";
-import ScrollAwareHeader from "@/components/ScrollAwareHeader";
+
+const renderKineticText = (text: string, baseClass: string, hoverClass: string, staggerOffset: number = 0) => (
+  text.split('').map((char, i) => {
+    const randomRotate = (i % 3 === 0) ? '-rotate-12' : (i % 2 === 0) ? 'rotate-6' : 'rotate-12';
+    const randomTranslate = (i % 2 === 0) ? '-translate-y-4' : (i % 3 === 0) ? 'translate-y-3' : '-translate-y-2';
+    const randomScale = (i % 3 === 0) ? 'scale-125' : 'scale-110';
+    const delay = staggerOffset + (i * 0.05);
+
+    return (
+      <span 
+        key={i} 
+        style={{ animationDelay: `${delay}s` }}
+        className={`inline-block transition-all duration-500 cursor-default animate-[slideUp_1.6s_cubic-bezier(0.16,1,0.3,1)_both] ${baseClass} ${hoverClass} hover:${randomRotate} hover:${randomTranslate} hover:${randomScale}`}
+      >
+        {char === ' ' ? '\u00A0' : char}
+      </span>
+    );
+  })
+);
+
+const GlobalNavigation = dynamic(() => import('@/components/GlobalNavigation'), { ssr: false });
+const Footer = dynamic(() => import('@/components/Footer'), { ssr: false });
 
 /**
  * Autodidact page - A premium interactive experience inspired by Dennis Snellenberg and Immersive Garden.
@@ -143,7 +164,7 @@ export default function AutodidactPage() {
       ]
     },
     {
-      src: "/assets/292544889_3277546379149645_1460977192858455652_n.webp",
+      src: "/assets/hacer_el_indio_1783824336337.webp",
       title: "Pedagogía ReCreo",
       subtitle: "Enseñanza libre y curación artística a través de la integración del error.",
       chapterNumber: "CAPÍTULO 03",
@@ -182,48 +203,7 @@ export default function AutodidactPage() {
       <InteractiveSlateCanvas disabled={reducedMotion} />
 
       {/* Floating Pill Navigation */}
-      <ScrollAwareHeader className="fixed top-6 left-1/2 -translate-x-1/2 w-auto px-2 py-2 flex items-center z-[210] pointer-events-auto select-none text-white rounded-full animate-[fadeIn_1.5s_ease-out_both] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.8)] border border-white/10 mix-blend-normal bg-[#111]/80 backdrop-blur-2xl">
-        <div className="flex items-center gap-1">
-          <Link href="/" className="group flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-[var(--primary)] transition-colors duration-300 ml-1 mr-2">
-            <span className="font-sans text-sm font-black text-white group-hover:text-black transition-colors duration-300">N</span>
-          </Link>
-
-          <Link
-            href="/"
-            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
-          >
-            Inicio
-          </Link>
-
-          <Link
-            href="/#alcove-system"
-            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
-          >
-            Obra
-          </Link>
-
-          <Link
-            href="/biografia"
-            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
-          >
-            Trayectoria
-          </Link>
-
-          <button
-            onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-            className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-white/10 text-[var(--primary)] px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
-          >
-            Filosofía
-          </button>
-
-          <Link
-            href="/contacto"
-            className="ml-2 font-mono text-[9.5px] tracking-[0.2em] uppercase bg-[var(--primary)] hover:bg-white text-white hover:text-black px-5 py-2.5 transition-all duration-300 cursor-pointer rounded-full font-bold shadow-[0_0_15px_rgba(var(--primary-rgb),0.4)] hover:shadow-[0_0_20px_rgba(255,255,255,0.6)]"
-          >
-            Contacto
-          </Link>
-        </div>
-      </ScrollAwareHeader>
+      <GlobalNavigation />
 
       {/* Floating HUD - Cinematic System Indicators (Immersive Garden style) */}
       <div className="fixed top-24 left-8 z-45 flex flex-col gap-2 pointer-events-none select-none opacity-80 bg-[#111]/40 backdrop-blur-md border border-white/5 p-4 rounded-xl shadow-2xl">
@@ -268,13 +248,13 @@ export default function AutodidactPage() {
           
           <h1 className="text-[11vw] md:text-[7rem] font-serif font-black leading-[0.85] tracking-tighter uppercase mb-8 drop-shadow-2xl select-none">
             <span className="block overflow-hidden">
-              <span className="inline-block animate-[slideUp_1.6s_cubic-bezier(0.16,1,0.3,1)_0.1s_both] text-transparent [-webkit-text-stroke:1px_rgba(234,234,234,0.35)] hover:[-webkit-text-stroke:1px_#2B3BE5] transition-all duration-1000">
-                AUTO
+              <span className="inline-flex">
+                {renderKineticText('AUTO', 'text-transparent [-webkit-text-stroke:1px_rgba(234,234,234,0.35)]', 'hover:[-webkit-text-stroke:1px_#2B3BE5] hover:text-[#2B3BE5] hover:drop-shadow-[0_0_30px_rgba(43,59,229,0.8)]', 0.1)}
               </span>
             </span>
             <span className="block overflow-hidden">
-              <span className="inline-block animate-[slideUp_1.6s_cubic-bezier(0.16,1,0.3,1)_0.3s_both] text-white text-glow">
-                didact
+              <span className="inline-flex text-glow">
+                {renderKineticText('didact', 'text-white', 'hover:text-[#2B3BE5] hover:drop-shadow-[0_0_30px_rgba(43,59,229,1)]', 0.3)}
               </span>
             </span>
           </h1>
