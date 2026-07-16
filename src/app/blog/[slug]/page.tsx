@@ -5,7 +5,10 @@ import { Metadata } from 'next';
 import Footer from '@/components/Footer';
 import ReadingProgress from '@/components/ReadingProgress';
 
+export const revalidate = 3600; // ISR revalidation matching listing page
+
 export async function generateStaticParams() {
+
   const posts = await getBlogPosts();
   return posts.map((post) => ({
     slug: post.slug,
