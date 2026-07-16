@@ -21,6 +21,28 @@ export default function Contacto() {
 
   useLenis();
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const obra = params.get('obra');
+      const action = params.get('action');
+      
+      if (action === 'encargo') {
+        setFormData(prev => ({
+          ...prev,
+          tipo: 'especial',
+          detalles: 'Hola Naroa, me gustaría iniciar el proceso para un encargo de obra personalizada.'
+        }));
+      } else if (obra) {
+        setFormData(prev => ({
+          ...prev,
+          tipo: 'individual',
+          detalles: `Hola Naroa, me interesa adquirir la obra: ${obra.toUpperCase()} (ID/Hash: ${obra}).`
+        }));
+      }
+    }
+  }, []);
+
   // Calcular estimación en caliente (C5-REAL logic)
   const getEstimatedPrice = () => {
     let min = 0;
