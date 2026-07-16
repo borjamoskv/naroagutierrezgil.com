@@ -112,7 +112,12 @@ export default function Contacto() {
         <div className="flex items-center gap-6">
           <Link href="/biografia" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Biografía</Link>
           <Link href="/autodidact" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Autodidacta</Link>
+          <Link href="/blog" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Bitácora</Link>
+          <Link href="/recreo" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">El ReCreo</Link>
+          <Link href="/shop" className="font-sans text-[9px] tracking-[0.4em] uppercase text-white/50 hover:text-white transition-colors duration-500">Bóveda</Link>
+          <Link href="/contacto" className="font-sans text-[9px] tracking-[0.4em] uppercase text-[#2B3BE5] font-bold">Contacto</Link>
         </div>
+
       </nav>
 
       <main id="main-content" className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 pt-40 pb-32">
