@@ -70,6 +70,16 @@ function SplatInteractiveCanvas() {
     scarsRef.current = scars;
   }, [scars]);
 
+  const kintsugiActiveRef = useRef(kintsugiActive);
+  useEffect(() => {
+    kintsugiActiveRef.current = kintsugiActive;
+  }, [kintsugiActive]);
+
+  const swarmActiveRef = useRef(swarmActive);
+  useEffect(() => {
+    swarmActiveRef.current = swarmActive;
+  }, [swarmActive]);
+
   // WebSocket message listener
   useEffect(() => {
   }, []);
@@ -224,7 +234,7 @@ function SplatInteractiveCanvas() {
 
               // Periodic friction/gold trigger on the Durable Object
               if (sa.isDrawing && Math.random() > 0.99) {
-                if (kintsugiActive) {
+                if (kintsugiActiveRef.current) {
                   // Cooperatively inject gold
                   injectGold(0.4, sa.x, sa.y).catch(() => {});
                 } else {
@@ -248,7 +258,7 @@ function SplatInteractiveCanvas() {
               { x: mappedX, y: mappedY, isDrawing: isDownRef.current }
             ];
 
-            if (swarmActive) {
+            if (swarmActiveRef.current) {
               swarmRef.current.forEach((sa) => {
                 const saMappedX = ((sa.x / window.innerWidth) * 2.0 - 1.0) * 1.5 * aspect;
                 const saMappedY = -((sa.y / window.innerHeight) * 2.0 - 1.0) * 1.5;
@@ -322,7 +332,7 @@ function SplatInteractiveCanvas() {
       isMounted = false;
       cancelAnimationFrame(animationFrameId);
     };
-  }, [kintsugiActive]);
+  }, []);
 
   const handlePointerDown = async (e: React.PointerEvent) => {
     isDownRef.current = true;

@@ -32,6 +32,22 @@ export default function SplatPhysicsTester() {
   const zoomRef = useRef(1.0);
   const [hudState, setHudState] = useState({ x: -1.0, y: -1.0, isDown: false });
 
+  const forceRef = useRef(force);
+  const elasticityRef = useRef(elasticity);
+  const dampingRef = useRef(damping);
+
+  useEffect(() => {
+    forceRef.current = force;
+  }, [force]);
+
+  useEffect(() => {
+    elasticityRef.current = elasticity;
+  }, [elasticity]);
+
+  useEffect(() => {
+    dampingRef.current = damping;
+  }, [damping]);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -114,9 +130,9 @@ export default function SplatPhysicsTester() {
         // 1. Dispatch Compute Shader for physics deform (with heatRate and zoom and single user agent)
         engine.runComputePass(
           time * 0.001,
-          isMouseDown.current ? force * 2.0 : force, // double force when clicking
-          elasticity,
-          damping,
+          isMouseDown.current ? forceRef.current * 2.0 : forceRef.current, // double force when clicking
+          elasticityRef.current,
+          dampingRef.current,
           isMouseDown.current ? 0.08 : 0.04, // heatRate
           zoomRef.current,
           [{ x: mappedX, y: mappedY, isDrawing: isMouseDown.current }]
@@ -171,7 +187,7 @@ export default function SplatPhysicsTester() {
     };
 
     initWebGPU();
-  }, [particleCount, force, elasticity, damping]);
+  }, [particleCount]);
 
   // Handle pointer interactions
   const handlePointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {

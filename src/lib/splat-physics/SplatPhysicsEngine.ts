@@ -65,7 +65,7 @@ fn main(@builtin(global_invocation_id) global_id: vec3<u32>) {
 
   // 2. Multi-agent interaction (repulsion & thermodynamic heat excitation)
   var repulsion = vec3<f32>(0.0);
-  let limit = i32(uniforms.agentCount);
+  let limit = min(i32(uniforms.agentCount), 101);
   for (var i: i32 = 0; i < limit; i = i + 1) {
     let agent = uniforms.agents[i];
     let distVec = pos.xy - agent.pos;
@@ -266,7 +266,7 @@ export class SplatPhysicsEngine {
     // 2. Current Position buffer (Read/Write & Vertex input)
     this.currentBuffer = this.device.createBuffer({
       size: bufferSize,
-      usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.VERTEX,
+      usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
       mappedAtCreation: false
     });
     this.device.queue.writeBuffer(this.currentBuffer, 0, positions);
