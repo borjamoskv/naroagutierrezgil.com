@@ -42,7 +42,7 @@ export default function ScrollyTelling() {
   const [stageNum, stageName] = getStageText()
 
   return (
-    <section ref={containerRef} className="relative h-[400vh] w-full bg-[#050505] z-20 my-20">
+    <section ref={containerRef} className="relative h-[400vh] w-full bg-[#000000] z-20 my-20">
       <div className="sticky top-0 h-screen w-full flex flex-col md:flex-row items-center justify-center overflow-hidden px-6">
         
         {/* Typographic Overlay */}

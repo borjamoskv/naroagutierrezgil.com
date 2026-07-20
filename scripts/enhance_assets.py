@@ -3,9 +3,10 @@ import glob
 from PIL import Image, ImageEnhance
 import shutil
 
-# Rutas
-ASSETS_DIR = "/Users/borjafernandezangulo/10_PROJECTS/naroagutierrezgil.com/public/assets"
-BRAIN_DIR = "/Users/borjafernandezangulo/.gemini/antigravity/brain/258d0c59-bf04-4f17-8119-fd83895a51a0"
+# Rutas dinámicas portables (OPSEC Compliance)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ASSETS_DIR = os.path.join(BASE_DIR, "public", "assets")
+BRAIN_DIR = os.getenv("CORTEX_BRAIN_DIR", os.path.expanduser("~/.gemini/antigravity/brain/258d0c59-bf04-4f17-8119-fd83895a51a0"))
 
 def process_image(filepath):
     try:

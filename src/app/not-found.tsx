@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <div className="relative w-full h-screen flex flex-col items-center justify-center bg-[#030303] overflow-hidden selection:bg-[#2B3BE5] selection:text-white">
+    <div className="relative w-full h-screen flex flex-col items-center justify-center bg-[#000000] overflow-hidden selection:bg-[#2B3BE5] selection:text-white">
       {/* Radial void gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(43,59,229,0.08)_0%,transparent_60%)] z-0 pointer-events-none" />
 
@@ -43,7 +43,7 @@ export default function NotFound() {
 
         <Link
           href="/"
-          className="group relative px-10 py-5 border border-white/10 hover:border-[#2B3BE5]/40 bg-[#050505] transition-all duration-700 overflow-hidden magnetic-glow"
+          className="group relative px-10 py-5 border border-white/10 hover:border-[#2B3BE5]/40 bg-[#000000] transition-all duration-700 overflow-hidden magnetic-glow"
         >
           <div className="absolute inset-0 bg-[#2B3BE5]/5 translate-y-full group-hover:translate-y-0 transition-transform duration-600 ease-[cubic-bezier(0.16,1,0.3,1)]" />
           <span className="relative z-10 font-mono text-[9px] tracking-[0.5em] uppercase text-white/70 group-hover:text-[#2B3BE5] transition-colors duration-500">

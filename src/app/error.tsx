@@ -35,7 +35,7 @@ export default function Error({
         <div className="flex gap-4">
           <button
             onClick={reset}
-            className="group relative px-8 py-4 border border-[#2B3BE5]/30 hover:border-[#2B3BE5] bg-[#050505] transition-all duration-700 overflow-hidden"
+            className="group relative px-8 py-4 border border-[#2B3BE5]/30 hover:border-[#2B3BE5] bg-[#000000] transition-all duration-700 overflow-hidden"
           >
             <div className="absolute inset-0 bg-[#2B3BE5]/5 translate-y-full group-hover:translate-y-0 transition-transform duration-600 ease-[cubic-bezier(0.16,1,0.3,1)]" />
             <span className="relative z-10 font-mono text-[9px] tracking-[0.4em] uppercase text-white/70 group-hover:text-[#2B3BE5] transition-colors duration-500">
@@ -45,7 +45,7 @@ export default function Error({
 
           <Link
             href="/"
-            className="group relative px-8 py-4 border border-white/10 hover:border-white/30 bg-[#050505] transition-all duration-700 overflow-hidden"
+            className="group relative px-8 py-4 border border-white/10 hover:border-white/30 bg-[#000000] transition-all duration-700 overflow-hidden"
           >
             <span className="font-mono text-[9px] tracking-[0.4em] uppercase text-white/50 group-hover:text-white transition-colors duration-500">
               Origen

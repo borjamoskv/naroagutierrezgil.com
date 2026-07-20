@@ -293,7 +293,7 @@ export default function HeroInteractiveCanvas({ url }: { url: string }) {
         camera={{ position: [0, 0, 3.2], fov: 60 }}
         dpr={[1, 1.5]}
         className="w-full h-full"
-        style={{ background: '#050505' }}
+        style={{ background: '#000000' }}
       >
         <ambientLight intensity={0.6} />
         <directionalLight position={[2, 4, 3]} intensity={1.0} castShadow />

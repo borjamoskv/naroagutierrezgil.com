@@ -7,7 +7,7 @@ const SplatPhysicsTester = dynamic(() => import('@/components/SplatPhysicsTester
 
 export default function TestPhysicsPage() {
   return (
-    <div className="min-h-screen bg-[#050505] text-[#EAEAEA] font-sans selection:bg-primary selection:text-white flex flex-col justify-between py-12 px-6">
+    <div className="min-h-screen bg-[#000000] text-[#EAEAEA] font-sans selection:bg-primary selection:text-white flex flex-col justify-between py-12 px-6">
       {/* Navigation */}
       <nav className="max-w-7xl mx-auto w-full z-50 flex justify-between items-center mb-12">
         <Link 
