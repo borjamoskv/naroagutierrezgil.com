@@ -10,9 +10,11 @@
     "deploy": "npm run build && npx wrangler pages deploy out --project-name naroagutierrezgil-com"
   },
   "dependencies": {
+    "@astrojs/react": "^6.0.1",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
     "@react-three/postprocessing": "^3.0.4",
+    "astro": "^7.1.1",
     "lenis": "^1.3.23",
     "maath": "^0.10.8",
     "next": "16.2.7",

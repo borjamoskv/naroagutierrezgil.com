@@ -1,0 +1,19 @@
+---
+// src/pages/juegos/index.astro
+import WgpuCanvas from '../../components/games/WgpuCanvas.astro';
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Juegos | Naroart | C5-REAL</title>
+  </head>
+  <body class="m-0 p-0 overflow-hidden bg-black text-white font-sans">
+    <main>
+      <!-- El canvas se monta aquí estáticamente y WASM asume el control gráfico O(1) -->
+      <WgpuCanvas />
+    </main>
+  </body>
+</html>
