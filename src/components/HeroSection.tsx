@@ -13,11 +13,11 @@ interface HeroSectionProps {
 
 export default function HeroSection({ resolveSrc, heroSectionRef, descenderRef }: HeroSectionProps) {
   return (
-    <div className="relative w-full h-[180vh] bg-[#050505]">
+    <div className="relative w-full h-[180vh] bg-[#000000]">
       <section
         ref={heroSectionRef}
         style={{ transform: 'translateY(0%)' }}
-        className="sticky top-0 w-full h-[100svh] flex flex-col justify-center items-center overflow-hidden z-50 bg-[#050505] will-change-transform"
+        className="sticky top-0 w-full h-[100svh] flex flex-col justify-center items-center overflow-hidden z-50 bg-[#000000] will-change-transform"
       >
         <div className="absolute inset-0 w-full h-full overflow-hidden">
           <HeroInteractiveCanvas url={resolveSrc('naroa-portrait-new.webp')} />

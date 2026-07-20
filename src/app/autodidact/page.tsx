@@ -194,7 +194,7 @@ export default function AutodidactPage() {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-[#050505] text-[#EAEAEA] font-sans selection:bg-[#2B3BE5] selection:text-white overflow-hidden relative"
+      className="min-h-screen bg-[#000000] text-[#EAEAEA] font-sans selection:bg-[#2B3BE5] selection:text-white overflow-hidden relative"
     >
       {/* Immersive Background Film Grain & Interactive Kintsugi Canvas */}
       <div className="fixed inset-0 z-0 pointer-events-none">

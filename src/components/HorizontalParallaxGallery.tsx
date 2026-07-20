@@ -133,7 +133,7 @@ export default function HorizontalParallaxGallery({ onExpand }: HorizontalParall
   if (!isDesktop) {
     // Vertical responsive fallback stack for smaller screens
     return (
-      <section className="relative z-10 bg-[#050505] py-24 px-6 border-t border-white/5">
+      <section className="relative z-10 bg-[#000000] py-24 px-6 border-t border-white/5">
         <div className="max-w-4xl mx-auto flex flex-col gap-24">
           <div className="flex flex-col gap-4">
             <span className="font-mono text-[9px] tracking-[0.4em] text-[#2B3BE5] uppercase font-bold">EXCAVACIONES LÍTICAS</span>
@@ -171,7 +171,7 @@ export default function HorizontalParallaxGallery({ onExpand }: HorizontalParall
   return (
     <div 
       ref={containerRef} 
-      className="relative z-[190] h-[300vh] bg-[#050505]"
+      className="relative z-[190] h-[300vh] bg-[#000000]"
       style={{ contentVisibility: "auto" }}
     >
       <div 
@@ -318,7 +318,7 @@ export default function HorizontalParallaxGallery({ onExpand }: HorizontalParall
 
                     <div className="flex items-center gap-4">
                       <button 
-                        className="group/btn relative px-8 py-3.5 border border-white/10 hover:border-white bg-[#050505] transition-all duration-500 overflow-hidden"
+                        className="group/btn relative px-8 py-3.5 border border-white/10 hover:border-white bg-[#000000] transition-all duration-500 overflow-hidden"
                         style={{ '--hover-accent': slide.accent } as React.CSSProperties}
                       >
                         <div 

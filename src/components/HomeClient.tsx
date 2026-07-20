@@ -208,7 +208,7 @@ export default function HomeClient({ feedChildren }: { feedChildren?: React.Reac
   };
 
   return (
-    <div id="main-content" className={`flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary selection:text-black ${appMode === "ORDEN" ? "bg-[#050505]" : ""}`}>
+    <div id="main-content" className={`flex flex-col min-h-screen relative overflow-x-hidden selection:bg-primary selection:text-black ${appMode === "ORDEN" ? "bg-[#000000]" : ""}`}>
       
       {/* Dynamic Backgrounds */}
       {appMode === "CAOS" && webGLReady && (
@@ -281,12 +281,12 @@ export default function HomeClient({ feedChildren }: { feedChildren?: React.Reac
 
 
       {/* START: Interactive 3D Canvas Sandbox Details Viewer */}
-      <Suspense fallback={<div className="w-full h-96 bg-[#050505]" />}>
+      <Suspense fallback={<div className="w-full h-96 bg-[#000000]" />}>
         <LuxuryArtworkViewer onExpand={openFullscreenArtwork} />
       </Suspense>
 
       {/* START: 3D Orbital slates gallery */}
-      <Suspense fallback={<div className="w-full h-96 bg-[#050505]" />}>
+      <Suspense fallback={<div className="w-full h-96 bg-[#000000]" />}>
         <ThreeDCarousel onExpand={openFullscreenArtwork} />
       </Suspense>
 

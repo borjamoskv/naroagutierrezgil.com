@@ -83,7 +83,7 @@ export default function TakeoverModal({ artwork, countdown, isPersistent = false
           e.currentTarget.style.setProperty('--mouse-x', `50%`);
           e.currentTarget.style.setProperty('--mouse-y', `50%`);
         }}
-        className="relative w-[95vw] h-[70vh] md:w-[75vw] md:h-[75vh] border border-[#2B3BE5]/30 bg-[#050505] shadow-[0_0_150px_rgba(43,59,229,0.15)] z-10 overflow-hidden group perspective-[1000px]"
+        className="relative w-[95vw] h-[70vh] md:w-[75vw] md:h-[75vh] border border-[#2B3BE5]/30 bg-[#000000] shadow-[0_0_150px_rgba(43,59,229,0.15)] z-10 overflow-hidden group perspective-[1000px]"
       >
         <div className="absolute inset-0 transition-transform duration-200 ease-out preserve-3d" style={{ transform: 'rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) scale(1.02)' }}>
           <Image
