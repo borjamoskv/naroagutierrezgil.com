@@ -88,8 +88,13 @@ export default function HomeClient({ feedChildren }: { feedChildren?: React.Reac
     function raf(time: number) {
       lenis.raf(time);
       const velocity = lenis.velocity;
+      const absVelocity = Math.abs(velocity);
+      const direction = lenis.direction;
       if (typeof window !== 'undefined') {
-        (window as unknown as { __scrollVelocity: number }).__scrollVelocity = Math.abs(velocity);
+        (window as unknown as { __scrollVelocity: number }).__scrollVelocity = absVelocity;
+        const normalizedVelocity = Math.min(absVelocity / 25.0, 1.0);
+        document.documentElement.style.setProperty('--scroll-velocity', normalizedVelocity.toString());
+        document.documentElement.style.setProperty('--scroll-direction', direction.toString());
       }
       animationId = requestAnimationFrame(raf);
     }
