@@ -124,7 +124,7 @@ export default function BlogClient({ initialPosts }: BlogClientProps) {
                     <h2 className="text-2xl font-serif text-white/90 group-hover:text-[#2B3BE5] transition-colors duration-500 leading-tight">
                       {post.title}
                     </h2>
-                    <p className="text-white/50 text-sm font-light leading-relaxed font-sans">
+                    <p className="text-white/50 text-xs sm:text-sm font-light leading-relaxed font-sans max-h-0 opacity-0 group-hover:max-h-24 group-hover:opacity-100 transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] overflow-hidden">
                       {post.excerpt}
                     </p>
                   </div>

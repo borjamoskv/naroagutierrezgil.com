@@ -1,11 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
 
 export default function CustomCursor() {
-  const pathname = usePathname();
-  const isLightPage = pathname?.startsWith('/shop');
+  const isLightPage = false;
 
 
   const [prefersReduced, setPrefersReduced] = useState(() => {
