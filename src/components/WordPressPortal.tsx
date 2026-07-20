@@ -70,7 +70,7 @@ export default function WordPressPortal() {
           {/* Neon Glow behind card */}
           <div 
             className="absolute -inset-2 bg-[var(--primary)] rounded-none blur-2xl opacity-0 group-hover:opacity-30 transition-opacity duration-700" 
-            style={{ transform: `translate(${mousePos.x * 20}px, ${mousePos.y * 20}px)` }}
+            style={{ transform: `translate(${mousePos.x * 4}px, ${mousePos.y * 4}px)` }}
           />
           
           <a 
@@ -82,7 +82,7 @@ export default function WordPressPortal() {
             onMouseLeave={handleMouseLeave}
             className="relative flex flex-col md:flex-row items-stretch bg-black/40 backdrop-blur-3xl border border-white/10 overflow-hidden transition-all duration-300 ease-out"
             style={{
-              transform: `rotateY(${mousePos.x * 10}deg) rotateX(${-mousePos.y * 10}deg)`,
+              transform: `rotateY(${mousePos.x * 2.5}deg) rotateX(${-mousePos.y * 2.5}deg)`,
               transformStyle: 'preserve-3d'
             }}
           >
@@ -90,7 +90,7 @@ export default function WordPressPortal() {
             <div className="w-full md:w-1/2 h-72 md:h-auto min-h-[400px] relative overflow-hidden bg-[#000000]">
               <div 
                 className="absolute inset-[-10%] bg-[url('/assets/amy-new.webp')] bg-cover bg-center mix-blend-luminosity filter grayscale group-hover:grayscale-0 transition-all duration-1000" 
-                style={{ transform: `scale(1.1) translate(${mousePos.x * -20}px, ${mousePos.y * -20}px)` }}
+                style={{ transform: `scale(1.1) translate(${mousePos.x * -4}px, ${mousePos.y * -4}px)` }}
               />
               <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black via-black/50 to-transparent" />
               

@@ -44,7 +44,7 @@ export default function Biografia() {
     const rect = portraitCardRef.current.getBoundingClientRect();
     const mouseX = (e.clientX - rect.left) / rect.width - 0.5;
     const mouseY = (e.clientY - rect.top) / rect.height - 0.5;
-    const maxTilt = 10;
+    const maxTilt = 3;
     setPortraitTilt({ x: -mouseY * maxTilt, y: mouseX * maxTilt });
   };
 

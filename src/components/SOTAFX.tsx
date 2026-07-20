@@ -86,10 +86,10 @@ export default function SOTAFX() {
         const y = ((e.clientY - rect.top) / rect.height) * 100;
         setBgPos({ x: `${x}%`, y: `${y}%` });
 
-        // 3D Tilt + Audio Pulse
-        const tiltX = (0.5 - (e.clientY - rect.top) / rect.height) * 25; 
-        const tiltY = ((e.clientX - rect.left) / rect.width - 0.5) * 25;
-        group.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(calc(1.05 + var(--audio-pulse, 0)), calc(1.05 + var(--audio-pulse, 0)), 1)`;
+        // 3D Tilt + Audio Pulse (tuned down to max 3deg for absolute subtlety)
+        const tiltX = (0.5 - (e.clientY - rect.top) / rect.height) * 3; 
+        const tiltY = ((e.clientX - rect.left) / rect.width - 0.5) * 3;
+        group.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(calc(1.02 + var(--audio-pulse, 0)), calc(1.02 + var(--audio-pulse, 0)), 1)`;
       }
     }
 
@@ -130,11 +130,11 @@ export default function SOTAFX() {
         #galeria .group img {
           object-position: var(--eye-x, 50%) var(--eye-y, 50%);
           transition: object-position 0.1s ease-out;
-          transform: scale(calc(1 + var(--scroll-velocity, 0) * 0.04));
+          transform: scale(calc(1 + var(--scroll-velocity, 0) * 0.01));
           transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         #galeria .group {
-          transform: skewY(calc(var(--scroll-velocity, 0) * var(--scroll-direction, 0) * -1.8deg)) scale3d(calc(1 + var(--audio-pulse, 0)), calc(1 + var(--audio-pulse, 0)), 1);
+          transform: skewY(calc(var(--scroll-velocity, 0) * var(--scroll-direction, 0) * -0.3deg)) scale3d(calc(1 + var(--audio-pulse, 0)), calc(1 + var(--audio-pulse, 0)), 1);
           transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         #galeria .group:hover {

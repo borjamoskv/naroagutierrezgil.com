@@ -128,10 +128,10 @@ export default function HomeClient({ feedChildren }: { feedChildren?: React.Reac
 
   useEffect(() => {
     const handlePointerMove = (e: PointerEvent) => {
-      const xTilt = ((e.clientY / window.innerHeight) - 0.5) * -5;
-      const yTilt = ((e.clientX / window.innerWidth) - 0.5) * 5;
+      const xTilt = ((e.clientY / window.innerHeight) - 0.5) * -1.5;
+      const yTilt = ((e.clientX / window.innerWidth) - 0.5) * 1.5;
       if (heroImageRef.current) {
-        heroImageRef.current.style.transform = `scale(1.04) rotateX(${xTilt}deg) rotateY(${yTilt}deg)`;
+        heroImageRef.current.style.transform = `scale(1.015) rotateX(${xTilt}deg) rotateY(${yTilt}deg)`;
       }
     };
     const handleKeyDown = (e: KeyboardEvent) => {

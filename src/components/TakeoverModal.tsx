@@ -70,8 +70,8 @@ export default function TakeoverModal({ artwork, countdown, isPersistent = false
           const rect = e.currentTarget.getBoundingClientRect();
           const x = e.clientX - rect.left;
           const y = e.clientY - rect.top;
-          const rotX = ((y / rect.height) - 0.5) * -10;
-          const rotY = ((x / rect.width) - 0.5) * 10;
+          const rotX = ((y / rect.height) - 0.5) * -2;
+          const rotY = ((x / rect.width) - 0.5) * 2;
           e.currentTarget.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
           e.currentTarget.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
           e.currentTarget.style.setProperty('--rotate-x', `${rotX}deg`);

@@ -115,10 +115,10 @@ export default function HorizontalParallaxGallery({ onExpand }: HorizontalParall
     card.style.setProperty('--mouse-x', `${mouseX}%`);
     card.style.setProperty('--mouse-y', `${mouseY}%`);
 
-    // Max 10 degrees tilt
+    // Max 3 degrees tilt (super subtle, art-first)
     setTilts((prev) => ({
       ...prev,
-      [id]: { x: -y * 10, y: x * 10 },
+      [id]: { x: -y * 3, y: x * 3 },
     }));
   };
 

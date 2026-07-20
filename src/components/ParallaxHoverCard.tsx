@@ -42,7 +42,7 @@ export default function ParallaxHoverCard({
     const mouseX = (e.clientX - rect.left) / width - 0.5;
     const mouseY = (e.clientY - rect.top) / height - 0.5;
 
-    const maxTilt = 8;
+    const maxTilt = 3;
     setTilt({
       x: -mouseY * maxTilt,
       y: mouseX * maxTilt,
@@ -78,7 +78,7 @@ export default function ParallaxHoverCard({
       <div
         className="absolute inset-0 w-full h-full overflow-hidden"
         style={{
-          transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isHovered ? 1.05 : 1.0})`,
+          transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isHovered ? 1.02 : 1.0})`,
           transition: isHovered ? "transform 0.1s ease-out" : "transform 0.8s cubic-bezier(0.25, 1, 0.5, 1)",
         }}
       >
