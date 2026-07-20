@@ -278,7 +278,7 @@ export default function HorizontalParallaxGallery({ onExpand }: HorizontalParall
 
                   {/* Gigantic Artwork Image Wrapper (Parallax Box) */}
                   <div 
-                    className="relative w-[45%] h-full overflow-hidden bg-[#030303] border border-white/10"
+                    className="relative w-[45%] h-full overflow-hidden bg-[#000000] border border-white/10"
                     style={{
                       transform: `translate3d(${shiftX * -0.25}px, 0, 0)`,
                       transition: "transform 0.1s linear"

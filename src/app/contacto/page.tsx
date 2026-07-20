@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import useLenis from '@/hooks/useLenis';
 import HeroFluid from '@/components/HeroFluid';
 import ScrollReveal from '@/components/ScrollReveal';
@@ -141,14 +142,29 @@ ${formData.detalles}
             </header>
             </ScrollReveal>
 
-            <div className="space-y-6 text-white/60 font-light text-lg leading-relaxed">
+            <div className="space-y-6 text-white/60 font-light text-base sm:text-lg leading-relaxed border-l border-[#2B3BE5]/30 pl-6">
               <p>
-                Cada encargo es una conversación silenciosa que se plasma en piedra. No pinto lienzos en serie; cincelo identidades sobre <strong className="text-white">pizarra natural de tejados derruidos</strong> y mica mineral.
-              </p>
-              <p>
-                Usa este formulario para configurar una propuesta inicial. Al enviarlo, recibiré tu solicitud directamente y responderé en 24-48 horas.
+                Cada encargo es una conversación silenciosa plasmada en piedra. Cincelando identidades únicas sobre pizarra natural recuperada y mica mineral.
               </p>
             </div>
+
+            {/* Elegant Art Showcase on Contact Page */}
+            <ScrollReveal delay={0.1}>
+              <div className="relative group w-full aspect-[4/5] bg-black border border-white/5 overflow-hidden rounded-sm shadow-2xl">
+                <Image 
+                  src="/assets/la_famiglia_1783824320607.webp" 
+                  alt="La Famiglia - Retrato personalizado sobre pizarra"
+                  fill
+                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-[1.2s] scale-105 group-hover:scale-110"
+                  sizes="(max-width: 768px) 100vw, 40vw"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
+                <div className="absolute bottom-6 left-6 font-mono text-[9px] tracking-widest text-white/50 uppercase">
+                  [ La Famiglia // Retrato Encargo ]
+                </div>
+              </div>
+            </ScrollReveal>
 
             {/* TABLA DE INVERSIÓN */}
             <ScrollReveal delay={0.15}>

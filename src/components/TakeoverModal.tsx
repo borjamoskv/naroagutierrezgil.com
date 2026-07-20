@@ -29,7 +29,7 @@ export default function TakeoverModal({ artwork, countdown, isPersistent = false
   return (
     <div 
       onClick={onClose}
-      className="fixed inset-0 z-[99999] bg-[#030303] flex flex-col justify-center items-center overflow-hidden animate-[fadeIn_0.5s_ease-out]"
+      className="fixed inset-0 z-[99999] bg-[#000000] flex flex-col justify-center items-center overflow-hidden animate-[fadeIn_0.5s_ease-out]"
     >
       {/* Close Button in top right */}
       <button 

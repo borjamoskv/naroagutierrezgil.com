@@ -87,7 +87,7 @@ export default function WordPressPortal() {
             }}
           >
             {/* Visual Glitch Frame (Left Side) */}
-            <div className="w-full md:w-1/2 h-72 md:h-auto min-h-[400px] relative overflow-hidden bg-[#050505]">
+            <div className="w-full md:w-1/2 h-72 md:h-auto min-h-[400px] relative overflow-hidden bg-[#000000]">
               <div 
                 className="absolute inset-[-10%] bg-[url('/assets/amy-new.webp')] bg-cover bg-center mix-blend-luminosity filter grayscale group-hover:grayscale-0 transition-all duration-1000" 
                 style={{ transform: `scale(1.1) translate(${mousePos.x * -20}px, ${mousePos.y * -20}px)` }}
@@ -112,8 +112,8 @@ export default function WordPressPortal() {
                 <h3 className="font-sans text-4xl md:text-5xl font-black text-white mb-6 uppercase tracking-tighter leading-[0.9]">
                   Archivo<br />Documental
                 </h3>
-                <p className="font-sans text-sm text-white/50 leading-relaxed mb-10 text-justify">
-                  Accede al volcado crudo. Exposiciones, manifiestos y el proceso bruto detrás de la transformación de la pizarra, el polvo de oro y la resina poliéster en arte hiperrealista.
+                <p className="font-sans text-xs sm:text-sm text-white/50 leading-relaxed mb-10">
+                  Bitácora del proceso material detrás de la transformación de la pizarra y el oro en hiperrealismo visceral.
                 </p>
                 
                 <div className="inline-flex items-center gap-4 border border-white/20 px-8 py-4 bg-white/5 hover:bg-[var(--primary)] hover:border-[var(--primary)] transition-all duration-300 text-white font-mono text-[10px] tracking-[0.3em] uppercase group/btn">

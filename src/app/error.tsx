@@ -10,7 +10,7 @@ export default function Error({
   reset: () => void;
 }) {
   return (
-    <div className="relative w-full min-h-screen flex flex-col items-center justify-center bg-[#030303] overflow-hidden selection:bg-[#2B3BE5] selection:text-white px-6">
+    <div className="relative w-full min-h-screen flex flex-col items-center justify-center bg-[#000000] overflow-hidden selection:bg-[#2B3BE5] selection:text-white px-6">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(43,59,229,0.06)_0%,transparent_60%)] z-0 pointer-events-none" />
 
       <div className="relative z-10 flex flex-col items-center text-center max-w-md">

@@ -58,7 +58,7 @@ export default function Preloader() {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#030303] transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#000000] transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
         exiting ? 'opacity-0 scale-[1.02]' : 'opacity-100 scale-100'
       }`}
       style={{ willChange: 'opacity, transform' }}
