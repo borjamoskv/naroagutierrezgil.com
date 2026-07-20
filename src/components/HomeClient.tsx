@@ -238,7 +238,7 @@ export default function HomeClient({ feedChildren }: { feedChildren?: React.Reac
       {/* Floating Utilities (Dimension & Color Palette) */}
       <div className="fixed bottom-8 left-8 z-[210] flex flex-col gap-4 pointer-events-auto items-start animate-[fadeIn_2s_ease-out_both]">
         {/* Color Palette Switcher */}
-        <div className="hidden md:flex items-center gap-3 bg-[#111]/80 backdrop-blur-2xl border border-white/10 px-4 py-3 rounded-full shadow-2xl">
+        <div className="hidden md:flex items-center gap-3 bg-[#000000]/80 backdrop-blur-2xl border border-white/10 px-4 py-3 rounded-full shadow-2xl">
           {[
             { hex: '#2B3BE5', label: 'Cobalto' },
             { hex: '#F59E0B', label: 'Oro' },
@@ -259,7 +259,7 @@ export default function HomeClient({ feedChildren }: { feedChildren?: React.Reac
 
         <button 
           onClick={() => setAppMode(prev => prev === 'ORDEN' ? 'CAOS' : 'ORDEN')}
-          className="group flex items-center gap-3 font-mono text-[10px] tracking-[0.25em] uppercase bg-[#111]/80 backdrop-blur-2xl hover:bg-white border border-white/10 hover:border-white px-5 py-3 transition-all duration-500 cursor-pointer rounded-full shadow-2xl text-white hover:text-black overflow-hidden relative"
+          className="group flex items-center gap-3 font-mono text-[10px] tracking-[0.25em] uppercase bg-[#000000]/80 backdrop-blur-2xl hover:bg-white border border-white/10 hover:border-white px-5 py-3 transition-all duration-500 cursor-pointer rounded-full shadow-2xl text-white hover:text-black overflow-hidden relative"
         >
           <div className="absolute inset-0 bg-[var(--primary)] opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
           <span className="relative z-10 opacity-50 group-hover:opacity-100 transition-opacity">DIMENSIÓN</span>

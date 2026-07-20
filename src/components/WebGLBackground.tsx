@@ -174,7 +174,7 @@ function StarBackground(props: Record<string, unknown>) {
 
 export default function WebGLBackground() {
   return (
-    <div className="absolute inset-0 z-0 bg-[#0A0A0A]">
+    <div className="absolute inset-0 z-0 bg-[#000000]">
       <Canvas 
         camera={{ position: [0, 0, 1] }} 
         dpr={[1, 1.5]} 

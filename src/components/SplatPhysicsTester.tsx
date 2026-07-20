@@ -229,7 +229,7 @@ export default function SplatPhysicsTester() {
       {/* Canvas Area (Full Screen) */}
       <div className="absolute inset-0 z-0 pointer-events-auto">
         {status === 'unsupported' ? (
-          <div className="w-full h-full bg-[#0c0c0e] flex flex-col justify-center items-center p-8 text-center gap-4">
+          <div className="w-full h-full bg-[#000000] flex flex-col justify-center items-center p-8 text-center gap-4">
             <div className="w-12 h-12 rounded-full border border-rose-500/30 flex items-center justify-center text-rose-500 text-xl font-mono">
               !
             </div>

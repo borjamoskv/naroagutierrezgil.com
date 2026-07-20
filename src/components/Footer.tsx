@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="relative pt-40 pb-20 overflow-hidden bg-[#0A0A0A] border-t border-white/5">
+    <footer className="relative pt-40 pb-20 overflow-hidden bg-[#000000] border-t border-white/5">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(43,59,229,0.08)_0%,transparent_60%)] z-0 pointer-events-none" />
       
       <div className="relative z-10 max-w-7xl mx-auto px-6 flex flex-col items-center text-center">

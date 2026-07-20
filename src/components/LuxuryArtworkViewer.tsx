@@ -510,7 +510,7 @@ export default function LuxuryArtworkViewer({ onExpand }: { onExpand?: (artwork:
   const isBackView = Math.abs(rotationY % (Math.PI * 2)) > Math.PI / 2 && Math.abs(rotationY % (Math.PI * 2)) < Math.PI * 1.5;
 
   return (
-    <section id="alcova-detalles" className="relative z-10 py-32 px-6 sm:px-12 bg-[#080808] border-t border-white/5 overflow-hidden">
+    <section id="alcova-detalles" className="relative z-10 py-32 px-6 sm:px-12 bg-[#000000] border-t border-white/5 overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[50vw] h-[50vw] bg-[#2B3BE5]/5 rounded-full filter blur-[140px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[40vw] h-[40vw] bg-[#F59E0B]/3 rounded-full filter blur-[140px] pointer-events-none" />

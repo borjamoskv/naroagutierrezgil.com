@@ -25,7 +25,7 @@ export default function WordPressFeedServer({ posts }: WordPressFeedServerProps)
           <a 
             key={i} 
             href={`/blog/${post.slug}`}
-            className="group relative flex flex-col bg-[#0a0a0a] border border-white/5 hover:border-[var(--primary)]/50 transition-all duration-500 overflow-hidden rounded-sm shadow-[0_0_20px_rgba(0,0,0,0.5)]"
+            className="group relative flex flex-col bg-[#000000] border border-white/5 hover:border-[var(--primary)]/50 transition-all duration-500 overflow-hidden rounded-sm shadow-[0_0_20px_rgba(0,0,0,0.5)]"
           >
             <div className="h-56 w-full overflow-hidden relative bg-black">
               <div 

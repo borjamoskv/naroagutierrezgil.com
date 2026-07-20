@@ -127,12 +127,18 @@ export default function ShopPage() {
                     
                     <h2 className="text-3xl font-serif font-black text-white group-hover:text-[#2B3BE5] transition-colors duration-300 uppercase leading-tight">{obra.title}</h2>
                     
-                    <p className="text-white/60 font-light leading-relaxed text-sm">
-                      {obra.desc}
-                    </p>
-
-                    <div className="text-[10px] font-mono text-white/40 tracking-wider">
-                      DIMENSIONES: <span className="text-white font-bold">{obra.dimensions}</span>
+                    {/* Collapsed Details - Revealed on Hover */}
+                    <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] opacity-0 group-hover:opacity-100">
+                      <div className="overflow-hidden space-y-4">
+                        <div className="pt-4">
+                          <p className="text-white/60 font-light leading-relaxed text-sm">
+                            {obra.desc}
+                          </p>
+                          <div className="text-[10px] font-mono text-white/40 tracking-wider mt-4">
+                            DIMENSIONES: <span className="text-white font-bold">{obra.dimensions}</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 

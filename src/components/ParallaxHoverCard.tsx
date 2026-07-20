@@ -69,7 +69,7 @@ export default function ParallaxHoverCard({
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`group relative overflow-hidden bg-[#0A0A0A] border border-white/5 rounded-sm shadow-2xl transition-all duration-500 hover:border-primary/30 aspect-[4/5] cursor-pointer ${className}`}
+      className={`group relative overflow-hidden bg-[#000000] border border-white/5 rounded-sm shadow-2xl transition-all duration-500 hover:border-primary/30 aspect-[4/5] cursor-pointer ${className}`}
       style={{
         perspective: "1000px",
       }}

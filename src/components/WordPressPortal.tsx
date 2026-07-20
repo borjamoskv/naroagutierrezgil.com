@@ -36,7 +36,7 @@ export default function WordPressPortal() {
   return (
     <section 
       ref={containerRef}
-      className="relative w-full min-h-[80vh] py-32 overflow-hidden bg-[#020202] flex items-center justify-center border-y border-white/10"
+      className="relative w-full min-h-[80vh] py-32 overflow-hidden bg-[#000000] flex items-center justify-center border-y border-white/10"
     >
       {/* Brutalist Infinite Marquee Background */}
       <div className="absolute top-1/4 left-0 w-[200vw] -translate-y-1/2 -rotate-3 opacity-[0.03] mix-blend-screen pointer-events-none flex whitespace-nowrap z-0">

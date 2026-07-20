@@ -387,7 +387,7 @@ function SplatInteractiveCanvas() {
   };
 
   return (
-    <div className="relative w-full h-full bg-[#0A0A0A] overflow-hidden">
+    <div className="relative w-full h-full bg-[#000000] overflow-hidden">
       <div className="absolute top-4 left-4 z-10 font-mono text-xs text-[#2B3BE5] pointer-events-none opacity-40 hover:opacity-100 transition-opacity">
         <p className="text-white/30">{status} // {fps} FPS</p>
       </div>
@@ -466,7 +466,7 @@ function SplatInteractiveCanvas() {
       {/* Stark Visual Fracture Overlay when active */}
       {kintsugiActive && (
         <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex flex-col items-center justify-center z-[25] pointer-events-none">
-          <div className="text-center p-8 border border-[#2B3BE5]/30 bg-[#0A0A0A]/90 max-w-md pointer-events-auto">
+          <div className="text-center p-8 border border-[#2B3BE5]/30 bg-[#000000]/90 max-w-md pointer-events-auto">
             <h2 className="text-[#2B3BE5] font-black text-2xl tracking-[0.2em] mb-4 uppercase">
               CANVAS FRACTURED
             </h2>
@@ -512,7 +512,7 @@ export default function SplatBenchmarkCanvas() {
   if (!interacted) {
     return (
       <div 
-        className="relative w-full h-full bg-[#0A0A0A] overflow-hidden cursor-crosshair flex flex-col items-center justify-center border border-white/5 hover:border-primary/30 transition-colors duration-500 group pointer-events-auto"
+        className="relative w-full h-full bg-[#000000] overflow-hidden cursor-crosshair flex flex-col items-center justify-center border border-white/5 hover:border-primary/30 transition-colors duration-500 group pointer-events-auto"
         onPointerDown={() => setInteracted(true)}
       >
         <div className="absolute top-4 left-4 z-10 font-mono text-[9px] text-[#2B3BE5] pointer-events-none tracking-widest uppercase">

@@ -144,7 +144,7 @@ export default function HorizontalParallaxGallery({ onExpand }: HorizontalParall
           {SLIDES.map((slide) => (
             <div key={slide.id} className="flex flex-col gap-8">
               <div 
-                className="relative w-full aspect-[3/4] bg-[#0A0A0A] border border-white/10 rounded-sm overflow-hidden"
+                className="relative w-full aspect-[3/4] bg-[#000000] border border-white/10 rounded-sm overflow-hidden"
                 onClick={() => onExpand({ src: `/assets/${slide.src}`, title: slide.title, desc: slide.desc })}
               >
                 <Image
@@ -250,7 +250,7 @@ export default function HorizontalParallaxGallery({ onExpand }: HorizontalParall
                   onMouseMove={(e) => handleMouseMove(slide.id, e)}
                   onMouseLeave={() => handleMouseLeave(slide.id)}
                   onClick={() => onExpand({ src: `/assets/${slide.src}`, title: slide.title, desc: slide.desc })}
-                  className="relative flex items-center w-full aspect-[16/10] bg-[#080808]/90 border border-white/5 hover:border-white/15 p-12 transition-all duration-500 rounded-sm cursor-pointer shadow-[0_30px_100px_rgba(0,0,0,0.8)] overflow-hidden group select-none"
+                  className="relative flex items-center w-full aspect-[16/10] bg-[#000000]/90 border border-white/5 hover:border-white/15 p-12 transition-all duration-500 rounded-sm cursor-pointer shadow-[0_30px_100px_rgba(0,0,0,0.8)] overflow-hidden group select-none"
                   style={{
                     transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
                     transition: "transform 0.15s ease-out, border-color 0.5s ease"
