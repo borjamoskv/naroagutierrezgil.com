@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
+const isVercel = Boolean(process.env.VERCEL || process.env.VERCEL_ENV);
+
 const nextConfig: NextConfig = {
-  output: 'export',
+  ...(isVercel ? {} : { output: 'export' }),
   reactStrictMode: true,
   compiler: {
     removeConsole: {
