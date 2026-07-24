@@ -146,6 +146,15 @@ ${formData.detalles}
               <p>
                 Cada encargo es una conversación silenciosa plasmada en piedra. Cincelando identidades únicas sobre pizarra natural recuperada y mica mineral.
               </p>
+              <a 
+                href="https://www.instagram.com/naroagutierrezgil/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-3 text-xs font-mono tracking-wider uppercase text-white/80 hover:text-[#2B3BE5] bg-white/5 hover:bg-white/10 px-4 py-2.5 rounded-sm border border-white/10 transition-all duration-300"
+              >
+                <span>📷 Instagram Oficial:</span>
+                <span className="text-[#2B3BE5] font-bold">@naroagutierrezgil</span>
+              </a>
             </div>
 
             {/* Elegant Art Showcase on Contact Page */}

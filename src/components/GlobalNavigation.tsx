@@ -72,6 +72,13 @@ export default function GlobalNavigation() {
         </Link>
 
         <Link
+          href="/juegos"
+          className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
+        >
+          Juegos
+        </Link>
+
+        <Link
           href="/blog"
           className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
         >
