@@ -6,6 +6,7 @@
 - **Nombre**: Naroa Gutiérrez Gil (Alias: Naroart)
 - **Año Nacimiento**: 1978
 - **Origen**: Bilbao, País Vasco, España.
+- **Instagram**: `@naroa_art` (https://www.instagram.com/naroa_art/)
 - **Definición**: Artivista autodidacta. Pintora especializada en hiperrealismo pop y técnica mixta.
 
 ## 2. MECÁNICA ARTÍSTICA (CORE LOOP)

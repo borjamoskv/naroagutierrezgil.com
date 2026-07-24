@@ -31,8 +31,8 @@ export default function Footer() {
           <Link href="/shop" className="hover:text-primary transition-colors duration-500">Bóveda</Link>
           <Link href="/biografia" className="hover:text-primary transition-colors duration-500">Trayectoria</Link>
           <Link href="/juegos" className="hover:text-primary transition-colors duration-500">Juegos</Link>
-          <a href="https://www.instagram.com/naroagutierrezgil/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-500 text-primary/70">
-            @naroagutierrezgil
+          <a href="https://www.instagram.com/naroa_art/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-500 text-primary/70">
+            @naroa_art
           </a>
         </div>
 
