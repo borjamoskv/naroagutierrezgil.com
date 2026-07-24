@@ -2,7 +2,7 @@
 'use client';
 
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { useRef, useState, useMemo, useEffect } from 'react';
+import { useRef, useState, useMemo, useEffect, Suspense } from 'react';
 import * as THREE from 'three';
 
 interface CarouselItem {
@@ -562,18 +562,20 @@ export default function ThreeDCarousel({ onExpand }: { onExpand?: (artwork: { sr
         >
           <FloatingLights />
           <CarouselAngleInterpolator targetAngle={baseAngle} currentAngleRef={currentAngleRef} isIdle={isIdle} targetAngleRef={targetAngleRef} />
-          {carouselArtworks.map((art, idx) => (
-            <KintsugiSplatCard
-              key={art.src}
-              url={art.src}
-              index={idx}
-              count={carouselArtworks.length}
-              currentAngleRef={currentAngleRef}
-              setActiveIndex={setActiveIndex}
-              onExpand={onExpand}
-              activeIndex={activeIndex}
-            />
-          ))}
+          <Suspense fallback={null}>
+            {carouselArtworks.map((art, idx) => (
+              <KintsugiSplatCard
+                key={art.src}
+                url={art.src}
+                index={idx}
+                count={carouselArtworks.length}
+                currentAngleRef={currentAngleRef}
+                setActiveIndex={setActiveIndex}
+                onExpand={onExpand}
+                activeIndex={activeIndex}
+              />
+            ))}
+          </Suspense>
         </Canvas>
 
         {/* Carousel Navigation HUD */}

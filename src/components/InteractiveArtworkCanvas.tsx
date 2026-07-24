@@ -1,7 +1,7 @@
 'use client';
 
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
-import { useRef, useMemo, useEffect, useState } from 'react';
+import { useRef, useMemo, useEffect, useState, Suspense } from 'react';
 import * as THREE from 'three';
 
 // Shaders for individual artwork interaction in the gallery grid
@@ -231,7 +231,9 @@ export default function InteractiveArtworkCanvas({ url, isHovered, mouseX, mouse
         style={{ background: 'transparent' }}
       >
         <ambientLight intensity={0.8} />
-        <VolumetricPlane url={url} mouse={mouseVec} isHovered={isHovered} />
+        <Suspense fallback={null}>
+          <VolumetricPlane url={url} mouse={mouseVec} isHovered={isHovered} />
+        </Suspense>
       </Canvas>
     </div>
   );
