@@ -28,6 +28,8 @@
 - NEVER introduce generic `try/except Exception` or `catch(e)` blocks.
 - NEVER add placeholder comments like "Add more tests here" or "TODO: implement".
 - NEVER reorganize project structure without explicit instruction.
+- NEVER maintain duplicate deployment configs (e.g. wrangler.toml alongside Next.js Vercel deploy). Vercel is the sole frontend host.
+- NEVER create secondary git branches for deployments; master is the sole source of truth.
 - ALWAYS run the full test suite before submitting a PR.
 - ALWAYS preserve existing comments and docstrings unrelated to your changes.
 - ALWAYS use the existing project structure and conventions.
