@@ -41,13 +41,14 @@ export default function GlobalNavigation() {
           Inicio
         </button>
 
-        <button
-          onClick={scrollToAlcove}
-          className="font-mono text-[9.5px] tracking-[0.2em] uppercase bg-transparent hover:bg-white/10 text-white/60 hover:text-white px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full"
-          aria-label="Ir a sección de obras"
+        <Link
+          href="/obra"
+          className={`font-mono text-[9.5px] tracking-[0.2em] uppercase px-4 py-2.5 transition-all duration-300 cursor-pointer rounded-full ${
+            pathname === '/obra' ? 'bg-[#2B3BE5] text-white font-bold' : 'bg-transparent hover:bg-white/10 text-white/60 hover:text-white'
+          }`}
         >
           Obra
-        </button>
+        </Link>
 
         <Link
           href="/biografia"

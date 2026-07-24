@@ -26,6 +26,7 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-wrap gap-8 justify-center mb-16 text-[9px] tracking-[0.4em] uppercase text-white/40">
+          <Link href="/obra" className="hover:text-primary transition-colors duration-500">Obra</Link>
           <Link href="/blog" className="hover:text-primary transition-colors duration-500">Bitácora</Link>
           <Link href="/shop" className="hover:text-primary transition-colors duration-500">Bóveda</Link>
           <Link href="/biografia" className="hover:text-primary transition-colors duration-500">Trayectoria</Link>
