@@ -1,16 +1,12 @@
 import type { NextConfig } from "next";
 
-const isVercel = Boolean(process.env.VERCEL || process.env.VERCEL_ENV);
-
 const nextConfig: NextConfig = {
-  ...(isVercel ? {} : { output: 'export' }),
   reactStrictMode: true,
   compiler: {
     removeConsole: {
       exclude: ['error'],
     },
   },
-
   turbopack: {
     root: __dirname,
   },
@@ -28,6 +24,15 @@ const nextConfig: NextConfig = {
         hostname: 'naroa.online',
       },
     ],
+  },
+  async redirects() {
+    return [
+      {
+        source: '/shop/:path*',
+        destination: 'https://naroa.online/shop/:path*',
+        permanent: true,
+      },
+    ];
   },
 };
 
