@@ -89,8 +89,11 @@ export default function WordPressPortal() {
             {/* Visual Glitch Frame (Left Side) */}
             <div className="w-full md:w-1/2 h-72 md:h-auto min-h-[400px] relative overflow-hidden bg-[#000000]">
               <div 
-                className="absolute inset-[-10%] bg-[url('/assets/amy-new.webp')] bg-cover bg-center mix-blend-luminosity filter grayscale group-hover:grayscale-0 transition-all duration-1000" 
-                style={{ transform: `scale(1.1) translate(${mousePos.x * -4}px, ${mousePos.y * -4}px)` }}
+                className="absolute inset-[-10%] bg-cover bg-center mix-blend-luminosity filter grayscale group-hover:grayscale-0 transition-all duration-1000" 
+                style={{ 
+                  backgroundImage: "url('/assets/amy-new.webp')",
+                  transform: `scale(1.1) translate(${mousePos.x * -4}px, ${mousePos.y * -4}px)` 
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-black via-black/50 to-transparent" />
               
@@ -103,7 +106,10 @@ export default function WordPressPortal() {
             {/* Content Text (Right Side) */}
             <div className="w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center border-l border-white/5 bg-black/60 relative overflow-hidden group-hover:bg-black/40 transition-colors duration-500">
               {/* Internal noise */}
-              <div className="absolute inset-0 opacity-[0.02] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none" />
+              <div 
+                className="absolute inset-0 opacity-[0.02] pointer-events-none" 
+                style={{ backgroundImage: "url('https://grainy-gradients.vercel.app/noise.svg')" }}
+              />
 
               <div className="relative z-10" style={{ transform: 'translateZ(30px)' }}>
                 <span className="font-mono text-[10px] tracking-[0.3em] text-[var(--primary)] uppercase mb-6 block border-b border-[var(--primary)]/30 pb-4 inline-block">

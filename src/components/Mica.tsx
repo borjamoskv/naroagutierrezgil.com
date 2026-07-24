@@ -291,7 +291,7 @@ export default function Mica() {
         const botResponse = generateMicaResponse(userText);
         setMessages(prev => [...prev, { sender: 'mica', text: botResponse.text, options: botResponse.options }]);
       }
-    } catch (err) {
+    } catch {
       const botResponse = generateMicaResponse(userText);
       setMessages(prev => [...prev, { sender: 'mica', text: botResponse.text, options: botResponse.options }]);
     } finally {

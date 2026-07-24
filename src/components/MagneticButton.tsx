@@ -54,12 +54,13 @@ export default function MagneticButton({
       setPosition({ x: 0, y: 0 });
     };
 
+    const currentButton = buttonRef.current;
     window.addEventListener("mousemove", handleMouseMove);
-    buttonRef.current?.addEventListener("mouseleave", handleMouseLeave);
+    currentButton?.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      buttonRef.current?.removeEventListener("mouseleave", handleMouseLeave);
+      currentButton?.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, [range, strength]);
 

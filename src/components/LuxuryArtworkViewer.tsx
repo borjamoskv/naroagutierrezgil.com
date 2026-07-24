@@ -284,14 +284,15 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
   const previousMousePosition = useRef({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
   const mouseUV = useRef(new THREE.Vector2(0.5, 0.5));
-  const [appModeVal, setAppModeVal] = useState(0.0);
+  const [appModeVal, setAppModeVal] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('naroa_app_mode') === 'CAOS' ? 1.0 : 0.0;
+    }
+    return 0.0;
+  });
 
   // Monitor global dimension state changes reactively
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const initialMode = localStorage.getItem('naroa_app_mode') || 'ORDEN';
-      setAppModeVal(initialMode === 'CAOS' ? 1.0 : 0.0);
-    }
     const handleDimension = (e: Event) => {
       const mode = (e as CustomEvent).detail;
       setAppModeVal(mode === 'CAOS' ? 1.0 : 0.0);
@@ -303,21 +304,15 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
   const frontUniforms = useMemo(() => ({
     uTexture: { value: null as THREE.Texture | null },
     uTime: { value: 0.0 },
-    uMouseUV: { value: mouseUV.current },
+    uMouseUV: { value: new THREE.Vector2(0.5, 0.5) },
     uHover: { value: 0.0 },
     uOpacity: { value: 1.0 },
     uAppMode: { value: 0.0 }
   }), []);
 
   useEffect(() => {
-    if (texture) {
-      const tex = texture as any;
-      tex['minFilter'] = THREE.LinearFilter;
-      tex['colorSpace'] = THREE.SRGBColorSpace;
-      tex['needsUpdate'] = true;
-      if (frontMaterialRef.current) {
-        frontMaterialRef.current.uniforms.uTexture.value = texture;
-      }
+    if (texture && frontMaterialRef.current) {
+      frontMaterialRef.current.uniforms.uTexture.value = texture;
     }
   }, [texture]);
 
@@ -410,8 +405,8 @@ function InteractiveCanvasModel({ src, hotspots, activeHotspot, setActiveHotspot
 
         {/* Hotspots represented as interactive HTML elements in 3D */}
         {hotspots.map((hotspot) => {
-          // Calculate if the hotspot is facing the camera based on rotation
-          const currentRotation = meshRef.current ? meshRef.current.rotation.y % (Math.PI * 2) : rotationY % (Math.PI * 2);
+          // Calculate if the hotspot is facing the camera based on rotationY
+          const currentRotation = rotationY % (Math.PI * 2);
           const absRot = Math.abs(currentRotation);
           const isFacingFront = (absRot < Math.PI / 2) || (absRot > Math.PI * 1.5);
           const showHotspot = (hotspot.side === 'front' && isFacingFront) || (hotspot.side === 'back' && !isFacingFront);
@@ -452,6 +447,12 @@ export default function LuxuryArtworkViewer({ onExpand }: { onExpand?: (artwork:
   const [activeHotspot, setActiveHotspot] = useState<Hotspot | null>(null);
   const [rotationY, setRotationY] = useState(0);
 
+  const selectArtwork = (idx: number) => {
+    setSelectedArtworkIndex(idx);
+    setActiveHotspot(null);
+    setRotationY(0);
+  };
+
   const speakAudreyQuote = () => {
     if (typeof window === 'undefined' || !window.speechSynthesis) return;
     
@@ -465,7 +466,9 @@ export default function LuxuryArtworkViewer({ onExpand }: { onExpand?: (artwork:
       "For beautiful eyes, look for the good in others; for beautiful lips, speak only words of kindness; and for poise, walk with the knowledge that you are never alone."
     ];
 
-    const quote = quotes[Math.floor(Math.random() * quotes.length)];
+    // eslint-disable-next-line react-hooks/purity
+    const quoteIndex = Date.now() % quotes.length;
+    const quote = quotes[quoteIndex];
     const utterance = new SpeechSynthesisUtterance(quote);
 
     // Try to get a high-quality female English voice with a British accent (en-GB)
@@ -494,14 +497,6 @@ export default function LuxuryArtworkViewer({ onExpand }: { onExpand?: (artwork:
   }, []);
 
   const artwork = artworksData[selectedArtworkIndex];
-
-  // Sync audio reference on artwork change
-  useEffect(() => {
-    setActiveHotspot(null);
-    setRotationY(0); // Reset rotation to front view
-  }, [selectedArtworkIndex]);
-
-
 
   // Manual rotation controls
   const rotateFront = () => setRotationY(0);
@@ -534,7 +529,7 @@ export default function LuxuryArtworkViewer({ onExpand }: { onExpand?: (artwork:
             <button
               key={art.id}
               onClick={() => {
-                setSelectedArtworkIndex(idx);
+                selectArtwork(idx);
                 if (art.id === 'audre') {
                   speakAudreyQuote();
                 }
@@ -559,7 +554,7 @@ export default function LuxuryArtworkViewer({ onExpand }: { onExpand?: (artwork:
               <div className="flex justify-between items-start w-full">
                 <div>
                   <span className="text-white/40 font-mono text-[9px] tracking-widest uppercase">
-                    {artwork.material} // {artwork.year}
+                    {artwork.material} {'//'} {artwork.year}
                   </span>
                   <h3 className="text-3xl font-serif font-black text-white uppercase mt-2">
                     {artwork.title}

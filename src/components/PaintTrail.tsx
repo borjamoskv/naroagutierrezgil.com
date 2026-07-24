@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export default function PaintTrail() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [entropy, setEntropy] = useState<number>(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -76,15 +75,13 @@ export default function PaintTrail() {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(rafId);
     };
-  }, [entropy]);
-
-  const blurAmount = Math.max(24 - (entropy * 0.2), 4);
+  }, []);
 
   return (
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-[45] mix-blend-screen transform-gpu"
-      style={{ filter: `blur(${blurAmount}px) contrast(1.5)`, willChange: 'filter' }}
+      style={{ filter: `blur(24px) contrast(1.5)`, willChange: 'filter' }}
     />
   );
 }

@@ -20,6 +20,26 @@ const decodeHtml = (html: string) => {
     .replace(/&nbsp;/g, ' ');
 };
 
+interface WordPressAttachment {
+  URL?: string;
+}
+
+interface WordPressPost {
+  slug: string;
+  title: string;
+  date: string;
+  excerpt?: string;
+  content: string;
+  featured_image?: string;
+  categories?: Record<string, unknown>;
+  tags?: Record<string, unknown>;
+  attachments?: Record<string, WordPressAttachment>;
+}
+
+interface WordPressResponse {
+  posts?: WordPressPost[];
+}
+
 export async function getBlogPosts(): Promise<BlogPost[]> {
   try {
     const res = await fetch('https://public-api.wordpress.com/rest/v1.1/sites/naroagutierrez.wordpress.com/posts?number=20', {
@@ -30,13 +50,13 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       throw new Error(`Failed to fetch posts: ${res.status}`);
     }
     
-    const data: any = await res.json();
+    const data = (await res.json()) as WordPressResponse;
     
     if (!data || !data.posts) {
       return [];
     }
 
-    return data.posts.map((post: any) => {
+    return data.posts.map((post: WordPressPost) => {
       // Extract first category or default
       const categoriesList = Object.keys(post.categories || {});
       const category = categoriesList.length > 0 ? categoriesList[0] : 'Diario';
@@ -49,8 +69,8 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
       if (!image) {
          // try to extract from attachments or use a generic one
          const attachments = Object.values(post.attachments || {});
-         if (attachments.length > 0) {
-            image = (attachments[0] as any).URL;
+         if (attachments.length > 0 && attachments[0].URL) {
+            image = attachments[0].URL;
          } else {
             image = 'https://naroagutierrez.wordpress.com/wp-content/uploads/2026/05/whatsapp-image-2026-05-27-at-15.00.32.jpeg';
          }

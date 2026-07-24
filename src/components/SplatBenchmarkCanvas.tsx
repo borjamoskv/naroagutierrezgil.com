@@ -35,8 +35,8 @@ function useKintsugiAgent() {
   const scars: any[] = [];
   const kintsugiActive = false;
 
-  const applyFriction = async (x: number, y: number, intensity: number) => {};
-  const injectGold = async (intensity: number, x: number, y: number) => {};
+  const applyFriction = async (_x: number, _y: number, _intensity: number) => {};
+  const injectGold = async (_intensity: number, _x: number, _y: number) => {};
 
   return { entropy, repairs, scars, kintsugiActive, applyFriction, injectGold, socket: null };
 }
@@ -389,7 +389,7 @@ function SplatInteractiveCanvas() {
   return (
     <div className="relative w-full h-full bg-[#000000] overflow-hidden">
       <div className="absolute top-4 left-4 z-10 font-mono text-xs text-[#2B3BE5] pointer-events-none opacity-40 hover:opacity-100 transition-opacity">
-        <p className="text-white/30">{status} // {fps} FPS</p>
+        <p className="text-white/30">{status} {'//'} {fps} FPS</p>
       </div>
       <canvas 
         ref={canvasRef} 

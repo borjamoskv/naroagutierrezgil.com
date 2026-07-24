@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 
 export default function RestauradorGame() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -10,17 +10,7 @@ export default function RestauradorGame() {
   const [damagePercent, setDamagePercent] = useState<number>(0);
   const [isDrawing, setIsDrawing] = useState<boolean>(false);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Draw initial baseline artwork (Slate & Portrait setup)
-    resetCanvas();
-  }, []);
-
-  const resetCanvas = () => {
+  const resetCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -66,7 +56,12 @@ export default function RestauradorGame() {
     ctx.fillText('[ RESTAURACIÓN DE PIZARRA // CANTINFLOWERS & KINTSUGI ]', canvas.width / 2, canvas.height - 20);
 
     setDamagePercent(0);
-  };
+  }, []);
+
+  useEffect(() => {
+    // Draw initial baseline artwork (Slate & Portrait setup)
+    resetCanvas();
+  }, [resetCanvas]);
 
   const draw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     if (!isDrawing) return;

@@ -2,6 +2,12 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 
+declare global {
+  interface Window {
+    __scrollVelocity?: number;
+  }
+}
+
 export default function useLenis(options?: {
   duration?: number;
   wheelMultiplier?: number;
@@ -25,7 +31,7 @@ export default function useLenis(options?: {
       const direction = lenis.direction; // 1 for down, -1 for up, 0 for still
       
       if (typeof window !== 'undefined') {
-        (window as any).__scrollVelocity = absVelocity;
+        window.__scrollVelocity = absVelocity;
         
         // Normalize velocity (scale 0 to 1 for visual transforms, e.g. mapping max 25px/frame)
         const normalizedVelocity = Math.min(absVelocity / 25.0, 1.0);
