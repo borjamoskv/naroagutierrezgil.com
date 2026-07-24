@@ -113,6 +113,42 @@ const ALL_ARTWORKS: Artwork[] = [
     src: '/assets/celia-cruz-cantinflowers-DO-SRKMB.webp',
     desc: 'Vibración de color sobre fisuras sanadas con barniz cerámico y destellos dorados.',
   },
+  {
+    id: 'paul_newmum',
+    title: 'Paul Newmum',
+    category: 'pop',
+    material: 'Pizarra & Homenaje Conceptual',
+    year: '2026',
+    src: '/assets/paul_newmum_1783824262669.webp',
+    desc: 'Homenaje a Paul Newman nacido del error poético de la IA sobre la ascendencia oriental.',
+  },
+  {
+    id: 'summer_monroe',
+    title: 'Summer Monroe',
+    category: 'reverso',
+    material: 'Pizarra, Acrílico & Rework Acústico',
+    year: '2026',
+    src: '/assets/summer_monroe_1783824308258.webp',
+    desc: 'Pieza clave sonorizada electrónicamente por Borja Moskv con QR y relieve mineral.',
+  },
+  {
+    id: 'hacer_el_indio',
+    title: 'Hacer el Indio (Díptico)',
+    category: 'pizarra',
+    material: 'Pizarra Vasco-Lítica',
+    year: '2026',
+    src: '/assets/hacer_el_indio_1783824336337.webp',
+    desc: 'Exploración del primer disfraz e identidad primaria sobre pizarra cortada a mano.',
+  },
+  {
+    id: 'johnny',
+    title: 'DiviNos Johnny',
+    category: 'mica',
+    material: 'Mica Mineral & Barniz 3D',
+    year: '2026',
+    src: '/assets/hq-johnny-5ueL8eU0.webp',
+    desc: 'Mirada tridimensional construida con pupilas cerámicas y reflejos de escamas de mica.',
+  },
 ];
 
 export default function ObraClient() {
