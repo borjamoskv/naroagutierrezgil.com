@@ -21,6 +21,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1.0,
     },
     {
+      url: 'https://naroagutierrezgil.com/obra',
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: 'https://naroagutierrezgil.com/juegos',
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://naroagutierrezgil.com/shop',
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    {
       url: 'https://naroagutierrezgil.com/biografia',
       lastModified: new Date(),
       changeFrequency: 'monthly',
@@ -36,7 +54,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: 'https://naroagutierrezgil.com/contacto',
       lastModified: new Date(),
       changeFrequency: 'yearly',
-      priority: 0.5,
+      priority: 0.7,
     },
     {
       url: 'https://naroagutierrezgil.com/blog',
