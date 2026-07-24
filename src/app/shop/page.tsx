@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import useLenis from '@/hooks/useLenis';
@@ -51,14 +51,20 @@ export default function ShopPage() {
     }
   ];
 
+  useEffect(() => {
+    if (takeoverArtwork) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [takeoverArtwork]);
+
   const openFullscreenArtwork = (artwork: { src: string; title: string; category?: string; desc?: string }) => {
     setTakeoverArtwork(artwork);
-    document.body.style.overflow = 'hidden';
   };
 
   const closeTakeover = () => {
     setTakeoverArtwork(null);
-    document.body.style.overflow = '';
   };
 
   return (

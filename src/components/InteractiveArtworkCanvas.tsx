@@ -131,15 +131,16 @@ function VolumetricPlane({ url, mouse, isHovered }: { url: string; mouse: THREE.
   const meshRef = useRef<THREE.Mesh>(null);
   const materialRef = useRef<THREE.ShaderMaterial>(null);
   const texture = useLoader(THREE.TextureLoader, url);
-  const [appModeVal, setAppModeVal] = useState(0.0);
+  const [appModeVal, setAppModeVal] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('naroa_app_mode') === 'CAOS' ? 1.0 : 0.0;
+    }
+    return 0.0;
+  });
   const { width, height } = useThree((state) => state.viewport);
 
   // Monitor global dimension state changes reactively
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const initialMode = localStorage.getItem('naroa_app_mode') || 'ORDEN';
-      setAppModeVal(initialMode === 'CAOS' ? 1.0 : 0.0);
-    }
     const handleDimension = (e: Event) => {
       const mode = (e as CustomEvent).detail;
       setAppModeVal(mode === 'CAOS' ? 1.0 : 0.0);
@@ -173,14 +174,8 @@ function VolumetricPlane({ url, mouse, isHovered }: { url: string; mouse: THREE.
   }), [mouse]);
 
   useEffect(() => {
-    if (texture) {
-      const tex = texture as any;
-      tex['minFilter'] = THREE.LinearFilter;
-      tex['colorSpace'] = THREE.SRGBColorSpace;
-      tex['needsUpdate'] = true;
-      if (materialRef.current) {
-        materialRef.current.uniforms.uTexture.value = texture;
-      }
+    if (texture && materialRef.current) {
+      materialRef.current.uniforms.uTexture.value = texture;
     }
   }, [texture]);
 

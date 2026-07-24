@@ -1,5 +1,10 @@
+export interface KVNamespaceLike {
+  get: (key: string, type: 'json') => Promise<unknown>;
+  put: (key: string, value: string) => Promise<void>;
+}
+
 export interface Env {
-  RADIANCE_MEMORY: any; // KVNamespace
+  RADIANCE_MEMORY?: KVNamespaceLike;
 }
 
 interface Scar {
@@ -13,6 +18,15 @@ interface KintsugiState {
   entropy: number;
   repairs: number;
   scars: Scar[];
+}
+
+interface RequestPayload {
+  type?: 'FRICTION' | 'GOLD_INJECTION';
+  payload?: {
+    intensity?: number;
+    x?: number;
+    y?: number;
+  };
 }
 
 const DEFAULT_STATE: KintsugiState = {
@@ -43,15 +57,15 @@ export const onRequestPost = async (context: { request: Request; env: Env }) => 
     return new Response(JSON.stringify({ error: 'KV binding RADIANCE_MEMORY missing' }), { status: 500 });
   }
 
-  let body: any;
+  let body: RequestPayload;
   try {
-    body = await request.json();
-  } catch (e) {
+    body = (await request.json()) as RequestPayload;
+  } catch {
     return new Response('Invalid JSON', { status: 400 });
   }
 
   const rawState = await RADIANCE_MEMORY.get('STATE_KINTSUGI_V1', 'json');
-  let state: KintsugiState = (rawState as KintsugiState) || { ...DEFAULT_STATE };
+  const state: KintsugiState = (rawState as KintsugiState) || { ...DEFAULT_STATE };
 
   if (body.type === 'FRICTION') {
     const { intensity } = body.payload;

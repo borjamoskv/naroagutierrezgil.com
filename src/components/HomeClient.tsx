@@ -48,7 +48,13 @@ export default function HomeClient({ feedChildren }: { feedChildren?: React.Reac
   const [takeoverArtwork, setTakeoverArtwork] = useState<{ src: string; title: string; category?: string; desc?: string } | null>(null);
   const [isPersistentTakeover, setIsPersistentTakeover] = useState(false);
   const [takeoverCountdown, setTakeoverCountdown] = useState(4);
-  const [isLocal, setIsLocal] = useState(false);
+  const [isLocal] = useState(() => {
+    if (typeof window !== "undefined") {
+      const hostname = window.location.hostname;
+      return hostname === "localhost" || hostname === "127.0.0.1" || hostname.includes("local");
+    }
+    return false;
+  });
 
   const heroImageRef = useRef<HTMLImageElement>(null);
   const descenderRef = useRef<HTMLDivElement>(null);
@@ -67,12 +73,6 @@ export default function HomeClient({ feedChildren }: { feedChildren?: React.Reac
   }, [appMode]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const hostname = window.location.hostname;
-      if (hostname === "localhost" || hostname === "127.0.0.1" || hostname.includes("local")) {
-        setIsLocal(true);
-      }
-    }
     if (typeof window !== "undefined" && "requestIdleCallback" in window) {
       const id = requestIdleCallback(() => setWebGLReady(true), { timeout: 2000 });
       return () => cancelIdleCallback(id);
@@ -181,7 +181,7 @@ export default function HomeClient({ feedChildren }: { feedChildren?: React.Reac
   }, []);
 
   // Takeover modal handlers
-  const triggerTakeover = (artwork: { src: string; title: string; category?: string; desc?: string }) => {
+  const _triggerTakeover = (artwork: { src: string; title: string; category?: string; desc?: string }) => {
     setTakeoverArtwork(artwork);
     setTakeoverCountdown(4);
     setIsPersistentTakeover(false);

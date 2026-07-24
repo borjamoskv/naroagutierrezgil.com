@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
-import Link from 'next/link';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import useLenis from '@/hooks/useLenis';
 import HeroFluid from '@/components/HeroFluid';
@@ -48,14 +47,20 @@ export default function Biografia() {
     setPortraitTilt({ x: -mouseY * maxTilt, y: mouseX * maxTilt });
   };
 
+  useEffect(() => {
+    if (takeoverArtwork) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [takeoverArtwork]);
+
   const openFullscreenArtwork = (artwork: { src: string; title: string; category?: string; desc?: string }) => {
     setTakeoverArtwork(artwork);
-    document.body.style.overflow = 'hidden';
   };
 
   const closeTakeover = () => {
     setTakeoverArtwork(null);
-    document.body.style.overflow = '';
   };
 
   const timelineMilestones = [

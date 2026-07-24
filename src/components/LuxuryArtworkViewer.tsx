@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, useMemo } from 'react';
+import { useState, useRef, useEffect, useMemo, Suspense } from 'react';
 import Link from 'next/link';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { Html, Environment, Float, ContactShadows, Lightformer } from '@react-three/drei';
@@ -658,14 +658,16 @@ export default function LuxuryArtworkViewer({ onExpand }: { onExpand?: (artwork:
                 </Environment>
 
                 <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.4} floatingRange={[-0.05, 0.05]}>
-                  <InteractiveCanvasModel
-                    src={artwork.src}
-                    hotspots={artwork.hotspots}
-                    activeHotspot={activeHotspot}
-                    setActiveHotspot={setActiveHotspot}
-                    rotationY={rotationY}
-                    setRotationY={setRotationY}
-                  />
+                  <Suspense fallback={null}>
+                    <InteractiveCanvasModel
+                      src={artwork.src}
+                      hotspots={artwork.hotspots}
+                      activeHotspot={activeHotspot}
+                      setActiveHotspot={setActiveHotspot}
+                      rotationY={rotationY}
+                      setRotationY={setRotationY}
+                    />
+                  </Suspense>
                 </Float>
 
                 {/* Hyper-realistic physical shadow on an invisible floor plane */}

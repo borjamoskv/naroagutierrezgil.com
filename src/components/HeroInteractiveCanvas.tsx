@@ -1,7 +1,7 @@
 'use client';
 
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { useRef, useState, useMemo, useEffect } from 'react';
+import { useRef, useState, useMemo, useEffect, Suspense } from 'react';
 import * as THREE from 'three';
 
 // Shaders for the Monumental Slate Portrait in Hero Section
@@ -173,16 +173,15 @@ function VolumetricHeroPortrait({ url }: { url: string }) {
   const mouseRef = useRef(new THREE.Vector2(0.5, 0.5));
   const targetMouseRef = useRef(new THREE.Vector2(0.5, 0.5));
   const scrollProgressRef = useRef(0);
-  const [appModeVal, setAppModeVal] = useState(0.0);
+  const [appModeVal, setAppModeVal] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('naroa_app_mode') === 'CAOS' ? 1.0 : 0.0;
+    }
+    return 0.0;
+  });
 
   // Monitor cursor movement and dimension toggling reactively
   useEffect(() => {
-    // Read initial mode from window state
-    if (typeof window !== 'undefined') {
-      const initialMode = localStorage.getItem('naroa_app_mode') || 'ORDEN';
-      setAppModeVal(initialMode === 'CAOS' ? 1.0 : 0.0);
-    }
-
     const handleMouseMove = (e: MouseEvent) => {
       targetMouseRef.current.x = e.clientX / window.innerWidth;
       targetMouseRef.current.y = 1.0 - (e.clientY / window.innerHeight); // Invert Y for WebGL
@@ -212,21 +211,15 @@ function VolumetricHeroPortrait({ url }: { url: string }) {
   const uniforms = useMemo(() => ({
     uTexture: { value: null as THREE.Texture | null },
     uTime: { value: 0.0 },
-    uMouse: { value: mouseRef.current },
+    uMouse: { value: new THREE.Vector2(0.5, 0.5) },
     uScrollProgress: { value: 0.0 },
     uOpacity: { value: 0.0 },
     uAppMode: { value: 0.0 }
   }), []);
 
   useEffect(() => {
-    if (texture) {
-      const tex = texture as any;
-      tex['minFilter'] = THREE.LinearFilter;
-      tex['colorSpace'] = THREE.SRGBColorSpace;
-      tex['needsUpdate'] = true;
-      if (materialRef.current) {
-        materialRef.current.uniforms.uTexture.value = texture;
-      }
+    if (texture && materialRef.current) {
+      materialRef.current.uniforms.uTexture.value = texture;
     }
   }, [texture]);
 
@@ -297,7 +290,9 @@ export default function HeroInteractiveCanvas({ url }: { url: string }) {
       >
         <ambientLight intensity={0.6} />
         <directionalLight position={[2, 4, 3]} intensity={1.0} castShadow />
-        <VolumetricHeroPortrait url={url} />
+        <Suspense fallback={null}>
+          <VolumetricHeroPortrait url={url} />
+        </Suspense>
       </Canvas>
     </div>
   );

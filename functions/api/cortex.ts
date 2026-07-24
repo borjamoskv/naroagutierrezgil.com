@@ -1,6 +1,18 @@
 export interface Env {
-  AI: any;
-  RADIANCE_MEMORY: any;
+  AI?: {
+    run: (model: string, options: { messages: { role: string; content: string }[]; max_tokens?: number; temperature?: number }) => Promise<{ response: string }>;
+  };
+  RADIANCE_MEMORY?: unknown;
+}
+
+interface ChatMessage {
+  sender?: string;
+  text?: string;
+}
+
+interface RequestBody {
+  message?: string;
+  history?: ChatMessage[];
 }
 
 export const onRequestPost = async (context: { request: Request; env: Env }) => {
@@ -12,7 +24,7 @@ export const onRequestPost = async (context: { request: Request; env: Env }) => 
   }
 
   try {
-    const body: any = await request.json();
+    const body = (await request.json()) as RequestBody;
     const { message, history } = body;
 
     const systemPrompt = `
@@ -24,9 +36,9 @@ Tus respuestas son cortas (máximo 2 o 3 líneas), sobrias y sin adornos poétic
 Manejas información sobre encargos y precios: Mascotas (desde 250€), Retratos individuales (desde 450€), Retratos dobles (desde 750€).
 `;
 
-    const formattedHistory = (history || []).map((msg: any) => ({
+    const formattedHistory = (history || []).map((msg: ChatMessage) => ({
       role: msg.sender === 'user' ? 'user' : 'assistant',
-      content: msg.text
+      content: msg.text || ''
     }));
 
     const messages = [
@@ -44,7 +56,8 @@ Manejas información sobre encargos y precios: Mascotas (desde 250€), Retratos
     return new Response(JSON.stringify({ response: response.response }), {
       headers: { 'Content-Type': 'application/json' }
     });
-  } catch (error: any) {
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+  } catch (error: unknown) {
+    const errMessage = error instanceof Error ? error.message : 'Unknown error';
+    return new Response(JSON.stringify({ error: errMessage }), { status: 500 });
   }
 };

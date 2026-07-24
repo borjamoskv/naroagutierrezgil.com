@@ -1,19 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useSyncExternalStore } from 'react';
 import dynamic from 'next/dynamic';
 
 const Preloader = dynamic(() => import("./Preloader"), { ssr: false });
 const CustomCursor = dynamic(() => import("./CustomCursor"), { ssr: false });
 
-export default function ClientWrapper() {
-  const [mounted, setMounted] = useState(false);
-  
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+const emptySubscribe = () => () => {};
 
-  if (!mounted) return null;
+export default function ClientWrapper() {
+  const isMounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+
+  if (!isMounted) return null;
 
   return (
     <>

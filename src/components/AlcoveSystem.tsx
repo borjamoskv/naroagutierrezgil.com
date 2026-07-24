@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import KineticArtwork from './KineticArtwork';
 
 type AlcoveId = 'pop' | 'pizarra' | 'poliester' | 'kintsugi' | 'mica' | 'reverso';
@@ -140,10 +139,9 @@ export default function AlcoveSystem({ activeAlcove, setActiveAlcove, resolveSrc
 
           {/* Minimal Hover HUD overlay (Reveals text info only when hovered) */}
           <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-20 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-1000 bg-transparent sm:bg-black/60 sm:backdrop-blur-md pointer-events-none">
-            
             <div className="translate-y-0 sm:translate-y-10 group-hover:translate-y-0 transition-transform duration-1000 ease-[cubic-bezier(0.19,1,0.22,1)]">
               <span className="text-[var(--primary)] font-mono text-[10px] tracking-[0.6em] uppercase mb-4 block animate-pulse">
-                System: {data.universeNum} // {data.material}
+                System: {data.universeNum} {'//'} {data.material}
               </span>
               
               <h3 className="text-3xl sm:text-6xl font-sans font-black text-white uppercase tracking-tighter mb-6 leading-none shadow-black drop-shadow-2xl">
@@ -154,7 +152,6 @@ export default function AlcoveSystem({ activeAlcove, setActiveAlcove, resolveSrc
                 {data.description}
               </p>
             </div>
-
           </div>
 
           {/* Quick HUD overlay in bottom-right (Static, always visible to indicate active universe) */}
