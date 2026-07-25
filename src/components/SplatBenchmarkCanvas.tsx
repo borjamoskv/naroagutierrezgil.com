@@ -35,8 +35,8 @@ function useKintsugiAgent() {
   const scars: any[] = [];
   const kintsugiActive = false;
 
-  const applyFriction = async (_x: number, _y: number, _intensity: number) => {};
-  const injectGold = async (_intensity: number, _x: number, _y: number) => {};
+  const applyFriction = async () => {};
+  const injectGold = async () => {};
 
   return { entropy, repairs, scars, kintsugiActive, applyFriction, injectGold, socket: null };
 }
@@ -332,6 +332,7 @@ function SplatInteractiveCanvas() {
       isMounted = false;
       cancelAnimationFrame(animationFrameId);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlePointerDown = async (e: React.PointerEvent) => {

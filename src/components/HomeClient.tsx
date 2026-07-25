@@ -1,15 +1,12 @@
 'use client';
 
 import { useState, useEffect, useRef, Suspense } from 'react';
-import Link from 'next/link';
 import Lenis from 'lenis';
 import dynamic from 'next/dynamic';
 
 const WebGLBackground = dynamic(() => import('@/components/WebGLBackground'), { ssr: false });
 const PaintTrail = dynamic(() => import('@/components/PaintTrail'), { ssr: false });
 const MacroSplatCanvas = dynamic(() => import('@/components/SplatBenchmarkCanvas'), { ssr: false });
-const SplatPhysicsTester = dynamic(() => import('@/components/SplatPhysicsTester'), { ssr: false });
-const KineticArtwork = dynamic(() => import('@/components/KineticArtwork'), { ssr: false });
 const ThreeDCarousel = dynamic(() => import('@/components/ThreeDCarousel'), { ssr: false });
 const HeroSection = dynamic(() => import('@/components/HeroSection'));
 const PhilosophyStatement = dynamic(() => import('@/components/PhilosophyStatement'));
@@ -26,20 +23,6 @@ const Footer = dynamic(() => import('@/components/Footer'));
 
 const WordPressPortal = dynamic(() => import('@/components/WordPressPortal'));
 
-const baseArtworks = [
-  { src: 'james-new.webp', title: 'James Dean', category: 'pop', desc: 'Pop iconography on slate' },
-  { src: 'amy-new.webp', title: 'Amy Winehouse', category: 'pop', desc: 'Sinuous expression of voice' },
-  { src: 'johnny-new.webp', title: 'Johnny Depp', category: 'pop', desc: 'Depth of texture & character' },
-  { src: 'audrey-hepburn-DbIBTtIp.webp', title: 'Audrey Hepburn', category: 'pop', desc: 'Classic elegance on basalt' },
-  { src: 'el-gran-dakari-C1tAWAhR.webp', title: 'El Gran Dakari', category: 'mica', desc: 'Shimmering minerals and glaze' },
-  { src: 'geisha-MfRtKWdu.webp', title: 'Geisha', category: 'mica', desc: 'Mixture of gold dust and mica' },
-  { src: 'cantinflas-kintsugi.webp', title: 'Cantinflas (Kintsugi Accidental)', category: 'kintsugi', desc: 'Pop icon with accidental kintsugi textures and gold details' },
-  { src: 'espejo-alma-piensa.webp', title: 'Espejo del Alma: Piensa Bien', category: 'pizarra', desc: 'Basque roof slate frame with expressive gaze & peacock feather details' },
-  { src: 'exposicion-politena.webp', title: 'DiviNos VaiVenes (Exposición)', category: 'pizarra', desc: 'Commemorative engraved Basque slate for the Politena Art Space exhibit' },
-  { src: '615438426_1577822580363824_2923463327956560352_n.webp', title: 'Retrato en Tensión', category: 'pizarra', desc: 'Epoxi resin and slate fusion' },
-  { src: '612329591_1571120784367337_8798688892093004057_n.webp', title: 'Facciones del Silencio', category: 'poliester', desc: 'Translucent polyester sketch' },
-  { src: '622453257_1583899099756172_4197872465466826396_n.webp', title: 'Mirada del Tiempo', category: 'poliester', desc: 'Washed ink chemistry like X-ray' }
-];
 
 export default function HomeClient({ feedChildren }: { feedChildren?: React.ReactNode }) {
   const [appMode, setAppMode] = useState<"CAOS" | "ORDEN">("ORDEN");
@@ -47,7 +30,6 @@ export default function HomeClient({ feedChildren }: { feedChildren?: React.Reac
   const [activeAlcove, setActiveAlcove] = useState<'pop' | 'pizarra' | 'poliester' | 'kintsugi' | 'mica' | 'reverso'>('pop');
   const [takeoverArtwork, setTakeoverArtwork] = useState<{ src: string; title: string; category?: string; desc?: string } | null>(null);
   const [isPersistentTakeover, setIsPersistentTakeover] = useState(false);
-  const [takeoverCountdown, setTakeoverCountdown] = useState(4);
   const [isLocal] = useState(() => {
     if (typeof window !== "undefined") {
       const hostname = window.location.hostname;
@@ -180,26 +162,6 @@ export default function HomeClient({ feedChildren }: { feedChildren?: React.Reac
     updatePrimaryColor('#2B3BE5');
   }, []);
 
-  // Takeover modal handlers
-  const _triggerTakeover = (artwork: { src: string; title: string; category?: string; desc?: string }) => {
-    setTakeoverArtwork(artwork);
-    setTakeoverCountdown(4);
-    setIsPersistentTakeover(false);
-    document.body.style.overflow = 'hidden';
-    const interval = setInterval(() => {
-      setTakeoverCountdown(prev => prev - 1);
-    }, 1000);
-    const timeout = setTimeout(() => {
-      setTakeoverArtwork(null);
-      document.body.style.overflow = '';
-      clearInterval(interval);
-    }, 4000);
-    return () => {
-      clearInterval(interval);
-      clearTimeout(timeout);
-    };
-  };
-
   const openFullscreenArtwork = (artwork: { src: string; title: string; category?: string; desc?: string }) => {
     setTakeoverArtwork(artwork);
     setIsPersistentTakeover(true);
@@ -304,7 +266,7 @@ export default function HomeClient({ feedChildren }: { feedChildren?: React.Reac
 
       <TakeoverModal 
         artwork={takeoverArtwork} 
-        countdown={isPersistentTakeover ? null : takeoverCountdown} 
+        countdown={null} 
         isPersistent={isPersistentTakeover}
         getImageUrl={resolveSrc} 
         onClose={closeTakeover}

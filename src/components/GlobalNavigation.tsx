@@ -16,15 +16,6 @@ export default function GlobalNavigation() {
     }
   };
 
-  const scrollToAlcove = () => {
-    if (pathname === '/') {
-      if (typeof document !== 'undefined') {
-        document.getElementById('alcove-system')?.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      router.push('/#alcove-system');
-    }
-  };
 
   return (
     <ScrollAwareHeader className="fixed top-6 left-1/2 -translate-x-1/2 w-auto px-2 py-2 flex items-center z-[210] pointer-events-auto select-none text-white rounded-full animate-[fadeIn_1.5s_ease-out_both] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.8)] border border-white/10">
