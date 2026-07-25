@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
     root: __dirname,
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   experimental: {
     optimizePackageImports: ['three', '@react-three/fiber', '@react-three/drei'],
