@@ -21,6 +21,7 @@
     "three": "^0.184.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260724.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -42,4 +43,3 @@
     "unrs-resolver@1.12.2": true
   }
 }
-

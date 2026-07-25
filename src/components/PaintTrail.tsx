@@ -54,6 +54,7 @@ export default function PaintTrail() {
         const lastP = points[points.length - 1];
         ctx.lineTo(lastP.x, lastP.y);
         
+        const entropy = points.length;
         const rBase = Math.min(43 + entropy * 1.5, 255);
         const gBase = 59;
         const bBase = Math.max(229 - entropy * 2, 0);
