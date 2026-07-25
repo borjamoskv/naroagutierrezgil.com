@@ -35,8 +35,10 @@ function useKintsugiAgent() {
   const scars: any[] = [];
   const kintsugiActive = false;
 
-  const applyFriction = async () => {};
-  const injectGold = async () => {};
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const applyFriction = async (_x: number, _y: number, _intensity: number) => {};
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const injectGold = async (_intensity: number, _x: number, _y: number) => {};
 
   return { entropy, repairs, scars, kintsugiActive, applyFriction, injectGold, socket: null };
 }
