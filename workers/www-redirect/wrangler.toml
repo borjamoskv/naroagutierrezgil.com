@@ -1,0 +1,9 @@
+name = "naroa-www-redirect"
+main = "index.js"
+compatibility_date = "2026-07-01"
+
+# Intercepta ABSOLUTAMENTE TODO el tráfico de naroa.online (apex + subdominios) y redirige 301 a https://naroagutierrezgil.com/
+routes = [
+  { pattern = "*naroa.online/*", zone_name = "naroa.online" }
+]
+

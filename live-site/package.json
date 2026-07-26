@@ -1,0 +1,9 @@
+{
+  "name": "naroa-online-live",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Versión estática desplegada de naroa.online (mirror mejorado 2026-07-19)",
+  "scripts": {
+    "dev": "node dev-server.mjs"
+  }
+}
