@@ -31,5 +31,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "modules"]
+  "exclude": ["node_modules", "modules", "vite.config.ts", "astro.config.mjs"]
 }
