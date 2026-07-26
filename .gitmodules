@@ -1,0 +1,3 @@
+[submodule "modules/naroa.online"]
+	path = modules/naroa.online
+	url = https://github.com/borjamoskv/naroa.online.git

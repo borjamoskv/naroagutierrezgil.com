@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync:naroa-online": "git submodule update --remote --merge"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
