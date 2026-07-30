@@ -11,6 +11,7 @@ const CinematicCanvas = dynamic(() => import('@/components/CinematicCanvas'), { 
 const CustomCursor = dynamic(() => import('@/components/CustomCursor'), { ssr: false });
 const GlobalNavigation = dynamic(() => import('@/components/GlobalNavigation'));
 const Footer = dynamic(() => import('@/components/Footer'));
+const PortfolioGrid = dynamic(() => import('@/components/PortfolioGrid'));
 
 export default function HomeClient({ feedChildren }: { feedChildren?: React.ReactNode }) {
   // Smooth scrolling with Lenis
@@ -55,38 +56,9 @@ export default function HomeClient({ feedChildren }: { feedChildren?: React.Reac
           </h2>
         </header>
 
-        {/* Alyssa Monks Style Flat Gallery Grid */}
+        {/* Alyssa Monks Style Flat Gallery Grid with Filters */}
         <main className="w-full max-w-[1400px] mx-auto px-6 sm:px-12 pb-32">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
-            {artworkData.map((artwork) => (
-              <div key={artwork.id} className="group relative break-inside-avoid">
-                <Link href={`/obra/${artwork.slug}`} className="block relative">
-                  {/* Image Container with Kintsugi / Noir hover effects */}
-                  <div className="relative w-full aspect-[4/5] bg-[#050505] overflow-hidden border border-white/5 transition-all duration-700 group-hover:border-[#F59E0B]/50 group-hover:shadow-[0_0_30px_rgba(245,158,11,0.15)]">
-                    <Image
-                      src={`/assets/${artwork.image}`}
-                      alt={artwork.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                    {/* Dark overlay for Noir aesthetic */}
-                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500" />
-                  </div>
-                  
-                  {/* Minimalist Text Info */}
-                  <div className="mt-6 flex flex-col items-center text-center space-y-1">
-                    <h3 className="text-lg font-serif text-[#F5F5F5] group-hover:text-[#F59E0B] transition-colors duration-300">
-                      {artwork.title}
-                    </h3>
-                    <p className="font-sans text-[11px] tracking-[0.15em] text-[#F5F5F5]/50 uppercase">
-                      {artwork.technique}
-                    </p>
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
+          <PortfolioGrid />
         </main>
 
         {/* WordPress Feed section */}

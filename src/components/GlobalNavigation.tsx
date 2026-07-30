@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import ScrollAwareHeader from './ScrollAwareHeader';
@@ -7,6 +8,11 @@ import ScrollAwareHeader from './ScrollAwareHeader';
 export default function GlobalNavigation() {
   const pathname = usePathname();
   const router = useRouter();
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+
+  const toggleAudio = () => {
+    setIsPlayingAudio(!isPlayingAudio);
+  };
 
   const scrollToTop = () => {
     if (pathname === '/') {
@@ -54,6 +60,19 @@ export default function GlobalNavigation() {
         >
           Blog
         </Link>
+
+        <button
+          onClick={toggleAudio}
+          className={`ml-2 px-3 py-2 text-[9px] font-mono tracking-widest rounded-full transition-all duration-300 flex items-center gap-1.5 ${
+            isPlayingAudio
+              ? 'bg-[#F59E0B]/20 text-[#F59E0B] border border-[#F59E0B]/50'
+              : 'bg-white/5 text-white/40 hover:text-white border border-white/10'
+          }`}
+          title="Sonido de ambiente mineral"
+        >
+          <span className={`w-1.5 h-1.5 rounded-full ${isPlayingAudio ? 'bg-[#F59E0B] animate-ping' : 'bg-white/40'}`}></span>
+          <span>{isPlayingAudio ? 'AUDIO ON' : 'AUDIO'}</span>
+        </button>
 
         <Link
           href="/contacto"
