@@ -11,6 +11,7 @@ import dynamic from 'next/dynamic';
 
 const CinematicCanvas = dynamic(() => import('@/components/CinematicCanvas'), { ssr: false });
 const CustomCursor = dynamic(() => import('@/components/CustomCursor'), { ssr: false });
+const SlateConfigurator3D = dynamic(() => import('@/components/SlateConfigurator3D'), { ssr: false });
 
 export default function Contacto() {
   const [formData, setFormData] = useState(() => {
@@ -163,21 +164,14 @@ ${formData.detalles}
               </a>
             </div>
 
-            {/* Elegant Art Showcase on Contact Page */}
+            {/* 3D Slate Configurator Preview */}
             <ScrollReveal delay={0.1}>
-              <div className="relative group w-full aspect-[4/5] bg-black border border-white/5 overflow-hidden rounded-sm shadow-2xl">
-                <Image 
-                  src="/assets/la_famiglia_1783824320607.webp" 
-                  alt="La Famiglia - Retrato personalizado sobre pizarra"
-                  fill
-                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-[1.2s] scale-105 group-hover:scale-110"
-                  sizes="(max-width: 768px) 100vw, 40vw"
-                  priority
+              <div className="space-y-3">
+                <SlateConfigurator3D 
+                  width={formData.tamano === 'pequeno' ? 20 : formData.tamano === 'mediano' ? 30 : 40} 
+                  height={formData.tamano === 'pequeno' ? 30 : formData.tamano === 'mediano' ? 40 : 60} 
+                  finish={formData.tipo === 'mascota' ? 'pizarra' : formData.tipo === 'doble' ? 'kintsugi' : 'mica'} 
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
-                <div className="absolute bottom-6 left-6 font-mono text-[9px] tracking-widest text-white/50 uppercase">
-                  [ La Famiglia // Retrato Encargo ]
-                </div>
               </div>
             </ScrollReveal>
 

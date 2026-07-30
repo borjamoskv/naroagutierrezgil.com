@@ -23,8 +23,34 @@ export default function ArtworkDetailClient({ artwork }: { artwork: Artwork }) {
     }
   };
 
+  const jsonLdData = {
+    '@context': 'https://schema.org',
+    '@type': 'VisualArtwork',
+    'name': artwork.title,
+    'artist': {
+      '@type': 'Person',
+      'name': 'Naroa Gutiérrez Gil',
+      'sameAs': 'https://naroagutierrezgil.com'
+    },
+    'artMedium': artwork.technique,
+    'artForm': 'Painting',
+    'surface': artwork.support,
+    'description': artwork.description,
+    'image': `https://naroagutierrezgil.com/assets/${artwork.image}`,
+    'offers': artwork.price ? {
+      '@type': 'Offer',
+      'price': artwork.price,
+      'priceCurrency': 'EUR',
+      'availability': artwork.availability === 'Disponible' ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
+    } : undefined
+  };
+
   return (
     <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F5] font-sans selection:bg-[#2B3BE5] selection:text-[#F5F5F5] relative overflow-x-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
+      />
       <CustomCursor />
       <CinematicCanvas />
       <GlobalNavigation />

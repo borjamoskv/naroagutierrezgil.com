@@ -61,6 +61,45 @@ export default function HomeClient({ feedChildren }: { feedChildren?: React.Reac
           <PortfolioGrid />
         </main>
 
+        {/* Alquimia de la Pizarra (Raw Materials Showcase) */}
+        <section className="bg-[#050505] py-20 border-t border-b border-white/5 relative">
+          <div className="max-w-7xl mx-auto px-6 sm:px-12">
+            <div className="text-center mb-16">
+              <span className="font-mono text-[10px] tracking-[0.4em] uppercase text-[#F59E0B] block mb-2 font-bold">[ MATERIA & PROCESO ]</span>
+              <h2 className="font-serif text-3xl md:text-5xl text-[#F5F5F5]">Alquimia de la Pizarra</h2>
+              <p className="font-sans text-xs md:text-sm text-[#F5F5F5]/60 max-w-xl mx-auto mt-4 font-light leading-relaxed">
+                Cada obra nace de la interacción orgánica entre el retrato hiperrealista y la porosidad mineral de soportes pétreos recuperados.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="p-8 bg-[#0A0A0A] border border-white/10 rounded-sm hover:border-[#F59E0B]/50 transition-colors group">
+                <span className="font-mono text-xl text-[#F59E0B] block mb-3 font-bold">01.</span>
+                <h3 className="font-serif text-xl text-[#F5F5F5] mb-2 group-hover:text-[#F59E0B] transition-colors">Pizarra Vasco-Lítica</h3>
+                <p className="font-sans text-xs text-[#F5F5F5]/60 leading-relaxed font-light">
+                  Pizarras centenarias recuperadas de caseríos y tejados históricos del País Vasco. Superficies labradas por el clima.
+                </p>
+              </div>
+
+              <div className="p-8 bg-[#0A0A0A] border border-white/10 rounded-sm hover:border-[#2B3BE5]/50 transition-colors group">
+                <span className="font-mono text-xl text-[#2B3BE5] block mb-3 font-bold">02.</span>
+                <h3 className="font-serif text-xl text-[#F5F5F5] mb-2 group-hover:text-[#2B3BE5] transition-colors">Escamas de Mica Mineral</h3>
+                <p className="font-sans text-xs text-[#F5F5F5]/60 leading-relaxed font-light">
+                  Láminas minerales translúcidas encoladas que reflejan la luz ambiente con destellos naturales cambiantes.
+                </p>
+              </div>
+
+              <div className="p-8 bg-[#0A0A0A] border border-white/10 rounded-sm hover:border-[#F59E0B]/50 transition-colors group">
+                <span className="font-mono text-xl text-[#F59E0B] block mb-3 font-bold">03.</span>
+                <h3 className="font-serif text-xl text-[#F5F5F5] mb-2 group-hover:text-[#F59E0B] transition-colors">Kintsugi Accidental</h3>
+                <p className="font-sans text-xs text-[#F5F5F5]/60 leading-relaxed font-light">
+                  Resinas de oro y pigmentos cargados que cicatrizan las vetas y grietas naturales de la losa mineral.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* WordPress Feed section */}
         <div className="bg-[#0A0A0A] pt-12 pb-24">
           <div className="text-center mb-12">
