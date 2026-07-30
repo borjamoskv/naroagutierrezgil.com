@@ -7,6 +7,10 @@ import HeroFluid from '@/components/HeroFluid';
 import ScrollReveal from '@/components/ScrollReveal';
 import Footer from '@/components/Footer';
 import GlobalNavigation from '@/components/GlobalNavigation';
+import dynamic from 'next/dynamic';
+
+const CinematicCanvas = dynamic(() => import('@/components/CinematicCanvas'), { ssr: false });
+const CustomCursor = dynamic(() => import('@/components/CustomCursor'), { ssr: false });
 
 export default function Contacto() {
   const [formData, setFormData] = useState(() => {
@@ -117,7 +121,9 @@ ${formData.detalles}
   };
 
   return (
-    <div className="min-h-screen bg-[#000000] text-[#EAEAEA] font-sans selection:bg-[#2B3BE5] selection:text-white overflow-hidden">
+    <div className="min-h-screen bg-[#0A0A0A] text-[#EAEAEA] font-sans selection:bg-[#2B3BE5] selection:text-white overflow-hidden">
+      <CustomCursor />
+      <CinematicCanvas />
       {/* Background FX */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute top-0 right-1/4 w-[50vw] h-[50vw] bg-[#2B3BE5] rounded-full mix-blend-screen filter blur-[150px] opacity-10 animate-pulse" />

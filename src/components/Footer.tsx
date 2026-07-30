@@ -9,7 +9,7 @@ export default function Footer() {
         <Link 
           href="/contacto" 
           aria-label="Establecer contacto y configurar propuesta"
-          className="text-4xl sm:text-6xl md:text-[7rem] font-serif font-light tracking-tighter text-foreground/70 hover:text-primary transition-colors duration-1000 mb-12 block hover:tracking-normal uppercase"
+          className="text-4xl sm:text-6xl md:text-[7rem] font-serif font-light tracking-tighter text-[#F5F5F5]/70 hover:text-[#F59E0B] transition-colors duration-1000 mb-12 block hover:tracking-normal uppercase"
         >
           Contacto
         </Link>
@@ -26,12 +26,12 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-wrap gap-8 justify-center mb-16 text-[9px] tracking-[0.4em] uppercase text-white/40">
-          <Link href="/obra" className="hover:text-primary transition-colors duration-500">Obra</Link>
-          <Link href="/blog" className="hover:text-primary transition-colors duration-500">Bitácora</Link>
-          <Link href="/shop" className="hover:text-primary transition-colors duration-500">Bóveda</Link>
-          <Link href="/biografia" className="hover:text-primary transition-colors duration-500">Trayectoria</Link>
-          <Link href="/juegos" className="hover:text-primary transition-colors duration-500">Juegos</Link>
-          <a href="https://www.instagram.com/naroa_art/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors duration-500 text-primary/70">
+          <Link href="/obra" className="hover:text-[#F59E0B] transition-colors duration-500">Obra</Link>
+          <Link href="/blog" className="hover:text-[#F59E0B] transition-colors duration-500">Bitácora</Link>
+          <Link href="/shop" className="hover:text-[#F59E0B] transition-colors duration-500">Bóveda</Link>
+          <Link href="/biografia" className="hover:text-[#F59E0B] transition-colors duration-500">Trayectoria</Link>
+          <Link href="/juegos" className="hover:text-[#F59E0B] transition-colors duration-500">Juegos</Link>
+          <a href="https://www.instagram.com/naroa_art/" target="_blank" rel="noopener noreferrer" className="hover:text-[#F59E0B] transition-colors duration-500 text-[#2B3BE5]">
             @naroa_art
           </a>
         </div>

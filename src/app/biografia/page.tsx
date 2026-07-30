@@ -7,7 +7,10 @@ import HeroFluid from '@/components/HeroFluid';
 import ScrollReveal from '@/components/ScrollReveal';
 import Footer from '@/components/Footer';
 import GlobalNavigation from '@/components/GlobalNavigation';
-import TakeoverModal from '@/components/TakeoverModal';
+import dynamic from 'next/dynamic';
+
+const CinematicCanvas = dynamic(() => import('@/components/CinematicCanvas'), { ssr: false });
+const CustomCursor = dynamic(() => import('@/components/CustomCursor'), { ssr: false });
 
 const renderKineticText = (text: string, baseClass: string, hoverClass: string, staggerOffset: number = 0) => (
   text.split('').map((char, i) => {
@@ -31,8 +34,6 @@ const renderKineticText = (text: string, baseClass: string, hoverClass: string, 
 export default function Biografia() {
   useLenis();
 
-  const [takeoverArtwork, setTakeoverArtwork] = useState<{ src: string; title: string; category?: string; desc?: string } | null>(null);
-
   // Parallax SOTA Hover State for main portrait
   const portraitCardRef = useRef<HTMLDivElement>(null);
   const [portraitTilt, setPortraitTilt] = useState({ x: 0, y: 0 });
@@ -45,22 +46,6 @@ export default function Biografia() {
     const mouseY = (e.clientY - rect.top) / rect.height - 0.5;
     const maxTilt = 3;
     setPortraitTilt({ x: -mouseY * maxTilt, y: mouseX * maxTilt });
-  };
-
-  useEffect(() => {
-    if (takeoverArtwork) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-  }, [takeoverArtwork]);
-
-  const openFullscreenArtwork = (artwork: { src: string; title: string; category?: string; desc?: string }) => {
-    setTakeoverArtwork(artwork);
-  };
-
-  const closeTakeover = () => {
-    setTakeoverArtwork(null);
   };
 
   const timelineMilestones = [
@@ -134,7 +119,9 @@ export default function Biografia() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#000000] text-[#EAEAEA] font-sans selection:bg-[#2B3BE5] selection:text-white overflow-hidden relative">
+    <div className="min-h-screen bg-[#0A0A0A] text-[#EAEAEA] font-sans selection:bg-[#2B3BE5] selection:text-white overflow-hidden relative">
+      <CustomCursor />
+      <CinematicCanvas />
       {/* Background FX */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-[50vw] h-[50vw] bg-[#2B3BE5] rounded-full mix-blend-screen filter blur-[150px] opacity-10 animate-pulse" />
@@ -198,7 +185,6 @@ export default function Biografia() {
               {timelineMilestones.map((milestone, idx) => (
                 <ScrollReveal delay={idx * 0.1} key={milestone.year}>
                   <div 
-                    onClick={() => openFullscreenArtwork({ src: milestone.src, title: milestone.title, category: milestone.category, desc: milestone.desc })}
                     className="flex gap-6 group cursor-pointer border-b border-white/5 pb-6 hover:border-[#2B3BE5]/30 transition-colors"
                   >
                     <span className="font-mono text-xl text-[#2B3BE5] font-black">{milestone.year}</span>
@@ -305,7 +291,6 @@ export default function Biografia() {
               {curiosidades.map((item, i) => (
                 <div 
                   key={i} 
-                  onClick={() => openFullscreenArtwork({ src: item.src, title: item.t, category: item.cat, desc: item.d })}
                   className="group relative p-8 bg-[#0A0A0A] border border-white/5 hover:border-[#2B3BE5]/30 transition-all duration-500 flex flex-col justify-between overflow-hidden cursor-pointer min-h-[320px] shadow-2xl"
                 >
                   <div className="absolute inset-0 bg-cover bg-center opacity-0 group-hover:opacity-10 transition-opacity duration-700 pointer-events-none" style={{ backgroundImage: `url(/assets/${item.src})` }} />
@@ -358,13 +343,6 @@ export default function Biografia() {
       </main>
 
       <Footer />
-
-      <TakeoverModal 
-        artwork={takeoverArtwork} 
-        isPersistent={true}
-        getImageUrl={(src) => `/assets/${src}`} 
-        onClose={closeTakeover}
-      />
     </div>
   );
 }

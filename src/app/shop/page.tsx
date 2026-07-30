@@ -8,7 +8,10 @@ import ScrollReveal from '@/components/ScrollReveal';
 import Footer from '@/components/Footer';
 import GlobalNavigation from '@/components/GlobalNavigation';
 import HeroFluid from '@/components/HeroFluid';
-import TakeoverModal from '@/components/TakeoverModal';
+import dynamic from 'next/dynamic';
+
+const CinematicCanvas = dynamic(() => import('@/components/CinematicCanvas'), { ssr: false });
+const CustomCursor = dynamic(() => import('@/components/CustomCursor'), { ssr: false });
 
 export default function ShopPage() {
   useLenis();
@@ -68,7 +71,9 @@ export default function ShopPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#000000] text-[#EAEAEA] font-sans selection:bg-[#2B3BE5] selection:text-white overflow-hidden relative">
+    <div className="min-h-screen bg-[#0A0A0A] text-[#EAEAEA] font-sans selection:bg-[#2B3BE5] selection:text-white overflow-hidden relative">
+      <CustomCursor />
+      <CinematicCanvas />
       {/* Background Flow Effects */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute top-0 right-1/4 w-[50vw] h-[50vw] bg-[#2B3BE5] rounded-full mix-blend-screen filter blur-[150px] opacity-10 animate-pulse" />
@@ -184,13 +189,6 @@ export default function ShopPage() {
       </main>
 
       <Footer />
-
-      <TakeoverModal 
-        artwork={takeoverArtwork} 
-        isPersistent={true}
-        getImageUrl={(src) => `/assets/${src}`} 
-        onClose={closeTakeover}
-      />
     </div>
   );
 }
