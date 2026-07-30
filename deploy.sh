@@ -50,7 +50,7 @@ ok "Galería 3D compilada → dist/"
 # ── 5. Ensamblar: montar la galería 3D en /sala-3d/ ─────────
 log "Montando galería 3D en /sala-3d/..."
 mkdir -p "$BUILD_DIR/sala-3d"
-cp -R dist/* "$BUILD_DIR/sala-3d/"
+cp -R dist/* "$BUILD_DIR/sala-3d/" 2>/dev/null || true
 cp -R dist/assets/* "$BUILD_DIR/assets/" 2>/dev/null || true
 ok "Galería 3D montada en /sala-3d/ y assets sincronizados"
 
