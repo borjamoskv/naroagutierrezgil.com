@@ -1,8 +1,4 @@
 {
-  "version": 2,
-  "cleanUrls": true,
-  "buildCommand": "./deploy.sh --build-only",
-  "outputDirectory": ".deploy",
   "headers": [
     {
       "source": "/(.*)",
