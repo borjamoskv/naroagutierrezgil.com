@@ -30,17 +30,109 @@ function makePerspectiveMatrix(fovRad: number, aspect: number, near: number, far
 }
 
 function useKintsugiAgent() {
-  const entropy = 0;
-  const repairs = 0;
-  const scars: any[] = [];
-  const kintsugiActive = false;
+  const [entropy, setEntropy] = useState(0);
+  const [repairs, setRepairs] = useState(0);
+  const [scars, setScars] = useState<any[]>([]);
+  const [kintsugiActive, setKintsugiActive] = useState(false);
+  const socketRef = useRef<WebSocket | null>(null);
+  const retryCount = useRef(0);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const applyFriction = async (_x: number, _y: number, _intensity: number) => {};
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const injectGold = async (_intensity: number, _x: number, _y: number) => {};
+  useEffect(() => {
+    let isMounted = true;
+    let reconnectTimeout: ReturnType<typeof setTimeout>;
 
-  return { entropy, repairs, scars, kintsugiActive, applyFriction, injectGold, socket: null };
+    const connect = () => {
+      // Endpoint Soberano C5-REAL (Durable Object Cloudflare Worker)
+      const wsUrl = process.env.NEXT_PUBLIC_KINTSUGI_WSS_URL || 'wss://api.naroa.online/kintsugi';
+      
+      let ws: WebSocket;
+      try {
+        ws = new WebSocket(wsUrl);
+      } catch (e) {
+        console.error('[Kintsugi] Error al inicializar WebSocket:', e);
+        return; // Retries might not help if URL is strictly invalid, but we'll let it fail gracefully.
+      }
+
+      ws.onopen = () => {
+        if (!isMounted) return;
+        retryCount.current = 0; // Reset en éxito (Stateful Hysteresis)
+        socketRef.current = ws;
+      };
+
+      ws.onmessage = (event) => {
+        if (!isMounted) return;
+        try {
+          const data = JSON.parse(event.data);
+          if (data.type === 'STATE_UPDATE') {
+            setEntropy(data.entropy ?? 0);
+            setRepairs(data.repairs ?? 0);
+            setScars(data.scars ?? []);
+            setKintsugiActive(data.kintsugiActive ?? false);
+          }
+        } catch (e) {
+          console.error('[Kintsugi] Falla en decodificación de entropía', e);
+        }
+      };
+
+      ws.onclose = () => {
+        socketRef.current = null;
+        if (!isMounted) return;
+        
+        // Ω160 Stateful Load Shedding & Non-linear exponential backoff
+        const baseDelay = 1000;
+        const maxDelay = 30000;
+        const delay = Math.min(baseDelay * Math.pow(1.618, retryCount.current), maxDelay);
+        retryCount.current += 1;
+        
+        // Jitter estocástico para evitar tormentas de reconexión
+        reconnectTimeout = setTimeout(connect, delay + Math.random() * 500); 
+      };
+
+      ws.onerror = (err) => {
+        // Silence on UI, managed by onclose
+        console.error('[Kintsugi] Anomalía estocástica en capa L4', err);
+      };
+    };
+
+    connect();
+
+    return () => {
+      isMounted = false;
+      clearTimeout(reconnectTimeout);
+      if (socketRef.current) {
+        socketRef.current.close();
+      }
+    };
+  }, []);
+
+  const applyFriction = async (x: number, y: number, intensity: number) => {
+    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      socketRef.current.send(JSON.stringify({
+        type: 'APPLY_FRICTION',
+        payload: { x, y, intensity }
+      }));
+    } else {
+      // Local entropy increase as fallback if disconnected
+      setEntropy(e => Math.min(e + intensity * 0.1, 100));
+    }
+  };
+
+  const injectGold = async (intensity: number, x: number, y: number) => {
+    if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      socketRef.current.send(JSON.stringify({
+        type: 'INJECT_GOLD',
+        payload: { intensity, x, y }
+      }));
+    } else {
+      // Local repair simulation
+      setRepairs(r => r + 1);
+      setScars(s => [...s, { x, y, depth: intensity, timestamp: Date.now() }]);
+      setKintsugiActive(false);
+      setEntropy(0);
+    }
+  };
+
+  return { entropy, repairs, scars, kintsugiActive, applyFriction, injectGold, socket: socketRef.current };
 }
 
 function SplatInteractiveCanvas() {

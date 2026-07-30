@@ -67,30 +67,44 @@ export default function Biografia() {
     {
       year: '2010',
       title: 'Espejos del Alma',
-      desc: 'Inicio del core loop artístico. Primeras miradas e introspección sobre madera y metal oxidado en Bilbao.',
-      src: '615438426_1577822580363824_2923463327956560352_n.webp',
-      category: 'Técnica Mixta'
+      desc: 'Inicio del core loop artístico en Espacio Hegoak (Bilbao). Primeras miradas e introspección sobre madera y metal oxidado.',
+      src: 'expo-espejos-alma.jpg',
+      category: 'Retrato Psicológico'
     },
     {
-      year: '2016',
-      title: 'I See Your True Colors',
-      desc: 'Transición al retrato hiperrealista monumental con saturaciones pop cian y magenta.',
-      src: 'paul_newmum_1783824262669.webp',
-      category: 'Retrato Pop'
+      year: '2014',
+      title: 'Facefood',
+      desc: 'Muestra individual en Goñi Portal (Plentzia). Ilustraciones y retratos pop sobre la expresión facial y la imagen de masas.',
+      src: 'expo-repoker-reinas.jpg',
+      category: 'Pop Art & Ilustración'
+    },
+    {
+      year: '2019',
+      title: 'Mujeres Creadoras',
+      desc: 'Exposición colectiva en la Casa de Cultura de Getxo celebrando el mes de la mujer con trípticos matéricos.',
+      src: 'expo-espejos-alma.jpg',
+      category: 'Artivismo Femenino'
     },
     {
       year: '2022',
       title: 'Repóker de Reinas',
-      desc: 'Consolidación del soporte lítico. Búsqueda de pizarras de tejado vasco recuperadas de derribos.',
-      src: 'amy-rocks-new.webp',
-      category: 'Pizarra Lítica'
+      desc: 'Exposición en Siarte Leku (Bilbao). 5 obras monumentales sobre pizarra de tejado vasco con la técnica Cantinflowers (Kintsugi Accidental).',
+      src: 'expo-repoker-reinas.jpg',
+      category: 'Pizarra & Kintsugi'
+    },
+    {
+      year: '2024',
+      title: 'Identity Fragments',
+      desc: 'Participación colectiva en Espacio Oculto (Madrid) explorando la identidad física frente a la huella digital.',
+      src: 'expo-identity-fragments.jpg',
+      category: 'Técnica Mixta'
     },
     {
       year: '2026',
       title: 'DiviNos VaiVenes',
-      desc: 'Instalación interactiva y colaborativa acústica con el productor Borja Moskv en el espacio Politena y Dock Bilbao.',
-      src: 'exposicion-politena.webp',
-      category: 'Instalación / Sonorización'
+      desc: 'Inaugurada el 30 de enero de 2026 en Politena Espacio de Arte (C/ Autonomía 78, Bilbao). Retratos pop sobre pizarra de tejado vasco con mineral de mica y reverso acústico electrónico de Borja Moskv.',
+      src: 'expo-divinos-vaivenes.jpg',
+      category: 'Muestra Monográfica'
     }
   ];
 
