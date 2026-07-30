@@ -42,10 +42,11 @@ log "Copiando portal SEO (live-site/) → ${BUILD_DIR}/"
 cp -R live-site/* "$BUILD_DIR/"
 ok "Portal SEO copiado"
 
-# ── 4. Construir la galería 3D (Vite) ───────────────────────
-log "Construyendo galería 3D (Vite + React + Three.js)..."
-npm run build || fail "Build de Vite falló"
-ok "Galería 3D compilada → dist/"
+# ── 4. Construir la galería 3D (Vite / Next.js) ────────────
+log "Construyendo galería 3D (Vite + React + Three.js / Next.js)..."
+npm run build || fail "Build falló"
+cp -R .next/* "$BUILD_DIR/" 2>/dev/null || true
+ok "Galería / Next.js compilada"
 
 # ── 5. Ensamblar: montar la galería 3D en /sala-3d/ ─────────
 log "Montando galería 3D en /sala-3d/..."
