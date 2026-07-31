@@ -1,0 +1,7 @@
+# Landing SEO (SPA fallback dentro de /sala-3d/)
+/sala-3d/* /sala-3d/index.html 200
+
+# Aliases útiles
+/3d /sala-3d/ 302
+/galeria /sala-3d/ 302
+/gallery /sala-3d/ 302
