@@ -362,6 +362,10 @@
     var grid = document.getElementById('blog-posts');
     if (!grid) return;
 
+    setupBlogSotaControls();
+
+    grid.innerHTML = '<div class="blog__loading">Cargando bitácora de Naroa desde WordPress...</div>';
+
     fetch(WP_API)
       .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(function (posts) {
@@ -375,12 +379,10 @@
           var img = postImage(p);
           brainFeed.push({ title: title, dateText: dateText, link: p.link });
 
-          var card = document.createElement('a');
+          var card = document.createElement('div');
           card.className = 'blog-card';
-          card.href = p.link;
-          card.target = '_blank';
-          card.rel = 'noopener noreferrer';
-          card.setAttribute('aria-label', 'Leer «' + title + '» en el blog de Naroa');
+          card.style.cursor = 'pointer';
+          card.setAttribute('aria-label', 'Leer «' + title + '»');
 
           var media = document.createElement('div');
           if (img) {
@@ -402,20 +404,102 @@
           var ex = document.createElement('p');
           ex.className = 'blog-card__excerpt'; ex.textContent = excerpt;
           var cta = document.createElement('span');
-          cta.className = 'blog-card__cta'; cta.textContent = 'Leer en el blog →';
+          cta.className = 'blog-card__cta'; cta.textContent = 'Leer artículo completo ✨';
 
           body.appendChild(time); body.appendChild(h);
           if (excerpt) body.appendChild(ex);
           body.appendChild(cta);
           card.appendChild(media); card.appendChild(body);
+
+          // Click listener: Open SOTA Reader Modal
+          card.addEventListener('click', function () {
+            openBlogReaderModal(title, dateText, p.content.rendered, p.link);
+          });
+
           grid.appendChild(card);
         });
-        MicaBrain.setBlogPosts(brainFeed);
+        if (typeof MicaBrain !== 'undefined' && MicaBrain.setBlogPosts) {
+          MicaBrain.setBlogPosts(brainFeed);
+        }
       })
       .catch(function () {
         grid.innerHTML = '<div class="blog__error">No se pudieron cargar las entradas ahora mismo. ' +
           'Visita el blog directamente: <a href="https://naroagutierrez.wordpress.com/" target="_blank" rel="noopener noreferrer">naroagutierrez.wordpress.com</a></div>';
       });
+  }
+
+  function setupBlogSotaControls() {
+    var tabGrid = document.getElementById('blog-tab-grid');
+    var tabEmbed = document.getElementById('blog-tab-embed');
+    var gridView = document.getElementById('blog-posts');
+    var embedView = document.getElementById('blog-iframe-view');
+    var refreshBtn = document.getElementById('blog-refresh-btn');
+    var iframe = document.getElementById('wp-live-iframe');
+    var iframeLoader = document.getElementById('iframe-loader');
+
+    if (tabGrid && tabEmbed && gridView && embedView) {
+      tabGrid.addEventListener('click', function () {
+        tabGrid.style.background = '#2B3BE5';
+        tabGrid.style.borderColor = '#2B3BE5';
+        tabGrid.style.color = '#fff';
+        tabEmbed.style.background = 'rgba(255,255,255,0.05)';
+        tabEmbed.style.borderColor = 'rgba(255,255,255,0.15)';
+        tabEmbed.style.color = 'rgba(255,255,255,0.7)';
+        gridView.style.display = 'grid';
+        embedView.style.display = 'none';
+      });
+
+      tabEmbed.addEventListener('click', function () {
+        tabEmbed.style.background = '#2B3BE5';
+        tabEmbed.style.borderColor = '#2B3BE5';
+        tabEmbed.style.color = '#fff';
+        tabGrid.style.background = 'rgba(255,255,255,0.05)';
+        tabGrid.style.borderColor = 'rgba(255,255,255,0.15)';
+        tabGrid.style.color = 'rgba(255,255,255,0.7)';
+        gridView.style.display = 'none';
+        embedView.style.display = 'block';
+      });
+    }
+
+    if (iframe && iframeLoader) {
+      iframe.addEventListener('load', function () {
+        iframeLoader.style.display = 'none';
+      });
+    }
+
+    if (refreshBtn) {
+      refreshBtn.onclick = function () {
+        wireBlog();
+      };
+    }
+
+    // Modal controls
+    var modalClose = document.getElementById('blog-modal-close');
+    var modal = document.getElementById('blog-modal-reader');
+    if (modalClose && modal) {
+      modalClose.onclick = function () { modal.style.display = 'none'; };
+      modal.onclick = function (e) { if (e.target === modal) modal.style.display = 'none'; };
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.style.display === 'flex') modal.style.display = 'none';
+      });
+    }
+  }
+
+  function openBlogReaderModal(title, date, contentHtml, link) {
+    var modal = document.getElementById('blog-modal-reader');
+    var modalDate = document.getElementById('blog-modal-date');
+    var modalBody = document.getElementById('blog-modal-body');
+    var modalLink = document.getElementById('blog-modal-original-link');
+
+    if (!modal || !modalBody) return;
+
+    if (modalDate) modalDate.textContent = date;
+    if (modalLink) modalLink.href = link;
+
+    modalBody.innerHTML = '<h1 style="font-size: 2rem; font-family: serif; font-weight: 300; margin-bottom: 1.5rem; color: #fff; line-height: 1.2;">' + title + '</h1>' +
+      '<div class="blog-reader-content">' + contentHtml + '</div>';
+
+    modal.style.display = 'flex';
   }
 
   /* Soporte de la ruta #/blog (scroll) y activación del enlace */
