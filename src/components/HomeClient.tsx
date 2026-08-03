@@ -12,6 +12,8 @@ const CustomCursor = dynamic(() => import('@/components/CustomCursor'), { ssr: f
 const GlobalNavigation = dynamic(() => import('@/components/GlobalNavigation'));
 const Footer = dynamic(() => import('@/components/Footer'));
 const PortfolioGrid = dynamic(() => import('@/components/PortfolioGrid'));
+const KineticTicker = dynamic(() => import('@/components/KineticTicker').then((m) => m.KineticTicker), { ssr: false });
+const VirtualExhibition3D = dynamic(() => import('@/components/VirtualExhibition3D').then((m) => m.VirtualExhibition3D), { ssr: false });
 
 export default function HomeClient({ feedChildren }: { feedChildren?: React.ReactNode }) {
   // Smooth scrolling with Lenis
@@ -47,14 +49,20 @@ export default function HomeClient({ feedChildren }: { feedChildren?: React.Reac
         <GlobalNavigation />
 
         {/* Minimalist Hero / Header (Alyssa Monks Style) */}
-        <header className="w-full flex flex-col items-center justify-center text-center pt-32 pb-16 px-6">
+        <header className="w-full flex flex-col items-center justify-center text-center pt-32 pb-12 px-6">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif tracking-wide text-[#F5F5F5] mb-4">
             NAROA GUTIÉRREZ GIL
           </h1>
           <h2 className="font-sans text-xs md:text-sm tracking-[0.3em] text-[#F5F5F5]/70 uppercase">
-            Contemporary Realism
+            Contemporary Realism & Natural Slate Art
           </h2>
         </header>
+
+        {/* Kinetic Ticker SOTA */}
+        <KineticTicker />
+
+        {/* Virtual 3D Exhibition Banner */}
+        <VirtualExhibition3D />
 
         {/* Alyssa Monks Style Flat Gallery Grid with Filters */}
         <main className="w-full max-w-[1400px] mx-auto px-6 sm:px-12 pb-32">

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import ScrollAwareHeader from './ScrollAwareHeader';
+import AudioSynthesizer from './AudioSynthesizer';
 
 export default function GlobalNavigation() {
   const pathname = usePathname();
@@ -24,7 +25,9 @@ export default function GlobalNavigation() {
 
 
   return (
-    <ScrollAwareHeader className="fixed top-6 left-1/2 -translate-x-1/2 w-auto px-2 py-2 flex items-center z-[210] pointer-events-auto select-none text-[#F5F5F5] rounded-full shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] border border-white/10 bg-black/50 backdrop-blur-md">
+    <>
+      <AudioSynthesizer isPlaying={isPlayingAudio} />
+      <ScrollAwareHeader className="fixed top-6 left-1/2 -translate-x-1/2 w-auto px-2 py-2 flex items-center z-[210] pointer-events-auto select-none text-[#F5F5F5] rounded-full shadow-[0_10px_30px_-10px_rgba(0,0,0,0.5)] border border-white/10 bg-black/50 backdrop-blur-md">
       <div className="flex items-center gap-1">
         <Link href="/" className="group flex items-center justify-center w-8 h-8 rounded-full bg-white/5 hover:bg-[#F59E0B] transition-colors duration-300 ml-1 mr-2" aria-label="Volver al inicio">
           <span className="font-sans text-sm font-black text-[#F5F5F5] group-hover:text-[#0A0A0A] transition-colors duration-300">N</span>
@@ -82,5 +85,6 @@ export default function GlobalNavigation() {
         </Link>
       </div>
     </ScrollAwareHeader>
+    </>
   );
 }

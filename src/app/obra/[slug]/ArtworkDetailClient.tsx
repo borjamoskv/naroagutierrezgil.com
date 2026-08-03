@@ -11,6 +11,11 @@ import { Artwork } from '@/lib/artworkData';
 const CinematicCanvas = dynamic(() => import('@/components/CinematicCanvas'), { ssr: false });
 const CustomCursor = dynamic(() => import('@/components/CustomCursor'), { ssr: false });
 const Slate3DViewer = dynamic(() => import('@/components/Slate3DViewer'), { ssr: false });
+const KintsugiRepair = dynamic(() => import('@/components/KintsugiRepair'), { ssr: false });
+const MaterialInspector = dynamic(() => import('@/components/MaterialInspector'), { ssr: false });
+const CoAGenerator = dynamic(() => import('@/components/CoAGenerator'), { ssr: false });
+const ARViewer3D = dynamic(() => import('@/components/ARViewer3D'), { ssr: false });
+const InquiryDrawer = dynamic(() => import('@/components/InquiryDrawer'), { ssr: false });
 
 export default function ArtworkDetailClient({ artwork }: { artwork: Artwork }) {
   const getStatusColor = (status: string) => {
@@ -63,21 +68,18 @@ export default function ArtworkDetailClient({ artwork }: { artwork: Artwork }) {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-          {/* Left Column - High Res Image + 3D Slab Inspector */}
+          {/* Left Column - High Res Image with 4K Loupe + AR 1:1 + 3D Slab Inspector */}
           <div className="space-y-6">
-            <div className="relative w-full aspect-[4/5] bg-[#050505] border border-white/5 overflow-hidden shadow-[0_0_30px_rgba(43,59,229,0.1)]">
-              <Image
-                src={`/assets/${artwork.image}`}
-                alt={artwork.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                priority
-              />
-            </div>
+            <MaterialInspector imageSrc={`/assets/${artwork.image}`} alt={artwork.title} />
+
+            {/* Realidad Aumentada 1:1 Viewer */}
+            <ARViewer3D title={artwork.title} dimensions={artwork.dimensions} />
             
             {/* Interactive 3D Slab Inspector */}
             <Slate3DViewer imageUrl={`/assets/${artwork.image}`} title={artwork.title} />
+
+            {/* Interactive Kintsugi Restoration Experience */}
+            <KintsugiRepair artworkTitle={artwork.title} />
           </div>
 
           {/* Right Column - Ficha Técnica */}
@@ -132,6 +134,9 @@ export default function ArtworkDetailClient({ artwork }: { artwork: Artwork }) {
               </div>
             </div>
 
+            {/* Cryptographic Certificate of Authenticity */}
+            <CoAGenerator artwork={artwork} />
+
             <div className="pt-8 border-t border-white/10 space-y-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -148,11 +153,14 @@ export default function ArtworkDetailClient({ artwork }: { artwork: Artwork }) {
               {artwork.availability === 'Disponible' && (
                 <Link
                   href={`/contacto?obra=${artwork.slug}&action=adquirir`}
-                  className="block w-full py-5 bg-[#F59E0B] hover:bg-[#2B3BE5] text-[#0A0A0A] hover:text-white text-center font-mono text-xs tracking-[0.2em] uppercase transition-colors duration-300 font-bold"
+                  className="block w-full py-5 bg-[#F59E0B] hover:bg-[#2B3BE5] text-[#0A0A0A] hover:text-white text-center font-mono text-xs tracking-[0.2em] uppercase transition-colors duration-300 font-bold mb-3"
                 >
                   Consultar sobre esta obra
                 </Link>
               )}
+
+              {/* VIP Collector Inquiry Drawer */}
+              <InquiryDrawer artworkTitle={artwork.title} />
             </div>
           </div>
         </div>

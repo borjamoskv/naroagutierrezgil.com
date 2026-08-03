@@ -1,80 +1,53 @@
-"use client";
+'use client';
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from 'react';
 
-interface MagneticButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface MagneticButtonProps {
   children: React.ReactNode;
-  range?: number;
-  strength?: number;
   className?: string;
+  onClick?: () => void;
+  strength?: number;
+  range?: number;
 }
 
-/**
- * MagneticButton component inspired by Dennis Snellenberg.
- * Warps toward the pointer when it gets close.
- * 
- * Credits: Borja Moskv (borjamoskv) / MOSKV-1 APEX
- */
-export default function MagneticButton({
+export const MagneticButton: React.FC<MagneticButtonProps> = ({
   children,
-  range = 65,
-  strength = 0.35,
-  className = "",
-  ...props
-}: MagneticButtonProps) {
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  className = '',
+  onClick,
+  strength = 0.3,
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const button = buttonRef.current;
-      if (!button) return;
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const { left, top, width, height } = ref.current.getBoundingClientRect();
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+    const x = (e.clientX - centerX) * strength;
+    const y = (e.clientY - centerY) * strength;
+    setPosition({ x, y });
+  };
 
-      const rect = button.getBoundingClientRect();
-      const buttonCenterX = rect.left + rect.width / 2;
-      const buttonCenterY = rect.top + rect.height / 2;
-
-      const distanceX = e.clientX - buttonCenterX;
-      const distanceY = e.clientY - buttonCenterY;
-      const distance = Math.hypot(distanceX, distanceY);
-
-      if (distance < range) {
-        // Warp button towards the cursor
-        setPosition({
-          x: distanceX * strength,
-          y: distanceY * strength,
-        });
-      } else {
-        // Return to origin
-        setPosition({ x: 0, y: 0 });
-      }
-    };
-
-    const handleMouseLeave = () => {
-      setPosition({ x: 0, y: 0 });
-    };
-
-    const currentButton = buttonRef.current;
-    window.addEventListener("mousemove", handleMouseMove);
-    currentButton?.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      currentButton?.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, [range, strength]);
+  const handleMouseLeave = () => {
+    setPosition({ x: 0, y: 0 });
+  };
 
   return (
-    <button
-      ref={buttonRef}
+    <div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={onClick}
       style={{
-        transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
-        transition: position.x === 0 ? "transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)" : "transform 0.1s ease-out",
+        transform: `translate3d(${position.x}px, ${position.y}px, 0px)`,
+        transition: position.x === 0 && position.y === 0 ? 'transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)' : 'none',
       }}
-      className={`relative inline-flex items-center justify-center cursor-pointer transition-all duration-300 ${className}`}
-      {...props}
+      className={`inline-block cursor-pointer ${className}`}
     >
-      <span className="relative z-10 block pointer-events-none">{children}</span>
-    </button>
+      {children}
+    </div>
   );
-}
+};
+
+export default MagneticButton;
