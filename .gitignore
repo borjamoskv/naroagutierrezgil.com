@@ -48,3 +48,6 @@ next-env.d.ts
 
 *.heapsnapshot
 lh-report.json
+
+# Added by Antigravity C5-REAL Audit
+*.key
