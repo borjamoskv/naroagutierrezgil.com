@@ -123,11 +123,12 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                 cursor: 'zoom-in',
                 position: 'relative',
                 overflow: 'hidden',
-                background: '#030305',
+                background: 'radial-gradient(circle at 50% 50%, #1C122B 0%, #090610 70%, #030305 100%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                borderRight: '1px solid rgba(255, 255, 255, 0.08)'
+                borderRight: '1px solid rgba(255, 255, 255, 0.08)',
+                padding: '20px'
               }}
               onClick={() => {
                 sound.playTick()
@@ -146,11 +147,11 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                   exit={{ opacity: 0, scale: 1.02 }}
                   transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   style={{
-                    maxHeight: '78vh',
+                    maxHeight: '75vh',
                     width: '100%',
                     objectFit: 'contain',
                     imageRendering: 'high-quality' as any,
-                    filter: 'drop-shadow(0 15px 35px rgba(0,0,0,0.8))'
+                    filter: 'drop-shadow(0 20px 50px rgba(0,0,0,0.95)) drop-shadow(0 0 30px rgba(255, 0, 122, 0.3))'
                   }}
                 />
               </AnimatePresence>
