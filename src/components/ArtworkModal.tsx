@@ -141,17 +141,39 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
             </div>
 
             <div className="modal-info">
-              <div className="modal-badge">
-                <span className="modal-index">
-                  {String(currentIndex + 1).padStart(2, '0')} / {String(ARTWORKS.length).padStart(2, '0')}
+              <div className="modal-badge" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <span className="pop-badge pop-badge--pink">
+                  {artwork.year}
                 </span>
-                <span className="modal-year">{artwork.year}</span>
+                <span className="pop-badge pop-badge--yellow">
+                  💎 MICA MINERAL & PIZARRA
+                </span>
               </div>
 
-              <h2 id="modal-artwork-title" className="modal-title">{artwork.title}</h2>
-              <div className="modal-medium">{artwork.medium}</div>
+              <h2 id="modal-artwork-title" className="modal-title" style={{ marginTop: '12px' }}>
+                {artwork.title}
+              </h2>
+              <div className="modal-medium" style={{ color: '#00F0FF', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>
+                {artwork.medium}
+              </div>
 
-              <p className="modal-description">{artwork.description}</p>
+              <p className="modal-description" style={{ lineHeight: 1.6 }}>
+                {artwork.description}
+              </p>
+
+              {/* Curatorial Reflection Quote */}
+              <div style={{
+                margin: '16px 0',
+                padding: '12px 16px',
+                background: 'rgba(255, 0, 122, 0.08)',
+                borderLeft: '3px solid #FF007A',
+                borderRadius: '0 8px 8px 0',
+                fontSize: '0.82rem',
+                color: 'rgba(255,255,255,0.85)',
+                fontStyle: 'italic'
+              }}>
+                «Cada rostro es un espejo emocional. La piedra guarece y la mica proyecta la belleza del ser.»
+              </div>
 
               <div className="modal-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                 <button
@@ -162,11 +184,11 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                     setShowSuperzoom(true)
                   }}
                   style={{
-                    background: 'linear-gradient(135deg, #1A1A24 0%, #2A2000 100%)',
-                    border: '1px solid #D4AF37',
-                    color: '#D4AF37',
-                    fontWeight: 'bold',
-                    boxShadow: '0 0 12px rgba(212, 175, 55, 0.3)',
+                    background: 'linear-gradient(135deg, #FF007A 0%, #FFE600 100%)',
+                    border: 'none',
+                    color: '#000',
+                    fontWeight: 900,
+                    boxShadow: '0 0 15px rgba(255, 0, 122, 0.4)',
                   }}
                 >
                   🔍 SUPERZOOM HD 4K
@@ -181,11 +203,11 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                       setShowSplat(true)
                     }}
                     style={{
-                      background: 'linear-gradient(135deg, #2B3BE5 0%, #D4AF37 100%)',
-                      border: '1px solid #D4AF37',
+                      background: 'linear-gradient(135deg, #00F0FF 0%, #7000FF 100%)',
+                      border: 'none',
                       color: '#ffffff',
                       fontWeight: 'bold',
-                      boxShadow: '0 0 15px rgba(212, 175, 55, 0.4)',
+                      boxShadow: '0 0 15px rgba(0, 240, 255, 0.4)',
                     }}
                   >
                     ✨ EXPLORAR 3D GAUSSIAN SPLAT 360°
@@ -198,6 +220,7 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                   onClick={() => {
                     sound.playTick()
                     onClose()
+
                   }}
                   style={{ textDecoration: 'none' }}
                 >
