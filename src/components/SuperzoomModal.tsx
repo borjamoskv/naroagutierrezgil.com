@@ -20,7 +20,7 @@ export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomMo
     sound.playOpen()
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        sound.playClose()
+        sound.playTick()
         onClose()
       }
     }
@@ -94,7 +94,7 @@ export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomMo
           overflow: 'hidden',
         }}
         onClick={() => {
-          sound.playClose()
+          sound.playTick()
           onClose()
         }}
       >
@@ -203,7 +203,7 @@ export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomMo
 
             <button
               onClick={() => {
-                sound.playClose()
+                sound.playTick()
                 onClose()
               }}
               style={{
