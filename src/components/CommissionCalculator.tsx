@@ -1,5 +1,8 @@
+
+
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { sound } from '../utils/audio'
 
 interface OptionItem {
   id: string
@@ -10,42 +13,42 @@ interface OptionItem {
 }
 
 const SUBJECT_OPTIONS: OptionItem[] = [
-  { id: 'individual', label: 'Retrato Individual', sublabel: '1 rostro (Familiar, Autoretrato, Icono)', icon: '👤' },
-  { id: 'couple', label: 'Pareja / Dúo', sublabel: '2 personas (Parejas, Hermanos, Amigos)', icon: '👥' },
-  { id: 'pet', label: 'Retrato de Mascota', sublabel: 'Perros, gatos, animales de compañía', icon: '🐶' },
-  { id: 'icon', label: 'Icono Pop Personalizado', sublabel: 'Tributo a artista, músico o mito pop', icon: '⚡' },
-  { id: 'family', label: 'Familia / Grupo', sublabel: '3 o más figuras en composición', icon: '✨' },
+  { id: 'individual', label: 'Retrato Individual', sublabel: '1 rostro (Alma, Mimo y Calma)', icon: '👤' },
+  { id: 'couple', label: 'Pareja / Dúo', sublabel: '2 figuras (Vínculos y Espejos emocionales)', icon: '👥' },
+  { id: 'pet', label: 'Compañero Animal', sublabel: 'Mascotas en técnica mixta sobre piedra', icon: '🐶' },
+  { id: 'icon', label: 'Icono POP Personalizado', sublabel: 'Tributo mitológico (Música, Cine, Arte)', icon: '⚡' },
+  { id: 'family', label: 'Familia / Composición', sublabel: '3 o más rostros en ensamble matérico', icon: '✨' },
 ]
 
 const MEDIUM_OPTIONS: OptionItem[] = [
-  { id: 'slate_mica', label: 'Pizarra Natural + Mica Mineral', sublabel: 'Técnica sobre pizarra con destellos de mica mineral', badge: 'DESTACADO', icon: '💎' },
-  { id: 'canvas_3d', label: 'Lienzo 3D + Acrílico', sublabel: 'Grosor especial con textura gestual e hiperrealismo', icon: '🖼️' },
-  { id: 'gold_mixed', label: 'Mixed Media + Pan de Oro', sublabel: 'Integración de pan de oro puros y acrílico', badge: 'EXCLUSIVO', icon: '🌟' },
+  { id: 'slate_mica', label: 'Pizarra Natural + Escamas de Mica Mineral', sublabel: 'Piedra de derribo vasco de Bizkaia con destellos de cuarzo', badge: 'EXCLUSIVO', icon: '💎' },
+  { id: 'canvas_3d', label: 'Lienzo de Gran Formato + Acrílico', sublabel: 'Soporte textil con textura gestual e hiperrealismo', icon: '🖼️' },
+  { id: 'gold_mixed', label: 'Serie «Facefood» / Conserva Emocional', sublabel: 'Lata de conserva o collage vinílico en cola blanca', badge: 'POP ART', icon: '🥫' },
 ]
 
 const SIZE_OPTIONS: OptionItem[] = [
-  { id: 'small', label: 'Formato Íntimo (30 × 40 cm)', sublabel: 'Para espacios acogedores o escritorio', icon: '📐' },
-  { id: 'medium', label: 'Formato Medio (50 × 70 cm)', sublabel: 'El formato estándar para salón o estudio', badge: 'RECOMENDADO', icon: '🎨' },
-  { id: 'large', label: 'Formato Grande (100 × 80 cm)', sublabel: 'Gran formato de alto impacto visual', icon: '🏛️' },
-  { id: 'custom', label: 'Medida Especial', sublabel: 'Para proyectos específicos o formatos a medida', icon: '✂️' },
+  { id: 'small', label: 'Formato Íntimo (30 × 40 cm)', sublabel: 'Para espacio personal o escritorio', icon: '📐' },
+  { id: 'medium', label: 'Formato Estudio (50 × 70 cm)', sublabel: 'Formato estándar de alto impacto visual', badge: 'RECOMENDADO', icon: '🎨' },
+  { id: 'large', label: 'Formato Monumental (100 × 80 cm)', sublabel: 'Gran escala para coleccionistas', icon: '🏛️' },
+  { id: 'custom', label: 'Medida Especial', sublabel: 'Proyecto a medida para espacio específico', icon: '✂️' },
 ]
 
 const FAQS = [
   {
-    q: '¿Qué necesito para encargar un retrato personalizado?',
-    a: 'Solo necesitas una o varias fotos de buena calidad con iluminación clara. Naroa te asesorará personalmente en la elección de la foto ideal para convertirla en obra de arte.'
+    q: '¿Cómo empieza el proceso de un encargo privado?',
+    a: '«Cada retrato empieza con una conversación». Solo necesitas enviar una o varias fotos de referencia. Naroa te asesora en la elección de la toma ideal para plasmarla sobre pizarra natural o lienzo.'
   },
   {
-    q: '¿Cómo se definen los plazos de entrega?',
-    a: 'El proceso artesanal requiere tiempo según complejidad y formato. Naroa acuerda contigo los plazos y te envía fotografías de los avances durante la creación.'
+    q: '¿Cómo se definen la técnica y los tiempos de creación?',
+    a: 'El proceso artesanal se realiza a fuego lento con «mimo y calma» desde el taller en Bolueta (Bilbao). Naroa comparte fotos del avance del retrato sobre la piedra o lienzo.'
   },
   {
-    q: '¿Cómo se realizan los envíos?',
-    a: 'Las obras se embalan con protección de alta resistencia y se envían aseguradas a cualquier punto de España y del extranjero.'
+    q: '¿Cómo se embala y envía la obra?',
+    a: 'La obra se embala en caja protegida de alta resistencia y se envía asegurada a cualquier punto de España o del extranjero.'
   },
   {
-    q: '¿Se entregan con Certificado de Autenticidad?',
-    a: 'Sí, cada obra incluye el Certificado de Autenticidad firmado por Naroa Gutiérrez Gil, detallando la fecha y materiales originales.'
+    q: '¿Se entrega con Certificado de Autenticidad?',
+    a: 'Sí, cada encargo incluye el Certificado de Autenticidad oficial firmado por Naroa Gutiérrez Gil, detallando la fecha y la trazabilidad de los materiales (pizarra, mica, acrílico).'
   }
 ]
 
@@ -59,99 +62,184 @@ export function CommissionCalculator() {
   const selectedMedium = MEDIUM_OPTIONS.find(m => m.id === medium) || MEDIUM_OPTIONS[0]
   const selectedSize = SIZE_OPTIONS.find(sz => sz.id === size) || SIZE_OPTIONS[1]
 
-  const summaryText = `Hola Naroa! Me gustaría consultar un encargo de retrato personalizado:
+  const summaryText = `Hola Naroa! Quisiera consultar la disponibilidad de un encargo de retrato personalizado desde tu web:
 - Sujeto: ${selectedSubject.label} (${selectedSubject.icon})
-- Soporte/Técnica: ${selectedMedium.label} (${selectedMedium.icon})
+- Soporte / Técnica: ${selectedMedium.label} (${selectedMedium.icon})
 - Formato: ${selectedSize.label} (${selectedSize.icon})
 
-¿Podemos hablar de la propuesta?`
+«Cada retrato empieza con una conversación». ¿Podemos coordinar la propuesta?`
 
   const whatsappUrl = `https://wa.me/34636060609?text=${encodeURIComponent(summaryText)}`
-  const mailtoUrl = `mailto:naroa@naroa.eu?subject=${encodeURIComponent(`Consulta Encargo - ${selectedSubject.label}`)}&body=${encodeURIComponent(summaryText)}`
+  const mailtoUrl = `mailto:naroa@naroa.eu?subject=${encodeURIComponent(`Consulta Encargo Privado — ${selectedSubject.label}`)}&body=${encodeURIComponent(summaryText)}`
 
   return (
-    <div className="commission-page brutal-container">
-      {/* Ticker Marquesina */}
-      <div className="brutal-marquee-bar">
-        <div className="brutal-marquee-content">
-          <span>⚡ RETRATOS POR ENCARGO EN BILBAO · CADA OBRA ES ÚNICA · MICA MINERAL & PIZARRA NATURAL ⚡</span>
-          <span>⚡ RETRATOS POR ENCARGO EN BILBAO · CADA OBRA ES ÚNICA · MICA MINERAL & PIZARRA NATURAL ⚡</span>
+    <div style={{ width: '100%', maxWidth: '1400px', margin: '100px auto 80px', padding: '0 24px' }}>
+      {/* Marquee Banner */}
+      <div style={{
+        background: 'rgba(255, 0, 122, 0.12)',
+        border: '1px solid rgba(255, 0, 122, 0.3)',
+        borderRadius: '30px',
+        padding: '10px 24px',
+        marginBottom: '40px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '12px'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: '#FF007A', fontWeight: 800 }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#FF007A', boxShadow: '0 0 10px #FF007A' }} />
+          ESKAERAK // ENCARGOS PRIVADOS POR NAROA GUTIÉRREZ GIL
         </div>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#FFE600', fontWeight: 700 }}>
+          ⚡ PIZARRA NATURAL DE TEJADO VASCO & MICA MINERAL · BILBAO
+        </span>
       </div>
 
-      <header className="commission-header">
-        <span className="brutal-badge brutal-badge--pink">ENCARGOS PERSONALIZADOS</span>
-        <h1 className="brutal-title">
-          CONSULTA TU <span className="highlight-yellow">RETRATO</span>
+      {/* Header */}
+      <header style={{ textAlign: 'center', marginBottom: '50px' }}>
+        <span style={{
+          fontSize: '0.75rem',
+          padding: '6px 16px',
+          background: 'rgba(0, 240, 255, 0.15)',
+          border: '1px solid rgba(0, 240, 255, 0.4)',
+          borderRadius: '30px',
+          color: '#00F0FF',
+          fontFamily: 'var(--font-mono)',
+          fontWeight: 800,
+          letterSpacing: '0.1em'
+        }}>
+          💎 FILTRO DE ADMISIÓN DE ENCARGOS ÚNICOS
+        </span>
+        <h1 style={{
+          fontSize: 'clamp(2.4rem, 5vw, 4rem)',
+          fontWeight: 900,
+          color: '#fff',
+          margin: '16px 0 12px 0',
+          letterSpacing: '-0.03em'
+        }}>
+          RETRATOS CON <span className="text-pop-gradient">MIMO Y CALMA</span>
         </h1>
-        <p className="brutal-subtitle">
-          Transforma una fotografía en una obra de arte hiperrealista sobre pizarra, mica mineral o lienzo.
-          Selecciona las opciones a continuación y contacta directamente con Naroa para recibir una propuesta personalizada.
+        <p style={{
+          fontSize: '1.05rem',
+          color: 'rgba(255, 255, 255, 0.75)',
+          maxWidth: '680px',
+          margin: '0 auto',
+          lineHeight: 1.6
+        }}>
+          «Cada retrato empieza con una conversación». Selecciona las características de tu proyecto y coordina directamente con Naroa en su taller de Bilbao.
         </p>
       </header>
 
-      <div className="commission-grid">
-        {/* Panel Izquierdo: Selección paso a paso */}
-        <div className="calculator-panel">
-          {/* PASO 1: Sujeto */}
-          <div className="calc-step-card brutal-card">
-            <div className="step-num-badge">01</div>
-            <h2 className="step-title">¿A quién quieres retratar?</h2>
-            <div className="options-grid">
+      {/* Main Commission Selector Grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '32px', alignItems: 'start' }}>
+        {/* Left Options Column */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+          {/* STEP 1: Subject */}
+          <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '24px', backdropFilter: 'blur(12px)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+              <span style={{ background: '#FF007A', color: '#fff', padding: '2px 10px', borderRadius: '12px', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900 }}>01</span>
+              <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff', margin: 0 }}>¿A quién quieres retratar?</h2>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {SUBJECT_OPTIONS.map(opt => (
                 <button
                   key={opt.id}
-                  className={`opt-btn brutal-btn ${subject === opt.id ? 'active' : ''}`}
-                  onClick={() => setSubject(opt.id)}
+                  onClick={() => { sound.playTick(); setSubject(opt.id) }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '14px',
+                    padding: '14px 18px',
+                    borderRadius: '14px',
+                    background: subject === opt.id ? 'rgba(255, 0, 122, 0.18)' : 'rgba(255, 255, 255, 0.02)',
+                    border: subject === opt.id ? '1px solid #FF007A' : '1px solid rgba(255, 255, 255, 0.08)',
+                    color: '#fff',
+                    textAlign: 'left',
+                    cursor: 'pointer',
+                    transition: 'all 0.25s ease'
+                  }}
                 >
-                  <span className="opt-icon">{opt.icon}</span>
-                  <div className="opt-text">
-                    <span className="opt-label">{opt.label}</span>
-                    <span className="opt-sub">{opt.sublabel}</span>
+                  <span style={{ fontSize: '1.5rem' }}>{opt.icon}</span>
+                  <div>
+                    <div style={{ fontWeight: 800, fontSize: '0.9rem', color: subject === opt.id ? '#FFE600' : '#fff' }}>{opt.label}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.65)', fontFamily: 'var(--font-mono)' }}>{opt.sublabel}</div>
                   </div>
                 </button>
               ))}
             </div>
           </div>
 
-          {/* PASO 2: Técnica & Soporte */}
-          <div className="calc-step-card brutal-card">
-            <div className="step-num-badge">02</div>
-            <h2 className="step-title">Elige Soporte & Técnica</h2>
-            <div className="options-grid">
+          {/* STEP 2: Medium */}
+          <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '24px', backdropFilter: 'blur(12px)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+              <span style={{ background: '#FFE600', color: '#000', padding: '2px 10px', borderRadius: '12px', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900 }}>02</span>
+              <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff', margin: 0 }}>Elige Soporte & Técnica Matérica</h2>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {MEDIUM_OPTIONS.map(opt => (
                 <button
                   key={opt.id}
-                  className={`opt-btn brutal-btn ${medium === opt.id ? 'active' : ''}`}
-                  onClick={() => setMedium(opt.id)}
+                  onClick={() => { sound.playTick(); setMedium(opt.id) }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '14px',
+                    padding: '14px 18px',
+                    borderRadius: '14px',
+                    background: medium === opt.id ? 'rgba(255, 230, 0, 0.15)' : 'rgba(255, 255, 255, 0.02)',
+                    border: medium === opt.id ? '1px solid #FFE600' : '1px solid rgba(255, 255, 255, 0.08)',
+                    color: '#fff',
+                    textAlign: 'left',
+                    cursor: 'pointer',
+                    transition: 'all 0.25s ease',
+                    position: 'relative'
+                  }}
                 >
-                  {opt.badge && <span className="opt-badge">{opt.badge}</span>}
-                  <span className="opt-icon">{opt.icon}</span>
-                  <div className="opt-text">
-                    <span className="opt-label">{opt.label}</span>
-                    <span className="opt-sub">{opt.sublabel}</span>
+                  <span style={{ fontSize: '1.5rem' }}>{opt.icon}</span>
+                  <div>
+                    <div style={{ fontWeight: 800, fontSize: '0.9rem', color: medium === opt.id ? '#FFE600' : '#fff' }}>{opt.label}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.65)', fontFamily: 'var(--font-mono)' }}>{opt.sublabel}</div>
                   </div>
+                  {opt.badge && (
+                    <span style={{ position: 'absolute', right: '14px', top: '14px', fontSize: '0.6rem', padding: '2px 8px', background: 'rgba(255,0,122,0.2)', border: '1px solid #FF007A', color: '#FF007A', borderRadius: '10px', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>
+                      {opt.badge}
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* PASO 3: Formato */}
-          <div className="calc-step-card brutal-card">
-            <div className="step-num-badge">03</div>
-            <h2 className="step-title">Selecciona el Formato</h2>
-            <div className="options-grid">
+          {/* STEP 3: Size */}
+          <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '24px', backdropFilter: 'blur(12px)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+              <span style={{ background: '#00F0FF', color: '#000', padding: '2px 10px', borderRadius: '12px', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900 }}>03</span>
+              <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff', margin: 0 }}>Selecciona el Formato</h2>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {SIZE_OPTIONS.map(opt => (
                 <button
                   key={opt.id}
-                  className={`opt-btn brutal-btn ${size === opt.id ? 'active' : ''}`}
-                  onClick={() => setSize(opt.id)}
+                  onClick={() => { sound.playTick(); setSize(opt.id) }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '14px',
+                    padding: '14px 18px',
+                    borderRadius: '14px',
+                    background: size === opt.id ? 'rgba(0, 240, 255, 0.15)' : 'rgba(255, 255, 255, 0.02)',
+                    border: size === opt.id ? '1px solid #00F0FF' : '1px solid rgba(255, 255, 255, 0.08)',
+                    color: '#fff',
+                    textAlign: 'left',
+                    cursor: 'pointer',
+                    transition: 'all 0.25s ease'
+                  }}
                 >
-                  {opt.badge && <span className="opt-badge opt-badge--cyan">{opt.badge}</span>}
-                  <span className="opt-icon">{opt.icon}</span>
-                  <div className="opt-text">
-                    <span className="opt-label">{opt.label}</span>
-                    <span className="opt-sub">{opt.sublabel}</span>
+                  <span style={{ fontSize: '1.5rem' }}>{opt.icon}</span>
+                  <div>
+                    <div style={{ fontWeight: 800, fontSize: '0.9rem', color: size === opt.id ? '#00F0FF' : '#fff' }}>{opt.label}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.65)', fontFamily: 'var(--font-mono)' }}>{opt.sublabel}</div>
                   </div>
                 </button>
               ))}
@@ -159,50 +247,81 @@ export function CommissionCalculator() {
           </div>
         </div>
 
-        {/* Panel Derecho: Resumen & Contacto Directo */}
-        <div className="summary-panel">
-          <div className="brutal-card summary-card sticky-card">
-            <div className="summary-top">
-              <span className="brutal-tag brutal-tag--green">PRESUPUESTO A MEDIDA</span>
-              <div className="price-display">
-                <span className="price-range" style={{ fontSize: '1.5rem', color: '#D4AF37' }}>Consulta Directa</span>
-                <span className="price-note">*Sin compromiso. Asesoramiento directo según la foto de referencia</span>
+        {/* Right Summary & Contact Card */}
+        <div style={{ position: 'sticky', top: '100px' }}>
+          <div style={{ background: 'rgba(10, 8, 16, 0.95)', border: '1px solid rgba(212, 175, 55, 0.4)', borderRadius: '24px', padding: '32px', boxShadow: '0 20px 60px rgba(0,0,0,0.8)', backdropFilter: 'blur(16px)' }}>
+            <span style={{ fontSize: '0.7rem', padding: '4px 12px', background: 'rgba(214, 175, 55, 0.15)', border: '1px solid rgba(214, 175, 55, 0.5)', color: '#D4AF37', borderRadius: '20px', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>
+              💎 ASESORAMIENTO DIRECTO DE LA ARTISTA
+            </span>
+
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 900, color: '#fff', margin: '16px 0 4px 0' }}>
+              Propuesta Personalizada
+            </h3>
+            <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)', margin: 0, fontFamily: 'var(--font-mono)' }}>
+              *Sin compromiso. Coordinación directa según tu foto de referencia.
+            </p>
+
+            <div style={{ margin: '24px 0', padding: '16px', background: 'rgba(255,255,255,0.03)', borderRadius: '14px', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.8)' }}>
+                <strong>Sujeto:</strong> {selectedSubject.icon} {selectedSubject.label}
+              </div>
+              <div style={{ fontSize: '0.82rem', color: '#00F0FF' }}>
+                <strong>Soporte:</strong> {selectedMedium.icon} {selectedMedium.label}
+              </div>
+              <div style={{ fontSize: '0.82rem', color: '#FFE600' }}>
+                <strong>Formato:</strong> {selectedSize.icon} {selectedSize.label}
               </div>
             </div>
 
-            <div className="summary-specs">
-              <div className="spec-item">
-                <span className="spec-key">Sujeto</span>
-                <span className="spec-val">{selectedSubject.icon} {selectedSubject.label}</span>
-              </div>
-              <div className="spec-item">
-                <span className="spec-key">Soporte</span>
-                <span className="spec-val">{selectedMedium.icon} {selectedMedium.label}</span>
-              </div>
-              <div className="spec-item">
-                <span className="spec-key">Formato</span>
-                <span className="spec-val">{selectedSize.icon} {selectedSize.label}</span>
-              </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.78rem', color: 'rgba(255,255,255,0.7)', marginBottom: '24px' }}>
+              <div>✓ Certificado de Autenticidad Oficial Firmado</div>
+              <div>✓ Seguimiento de avances durante la creación</div>
+              <div>✓ Envío protegido nacional e internacional</div>
             </div>
 
-            <div className="guarantees-box">
-              <div className="g-item">✓ Certificado de Autenticidad Firmado</div>
-              <div className="g-item">✓ Embalaje seguro de madera/protección</div>
-              <div className="g-item">✓ Seguimiento de avances durante la creación</div>
-            </div>
-
-            <div className="action-buttons">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="brutal-cta-btn brutal-cta-btn--whatsapp"
+                onClick={() => sound.playOpen()}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '10px',
+                  padding: '16px',
+                  borderRadius: '14px',
+                  background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
+                  color: '#fff',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.85rem',
+                  fontWeight: 900,
+                  textDecoration: 'none',
+                  boxShadow: '0 0 20px rgba(37, 211, 102, 0.4)'
+                }}
               >
-                💬 CONSULTAR POR WHATSAPP
+                💬 HABLAR POR WHATSAPP CON NAROA
               </a>
+
               <a
                 href={mailtoUrl}
-                className="brutal-cta-btn brutal-cta-btn--email"
+                onClick={() => sound.playTick()}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '10px',
+                  padding: '14px',
+                  borderRadius: '14px',
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  color: '#fff',
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: '0.8rem',
+                  fontWeight: 700,
+                  textDecoration: 'none'
+                }}
               >
                 ✉️ CONSULTAR POR EMAIL
               </a>
@@ -211,49 +330,42 @@ export function CommissionCalculator() {
         </div>
       </div>
 
-      {/* Sección Proceso de Encargo */}
-      <section className="process-section">
-        <h2 className="section-brutal-title">
-          PROCESO DE <span className="highlight-pink">CREACIÓN</span>
+      {/* FAQ Section */}
+      <section style={{ marginTop: '80px' }}>
+        <h2 style={{ fontSize: '2rem', fontWeight: 900, color: '#fff', textAlign: 'center', marginBottom: '32px' }}>
+          PREGUNTAS FRECUENTES SOBRE <span className="text-pop-gradient">ENCARGOS</span>
         </h2>
-        <div className="process-grid">
-          <div className="process-card brutal-card">
-            <div className="process-num">01</div>
-            <h3>Contacto & Fotos</h3>
-            <p>Envías tus fotos de referencia y comentáis la idea personal o el regalo a realizar.</p>
-          </div>
-          <div className="process-card brutal-card">
-            <div className="process-num">02</div>
-            <h3>Composición & Formato</h3>
-            <p>Definís la composición, tonos y materiales (pizarra, mica, lienzo) antes de iniciar.</p>
-          </div>
-          <div className="process-card brutal-card">
-            <div className="process-num">03</div>
-            <h3>Pintura & Seguimiento</h3>
-            <p>Naroa pinta la obra y te comparte el proceso progresivo.</p>
-          </div>
-          <div className="process-card brutal-card">
-            <div className="process-num">04</div>
-            <h3>Entrega & Certificado</h3>
-            <p>Envío protegido con su Certificado de Autenticidad oficial firmado por Naroa.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Sección */}
-      <section className="faq-section">
-        <h2 className="section-brutal-title">
-          PREGUNTAS <span className="highlight-cyan">FRECUENTES</span>
-        </h2>
-        <div className="faq-list">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', maxWidth: '840px', margin: '0 auto' }}>
           {FAQS.map((faq, idx) => (
-            <div key={idx} className="faq-item brutal-card">
+            <div
+              key={idx}
+              style={{
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '16px',
+                overflow: 'hidden'
+              }}
+            >
               <button
-                className="faq-question-btn"
-                onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                onClick={() => { sound.playTick(); setOpenFaq(openFaq === idx ? null : idx) }}
+                style={{
+                  width: '100%',
+                  padding: '20px 24px',
+                  background: 'none',
+                  border: 'none',
+                  color: '#fff',
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '1rem',
+                  fontWeight: 800,
+                  textAlign: 'left',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  cursor: 'pointer'
+                }}
               >
                 <span>{faq.q}</span>
-                <span className="faq-arrow">{openFaq === idx ? '−' : '+'}</span>
+                <span style={{ color: '#FFE600', fontSize: '1.2rem' }}>{openFaq === idx ? '−' : '+'}</span>
               </button>
               <AnimatePresence>
                 {openFaq === idx && (
@@ -261,9 +373,9 @@ export function CommissionCalculator() {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    className="faq-answer-content"
+                    style={{ padding: '0 24px 20px 24px', color: 'rgba(255, 255, 255, 0.75)', fontSize: '0.92rem', lineHeight: 1.6 }}
                   >
-                    <p>{faq.a}</p>
+                    <p style={{ margin: 0 }}>{faq.a}</p>
                   </motion.div>
                 )}
               </AnimatePresence>
