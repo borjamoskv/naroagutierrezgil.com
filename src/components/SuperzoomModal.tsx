@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect, MouseEvent } from 'react'
+import { useState, useEffect, type MouseEvent } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { sound } from '../utils/audio'
+
 
 interface SuperzoomModalProps {
   imageSrc: string

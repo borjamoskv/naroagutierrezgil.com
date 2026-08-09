@@ -213,12 +213,14 @@ export function HomeHero() {
           }}
         >
           <motion.div 
+            onMouseEnter={() => setIsHoveredCard(true)}
+            onMouseLeave={() => setIsHoveredCard(false)}
             whileHover={{ 
               scale: 1.03,
               rotateX: 3,
               rotateY: -3,
-              boxShadow: '0 40px 100px rgba(0,0,0,0.9), 0 0 80px rgba(245, 158, 11, 0.25)',
-              borderColor: 'rgba(245, 158, 11, 0.6)'
+              boxShadow: '0 40px 100px rgba(0,0,0,0.9), 0 0 80px rgba(255, 0, 122, 0.35)',
+              borderColor: 'rgba(255, 0, 122, 0.6)'
             }}
             whileTap={{ scale: 0.98 }}
             transition={{ type: 'spring', stiffness: 350, damping: 25 }}
@@ -227,8 +229,8 @@ export function HomeHero() {
               borderRadius: '20px', 
               padding: '12px',
               background: 'linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 100%)',
-              border: '1px solid rgba(245, 158, 11, 0.3)',
-              boxShadow: '0 30px 80px rgba(0,0,0,0.9), 0 0 40px rgba(245, 158, 11, 0.15)',
+              border: isHoveredCard ? '1px solid #FF007A' : '1px solid rgba(255, 0, 122, 0.3)',
+              boxShadow: isHoveredCard ? '0 30px 80px rgba(0,0,0,0.9), 0 0 40px rgba(255, 0, 122, 0.3)' : '0 30px 80px rgba(0,0,0,0.9)',
               backdropFilter: 'blur(16px)',
               maxWidth: '480px',
               width: '100%',
@@ -238,6 +240,7 @@ export function HomeHero() {
               sound.playOpen()
               window.location.hash = '#obra-marilyn-rocks'
             }}
+
             title="Ver obra HD"
           >
             <img
