@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ARTWORKS } from '../artworks'
+import { sound } from '../utils/audio'
 
 interface GameDef {
   id: string
@@ -15,25 +16,16 @@ interface GameDef {
 const ALL_GAMES: GameDef[] = [
   { id: 'memory', title: 'Memory Artístico', category: 'LÓGICA', icon: '🧠', desc: 'Encuentra las parejas de lienzos e iconos de Naroa.', badge: 'JUGABLE AHORA', playable: true },
   { id: 'quiz', title: 'Quiz Hiperrealista', category: 'TRIVIA', icon: '⚡', desc: 'Demuestra cuánto sabes sobre las obras y materiales de Naroa.', badge: 'JUGABLE AHORA', playable: true },
-  { id: 'scratch', title: 'Revelador de Mica', category: 'INTERACTIVO', icon: '✨', desc: 'Rasca la pizarra para liberar los destellos de mica mineral.', badge: 'JUGABLE AHORA', playable: true },
+  { id: 'scratch', title: 'Revelador de Mica Mineral', category: 'INTERACTIVO', icon: '✨', desc: 'Rasca la pizarra para liberar los destellos de mica mineral.', badge: 'JUGABLE AHORA', playable: true },
   { id: 'kintsugi', title: 'Kintsugi Emocional', category: 'ALQUIMIA', icon: '🥇', desc: 'Repara grietas sobre la pizarra aplicando hilos de pan de oro.', badge: 'POPULAR', playable: true },
   { id: 'puzzle', title: 'Puzzle Deslizante', category: 'PUZZLE', icon: '🧩', desc: 'Reconstruye el retrato dividiéndolo en piezas móviles.' },
   { id: 'tetris', title: 'Tetris de Lienzos', category: 'ARCADE', icon: '🕹️', desc: 'Encaja los bloques formados por texturas de acrílico.' },
   { id: 'snake', title: 'Snake del Arte', category: 'CLÁSICO', icon: '🐍', desc: 'Guía la serpiente para recoger pigmentos y mica mineral.' },
   { id: 'breakout', title: 'Breakout Pizarra', category: 'ARCADE', icon: '🧱', desc: 'Rompe los bloques de piedra con la bola de cristal.' },
-  { id: 'oca', title: 'Juego de la Oca', category: 'TABLERO', icon: '🎲', desc: 'Recorre las casillas descubriendo el catálogo de 40+ obras.' },
-  { id: 'collage', title: 'Collage Alquímico', category: 'CREATIVO', icon: '🎨', desc: 'Combina fragmentos de obras, marcos y sobres de azúcar.' },
+  { id: 'oca', title: 'Juego de la Oca', category: 'TABLERO', icon: '🎲', desc: 'Recorre las casillas descubriendo el catálogo de 140 obras.' },
+  { id: 'collage', title: 'Collage Alquímico', category: 'CREATIVO', icon: '🎨', desc: 'Combina fragmentos de obras, marcos y conservas Facefood.' },
   { id: 'color_match', title: 'Color Match Pop', category: 'VELOCIDAD', icon: '🌈', desc: 'Identifica la paleta exacta usada en cada retrato.' },
-  { id: 'sound_matrix', title: 'Matriz Sonora Soul', category: 'AUDIO', icon: '🎵', desc: 'Toca las notas que acompañan a la serie Tributos Musicales.' },
-  { id: 'spot_difference', title: 'Siete Diferencias', category: 'OBSERVACIÓN', icon: '🔍', desc: 'Compara dos versiones del retrato de Amy Winehouse.' },
-  { id: 'brush_frenzy', title: 'Pincelada Rápida', category: 'REFLEJOS', icon: '🖌️', desc: 'Aplica capas de barniz antes de que venza el temporizador.' },
-  { id: 'gold_rush', title: 'Fiebre de Pan de Oro', category: 'HABILIDAD', icon: '🏆', desc: 'Atrapa las láminas de oro cayendo en el estudio de Bilbao.' },
-  { id: 'mica_catch', title: 'Cazador de Mica', category: 'REACCIÓN', icon: '💫', desc: 'Recolecta cristales minerales brillantes para la mezcla de pintura.' },
-  { id: 'canvas_runner', title: 'Canvas Runner 3D', category: 'ACTION', icon: '🏃', desc: 'Esquiva obstáculos recorriendo la exposición virtual.' },
-  { id: 'portrait_studio', title: 'Laboratorio de Sombras', category: 'CREATIVO', icon: '💡', desc: 'Ajusta los focos para resaltar la mirada hiperrealista.' },
-  { id: 'museum_dash', title: 'Carrera de Galería', category: 'CARRERAS', icon: '🏛️', desc: 'Transporta las obras embaladas en tiempo récord.' },
-  { id: 'art_invaders', title: 'Art Invaders', category: 'RETRO', icon: '👾', desc: 'Defiende la sala de exposiciones con rayos neón.' },
-  { id: 'pixel_artist', title: 'Pixel Art Naroa', category: 'PIXEL', icon: '👾', desc: 'Recrea los retratos punto por punto en baja resolución.' },
+  { id: 'sound_matrix', title: 'Matriz Sonora Soul', category: 'AUDIO', icon: '🎵', desc: 'Toca las notas que acompañan a la serie Tributos Musicales.' }
 ]
 
 export function GamesHub() {
@@ -55,6 +47,7 @@ export function GamesHub() {
   const handleCardClick = (index: number) => {
     if (flipped.length === 2 || flipped.includes(index) || matched.includes(index)) return
 
+    sound.playTick()
     const newFlipped = [...flipped, index]
     setFlipped(newFlipped)
 
@@ -62,6 +55,7 @@ export function GamesHub() {
       setMoves(m => m + 1)
       const [firstIdx, secondIdx] = newFlipped
       if (cards[firstIdx].artworkId === cards[secondIdx].artworkId) {
+        sound.playHeartbeat(0.12)
         setMatched(m => [...m, cards[firstIdx].artworkId])
         setFlipped([])
       } else {
@@ -71,6 +65,7 @@ export function GamesHub() {
   }
 
   const resetMemory = () => {
+    sound.playOpen()
     setCards(memoryDeck.sort(() => Math.random() - 0.5))
     setFlipped([])
     setMatched([])
@@ -80,18 +75,18 @@ export function GamesHub() {
   // ESTADO PARA QUIZ GAME
   const QUIZ_QUESTIONS = [
     {
-      q: '¿En qué ciudad tiene su estudio principal la artista Naroa Gutiérrez Gil?',
-      options: ['Bilbao', 'Madrid', 'Barcelona', 'Donostia'],
+      q: '¿En qué ciudad se ubica el taller de la artista Naroa Gutiérrez Gil?',
+      options: ['Bilbao (Bolueta)', 'Madrid', 'Barcelona', 'Donostia'],
       correct: 0
     },
     {
-      q: '¿Cuál es la superficie mineral estrella usada en sus retratos más emblemáticos?',
+      q: '¿Cuál es la superficie mineral estrella usada en sus retratos líticos?',
       options: ['Lienzo sintético', 'Pizarra natural con mica mineral', 'Madera de pino', 'Mármol blanco'],
       correct: 1
     },
     {
-      q: '¿Qué estilo caracteriza la obra de Naroa?',
-      options: ['Cubismo analítico', 'Hiperrealismo POP & Mixed Media', 'Surrealismo abstracto', 'Impresionismo puro'],
+      q: '¿Qué lema resume el proceso creativo de los encargos de Naroa?',
+      options: ['Pintura en serie', '«Cada retrato empieza con una conversación. Mimo y calma»', 'Arte efímero', 'Sin boceto previo'],
       correct: 1
     }
   ]
@@ -101,7 +96,10 @@ export function GamesHub() {
 
   const answerQuiz = (optionIdx: number) => {
     if (optionIdx === QUIZ_QUESTIONS[quizIdx].correct) {
+      sound.playHeartbeat(0.1)
       setScore(s => s + 100)
+    } else {
+      sound.playTick()
     }
     if (quizIdx + 1 < QUIZ_QUESTIONS.length) {
       setQuizIdx(i => i + 1)
@@ -111,28 +109,67 @@ export function GamesHub() {
   }
 
   const resetQuiz = () => {
+    sound.playOpen()
     setQuizIdx(0)
     setScore(0)
     setQuizDone(false)
   }
 
   return (
-    <div className="games-page brutal-container">
-      {/* Ticker Arcade */}
-      <div className="brutal-marquee-bar brutal-marquee-bar--cyan">
-        <div className="brutal-marquee-content">
-          <span>🎮 SALA DE JUEGOS NAROA · 21 MINIJUEGOS ARTÍSTICOS · TETRIS · MEMORY · KINTSUGI · RETRATOS POP · BILBAO 🎮</span>
-          <span>🎮 SALA DE JUEGOS NAROA · 21 MINIJUEGOS ARTÍSTICOS · TETRIS · MEMORY · KINTSUGI · RETRATOS POP · BILBAO 🎮</span>
+    <div style={{ width: '100%', maxWidth: '1400px', margin: '100px auto 80px', padding: '0 24px' }}>
+      {/* Ticker Banner */}
+      <div style={{
+        background: 'rgba(0, 240, 255, 0.12)',
+        border: '1px solid rgba(0, 240, 255, 0.3)',
+        borderRadius: '30px',
+        padding: '10px 24px',
+        marginBottom: '40px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '12px'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: '#00F0FF', fontWeight: 800 }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#00F0FF', boxShadow: '0 0 10px #00F0FF' }} />
+          POP GUNEA // LABORATORIO INTERACTIVO & MINIJUEGOS ARTÍSTICOS
         </div>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#FFE600', fontWeight: 700 }}>
+          🎮 EXPERIENCIAS MATÉRICAS 2026 · BILBAO
+        </span>
       </div>
 
-      <header className="games-header">
-        <span className="brutal-badge brutal-badge--yellow">ARCADE INTERACTIVO 2026</span>
-        <h1 className="brutal-title">
-          SALA DE <span className="highlight-pink">JUEGOS</span>
+      <header style={{ textAlign: 'center', marginBottom: '50px' }}>
+        <span style={{
+          fontSize: '0.75rem',
+          padding: '6px 16px',
+          background: 'rgba(255, 0, 122, 0.15)',
+          border: '1px solid rgba(255, 0, 122, 0.4)',
+          borderRadius: '30px',
+          color: '#FF007A',
+          fontFamily: 'var(--font-mono)',
+          fontWeight: 800,
+          letterSpacing: '0.1em'
+        }}>
+          ⚡ ESPACIO DE EXPERIMENTACIÓN POP
+        </span>
+        <h1 style={{
+          fontSize: 'clamp(2.4rem, 5vw, 4rem)',
+          fontWeight: 900,
+          color: '#fff',
+          margin: '16px 0 12px 0',
+          letterSpacing: '-0.03em'
+        }}>
+          POP <span className="text-pop-gradient">GUNEA</span>
         </h1>
-        <p className="brutal-subtitle">
-          21 experiencias interactivas creadas con las texturas, iconos y minerales de Naroa Gutiérrez Gil.
+        <p style={{
+          fontSize: '1.05rem',
+          color: 'rgba(255, 255, 255, 0.75)',
+          maxWidth: '680px',
+          margin: '0 auto',
+          lineHeight: 1.6
+        }}>
+          Experiencias interactivas, alquimia de mica mineral y juegos creados con las texturas e iconos del taller de Naroa Gutiérrez Gil.
         </p>
       </header>
 
