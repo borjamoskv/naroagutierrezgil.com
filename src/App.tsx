@@ -126,8 +126,32 @@ export default function App() {
     if (modalArtwork) {
       const slug = modalArtwork.slug || toSlug(modalArtwork.title)
       window.location.hash = `obra-${slug}`
+      document.title = `${modalArtwork.title} (${modalArtwork.year}) — Naroa Gutiérrez Gil | Arte en Bilbao`
+    } else {
+      switch (currentView) {
+        case 'destacada':
+          document.title = 'Galería de Obras — Naroa Gutiérrez Gil | Hiperrealismo POP Bilbao'
+          break
+        case '3d':
+          document.title = 'Exposición 3D Interactiva — Naroa Gutiérrez Gil'
+          break
+        case 'about':
+          document.title = 'Sobre Naroa Gutiérrez Gil — Manifiesto & Biografía'
+          break
+        case 'encargos':
+          document.title = 'Encargar Retrato Personalizado — Naroa Gutiérrez Gil | Bilbao'
+          break
+        case 'blog':
+          document.title = 'Blog & Noticias — Naroa Gutiérrez Gil'
+          break
+        case 'juegos':
+          document.title = 'Espacio Interactivo — Naroa Gutiérrez Gil'
+          break
+        default:
+          document.title = 'Naroa Gutiérrez Gil — Artista Visual | Hiperrealismo POP'
+      }
     }
-  }, [modalArtwork])
+  }, [modalArtwork, currentView])
 
   const handleCloseModal = () => {
     setModalArtwork(null)

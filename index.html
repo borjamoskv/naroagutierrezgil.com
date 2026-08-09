@@ -44,35 +44,148 @@
     <meta name="twitter:description" content="Retratos por encargo y arte contemporáneo en Bilbao. Acrílico sobre pizarra natural, mica mineral y alma. Descubre la colección y la experiencia 3D." />
     <meta name="twitter:image" content="https://naroagutierrezgil.com/assets/marilyn-rocks--qPeLHxE.webp" />
 
-    <!-- Schema.org JSON-LD -->
+    <!-- Schema.org JSON-LD (SEO & GEO - Generative Engine Optimization) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "VisualArtist",
-        "name": "Naroa Gutiérrez Gil",
-        "url": "https://naroagutierrezgil.com/",
-        "description": "Artista visual en Bilbao especializada en hiperrealismo POP sobre pizarra natural y mica mineral.",
-        "image": "https://naroagutierrezgil.com/assets/naroa-portrait-DW8XfHYG.jpg",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Bilbao",
-          "addressCountry": "ES"
-        },
-        "sameAs": [
-          "https://www.facebook.com/naroa.artista.plastica"
-        ],
-        "hasOfferCatalog": {
-          "@type": "OfferCatalog",
-          "name": "Catálogo de Arte",
-          "itemListElement": [
-            { "@type": "Offer", "itemOffered": { "@type": "CreativeWork", "name": "Obras Originales" } },
-            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Encargos Personalizados" } }
-          ]
-        },
-        "mainEntityOfPage": {
-          "@type": "WebPage",
-          "@id": "https://naroagutierrezgil.com/"
-        }
+        "@graph": [
+          {
+            "@type": "VisualArtist",
+            "@id": "https://naroagutierrezgil.com/#artist",
+            "name": "Naroa Gutiérrez Gil",
+            "alternateName": ["Naroa Art", "Naroa Gutiérrez"],
+            "url": "https://naroagutierrezgil.com/",
+            "image": "https://naroagutierrezgil.com/assets/naroa-portrait-DW8XfHYG.jpg",
+            "description": "Artista visual de Bilbao especializada en hiperrealismo POP, retratos por encargo en acrílico sobre pizarra natural, mica mineral y lienzo.",
+            "jobTitle": "Artista Plástica e Hiperrealista",
+            "birthPlace": {
+              "@type": "Place",
+              "name": "Bilbao, País Vasco, España"
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Bilbao",
+              "addressRegion": "Bizkaia",
+              "addressCountry": "ES"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 43.2630,
+              "longitude": -2.9350
+            },
+            "knowsAbout": [
+              "Hiperrealismo POP",
+              "Retratos por encargo",
+              "Pizarra Natural",
+              "Mica Mineral",
+              "Arte Contemporáneo",
+              "Pintura en Acrílico y Óleo",
+              "Iconos del Cine y la Música"
+            ],
+            "genre": [
+              "Hiperrealismo",
+              "Pop Art",
+              "Arte Contemporáneo",
+              "Retrato"
+            ],
+            "knowsLanguage": ["es", "en", "eu"],
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "contactType": "encargos y ventas de arte",
+              "email": "naroarte@hotmail.com",
+              "availableLanguage": ["Spanish", "English", "Basque"]
+            },
+            "sameAs": [
+              "https://www.facebook.com/naroa.artista.plastica",
+              "https://www.instagram.com/naroagutierrezgil"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://naroagutierrezgil.com/#website",
+            "url": "https://naroagutierrezgil.com/",
+            "name": "Naroa Gutiérrez Gil — Hiperrealismo POP",
+            "description": "Galería oficial de la artista Naroa Gutiérrez Gil. Obras originales, retratos por encargo y sala de exposición 3D.",
+            "publisher": {
+              "@id": "https://naroagutierrezgil.com/#artist"
+            },
+            "inLanguage": "es-ES"
+          },
+          {
+            "@type": "ArtGallery",
+            "@id": "https://naroagutierrezgil.com/#gallery",
+            "name": "Estudio y Galería Naroa Gutiérrez Gil",
+            "description": "Estudio de arte contemporáneo e hiperrealismo en Bilbao (Bolueta). Exposición de obras sobre pizarra natural y mica mineral.",
+            "url": "https://naroagutierrezgil.com/",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Bolueta",
+              "addressLocality": "Bilbao",
+              "addressRegion": "Bizkaia",
+              "postalCode": "48004",
+              "addressCountry": "ES"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 43.2497,
+              "longitude": -2.9067
+            },
+            "telephone": "+34-600000000",
+            "priceRange": "€€€"
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://naroagutierrezgil.com/#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "¿Cómo encargar un retrato personalizado a Naroa Gutiérrez Gil?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Puedes solicitar un retrato por encargo enviando una fotografía de alta calidad y la idea del proyecto a naroarte@hotmail.com o a través del formulario de contacto en naroagutierrezgil.com. Naroa trabaja retratos hiperrealistas sobre lienzo, pizarra natural y mica mineral."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Qué técnica artística utiliza Naroa Gutiérrez Gil?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Naroa está especializada en el hiperrealismo POP, combinando acrílico, óleo, posca y pigmentos sobre pizarra natural tallada y la técnica propia 'Mica Viva', que integra la textura mineral cristalina dentro del retrato."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Dónde expone y trabaja la artista Naroa Gutiérrez Gil?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Naroa tiene su estudio en Bilbao (Bolueta), Bizkaia, España. Expone habitualmente en galerías de arte contemporáneo, mercados de arte en el País Vasco y dispone de una sala de exposición 3D interactiva en naroagutierrezgil.com."
+                }
+              }
+            ]
+          },
+          {
+            "@type": "VisualArtwork",
+            "@id": "https://naroagutierrezgil.com/#obra-marilyn-rocks",
+            "name": "Marilyn Rocks",
+            "image": "https://naroagutierrezgil.com/assets/marilyn-rocks--qPeLHxE.webp",
+            "description": "Reinterpretación hiperrealista POP con textura gestual y capas de fricción sobre la iconografía de Marilyn Monroe.",
+            "artMedium": "Óleo y Acrílico sobre Lienzo",
+            "artForm": "Pintura",
+            "creator": { "@id": "https://naroagutierrezgil.com/#artist" },
+            "dateCreated": "2024"
+          },
+          {
+            "@type": "VisualArtwork",
+            "@id": "https://naroagutierrezgil.com/#obra-amy-rocks",
+            "name": "Amy Rocks",
+            "image": "https://naroagutierrezgil.com/assets/hq-amy-BRTriASV.webp",
+            "description": "Retrato de Amy Winehouse en acrílico y Posca sobre pizarra natural con mica mineral.",
+            "artMedium": "Acrílico y Posca sobre Pizarra Natural con Mica Mineral",
+            "artForm": "Pintura sobre Pizarra",
+            "creator": { "@id": "https://naroagutierrezgil.com/#artist" },
+            "dateCreated": "2024"
+          }
+        ]
       }
     </script>
 
