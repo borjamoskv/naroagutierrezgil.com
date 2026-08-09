@@ -124,7 +124,7 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                 sound.playTick()
                 setShowSuperzoom(true)
               }}
-              title="Haz clic para abrir Superzoom HD 4K"
+              title="Superzoom HD"
             >
               <AnimatePresence mode="wait">
                 <motion.img
@@ -138,24 +138,6 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                   transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                 />
               </AnimatePresence>
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '12px',
-                  right: '12px',
-                  background: 'rgba(0,0,0,0.7)',
-                  backdropFilter: 'blur(6px)',
-                  border: '1px solid rgba(212, 175, 55, 0.4)',
-                  color: '#D4AF37',
-                  borderRadius: '20px',
-                  padding: '4px 10px',
-                  fontSize: '0.75rem',
-                  fontFamily: 'var(--font-mono)',
-                  pointerEvents: 'none',
-                }}
-              >
-                🔍 Superzoom HD 4K
-              </div>
             </div>
 
             <div className="modal-info">
