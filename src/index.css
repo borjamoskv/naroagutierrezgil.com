@@ -8,8 +8,8 @@
   --border-color: rgba(255, 255, 255, 0.15);
   --glass-bg: transparent;
   --glass-border: rgba(255, 255, 255, 0.12);
-  --font-sans: 'Outfit', sans-serif;
-  --font-mono: 'Share Tech Mono', monospace;
+  --font-sans: 'Space Grotesk', 'Outfit', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Share Tech Mono', monospace;
 }
 
 html, body, #root {

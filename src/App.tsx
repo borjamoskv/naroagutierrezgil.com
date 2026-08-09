@@ -30,7 +30,7 @@ function Loader() {
 }
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<'home' | '3d' | 'destacada' | 'encargos' | 'juegos' | 'about' | 'blog'>('destacada')
+  const [currentView, setCurrentView] = useState<'home' | '3d' | 'destacada' | 'encargos' | 'juegos' | 'about' | 'blog'>('home')
 
   const [modalArtwork, setModalArtwork] = useState<Artwork | null>(null)
   const [audioActive, setAudioActive] = useState<boolean>(sound.isEnabled())
@@ -55,6 +55,23 @@ export default function App() {
     return () => clearTimeout(timer)
   }, [])
 
+  // Auto-request Fullscreen on initial user interaction
+  useEffect(() => {
+    const handleInitialInteraction = () => {
+      if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {})
+      }
+    }
+
+    window.addEventListener('pointerdown', handleInitialInteraction, { once: true })
+    window.addEventListener('click', handleInitialInteraction, { once: true })
+
+    return () => {
+      window.removeEventListener('pointerdown', handleInitialInteraction)
+      window.removeEventListener('click', handleInitialInteraction)
+    }
+  }, [])
+
   // Hash Navigation Handler
   useEffect(() => {
     const handleHashChange = () => {
@@ -63,6 +80,9 @@ export default function App() {
 
       if (cleanHash === 'destacada' || cleanHash === 'galeria' || cleanHash === 'archivo' || cleanHash === 'obra' || cleanHash === 'obras') {
         setCurrentView('destacada')
+        setModalArtwork(null)
+      } else if (cleanHash === 'home' || cleanHash === 'inicio' || cleanHash === '') {
+        setCurrentView('home')
         setModalArtwork(null)
       } else if (cleanHash === 'encargos' || cleanHash === 'contacto') {
         setCurrentView('encargos')
@@ -91,10 +111,8 @@ export default function App() {
         if (match) {
           setModalArtwork(match)
           setCurrentView('destacada')
-        } else if (cleanHash === '') {
-          setCurrentView('destacada')
         } else {
-          setCurrentView('destacada')
+          setCurrentView('home')
         }
       }
     }
