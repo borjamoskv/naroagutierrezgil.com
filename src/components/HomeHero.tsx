@@ -378,8 +378,98 @@ export function HomeHero() {
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Scroll-Driven Feature Showcase Section 1: Materiales Vivos */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        style={{
+          position: 'relative',
+          zIndex: 10,
+          width: '100%',
+          maxWidth: '1300px',
+          margin: '40px auto 0',
+          padding: '0 5vw',
+          pointerEvents: 'auto'
+        }}
+      >
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <span className="pop-badge pop-badge--yellow">✦ MATERIA & LUZ</span>
+          <h2 style={{ fontFamily: 'var(--font-sans)', fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', fontWeight: 900, color: '#fff', margin: '12px 0 0 0' }}>
+            LA PIEDRA ANCESTRAL QUE GUARECE EL RETRATO
+          </h2>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+          <motion.div
+            whileHover={{ y: -6, borderColor: '#FF007A' }}
+            style={{
+              background: 'rgba(10, 10, 15, 0.7)',
+              border: '1px solid rgba(255, 0, 122, 0.3)',
+              borderRadius: '20px',
+              padding: '28px',
+              backdropFilter: 'blur(16px)',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            <div style={{ fontSize: '2.4rem', marginBottom: '12px' }}>🪨</div>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#FF007A', fontWeight: 800, letterSpacing: '0.1em' }}>
+              PIZARRA VINTAGE DE BIZKAIA
+            </span>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff', margin: '8px 0' }}>Piedra de Derribo Vasco</h3>
+            <p style={{ fontSize: '0.88rem', color: 'rgba(255, 255, 255, 0.75)', lineHeight: 1.6, margin: 0 }}>
+              Extraída de tejados centenarios desmontados en Bizkaia. Sellada con resina epoxi de alto brillo, la pizarra ofrece millones de años de historia sobre los que florece el retrato pop.
+            </p>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ y: -6, borderColor: '#FFE600' }}
+            style={{
+              background: 'rgba(10, 10, 15, 0.7)',
+              border: '1px solid rgba(255, 230, 0, 0.3)',
+              borderRadius: '20px',
+              padding: '28px',
+              backdropFilter: 'blur(16px)',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            <div style={{ fontSize: '2.4rem', marginBottom: '12px' }}>💎</div>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#FFE600', fontWeight: 800, letterSpacing: '0.1em' }}>
+              DESTELLOS DE LUZ REAL
+            </span>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff', margin: '8px 0' }}>Mica Mineral & Pan de Oro</h3>
+            <p style={{ fontSize: '0.88rem', color: 'rgba(255, 255, 255, 0.75)', lineHeight: 1.6, margin: 0 }}>
+              Escamas minerales de mica aplicadas en relieve matérico que centelean y mutan de color según el ángulo de luz natural o los focos de la sala.
+            </p>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ y: -6, borderColor: '#00F0FF' }}
+            style={{
+              background: 'rgba(10, 10, 15, 0.7)',
+              border: '1px solid rgba(0, 240, 255, 0.3)',
+              borderRadius: '20px',
+              padding: '28px',
+              backdropFilter: 'blur(16px)',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            <div style={{ fontSize: '2.4rem', marginBottom: '12px' }}>✨</div>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#00F0FF', fontWeight: 800, letterSpacing: '0.1em' }}>
+              CICATRIZ DORADA
+            </span>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff', margin: '8px 0' }}>Técnica «Cantinflowers»</h3>
+            <p style={{ fontSize: '0.88rem', color: 'rgba(255, 255, 255, 0.75)', lineHeight: 1.6, margin: 0 }}>
+              Kintsugi accidental descubierto al reaccionar el acrílico con cola vinílica. Las grietas se raspan y se rellenan con pigmento dorado como símbolo de sanación emocional.
+            </p>
+          </motion.div>
+        </div>
+      </motion.div>
     </section>
   )
 }
+
 
 

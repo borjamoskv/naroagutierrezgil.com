@@ -837,6 +837,16 @@ a:focus:not(:focus-visible) {
   }
 }
 
+@media (max-width: 900px) {
+  .nav-desktop-links,
+  .nav-desktop-utils {
+    display: none !important;
+  }
+  .nav-mobile-toggle {
+    display: inline-block !important;
+  }
+}
+
 @media (max-width: 480px) {
   .nav a:not(.active) {
     display: none;

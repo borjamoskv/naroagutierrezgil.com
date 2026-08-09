@@ -1,6 +1,6 @@
 import { Suspense, lazy, useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
-import { ARTWORKS, PORTAL, type Artwork } from './artworks'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ARTWORKS, type Artwork } from './artworks'
 import { ArtworkModal } from './components/ArtworkModal'
 
 
@@ -25,6 +25,7 @@ const GalleryGrid = lazy(() => import('./components/GalleryGrid').then(module =>
 const CommissionCalculator = lazy(() => import('./components/CommissionCalculator').then(module => ({ default: module.CommissionCalculator })))
 const GamesHub = lazy(() => import('./components/GamesHub').then(module => ({ default: module.GamesHub })))
 const BlogSection = lazy(() => import('./components/BlogSection').then(module => ({ default: module.BlogSection })))
+const AboutSection = lazy(() => import('./components/AboutSection').then(module => ({ default: module.AboutSection })))
 
 const toSlug = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 
@@ -323,90 +324,118 @@ export default function App() {
           </div>
         )}
 
-        {currentView === 'home' && <HomeHero />}
+        <AnimatePresence mode="wait">
+          {currentView === 'home' && (
+            <motion.div
+              key="home"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.4 }}
+              style={{ width: '100%' }}
+            >
+              <HomeHero />
+            </motion.div>
+          )}
 
-        {currentView === 'gallery' && (
-          <div className="view-container" style={{ pointerEvents: 'auto' }}>
-            <Suspense fallback={<Loader />}>
-              <GalleryGrid onInspect={handleInspect} />
-            </Suspense>
-          </div>
-        )}
+          {currentView === 'gallery' && (
+            <motion.div
+              key="gallery"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.4 }}
+              className="view-container"
+              style={{ pointerEvents: 'auto' }}
+            >
+              <Suspense fallback={<Loader />}>
+                <GalleryGrid onInspect={handleInspect} />
+              </Suspense>
+            </motion.div>
+          )}
 
-        {currentView === '3d' && (
-          <VideogameHUD 
-            isStarted={isStarted} 
-            onStart={() => setIsStarted(true)} 
-            interactionPrompt={interactionPrompt} 
-            playerPos={playerPos}
-            playerRotation={playerRotation}
-          />
-        )}
-
-        {currentView === 'commissions' && (
-          <div className="view-container" style={{ pointerEvents: 'auto' }}>
-            <Suspense fallback={<Loader />}>
-              <CommissionCalculator />
-            </Suspense>
-          </div>
-        )}
-
-        {currentView === 'pop-lab' && (
-          <div className="view-container" style={{ pointerEvents: 'auto' }}>
-            <Suspense fallback={<Loader />}>
-              <GamesHub />
-            </Suspense>
-          </div>
-        )}
-
-        {currentView === 'blog' && (
-          <div className="view-container" style={{ pointerEvents: 'auto' }}>
-            <Suspense fallback={<Loader />}>
-              <BlogSection />
-            </Suspense>
-          </div>
-        )}
-
-        {currentView === 'about' && (
-          <div className="view-container about-view" style={{ maxWidth: '1000px', margin: '0 auto', paddingTop: '100px', pointerEvents: 'auto' }}>
-            <div className="premium-card about-card" style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '40px', alignItems: 'center' }}>
-              <motion.img
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8 }}
-                src="/assets/naroa-portrait-DW8XfHYG.jpg"
-                alt="Naroa Gutiérrez Gil"
-                style={{ width: '100%', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 20px 40px rgba(0,0,0,0.8)' }}
+          {currentView === '3d' && (
+            <motion.div
+              key="3d"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <VideogameHUD 
+                isStarted={isStarted} 
+                onStart={() => setIsStarted(true)} 
+                interactionPrompt={interactionPrompt} 
+                playerPos={playerPos}
+                playerRotation={playerRotation}
               />
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                <span className="premium-badge premium-badge--gold">MANIFIESTO ARTÍSTICO</span>
-                <h1 className="premium-title" style={{ fontSize: '2.8rem', marginTop: '1rem', lineHeight: '1.1' }}>
-                  A O R A N / <span className="highlight-gold">N A R O A</span>
-                </h1>
-                <p className="premium-subtitle" style={{ color: '#D4AF37', fontWeight: 500, letterSpacing: '0.1em', marginTop: '0.5rem' }}>
-                  A NAROA LA ORAN A
-                </p>
-                <p className="premium-subtitle" style={{ fontSize: '1.05rem', margin: '1.5rem 0 2rem' }}>
-                  Artista visual en Bilbao especializada en hiperrealismo POP sobre pizarra natural y mica mineral.
-                  Con más de 12.000 seguidores en su comunidad artística oficial. Cada piedra que uso tiene millones de años.
-                  Cada retrato que pinto tiene la edad de quien lo mira.
-                </p>
-                <div className="about-links" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <a href="https://www.facebook.com/naroa.artista.plastica" target="_blank" rel="noopener noreferrer" className="premium-btn premium-btn--primary">
-                    📘 FACEBOOK ARTISTA (12K+ SEGUIDORES) ↗
-                  </a>
-                  <a href={PORTAL} target="_blank" rel="noopener noreferrer" className="premium-btn">
-                    🌐 PORTAL OFICIAL: NAROAGUTIERREZGIL.COM ↗
-                  </a>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        )}
+            </motion.div>
+          )}
+
+          {currentView === 'commissions' && (
+            <motion.div
+              key="commissions"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.4 }}
+              className="view-container"
+              style={{ pointerEvents: 'auto' }}
+            >
+              <Suspense fallback={<Loader />}>
+                <CommissionCalculator />
+              </Suspense>
+            </motion.div>
+          )}
+
+          {currentView === 'pop-lab' && (
+            <motion.div
+              key="pop-lab"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.4 }}
+              className="view-container"
+              style={{ pointerEvents: 'auto' }}
+            >
+              <Suspense fallback={<Loader />}>
+                <GamesHub />
+              </Suspense>
+            </motion.div>
+          )}
+
+          {currentView === 'blog' && (
+            <motion.div
+              key="blog"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.4 }}
+              className="view-container"
+              style={{ pointerEvents: 'auto' }}
+            >
+              <Suspense fallback={<Loader />}>
+                <BlogSection />
+              </Suspense>
+            </motion.div>
+          )}
+
+          {currentView === 'about' && (
+            <motion.div
+              key="about"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.4 }}
+              className="view-container"
+              style={{ pointerEvents: 'auto' }}
+            >
+              <Suspense fallback={<Loader />}>
+                <AboutSection />
+              </Suspense>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {!isStarted && (
           <div style={{ pointerEvents: 'auto', width: '100%', marginTop: 'auto' }}>
