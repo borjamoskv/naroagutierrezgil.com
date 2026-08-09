@@ -149,7 +149,7 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                     maxHeight: '78vh',
                     width: '100%',
                     objectFit: 'contain',
-                    imageRendering: 'high-quality',
+                    imageRendering: 'high-quality' as any,
                     filter: 'drop-shadow(0 15px 35px rgba(0,0,0,0.8))'
                   }}
                 />
