@@ -258,6 +258,28 @@ export default function App() {
     return () => document.removeEventListener('pointerlockchange', handlePointerLockChange)
   }, [])
 
+  // 🎵 Autoplay Unlocker: Activa la BSO de Boards of Burgos en el primer toque/scroll sin requerir clic en el botón
+  useEffect(() => {
+    const unlockAudio = () => {
+      if (!audioActive) {
+        setAudioActive(true)
+      }
+      window.removeEventListener('pointerdown', unlockAudio)
+      window.removeEventListener('scroll', unlockAudio)
+      window.removeEventListener('mousemove', unlockAudio)
+    }
+
+    window.addEventListener('pointerdown', unlockAudio, { once: true })
+    window.addEventListener('scroll', unlockAudio, { once: true })
+    window.addEventListener('mousemove', unlockAudio, { once: true })
+
+    return () => {
+      window.removeEventListener('pointerdown', unlockAudio)
+      window.removeEventListener('scroll', unlockAudio)
+      window.removeEventListener('mousemove', unlockAudio)
+    }
+  }, [audioActive])
+
   return (
     <>
       <CustomCursor />
