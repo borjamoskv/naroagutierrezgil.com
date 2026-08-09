@@ -1,0 +1,102 @@
+[
+  {
+    "slug": "obra-1",
+    "file": "img/obra-1.webp",
+    "blur": "img/blur-obra-1.webp",
+    "w": 1930,
+    "h": 1288,
+    "dominantColor": "#995e4f",
+    "focalPoint": { "x": 0.22, "y": 0.42 },
+    "descripcion": "Retrato en grafito de un anciano sonriente y muy arrugado ocupando el tercio izquierdo, sobre un denso collage de papeletas numeradas en rojos, naranjas y fucsias; encuadre apaisado, punto focal en el rostro."
+  },
+  {
+    "slug": "obra-13",
+    "file": "img/obra-13.webp",
+    "blur": "img/blur-obra-13.webp",
+    "w": 1022,
+    "h": 1278,
+    "dominantColor": "#ae8171",
+    "focalPoint": { "x": 0.63, "y": 0.55 },
+    "descripcion": "Carboncillo vertical de una niña con flequillo y grandes ojos oscuros apoyada en sus brazos, sobre fondo rojo intenso con textura de purpurina; el peso visual cae en la mirada, a la derecha del centro."
+  },
+  {
+    "slug": "amor-en-conserva",
+    "file": "img/amor-en-conserva.webp",
+    "blur": "img/blur-amor-en-conserva.webp",
+    "w": 2048,
+    "h": 1532,
+    "dominantColor": "#443738",
+    "focalPoint": { "x": 0.48, "y": 0.52 },
+    "descripcion": "Collage fotográfico dentro de una lata de conserva abierta —mujer sonriente con dos perros, rosas secas y frescas y rótulo LOVE— flotando sobre fondo negro apaisado; foco en el rostro central."
+  },
+  {
+    "slug": "audrey",
+    "file": "img/audrey.webp",
+    "blur": "img/blur-audrey.webp",
+    "w": 1536,
+    "h": 2048,
+    "dominantColor": "#a48970",
+    "focalPoint": { "x": 0.42, "y": 0.45 },
+    "descripcion": "Retrato sepia vertical de Audrey Hepburn con sombrero verde decorado, un rayo rojo y azul estilo Bowie cruzándole el rostro y estrellas troqueladas sobre arpillera; foco en los ojos."
+  },
+  {
+    "slug": "autoretrato",
+    "file": "img/autoretrato.webp",
+    "blur": "img/blur-autoretrato.webp",
+    "w": 774,
+    "h": 1032,
+    "dominantColor": "#867673",
+    "focalPoint": { "x": 0.5, "y": 0.35 },
+    "descripcion": "Autorretrato al pastel y carboncillo sobre papel gris topo: mujer de pelo largo con el rostro intervenido por manchas rosa, amarillo y azul; formato vertical, foco centrado en la cara."
+  },
+  {
+    "slug": "baroque-farrokh",
+    "file": "img/baroque-farrokh.webp",
+    "blur": "img/blur-baroque-farrokh.webp",
+    "w": 2048,
+    "h": 1660,
+    "dominantColor": "#86756c",
+    "focalPoint": { "x": 0.55, "y": 0.42 },
+    "descripcion": "Obra apaisada enmarcada en blanco: retrato en blanco y negro con irisaciones de una joven con la mano en la mejilla sobre fondo azul floral, con marco dorado barroco, cámara dorada y letreros 'acción' y 'Mejor no hay'."
+  },
+  {
+    "slug": "cantinflas",
+    "file": "img/cantinflas.webp",
+    "blur": "img/blur-cantinflas.webp",
+    "w": 798,
+    "h": 1002,
+    "dominantColor": "#7b7b85",
+    "focalPoint": { "x": 0.32, "y": 0.4 },
+    "descripcion": "Retrato vertical en escala de grises de Cantinflas con pañuelo al cuello y cigarrillo en la mano, recortado contra un fondo de arte popular mexicano ultracolorido con un pez turquesa y rosa; foco en el rostro, a la izquierda."
+  },
+  {
+    "slug": "amy",
+    "file": "img/amy.webp",
+    "blur": "img/blur-amy.webp",
+    "w": 2048,
+    "h": 1536,
+    "dominantColor": "#705f5a",
+    "focalPoint": { "x": 0.24, "y": 0.52 },
+    "descripcion": "Amy Winehouse en blanco y negro pintada sobre tabla de bordes irregulares, girando el rostro sobre el hombro con el tatuaje de la herradura visible, sobre fondo rojo carmesí texturizado; foco en su cara, a la izquierda."
+  },
+  {
+    "slug": "johnny",
+    "file": "img/johnny.webp",
+    "blur": "img/blur-johnny.webp",
+    "w": 1536,
+    "h": 2048,
+    "dominantColor": "#5f5f5f",
+    "focalPoint": { "x": 0.55, "y": 0.38 },
+    "descripcion": "Retrato expresionista vertical en grises de Johnny Depp con cigarrillo encendido y volutas de humo, sobre fondo oscuro de hojas; foco en los ojos, en el tercio superior."
+  },
+  {
+    "slug": "marilyn",
+    "file": "img/marilyn.webp",
+    "blur": "img/blur-marilyn.webp",
+    "w": 1536,
+    "h": 2048,
+    "dominantColor": "#706463",
+    "focalPoint": { "x": 0.45, "y": 0.3 },
+    "descripcion": "Marilyn Monroe en blanco y negro con labios rojos, pendientes dorados y vestido dorado, silueteada sobre fondo negro con brochazos rojos; formato vertical, foco en el rostro."
+  }
+]
