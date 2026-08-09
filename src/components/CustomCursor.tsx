@@ -4,7 +4,7 @@ export const CustomCursor: React.FC = () => {
   const [position, setPosition] = useState({ x: -100, y: -100 });
   const [hoverType, setHoverType] = useState<'link' | 'artwork' | null>(null);
   const [isActive, setIsActive] = useState(false);
-  const requestRef = useRef<number>();
+  const requestRef = useRef<number | undefined>(undefined);
   const mousePos = useRef({ x: -100, y: -100 });
 
   useEffect(() => {
