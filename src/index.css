@@ -1557,3 +1557,73 @@ a:focus:not(:focus-visible) {
   }
 }
 
+
+/* Custom Cursor Variables & Overrides */
+html, body {
+  cursor: none !important;
+}
+
+a, button, input, textarea, select, .caption-arrow, .dot-item, .modal-close {
+  cursor: none !important;
+}
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background: var(--text-color);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), height 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: black;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0;
+}
+
+.custom-cursor.active {
+  opacity: 1;
+}
+
+.custom-cursor.hovering-link {
+  width: 60px;
+  height: 60px;
+  background: #ffffff;
+  mix-blend-mode: difference;
+}
+
+.custom-cursor.hovering-artwork {
+  width: 90px;
+  height: 90px;
+  background: #ffffff;
+  mix-blend-mode: difference;
+}
+
+.custom-cursor-text {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.custom-cursor.hovering-artwork .custom-cursor-text {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  html, body, a, button, .caption-arrow, .dot-item, .modal-close {
+    cursor: auto !important;
+  }
+  .custom-cursor {
+    display: none !important;
+  }
+}

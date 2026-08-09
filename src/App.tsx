@@ -6,6 +6,8 @@ import { ArtworkModal } from './components/ArtworkModal'
 import { sound } from './utils/audio'
 
 // Componentes estáticos
+import Lenis from 'lenis'
+import { CustomCursor } from './components/CustomCursor'
 import { NavigationPill } from './components/NavigationPill'
 import { HomeHero } from './components/HomeHero'
 import { PremiumFooter } from './components/PremiumFooter'
@@ -38,6 +40,29 @@ export default function App() {
   
   // Estados del Videojuego FPS
   const [isStarted, setIsStarted] = useState(false)
+
+  // Inicializar Lenis (Smooth Scrolling) SOTA
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+    })
+
+    function raf(time: number) {
+      lenis.raf(time)
+      requestAnimationFrame(raf)
+    }
+
+    requestAnimationFrame(raf)
+
+    return () => {
+      lenis.destroy()
+    }
+  }, [])
   const [interactionPrompt, setInteractionPrompt] = useState<string | null>(null)
   const [playerPos, setPlayerPos] = useState({ x: 0, z: 0 })
   const [playerRotation, setPlayerRotation] = useState(0)
@@ -188,6 +213,7 @@ export default function App() {
 
   return (
     <>
+      <CustomCursor />
       {/* Background SoundCloud Player: Boards Of Burgos (Borja Moskv) */}
       {audioActive && (
         <iframe
