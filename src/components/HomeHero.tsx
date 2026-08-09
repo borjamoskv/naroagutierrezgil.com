@@ -214,45 +214,6 @@ export function HomeHero() {
                 display: 'block' 
               }}
             />
-            <div style={{
-              position: 'absolute',
-              bottom: '24px',
-              left: '24px',
-              right: '24px',
-              padding: '12px 18px',
-              background: 'rgba(7, 7, 10, 0.85)',
-              backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(255,255,255,0.15)',
-              borderRadius: '12px',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}>
-              <div>
-                <span style={{ fontSize: '0.9rem', fontWeight: 700, color: '#fff', display: 'block' }}>
-                  Marilyn Rocks
-                </span>
-                <span style={{ fontSize: '0.72rem', color: '#F59E0B', fontFamily: 'var(--font-mono)' }}>
-                  Acrílico sobre Pizarra Natural
-                </span>
-              </div>
-              <a
-                href="#/destacada"
-                onClick={() => sound.playOpen()}
-                style={{
-                  fontSize: '0.72rem',
-                  color: '#fff',
-                  fontFamily: 'var(--font-mono)',
-                  textDecoration: 'none',
-                  padding: '4px 12px',
-                  background: 'rgba(255,255,255,0.1)',
-                  borderRadius: '16px',
-                  border: '1px solid rgba(255,255,255,0.2)'
-                }}
-              >
-                VER OBRA ↗
-              </a>
-            </div>
           </div>
         </motion.div>
       </div>
