@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { sound } from '../utils/audio'
 import { SlateHeroCanvas } from './SlateHeroCanvas'
@@ -27,13 +27,49 @@ const HERO_FEATURED = [
     tag: 'MICA VIVA',
     image: '/assets/hq-james-CjsTrO7r.webp',
     hash: '#obra-james-rocks'
+  },
+  {
+    title: 'Asúcar (Celia Cruz)',
+    medium: 'Mixed Media sobre Pizarra y Resina de Brillo Matérico',
+    year: '2025',
+    tag: 'DIVINOS POP',
+    image: '/assets/celia-cruz-cantinflowers-DO-SRKMB.webp',
+    hash: '#obra-asucar-celia-cruz'
+  },
+  {
+    title: 'Camarón de la Isla',
+    medium: 'Acrílico e Hiperrealismo sobre Pizarra de Derribo Vasco',
+    year: '2024',
+    tag: 'ESPEJOS DEL ALMA',
+    image: '/assets/camaron-de-la-isla-B5l7qX1h.webp',
+    hash: '#obra-camaron-de-la-isla'
+  },
+  {
+    title: 'Freddie Mercury Tributo',
+    medium: 'Pizarra Natural + Mica Mineral + Pan de Oro',
+    year: '2024',
+    tag: 'PIZARRA & GOLD',
+    image: '/assets/freddie-mercury-DWX4yqS6.webp',
+    hash: '#obra-freddie-mercury'
   }
 ]
 
 export function HomeHero() {
-  const [selectedIdx, setSelectedIdx] = useState(0)
+  // Selección aleatoria única por sesión de usuario / recarga
+  const [selectedIdx, setSelectedIdx] = useState<number>(() => {
+    return Math.floor(Math.random() * HERO_FEATURED.length)
+  })
   const [isHoveredCard, setIsHoveredCard] = useState(false)
   const activeItem = HERO_FEATURED[selectedIdx]
+
+  // Rotación automática sutil cada 10 segundos si el usuario no interactúa
+  useEffect(() => {
+    if (isHoveredCard) return
+    const interval = setInterval(() => {
+      setSelectedIdx(prev => (prev + 1) % HERO_FEATURED.length)
+    }, 10000)
+    return () => clearInterval(interval)
+  }, [isHoveredCard])
 
   return (
     <section 
