@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Naroa Gutiérrez Gil — Obras · Carrusel parallax</title>
+  <meta name="description" content="Carrusel parallax inmersivo con las obras de Naroa Gutiérrez Gil: retratos hiperrealistas POP desde Bilbao.">
+  <meta name="theme-color" content="#0b0b0c">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- Velo de entrada: la intro es un fade + settle del parallax (main.js) -->
+  <div class="velo" id="velo" aria-hidden="true"></div>
+
+  <header class="chrome chrome-top">
+    <p class="marca">Naroa Gutiérrez Gil</p>
+    <p class="linea">Retratos hiperrealistas POP — Bilbao</p>
+  </header>
+
+  <main
+    class="carrusel"
+    id="carrusel"
+    tabindex="0"
+    role="region"
+    aria-roledescription="carrusel"
+    aria-label="Obras de Naroa Gutiérrez Gil. Usa las flechas del teclado, la rueda o arrastra para navegar.">
+    <div class="track" id="track"><!-- slides generados desde manifest.json --></div>
+  </main>
+
+  <footer class="chrome chrome-bottom">
+    <p class="contador" aria-hidden="true"><span id="cnt-actual">01</span><span class="sep">/</span><span id="cnt-total">07</span></p>
+    <nav class="dots" id="dots" aria-label="Elegir obra"></nav>
+    <p class="hint" id="hint">Arrastra para explorar</p>
+  </footer>
+
+  <p class="sr-only" aria-live="polite" id="live"></p>
+
+  <noscript>
+    <div class="fallback">
+      <h1>Naroa Gutiérrez Gil — Obras</h1>
+      <p>Este carrusel necesita JavaScript. Mientras tanto, las obras:</p>
+      <img src="img/roisin-lapiz.webp" alt="Retrato a lápiz de mujer con melena al viento y labios rosa fucsia">
+      <img src="img/guitarrista.webp" alt="Dibujo a lápiz de guitarrista de blues sonriente con Gibson SG en diagonal">
+      <img src="img/chico-pez.webp" alt="Retrato a lápiz de joven con la barbilla apoyada en la mano junto a un vaso de agua con un pez">
+      <img src="img/pippi.webp" alt="Pippi Calzaslargas sonriente con trenzas al viento, ojos azules y mono al hombro">
+      <img src="img/pippi-cartas.webp" alt="Cuadro con marco dorado barroco: Pippi asoma tras un abanico de cartas">
+      <img src="img/roisin-full.webp" alt="Obra mixta enmarcada: retrato de mujer con labios rosa sobre tartán escocés y plumas negras">
+      <img src="img/roisin-detalle.webp" alt="Detalle del retrato: rostro con labios fucsia y mechón cubriendo un ojo">
+    </div>
+  </noscript>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>

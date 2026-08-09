@@ -1,0 +1,8 @@
+# Aliases
+/3d / 302
+/galeria / 302
+/gallery / 302
+/sala-3d / 302
+
+# SPA fallback para todas las rutas
+/* /index.html 200
