@@ -125,7 +125,7 @@ export function NavigationPill({ currentView, audioActive, toggleAudio, onOpenTe
         <button
           onClick={toggleAudio}
           onMouseEnter={() => sound.playHover()}
-          title={audioActive ? 'Silenciar' : 'Activar sonido'}
+          title={audioActive ? 'Silenciar BSO: Boards of Burgos (Borja Moskv)' : 'Activar BSO: Boards of Burgos (Borja Moskv)'}
           style={{
             background: audioActive ? 'rgba(255, 0, 122, 0.2)' : 'rgba(255,255,255,0.05)',
             border: audioActive ? '1px solid #FF007A' : '1px solid rgba(255,255,255,0.15)',
