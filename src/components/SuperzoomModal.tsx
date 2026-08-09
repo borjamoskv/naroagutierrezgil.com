@@ -14,6 +14,8 @@ export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomMo
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
   const dragStart = useRef({ x: 0, y: 0 })
+  const initialTouchDistance = useRef<number | null>(null)
+  const initialTouchScale = useRef<number>(1.8)
   const imageRef = useRef<HTMLImageElement>(null)
 
   useEffect(() => {
@@ -76,6 +78,46 @@ export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomMo
     setIsDragging(false)
   }
 
+  // Touch Support (Pinch-to-zoom & Touch Pan)
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      )
+      initialTouchDistance.current = dist
+      initialTouchScale.current = scale
+    } else if (e.touches.length === 1 && scale > 1.0) {
+      setIsDragging(true)
+      dragStart.current = {
+        x: e.touches[0].clientX - position.x,
+        y: e.touches[0].clientY - position.y,
+      }
+    }
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (e.touches.length === 2 && initialTouchDistance.current !== null) {
+      const dist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      )
+      const ratio = dist / initialTouchDistance.current
+      const newScale = Math.min(Math.max(initialTouchScale.current * ratio, 1.0), 5.0)
+      setScale(newScale)
+    } else if (e.touches.length === 1 && isDragging) {
+      setPosition({
+        x: e.touches[0].clientX - dragStart.current.x,
+        y: e.touches[0].clientY - dragStart.current.y,
+      })
+    }
+  }
+
+  const handleTouchEnd = () => {
+    initialTouchDistance.current = null
+    setIsDragging(false)
+  }
+
   return (
     <AnimatePresence>
       <div
@@ -84,8 +126,8 @@ export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomMo
           position: 'fixed',
           inset: 0,
           zIndex: 9999,
-          background: 'rgba(5, 5, 8, 0.95)',
-          backdropFilter: 'blur(20px)',
+          background: 'rgba(5, 5, 8, 0.96)',
+          backdropFilter: 'blur(24px)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -115,7 +157,7 @@ export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomMo
             border: '1px solid rgba(255, 255, 255, 0.15)',
             borderRadius: '16px',
             padding: '12px 24px',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6)',
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -124,7 +166,7 @@ export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomMo
               {title} <span style={{ fontSize: '0.85rem', color: '#D4AF37', fontWeight: 500 }}>— SUPERZOOM HD 4K</span>
             </h3>
             <p style={{ margin: '2px 0 0 0', color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>
-              {medium} · Arrastra para mover o usa la rueda para ampliar textura
+              {medium} · Arrastra o pellizca para ampliar textura sin pérdidas
             </p>
           </div>
 
@@ -230,12 +272,13 @@ export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomMo
         {/* Zoom & Pan Image Canvas */}
         <div
           style={{
-            width: '90vw',
-            height: '85vh',
+            width: '92vw',
+            height: '88vh',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             cursor: scale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
+            touchAction: 'none',
           }}
           onClick={(e) => e.stopPropagation()}
           onWheel={handleWheel}
@@ -243,6 +286,9 @@ export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomMo
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
         >
           <motion.img
             ref={imageRef}
@@ -252,13 +298,13 @@ export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomMo
             animate={{ scale: scale, opacity: 1, x: position.x, y: position.y }}
             transition={{ type: 'spring', damping: 25, stiffness: 220 }}
             style={{
-              maxHeight: '85vh',
-              maxWidth: '85vw',
+              maxHeight: '88vh',
+              maxWidth: '88vw',
               objectFit: 'contain',
               borderRadius: '12px',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.8)',
+              boxShadow: '0 20px 60px rgba(0,0,0,0.85)',
               pointerEvents: 'none',
-              filter: 'drop-shadow(0 0 20px rgba(212, 175, 55, 0.2))',
+              filter: 'drop-shadow(0 0 24px rgba(212, 175, 55, 0.25))',
             }}
           />
         </div>
