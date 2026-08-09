@@ -105,6 +105,9 @@ fi
 DEPLOY_SIZE=$(du -sh "$BUILD_DIR" | cut -f1)
 log "Desplegando ${BOLD}${DEPLOY_SIZE}${NC} → CF Pages..."
 
+CF_AUTH_TOKEN="cfoat_vlpbWoKxgduWtnbA3E5wQJIQ0byH-T8F26h-5NWNup8.rr9-axQCG1KAU4OglUgoULsh-tKSh4GreRQosQAgVpU"
+export CLOUDFLARE_API_TOKEN="${CLOUDFLARE_API_TOKEN:-$CF_AUTH_TOKEN}"
+
 if [ "$BRANCH" = "--preview" ]; then
   cp -R "$BUILD_DIR" ".deploy_bak"
   wrangler pages deploy "$BUILD_DIR" --project-name "naroagutierrezgil-com" --branch preview --commit-dirty=true
