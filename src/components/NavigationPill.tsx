@@ -2,119 +2,156 @@ import { motion } from 'framer-motion'
 import { sound } from '../utils/audio'
 
 interface NavigationPillProps {
-  currentView: 'home' | '3d' | 'gallery' | 'commissions' | 'pop-lab' | 'about' | 'blog'
+  currentView: string
   audioActive: boolean
   toggleAudio: () => void
 }
 
 const NAV_ITEMS = [
-  { key: 'gallery', label: 'BILDUMA', hash: '#/gallery' },
-  { key: '3d', label: '3D GUNEA', hash: '#/3d' },
-  { key: 'commissions', label: 'ESKAERAK', hash: '#/commissions' },
-  { key: 'pop-lab', label: 'POP GUNEA', hash: '#/pop-lab' },
+  { key: 'destacada', label: 'OBRA / BILDUMA', hash: '#/destacada' },
+  { key: '3d', label: 'SALA 3D', hash: '#/3d' },
+  { key: 'encargos', label: 'ENCARGOS ⚡', hash: '#/encargos' },
+  { key: 'about', label: 'SOBRE NAROA', hash: '#/sobre-mi' },
+  { key: 'blog', label: 'DIARIO POP', hash: '#/blog' },
 ] as const
 
 export function NavigationPill({ currentView, audioActive, toggleAudio }: NavigationPillProps) {
   return (
-    <motion.nav
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1.5, delay: 0.3 }}
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+      className="nav-pill"
       style={{
+        position: 'fixed',
+        top: '20px',
+        left: 0,
+        right: 0,
+        width: '100%',
         display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '20px 28px',
-        background: 'transparent',
+        justifyContent: 'center',
+        zIndex: 9999,
+        pointerEvents: 'none'
       }}
     >
-      {/* Logo */}
-      <a
-        href="#/"
-        onMouseEnter={() => sound.playHover()}
-        onClick={() => { sound.playOpen(); window.location.hash = '#/' }}
+      <div 
+        className="nav-pill__inner"
         style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: '1.15rem',
-          fontWeight: 700,
-          color: '#fff',
-          textDecoration: 'none',
-          letterSpacing: '0.22em',
-          textTransform: 'uppercase',
-          transition: 'color 0.3s ease',
+          pointerEvents: 'auto',
+          display: 'flex',
+          alignItems: 'center',
+          padding: '10px 24px',
+          background: 'rgba(8, 8, 14, 0.75)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          borderRadius: '100px',
+          border: '1px solid rgba(255, 0, 122, 0.3)',
+          boxShadow: '0 10px 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 0, 122, 0.15)',
+          gap: '24px'
         }}
       >
-        Naroa <span style={{ color: '#D4AF37' }}>.</span>
-      </a>
+        {/* Logo Brand */}
+        <a
+          href="#/"
+          onMouseEnter={() => sound.playHover()}
+          onClick={() => { sound.playOpen(); window.location.hash = '#/' }}
+          style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '1.05rem',
+            fontWeight: 800,
+            color: '#fff',
+            textDecoration: 'none',
+            letterSpacing: '0.15em',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px'
+          }}
+        >
+          NAROA<span style={{ color: '#FF007A' }}>.</span>
+        </a>
 
-      {/* Navigation links */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '32px',
-      }}>
-        {NAV_ITEMS.map(item => {
-          const isActive = currentView === item.key
-          return (
-            <a
-              key={item.key}
-              href={item.hash}
-              onMouseEnter={() => sound.playHover()}
-              onClick={() => sound.playTick()}
-              style={{
-                color: isActive ? '#fff' : 'rgba(255,255,255,0.4)',
-                textDecoration: 'none',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.72rem',
-                fontWeight: isActive ? 600 : 400,
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                transition: 'color 0.3s ease',
-                position: 'relative',
-                paddingBottom: '4px',
-              }}
-            >
-              {item.label}
-              {isActive && (
-                <motion.div
-                  layoutId="nav-underline"
+        {/* Navigation links */}
+        <ul style={{ display: 'flex', gap: '18px', listStyle: 'none', margin: 0, padding: 0, alignItems: 'center' }}>
+          {NAV_ITEMS.map(item => {
+            const isActive = currentView === item.key || 
+              (item.key === 'destacada' && (currentView === 'gallery' || currentView === 'destacada')) ||
+              (item.key === 'encargos' && (currentView === 'commissions' || currentView === 'encargos')) ||
+              (item.key === 'about' && (currentView === 'about' || currentView === 'sobre-mi'))
+
+            return (
+              <li key={item.key}>
+                <a
+                  href={item.hash}
+                  onMouseEnter={() => sound.playHover()}
+                  onClick={() => sound.playTick()}
                   style={{
-                    position: 'absolute',
-                    bottom: -2,
-                    left: 0,
-                    right: 0,
-                    height: '2px',
-                    background: 'linear-gradient(90deg, #D4AF37 0%, #2B3BE5 100%)',
-                    borderRadius: '1px'
+                    color: isActive ? '#FFE600' : 'rgba(255,255,255,0.65)',
+                    textDecoration: 'none',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.73rem',
+                    fontWeight: isActive ? 800 : 500,
+                    letterSpacing: '0.08em',
+                    transition: 'all 0.3s ease',
+                    position: 'relative',
+                    padding: '6px 12px',
+                    borderRadius: '20px',
+                    background: isActive ? 'rgba(255, 230, 0, 0.12)' : 'transparent'
                   }}
-                  transition={{ type: 'spring', stiffness: 500, damping: 35 }}
-                />
-              )}
-            </a>
-          )
-        })}
+                >
+                  {item.label}
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-pill-active"
+                      style={{
+                        position: 'absolute',
+                        bottom: -2,
+                        left: '12px',
+                        right: '12px',
+                        height: '2px',
+                        background: 'linear-gradient(90deg, #FF007A 0%, #FFE600 50%, #00F0FF 100%)',
+                        boxShadow: '0 0 10px #FF007A'
+                      }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                </a>
+              </li>
+            )
+          })}
+        </ul>
 
-        {/* Audio toggle — minimal */}
+        {/* Audio Toggle button */}
         <button
           onClick={toggleAudio}
           onMouseEnter={() => sound.playHover()}
           title={audioActive ? 'Silenciar' : 'Activar sonido'}
           style={{
-            background: audioActive ? 'rgba(212, 175, 55, 0.15)' : 'rgba(255,255,255,0.05)',
-            border: audioActive ? '1px solid #D4AF37' : '1px solid rgba(255,255,255,0.15)',
-            color: audioActive ? '#D4AF37' : 'rgba(255,255,255,0.4)',
-            fontFamily: 'var(--font-mono)',
-            fontSize: '0.7rem',
-            cursor: 'pointer',
-            letterSpacing: '0.1em',
-            transition: 'all 0.3s ease',
+            background: audioActive ? 'rgba(255, 0, 122, 0.2)' : 'rgba(255,255,255,0.05)',
+            border: audioActive ? '1px solid #FF007A' : '1px solid rgba(255,255,255,0.15)',
+            color: audioActive ? '#FF007A' : 'rgba(255,255,255,0.4)',
+            borderRadius: '20px',
             padding: '4px 10px',
-            borderRadius: '14px'
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.68rem',
+            fontWeight: 700,
+            cursor: 'pointer',
+            letterSpacing: '0.08em',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            transition: 'all 0.3s ease'
           }}
         >
-          {audioActive ? 'AUDIO ON 🔊' : 'AUDIO OFF 🔇'}
+          <span style={{
+            width: '6px',
+            height: '6px',
+            borderRadius: '50%',
+            background: audioActive ? '#FF007A' : 'gray',
+            boxShadow: audioActive ? '0 0 8px #FF007A' : 'none'
+          }} />
+          {audioActive ? 'AUDIO ON' : 'AUDIO OFF'}
         </button>
       </div>
-    </motion.nav>
+    </motion.div>
   )
 }
