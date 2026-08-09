@@ -48,7 +48,83 @@ class SoundEngine {
     return this.enabled
   }
 
-  public playTick() {
+  private asmrNoiseNode: AudioNode | null = null;
+  private asmrGainNode: GainNode | null = null;
+
+  public startStudioASMR() {
+    if (!this.enabled) return
+    try {
+      this.initCtx()
+      if (!this.ctx) return
+
+      if (this.asmrNoiseNode) return // Already playing
+
+      // Create procedural binaural noise for studio atmosphere (slate scraping & ambient friction)
+      const bufferSize = this.ctx.sampleRate * 2
+      const buffer = this.ctx.createBuffer(2, bufferSize, this.ctx.sampleRate)
+      const left = buffer.getChannelData(0)
+      const right = buffer.getChannelData(1)
+
+      let lastOutL = 0.0
+      let lastOutR = 0.0
+
+      for (let i = 0; i < bufferSize; i++) {
+        // Pink noise filtering for warm organic slate rasping
+        const whiteL = Math.random() * 2 - 1
+        const whiteR = Math.random() * 2 - 1
+        lastOutL = (lastOutL + 0.02 * whiteL) / 1.02
+        lastOutR = (lastOutR + 0.02 * whiteR) / 1.02
+        left[i] = lastOutL * 0.15
+        right[i] = lastOutR * 0.15
+      }
+
+      const noise = this.ctx.createBufferSource()
+      noise.buffer = buffer
+      noise.loop = true
+
+      // Bandpass filter centered around 1800Hz for chalk & slate friction texture
+      const filter = this.ctx.createBiquadFilter()
+      filter.type = 'bandpass'
+      filter.frequency.value = 1800
+      filter.Q.value = 3.5
+
+      const gain = this.ctx.createGain()
+      gain.gain.setValueAtTime(0.001, this.ctx.currentTime)
+      gain.gain.exponentialRampToValueAtTime(0.08, this.ctx.currentTime + 0.5)
+
+      noise.connect(filter)
+      filter.connect(gain)
+      gain.connect(this.ctx.destination)
+
+      noise.start()
+      this.asmrNoiseNode = noise
+      this.asmrGainNode = gain
+    } catch {
+      // Ignore audio errors
+    }
+  }
+
+  public stopStudioASMR() {
+    if (this.asmrGainNode && this.ctx) {
+      try {
+        const now = this.ctx.currentTime
+        this.asmrGainNode.gain.setValueAtTime(this.asmrGainNode.gain.value, now)
+        this.asmrGainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.3)
+        setTimeout(() => {
+          if (this.asmrNoiseNode) {
+            (this.asmrNoiseNode as AudioBufferSourceNode).stop()
+            this.asmrNoiseNode = null
+            this.asmrGainNode = null
+          }
+        }, 320)
+      } catch {
+        this.asmrNoiseNode = null
+        this.asmrGainNode = null
+      }
+    }
+  }
+
+  public playMicaShimmer() {
     if (!this.enabled) return
     try {
       this.initCtx()
@@ -59,21 +135,49 @@ class SoundEngine {
       const gain = this.ctx.createGain()
 
       osc.type = 'sine'
-      osc.frequency.setValueAtTime(520, now)
-      osc.frequency.exponentialRampToValueAtTime(1040, now + 0.045)
+      osc.frequency.setValueAtTime(2400, now)
+      osc.frequency.exponentialRampToValueAtTime(4800, now + 0.12)
 
-      gain.gain.setValueAtTime(0.045, now)
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045)
+      gain.gain.setValueAtTime(0.03, now)
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12)
 
       osc.connect(gain)
       gain.connect(this.ctx.destination)
 
       osc.start(now)
-      osc.stop(now + 0.045)
+      osc.stop(now + 0.12)
     } catch {
       // Ignore audio errors
     }
   }
+
+  public playSlateRasp() {
+    if (!this.enabled) return
+    try {
+      this.initCtx()
+      if (!this.ctx) return
+
+      const now = this.ctx.currentTime
+      const osc = this.ctx.createOscillator()
+      const gain = this.ctx.createGain()
+
+      osc.type = 'sawtooth'
+      osc.frequency.setValueAtTime(140, now)
+      osc.frequency.linearRampToValueAtTime(90, now + 0.08)
+
+      gain.gain.setValueAtTime(0.04, now)
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08)
+
+      osc.connect(gain)
+      gain.connect(this.ctx.destination)
+
+      osc.start(now)
+      osc.stop(now + 0.08)
+    } catch {
+      // Ignore audio errors
+    }
+  }
+
 
   public playHover() {
     if (!this.enabled) return
