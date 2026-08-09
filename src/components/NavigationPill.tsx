@@ -6,6 +6,7 @@ interface NavigationPillProps {
   audioActive: boolean
   toggleAudio: () => void
   onOpenTerminal?: () => void
+  onOpenEspejo?: () => void
 }
 
 const NAV_ITEMS = [
