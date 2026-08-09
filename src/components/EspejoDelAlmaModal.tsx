@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { sound } from '../utils/audio'
 
@@ -8,37 +8,9 @@ interface EspejoDelAlmaModalProps {
 }
 
 export const EspejoDelAlmaModal: React.FC<EspejoDelAlmaModalProps> = ({ isOpen, onClose }) => {
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const [cameraActive, setCameraActive] = useState(false)
-  const [permissionError, setPermissionError] = useState(false)
-
   useEffect(() => {
-    if (!isOpen) return
-
-    sound.playMicaShimmer()
-
-    // Request native camera access for real-time local canvas texture reflection
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } })
-        .then((stream) => {
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream
-            videoRef.current.play()
-            setCameraActive(true)
-          }
-        })
-        .catch(() => {
-          setPermissionError(true)
-        })
-    } else {
-      setPermissionError(true)
-    }
-
-    return () => {
-      if (videoRef.current && videoRef.current.srcObject) {
-        const stream = videoRef.current.srcObject as MediaStream
-        stream.getTracks().forEach(track => track.stop())
-      }
+    if (isOpen) {
+      sound.playMicaShimmer()
     }
   }, [isOpen])
 
@@ -120,52 +92,56 @@ export const EspejoDelAlmaModal: React.FC<EspejoDelAlmaModalProps> = ({ isOpen, 
             La obra de Naroa no retrata estatuas distantes; convierte el rostro en un soporte sagrado sobre pizarra natural y mica mineral.
           </p>
 
-          {/* Video / Reflection Canvas */}
+          {/* Procedural Reflection Canvas (Zero Permissions Required) */}
           <div style={{
             position: 'relative',
             width: '100%',
             maxWidth: '520px',
-            height: '340px',
+            height: '320px',
             marginTop: '24px',
             borderRadius: '16px',
             overflow: 'hidden',
             border: '1px solid rgba(255, 230, 0, 0.4)',
             boxShadow: '0 15px 35px rgba(0,0,0,0.9)',
-            backgroundColor: '#050508'
+            backgroundColor: '#050508',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '24px'
           }}>
-            <video
-              ref={videoRef}
-              playsInline
-              muted
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                transform: 'scaleX(-1)', // Mirror flip
-                filter: 'contrast(1.4) grayscale(0.7) sepia(0.2) brightness(0.9)',
-                display: cameraActive ? 'block' : 'none'
-              }}
-            />
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'radial-gradient(circle at 50% 40%, rgba(255,0,122,0.2) 0%, rgba(0,240,255,0.1) 50%, #050508 100%)',
+              filter: 'blur(20px)',
+              animation: 'popPulse 4s infinite ease-in-out'
+            }} />
 
-            {!cameraActive && (
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: '20px',
-                background: 'radial-gradient(circle at center, rgba(255,0,122,0.12) 0%, #07070D 100%)'
-              }}>
-                <span style={{ fontSize: '3rem', marginBottom: '10px' }}>🪞</span>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.85rem', color: '#FFE600', margin: 0 }}>
-                  {permissionError 
-                    ? '[REFLEJO SIMULADO PROCESADO LOCALMENTE EN NAVEGADOR]' 
-                    : 'INICIALIZANDO REFLEJO LÍTICO...'}
-                </p>
-              </div>
-            )}
+            <span style={{ fontSize: '3.5rem', zIndex: 2, marginBottom: '12px' }}>🪞</span>
+            
+            <p style={{
+              zIndex: 2,
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.85rem',
+              color: '#FFE600',
+              fontWeight: 700,
+              margin: 0,
+              letterSpacing: '0.1em'
+            }}>
+              [ REFLEJO LÍTICO DE LA CONDICIÓN HUMANA ]
+            </p>
+
+            <p style={{
+              zIndex: 2,
+              fontFamily: 'var(--font-sans)',
+              fontSize: '0.82rem',
+              color: 'rgba(255,255,255,0.65)',
+              marginTop: '8px',
+              maxWidth: '380px'
+            }}>
+              «Cada retrato en pizarra guarda tu propia mirada. La materia mineral refleja lo imperecedero del alma.»
+            </p>
 
             {/* Slate texture overlay */}
             <div style={{

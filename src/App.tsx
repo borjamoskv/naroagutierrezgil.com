@@ -142,22 +142,6 @@ export default function App() {
     }
   }, [isStarted])
 
-  // Auto-request Fullscreen on initial user interaction
-  useEffect(() => {
-    const handleInitialInteraction = () => {
-      if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen().catch(() => {})
-      }
-    }
-
-    window.addEventListener('pointerdown', handleInitialInteraction, { once: true })
-    window.addEventListener('click', handleInitialInteraction, { once: true })
-
-    return () => {
-      window.removeEventListener('pointerdown', handleInitialInteraction)
-      window.removeEventListener('click', handleInitialInteraction)
-    }
-  }, [])
 
 
   // Hash Navigation Handler
