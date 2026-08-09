@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ARTWORKS, type Artwork } from '../artworks'
 import { sound } from '../utils/audio'
 import { SplatViewerModal } from './SplatViewerModal'
+import { SuperzoomModal } from './SuperzoomModal'
 
 interface ArtworkModalProps {
   artwork: Artwork | null
@@ -14,11 +15,13 @@ interface ArtworkModalProps {
 export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: ArtworkModalProps) {
   const touchStartX = useRef<number | null>(null)
   const [showSplat, setShowSplat] = useState(false)
+  const [showSuperzoom, setShowSuperzoom] = useState(false)
 
   useEffect(() => {
     if (artwork) {
       sound.playOpen()
       setShowSplat(false)
+      setShowSuperzoom(false)
     }
   }, [artwork])
 
@@ -114,7 +117,15 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
           </button>
 
           <div className="modal-body">
-            <div className="modal-image-wrapper">
+            <div
+              className="modal-image-wrapper"
+              style={{ cursor: 'zoom-in', position: 'relative' }}
+              onClick={() => {
+                sound.playTick()
+                setShowSuperzoom(true)
+              }}
+              title="Haz clic para abrir Superzoom HD 4K"
+            >
               <AnimatePresence mode="wait">
                 <motion.img
                   key={artwork.id}
@@ -127,6 +138,24 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                   transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                 />
               </AnimatePresence>
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '12px',
+                  right: '12px',
+                  background: 'rgba(0,0,0,0.7)',
+                  backdropFilter: 'blur(6px)',
+                  border: '1px solid rgba(212, 175, 55, 0.4)',
+                  color: '#D4AF37',
+                  borderRadius: '20px',
+                  padding: '4px 10px',
+                  fontSize: '0.75rem',
+                  fontFamily: 'var(--font-mono)',
+                  pointerEvents: 'none',
+                }}
+              >
+                🔍 Superzoom HD 4K
+              </div>
             </div>
 
             <div className="modal-info">
@@ -143,6 +172,24 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
               <p className="modal-description">{artwork.description}</p>
 
               <div className="modal-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                <button
+                  type="button"
+                  className="modal-cta"
+                  onClick={() => {
+                    sound.playTick()
+                    setShowSuperzoom(true)
+                  }}
+                  style={{
+                    background: 'linear-gradient(135deg, #1A1A24 0%, #2A2000 100%)',
+                    border: '1px solid #D4AF37',
+                    color: '#D4AF37',
+                    fontWeight: 'bold',
+                    boxShadow: '0 0 12px rgba(212, 175, 55, 0.3)',
+                  }}
+                >
+                  🔍 SUPERZOOM HD 4K
+                </button>
+
                 {artwork.splatUrl && (
                   <button
                     type="button"
@@ -162,6 +209,7 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                     ✨ EXPLORAR 3D GAUSSIAN SPLAT 360°
                   </button>
                 )}
+
                 <a
                   href="#/encargos"
                   className="modal-cta brutal-cta-btn--whatsapp"
@@ -173,15 +221,7 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                 >
                   ⚡ ENCARGAR EN ESTE ESTILO
                 </a>
-                <a
-                  href={artwork.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="modal-cta"
-                  onClick={() => sound.playTick()}
-                >
-                  PORTAL OFICIAL ↗
-                </a>
+
                 <button
                   type="button"
                   className="modal-cta"
@@ -211,6 +251,15 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
           splatUrl={artwork.splatUrl}
           title={artwork.title}
           onClose={() => setShowSplat(false)}
+        />
+      )}
+
+      {showSuperzoom && (
+        <SuperzoomModal
+          imageSrc={artwork.url}
+          title={artwork.title}
+          medium={artwork.medium}
+          onClose={() => setShowSuperzoom(false)}
         />
       )}
     </AnimatePresence>
