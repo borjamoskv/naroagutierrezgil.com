@@ -112,8 +112,8 @@ if [ "$BRANCH" = "--preview" ]; then
   ok "Deploy PREVIEW completado"
 else
   cp -R "$BUILD_DIR" ".deploy_bak"
-  wrangler pages deploy "$BUILD_DIR" --project-name "naroagutierrezgil-com" --branch production --commit-dirty=true || true
-  wrangler pages deploy ".deploy_bak" --project-name "naroaonline" --branch production --commit-dirty=true || true
+  wrangler pages deploy "$BUILD_DIR" --project-name "naroagutierrezgil-com" --branch master --commit-dirty=true || true
+  wrangler pages deploy ".deploy_bak" --project-name "naroaonline" --branch master --commit-dirty=true || true
   rm -rf ".deploy_bak"
   ok "Deploy PRODUCCIÓN completado → https://naroagutierrezgil.com/ & https://naroa.online/"
 fi
