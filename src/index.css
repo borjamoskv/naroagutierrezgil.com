@@ -1,15 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@500;600;700&family=Share+Tech+Mono&display=swap');
 
 :root {
-  --bg-color: #020202;
+  --bg-color: #050508;
   --text-color: #FFFFFF;
-  --accent-color: #ffffff;
-  --accent-glow: transparent;
+  --accent-color: #FF007A;
+  --accent-glow: rgba(255, 0, 122, 0.4);
   --border-color: rgba(255, 255, 255, 0.15);
-  --glass-bg: transparent;
-  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-bg: rgba(12, 12, 20, 0.65);
+  --glass-border: rgba(255, 0, 122, 0.25);
   --font-sans: 'Space Grotesk', 'Outfit', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Share Tech Mono', monospace;
+
+  /* ⚡ Ultra-Vivid Hiperrealismo POP Tokens 2026 */
+  --pop-pink: #FF007A;
+  --pop-yellow: #FFE600;
+  --pop-cyan: #00F0FF;
+  --pop-gold: #FFD700;
+  --pop-purple: #8A2BE2;
+  --pop-orange: #FF5500;
+  --pop-lime: #CCFF00;
+  --slate-dark: #0A0A10;
+  --slate-deep: #030306;
 }
 
 html, body, #root {
@@ -20,9 +31,10 @@ html, body, #root {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: var(--font-sans);
-  overflow: hidden;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
+
 
 * {
   box-sizing: border-box;

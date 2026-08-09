@@ -679,3 +679,137 @@
   align-items: center;
   gap: 1rem;
 }
+
+/* ═══════════════════════════════════════════════════
+   ULTRA-KINETIC & POP ART SYSTEM (2026 REFINEMENT)
+   ═══════════════════════════════════════════════════ */
+
+/* Dynamic Liquid Gradient Text */
+.text-pop-gradient {
+  background: linear-gradient(135deg, #FF007A 0%, #FFE600 50%, #00F0FF 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: popGradientFlow 6s ease infinite;
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FFE600 0%, #FFD700 50%, #FF8C00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes popGradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Kinetic Badges */
+.pop-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.pop-badge--pink {
+  background: rgba(255, 0, 122, 0.15);
+  border: 1px solid rgba(255, 0, 122, 0.5);
+  color: #FF007A;
+  box-shadow: 0 0 15px rgba(255, 0, 122, 0.25);
+}
+
+.pop-badge--yellow {
+  background: rgba(255, 230, 0, 0.15);
+  border: 1px solid rgba(255, 230, 0, 0.5);
+  color: #FFE600;
+  box-shadow: 0 0 15px rgba(255, 230, 0, 0.25);
+}
+
+.pop-badge--cyan {
+  background: rgba(0, 240, 255, 0.15);
+  border: 1px solid rgba(0, 240, 255, 0.5);
+  color: #00F0FF;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.25);
+}
+
+.pop-badge--gold {
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  color: #FFD700;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.25);
+}
+
+.pop-badge:hover {
+  transform: translateY(-2px) scale(1.05);
+}
+
+/* High-Speed Kinetic Marquee */
+.kinetic-marquee-container {
+  width: 100%;
+  overflow: hidden;
+  background: #FF007A;
+  color: #000;
+  padding: 10px 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  display: flex;
+  white-space: nowrap;
+  box-shadow: 0 0 25px rgba(255, 0, 122, 0.5);
+  border-top: 2px solid #FFE600;
+  border-bottom: 2px solid #FFE600;
+}
+
+.kinetic-marquee-track {
+  display: flex;
+  gap: 40px;
+  animation: marqueeLoop 25s linear infinite;
+  will-change: transform;
+}
+
+@keyframes marqueeLoop {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Interactive Card Motion Effects */
+.kinetic-card {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+  will-change: transform;
+}
+
+.kinetic-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: var(--pop-pink) !important;
+  box-shadow: 0 20px 40px rgba(255, 0, 122, 0.25), 0 0 20px rgba(0, 240, 255, 0.2);
+}
+
+/* Pulsing Pop Glow Utility */
+.pop-glow-pulse {
+  animation: popPulse 2.5s infinite ease-in-out;
+}
+
+@keyframes popPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 0, 122, 0.3), 0 0 30px rgba(0, 240, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 230, 0, 0.6), 0 0 50px rgba(255, 0, 122, 0.5);
+  }
+}
+

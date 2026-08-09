@@ -1,8 +1,11 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { sound } from '../utils/audio'
 import { SlateHeroCanvas } from './SlateHeroCanvas'
 
 export function HomeHero() {
+  const [isHoveredCard, setIsHoveredCard] = useState(false)
+
   return (
     <section 
       className="hero-immersive" 
@@ -11,14 +14,23 @@ export function HomeHero() {
         width: '100%', 
         minHeight: '100vh', 
         overflow: 'hidden', 
-        background: '#07070a',
+        background: 'radial-gradient(circle at 50% 20%, #10081C 0%, #050508 100%)',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
-        padding: '100px 5vw 60px'
+        justifyContent: 'space-between',
+        padding: '0 0 40px 0'
       }}
     >
-      {/* Interactive 3D Slate Surface background with light ray & gold particles */}
+      {/* ⚡ High-Speed Kinetic POP Marquee Ticker */}
+      <div className="kinetic-marquee-container" style={{ position: 'relative', zIndex: 30, top: '70px' }}>
+        <div className="kinetic-marquee-track">
+          <span>⚡ "TODOS SOMOS LO MISMO CON DISTINTAS APARIENCIAS" — NAROA GUTIÉRREZ GIL ⚡ HIPERREALISMO POP ⚡ PIZARRA NATURAL DE TEJADO VASCO & MICA MINERAL ⚡ ENCARGA TU RETRATO ÚNICO ⚡ BILBAO 2026 ⚡</span>
+          <span>⚡ "TODOS SOMOS LO MISMO CON DISTINTAS APARIENCIAS" — NAROA GUTIÉRREZ GIL ⚡ HIPERREALISMO POP ⚡ PIZARRA NATURAL DE TEJADO VASCO & MICA MINERAL ⚡ ENCARGA TU RETRATO ÚNICO ⚡ BILBAO 2026 ⚡</span>
+        </div>
+      </div>
+
+      {/* Interactive 3D Slate Surface background with light rays & mica particles */}
       <SlateHeroCanvas />
 
       {/* Main Hero Container Grid */}
@@ -28,16 +40,18 @@ export function HomeHero() {
           zIndex: 10, 
           width: '100%', 
           maxWidth: '1400px', 
+          margin: '120px auto 40px',
+          padding: '0 5vw',
           display: 'grid', 
           gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', 
-          gap: '60px', 
+          gap: '50px', 
           alignItems: 'center',
           pointerEvents: 'none'
         }}
       >
-        {/* Left Column: Bold Typography & CTAs */}
+        {/* Left Column: Bold Typography, Curatorial Badges & CTAs */}
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
+          initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           style={{ 
@@ -48,85 +62,106 @@ export function HomeHero() {
             pointerEvents: 'auto' 
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ 
-              fontFamily: 'var(--font-mono)', 
-              fontSize: '0.75rem', 
-              letterSpacing: '0.2em', 
-              color: '#F59E0B', 
-              textTransform: 'uppercase',
-              fontWeight: 700,
-              background: 'rgba(245, 158, 11, 0.12)',
-              border: '1px solid rgba(245, 158, 11, 0.35)',
-              padding: '6px 16px',
-              borderRadius: '20px'
-            }}>
-              ✦ NAROA GUTIÉRREZ GIL — BILBAO
+          {/* Eyebrow Pop Badge */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'center' }}>
+            <span className="pop-badge pop-badge--pink pop-glow-pulse">
+              ⚡ HIPERREALISMO POP · BILBAO
+            </span>
+            <span className="pop-badge pop-badge--yellow">
+              💎 PIZARRA NATURAL & MICA MINERAL
             </span>
           </div>
 
           <h1 style={{
             margin: 0,
             fontFamily: 'var(--font-sans)',
-            fontSize: 'clamp(2.4rem, 5vw, 4.2rem)',
-            fontWeight: 800,
-            lineHeight: 1.05,
-            letterSpacing: '-0.03em',
+            fontSize: 'clamp(2.5rem, 5.5vw, 4.5rem)',
+            fontWeight: 900,
+            lineHeight: 1.02,
+            letterSpacing: '-0.04em',
             color: '#ffffff',
-            textShadow: '0 10px 30px rgba(0,0,0,0.9)'
+            textShadow: '0 10px 40px rgba(0,0,0,0.9)'
           }}>
-            HIPERREALISMO POP<br />
-            <span style={{ 
-              background: 'linear-gradient(135deg, #F59E0B 0%, #2B3BE5 100%)', 
-              WebkitBackgroundClip: 'text', 
-              WebkitTextFillColor: 'transparent' 
-            }}>
-              & MATERIA LÍTICA
+            RETRATOS QUE SON<br />
+            <span className="text-pop-gradient">
+              ESPEJOS EMOCIONALES
             </span>
           </h1>
 
-          <p style={{
-            margin: 0,
-            fontFamily: 'var(--font-sans)',
-            fontSize: 'clamp(1rem, 1.5vw, 1.25rem)',
-            color: 'rgba(255,255,255,0.75)',
-            lineHeight: 1.6,
-            maxWidth: '540px'
-          }}>
-            Retratos que respiran materia. Pigmentos acrílicos, resina epoxi y pizarra natural de tejado vasco recuperada de derribos arquitectónicos en Bizkaia.
-          </p>
+          {/* Curatorial Manifesto Highlight */}
+          <div 
+            style={{
+              background: 'rgba(255, 0, 122, 0.06)',
+              borderLeft: '4px solid #FF007A',
+              padding: '16px 20px',
+              borderRadius: '0 12px 12px 0',
+              backdropFilter: 'blur(10px)',
+              borderTop: '1px solid rgba(255,0,122,0.2)',
+              borderRight: '1px solid rgba(255,0,122,0.2)',
+              borderBottom: '1px solid rgba(255,0,122,0.2)',
+              maxWidth: '560px'
+            }}
+          >
+            <p style={{
+              margin: 0,
+              fontFamily: 'var(--font-sans)',
+              fontSize: '1rem',
+              color: 'rgba(255,255,255,0.95)',
+              lineHeight: 1.65,
+              fontWeight: 500
+            }}>
+              <strong style={{ color: '#FFE600' }}>«Todos somos lo mismo con distintas apariencias.»</strong> Naroa Gutiérrez Gil transforma la iconografía pop y los soportes primordiales —pizarra natural de derribos arquitectónicos en Bizkaia y escamas de mica mineral— en máscaras protectoras de la condición humana.
+            </p>
+          </div>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '10px' }}>
+          {/* 4 Curatorial Series Badges */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '4px' }}>
+            <a href="#/destacada" onClick={() => sound.playTick()} className="pop-badge pop-badge--cyan" style={{ textDecoration: 'none' }}>
+              👑 DIVINOS
+            </a>
+            <a href="#/destacada" onClick={() => sound.playTick()} className="pop-badge pop-badge--pink" style={{ textDecoration: 'none' }}>
+              🌀 VAIVENES
+            </a>
+            <a href="#/destacada" onClick={() => sound.playTick()} className="pop-badge pop-badge--gold" style={{ textDecoration: 'none' }}>
+              🪞 ESPEJOS DEL ALMA
+            </a>
+            <a href="#/destacada" onClick={() => sound.playTick()} className="pop-badge pop-badge--yellow" style={{ textDecoration: 'none' }}>
+              🎨 FACEFOOD
+            </a>
+          </div>
+
+          {/* Action Buttons */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '12px' }}>
             <a 
               href="#/destacada" 
               onClick={() => sound.playOpen()}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '10px',
-                color: '#fff',
+                gap: '12px',
+                color: '#000',
                 textDecoration: 'none',
                 fontFamily: 'var(--font-sans)',
-                fontSize: '0.95rem',
-                fontWeight: 700,
+                fontSize: '1rem',
+                fontWeight: 900,
                 letterSpacing: '0.08em',
-                padding: '14px 32px',
-                background: 'linear-gradient(135deg, #2B3BE5 0%, #F59E0B 100%)',
-                border: '1px solid #F59E0B',
-                borderRadius: '30px',
-                boxShadow: '0 10px 30px rgba(245, 158, 11, 0.3)',
+                padding: '16px 36px',
+                background: 'linear-gradient(135deg, #FFE600 0%, #FF007A 100%)',
+                border: 'none',
+                borderRadius: '40px',
+                boxShadow: '0 10px 30px rgba(255, 0, 122, 0.4), 0 0 20px rgba(255, 230, 0, 0.3)',
                 transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-3px) scale(1.03)'
-                e.currentTarget.style.boxShadow = '0 15px 40px rgba(245, 158, 11, 0.5)'
+                e.currentTarget.style.transform = 'translateY(-3px) scale(1.04)'
+                e.currentTarget.style.boxShadow = '0 15px 40px rgba(255, 0, 122, 0.6), 0 0 30px rgba(255, 230, 0, 0.6)'
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                e.currentTarget.style.boxShadow = '0 10px 30px rgba(245, 158, 11, 0.3)'
+                e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 0, 122, 0.4), 0 0 20px rgba(255, 230, 0, 0.3)'
               }}
             >
-              EXPLORAR OBRAS <span>→</span>
+              ⚡ EXPLORAR GALERÍA <span>→</span>
             </a>
 
             <a 
@@ -136,26 +171,9 @@ export function HomeHero() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '10px',
-                color: 'rgba(255,255,255,0.9)',
+                color: '#00F0FF',
                 textDecoration: 'none',
                 fontFamily: 'var(--font-mono)',
-                fontSize: '0.85rem',
-                fontWeight: 600,
-                letterSpacing: '0.08em',
-                padding: '14px 28px',
-                background: 'rgba(255,255,255,0.06)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                borderRadius: '30px',
-                backdropFilter: 'blur(10px)',
-                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = 'rgba(255,255,255,0.12)'
-                e.currentTarget.style.borderColor = '#ffffff'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = 'rgba(255,255,255,0.06)'
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)'
               }}
             >
               ⚡ ENCARGAR RETRATO ↗
