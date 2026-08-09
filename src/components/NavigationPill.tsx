@@ -151,7 +151,47 @@ export function NavigationPill({ currentView, audioActive, toggleAudio }: Naviga
           }} />
           {audioActive ? 'AUDIO ON' : 'AUDIO OFF'}
         </button>
+
+        {/* Automatic Locale Selector Badge */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '4px',
+          background: 'rgba(0, 240, 255, 0.08)',
+          border: '1px solid rgba(0, 240, 255, 0.3)',
+          borderRadius: '20px',
+          padding: '2px 8px',
+          fontFamily: 'var(--font-mono)',
+          fontSize: '0.65rem',
+          color: '#00F0FF'
+        }}>
+          <span style={{ opacity: 0.6, fontSize: '0.6rem' }}>🌐</span>
+          <button
+            onClick={() => { sound.playTick(); localStorage.setItem('naroa_lang', 'eu'); window.location.reload() }}
+            style={{ background: 'none', border: 'none', color: '#FFE600', fontWeight: 800, cursor: 'pointer', padding: '2px' }}
+            title="Euskara (Autodetektatua)"
+          >
+            EU
+          </button>
+          <span style={{ opacity: 0.3 }}>|</span>
+          <button
+            onClick={() => { sound.playTick(); localStorage.setItem('naroa_lang', 'es'); window.location.reload() }}
+            style={{ background: 'none', border: 'none', color: '#fff', fontWeight: 700, cursor: 'pointer', padding: '2px' }}
+            title="Castellano"
+          >
+            ES
+          </button>
+          <span style={{ opacity: 0.3 }}>|</span>
+          <button
+            onClick={() => { sound.playTick(); localStorage.setItem('naroa_lang', 'en'); window.location.reload() }}
+            style={{ background: 'none', border: 'none', color: '#fff', fontWeight: 700, cursor: 'pointer', padding: '2px' }}
+            title="English"
+          >
+            EN
+          </button>
+        </div>
       </div>
     </motion.div>
   )
 }
+
