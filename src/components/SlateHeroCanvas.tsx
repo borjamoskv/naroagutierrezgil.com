@@ -83,6 +83,12 @@ function SlateSurface() {
   const lightRef = useRef<THREE.PointLight>(null)
   const { viewport } = useThree()
 
+  // Dynamic time-of-day lighting cycle (Day: Kintsugi Gold, Night: YInMn Cobalt Noir)
+  const ambientTone = useMemo(() => {
+    const hour = new Date().getHours()
+    return (hour >= 7 && hour < 20) ? '#D4AF37' : '#2B3BE5'
+  }, [])
+
   const uniforms = useMemo(() => {
     return {
       uTime: { value: 0 },
@@ -95,6 +101,7 @@ function SlateSurface() {
 
   useFrame((state) => {
     const { pointer, clock } = state
+
 
     // Normalize pointer from [-1, 1] to [0, 1] for shader UVs
     const normX = (pointer.x + 1) / 2
@@ -122,7 +129,7 @@ function SlateSurface() {
 
   return (
     <>
-      <pointLight ref={lightRef} position={[0, 0, 2.5]} intensity={5.0} color="#D4AF37" distance={10} decay={1.2} />
+      <pointLight ref={lightRef} position={[0, 0, 2.5]} intensity={5.0} color={ambientTone} distance={10} decay={1.2} />
       <pointLight position={[-viewport.width / 3, viewport.height / 3, 1]} intensity={1.5} color="#2B3BE5" />
 
       {/* Main Slate Slab with Kintsugi Shader */}
