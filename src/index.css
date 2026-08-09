@@ -33,6 +33,31 @@ html, body, #root {
   font-family: var(--font-sans);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  animation: ambientLuminanceCycle 28s ease-in-out infinite alternate;
+}
+
+/* 🌅 Itinerancia Orgánica de Luz a Oscuridad (Day/Night Ambient Cycle) */
+@keyframes ambientLuminanceCycle {
+  0% {
+    background-color: #050508;
+    background-image: radial-gradient(circle at 50% 20%, #120A21 0%, #050508 100%);
+  }
+  25% {
+    background-color: #120E1E;
+    background-image: radial-gradient(circle at 50% 30%, #241838 0%, #0E0A18 100%);
+  }
+  50% {
+    background-color: #1B182B;
+    background-image: radial-gradient(circle at 50% 40%, #30264A 0%, #141022 100%);
+  }
+  75% {
+    background-color: #0F1424;
+    background-image: radial-gradient(circle at 50% 30%, #1A2444 0%, #0A0D18 100%);
+  }
+  100% {
+    background-color: #050508;
+    background-image: radial-gradient(circle at 50% 20%, #120A21 0%, #050508 100%);
+  }
 }
 
 
