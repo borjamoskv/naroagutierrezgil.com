@@ -17,7 +17,7 @@ const NAV_ITEMS = [
   { key: 'blog', label: 'DIARIO POP', hash: '#/blog' },
 ] as const
 
-export function NavigationPill({ currentView, audioActive, toggleAudio, onOpenTerminal }: NavigationPillProps) {
+export function NavigationPill({ currentView, audioActive, toggleAudio, onOpenTerminal, onOpenEspejo }: NavigationPillProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
