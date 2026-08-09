@@ -146,48 +146,81 @@ export const CustomCursor: React.FC = () => {
         ))}
       </div>
 
-      {/* Main Kinetic Cursor Ring & Badge */}
+      {/* Artist Paintbrush Cursor */}
       <div 
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
-          transform: `translate3d(${position.x}px, ${position.y}px, 0) translate(-50%, -50%)`,
+          transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
           pointerEvents: 'none',
           zIndex: 9999,
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transition: 'width 0.3s ease, height 0.3s ease'
+          flexDirection: 'column',
+          alignItems: 'flex-start',
+          transition: 'transform 0.05s linear'
         }}
       >
+        {/* Paintbrush SVG Icon angled at -35 deg */}
         <div style={{
-          width: hoverType === 'artwork' ? '64px' : hoverType === 'link' ? '48px' : '28px',
-          height: hoverType === 'artwork' ? '64px' : hoverType === 'link' ? '48px' : '28px',
-          borderRadius: '50%',
-          border: hoverType ? '2px solid #FF007A' : '1.5px solid rgba(0, 240, 255, 0.7)',
-          backgroundColor: hoverType === 'artwork' ? 'rgba(255, 0, 122, 0.2)' : 'rgba(0, 240, 255, 0.05)',
-          boxShadow: hoverType 
-            ? '0 0 20px rgba(255, 0, 122, 0.6), 0 0 10px rgba(255, 230, 0, 0.5)' 
-            : '0 0 10px rgba(0, 240, 255, 0.3)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)'
+          transform: hoverType ? 'rotate(-20deg) scale(1.15)' : 'rotate(-35deg) scale(1)',
+          transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+          filter: hoverType 
+            ? 'drop-shadow(0 0 12px rgba(255, 0, 122, 0.8)) drop-shadow(0 0 20px rgba(255, 230, 0, 0.6))'
+            : 'drop-shadow(0 4px 10px rgba(0, 0, 0, 0.7))'
         }}>
-          {hoverType && (
-            <span style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.62rem',
-              fontWeight: 900,
-              color: '#FFE600',
-              letterSpacing: '0.08em',
-              textShadow: '0 0 5px #000'
-            }}>
-              {cursorText}
-            </span>
-          )}
+          <svg width="42" height="42" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* Wooden Handle */}
+            <path d="M4 28L12 20L10 18L2 26C1.5 26.5 1.5 27.5 2 28C2.5 28.5 3.5 28.5 4 28Z" fill="url(#woodenHandle)" />
+            {/* Silver Ferrule */}
+            <path d="M10 18L12 20L17 15L15 13L10 18Z" fill="url(#silverFerrule)" stroke="rgba(255,255,255,0.4)" strokeWidth="0.5" />
+            {/* Dark Hair Bristles */}
+            <path d="M15 13L17 15L23 9C25 7 28 5 28 5C28 5 26 8 24 10L18 16L15 13Z" fill="#1C1824" />
+            {/* Glowing Acrylic Paint Tip (Magenta / Gold / Cyan) */}
+            <path d="M22 8C24 6 28 5 28 5C28 5 27 9 25 11L22 8Z" fill="url(#paintTip)" />
+            
+            <defs>
+              <linearGradient id="woodenHandle" x1="2" y1="28" x2="12" y2="18" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#8B4513" />
+                <stop offset="0.5" stopColor="#D2691E" />
+                <stop offset="1" stopColor="#5C2E0B" />
+              </linearGradient>
+              <linearGradient id="silverFerrule" x1="10" y1="18" x2="17" y2="13" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#E0E0E0" />
+                <stop offset="0.5" stopColor="#FFFFFF" />
+                <stop offset="1" stopColor="#9E9E9E" />
+              </linearGradient>
+              <linearGradient id="paintTip" x1="22" y1="8" x2="28" y2="5" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#FF007A" />
+                <stop offset="0.6" stopColor="#FFE600" />
+                <stop offset="1" stopColor="#00F0FF" />
+              </linearGradient>
+            </defs>
+          </svg>
         </div>
+
+        {/* Hover Action Badge Next to Brush */}
+        {hoverType && (
+          <div style={{
+            marginLeft: '28px',
+            marginTop: '-10px',
+            padding: '4px 10px',
+            background: 'rgba(5, 5, 8, 0.88)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 0, 122, 0.6)',
+            borderRadius: '16px',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.65rem',
+            fontWeight: 900,
+            color: '#FFE600',
+            letterSpacing: '0.08em',
+            boxShadow: '0 0 15px rgba(255, 0, 122, 0.4)',
+            whiteSpace: 'nowrap',
+            pointerEvents: 'none'
+          }}>
+            🖌️ {cursorText}
+          </div>
+        )}
       </div>
     </>
   )
