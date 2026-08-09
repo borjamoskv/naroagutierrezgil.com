@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, MouseEvent } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { sound } from '../utils/audio'
 
@@ -10,13 +10,12 @@ interface SuperzoomModalProps {
 }
 
 export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomModalProps) {
-  const [scale, setScale] = useState(1.8)
-  const [position, setPosition] = useState({ x: 0, y: 0 })
-  const [isDragging, setIsDragging] = useState(false)
-  const dragStart = useRef({ x: 0, y: 0 })
-  const initialTouchDistance = useRef<number | null>(null)
-  const initialTouchScale = useRef<number>(1.8)
-  const imageRef = useRef<HTMLImageElement>(null)
+  const [isHovering, setIsHovering] = useState(false)
+  const [loupePos, setLoupePos] = useState({ x: 0, y: 0 })
+  const [bgPos, setBgPos] = useState({ x: '0%', y: '0%' })
+  
+  const zoomLevel = 4.5 // 450% Zoom (Gigapixel feel)
+  const loupeSize = 350 // Size of the magnifying glass
 
   useEffect(() => {
     sound.playOpen()
@@ -30,92 +29,27 @@ export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomMo
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [onClose])
 
-  const handleZoomIn = () => {
-    sound.playTick()
-    setScale((prev) => Math.min(prev + 0.6, 5.0))
-  }
-
-  const handleZoomOut = () => {
-    sound.playTick()
-    setScale((prev) => {
-      const next = Math.max(prev - 0.6, 1.0)
-      if (next === 1.0) setPosition({ x: 0, y: 0 })
-      return next
+  const handleMouseMove = (e: MouseEvent<HTMLImageElement>) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
+    
+    // Position of cursor relative to image
+    const x = e.clientX - left
+    const y = e.clientY - top
+    
+    // Position for the loupe circle center
+    setLoupePos({
+      x: e.clientX,
+      y: e.clientY
     })
-  }
 
-  const handleReset = () => {
-    sound.playTick()
-    setScale(1.8)
-    setPosition({ x: 0, y: 0 })
-  }
-
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault()
-    const delta = e.deltaY * -0.003
-    setScale((prev) => {
-      const newScale = Math.min(Math.max(prev + delta, 1.0), 5.0)
-      if (newScale === 1.0) setPosition({ x: 0, y: 0 })
-      return newScale
+    // Percentage of cursor position
+    const xPercent = (x / width) * 100
+    const yPercent = (y / height) * 100
+    
+    setBgPos({
+      x: `${xPercent}%`,
+      y: `${yPercent}%`
     })
-  }
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (scale <= 1.0) return
-    setIsDragging(true)
-    dragStart.current = { x: e.clientX - position.x, y: e.clientY - position.y }
-  }
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return
-    setPosition({
-      x: e.clientX - dragStart.current.x,
-      y: e.clientY - dragStart.current.y,
-    })
-  }
-
-  const handleMouseUp = () => {
-    setIsDragging(false)
-  }
-
-  // Touch Support (Pinch-to-zoom & Touch Pan)
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (e.touches.length === 2) {
-      const dist = Math.hypot(
-        e.touches[0].clientX - e.touches[1].clientX,
-        e.touches[0].clientY - e.touches[1].clientY
-      )
-      initialTouchDistance.current = dist
-      initialTouchScale.current = scale
-    } else if (e.touches.length === 1 && scale > 1.0) {
-      setIsDragging(true)
-      dragStart.current = {
-        x: e.touches[0].clientX - position.x,
-        y: e.touches[0].clientY - position.y,
-      }
-    }
-  }
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (e.touches.length === 2 && initialTouchDistance.current !== null) {
-      const dist = Math.hypot(
-        e.touches[0].clientX - e.touches[1].clientX,
-        e.touches[0].clientY - e.touches[1].clientY
-      )
-      const ratio = dist / initialTouchDistance.current
-      const newScale = Math.min(Math.max(initialTouchScale.current * ratio, 1.0), 5.0)
-      setScale(newScale)
-    } else if (e.touches.length === 1 && isDragging) {
-      setPosition({
-        x: e.touches[0].clientX - dragStart.current.x,
-        y: e.touches[0].clientY - dragStart.current.y,
-      })
-    }
-  }
-
-  const handleTouchEnd = () => {
-    initialTouchDistance.current = null
-    setIsDragging(false)
   }
 
   return (
@@ -126,21 +60,22 @@ export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomMo
           position: 'fixed',
           inset: 0,
           zIndex: 9999,
-          background: 'rgba(5, 5, 8, 0.96)',
-          backdropFilter: 'blur(24px)',
+          background: 'rgba(5, 5, 8, 0.98)',
+          backdropFilter: 'blur(32px)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
           userSelect: 'none',
           overflow: 'hidden',
+          cursor: isHovering ? 'none' : 'default' // Hide default cursor when loupe is active
         }}
         onClick={() => {
           sound.playTick()
           onClose()
         }}
       >
-        {/* Glassmorphic Header Bar */}
+        {/* Glassmorphic Header Bar with Literal Quotes */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -153,160 +88,132 @@ export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomMo
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            background: 'rgba(255, 255, 255, 0.06)',
-            border: '1px solid rgba(255, 255, 255, 0.15)',
+            background: 'rgba(255, 255, 255, 0.04)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
             borderRadius: '16px',
-            padding: '12px 24px',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6)',
+            padding: '16px 28px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.8)',
+            backdropFilter: 'blur(10px)'
           }}
           onClick={(e) => e.stopPropagation()}
         >
           <div>
-            <h3 style={{ margin: 0, color: '#fff', fontSize: '1.1rem', fontFamily: 'var(--font-heading)', fontWeight: 700 }}>
-              {title} <span style={{ fontSize: '0.85rem', color: '#D4AF37', fontWeight: 500 }}>— SUPERZOOM HD 4K</span>
+            <h3 style={{ margin: 0, color: '#fff', fontSize: '1.25rem', fontFamily: 'var(--font-heading)', fontWeight: 700, letterSpacing: '0.05em' }}>
+              {title} <span style={{ fontSize: '0.85rem', color: '#D4AF37', fontWeight: 600, letterSpacing: '0.1em' }}>— MACRO INSPECTION</span>
             </h3>
-            <p style={{ margin: '2px 0 0 0', color: 'rgba(255, 255, 255, 0.6)', fontSize: '0.8rem', fontFamily: 'var(--font-mono)' }}>
-              {medium} · Arrastra o pellizca para ampliar textura sin pérdidas
+            <p style={{ margin: '4px 0 0 0', color: 'rgba(255, 255, 255, 0.5)', fontSize: '0.85rem', fontFamily: 'var(--font-mono)' }}>
+              {medium}
             </p>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.85rem',
-                color: '#D4AF37',
-                background: 'rgba(214, 175, 55, 0.12)',
-                border: '1px solid rgba(214, 175, 55, 0.3)',
-                borderRadius: '8px',
-                padding: '6px 12px',
-                fontWeight: 'bold',
-              }}
-            >
-              {Math.round(scale * 100)}% ZOOM
-            </div>
-
-            <button
-              onClick={handleZoomOut}
-              style={{
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: '#fff',
-                borderRadius: '8px',
-                width: '36px',
-                height: '36px',
-                cursor: 'pointer',
-                fontSize: '1.2rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              title="Alejar (-)"
-            >
-              −
-            </button>
-
-            <button
-              onClick={handleZoomIn}
-              style={{
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: '#fff',
-                borderRadius: '8px',
-                width: '36px',
-                height: '36px',
-                cursor: 'pointer',
-                fontSize: '1.2rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              title="Acercar (+)"
-            >
-              +
-            </button>
-
-            <button
-              onClick={handleReset}
-              style={{
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: 'rgba(255, 255, 255, 0.8)',
-                borderRadius: '8px',
-                padding: '6px 12px',
-                cursor: 'pointer',
-                fontSize: '0.8rem',
-                fontFamily: 'var(--font-mono)',
-              }}
-              title="Restablecer zoom"
-            >
-              RESET
-            </button>
-
-            <button
-              onClick={() => {
-                sound.playTick()
-                onClose()
-              }}
-              style={{
-                background: 'rgba(255, 69, 58, 0.2)',
-                border: '1px solid rgba(255, 69, 58, 0.4)',
-                color: '#ff453a',
-                borderRadius: '8px',
-                width: '36px',
-                height: '36px',
-                cursor: 'pointer',
-                fontSize: '1.2rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginLeft: '8px',
-              }}
-              title="Cerrar Superzoom (ESC)"
-            >
-              ✕
-            </button>
+          {/* Literal Quotes from Naroa */}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
+            gap: '4px'
+          }}>
+            <p style={{ margin: 0, color: 'rgba(255,255,255,0.7)', fontStyle: 'italic', fontSize: '0.9rem' }}>
+              "Cada retrato empieza con una conversación."
+            </p>
+            <p style={{ margin: 0, color: '#D4AF37', fontWeight: 600, fontSize: '0.75rem', fontFamily: 'var(--font-mono)', letterSpacing: '0.05em' }}>
+              RETRATOS CON ALMA, MIMO Y CALMA
+            </p>
           </div>
+          
+          <button
+            onClick={() => {
+              sound.playTick()
+              onClose()
+            }}
+            style={{
+              background: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              color: '#fff',
+              borderRadius: '50%',
+              width: '44px',
+              height: '44px',
+              cursor: 'pointer',
+              fontSize: '1.2rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'background 0.3s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 69, 58, 0.4)'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'}
+            title="Close"
+          >
+            ✕
+          </button>
         </motion.div>
 
-        {/* Zoom & Pan Image Canvas */}
-        <div
-          style={{
-            width: '92vw',
-            height: '88vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: scale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
-            touchAction: 'none',
-          }}
-          onClick={(e) => e.stopPropagation()}
-          onWheel={handleWheel}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
+        {/* Base Image Wrapper */}
+        <div 
+          style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}
         >
           <motion.img
-            ref={imageRef}
             src={imageSrc}
             alt={title}
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: scale, opacity: 1, x: position.x, y: position.y }}
-            transition={{ type: 'spring', damping: 25, stiffness: 220 }}
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             style={{
-              maxHeight: '88vh',
-              maxWidth: '88vw',
+              maxHeight: '85vh',
+              maxWidth: '85vw',
               objectFit: 'contain',
-              borderRadius: '12px',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.85)',
-              pointerEvents: 'none',
-              filter: 'drop-shadow(0 0 24px rgba(212, 175, 55, 0.25))',
+              borderRadius: '8px',
+              boxShadow: '0 20px 80px rgba(0,0,0,0.9)',
+              // Base image gets slight optimization
+              imageRendering: 'high-quality'
             }}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+            onMouseMove={handleMouseMove}
+            onClick={(e) => e.stopPropagation()}
           />
+
+          {/* The Loupe (Magnifying Glass) */}
+          {isHovering && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.15 }}
+              style={{
+                position: 'fixed',
+                pointerEvents: 'none',
+                left: loupePos.x - loupeSize / 2,
+                top: loupePos.y - loupeSize / 2,
+                width: loupeSize,
+                height: loupeSize,
+                borderRadius: '50%',
+                border: '2px solid rgba(212, 175, 55, 0.8)',
+                boxShadow: '0 0 0 4px rgba(0,0,0,0.4), 0 20px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,0.5)',
+                backgroundImage: `url(${imageSrc})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: `${bgPos.x} ${bgPos.y}`,
+                // Zoom magnitude
+                backgroundSize: `${zoomLevel * 100}%`,
+                // SOTA Image Enhancement Filters for the Macro view
+                imageRendering: 'high-quality',
+                filter: 'contrast(1.15) saturate(1.2) brightness(1.05)',
+                zIndex: 10001,
+              }}
+            >
+              {/* Crosshair indicator */}
+              <div style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '12px',
+                height: '12px',
+                border: '1px solid rgba(255,255,255,0.4)',
+                borderRadius: '50%'
+              }}/>
+            </motion.div>
+          )}
         </div>
       </div>
     </AnimatePresence>

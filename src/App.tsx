@@ -32,7 +32,7 @@ function Loader() {
 }
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<'home' | '3d' | 'destacada' | 'encargos' | 'juegos' | 'about' | 'blog'>('home')
+  const [currentView, setCurrentView] = useState<'home' | '3d' | 'gallery' | 'commissions' | 'pop-lab' | 'about' | 'blog'>('home')
 
   const [modalArtwork, setModalArtwork] = useState<Artwork | null>(null)
   const [audioActive, setAudioActive] = useState<boolean>(sound.isEnabled())
@@ -103,17 +103,17 @@ export default function App() {
       const rawHash = window.location.hash
       const cleanHash = rawHash.replace(/^#\/?/, '')
 
-      if (cleanHash === 'destacada' || cleanHash === 'galeria' || cleanHash === 'archivo' || cleanHash === 'obra' || cleanHash === 'obras') {
-        setCurrentView('destacada')
+      if (cleanHash === 'gallery' || cleanHash === 'destacada' || cleanHash === 'galeria' || cleanHash === 'archivo' || cleanHash === 'obra' || cleanHash === 'obras') {
+        setCurrentView('gallery')
         setModalArtwork(null)
       } else if (cleanHash === 'home' || cleanHash === 'inicio' || cleanHash === '') {
         setCurrentView('home')
         setModalArtwork(null)
-      } else if (cleanHash === 'encargos' || cleanHash === 'contacto') {
-        setCurrentView('encargos')
+      } else if (cleanHash === 'commissions' || cleanHash === 'encargos' || cleanHash === 'contacto') {
+        setCurrentView('commissions')
         setModalArtwork(null)
-      } else if (cleanHash === 'juegos') {
-        setCurrentView('juegos')
+      } else if (cleanHash === 'pop-lab' || cleanHash === 'juegos') {
+        setCurrentView('pop-lab')
         setModalArtwork(null)
       } else if (cleanHash === 'blog') {
         setCurrentView('blog')
@@ -135,7 +135,7 @@ export default function App() {
         const match = ARTWORKS.find(a => a.slug === cleanHash || toSlug(a.title) === cleanHash)
         if (match) {
           setModalArtwork(match)
-          setCurrentView('destacada')
+          setCurrentView('gallery')
         } else {
           setCurrentView('home')
         }
@@ -154,23 +154,23 @@ export default function App() {
       document.title = `${modalArtwork.title} (${modalArtwork.year}) — Naroa Gutiérrez Gil | Arte en Bilbao`
     } else {
       switch (currentView) {
-        case 'destacada':
-          document.title = 'Galería de Obras — Naroa Gutiérrez Gil | Hiperrealismo POP Bilbao'
+        case 'gallery':
+          document.title = 'The Gallery — Naroa Gutiérrez Gil | Fine Art'
           break
         case '3d':
-          document.title = 'Exposición 3D Interactiva — Naroa Gutiérrez Gil'
+          document.title = '3D Room — Naroa Gutiérrez Gil'
           break
         case 'about':
           document.title = 'Sobre Naroa Gutiérrez Gil — Manifiesto & Biografía'
           break
-        case 'encargos':
-          document.title = 'Encargar Retrato Personalizado — Naroa Gutiérrez Gil | Bilbao'
+        case 'commissions':
+          document.title = 'Private Commissions — Naroa Gutiérrez Gil'
           break
         case 'blog':
           document.title = 'Blog & Noticias — Naroa Gutiérrez Gil'
           break
-        case 'juegos':
-          document.title = 'Espacio Interactivo — Naroa Gutiérrez Gil'
+        case 'pop-lab':
+          document.title = 'The POP Lab — Naroa Gutiérrez Gil'
           break
         default:
           document.title = 'Naroa Gutiérrez Gil — Artista Visual | Hiperrealismo POP'
@@ -180,14 +180,14 @@ export default function App() {
 
   const handleCloseModal = () => {
     setModalArtwork(null)
-    setCurrentView('destacada')
-    window.location.hash = '#/destacada'
+    setCurrentView('gallery')
+    window.location.hash = '#/gallery'
   }
 
   const handleInspect = (index: number) => {
     sound.playOpen()
     setModalArtwork(ARTWORKS[index])
-    setCurrentView('destacada')
+    setCurrentView('gallery')
     if (document.pointerLockElement) {
       document.exitPointerLock()
     }
@@ -198,7 +198,7 @@ export default function App() {
     setAudioActive(newState)
   }
 
-  const isSceneActive = currentView === '3d' || currentView === 'destacada'
+  const isSceneActive = currentView === '3d' || currentView === 'gallery'
 
   // Escuchar cuando el usuario presiona ESC para salir del PointerLock
   useEffect(() => {
@@ -239,7 +239,7 @@ export default function App() {
 
         {currentView === 'home' && <HomeHero />}
 
-        {currentView === 'destacada' && (
+        {currentView === 'gallery' && (
           <div className="view-container" style={{ pointerEvents: 'auto' }}>
             <Suspense fallback={<Loader />}>
               <GalleryGrid onInspect={handleInspect} />
@@ -257,7 +257,7 @@ export default function App() {
           />
         )}
 
-        {currentView === 'encargos' && (
+        {currentView === 'commissions' && (
           <div className="view-container" style={{ pointerEvents: 'auto' }}>
             <Suspense fallback={<Loader />}>
               <CommissionCalculator />
@@ -265,7 +265,7 @@ export default function App() {
           </div>
         )}
 
-        {currentView === 'juegos' && (
+        {currentView === 'pop-lab' && (
           <div className="view-container" style={{ pointerEvents: 'auto' }}>
             <Suspense fallback={<Loader />}>
               <GamesHub />

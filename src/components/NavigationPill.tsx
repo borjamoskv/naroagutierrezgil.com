@@ -2,16 +2,16 @@ import { motion } from 'framer-motion'
 import { sound } from '../utils/audio'
 
 interface NavigationPillProps {
-  currentView: 'home' | '3d' | 'destacada' | 'encargos' | 'juegos' | 'about' | 'blog'
+  currentView: 'home' | '3d' | 'gallery' | 'commissions' | 'pop-lab' | 'about' | 'blog'
   audioActive: boolean
   toggleAudio: () => void
 }
 
 const NAV_ITEMS = [
-  { key: 'destacada', label: 'Obra', hash: '#/destacada' },
-  { key: '3d', label: '3D', hash: '#/3d' },
-  { key: 'about', label: 'Naroa', hash: '#/sobre-mi' },
-  { key: 'encargos', label: 'Contacto', hash: '#/encargos' },
+  { key: 'gallery', label: 'BILDUMA', hash: '#/gallery' },
+  { key: '3d', label: '3D GUNEA', hash: '#/3d' },
+  { key: 'commissions', label: 'ESKAERAK', hash: '#/commissions' },
+  { key: 'pop-lab', label: 'POP GUNEA', hash: '#/pop-lab' },
 ] as const
 
 export function NavigationPill({ currentView, audioActive, toggleAudio }: NavigationPillProps) {
