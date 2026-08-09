@@ -6,12 +6,15 @@ export interface Artwork {
   slug: string
   url: string
   title: string
-  href: string
-  year: string
+  href?: string
+  year: string | number
   medium: string
-  description: string
+  description?: string
   sizeCategory?: 'colossal' | 'large' | 'medium' | 'small'
   series?: 'divinos' | 'vaivenes' | 'espejos' | 'facefood'
+  category?: string
+  dimensions?: string
+  price?: string
   splatUrl?: string
 }
 
