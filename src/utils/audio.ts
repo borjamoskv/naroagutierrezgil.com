@@ -2,17 +2,21 @@
 
 class SoundEngine {
   private ctx: AudioContext | null = null
+  private masterGain: GainNode | null = null
+  private compressor: DynamicsCompressorNode | null = null
   private enabled: boolean = true
 
+  private beatListeners: Set<(intensity: number) => void> = new Set()
+  private asmrNoiseNode: AudioNode | null = null
+  private asmrGainNode: GainNode | null = null
+
   constructor() {
-    // Lazy init audio context on first user interaction
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('naroa_audio_enabled')
       if (saved !== null) {
         this.enabled = saved === 'true'
       }
 
-      // Resume AudioContext on any initial user gesture for browser autoplay policy compliance
       const handleUserInteraction = () => {
         this.initCtx()
         window.removeEventListener('pointerdown', handleUserInteraction)
@@ -28,11 +32,37 @@ class SoundEngine {
       const AudioCtx = window.AudioContext || (window as any).webkitAudioContext
       if (AudioCtx) {
         this.ctx = new AudioCtx()
+        // Master Dynamics Compressor & Limiter for Audiophile Clarity
+        this.compressor = this.ctx.createDynamicsCompressor()
+        this.compressor.threshold.setValueAtTime(-18, this.ctx.currentTime)
+        this.compressor.knee.setValueAtTime(12, this.ctx.currentTime)
+        this.compressor.ratio.setValueAtTime(6, this.ctx.currentTime)
+        this.compressor.attack.setValueAtTime(0.003, this.ctx.currentTime)
+        this.compressor.release.setValueAtTime(0.15, this.ctx.currentTime)
+
+        this.masterGain = this.ctx.createGain()
+        this.masterGain.gain.value = 0.9
+
+        this.compressor.connect(this.masterGain)
+        this.masterGain.connect(this.ctx.destination)
       }
     }
     if (this.ctx && this.ctx.state === 'suspended') {
       this.ctx.resume()
     }
+  }
+
+  private getDestination(): AudioNode {
+    return this.compressor || this.masterGain || (this.ctx ? this.ctx.destination : null as any)
+  }
+
+  public subscribeBeat(cb: (intensity: number) => void) {
+    this.beatListeners.add(cb)
+    return () => { this.beatListeners.delete(cb) }
+  }
+
+  private emitBeat(intensity = 1.0) {
+    this.beatListeners.forEach(cb => cb(intensity))
   }
 
   public toggleSound(): boolean {
@@ -48,20 +78,7 @@ class SoundEngine {
     return this.enabled
   }
 
-  private beatListeners: Set<(intensity: number) => void> = new Set()
-  private asmrNoiseNode: AudioNode | null = null
-  private asmrGainNode: GainNode | null = null
-
-  public subscribeBeat(cb: (intensity: number) => void) {
-    this.beatListeners.add(cb)
-    return () => { this.beatListeners.delete(cb) }
-  }
-
-  private emitBeat(intensity = 1.0) {
-    this.beatListeners.forEach(cb => cb(intensity))
-  }
-
-  // Synth: Organic Cardiac Heartbeat Pulse (Latido de Corazón Lub-Dub)
+  // Synth: Organic Sub-Bass Cardiac Heartbeat Pulse (Latido de Corazón Lub-Dub SOTA)
   public playHeartbeat(volume = 0.08, isDoubleBeat = true) {
     if (!this.enabled) return
     this.emitBeat(1.2)
@@ -69,99 +86,126 @@ class SoundEngine {
       this.initCtx()
       if (!this.ctx) return
 
+      const dest = this.getDestination()
       const now = this.ctx.currentTime
 
-      // 1. First Beat ("LUB" - S1): Low frequency cardiac thump
-      const osc1 = this.ctx.createOscillator()
+      // 1. First Beat ("LUB" - S1): Fundamental 42Hz Sub-Bass + 84Hz Body Overtone
+      const subOsc = this.ctx.createOscillator()
+      const bodyOsc = this.ctx.createOscillator()
       const gain1 = this.ctx.createGain()
       const filter1 = this.ctx.createBiquadFilter()
 
-      osc1.type = 'sine'
-      osc1.frequency.setValueAtTime(65, now)
-      osc1.frequency.exponentialRampToValueAtTime(35, now + 0.12)
+      subOsc.type = 'sine'
+      subOsc.frequency.setValueAtTime(58, now)
+      subOsc.frequency.exponentialRampToValueAtTime(32, now + 0.14)
+
+      bodyOsc.type = 'triangle'
+      bodyOsc.frequency.setValueAtTime(116, now)
+      bodyOsc.frequency.exponentialRampToValueAtTime(64, now + 0.14)
 
       filter1.type = 'lowpass'
-      filter1.frequency.value = 110
+      filter1.frequency.value = 100
+      filter1.Q.value = 2.0
 
-      gain1.gain.setValueAtTime(volume, now)
-      gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.14)
+      gain1.gain.setValueAtTime(volume * 1.2, now)
+      gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.16)
 
-      osc1.connect(filter1)
+      subOsc.connect(filter1)
+      bodyOsc.connect(filter1)
       filter1.connect(gain1)
-      gain1.connect(this.ctx.destination)
+      gain1.connect(dest)
 
-      osc1.start(now)
-      osc1.stop(now + 0.15)
+      subOsc.start(now)
+      bodyOsc.start(now)
+      subOsc.stop(now + 0.17)
+      bodyOsc.stop(now + 0.17)
 
       // 2. Second Beat ("DUB" - S2): Shorter, slightly higher pitch after 110ms delay
       if (isDoubleBeat) {
         const dubTime = now + 0.11
-        const osc2 = this.ctx.createOscillator()
+        const subOsc2 = this.ctx.createOscillator()
+        const bodyOsc2 = this.ctx.createOscillator()
         const gain2 = this.ctx.createGain()
         const filter2 = this.ctx.createBiquadFilter()
 
-        osc2.type = 'sine'
-        osc2.frequency.setValueAtTime(80, dubTime)
-        osc2.frequency.exponentialRampToValueAtTime(45, dubTime + 0.09)
+        subOsc2.type = 'sine'
+        subOsc2.frequency.setValueAtTime(70, dubTime)
+        subOsc2.frequency.exponentialRampToValueAtTime(40, dubTime + 0.1)
+
+        bodyOsc2.type = 'triangle'
+        bodyOsc2.frequency.setValueAtTime(140, dubTime)
+        bodyOsc2.frequency.exponentialRampToValueAtTime(80, dubTime + 0.1)
 
         filter2.type = 'lowpass'
-        filter2.frequency.value = 130
+        filter2.frequency.value = 120
 
-        gain2.gain.setValueAtTime(volume * 0.85, dubTime)
-        gain2.gain.exponentialRampToValueAtTime(0.0001, dubTime + 0.1)
+        gain2.gain.setValueAtTime(volume * 0.9, dubTime)
+        gain2.gain.exponentialRampToValueAtTime(0.0001, dubTime + 0.12)
 
-        osc2.connect(filter2)
+        subOsc2.connect(filter2)
+        bodyOsc2.connect(filter2)
         filter2.connect(gain2)
-        gain2.connect(this.ctx.destination)
+        gain2.connect(dest)
 
-        osc2.start(dubTime)
-        osc2.stop(dubTime + 0.11)
+        subOsc2.start(dubTime)
+        bodyOsc2.start(dubTime)
+        subOsc2.stop(dubTime + 0.13)
+        bodyOsc2.stop(dubTime + 0.13)
       }
     } catch {
       // Ignore audio errors
     }
   }
 
-  // Synth: Organic Air Sigh / Exhalation (Suspiro Orgánico)
+  // Synth: Organic Air Sigh / Exhalation (Suspiro Orgánico Velvet Pink Noise)
   public playSigh(volume = 0.04) {
     if (!this.enabled) return
     try {
       this.initCtx()
       if (!this.ctx) return
 
+      const dest = this.getDestination()
       const now = this.ctx.currentTime
-      const bufferSize = Math.floor(this.ctx.sampleRate * 0.45)
+      const duration = 0.5
+      const bufferSize = Math.floor(this.ctx.sampleRate * duration)
       const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate)
       const data = buffer.getChannelData(0)
 
-      // Generate soft pink noise for air breath texture
-      let lastOut = 0.0
+      // Paul Kellet's Pink Noise algorithm for velvety organic air texture
+      let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0
       for (let i = 0; i < bufferSize; i++) {
         const white = Math.random() * 2 - 1
-        lastOut = (lastOut + 0.02 * white) / 1.02
-        data[i] = lastOut
+        b0 = 0.99886 * b0 + white * 0.0555179
+        b1 = 0.99332 * b1 + white * 0.0750759
+        b2 = 0.96900 * b2 + white * 0.1538520
+        b3 = 0.86650 * b3 + white * 0.3104856
+        b4 = 0.55000 * b4 + white * 0.5329522
+        b5 = -0.7616 * b5 - white * 0.0168980
+        data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.08
+        b6 = white * 0.115926
       }
 
       const noise = this.ctx.createBufferSource()
       noise.buffer = buffer
 
-      // Sweeping lowpass filter emulating soft breath / sigh exhalation
+      // Sweeping double lowpass filter emulating human breath
       const filter = this.ctx.createBiquadFilter()
       filter.type = 'lowpass'
-      filter.frequency.setValueAtTime(700, now)
-      filter.frequency.exponentialRampToValueAtTime(250, now + 0.4)
+      filter.frequency.setValueAtTime(650, now)
+      filter.frequency.exponentialRampToValueAtTime(220, now + duration)
+      filter.Q.value = 1.4
 
       const gain = this.ctx.createGain()
-      gain.gain.setValueAtTime(0.001, now)
-      gain.gain.linearRampToValueAtTime(volume, now + 0.08) // Soft breath attack
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.42) // Gentle sigh fade out
+      gain.gain.setValueAtTime(0.0001, now)
+      gain.gain.linearRampToValueAtTime(volume * 1.1, now + 0.1) // Velvet breath attack
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration) // Gentle sigh fade out
 
       noise.connect(filter)
       filter.connect(gain)
-      gain.connect(this.ctx.destination)
+      gain.connect(dest)
 
       noise.start(now)
-      noise.stop(now + 0.45)
+      noise.stop(now + duration + 0.05)
     } catch {
       // Ignore audio errors
     }
