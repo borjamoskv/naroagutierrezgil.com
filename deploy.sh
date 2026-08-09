@@ -135,23 +135,23 @@ curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_
   -d '{"purge_everything":true}' > /dev/null 2>&1 || true
 ok "Caché global de Cloudflare purgada"
 
-# ── 9. Despliegue Paralelo a Vercel ──────────────────────────
+# --- 9. Despliegue Paralelo a Vercel --------------------------
 if command -v npx >/dev/null 2>&1; then
   log "Sincronizando espejo en Vercel Producción (naroagutierrezgil.com & naroa.online)..."
   (cd modules/naroa.online && npx vercel --prod --yes > /dev/null 2>&1 || true)
   ok "Mirror Vercel actualizado para ambos dominios"
 fi
 
-# ── 10. Limpieza post-deploy ─────────────────────────────────
+# --- 10. Limpieza post-deploy ---------------------------------
 rm -rf "$BUILD_DIR"
 ok "Build temporal limpiado"
 
 echo ""
-echo -e "${GREEN}${BOLD}═══════════════════════════════════════════════════════════${NC}"
+echo -e "${GREEN}${BOLD}===========================================================${NC}"
 echo -e "${GREEN}${BOLD}  ✓ NAROA.ONLINE / NAROAGUTIERREZGIL.COM DESPLEGADO C5-REAL${NC}"
 echo -e "${GREEN}${BOLD}  • Cloudflare Pages:  https://naroagutierrezgil.com${NC}"
 echo -e "${GREEN}${BOLD}  • Cloudflare Alias:  https://naroa.online${NC}"
 echo -e "${GREEN}${BOLD}  • Vercel Mirror:     https://naroaonline.vercel.app${NC}"
-echo -e "${GREEN}${BOLD}═══════════════════════════════════════════════════════════${NC}"
+echo -e "${GREEN}${BOLD}===========================================================${NC}"
 echo ""
 
