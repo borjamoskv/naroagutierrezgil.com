@@ -215,6 +215,7 @@
       <button class="nav__toggle" id="nav-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span></button>
       <ul class="nav__links" id="nav-links">
         <li><a href="#/" class="nav__link active">Home</a></li>
+        <li><a href="#/juegos" class="nav__link" style="color: #FFD700; font-weight: 700;">🎮 Videojuego</a></li>
         <li><a href="#/destacada" class="nav__link">Obra</a></li>
         <li><a href="#/about" class="nav__link">Sobre mí</a></li>
         <li><a href="#/blog" class="nav__link">Blog</a></li>
@@ -270,15 +271,22 @@
           
           <div class="hero-immersive__divider"></div>
           
-          <a href="#/destacada" class="hero-immersive__cta">
-            <span>Explorar Obra</span>
-            <span class="hero-immersive__cta-arrow">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 17L17 7M17 7H7M17 7V17"/>
-              </svg>
-            </span>
-          </a>
+          <div style="display: flex; gap: 1rem; align-items: center; justify-content: center; flex-wrap: wrap; margin-top: 1rem;">
+            <a href="#/juegos" class="hero-immersive__cta" style="background: linear-gradient(135deg, #2B3BE5, #FF007A); border-color: #D4AF37; box-shadow: 0 0 25px rgba(43,59,229,0.6);">
+              <span>🎮 INICIAR VIDEOJUEGO 3D</span>
+              <span class="hero-immersive__cta-arrow">🕹️</span>
+            </a>
+            <a href="#/destacada" class="hero-immersive__cta">
+              <span>Explorar Obra</span>
+              <span class="hero-immersive__cta-arrow">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                </svg>
+              </span>
+            </a>
+          </div>
         </div>
+
 
         <!-- Floating metadata cards -->
         <div class="hero-immersive__meta hero-immersive__meta--left">
