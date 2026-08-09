@@ -1,4 +1,5 @@
-export const PORTAL = 'https://naroa.online'
+export const PORTAL = 'https://naroagutierrezgilcom.vercel.app'
+
 
 export interface Artwork {
   id: number
@@ -10,8 +11,10 @@ export interface Artwork {
   medium: string
   description: string
   sizeCategory?: 'colossal' | 'large' | 'medium' | 'small'
+  series?: 'divinos' | 'vaivenes' | 'espejos' | 'facefood'
   splatUrl?: string
 }
+
 
 export const ARTWORKS: Artwork[] = [
   {

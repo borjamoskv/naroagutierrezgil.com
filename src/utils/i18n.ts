@@ -32,7 +32,11 @@ export const DICTIONARY: Record<Language, Translations> = {
     nav3D: '3D GUNEA',
     navCommissions: 'ESKAERAK ⚡',
     navAbout: 'NAROA',
-    navBlog: 'DIARIO POP'
+    navBlog: 'DIARIO POP',
+    seriesDivinos: '👑 DIVINOS',
+    seriesVaivenes: '🌀 VAIVENES',
+    seriesEspejos: '🪞 ESPEJOS DEL ALMA',
+    seriesFacefood: '🎨 FACEFOOD'
   },
   es: {
     heroTag: '⚡ HIPERREALISMO POP · BILBAO',
@@ -45,7 +49,11 @@ export const DICTIONARY: Record<Language, Translations> = {
     nav3D: 'SALA 3D',
     navCommissions: 'ENCARGOS ⚡',
     navAbout: 'SOBRE NAROA',
-    navBlog: 'DIARIO POP'
+    navBlog: 'DIARIO POP',
+    seriesDivinos: '👑 DIVINOS',
+    seriesVaivenes: '🌀 VAIVENES',
+    seriesEspejos: '🪞 ESPEJOS DEL ALMA',
+    seriesFacefood: '🎨 FACEFOOD'
   },
   en: {
     heroTag: '⚡ POP HYPERREALISM · BILBAO',
@@ -58,7 +66,11 @@ export const DICTIONARY: Record<Language, Translations> = {
     nav3D: '3D ROOM',
     navCommissions: 'COMMISSIONS ⚡',
     navAbout: 'ABOUT NAROA',
-    navBlog: 'ART DIARY'
+    navBlog: 'ART DIARY',
+    seriesDivinos: '👑 DIVINOS',
+    seriesVaivenes: '🌀 VAIVENES',
+    seriesEspejos: '🪞 ESPEJOS DEL ALMA',
+    seriesFacefood: '🎨 FACEFOOD'
   }
 }
 

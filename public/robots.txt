@@ -2,8 +2,8 @@ User-agent: *
 Allow: /
 
 # Canonical Sitemaps
-Sitemap: https://naroa.online/sitemap.xml
+Sitemap: https://naroagutierrezgilcom.vercel.app/sitemap.xml
 
 # LLM & Generative Engine Indexing (GEO Standard)
 # Direct AI Crawlers (GPTBot, PerplexityBot, ClaudeBot, Gemini) to canonical facts summary:
-# https://naroa.online/llms.txt
+# https://naroagutierrezgilcom.vercel.app/llms.txt
