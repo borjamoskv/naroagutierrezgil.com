@@ -1,7 +1,8 @@
-import { Suspense, lazy, useState, useEffect } from 'react'
+import { Suspense, lazy, useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { ARTWORKS, PORTAL, type Artwork } from './artworks'
 import { ArtworkModal } from './components/ArtworkModal'
+
 
 import { sound } from './utils/audio'
 
@@ -15,6 +16,8 @@ import { VideogameHUD } from './components/VideogameHUD'
 import { CuratorialTerminal } from './components/CuratorialTerminal'
 import { EspejoDelAlmaModal } from './components/EspejoDelAlmaModal'
 import { SecretEasterEggModal } from './components/SecretEasterEggModal'
+import { TelemetryPixel } from './components/TelemetryPixel'
+
 
 // Vistas con Lazy Loading (Ultrathink Code-Splitting)
 const Scene = lazy(() => import('./components/Scene'))
@@ -438,7 +441,14 @@ export default function App() {
         isOpen={isEasterEggOpen}
         onClose={() => setIsEasterEggOpen(false)}
       />
+
+      {/* 👁️ Oculto Pixel de Telemetría */}
+      <TelemetryPixel
+        currentView={currentView}
+        activeArtworkSlug={modalArtwork?.slug}
+      />
     </>
   )
 }
+
 
