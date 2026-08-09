@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MICA VIVA — Retratos que te miran · Naroa Gutiérrez Gil</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
+  body { position: fixed; inset: 0; }
+
+  /* Cada slide cubre el 100% del viewport, siempre (cover) */
+  .slide {
+    position: absolute; inset: 0;
+    opacity: 0;
+    will-change: opacity;
+    pointer-events: none;
+  }
+  .slide img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;        /* cubre sin deformar, recorta el exceso */
+    object-position: center;
+    display: block;
+  }
+
+  /* Capa "espacio-imagen": JS la posiciona con la misma matemática que cover.
+     Los párpados viven dentro en coordenadas % => escalan/reposicionan solos. */
+  .eye-space { position: absolute; left: 0; top: 0; will-change: transform; }
+
+  .lid {
+    position: absolute;
+    border-radius: 50% / 46%;
+    transform-origin: 50% 0%;
+    transform: rotate(var(--rot)) scaleY(0);
+    will-change: transform;
+  }
+</style>
+</head>
+<body aria-hidden="true">
+<script>
+'use strict';
+/* ============================================================
+   MICA VIVA — slideshow a pantalla completa + parpadeo natural
+   - 100vw x 100vh siempre, comportamiento cover, sin letterbox
+   - crossfade 1.5–2.5s, cada retrato visible 6–10s (aleatorio)
+   - parpadeo: intervalo 2–8s recalculado, 150–250ms ease-in-out,
+     10% doble parpadeo, solo región de ojos, coords relativas %
+   - prefers-reduced-motion: slideshow sin parpadeo
+   ============================================================ */
+
+const SLIDES = [
+  {
+    src: 'img/roisin-full@2x.webp', nw: 4096, nh: 3072, alt: 'Roisin — retrato punk sobre tartán, Naroa Gutiérrez Gil',
+    eyes: [
+      { cx: .648, cy: .461, w: .044, h: .050, rot: -6, top: '#bcb3a5', mid: '#8a8177', lash: '#45403a' }
+    ]
+  },
+  {
+    src: 'img/roisin-detail@2x.webp', nw: 798, nh: 1002, alt: 'Roisin, detalle — el ojo que sostiene la mirada',
+    eyes: [
+      { cx: .410, cy: .495, w: .140, h: .085, rot: -10, top: '#7d746d', mid: '#5c544d', lash: '#2f2b27' }
+    ]
+  },
+  {
+    src: 'img/robe@2x.webp', nw: 798, nh: 1002, alt: 'Robe — músico con bajo sobre fondo floral, Naroa Gutiérrez Gil',
+    eyes: [
+      { cx: .494, cy: .204, w: .060, h: .030, rot: -4, top: '#8a887c', mid: '#5f5e54', lash: '#2a2a25' },
+      { cx: .584, cy: .192, w: .060, h: .030, rot: -4, top: '#8a887c', mid: '#5f5e54', lash: '#2a2a25' }
+    ]
+  }
+];
+
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const rnd = (min, max) => min + Math.random() * (max - min);
+
+/* ---------- construcción de slides ---------- */
+const slides = SLIDES.map((cfg) => {
+  const el = document.createElement('div');
+  el.className = 'slide';
+
+  const img = document.createElement('img');
+  img.src = cfg.src; img.alt = cfg.alt; img.decoding = 'async';
+  el.appendChild(img);
+
+  // capa en espacio-imagen + párpados en % (se mueven con el cover)
+  const space = document.createElement('div');
+  space.className = 'eye-space';
+  const lids = cfg.eyes.map((eye) => {
+    const lid = document.createElement('div');
+    lid.className = 'lid';
+    lid.style.left   = ((eye.cx - eye.w / 2) * 100) + '%';
+    lid.style.top    = ((eye.cy - eye.h / 2) * 100) + '%';
+    lid.style.width  = (eye.w * 100) + '%';
+    lid.style.height = (eye.h * 100) + '%';
+    lid.style.setProperty('--rot', eye.rot + 'deg');
+    lid.style.background =
+      `linear-gradient(to bottom, ${eye.top} 0%, ${eye.mid} 55%, ${eye.lash} 100%)`;
+    lid.style.boxShadow = `0 0 1.2em 0.15em ${eye.top}`; // pluma que funde con la piel
+    lid.style.fontSize = '2vw'; // em relativo para el feather
+    space.appendChild(lid);
+    return { eye, lid };
+  });
+  el.appendChild(space);
+  document.body.appendChild(el);
+  return { cfg, el, img, space, lids };
+});
+
+/* ---------- posicionar la capa de ojos con la matemática de cover ---------- */
+function layout() {
+  const vw = innerWidth, vh = innerHeight;
+  for (const s of slides) {
+    const scale = Math.max(vw / s.cfg.nw, vh / s.cfg.nh);   // = object-fit: cover
+    const dw = s.cfg.nw * scale, dh = s.cfg.nh * scale;
+    const ox = (vw - dw) / 2, oy = (vh - dh) / 2;
+    s.space.style.width  = dw + 'px';
+    s.space.style.height = dh + 'px';
+    s.space.style.transform = `translate3d(${ox}px, ${oy}px, 0)`;
+  }
+}
+let resizeQueued = false;
+addEventListener('resize', () => {
+  if (resizeQueued) return;
+  resizeQueued = true;
+  requestAnimationFrame(() => { layout(); resizeQueued = false; });
+});
+layout();
+
+/* ---------- parpadeo (solo transform/opacity, GPU) ---------- */
+function blinkLid({ eye, lid }) {
+  const dur = rnd(150, 250);
+  const r = `rotate(${eye.rot}deg)`;
+  lid.animate(
+    [
+      { transform: `${r} scaleY(0)`, easing: 'ease-in' },
+      { transform: `${r} scaleY(1)`, offset: 0.45 },
+      { transform: `${r} scaleY(1)`, offset: 0.55, easing: 'ease-out' },
+      { transform: `${r} scaleY(0)` }
+    ],
+    { duration: dur }   // sin fill: al acabar vuelve a scaleY(0) del CSS, sin acumular animaciones
+  );
+}
+
+function blink(slide) {
+  slide.lids.forEach(blinkLid);
+  if (Math.random() < 0.10) {              // doble parpadeo rápido
+    setTimeout(() => slide.lids.forEach(blinkLid), rnd(300, 420));
+  }
+}
+
+/* ---------- slideshow: crossfade + programación por rAF ---------- */
+let active = -1;
+let nextSwitchAt = 0;
+let nextBlinkAt = Infinity;
+
+function show(idx, now) {
+  const prev = active;
+  active = idx;
+  const fade = rnd(1500, 2500);
+  slides.forEach((s, i) => {
+    // transición CSS de opacity: interrumpible, sin acumular animaciones
+    s.el.style.transition = (i === active || i === prev) ? `opacity ${fade}ms ease-in-out` : 'none';
+    s.el.style.opacity = i === active ? '1' : '0';
+    s.el.style.zIndex = i === active ? 2 : (i === prev ? 1 : 0);
+  });
+  nextSwitchAt = now + rnd(6000, 10000);
+  nextBlinkAt  = now + rnd(2000, 8000);   // intervalo recalculado tras cada cambio
+}
+
+let lastOrder = [];
+function pickNext() {
+  let i;
+  do { i = Math.floor(Math.random() * slides.length); }
+  while (slides.length > 1 && i === active);
+  lastOrder.push(i);
+  return i;
+}
+
+function tick(now) {
+  if (active >= 0) {
+    if (now >= nextSwitchAt) show(pickNext(), now);
+    else if (!REDUCED && now >= nextBlinkAt) {
+      blink(slides[active]);
+      nextBlinkAt = now + rnd(2000, 8000); // recalculado tras cada parpadeo
+    }
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ---------- arranque cuando la primera imagen está lista ---------- */
+const first = slides[0];
+function start() {
+  layout();
+  requestAnimationFrame((now) => {
+    show(0, now);
+    nextBlinkAt = now + rnd(1200, 2600);  // primer guiño pronto: engancha
+    requestAnimationFrame(tick);
+  });
+}
+if (first.img.complete && first.img.naturalWidth) start();
+else {
+  first.img.addEventListener('load', start, { once: true });
+  first.img.addEventListener('error', () => show(1, performance.now()), { once: true });
+}
+// precarga del resto
+slides.slice(1).forEach((s) => { const p = new Image(); p.src = s.cfg.src; });
+</script>
+</body>
+</html>
