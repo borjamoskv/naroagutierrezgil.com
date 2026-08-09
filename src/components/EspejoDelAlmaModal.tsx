@@ -192,7 +192,7 @@ export const EspejoDelAlmaModal: React.FC<EspejoDelAlmaModalProps> = ({ isOpen, 
             </div>
 
             <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '18px' }}>
-              <div style={{ fontSize: '0.7rem', color: '#FFE600', fontFamily: 'var(--font-mono)', fontWeight 800 }}>03 · LA MIRADA</div>
+              <div style={{ fontSize: '0.7rem', color: '#FFE600', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>03 · LA MIRADA</div>
               <h4 style={{ margin: '4px 0', color: '#00F0FF', fontSize: '1.1rem' }}>R E C O N O C E R</h4>
               <p style={{ margin: 0, fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
                 «Contemplar el cuadro es <strong>RECONOCER</strong> en el lienzo hiperrealista lo imperecedero de nuestra propia memoria.»
