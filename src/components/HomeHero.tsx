@@ -307,22 +307,22 @@ export function HomeHero() {
               scale: 1.03,
               rotateX: 3,
               rotateY: -3,
-              boxShadow: '0 40px 100px rgba(0,0,0,0.9), 0 0 80px rgba(255, 0, 122, 0.35)',
-              borderColor: 'rgba(255, 0, 122, 0.6)'
+              boxShadow: '0 40px 100px rgba(0,0,0,0.95), 0 0 80px rgba(255, 0, 122, 0.5)',
+              borderColor: '#FF007A'
             }}
             whileTap={{ scale: 0.98 }}
             transition={{ type: 'spring', stiffness: 350, damping: 25 }}
             style={{ 
               position: 'relative', 
               borderRadius: '24px', 
-              padding: '14px',
-              background: 'linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 100%)',
-              border: isHoveredCard ? '1px solid #FF007A' : '1px solid rgba(255, 0, 122, 0.3)',
-              boxShadow: isHoveredCard ? '0 30px 80px rgba(0,0,0,0.9), 0 0 40px rgba(255, 0, 122, 0.3)' : '0 30px 80px rgba(0,0,0,0.9)',
-              backdropFilter: 'blur(16px)',
+              padding: '16px',
+              background: '#FFFFFF',
+              border: isHoveredCard ? '2px solid #FF007A' : '1px solid rgba(255, 0, 122, 0.4)',
+              boxShadow: isHoveredCard ? '0 30px 90px rgba(0,0,0,0.95), 0 0 50px rgba(255, 0, 122, 0.4)' : '0 25px 70px rgba(0,0,0,0.9)',
               maxWidth: '480px',
               width: '100%',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              overflow: 'hidden'
             }}
             onClick={() => {
               sound.playOpen()
@@ -342,10 +342,11 @@ export function HomeHero() {
                 style={{ 
                   width: '100%', 
                   height: 'auto', 
-                  maxHeight: '60vh', 
+                  maxHeight: '58vh', 
                   objectFit: 'contain', 
-                  borderRadius: '16px',
+                  borderRadius: '12px',
                   display: 'block',
+                  background: '#FFFFFF',
                   imageRendering: 'high-quality' as any
                 }}
               />
