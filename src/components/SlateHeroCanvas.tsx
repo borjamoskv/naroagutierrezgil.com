@@ -65,22 +65,12 @@ const SlateKintsugiShader = {
       // Rich Basque slate texture background
       vec3 slate = mix(uSlateColor, vec3(0.04, 0.06, 0.12), slateGrain * 0.6);
       
-      // Kintsugi vein pattern
-      float veinNoise = abs(snoise(uv * 5.0 + uTime * 0.03));
-      float vein = smoothstep(0.03, 0.0, veinNoise);
-      
-      // Proximity to mouse position
-      float distToMouse = length(uv - uMouse);
-      float mouseGlow = smoothstep(0.5, 0.0, distToMouse);
-      
-      // Gold pulse along Kintsugi veins
-      float pulse = sin(uTime * 2.0 + uv.x * 8.0) * 0.5 + 0.5;
-      vec3 goldVein = uGoldColor * (vein * (0.8 + mouseGlow * 3.5 + pulse * 0.6));
-      
       // Ambient radial glow around cursor
-      vec3 cursorGlow = mix(uGoldColor, uCobaltColor, sin(uTime * 0.6) * 0.5 + 0.5) * mouseGlow * 0.5;
+      float distToMouse = length(uv - uMouse);
+      float mouseGlow = smoothstep(0.6, 0.0, distToMouse);
+      vec3 cursorGlow = mix(uGoldColor, uCobaltColor, sin(uTime * 0.6) * 0.5 + 0.5) * mouseGlow * 0.25;
       
-      vec3 finalColor = slate + goldVein + cursorGlow;
+      vec3 finalColor = slate + cursorGlow;
       
       gl_FragColor = vec4(finalColor, 1.0);
     }
