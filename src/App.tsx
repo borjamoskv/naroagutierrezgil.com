@@ -37,8 +37,19 @@ function Loader() {
   )
 }
 
+const getInitialView = () => {
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname.toLowerCase()
+    const hash = window.location.hash.toLowerCase()
+    if (host.includes('naroa.online') || hash.includes('3d') || hash.includes('juegos') || hash.includes('game') || hash.includes('play')) {
+      return '3d'
+    }
+  }
+  return 'home'
+}
+
 export default function App() {
-  const [currentView, setCurrentView] = useState<string>('home')
+  const [currentView, setCurrentView] = useState<string>(getInitialView)
 
   const [modalArtwork, setModalArtwork] = useState<Artwork | null>(null)
   const [audioActive, setAudioActive] = useState<boolean>(sound.isEnabled())
