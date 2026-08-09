@@ -96,11 +96,11 @@ function TiltCard({ artwork, isHovered, setHoveredId, onInspect, idx, columns }:
             width: '100%',
             height: 'auto',
             display: 'block',
-            imageRendering: 'high-quality',
             transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease',
             transform: isHovered ? 'scale(1.06)' : 'scale(1.01)',
             filter: isHovered ? 'brightness(1.05) contrast(1.05) saturate(1.1)' : 'brightness(0.9) contrast(1.0) saturate(1.0)',
           }}
+
         />
 
         {/* Dynamic Glare Layer */}

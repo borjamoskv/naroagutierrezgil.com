@@ -164,9 +164,7 @@ export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomMo
               maxWidth: '85vw',
               objectFit: 'contain',
               borderRadius: '8px',
-              boxShadow: '0 20px 80px rgba(0,0,0,0.9)',
-              // Base image gets slight optimization
-              imageRendering: 'high-quality'
+              boxShadow: '0 20px 80px rgba(0,0,0,0.9)'
             }}
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
@@ -189,19 +187,18 @@ export function SuperzoomModal({ imageSrc, title, medium, onClose }: SuperzoomMo
                 width: loupeSize,
                 height: loupeSize,
                 borderRadius: '50%',
-                border: '2px solid rgba(212, 175, 55, 0.8)',
-                boxShadow: '0 0 0 4px rgba(0,0,0,0.4), 0 20px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,0.5)',
+                border: '2px solid rgba(255, 0, 122, 0.8)',
+                boxShadow: '0 0 0 4px rgba(0,0,0,0.4), 0 20px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(255,0,122,0.3)',
                 backgroundImage: `url(${imageSrc})`,
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: `${bgPos.x} ${bgPos.y}`,
                 // Zoom magnitude
                 backgroundSize: `${zoomLevel * 100}%`,
-                // SOTA Image Enhancement Filters for the Macro view
-                imageRendering: 'high-quality',
                 filter: 'contrast(1.15) saturate(1.2) brightness(1.05)',
                 zIndex: 10001,
               }}
             >
+
               {/* Crosshair indicator */}
               <div style={{
                 position: 'absolute',
