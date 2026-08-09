@@ -178,29 +178,49 @@ export function HomeHero() {
 
         {/* Right Column: High-Fidelity Artwork Showcase */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.94 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.4, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, scale: 0.94, y: 15 }}
+          animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+          transition={{ 
+            opacity: { duration: 1.4, delay: 0.3, ease: [0.16, 1, 0.3, 1] },
+            scale: { duration: 1.4, delay: 0.3, ease: [0.16, 1, 0.3, 1] },
+            y: { duration: 6, repeat: Infinity, ease: "easeInOut" }
+          }}
           style={{ 
             display: 'flex', 
             justifyContent: 'center', 
             alignItems: 'center',
             position: 'relative',
-            pointerEvents: 'auto'
+            pointerEvents: 'auto',
+            perspective: '1200px'
           }}
         >
-          <div 
+          <motion.div 
+            whileHover={{ 
+              scale: 1.03,
+              rotateX: 3,
+              rotateY: -3,
+              boxShadow: '0 40px 100px rgba(0,0,0,0.9), 0 0 80px rgba(245, 158, 11, 0.25)',
+              borderColor: 'rgba(245, 158, 11, 0.6)'
+            }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: 'spring', stiffness: 350, damping: 25 }}
             style={{ 
               position: 'relative', 
               borderRadius: '20px', 
               padding: '12px',
-              background: 'linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%)',
+              background: 'linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 100%)',
               border: '1px solid rgba(245, 158, 11, 0.3)',
               boxShadow: '0 30px 80px rgba(0,0,0,0.9), 0 0 40px rgba(245, 158, 11, 0.15)',
-              backdropFilter: 'blur(12px)',
+              backdropFilter: 'blur(16px)',
               maxWidth: '480px',
-              width: '100%'
+              width: '100%',
+              cursor: 'pointer'
             }}
+            onClick={() => {
+              sound.playOpen()
+              window.location.hash = '#obra-marilyn-rocks'
+            }}
+            title="Ver obra HD"
           >
             <img
               src="/assets/marilyn-new.webp"
@@ -214,7 +234,7 @@ export function HomeHero() {
                 display: 'block' 
               }}
             />
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>
