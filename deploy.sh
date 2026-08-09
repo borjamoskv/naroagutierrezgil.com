@@ -112,12 +112,16 @@ DEPLOY_SIZE=$(du -sh "$BUILD_DIR" | cut -f1)
 log "Desplegando ${BOLD}${DEPLOY_SIZE}${NC} → CF Pages proyecto ${BOLD}naroagutierrezgil-com${NC} (Dominio Oficial)..."
 
 if [ "$BRANCH" = "--preview" ]; then
+  cp -R "$BUILD_DIR" ".deploy_bak"
   wrangler pages deploy "$BUILD_DIR" --project-name "naroagutierrezgil-com" --branch preview --commit-dirty=true
-  wrangler pages deploy "$BUILD_DIR" --project-name "naroaonline" --branch preview --commit-dirty=true
+  wrangler pages deploy ".deploy_bak" --project-name "naroaonline" --branch preview --commit-dirty=true
+  rm -rf ".deploy_bak"
   ok "Deploy PREVIEW completado"
 else
+  cp -R "$BUILD_DIR" ".deploy_bak"
   wrangler pages deploy "$BUILD_DIR" --project-name "naroagutierrezgil-com" --branch production --commit-dirty=true || true
-  wrangler pages deploy "$BUILD_DIR" --project-name "naroaonline" --branch production --commit-dirty=true || true
+  wrangler pages deploy ".deploy_bak" --project-name "naroaonline" --branch production --commit-dirty=true || true
+  rm -rf ".deploy_bak"
   ok "Deploy PRODUCCIÓN completado → https://naroagutierrezgil.com/ & https://naroa.online/"
 fi
 
@@ -133,9 +137,9 @@ ok "Caché global de Cloudflare purgada"
 
 # ── 9. Despliegue Paralelo a Vercel ──────────────────────────
 if command -v npx >/dev/null 2>&1; then
-  log "Sincronizando espejo en Vercel Producción..."
-  npx vercel --prod --yes > /dev/null 2>&1 || true
-  ok "Mirror Vercel actualizado"
+  log "Sincronizando espejo en Vercel Producción (naroagutierrezgil.com & naroa.online)..."
+  (cd modules/naroa.online && npx vercel --prod --yes > /dev/null 2>&1 || true)
+  ok "Mirror Vercel actualizado para ambos dominios"
 fi
 
 # ── 10. Limpieza post-deploy ─────────────────────────────────

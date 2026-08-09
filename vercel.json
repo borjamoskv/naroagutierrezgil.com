@@ -1,8 +1,12 @@
 {
   "version": 2,
+  "framework": null,
   "cleanUrls": true,
   "buildCommand": "./deploy.sh --build-only",
   "outputDirectory": ".deploy",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -12,3 +16,4 @@
     }
   ]
 }
+
