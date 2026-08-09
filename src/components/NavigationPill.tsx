@@ -5,6 +5,7 @@ interface NavigationPillProps {
   currentView: string
   audioActive: boolean
   toggleAudio: () => void
+  onOpenTerminal?: () => void
 }
 
 const NAV_ITEMS = [
@@ -15,7 +16,7 @@ const NAV_ITEMS = [
   { key: 'blog', label: 'DIARIO POP', hash: '#/blog' },
 ] as const
 
-export function NavigationPill({ currentView, audioActive, toggleAudio }: NavigationPillProps) {
+export function NavigationPill({ currentView, audioActive, toggleAudio, onOpenTerminal }: NavigationPillProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
@@ -151,6 +152,34 @@ export function NavigationPill({ currentView, audioActive, toggleAudio }: Naviga
           }} />
           {audioActive ? 'AUDIO ON' : 'AUDIO OFF'}
         </button>
+
+        {/* CLI Terminal Shortcut Button */}
+        {onOpenTerminal && (
+          <button
+            onClick={() => { sound.playOpen(); onOpenTerminal() }}
+            onMouseEnter={() => sound.playHover()}
+            title="Abrir Curatorial Terminal CLI (⌘K)"
+            style={{
+              background: 'rgba(0, 240, 255, 0.12)',
+              border: '1px solid rgba(0, 240, 255, 0.4)',
+              color: '#00F0FF',
+              borderRadius: '20px',
+              padding: '4px 10px',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.68rem',
+              fontWeight: 700,
+              cursor: 'pointer',
+              letterSpacing: '0.08em',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            <span>⌘K</span>
+            <span style={{ opacity: 0.7 }}>CLI</span>
+          </button>
+        )}
 
         {/* Automatic Locale Selector Badge */}
         <div style={{
