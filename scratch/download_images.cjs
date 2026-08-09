@@ -3,7 +3,7 @@ const path = require('path');
 const https = require('https');
 const http = require('http');
 
-const URL = 'https://www.naroa.eu';
+const URL = 'https://naroa.eu';
 const DIR = path.join(__dirname, 'naroa_eu_images');
 
 if (!fs.existsSync(DIR)) {
