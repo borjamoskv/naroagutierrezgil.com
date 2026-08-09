@@ -258,3 +258,5 @@ const newArtworks = [
 ];
 
 console.log('New artworks to append:', newArtworks.length);
+
+module.exports = newArtworks;
