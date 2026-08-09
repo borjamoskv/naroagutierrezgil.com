@@ -12,6 +12,9 @@ import { NavigationPill } from './components/NavigationPill'
 import { HomeHero } from './components/HomeHero'
 import { PremiumFooter } from './components/PremiumFooter'
 import { VideogameHUD } from './components/VideogameHUD'
+import { CuratorialTerminal } from './components/CuratorialTerminal'
+import { EspejoDelAlmaModal } from './components/EspejoDelAlmaModal'
+import { SecretEasterEggModal } from './components/SecretEasterEggModal'
 
 // Vistas con Lazy Loading (Ultrathink Code-Splitting)
 const Scene = lazy(() => import('./components/Scene'))
@@ -32,14 +35,21 @@ function Loader() {
 }
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<'home' | '3d' | 'gallery' | 'commissions' | 'pop-lab' | 'about' | 'blog'>('home')
+  const [currentView, setCurrentView] = useState<string>('home')
 
   const [modalArtwork, setModalArtwork] = useState<Artwork | null>(null)
   const [audioActive, setAudioActive] = useState<boolean>(sound.isEnabled())
   const [isWebGLMounted, setIsWebGLMounted] = useState(false)
   
+  // ⚡ Capa Sota WOW Modals State
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false)
+  const [isEspejoOpen, setIsEspejoOpen] = useState(false)
+  const [isEasterEggOpen, setIsEasterEggOpen] = useState(false)
+  const typedBufferRef = useRef('')
+
   // Estados del Videojuego FPS
   const [isStarted, setIsStarted] = useState(false)
+
 
   // Inicializar Lenis (Smooth Scrolling) SOTA
   useEffect(() => {
@@ -80,6 +90,55 @@ export default function App() {
     return () => clearTimeout(timer)
   }, [])
 
+  // ⚡ Capa Sota Global Key Listeners: Cmd+K, Secret Naroa/Borja Typing, Spacebar ASMR
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't intercept when typing in inputs/textareas
+      if (['input', 'textarea', 'select'].includes((e.target as HTMLElement)?.tagName?.toLowerCase())) {
+        return
+      }
+
+      // 1. Cmd+K / Ctrl+K Curatorial Terminal
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault()
+        sound.playTick()
+        setIsTerminalOpen(prev => !prev)
+        return
+      }
+
+      // 2. Spacebar Studio ASMR Audio Hold
+      if (e.code === 'Space' && !e.repeat && !isStarted) {
+        sound.startStudioASMR()
+      }
+
+      // 3. Secret Typing Buffer Listener for "naroa", "borja", "moskv"
+      if (e.key.length === 1) {
+        typedBufferRef.current = (typedBufferRef.current + e.key.toLowerCase()).slice(-12)
+        if (
+          typedBufferRef.current.includes('naroa') || 
+          typedBufferRef.current.includes('borja') || 
+          typedBufferRef.current.includes('moskv')
+        ) {
+          setIsEasterEggOpen(true)
+          typedBufferRef.current = ''
+        }
+      }
+    }
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.code === 'Space') {
+        sound.stopStudioASMR()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('keyup', handleKeyUp)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('keyup', handleKeyUp)
+    }
+  }, [isStarted])
+
   // Auto-request Fullscreen on initial user interaction
   useEffect(() => {
     const handleInitialInteraction = () => {
@@ -96,6 +155,7 @@ export default function App() {
       window.removeEventListener('click', handleInitialInteraction)
     }
   }, [])
+
 
   // Hash Navigation Handler
   useEffect(() => {
@@ -362,6 +422,23 @@ export default function App() {
           setModalArtwork(ARTWORKS[idx])
         }}
       />
+
+      {/* ⚡ Capa Sota WOW Modals */}
+      <CuratorialTerminal
+        isOpen={isTerminalOpen}
+        onClose={() => setIsTerminalOpen(false)}
+      />
+
+      <EspejoDelAlmaModal
+        isOpen={isEspejoOpen}
+        onClose={() => setIsEspejoOpen(false)}
+      />
+
+      <SecretEasterEggModal
+        isOpen={isEasterEggOpen}
+        onClose={() => setIsEasterEggOpen(false)}
+      />
     </>
   )
 }
+
