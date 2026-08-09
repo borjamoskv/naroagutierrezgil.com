@@ -193,6 +193,8 @@ export function GalleryGrid({ onInspect }: GalleryGridProps) {
   const [hoveredId, setHoveredId] = useState<number | null>(null)
   const [columns, setColumns] = useState(3)
   const [filter, setFilter] = useState('TODAS')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [visibleCount, setVisibleCount] = useState(24)
 
   useEffect(() => {
     const update = () => {
@@ -207,8 +209,24 @@ export function GalleryGrid({ onInspect }: GalleryGridProps) {
     return () => window.removeEventListener('resize', update)
   }, [])
 
-  // Filter artworks by curatorial series or medium
+  // Reset pagination count on filter/search change
+  useEffect(() => {
+    setVisibleCount(24)
+  }, [filter, searchQuery])
+
+  // Filter artworks by search query + curatorial series/medium
   const filteredArtworks = ARTWORKS.filter(art => {
+    // Search query match
+    if (searchQuery.trim() !== '') {
+      const q = searchQuery.toLowerCase().trim()
+      const matchTitle = art.title.toLowerCase().includes(q)
+      const matchMedium = art.medium.toLowerCase().includes(q)
+      const matchYear = String(art.year).includes(q)
+      const matchCategory = art.category ? art.category.toLowerCase().includes(q) : false
+      if (!matchTitle && !matchMedium && !matchYear && !matchCategory) return false
+    }
+
+    // Category filter match
     if (filter === 'TODAS') return true
     if (filter === 'DIVINOS') return art.series === 'divinos' || art.title.toLowerCase().includes('marilyn') || art.title.toLowerCase().includes('amy') || art.title.toLowerCase().includes('james') || art.title.toLowerCase().includes('johnny') || art.title.toLowerCase().includes('divino')
     if (filter === 'VAIVENES') return art.series === 'vaivenes' || art.title.toLowerCase().includes('celia') || art.title.toLowerCase().includes('baroque') || art.medium.toLowerCase().includes('vaivenes')
@@ -218,12 +236,13 @@ export function GalleryGrid({ onInspect }: GalleryGridProps) {
     return true
   })
 
+  const visibleArtworks = filteredArtworks.slice(0, visibleCount)
 
   // Masonry column distribution
   const cols: typeof ARTWORKS[] = Array.from({ length: columns }, () => [])
   const heights = new Array(columns).fill(0)
 
-  filteredArtworks.forEach((art) => {
+  visibleArtworks.forEach((art) => {
     const shortest = heights.indexOf(Math.min(...heights))
     cols[shortest].push(art)
     const h = art.sizeCategory === 'colossal' ? 4 : art.sizeCategory === 'large' ? 3 : art.sizeCategory === 'medium' ? 2.2 : 1.6
@@ -240,7 +259,81 @@ export function GalleryGrid({ onInspect }: GalleryGridProps) {
       flexDirection: 'column',
       alignItems: 'center'
     }}>
-      {/* Premium Filter Bar */}
+      {/* Search & Stats Header Bar */}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '16px',
+        marginBottom: '28px',
+        width: '100%',
+        maxWidth: '640px'
+      }}>
+        {/* Search Input Box */}
+        <div style={{
+          position: 'relative',
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center'
+        }}>
+          <span style={{
+            position: 'absolute',
+            left: '16px',
+            color: '#00F0FF',
+            fontSize: '1rem',
+            pointerEvents: 'none'
+          }}>
+            🔍
+          </span>
+          <input
+            type="text"
+            placeholder="Buscar por obra, icono, material (Pizarra, Mica, Amy, Marilyn...)..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '14px 44px 14px 46px',
+              borderRadius: '30px',
+              background: 'rgba(255, 255, 255, 0.04)',
+              border: searchQuery ? '1px solid #00F0FF' : '1px solid rgba(255, 255, 255, 0.12)',
+              color: '#fff',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.85rem',
+              outline: 'none',
+              transition: 'all 0.3s ease',
+              boxShadow: searchQuery ? '0 0 20px rgba(0, 240, 255, 0.25)' : 'none'
+            }}
+          />
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              style={{
+                position: 'absolute',
+                right: '16px',
+                background: 'none',
+                border: 'none',
+                color: 'rgba(255,255,255,0.6)',
+                cursor: 'pointer',
+                fontSize: '0.9rem'
+              }}
+            >
+              ✕
+            </button>
+          )}
+        </div>
+
+        {/* Counter Badge */}
+        <div style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: '0.75rem',
+          color: 'rgba(255, 255, 255, 0.6)',
+          letterSpacing: '0.08em'
+        }}>
+          MOSTRANDO <span style={{ color: '#FFE600', fontWeight: 800 }}>{visibleArtworks.length}</span> DE <span style={{ color: '#FF007A', fontWeight: 800 }}>{filteredArtworks.length}</span> OBRAS CATALOGADAS
+        </div>
+      </div>
+
+      {/* Premium Category Filter Bar */}
       <div style={{
         display: 'flex',
         gap: '12px',
@@ -276,7 +369,7 @@ export function GalleryGrid({ onInspect }: GalleryGridProps) {
         ))}
       </div>
 
-
+      {/* Masonry Grid */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: `repeat(${columns}, 1fr)`,
@@ -311,6 +404,38 @@ export function GalleryGrid({ onInspect }: GalleryGridProps) {
           ))}
         </AnimatePresence>
       </div>
+
+      {/* Progressive Load More Button */}
+      {visibleCount < filteredArtworks.length && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          style={{ marginTop: '50px' }}
+        >
+          <button
+            onClick={() => {
+              sound.playOpen()
+              setVisibleCount(prev => prev + 24)
+            }}
+            style={{
+              padding: '16px 36px',
+              borderRadius: '40px',
+              background: 'linear-gradient(135deg, rgba(255, 0, 122, 0.25) 0%, rgba(0, 240, 255, 0.25) 100%)',
+              border: '1px solid rgba(255, 230, 0, 0.6)',
+              color: '#FFE600',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.85rem',
+              fontWeight: 800,
+              letterSpacing: '0.12em',
+              cursor: 'pointer',
+              boxShadow: '0 0 30px rgba(255, 0, 122, 0.3)',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            ⚡ CARGAR MÁS OBRAS ({filteredArtworks.length - visibleCount} RESTANTES)
+          </button>
+        </motion.div>
+      )}
     </div>
   )
 }
