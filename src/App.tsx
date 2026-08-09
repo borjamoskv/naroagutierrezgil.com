@@ -302,7 +302,13 @@ export default function App() {
         {/* Mostrar Navbar SIEMPRE que NO hayamos iniciado el modo FPS inmersivo */}
         {!isStarted && (
           <div style={{ pointerEvents: 'auto', width: '100%', zIndex: 50 }}>
-            <NavigationPill currentView={currentView} audioActive={audioActive} toggleAudio={toggleAudio} onOpenTerminal={() => setIsTerminalOpen(true)} />
+            <NavigationPill
+              currentView={currentView}
+              audioActive={audioActive}
+              toggleAudio={toggleAudio}
+              onOpenTerminal={() => setIsTerminalOpen(true)}
+              onOpenEspejo={() => setIsEspejoOpen(true)}
+            />
           </div>
         )}
 
