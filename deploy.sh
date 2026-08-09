@@ -41,8 +41,9 @@ mkdir -p "$BUILD_DIR"
 log "Construyendo SPA Rediseño (modules/naroa.online)..."
 (
   cd modules/naroa.online
-  [ -d "node_modules" ] || npm install
+  npm install --include=dev
   npm run build
+
 ) || fail "Build de Vite en modules/naroa.online falló"
 ok "SPA compilada → modules/naroa.online/dist/"
 
