@@ -182,6 +182,34 @@ export function NavigationPill({ currentView, audioActive, toggleAudio, onOpenTe
           </button>
         )}
 
+        {/* 🪞 AORAN ↔ NAROA Palindrome Mirror Button */}
+        {onOpenEspejo && (
+          <button
+            onClick={() => { sound.playMicaShimmer(); onOpenEspejo() }}
+            onMouseEnter={() => sound.playHover()}
+            title="Abrir Manifiesto Especular & Palíndromos (AORAN ↔ NAROA)"
+            style={{
+              background: 'rgba(255, 0, 122, 0.18)',
+              border: '1px solid #FF007A',
+              color: '#FFE600',
+              borderRadius: '20px',
+              padding: '4px 10px',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.68rem',
+              fontWeight: 800,
+              cursor: 'pointer',
+              letterSpacing: '0.08em',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              boxShadow: '0 0 12px rgba(255, 0, 122, 0.4)',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            <span>🪞 AORAN</span>
+          </button>
+        )}
+
         {/* Automatic Locale Selector Badge */}
         <div style={{
           display: 'flex',
