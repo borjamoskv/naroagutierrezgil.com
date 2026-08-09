@@ -48,12 +48,21 @@ class SoundEngine {
     return this.enabled
   }
 
-  private asmrNoiseNode: AudioNode | null = null;
-  private asmrGainNode: GainNode | null = null;
+  private beatListeners: Set<(intensity: number) => void> = new Set()
+
+  public subscribeBeat(cb: (intensity: number) => void) {
+    this.beatListeners.add(cb)
+    return () => this.beatListeners.delete(cb)
+  }
+
+  private emitBeat(intensity = 1.0) {
+    this.beatListeners.forEach(cb => cb(intensity))
+  }
 
   // Synth: Organic Cardiac Heartbeat Pulse (Latido de Corazón Lub-Dub)
   public playHeartbeat(volume = 0.08, isDoubleBeat = true) {
     if (!this.enabled) return
+    this.emitBeat(1.2)
     try {
       this.initCtx()
       if (!this.ctx) return

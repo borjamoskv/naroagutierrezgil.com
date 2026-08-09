@@ -16,12 +16,23 @@ const CATEGORIES = [
   { key: 'PIZARRA', label: '💎 PIZARRA NATURAL' }
 ]
 
-// 3D Tilt Card Component
+// 3D Tilt Card Component (Reactivo al Sonido y Latidos)
 function TiltCard({ artwork, isHovered, setHoveredId, onInspect, idx, columns }: any) {
   const ref = useRef<HTMLDivElement>(null)
+  const [isPulsing, setIsPulsing] = useState(false)
   
   const x = useMotionValue(0)
   const y = useMotionValue(0)
+
+  // Escuchar impulsos cardiacos y frecuencias del motor de audio
+  useEffect(() => {
+    const unsub = sound.subscribeBeat(() => {
+      setIsPulsing(true)
+      const timer = setTimeout(() => setIsPulsing(false), 240)
+      return () => clearTimeout(timer)
+    })
+    return unsub
+  }, [])
 
   // Spring settings for ultra-smooth physics
   const springConfig = { damping: 25, stiffness: 300, mass: 0.5 }
@@ -67,7 +78,10 @@ function TiltCard({ artwork, isHovered, setHoveredId, onInspect, idx, columns }:
         y: { type: 'spring', stiffness: 250, damping: 25, delay: Math.min(idx * 0.04, 0.4) }
       }}
       onMouseMove={handleMouseMove}
-      onMouseEnter={() => setHoveredId(artwork.id)}
+      onMouseEnter={() => {
+        sound.playHeartbeat(0.06)
+        setHoveredId(artwork.id)
+      }}
       onMouseLeave={handleMouseLeave}
       onClick={() => { sound.playOpen(); onInspect(idx) }}
       style={{
@@ -87,14 +101,54 @@ function TiltCard({ artwork, isHovered, setHoveredId, onInspect, idx, columns }:
           rotateX: isHovered ? rotateX : 0,
           rotateY: isHovered ? rotateY : 0,
           transformStyle: 'preserve-3d',
-          boxShadow: isHovered 
+          boxShadow: isPulsing 
+            ? '0 0 35px rgba(255, 0, 122, 0.7), 0 0 20px rgba(255, 230, 0, 0.5)'
+            : isHovered 
             ? '0 30px 60px rgba(0,0,0,0.9), 0 0 40px rgba(255, 0, 122, 0.35)' 
             : '0 10px 30px rgba(0,0,0,0.5)',
-          border: isHovered ? '1px solid #FF007A' : '1px solid rgba(255,255,255,0.05)',
-          transition: 'border 0.4s ease, box-shadow 0.4s ease',
+          border: isPulsing 
+            ? '1.5px solid #FFE600' 
+            : isHovered 
+            ? '1px solid #FF007A' 
+            : '1px solid rgba(255,255,255,0.05)',
+          transition: 'all 0.25s ease',
           background: '#050507'
         }}
       >
+        {/* Audio Reactive Badge on Hover */}
+        {isHovered && (
+          <div style={{
+            position: 'absolute',
+            top: '12px',
+            right: '12px',
+            zIndex: 10,
+            padding: '4px 10px',
+            background: 'rgba(5, 5, 8, 0.85)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(0, 240, 255, 0.6)',
+            borderRadius: '20px',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.6rem',
+            fontWeight: 900,
+            color: '#00F0FF',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            boxShadow: '0 0 10px rgba(0, 240, 255, 0.4)'
+          }}>
+            <span style={{
+              display: 'inline-block',
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              background: isPulsing ? '#FFE600' : '#00F0FF',
+              boxShadow: isPulsing ? '0 0 8px #FFE600' : '0 0 6px #00F0FF',
+              transition: 'all 0.15s ease'
+            }} />
+            🎵 LATIDO SOTA
+          </div>
+        )}
+
         <img
           src={artwork.url}
           alt={artwork.title}
@@ -103,9 +157,13 @@ function TiltCard({ artwork, isHovered, setHoveredId, onInspect, idx, columns }:
             width: '100%',
             height: 'auto',
             display: 'block',
-            transition: 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease',
-            transform: isHovered ? 'scale(1.06)' : 'scale(1.01)',
-            filter: isHovered ? 'brightness(1.05) contrast(1.05) saturate(1.1)' : 'brightness(0.9) contrast(1.0) saturate(1.0)',
+            transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease',
+            transform: isPulsing ? 'scale(1.08)' : isHovered ? 'scale(1.05)' : 'scale(1.01)',
+            filter: isPulsing 
+              ? 'brightness(1.15) contrast(1.1) saturate(1.2)' 
+              : isHovered 
+              ? 'brightness(1.05) contrast(1.05) saturate(1.1)' 
+              : 'brightness(0.9) contrast(1.0) saturate(1.0)',
           }}
         />
 
