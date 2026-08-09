@@ -51,3 +51,7 @@ lh-report.json
 
 # Added by Antigravity C5-REAL Audit
 *.key
+Cargo.lock
+.deploy
+dist
+

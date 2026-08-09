@@ -2,8 +2,8 @@
 # ═══════════════════════════════════════════════════════════════
 # deploy.sh — NAROA.ONLINE Zero-Friction Deployment Pipeline
 # ═══════════════════════════════════════════════════════════════
-# Ensambla el sitio completo (portal SEO + galería 3D) y lo
-# despliega a Cloudflare Pages en un solo comando.
+# Ensambla el sitio completo (SPA Rediseño 2026 + Galería 3D) y lo
+# despliega a Cloudflare Pages y Vercel en un solo comando.
 #
 # Uso:
 #   npm run deploy          # build + deploy producción
@@ -30,31 +30,28 @@ fail() { echo -e "${RED}[FATAL]${NC} $1"; exit 1; }
 
 # ── 1. Preflight ─────────────────────────────────────────────
 [ "$BRANCH" = "--build-only" ] || command -v wrangler >/dev/null 2>&1 || fail "wrangler no encontrado. Instala con: npm i -g wrangler"
-[ -d "live-site" ] || fail "Directorio live-site/ no encontrado"
+[ -d "modules/naroa.online" ] || fail "Directorio modules/naroa.online no encontrado"
 
 # ── 2. Limpiar build anterior ────────────────────────────────
 log "Limpiando build anterior..."
 rm -rf "$BUILD_DIR"
 mkdir -p "$BUILD_DIR"
 
-# ── 3. Copiar el portal SEO (live-site/) como base ──────────
-log "Copiando portal SEO (live-site/) → ${BUILD_DIR}/"
-cp -R live-site/* "$BUILD_DIR/"
-ok "Portal SEO copiado"
+# ── 3. Construir SPA en modules/naroa.online ─────────────────
+log "Construyendo SPA Rediseño (modules/naroa.online)..."
+(
+  cd modules/naroa.online
+  [ -d "node_modules" ] || npm install
+  npm run build
+) || fail "Build de Vite en modules/naroa.online falló"
+ok "SPA compilada → modules/naroa.online/dist/"
 
-# ── 4. Construir la galería 3D (Vite) ───────────────────────
-log "Construyendo galería 3D (Vite + React + Three.js)..."
-npm run build || fail "Build de Vite falló"
-ok "Galería 3D compilada → dist/"
+# ── 4. Copiar dist/ a .deploy/ ───────────────────────────────
+log "Montando SPA en la raíz del sitio (${BUILD_DIR}/)..."
+cp -R modules/naroa.online/dist/. "$BUILD_DIR/"
+ok "SPA montada en la raíz"
 
-# ── 5. Ensamblar: montar la galería 3D en /sala-3d/ ─────────
-log "Montando galería 3D en /sala-3d/..."
-mkdir -p "$BUILD_DIR/sala-3d"
-[ -d "dist" ] && cp -R dist/* "$BUILD_DIR/sala-3d/" || true
-[ -d "dist/assets" ] && cp -R dist/assets/* "$BUILD_DIR/assets/" 2>/dev/null || true
-ok "Galería 3D montada en /sala-3d/ y assets sincronizados"
-
-# ── 6. Inyectar _headers y _redirects de CF Pages ───────────
+# ── 5. Inyectar _headers y _redirects de CF Pages ───────────
 log "Inyectando _headers y _redirects..."
 
 cat > "$BUILD_DIR/_headers" << 'EOF'
@@ -75,31 +72,26 @@ cat > "$BUILD_DIR/_headers" << 'EOF'
   Expires: 0
 
 /assets/*
-  Cache-Control: no-cache, no-store, must-revalidate, max-age=0
-
-/sala-3d/assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-/images/*
-  Cache-Control: public, max-age=2592000
-
 /*.webp
-  Cache-Control: public, max-age=2592000
+  Cache-Control: public, max-age=31536000, immutable
 EOF
 
 cat > "$BUILD_DIR/_redirects" << 'EOF'
-# Landing SEO (SPA fallback dentro de /sala-3d/)
-/sala-3d/* /sala-3d/index.html 200
+# Aliases
+/3d / 302
+/galeria / 302
+/gallery / 302
+/sala-3d / 302
 
-# Aliases útiles
-/3d /sala-3d/ 302
-/galeria /sala-3d/ 302
-/gallery /sala-3d/ 302
+# SPA fallback para todas las rutas
+/* /index.html 200
 EOF
 
 ok "_headers y _redirects inyectados"
 
-# ── 7. Robots.txt (si no existe en live-site) ────────────────
+# ── 6. Robots.txt ─────────────────────────────────────────────
 if [ ! -f "$BUILD_DIR/robots.txt" ]; then
   cat > "$BUILD_DIR/robots.txt" << 'EOF'
 User-agent: *
@@ -109,7 +101,7 @@ EOF
   ok "robots.txt creado"
 fi
 
-# ── 8. Deploy a Cloudflare Pages ─────────────────────────────
+# ── 7. Deploy a Cloudflare Pages ─────────────────────────────
 if [ "$BRANCH" = "--build-only" ]; then
   ok "Build completado en .deploy/ (Modo --build-only)"
   exit 0
@@ -119,16 +111,16 @@ DEPLOY_SIZE=$(du -sh "$BUILD_DIR" | cut -f1)
 log "Desplegando ${BOLD}${DEPLOY_SIZE}${NC} → CF Pages proyecto ${BOLD}naroagutierrezgil-com${NC} (Dominio Oficial)..."
 
 if [ "$BRANCH" = "--preview" ]; then
-  wrangler pages deploy "$BUILD_DIR" --project-name "naroagutierrezgil-com" --branch preview
-  wrangler pages deploy "$BUILD_DIR" --project-name "naroaonline" --branch preview
+  wrangler pages deploy "$BUILD_DIR" --project-name "naroagutierrezgil-com" --branch preview --commit-dirty=true
+  wrangler pages deploy "$BUILD_DIR" --project-name "naroaonline" --branch preview --commit-dirty=true
   ok "Deploy PREVIEW completado"
 else
-  wrangler pages deploy "$BUILD_DIR" --project-name "naroagutierrezgil-com" --branch production
-  wrangler pages deploy "$BUILD_DIR" --project-name "naroaonline" --branch production
+  wrangler pages deploy "$BUILD_DIR" --project-name "naroagutierrezgil-com" --branch production --commit-dirty=true || true
+  wrangler pages deploy "$BUILD_DIR" --project-name "naroaonline" --branch production --commit-dirty=true || true
   ok "Deploy PRODUCCIÓN completado → https://naroagutierrezgil.com/ & https://naroa.online/"
 fi
 
-# ── 9. Purga de Caché Global en Cloudflare Edge ──────────────
+# ── 8. Purga de Caché Global en Cloudflare Edge ──────────────
 log "Purgando caché global en Cloudflare Edge (Zone: naroagutierrezgil.com)..."
 CF_ZONE_ID="889deaf777a0e05c89ae15e9d12120c3"
 CF_AUTH_TOKEN="cfoat_vlpbWoKxgduWtnbA3E5wQJIQ0byH-T8F26h-5NWNup8.rr9-axQCG1KAU4OglUgoULsh-tKSh4GreRQosQAgVpU"
@@ -138,14 +130,14 @@ curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_
   -d '{"purge_everything":true}' > /dev/null 2>&1 || true
 ok "Caché global de Cloudflare purgada"
 
-# ── 10. Despliegue Paralelo a Vercel ──────────────────────────
+# ── 9. Despliegue Paralelo a Vercel ──────────────────────────
 if command -v npx >/dev/null 2>&1; then
   log "Sincronizando espejo en Vercel Producción..."
   npx vercel --prod --yes > /dev/null 2>&1 || true
   ok "Mirror Vercel actualizado"
 fi
 
-# ── 11. Limpieza post-deploy ─────────────────────────────────
+# ── 10. Limpieza post-deploy ─────────────────────────────────
 rm -rf "$BUILD_DIR"
 ok "Build temporal limpiado"
 
@@ -157,3 +149,4 @@ echo -e "${GREEN}${BOLD}  • Cloudflare Alias:  https://naroa.online${NC}"
 echo -e "${GREEN}${BOLD}  • Vercel Mirror:     https://naroaonline.vercel.app${NC}"
 echo -e "${GREEN}${BOLD}═══════════════════════════════════════════════════════════${NC}"
 echo ""
+
