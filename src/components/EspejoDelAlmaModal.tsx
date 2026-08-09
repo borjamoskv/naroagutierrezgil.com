@@ -114,7 +114,7 @@ export const EspejoDelAlmaModal: React.FC<EspejoDelAlmaModalProps> = ({ isOpen, 
           >
             <motion.div
               animate={{ rotateY: isFlipped ? 180 : 0 }}
-              transition={{ duration: 0.6, cubicBezier: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               style={{
                 width: '100%',
                 height: '100%',
