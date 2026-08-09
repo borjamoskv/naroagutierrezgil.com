@@ -1,4 +1,4 @@
-export const PORTAL = 'https://naroagutierrezgil.com'
+export const PORTAL = 'https://naroa.online'
 
 export interface Artwork {
   id: number

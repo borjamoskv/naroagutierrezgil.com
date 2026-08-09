@@ -203,7 +203,7 @@ export function HomeHero() {
             }}
           >
             <img
-              src="/assets/marilyn-rocks--qPeLHxE.webp"
+              src="/assets/marilyn-new.webp"
               alt="Marilyn Rocks — Naroa Gutiérrez Gil"
               style={{ 
                 width: '100%', 
