@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@500;600;700&family=Share+Tech+Mono&display=swap');
 
 :root {
-  --bg-color: #07070a;
+  --bg-color: #020202;
   --text-color: #FFFFFF;
-  --accent-color: #2B3BE5;
-  --accent-glow: rgba(43, 59, 229, 0.45);
-  --border-color: rgba(43, 59, 229, 0.2);
-  --glass-bg: rgba(10, 10, 14, 0.75);
+  --accent-color: #ffffff;
+  --accent-glow: transparent;
+  --border-color: rgba(255, 255, 255, 0.15);
+  --glass-bg: transparent;
   --glass-border: rgba(255, 255, 255, 0.12);
   --font-sans: 'Outfit', sans-serif;
   --font-mono: 'Share Tech Mono', monospace;
@@ -24,6 +24,10 @@ html, body, #root {
   -webkit-font-smoothing: antialiased;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 /* Scanline atmosférico sutil */
 html::after {
   content: '';
@@ -37,7 +41,7 @@ html::after {
     rgba(0, 0, 0, 0.03) 4px
   );
   pointer-events: none;
-  z-index: 9999;
+  z-index: 5;
 }
 
 canvas {
@@ -428,6 +432,15 @@ canvas {
   color: #FFFFFF;
 }
 
+.artwork-title-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
 .artwork-medium-badge {
   font-size: 0.65rem;
   background: rgba(255, 255, 255, 0.1);
@@ -695,6 +708,17 @@ canvas {
 }
 
 /* Accessibility */
+/* Focus visible ring for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .spinner,
   .loader-text,
@@ -705,6 +729,15 @@ canvas {
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .headline h1 {
+    font-size: 2.2rem;
+  }
+  .headline {
+    max-width: 380px;
+  }
+}
+
 @media (max-width: 860px) {
   .modal-body {
     grid-template-columns: 1fr;
@@ -755,3 +788,761 @@ canvas {
     display: none;
   }
 }
+
+@media (max-width: 480px) {
+  .nav a:not(.active) {
+    display: none;
+  }
+  .headline h1 {
+    font-size: 1.3rem;
+  }
+  .headline p {
+    font-size: 0.8rem;
+  }
+  .gallery-dots-bar {
+    gap: 6px;
+  }
+  .dot-item {
+    width: 8px;
+    height: 8px;
+  }
+  .dot-item.active {
+    width: 24px;
+  }
+  .artwork-cta-btn {
+    display: none;
+  }
+  .caption-arrow {
+    width: 34px;
+    height: 34px;
+    font-size: 1.2rem;
+  }
+  .modal-title {
+    font-size: 1.3rem;
+  }
+  .modal-cta {
+    padding: 10px 18px;
+    font-size: 0.72rem;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   SISTEMA DE DISEÑO POP BRUTALISTA (BRUTALIST POP 2026)
+   ════════════════════════════════════════════════════════════════ */
+:root {
+  --brutal-pink: #FF0055;
+  --brutal-yellow: #FFE600;
+  --brutal-cyan: #00F0FF;
+  --brutal-green: #39FF14;
+  --brutal-black: #0A0A0A;
+  --brutal-dark-card: #141418;
+  --brutal-border-color: #000000;
+  --brutal-border: 3px solid #000000;
+  --brutal-shadow: 5px 5px 0px #000000;
+  --brutal-shadow-pink: 5px 5px 0px #FF0055;
+  --brutal-shadow-yellow: 5px 5px 0px #FFE600;
+}
+
+/* VISTAS SCROLLABLES SOBRE EL CANVAS */
+.view-container {
+  position: absolute;
+  top: 90px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 140px);
+  overflow-y: auto;
+  pointer-events: auto;
+  z-index: 20;
+  padding: 20px 40px;
+  box-sizing: border-box;
+}
+
+/* MARQUESINA ANIMADA */
+.brutal-marquee-bar {
+  width: 100%;
+  background: var(--brutal-yellow);
+  color: #000;
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 8px 0;
+  overflow: hidden;
+  border-top: var(--brutal-border);
+  border-bottom: var(--brutal-border);
+  margin-bottom: 24px;
+}
+
+.brutal-marquee-bar--cyan {
+  background: var(--brutal-cyan);
+}
+
+.brutal-marquee-content {
+  display: flex;
+  white-space: nowrap;
+  animation: brutalMarquee 25s linear infinite;
+  gap: 40px;
+}
+
+@keyframes brutalMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* INSIGNIAS & TAGS BRUTALISTAS */
+.brutal-badge {
+  display: inline-block;
+  background: #fff;
+  color: #000;
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0px #000;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.brutal-badge--pink { background: var(--brutal-pink); color: #fff; }
+.brutal-badge--yellow { background: var(--brutal-yellow); color: #000; }
+
+.brutal-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border: 1px solid #000;
+}
+.brutal-tag--green { background: var(--brutal-green); color: #000; }
+
+/* TITULARES & TEXTOS POP BRUTALISTAS */
+.brutal-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: #fff;
+  margin: 0 0 14px 0;
+  text-shadow: 3px 3px 0px #000;
+}
+
+.highlight-yellow {
+  background: var(--brutal-yellow);
+  color: #000;
+  padding: 2px 8px;
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0px #000;
+}
+
+.highlight-pink {
+  background: var(--brutal-pink);
+  color: #fff;
+  padding: 2px 8px;
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0px #000;
+}
+
+.highlight-cyan {
+  background: var(--brutal-cyan);
+  color: #000;
+  padding: 2px 8px;
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0px #000;
+}
+
+.brutal-subtitle {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 680px;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+/* TARJETAS & BOTONES BRUTALISTAS */
+.brutal-card {
+  background: var(--brutal-dark-card);
+  border: 3px solid var(--brutal-pink);
+  box-shadow: var(--brutal-shadow);
+  padding: 24px;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.brutal-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 7px 7px 0px var(--brutal-yellow);
+}
+
+.brutal-btn {
+  background: #1e1e24;
+  color: #fff;
+  border: 2px solid #fff;
+  padding: 10px 18px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 3px 3px 0px var(--brutal-pink);
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brutal-btn:hover {
+  background: var(--brutal-yellow);
+  color: #000;
+  border-color: #000;
+  box-shadow: 4px 4px 0px #000;
+  transform: translate(-2px, -2px);
+}
+
+.brutal-btn:active, .brutal-btn.active {
+  background: var(--brutal-pink);
+  color: #fff;
+  box-shadow: 2px 2px 0px #000;
+  transform: translate(2px, 2px);
+}
+
+.nav-cta-encargos {
+  background: var(--brutal-pink) !important;
+  color: #fff !important;
+  padding: 6px 14px !important;
+  border: 2px solid #000 !important;
+  box-shadow: 3px 3px 0px var(--brutal-yellow) !important;
+  font-weight: 700 !important;
+}
+
+.nav-cta-encargos:hover {
+  background: var(--brutal-yellow) !important;
+  color: #000 !important;
+  box-shadow: 4px 4px 0px var(--brutal-pink) !important;
+}
+
+/* CALCULADORA DE ENCARGOS */
+.commission-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 28px;
+  margin-bottom: 40px;
+}
+
+.calc-step-card {
+  margin-bottom: 24px;
+}
+
+.step-num-badge {
+  position: absolute;
+  top: -14px;
+  right: 16px;
+  background: var(--brutal-cyan);
+  color: #000;
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 2px 10px;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 0px #000;
+}
+
+.step-title {
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.opt-btn {
+  width: 100%;
+  text-align: left;
+  position: relative;
+  flex-direction: row;
+}
+
+.opt-badge {
+  position: absolute;
+  top: -10px;
+  right: 6px;
+  background: var(--brutal-pink);
+  color: #fff;
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border: 1px solid #000;
+}
+.opt-badge--cyan { background: var(--brutal-cyan); color: #000; }
+
+.opt-icon { font-size: 1.4rem; }
+.opt-text { display: flex; flex-direction: column; }
+.opt-label { font-weight: 700; font-size: 0.85rem; }
+.opt-sub { font-size: 0.7rem; opacity: 0.8; font-family: 'Inter', sans-serif; }
+
+/* PANEL DE RESUMEN Y CONVERSIÓN */
+.sticky-card {
+  position: sticky;
+  top: 20px;
+}
+
+.summary-top {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.2);
+}
+
+.price-display {
+  margin-top: 12px;
+}
+
+.price-range {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: 2.2rem;
+  color: var(--brutal-yellow);
+  display: block;
+  text-shadow: 2px 2px 0px #000;
+}
+
+.price-note {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.summary-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.spec-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 6px;
+}
+
+.spec-key { color: rgba(255, 255, 255, 0.6); }
+.spec-val { font-weight: 700; color: #fff; }
+
+.guarantees-box {
+  background: rgba(255, 255, 255, 0.04);
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 0.78rem;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.brutal-cta-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 14px 20px;
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: 3px solid #000;
+  box-shadow: 4px 4px 0px #000;
+  transition: all 0.15s ease;
+  box-sizing: border-box;
+}
+
+.brutal-cta-btn--whatsapp {
+  background: var(--brutal-green);
+  color: #000;
+}
+
+.brutal-cta-btn--whatsapp:hover {
+  background: #2ee00e;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--brutal-pink);
+}
+
+.brutal-cta-btn--email {
+  background: var(--brutal-pink);
+  color: #fff;
+}
+
+.brutal-cta-btn--email:hover {
+  background: #ff2270;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--brutal-yellow);
+}
+
+/* PROCESO & FAQ */
+.process-section, .faq-section {
+  margin-top: 50px;
+}
+
+.section-brutal-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: 2rem;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.process-card {
+  position: relative;
+  padding-top: 36px;
+}
+
+.process-num {
+  position: absolute;
+  top: -12px;
+  left: 16px;
+  background: var(--brutal-yellow);
+  color: #000;
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: 700;
+  padding: 2px 8px;
+  border: 2px solid #000;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.faq-question-btn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+}
+
+.faq-arrow {
+  font-size: 1.4rem;
+  color: var(--brutal-yellow);
+}
+
+.faq-answer-content p {
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+  font-size: 0.9rem;
+}
+
+/* SALA DE JUEGOS GRID */
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.game-card {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.game-card--playable {
+  border-color: var(--brutal-yellow);
+}
+
+.game-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.game-category-tag {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--brutal-cyan);
+}
+
+.game-badge {
+  background: var(--brutal-pink);
+  color: #fff;
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border: 1px solid #000;
+}
+
+.game-icon { font-size: 2.2rem; margin-bottom: 8px; }
+.game-title { font-size: 1.2rem; text-transform: uppercase; margin-bottom: 6px; }
+.game-desc { font-size: 0.8rem; opacity: 0.8; margin-bottom: 16px; flex-grow: 1; }
+
+.play-btn { width: 100%; justify-content: center; }
+
+/* MODAL DE JUEGO ACTIVO */
+.active-game-modal {
+  margin-bottom: 32px;
+  border-color: var(--brutal-cyan);
+}
+
+.game-modal-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.close-game-btn {
+  background: var(--brutal-pink);
+}
+
+/* MEMORY GAME STYLES */
+.game-stats-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 12px;
+  border: 2px solid #000;
+  margin-bottom: 20px;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.memory-card {
+  height: 120px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.memory-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.memory-back {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  color: var(--brutal-yellow);
+}
+
+.victory-banner {
+  text-align: center;
+  background: var(--brutal-green);
+  color: #000;
+  padding: 32px;
+}
+
+/* QUIZ GAME STYLES */
+.quiz-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.quiz-progress {
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--brutal-cyan);
+}
+
+.quiz-q {
+  font-size: 1.3rem;
+  color: #fff;
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quiz-opt-btn {
+  text-align: left;
+  font-size: 1rem;
+}
+
+/* RESPONSIVE BRUTALIST */
+@media (max-width: 900px) {
+  .commission-grid {
+    grid-template-columns: 1fr;
+  }
+  .view-container {
+    padding: 16px;
+  }
+  .memory-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* HOME HERO GRID */
+.home-hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.hero-meta-badges {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* REJILLA MASIVA DE OBRAS (COLECCIÓN COMPLETA) */
+.massive-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-auto-flow: dense;
+  gap: 24px;
+}
+
+.grid-item--colossal {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.grid-item--large {
+  grid-column: span 2;
+}
+
+.gallery-item-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 0;
+}
+
+.item-img-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+}
+
+.item-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.gallery-item-card:hover .item-img {
+  transform: scale(1.05);
+}
+
+.item-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.2) 60%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  opacity: 0.95;
+  transition: opacity 0.3s ease;
+}
+
+.item-badge {
+  background: var(--brutal-yellow);
+  color: #000;
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: 700;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  align-self: flex-start;
+  margin-bottom: 6px;
+}
+
+.item-title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: #fff;
+  text-transform: uppercase;
+  margin: 0;
+  text-shadow: 2px 2px 0px #000;
+}
+
+.item-medium {
+  font-size: 0.78rem;
+  color: var(--brutal-cyan);
+  margin-top: 4px;
+}
+
+/* BLOG GRID */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.blog-date {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--brutal-yellow);
+  margin-bottom: 8px;
+}
+
+.blog-post-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.blog-excerpt {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.8);
+  flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+  .home-hero-grid, .gallery-hero-box .hero-artwork-wrap {
+    grid-template-columns: 1fr !important;
+  }
+  .grid-item--colossal, .grid-item--large {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+}
+
