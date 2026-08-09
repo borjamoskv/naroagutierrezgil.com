@@ -26,12 +26,15 @@ function TiltCard({ artwork, isHovered, setHoveredId, onInspect, idx, columns }:
 
   // Escuchar impulsos cardiacos y frecuencias del motor de audio
   useEffect(() => {
+    let timer: any = null
     const unsub = sound.subscribeBeat(() => {
       setIsPulsing(true)
-      const timer = setTimeout(() => setIsPulsing(false), 240)
-      return () => clearTimeout(timer)
+      timer = setTimeout(() => setIsPulsing(false), 240)
     })
-    return unsub
+    return () => {
+      unsub()
+      if (timer) clearTimeout(timer)
+    }
   }, [])
 
   // Spring settings for ultra-smooth physics

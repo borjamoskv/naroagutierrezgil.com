@@ -49,10 +49,12 @@ class SoundEngine {
   }
 
   private beatListeners: Set<(intensity: number) => void> = new Set()
+  private asmrNoiseNode: AudioNode | null = null
+  private asmrGainNode: GainNode | null = null
 
   public subscribeBeat(cb: (intensity: number) => void) {
     this.beatListeners.add(cb)
-    return () => this.beatListeners.delete(cb)
+    return () => { this.beatListeners.delete(cb) }
   }
 
   private emitBeat(intensity = 1.0) {
