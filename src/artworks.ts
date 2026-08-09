@@ -1,4 +1,4 @@
-export const PORTAL = 'https://naroagutierrezgilcom.vercel.app'
+export const PORTAL = 'https://naroagutierrezgil.com'
 
 
 export interface Artwork {
