@@ -701,7 +701,7 @@ export const ARTWORKS: Artwork[] = [
     medium: 'Acrílico y Óleo sobre Lienzo',
     description: 'Obra hiperrealista: Rosetta Tharpe.',
     sizeCategory: 'medium'
-  },,
+  },
   {
     id: 201,
     slug: "retrato-icono-naroa",
