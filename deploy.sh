@@ -90,7 +90,7 @@ if [ ! -f "$BUILD_DIR/robots.txt" ]; then
   cat > "$BUILD_DIR/robots.txt" << 'EOF'
 User-agent: *
 Allow: /
-Sitemap: https://naroagutierrezgil.com/sitemap.xml
+Sitemap: https://naroa.online/sitemap.xml
 EOF
   ok "robots.txt creado"
 fi
