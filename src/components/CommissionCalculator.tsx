@@ -1,207 +1,239 @@
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 
-// ─── Especificaciones de Formatos ───
-const FORMATS = [
-  { id: 'busto', label: 'Busto', sub: '30x40cm', price: 350, icon: '🗿' },
-  { id: 'medio_cuerpo', label: 'Medio Cuerpo', sub: '40x60cm', price: 450, icon: '👤' },
-  { id: 'cuerpo_entero', label: 'Cuerpo Entero', sub: '50x70cm', price: 550, icon: '🧍' },
-  { id: 'gran_formato', label: 'Gran Formato', sub: '70x100cm+', price: 850, icon: '🖼️' }
-]
-
-// ─── Soportes ───
-const SUPPORTS = [
-  { id: 'lienzo', label: 'Lienzo Clásico', sub: 'Algodón premium', mult: 1.0, icon: '🎨' },
-  { id: 'pizarra', label: 'Pizarra Vasca', sub: 'Recuperada de tejado', mult: 1.3, icon: '🪨' },
-  { id: 'mica', label: 'Pizarra + Mica', sub: 'Destello mineral', mult: 1.6, icon: '✨' }
-]
-
-// ─── Técnicas ───
-const TECHNIQUES = [
-  { id: 'hiperrealismo', label: 'Hiperrealismo', sub: 'Máximo detalle', mult: 1.0, icon: '🔬' },
-  { id: 'pop', label: 'Pop Art', sub: 'Colores vibrantes', mult: 1.1, icon: '⚡' },
-  { id: 'mixta', label: 'Técnica Mixta', sub: 'Collage y texturas', mult: 1.2, icon: '🧩' }
-]
+interface CalculatorState {
+  size: 'pequeño' | 'mediano' | 'grande' | 'gigante'
+  material: 'lienzo' | 'pizarra' | 'mica'
+  complexity: 'estandar' | 'hiperrealista'
+  frame: 'sin_marco' | 'minimalista' | 'barroco'
+}
 
 export function CommissionCalculator() {
-  const [format, setFormat] = useState(FORMATS[1])
-  const [support, setSupport] = useState(SUPPORTS[0])
-  const [technique, setTechnique] = useState(TECHNIQUES[0])
+  const [state, setState] = useState<CalculatorState>({
+    size: 'mediano',
+    material: 'pizarra',
+    complexity: 'hiperrealista',
+    frame: 'sin_marco'
+  })
 
-  const basePrice = format.price
-  const finalPrice = Math.round(basePrice * support.mult * technique.mult)
-  const minPrice = Math.round(finalPrice * 0.9)
-  const maxPrice = Math.round(finalPrice * 1.1)
+  const sizePrices = {
+    pequeño: 300,
+    mediano: 600,
+    grande: 1200,
+    gigante: 2500
+  }
 
-  const waMessage = `Hola Naroa! Estoy interesado/a en un retrato por encargo.%0A%0A- Formato: ${format.label} (${format.sub})%0A- Soporte: ${support.label}%0A- Técnica: ${technique.label}%0A%0APresupuesto estimado: €${minPrice} - €${maxPrice}%0A%0A¿Podemos hablar sobre los detalles?`
+  const materialMultipliers = {
+    lienzo: 1.0,
+    pizarra: 1.5,
+    mica: 1.8
+  }
+
+  const complexityMultipliers = {
+    estandar: 1.0,
+    hiperrealista: 1.5
+  }
+
+  const framePrices = {
+    sin_marco: 0,
+    minimalista: 80,
+    barroco: 250
+  }
+
+  const sizeLabels = {
+    pequeño: 'Pequeño (30x40cm)',
+    mediano: 'Mediano (50x70cm)',
+    grande: 'Grande (80x120cm)',
+    gigante: 'Gigante (100x150cm+)'
+  }
+
+  const materialLabels = {
+    lienzo: 'Lienzo Tradicional',
+    pizarra: 'Pizarra Natural Vasca',
+    mica: 'Pizarra + Mica Mineral'
+  }
+
+  const complexityLabels = {
+    estandar: 'Retrato Estándar',
+    hiperrealista: 'Hiperrealismo POP'
+  }
+
+  const frameLabels = {
+    sin_marco: 'Sin Marco (Cantos pintados)',
+    minimalista: 'Marco Minimalista Negro',
+    barroco: 'Marco Barroco Dorado'
+  }
+
+  const basePrice = sizePrices[state.size]
+  const totalPrice = (basePrice * materialMultipliers[state.material] * complexityMultipliers[state.complexity]) + framePrices[state.frame]
+
+  const summaryText = `Hola Naroa! Estoy interesado/a en encargar un retrato con las siguientes características:\n- Tamaño: ${sizeLabels[state.size]}\n- Soporte: ${materialLabels[state.material]}\n- Estilo: ${complexityLabels[state.complexity]}\n- Marco: ${frameLabels[state.frame]}\n\nPrecio estimado por el configurador: €${totalPrice.toFixed(0)}\n\nMe gustaría hablar contigo para concretar los detalles.`
+  const waText = encodeURIComponent(summaryText)
+  const mailtoBody = encodeURIComponent(summaryText + '\n\n(Enviado desde naroagutierrezgil.com)')
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      padding: '120px 24px 80px',
-      maxWidth: '1200px',
-      margin: '0 auto',
-      pointerEvents: 'auto'
-    }}>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <span className="premium-badge premium-badge--gold">Calculadora de Encargos</span>
-        <h1 className="premium-title" style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', marginBottom: '16px' }}>
-          Tu Retrato <span className="highlight-gold">Soñado</span>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', paddingTop: '120px', paddingBottom: '80px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+        <span className="brutal-badge brutal-badge--yellow">✦ COMISIONES ABIERTAS</span>
+        <h1 className="brutal-title" style={{ fontSize: '3rem', margin: '16px 0 8px 0' }}>
+          CONFIGURADOR DE <span className="highlight-pink">ENCARGOS</span>
         </h1>
-        <p className="premium-subtitle" style={{ maxWidth: '600px', marginBottom: '48px' }}>
-          Configura tu pieza única. Cada retrato es una conversación entre tu historia y mi pincel.
+        <p className="brutal-subtitle" style={{ margin: '0 auto' }}>
+          Diseña tu retrato hiperrealista personalizado. Cada retrato empieza con una conversación. Retratos con alma, mimo y calma.
         </p>
+      </div>
 
-        <div className="commission-main-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '32px' }}>
+      <div className="commission-grid">
+        {/* Left: Form */}
+        <div className="brutal-card" style={{ padding: '32px' }}>
           
-          {/* Columna Izquierda: Configurador */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            
-            {/* Paso 1: Formato */}
-            <motion.div className="premium-card" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-                <span className="premium-badge">1</span>
-                <h3 style={{ margin: 0, color: '#FFF' }}>Elige el Formato</h3>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                {FORMATS.map(f => (
-                  <button
-                    key={f.id}
-                    onClick={() => setFormat(f)}
-                    className={`premium-btn ${format.id === f.id ? 'premium-btn--primary' : ''}`}
-                    style={{ justifyContent: 'flex-start', padding: '16px' }}
-                  >
-                    <span style={{ fontSize: '1.4rem' }}>{f.icon}</span>
-                    <div style={{ textAlign: 'left' }}>
-                      <div style={{ fontWeight: 700 }}>{f.label}</div>
-                      <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>{f.sub}</div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Paso 2: Soporte */}
-            <motion.div className="premium-card" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-                <span className="premium-badge">2</span>
-                <h3 style={{ margin: 0, color: '#FFF' }}>Elige el Soporte</h3>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {SUPPORTS.map(s => (
-                  <button
-                    key={s.id}
-                    onClick={() => setSupport(s)}
-                    className={`premium-btn ${support.id === s.id ? 'premium-btn--primary' : ''}`}
-                    style={{ justifyContent: 'flex-start', padding: '16px' }}
-                  >
-                    <span style={{ fontSize: '1.4rem' }}>{s.icon}</span>
-                    <div style={{ textAlign: 'left' }}>
-                      <div style={{ fontWeight: 700 }}>{s.label}</div>
-                      <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>{s.sub}</div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Paso 3: Técnica */}
-            <motion.div className="premium-card" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-                <span className="premium-badge">3</span>
-                <h3 style={{ margin: 0, color: '#FFF' }}>Elige la Técnica</h3>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {TECHNIQUES.map(t => (
-                  <button
-                    key={t.id}
-                    onClick={() => setTechnique(t)}
-                    className={`premium-btn ${technique.id === t.id ? 'premium-btn--primary' : ''}`}
-                    style={{ justifyContent: 'flex-start', padding: '16px' }}
-                  >
-                    <span style={{ fontSize: '1.4rem' }}>{t.icon}</span>
-                    <div style={{ textAlign: 'left' }}>
-                      <div style={{ fontWeight: 700 }}>{t.label}</div>
-                      <div style={{ fontSize: '0.75rem', opacity: 0.7 }}>{t.sub}</div>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-
+          {/* 1. Tamaño */}
+          <div className="calc-step-card">
+            <h3 style={{ fontSize: '1.2rem', color: '#fff', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ background: 'var(--cobalt)', color: '#fff', width: '24px', height: '24px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem' }}>1</span>
+              Selecciona el Tamaño
+            </h3>
+            <div className="options-grid">
+              {(Object.keys(sizePrices) as Array<keyof typeof sizePrices>).map((s) => (
+                <button
+                  key={s}
+                  className={`brutal-btn opt-btn ${state.size === s ? 'active' : ''}`}
+                  onClick={() => setState({ ...state, size: s })}
+                >
+                  <div className="opt-text">
+                    <span className="opt-label">{sizeLabels[s]}</span>
+                    <span className="opt-sub">Desde €{sizePrices[s]}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Columna Derecha: Resumen Sticky */}
-          <div>
-            <motion.div 
-              className="premium-card"
-              style={{ position: 'sticky', top: '120px', border: '1px solid rgba(245, 158, 11, 0.4)' }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              <div style={{ borderBottom: '1px dashed rgba(255,255,255,0.2)', paddingBottom: '20px', marginBottom: '20px' }}>
-                <h3 style={{ margin: '0 0 12px 0', color: '#FFF' }}>Resumen del Encargo</h3>
-                <div style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.7)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span>Formato:</span> <strong>{format.label}</strong>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span>Soporte:</span> <strong>{support.label}</strong>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span>Técnica:</span> <strong>{technique.label}</strong>
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-                <div style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)', marginBottom: '8px', fontFamily: 'Share Tech Mono, monospace' }}>
-                  PRESUPUESTO ESTIMADO
-                </div>
-                <div style={{ fontSize: '3.5rem', fontWeight: 800, color: '#F59E0B', lineHeight: 1 }}>
-                  €{minPrice} - €{maxPrice}
-                </div>
-                <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', marginTop: '8px' }}>
-                  *Precio final tras valoración de fotos
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <a 
-                  href={`https://wa.me/34644430834?text=${waMessage}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="premium-btn premium-btn--primary"
-                  style={{ width: '100%', padding: '16px', fontSize: '1.1rem', justifyContent: 'center' }}
+          {/* 2. Soporte */}
+          <div className="calc-step-card">
+            <h3 style={{ fontSize: '1.2rem', color: '#fff', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ background: 'var(--cobalt)', color: '#fff', width: '24px', height: '24px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem' }}>2</span>
+              Soporte Matérico
+            </h3>
+            <div className="options-grid">
+              {(Object.keys(materialMultipliers) as Array<keyof typeof materialMultipliers>).map((m) => (
+                <button
+                  key={m}
+                  className={`brutal-btn opt-btn ${state.material === m ? 'active' : ''}`}
+                  onClick={() => setState({ ...state, material: m })}
                 >
-                  <span style={{ fontSize: '1.2rem' }}>💬</span> Solicitar por WhatsApp
-                </a>
-                <a 
-                  href={`mailto:naroa@naroa.eu?subject=Encargo: Retrato ${format.label}&body=Hola Naroa,%0A%0AMe interesa un retrato con estas especificaciones:%0A- Formato: ${format.label} (${format.sub})%0A- Soporte: ${support.label}%0A- Técnica: ${technique.label}%0A%0AGracias!`}
-                  className="premium-btn"
-                  style={{ width: '100%', padding: '14px', justifyContent: 'center' }}
-                >
-                  <span>✉️</span> Solicitar por Email
-                </a>
-              </div>
+                  <div className="opt-text">
+                    <span className="opt-label">{materialLabels[m]}</span>
+                    <span className="opt-sub">x{materialMultipliers[m].toFixed(1)} multiplicador</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
 
-              <div style={{ marginTop: '24px', padding: '16px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <div>✅ Certificado de autenticidad incluido</div>
-                <div>✅ Envío asegurado a toda España</div>
-                <div>✅ Fotos del proceso creativo</div>
-                <div>✅ Pago fraccionado disponible</div>
-              </div>
-            </motion.div>
+          {/* 3. Estilo */}
+          <div className="calc-step-card">
+            <h3 style={{ fontSize: '1.2rem', color: '#fff', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ background: 'var(--cobalt)', color: '#fff', width: '24px', height: '24px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem' }}>3</span>
+              Estilo Artístico
+            </h3>
+            <div className="options-grid">
+              {(Object.keys(complexityMultipliers) as Array<keyof typeof complexityMultipliers>).map((c) => (
+                <button
+                  key={c}
+                  className={`brutal-btn opt-btn ${state.complexity === c ? 'active' : ''}`}
+                  onClick={() => setState({ ...state, complexity: c })}
+                >
+                  <div className="opt-text">
+                    <span className="opt-label">{complexityLabels[c]}</span>
+                    <span className="opt-sub">x{complexityMultipliers[c].toFixed(1)} multiplicador</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 4. Marco */}
+          <div className="calc-step-card">
+            <h3 style={{ fontSize: '1.2rem', color: '#fff', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ background: 'var(--cobalt)', color: '#fff', width: '24px', height: '24px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem' }}>4</span>
+              Acabado y Enmarcado
+            </h3>
+            <div className="options-grid">
+              {(Object.keys(framePrices) as Array<keyof typeof framePrices>).map((f) => (
+                <button
+                  key={f}
+                  className={`brutal-btn opt-btn ${state.frame === f ? 'active' : ''}`}
+                  onClick={() => setState({ ...state, frame: f })}
+                >
+                  <div className="opt-text">
+                    <span className="opt-label">{frameLabels[f]}</span>
+                    <span className="opt-sub">+€{framePrices[f]}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
 
         </div>
-      </motion.div>
+
+        {/* Right: Summary Sticky */}
+        <div>
+          <div className="brutal-card sticky-card" style={{ borderColor: 'var(--gold)', boxShadow: '6px 6px 0 var(--gold)' }}>
+            <h3 style={{ fontSize: '1.4rem', color: '#fff', marginBottom: '20px', borderBottom: '2px dashed rgba(255,255,255,0.2)', paddingBottom: '12px' }}>
+              RESUMEN DEL ENCARGO
+            </h3>
+            
+            <div className="price-display" style={{ textAlign: 'center', margin: '24px 0' }}>
+              <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Inversión Estimada</span>
+              <span className="price-range" style={{ fontSize: '3rem', margin: '8px 0' }}>€{totalPrice.toFixed(0)}</span>
+              <span className="price-note">Impuestos y envío incluidos en Península</span>
+            </div>
+
+            <div className="summary-specs">
+              <div className="spec-item">
+                <span className="spec-key">Tamaño</span>
+                <span className="spec-val">{sizeLabels[state.size]}</span>
+              </div>
+              <div className="spec-item">
+                <span className="spec-key">Soporte</span>
+                <span className="spec-val">{materialLabels[state.material]}</span>
+              </div>
+              <div className="spec-item">
+                <span className="spec-key">Estilo</span>
+                <span className="spec-val">{complexityLabels[state.complexity]}</span>
+              </div>
+              <div className="spec-item">
+                <span className="spec-key">Marco</span>
+                <span className="spec-val">{frameLabels[state.frame]}</span>
+              </div>
+            </div>
+
+            <div className="guarantees-box">
+              <span>✓ Certificado de Autenticidad</span>
+              <span>✓ Seguimiento del proceso (fotos)</span>
+              <span>✓ Pago fraccionado disponible</span>
+            </div>
+
+            <div className="action-buttons">
+              <a
+                href={`https://wa.me/34636060609?text=${waText}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="brutal-cta-btn brutal-cta-btn--whatsapp"
+              >
+                💬 SOLICITAR POR WHATSAPP
+              </a>
+              <a
+                href={`mailto:naroa@naroa.eu?subject=Nuevo Encargo Artístico&body=${mailtoBody}`}
+                className="brutal-cta-btn brutal-cta-btn--email"
+              >
+                ✉️ SOLICITAR POR EMAIL
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

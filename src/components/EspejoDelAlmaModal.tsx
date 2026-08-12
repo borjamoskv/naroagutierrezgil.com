@@ -1,54 +1,76 @@
-import React, { useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { sound } from '../utils/audio'
 
-export function EspejoDelAlmaModal({ isOpen, onClose }) {
-  const [step, setStep] = useState(0)
-  const [answers, setAnswers] = useState({})
+interface EspejoDelAlmaModalProps {
+  isOpen: boolean
+  onClose: () => void
+}
 
-  const questions = [
-    {
-      id: 'mood',
-      text: '¿Qué emoción buscas capturar?',
-      options: ['Alegría Vibrante', 'Melancolía Profunda', 'Misterio', 'Fuerza Interior']
-    },
-    {
-      id: 'color',
-      text: '¿Qué paleta resuena contigo?',
-      options: ['Cálidos (Oros, Rojos)', 'Fríos (Azules, Platas)', 'Contrastes (B/N + Color)', 'Neutros Minerales']
-    },
-    {
-      id: 'support',
-      text: '¿Qué soporte te atrae más?',
-      options: ['Pizarra Vasca (Historia)', 'Lienzo (Clásico)', 'Mica (Brillo)', 'Sorpresa']
+export function EspejoDelAlmaModal({ isOpen, onClose }: EspejoDelAlmaModalProps) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    if (!isOpen || !canvasRef.current) return
+
+    const canvas = canvasRef.current
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    let animationFrameId: number
+    let time = 0
+
+    const render = () => {
+      time += 0.01
+      const width = canvas.width
+      const height = canvas.height
+      
+      ctx.fillStyle = '#050508'
+      ctx.fillRect(0, 0, width, height)
+
+      // Draw rippling "soul mirror" effect
+      ctx.strokeStyle = 'rgba(43, 59, 229, 0.3)'
+      ctx.lineWidth = 1
+      
+      const centerX = width / 2
+      const centerY = height / 2
+      
+      for (let i = 0; i < 10; i++) {
+        ctx.beginPath()
+        const radius = 50 + i * 20 + Math.sin(time * 2 + i) * 10
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2)
+        ctx.strokeStyle = `rgba(${43 + i * 10}, ${59 + i * 5}, ${229 - i * 10}, ${0.4 - i * 0.03})`
+        ctx.stroke()
+      }
+
+      // Draw golden particles
+      for (let i = 0; i < 20; i++) {
+        const angle = time * 0.5 + i * 0.314
+        const dist = 100 + Math.sin(time + i) * 50
+        const x = centerX + Math.cos(angle) * dist
+        const y = centerY + Math.sin(angle) * dist
+        
+        ctx.fillStyle = `rgba(245, 158, 11, ${0.3 + Math.sin(time * 3 + i) * 0.2})`
+        ctx.beginPath()
+        ctx.arc(x, y, 2 + Math.sin(time * 2 + i), 0, Math.PI * 2)
+        ctx.fill()
+      }
+
+      animationFrameId = requestAnimationFrame(render)
     }
-  ]
 
-  const handleAnswer = (option) => {
-    const newAnswers = { ...answers, [questions[step].id]: option }
-    setAnswers(newAnswers)
-    
-    if (step < questions.length - 1) {
-      setStep(step + 1)
-    } else {
-      // Finalizar
-      setStep(questions.length)
+    render()
+
+    return () => {
+      cancelAnimationFrame(animationFrameId)
     }
-  }
+  }, [isOpen])
 
-  const getRecommendation = () => {
-    // Lógica simple de recomendación basada en respuestas
-    const { mood, color, support } = answers
-    
-    if (support === 'Mica (Brillo)') return 'Serie "DiviNos" - La luz hecha retrato.'
-    if (support === 'Pizarra Vasca (Historia)') return 'Serie "Rocks" - Iconos con alma de piedra.'
-    if (color === 'Cálidos (Oros, Rojos)') return 'Serie "Tributos Musicales" - Pasión en cada nota.'
-    return 'Retrato Personalizado - Tu historia, mi pincel.'
-  }
-
-  const reset = () => {
-    setStep(0)
-    setAnswers({})
-  }
+  useEffect(() => {
+    if (isOpen) {
+      sound.playMicaShimmer()
+    }
+  }, [isOpen])
 
   return (
     <AnimatePresence>
@@ -60,9 +82,9 @@ export function EspejoDelAlmaModal({ isOpen, onClose }) {
           style={{
             position: 'fixed',
             inset: 0,
-            zIndex: 1000,
-            backgroundColor: 'rgba(5, 5, 8, 0.9)',
-            backdropFilter: 'blur(16px)',
+            zIndex: 10000,
+            background: 'rgba(5, 5, 8, 0.9)',
+            backdropFilter: 'blur(20px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -71,95 +93,60 @@ export function EspejoDelAlmaModal({ isOpen, onClose }) {
           onClick={onClose}
         >
           <motion.div
-            initial={{ scale: 0.9, y: 20 }}
-            animate={{ scale: 1, y: 0 }}
-            exit={{ scale: 0.95, y: -20 }}
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
             style={{
-              background: 'linear-gradient(145deg, rgba(20, 20, 30, 0.9), rgba(10, 10, 15, 0.95))',
-              border: '1px solid rgba(245, 158, 11, 0.3)',
+              background: '#0A0A10',
+              border: '1px solid var(--cobalt)',
               borderRadius: '24px',
               padding: '40px',
-              maxWidth: '500px',
+              maxWidth: '600px',
               width: '100%',
               textAlign: 'center',
-              position: 'relative',
-              boxShadow: '0 0 60px rgba(245, 158, 11, 0.15)'
+              boxShadow: '0 0 60px rgba(43, 59, 229, 0.3)'
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <button 
-              onClick={onClose}
-              style={{
-                position: 'absolute',
-                top: '16px',
-                right: '16px',
-                background: 'none',
-                border: 'none',
-                color: 'rgba(255,255,255,0.5)',
-                fontSize: '1.5rem',
-                cursor: 'pointer'
-              }}
-            >
-              ✕
-            </button>
-
-            <h2 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '2rem', marginBottom: '8px', color: '#F59E0B' }}>
-              Espejo del Alma
+            <h2 style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '2rem',
+              fontWeight: 800,
+              color: '#fff',
+              marginBottom: '16px'
+            }}>
+              ESPEJO DEL <span style={{ color: 'var(--gold)' }}>ALMA</span>
             </h2>
-            <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '32px', fontFamily: 'Share Tech Mono, monospace', fontSize: '0.9rem' }}>
-              Descubre qué obra resuena contigo
+            
+            <canvas
+              ref={canvasRef}
+              width={400}
+              height={300}
+              style={{
+                width: '100%',
+                borderRadius: '12px',
+                marginBottom: '24px',
+                border: '1px solid rgba(255,255,255,0.1)'
+              }}
+            />
+            
+            <p style={{
+              color: 'rgba(255,255,255,0.8)',
+              fontSize: '1rem',
+              lineHeight: 1.6,
+              marginBottom: '24px'
+            }}>
+              "Cada piedra que uso tiene millones de años. Cada retrato que pinto tiene la edad de quien lo mira."
             </p>
-
-            {step < questions.length ? (
-              <div>
-                <div style={{ marginBottom: '24px', fontSize: '1.2rem', color: '#FFF' }}>
-                  {questions[step].text}
-                </div>
-                <div style={{ display: 'grid', gap: '12px' }}>
-                  {questions[step].options.map((option) => (
-                    <button
-                      key={option}
-                      onClick={() => handleAnswer(option)}
-                      className="premium-btn"
-                      style={{ justifyContent: 'center', width: '100%' }}
-                    >
-                      {option}
-                    </button>
-                  ))}
-                </div>
-                <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'center', gap: '8px' }}>
-                  {questions.map((_, i) => (
-                    <div 
-                      key={i} 
-                      style={{
-                        width: '8px',
-                        height: '8px',
-                        borderRadius: '50%',
-                        background: i === step ? '#F59E0B' : 'rgba(255,255,255,0.2)'
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <div>
-                <div style={{ fontSize: '3rem', marginBottom: '16px' }}>✨</div>
-                <h3 style={{ fontSize: '1.5rem', color: '#FFF', marginBottom: '16px' }}>
-                  Tu Alma Resuena Con...
-                </h3>
-                <p style={{ fontSize: '1.2rem', color: '#F59E0B', marginBottom: '32px', fontFamily: 'Outfit, sans-serif' }}>
-                  {getRecommendation()}
-                </p>
-                <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
-                  <button onClick={reset} className="premium-btn">
-                    Repetir
-                  </button>
-                  <button onClick={onClose} className="premium-btn premium-btn--primary">
-                    Explorar Obra
-                  </button>
-                </div>
-              </div>
-            )}
+            
+            <div style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.8rem',
+              color: 'var(--cobalt-soft)',
+              letterSpacing: '0.1em'
+            }}>
+              A O R A N · N A R O A · A O R A N
+            </div>
           </motion.div>
         </motion.div>
       )}

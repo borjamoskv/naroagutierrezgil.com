@@ -1,135 +1,165 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 
+interface DustParticle {
+  id: number
+  x: number
+  y: number
+  vx: number
+  vy: number
+  life: number
+  color: string
+}
+
 export function CustomCursor() {
-  const [isHovering, setIsHovering] = useState(false)
-  const [isArtwork, setIsArtwork] = useState(false)
-  const [cursorText, setCursorText] = useState('')
-  const [particles, setParticles] = useState([])
+  const cursorRef = useRef<HTMLDivElement>(null)
+  const [hoverType, setHoverType] = useState<'link' | 'artwork' | null>(null)
+  const [particles, setParticles] = useState<DustParticle[]>([])
   
-  const cursorX = useMotionValue(-100)
-  const cursorY = useMotionValue(-100)
+  const requestRef = useRef<number | undefined>(undefined)
+  const mouseX = useMotionValue(-100)
+  const mouseY = useMotionValue(-100)
   
-  const springConfig = { damping: 25, stiffness: 400 }
-  const cursorXSpring = useSpring(cursorX, springConfig)
-  const cursorYSpring = useSpring(cursorY, springConfig)
+  const springConfig = { damping: 25, stiffness: 300, mass: 0.5 }
+  const cursorXSpring = useSpring(mouseX, springConfig)
+  const cursorYSpring = useSpring(mouseY, springConfig)
 
   useEffect(() => {
-    const moveCursor = (e) => {
-      cursorX.set(e.clientX)
-      cursorY.set(e.clientY)
+    const onMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX)
+      mouseY.set(e.clientY)
 
-      const target = e.target
-      const isClickable = target.closest('a, button, [role="button"], input, textarea, select')
-      const isArt = target.closest('.gallery-massive__item, .artwork-clickable')
-      
-      if (isArt) {
-        setIsArtwork(true)
-        setCursorText('VER')
-        setIsHovering(false)
-      } else if (isClickable) {
-        setIsHovering(true)
-        setIsArtwork(false)
-        setCursorText('')
+      const target = e.target as HTMLElement
+      if (target.closest('a, button, [role="button"]')) {
+        setHoverType('link')
+      } else if (target.closest('.gallery-massive__item, .artwork-clickable, .hero-immersive__image-wrapper')) {
+        setHoverType('artwork')
       } else {
-        setIsHovering(false)
-        setIsArtwork(false)
-        setCursorText('')
+        setHoverType(null)
       }
     }
 
-    const handleMouseDown = () => {
-      if (isHovering || isArtwork) {
-        // Spawn particles
-        const newParticles = Array.from({ length: 8 }).map((_, i) => ({
+    const onMouseDown = (e: MouseEvent) => {
+      // Spawn gold dust particles on click
+      const newParticles: DustParticle[] = []
+      for (let i = 0; i < 12; i++) {
+        newParticles.push({
           id: Date.now() + i,
-          x: cursorX.get(),
-          y: cursorY.get(),
-          angle: (i / 8) * Math.PI * 2,
-          velocity: 2 + Math.random() * 3
-        }))
-        setParticles(prev => [...prev, ...newParticles])
-        
-        // Cleanup particles after animation
-        setTimeout(() => {
-          setParticles(prev => prev.filter(p => !newParticles.find(np => np.id === p.id)))
-        }, 1000)
+          x: e.clientX,
+          y: e.clientY,
+          vx: (Math.random() - 0.5) * 8,
+          vy: (Math.random() - 0.5) * 8,
+          life: 1,
+          color: Math.random() > 0.5 ? '#F59E0B' : '#FFD700'
+        })
       }
+      setParticles(prev => [...prev, ...newParticles])
     }
 
-    window.addEventListener('mousemove', moveCursor)
-    window.addEventListener('mousedown', handleMouseDown)
-    
+    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mousedown', onMouseDown)
+
     return () => {
-      window.removeEventListener('mousemove', moveCursor)
-      window.removeEventListener('mousedown', handleMouseDown)
+      window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('mousedown', onMouseDown)
     }
-  }, [cursorX, cursorY, isHovering, isArtwork])
+  }, [mouseX, mouseY])
+
+  // Particle animation loop
+  useEffect(() => {
+    const updateParticles = () => {
+      setParticles(prev => {
+        if (prev.length === 0) return prev
+        return prev
+          .map(p => ({
+            ...p,
+            x: p.x + p.vx,
+            y: p.y + p.vy,
+            vy: p.vy + 0.2, // gravity
+            life: p.life - 0.02
+          }))
+          .filter(p => p.life > 0)
+      })
+      requestRef.current = requestAnimationFrame(updateParticles)
+    }
+    requestRef.current = requestAnimationFrame(updateParticles)
+    return () => {
+      if (requestRef.current) cancelAnimationFrame(requestRef.current)
+    }
+  }, [])
 
   return (
     <>
       <motion.div
+        ref={cursorRef}
         className="custom-cursor"
         style={{
           x: cursorXSpring,
           y: cursorYSpring,
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          pointerEvents: 'none',
-          zIndex: 9999,
-          mixBlendMode: 'difference'
+          translateX: '-50%',
+          translateY: '-50%'
         }}
       >
-        <div style={{
-          width: isHovering ? '48px' : isArtwork ? '80px' : '12px',
-          height: isHovering ? '48px' : isArtwork ? '80px' : '12px',
-          backgroundColor: isArtwork ? 'rgba(255, 255, 255, 0.9)' : '#FFFFFF',
-          borderRadius: '50%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transition: 'width 0.3s, height 0.3s, background-color 0.3s',
-          border: isArtwork ? '1px solid rgba(0,0,0,0.1)' : 'none'
-        }}>
-          {cursorText && (
+        <div
+          className={`custom-cursor-inner ${hoverType ? `hovering-${hoverType}` : ''}`}
+          style={{
+            width: hoverType === 'artwork' ? '80px' : hoverType === 'link' ? '48px' : '24px',
+            height: hoverType === 'artwork' ? '80px' : hoverType === 'link' ? '48px' : '24px',
+            borderRadius: '50%',
+            background: hoverType === 'artwork' ? 'rgba(43, 59, 229, 0.15)' : hoverType === 'link' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(255, 255, 255, 0.1)',
+            border: `2px solid ${hoverType === 'artwork' ? 'var(--cobalt)' : hoverType === 'link' ? 'var(--gold)' : 'rgba(255,255,255,0.5)'}`,
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+            filter: hoverType 
+              ? 'drop-shadow(0 0 12px rgba(43, 59, 229, 0.4))' 
+              : 'none'
+          }}
+        >
+          {hoverType === 'artwork' && (
             <span style={{
-              color: '#000',
-              fontSize: '10px',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.65rem',
               fontWeight: 800,
+              color: 'var(--cobalt-soft)',
               letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              fontFamily: 'Share Tech Mono, monospace'
+              textTransform: 'uppercase'
             }}>
-              {cursorText}
+              VER
+            </span>
+          )}
+          {hoverType === 'link' && (
+            <span style={{
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.65rem',
+              fontWeight: 800,
+              color: 'var(--gold-hi)',
+              letterSpacing: '0.1em'
+            }}>
+              →
             </span>
           )}
         </div>
       </motion.div>
 
-      {/* Particle Burst */}
+      {/* Gold Dust Particles */}
       {particles.map(p => (
-        <motion.div
+        <div
           key={p.id}
-          initial={{ x: p.x, y: p.y, opacity: 1, scale: 1 }}
-          animate={{
-            x: p.x + Math.cos(p.angle) * 50 * p.velocity,
-            y: p.y + Math.sin(p.angle) * 50 * p.velocity,
-            opacity: 0,
-            scale: 0
-          }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
           style={{
             position: 'fixed',
-            top: 0,
-            left: 0,
+            left: p.x,
+            top: p.y,
             width: '4px',
             height: '4px',
-            backgroundColor: '#F59E0B',
             borderRadius: '50%',
+            background: p.color,
+            opacity: p.life,
             pointerEvents: 'none',
             zIndex: 9998,
-            boxShadow: '0 0 10px #F59E0B'
+            boxShadow: `0 0 8px ${p.color}`
           }}
         />
       ))}
