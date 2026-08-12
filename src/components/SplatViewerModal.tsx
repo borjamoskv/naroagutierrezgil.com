@@ -36,7 +36,7 @@ function AnimatedSplatGroup({ children }: { children: React.ReactNode }) {
 
 function SplatScene({ splatUrl, lightPreset }: { splatUrl: string; lightPreset: LightingPreset }) {
   const primaryLightColor = lightPreset === 'gold' ? '#D4AF37' : lightPreset === 'neon' ? '#2B3BE5' : '#ffffff'
-  const secondaryLightColor = lightPreset === 'gold' ? '#2B3BE5' : lightPreset === 'neon' ? '#ff0055' : '#e0e0e0'
+  const secondaryLightColor = lightPreset === 'gold' ? '#2B3BE5' : lightPreset === 'neon' ? '#2B3BE5' : '#e0e0e0'
 
   return (
     <Center top position={[0, 0, 0]}>

@@ -26,7 +26,7 @@ export const CustomCursor: React.FC = () => {
   useEffect(() => {
     if (window.matchMedia('(pointer: coarse)').matches) return
 
-    const POP_COLORS = ['#FF007A', '#FFE600', '#00F0FF', '#FFD700', '#FFFFFF']
+    const POP_COLORS = ['var(--cobalt)', 'var(--gold-hi)', 'var(--cobalt-soft)', '#FFD700', '#FFFFFF']
 
     const onMouseMove = (e: MouseEvent) => {
       mousePos.current = { x: e.clientX, y: e.clientY }
@@ -166,7 +166,7 @@ export const CustomCursor: React.FC = () => {
           transform: hoverType ? 'rotate(-20deg) scale(1.15)' : 'rotate(-35deg) scale(1)',
           transition: 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
           filter: hoverType 
-            ? 'drop-shadow(0 0 12px rgba(255, 0, 122, 0.8)) drop-shadow(0 0 20px rgba(255, 230, 0, 0.6))'
+            ? 'drop-shadow(0 0 12px rgba(43, 59, 229, 0.8)) drop-shadow(0 0 20px rgba(245, 158, 11, 0.6))'
             : 'drop-shadow(0 4px 10px rgba(0, 0, 0, 0.7))'
         }}>
           <svg width="42" height="42" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -191,9 +191,9 @@ export const CustomCursor: React.FC = () => {
                 <stop offset="1" stopColor="#9E9E9E" />
               </linearGradient>
               <linearGradient id="paintTip" x1="22" y1="8" x2="28" y2="5" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#FF007A" />
-                <stop offset="0.6" stopColor="#FFE600" />
-                <stop offset="1" stopColor="#00F0FF" />
+                <stop stopColor="#2B3BE5" />
+                <stop offset="0.6" stopColor="#FFD700" />
+                <stop offset="1" stopColor="#8D97FF" />
               </linearGradient>
             </defs>
           </svg>
@@ -207,14 +207,14 @@ export const CustomCursor: React.FC = () => {
             padding: '4px 10px',
             background: 'rgba(5, 5, 8, 0.88)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 0, 122, 0.6)',
+            border: '1px solid rgba(43, 59, 229, 0.6)',
             borderRadius: '16px',
             fontFamily: 'var(--font-mono)',
             fontSize: '0.65rem',
             fontWeight: 900,
-            color: '#FFE600',
+            color: 'var(--gold-hi)',
             letterSpacing: '0.08em',
-            boxShadow: '0 0 15px rgba(255, 0, 122, 0.4)',
+            boxShadow: '0 0 15px rgba(43, 59, 229, 0.4)',
             whiteSpace: 'nowrap',
             pointerEvents: 'none'
           }}>
@@ -225,4 +225,3 @@ export const CustomCursor: React.FC = () => {
     </>
   )
 }
-
