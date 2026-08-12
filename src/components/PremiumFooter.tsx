@@ -134,7 +134,7 @@ export function PremiumFooter() {
               💬 WHATSAPP DIRECTO CON NAROA
             </a>
             <a
-              href="mailto:naroarte@hotmail.com"
+              href="mailto:naroa@naroa.eu"
               onClick={() => sound.playTick()}
               style={{
                 display: 'inline-flex',
