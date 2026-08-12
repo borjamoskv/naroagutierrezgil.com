@@ -76,8 +76,8 @@ export function CommissionCalculator() {
     <div style={{ width: '100%', maxWidth: '1400px', margin: '100px auto 80px', padding: '0 24px' }}>
       {/* Marquee Banner */}
       <div style={{
-        background: 'rgba(255, 0, 122, 0.12)',
-        border: '1px solid rgba(255, 0, 122, 0.3)',
+        background: 'rgba(43, 59, 229, 0.12)',
+        border: '1px solid rgba(43, 59, 229, 0.3)',
         borderRadius: '30px',
         padding: '10px 24px',
         marginBottom: '40px',
@@ -87,11 +87,11 @@ export function CommissionCalculator() {
         flexWrap: 'wrap',
         gap: '12px'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: '#FF007A', fontWeight: 800 }}>
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#FF007A', boxShadow: '0 0 10px #FF007A' }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--gold)', fontWeight: 800 }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--gold)', boxShadow: '0 0 10px var(--gold)' }} />
           ESKAERAK // ENCARGOS PRIVADOS POR NAROA GUTIÉRREZ GIL
         </div>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#FFE600', fontWeight: 700 }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--gold-hi)', fontWeight: 700 }}>
           ⚡ PIZARRA NATURAL DE TEJADO VASCO & MICA MINERAL · BILBAO
         </span>
       </div>
@@ -101,10 +101,10 @@ export function CommissionCalculator() {
         <span style={{
           fontSize: '0.75rem',
           padding: '6px 16px',
-          background: 'rgba(0, 240, 255, 0.15)',
-          border: '1px solid rgba(0, 240, 255, 0.4)',
+          background: 'rgba(43, 59, 229, 0.10)',
+          border: '1px solid var(--cobalt-soft)',
           borderRadius: '30px',
-          color: '#00F0FF',
+          color: 'var(--cobalt-soft)',
           fontFamily: 'var(--font-mono)',
           fontWeight: 800,
           letterSpacing: '0.1em'
@@ -132,13 +132,13 @@ export function CommissionCalculator() {
       </header>
 
       {/* Main Commission Selector Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '32px', alignItems: 'start' }}>
+      <div className="commission-main-grid" style={{ display: 'grid', gap: '32px', alignItems: 'start' }}>
         {/* Left Options Column */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
           {/* STEP 1: Subject */}
           <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '24px', backdropFilter: 'blur(12px)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-              <span style={{ background: '#FF007A', color: '#fff', padding: '2px 10px', borderRadius: '12px', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900 }}>01</span>
+              <span style={{ background: 'var(--cobalt)', color: '#fff', padding: '2px 10px', borderRadius: '12px', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900 }}>01</span>
               <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff', margin: 0 }}>¿A quién quieres retratar?</h2>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -152,8 +152,9 @@ export function CommissionCalculator() {
                     gap: '14px',
                     padding: '14px 18px',
                     borderRadius: '14px',
-                    background: subject === opt.id ? 'rgba(255, 0, 122, 0.18)' : 'rgba(255, 255, 255, 0.02)',
-                    border: subject === opt.id ? '1px solid #FF007A' : '1px solid rgba(255, 255, 255, 0.08)',
+                    background: subject === opt.id ? 'rgba(245, 158, 11, 0.08)' : 'rgba(255, 255, 255, 0.02)',
+                    border: subject === opt.id ? '1px solid var(--gold)' : '1px solid var(--line)',
+                    boxShadow: subject === opt.id ? '0 0 20px rgba(245, 158, 11, 0.25)' : 'none',
                     color: '#fff',
                     textAlign: 'left',
                     cursor: 'pointer',
@@ -162,7 +163,7 @@ export function CommissionCalculator() {
                 >
                   <span style={{ fontSize: '1.5rem' }}>{opt.icon}</span>
                   <div>
-                    <div style={{ fontWeight: 800, fontSize: '0.9rem', color: subject === opt.id ? '#FFE600' : '#fff' }}>{opt.label}</div>
+                    <div style={{ fontWeight: 800, fontSize: '0.9rem', color: subject === opt.id ? 'var(--gold-hi)' : '#fff' }}>{opt.label}</div>
                     <div style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.65)', fontFamily: 'var(--font-mono)' }}>{opt.sublabel}</div>
                   </div>
                 </button>
@@ -173,7 +174,7 @@ export function CommissionCalculator() {
           {/* STEP 2: Medium */}
           <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '24px', backdropFilter: 'blur(12px)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-              <span style={{ background: '#FFE600', color: '#000', padding: '2px 10px', borderRadius: '12px', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900 }}>02</span>
+              <span style={{ background: 'var(--cobalt)', color: '#FFF', padding: '2px 10px', borderRadius: '12px', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900 }}>02</span>
               <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff', margin: 0 }}>Elige Soporte & Técnica Matérica</h2>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -187,8 +188,9 @@ export function CommissionCalculator() {
                     gap: '14px',
                     padding: '14px 18px',
                     borderRadius: '14px',
-                    background: medium === opt.id ? 'rgba(255, 230, 0, 0.15)' : 'rgba(255, 255, 255, 0.02)',
-                    border: medium === opt.id ? '1px solid #FFE600' : '1px solid rgba(255, 255, 255, 0.08)',
+                    background: medium === opt.id ? 'rgba(245, 158, 11, 0.08)' : 'rgba(255, 255, 255, 0.02)',
+                    border: medium === opt.id ? '1px solid var(--gold)' : '1px solid var(--line)',
+                    boxShadow: medium === opt.id ? '0 0 20px rgba(245, 158, 11, 0.25)' : 'none',
                     color: '#fff',
                     textAlign: 'left',
                     cursor: 'pointer',
@@ -198,11 +200,11 @@ export function CommissionCalculator() {
                 >
                   <span style={{ fontSize: '1.5rem' }}>{opt.icon}</span>
                   <div>
-                    <div style={{ fontWeight: 800, fontSize: '0.9rem', color: medium === opt.id ? '#FFE600' : '#fff' }}>{opt.label}</div>
+                    <div style={{ fontWeight: 800, fontSize: '0.9rem', color: medium === opt.id ? 'var(--gold-hi)' : '#fff' }}>{opt.label}</div>
                     <div style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.65)', fontFamily: 'var(--font-mono)' }}>{opt.sublabel}</div>
                   </div>
                   {opt.badge && (
-                    <span style={{ position: 'absolute', right: '14px', top: '14px', fontSize: '0.6rem', padding: '2px 8px', background: 'rgba(255,0,122,0.2)', border: '1px solid #FF007A', color: '#FF007A', borderRadius: '10px', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>
+                    <span style={{ position: 'absolute', right: '14px', top: '14px', fontSize: '0.6rem', padding: '2px 8px', background: 'rgba(43, 59, 229, 0.10)', border: '1px solid var(--cobalt-soft)', color: 'var(--cobalt-soft)', borderRadius: '10px', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>
                       {opt.badge}
                     </span>
                   )}
@@ -214,7 +216,7 @@ export function CommissionCalculator() {
           {/* STEP 3: Size */}
           <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px', padding: '24px', backdropFilter: 'blur(12px)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-              <span style={{ background: '#00F0FF', color: '#000', padding: '2px 10px', borderRadius: '12px', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900 }}>03</span>
+              <span style={{ background: 'var(--cobalt)', color: '#FFF', padding: '2px 10px', borderRadius: '12px', fontFamily: 'var(--font-mono)', fontSize: '0.75rem', fontWeight: 900 }}>03</span>
               <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff', margin: 0 }}>Selecciona el Formato</h2>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -228,8 +230,9 @@ export function CommissionCalculator() {
                     gap: '14px',
                     padding: '14px 18px',
                     borderRadius: '14px',
-                    background: size === opt.id ? 'rgba(0, 240, 255, 0.15)' : 'rgba(255, 255, 255, 0.02)',
-                    border: size === opt.id ? '1px solid #00F0FF' : '1px solid rgba(255, 255, 255, 0.08)',
+                    background: size === opt.id ? 'rgba(245, 158, 11, 0.08)' : 'rgba(255, 255, 255, 0.02)',
+                    border: size === opt.id ? '1px solid var(--gold)' : '1px solid var(--line)',
+                    boxShadow: size === opt.id ? '0 0 20px rgba(245, 158, 11, 0.25)' : 'none',
                     color: '#fff',
                     textAlign: 'left',
                     cursor: 'pointer',
@@ -238,7 +241,7 @@ export function CommissionCalculator() {
                 >
                   <span style={{ fontSize: '1.5rem' }}>{opt.icon}</span>
                   <div>
-                    <div style={{ fontWeight: 800, fontSize: '0.9rem', color: size === opt.id ? '#00F0FF' : '#fff' }}>{opt.label}</div>
+                    <div style={{ fontWeight: 800, fontSize: '0.9rem', color: size === opt.id ? 'var(--gold-hi)' : '#fff' }}>{opt.label}</div>
                     <div style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.65)', fontFamily: 'var(--font-mono)' }}>{opt.sublabel}</div>
                   </div>
                 </button>
@@ -249,12 +252,12 @@ export function CommissionCalculator() {
 
         {/* Right Summary & Contact Card */}
         <div style={{ position: 'sticky', top: '100px' }}>
-          <div style={{ background: 'rgba(10, 8, 16, 0.95)', border: '1px solid rgba(212, 175, 55, 0.4)', borderRadius: '24px', padding: '32px', boxShadow: '0 20px 60px rgba(0,0,0,0.8)', backdropFilter: 'blur(16px)' }}>
-            <span style={{ fontSize: '0.7rem', padding: '4px 12px', background: 'rgba(214, 175, 55, 0.15)', border: '1px solid rgba(214, 175, 55, 0.5)', color: '#D4AF37', borderRadius: '20px', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>
+          <div style={{ background: 'rgba(10, 8, 16, 0.95)', border: '1px solid var(--gold)', borderRadius: '24px', padding: '32px', boxShadow: '0 20px 60px rgba(0,0,0,0.8)', backdropFilter: 'blur(16px)' }}>
+            <span style={{ fontSize: '0.7rem', padding: '4px 12px', background: 'rgba(245, 158, 11, 0.15)', border: '1px solid rgba(245, 158, 11, 0.5)', color: 'var(--gold)', borderRadius: '20px', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>
               💎 ASESORAMIENTO DIRECTO DE LA ARTISTA
             </span>
 
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 900, color: '#fff', margin: '16px 0 4px 0' }}>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--gold)', margin: '16px 0 4px 0' }}>
               Propuesta Personalizada
             </h3>
             <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)', margin: 0, fontFamily: 'var(--font-mono)' }}>
@@ -265,18 +268,18 @@ export function CommissionCalculator() {
               <div style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.8)' }}>
                 <strong>Sujeto:</strong> {selectedSubject.icon} {selectedSubject.label}
               </div>
-              <div style={{ fontSize: '0.82rem', color: '#00F0FF' }}>
+              <div style={{ fontSize: '0.82rem', color: 'var(--cobalt-soft)' }}>
                 <strong>Soporte:</strong> {selectedMedium.icon} {selectedMedium.label}
               </div>
-              <div style={{ fontSize: '0.82rem', color: '#FFE600' }}>
+              <div style={{ fontSize: '0.82rem', color: 'var(--gold-hi)' }}>
                 <strong>Formato:</strong> {selectedSize.icon} {selectedSize.label}
               </div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.78rem', color: 'rgba(255,255,255,0.7)', marginBottom: '24px' }}>
-              <div>✓ Certificado de Autenticidad Oficial Firmado</div>
-              <div>✓ Seguimiento de avances durante la creación</div>
-              <div>✓ Envío protegido nacional e internacional</div>
+              <div><span style={{ color: 'var(--gold)' }}>✓</span> Certificado de Autenticidad Oficial Firmado</div>
+              <div><span style={{ color: 'var(--gold)' }}>✓</span> Seguimiento de avances durante la creación</div>
+              <div><span style={{ color: 'var(--gold)' }}>✓</span> Envío protegido nacional e internacional</div>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -291,14 +294,15 @@ export function CommissionCalculator() {
                   justifyContent: 'center',
                   gap: '10px',
                   padding: '16px',
+                  minHeight: '48px',
                   borderRadius: '14px',
-                  background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
-                  color: '#fff',
+                  background: 'rgba(37, 211, 102, 0.12)',
+                  border: '1px solid #25D366',
+                  color: '#25D366',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.85rem',
                   fontWeight: 900,
-                  textDecoration: 'none',
-                  boxShadow: '0 0 20px rgba(37, 211, 102, 0.4)'
+                  textDecoration: 'none'
                 }}
               >
                 💬 HABLAR POR WHATSAPP CON NAROA
@@ -313,10 +317,11 @@ export function CommissionCalculator() {
                   justifyContent: 'center',
                   gap: '10px',
                   padding: '14px',
+                  minHeight: '48px',
                   borderRadius: '14px',
-                  background: 'rgba(255,255,255,0.06)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  color: '#fff',
+                  background: 'rgba(43, 59, 229, 0.08)',
+                  border: '1px solid var(--cobalt-soft)',
+                  color: 'var(--cobalt-soft)',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.8rem',
                   fontWeight: 700,
@@ -365,7 +370,7 @@ export function CommissionCalculator() {
                 }}
               >
                 <span>{faq.q}</span>
-                <span style={{ color: '#FFE600', fontSize: '1.2rem' }}>{openFaq === idx ? '−' : '+'}</span>
+                <span style={{ color: 'var(--gold-hi)', fontSize: '1.2rem' }}>{openFaq === idx ? '−' : '+'}</span>
               </button>
               <AnimatePresence>
                 {openFaq === idx && (

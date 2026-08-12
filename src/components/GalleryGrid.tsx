@@ -105,14 +105,14 @@ function TiltCard({ artwork, isHovered, setHoveredId, onInspect, idx, columns }:
           rotateY: isHovered ? rotateY : 0,
           transformStyle: 'preserve-3d',
           boxShadow: isPulsing 
-            ? '0 0 35px rgba(255, 0, 122, 0.7), 0 0 20px rgba(255, 230, 0, 0.5)'
+            ? '0 0 35px rgba(43, 59, 229, 0.7), 0 0 20px rgba(245, 158, 11, 0.5)'
             : isHovered 
-            ? '0 30px 60px rgba(0,0,0,0.9), 0 0 40px rgba(255, 0, 122, 0.35)' 
+            ? '0 30px 60px rgba(0,0,0,0.9), 0 0 40px rgba(43, 59, 229, 0.35)' 
             : '0 10px 30px rgba(0,0,0,0.5)',
           border: isPulsing 
-            ? '1.5px solid #FFE600' 
+            ? '1.5px solid var(--gold)' 
             : isHovered 
-            ? '1px solid #FF007A' 
+            ? '1px solid var(--cobalt)' 
             : '1px solid rgba(255,255,255,0.05)',
           transition: 'all 0.25s ease',
           background: '#050507'
@@ -128,24 +128,24 @@ function TiltCard({ artwork, isHovered, setHoveredId, onInspect, idx, columns }:
             padding: '4px 10px',
             background: 'rgba(5, 5, 8, 0.85)',
             backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(0, 240, 255, 0.6)',
+            border: '1px solid rgba(141, 151, 255, 0.6)',
             borderRadius: '20px',
             fontFamily: 'var(--font-mono)',
             fontSize: '0.6rem',
             fontWeight: 900,
-            color: '#00F0FF',
+            color: 'var(--cobalt-soft)',
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
-            boxShadow: '0 0 10px rgba(0, 240, 255, 0.4)'
+            boxShadow: '0 0 10px rgba(141, 151, 255, 0.4)'
           }}>
             <span style={{
               display: 'inline-block',
               width: '6px',
               height: '6px',
               borderRadius: '50%',
-              background: isPulsing ? '#FFE600' : '#00F0FF',
-              boxShadow: isPulsing ? '0 0 8px #FFE600' : '0 0 6px #00F0FF',
+              background: isPulsing ? 'var(--gold-hi)' : 'var(--cobalt-soft)',
+              boxShadow: isPulsing ? '0 0 8px #FFD700' : '0 0 6px #8D97FF',
               transition: 'all 0.15s ease'
             }} />
             🎵 LATIDO SOTA
@@ -219,10 +219,10 @@ function TiltCard({ artwork, isHovered, setHoveredId, onInspect, idx, columns }:
             <span style={{
               fontSize: '0.65rem',
               padding: '4px 10px',
-              background: 'rgba(255, 0, 122, 0.18)',
-              border: '1px solid #FF007A',
+              background: 'rgba(43, 59, 229, 0.18)',
+              border: '1px solid var(--cobalt)',
               borderRadius: '20px',
-              color: '#FFE600',
+              color: 'var(--gold-hi)',
               fontFamily: 'var(--font-mono)',
               fontWeight: 700,
               letterSpacing: '0.05em'
@@ -260,7 +260,8 @@ export function GalleryGrid({ onInspect }: GalleryGridProps) {
   useEffect(() => {
     const update = () => {
       const w = window.innerWidth
-      if (w < 580) setColumns(1)
+      // ≤600px: columnas densas tipo minmax(160px, 1fr) (NOIR_SPEC §5); 176px = 160 + gap
+      if (w <= 600) setColumns(Math.max(1, Math.floor(w / 176)))
       else if (w < 960) setColumns(2)
       else if (w < 1500) setColumns(3)
       else setColumns(4)
@@ -340,7 +341,7 @@ export function GalleryGrid({ onInspect }: GalleryGridProps) {
           <span style={{
             position: 'absolute',
             left: '16px',
-            color: '#00F0FF',
+            color: 'var(--cobalt-soft)',
             fontSize: '1rem',
             pointerEvents: 'none'
           }}>
@@ -356,13 +357,13 @@ export function GalleryGrid({ onInspect }: GalleryGridProps) {
               padding: '14px 44px 14px 46px',
               borderRadius: '30px',
               background: 'rgba(255, 255, 255, 0.04)',
-              border: searchQuery ? '1px solid #00F0FF' : '1px solid rgba(255, 255, 255, 0.12)',
+              border: searchQuery ? '1px solid var(--cobalt-soft)' : '1px solid rgba(255, 255, 255, 0.12)',
               color: '#fff',
               fontFamily: 'var(--font-mono)',
               fontSize: '0.85rem',
               outline: 'none',
               transition: 'all 0.3s ease',
-              boxShadow: searchQuery ? '0 0 20px rgba(0, 240, 255, 0.25)' : 'none'
+              boxShadow: searchQuery ? '0 0 20px rgba(141, 151, 255, 0.25)' : 'none'
             }}
           />
           {searchQuery && (
@@ -390,16 +391,15 @@ export function GalleryGrid({ onInspect }: GalleryGridProps) {
           color: 'rgba(255, 255, 255, 0.6)',
           letterSpacing: '0.08em'
         }}>
-          MOSTRANDO <span style={{ color: '#FFE600', fontWeight: 800 }}>{visibleArtworks.length}</span> DE <span style={{ color: '#FF007A', fontWeight: 800 }}>{filteredArtworks.length}</span> OBRAS CATALOGADAS
+          MOSTRANDO <span style={{ color: 'var(--gold-hi)', fontWeight: 800 }}>{visibleArtworks.length}</span> DE <span style={{ color: 'var(--gold)', fontWeight: 800 }}>{filteredArtworks.length}</span> OBRAS CATALOGADAS
         </div>
       </div>
 
       {/* Premium Category Filter Bar */}
-      <div style={{
+      <div className="gallery-filter-bar" style={{
         display: 'flex',
         gap: '12px',
         marginBottom: '40px',
-        flexWrap: 'wrap',
         justifyContent: 'center'
       }}>
         {CATEGORIES.map(cat => (
@@ -412,9 +412,9 @@ export function GalleryGrid({ onInspect }: GalleryGridProps) {
             style={{
               padding: '10px 22px',
               borderRadius: '30px',
-              background: filter === cat.key ? 'rgba(255, 0, 122, 0.2)' : 'rgba(255,255,255,0.03)',
-              border: filter === cat.key ? '1px solid #FF007A' : '1px solid rgba(255,255,255,0.12)',
-              color: filter === cat.key ? '#FFE600' : 'rgba(255,255,255,0.7)',
+              background: filter === cat.key ? 'rgba(43, 59, 229, 0.2)' : 'rgba(255,255,255,0.03)',
+              border: filter === cat.key ? '1px solid var(--cobalt)' : '1px solid rgba(255,255,255,0.12)',
+              color: filter === cat.key ? 'var(--gold-hi)' : 'rgba(255,255,255,0.7)',
               fontSize: '0.75rem',
               fontWeight: 800,
               letterSpacing: '0.08em',
@@ -422,7 +422,7 @@ export function GalleryGrid({ onInspect }: GalleryGridProps) {
               cursor: 'pointer',
               transition: 'all 0.3s ease',
               outline: 'none',
-              boxShadow: filter === cat.key ? '0 0 20px rgba(255, 0, 122, 0.4), 0 0 10px rgba(255, 230, 0, 0.3)' : 'none'
+              boxShadow: filter === cat.key ? '0 0 20px rgba(43, 59, 229, 0.4), 0 0 10px rgba(245, 158, 11, 0.3)' : 'none'
             }}
           >
             {cat.label}
@@ -481,15 +481,15 @@ export function GalleryGrid({ onInspect }: GalleryGridProps) {
             style={{
               padding: '16px 36px',
               borderRadius: '40px',
-              background: 'linear-gradient(135deg, rgba(255, 0, 122, 0.25) 0%, rgba(0, 240, 255, 0.25) 100%)',
-              border: '1px solid rgba(255, 230, 0, 0.6)',
-              color: '#FFE600',
+              background: 'linear-gradient(135deg, rgba(43, 59, 229, 0.25) 0%, rgba(141, 151, 255, 0.25) 100%)',
+              border: '1px solid rgba(245, 158, 11, 0.6)',
+              color: 'var(--gold-hi)',
               fontFamily: 'var(--font-mono)',
               fontSize: '0.85rem',
               fontWeight: 800,
               letterSpacing: '0.12em',
               cursor: 'pointer',
-              boxShadow: '0 0 30px rgba(255, 0, 122, 0.3)',
+              boxShadow: '0 0 30px rgba(43, 59, 229, 0.3)',
               transition: 'all 0.3s ease'
             }}
           >
