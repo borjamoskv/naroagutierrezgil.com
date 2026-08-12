@@ -1,206 +1,502 @@
-import React, { useState } from 'react'
-import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
-import { artworks } from '../data/artworks'
+import { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { ARTWORKS } from '../artworks'
+import { sound } from '../utils/audio'
 
-// Componente de Tarjeta con Efecto Tilt 3D
-function TiltCard({ children, onClick, className }) {
+interface GalleryGridProps {
+  onInspect: (index: number) => void
+}
+
+const CATEGORIES = [
+  { key: 'TODAS', label: '⚡ TODAS' },
+  { key: 'DIVINOS', label: '👑 DIVINOS' },
+  { key: 'VAIVENES', label: '🌀 VAIVENES' },
+  { key: 'ESPEJOS', label: '🪞 ESPEJOS DEL ALMA' },
+  { key: 'FACEFOOD', label: '🎨 FACEFOOD' },
+  { key: 'PIZARRA', label: '💎 PIZARRA NATURAL' }
+]
+
+// 3D Tilt Card Component (Reactivo al Sonido y Latidos)
+function TiltCard({ artwork, isHovered, setHoveredId, onInspect, idx, columns }: any) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [isPulsing, setIsPulsing] = useState(false)
+  
   const x = useMotionValue(0)
   const y = useMotionValue(0)
 
-  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 })
-  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 })
+  // Escuchar impulsos cardiacos y frecuencias del motor de audio
+  useEffect(() => {
+    let timer: any = null
+    const unsub = sound.subscribeBeat(() => {
+      setIsPulsing(true)
+      timer = setTimeout(() => setIsPulsing(false), 240)
+    })
+    return () => {
+      unsub()
+      if (timer) clearTimeout(timer)
+    }
+  }, [])
+
+  // Spring settings for ultra-smooth physics
+  const springConfig = { damping: 25, stiffness: 300, mass: 0.5 }
+  const mouseXSpring = useSpring(x, springConfig)
+  const mouseYSpring = useSpring(y, springConfig)
 
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], [6, -6])
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], [-6, 6])
   
-  const glareX = useTransform(mouseXSpring, [-0.5, 0.5], ['100%', '0%'])
-  const glareY = useTransform(mouseYSpring, [-0.5, 0.5], ['100%', '0%'])
+  const glareX = useTransform(mouseXSpring, [-0.5, 0.5], [100, -100])
+  const glareY = useTransform(mouseYSpring, [-0.5, 0.5], [100, -100])
+  const glareOpacity = useTransform(mouseXSpring, [-0.5, 0.5], [0, 0.25])
 
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect()
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return
+    const rect = ref.current.getBoundingClientRect()
     const width = rect.width
     const height = rect.height
     const mouseX = e.clientX - rect.left
     const mouseY = e.clientY - rect.top
-    x.set(mouseX / width - 0.5)
-    y.set(mouseY / height - 0.5)
+    const xPct = mouseX / width - 0.5
+    const yPct = mouseY / height - 0.5
+    x.set(xPct)
+    y.set(yPct)
   }
 
   const handleMouseLeave = () => {
+    setHoveredId(null)
     x.set(0)
     y.set(0)
   }
 
   return (
     <motion.div
-      className={className}
-      onClick={onClick}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: 'preserve-3d',
-        perspective: 1000,
-        cursor: 'pointer'
+      ref={ref}
+      layout
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.9, y: 20 }}
+      transition={{ 
+        layout: { type: 'spring', stiffness: 300, damping: 30 },
+        opacity: { duration: 0.4 },
+        y: { type: 'spring', stiffness: 250, damping: 25, delay: Math.min(idx * 0.04, 0.4) }
       }}
-      whileHover={{ scale: 1.02, zIndex: 10 }}
-      transition={{ duration: 0.3 }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => {
+        sound.playHeartbeat(0.06)
+        setHoveredId(artwork.id)
+      }}
+      onMouseLeave={handleMouseLeave}
+      onClick={() => { sound.playOpen(); onInspect(idx) }}
+      style={{
+        cursor: 'pointer',
+        position: 'relative',
+        perspective: '1200px',
+        lineHeight: 0,
+        borderRadius: '16px',
+        padding: '2px'
+      }}
     >
       <motion.div
         style={{
+          position: 'relative',
+          borderRadius: '14px',
+          overflow: 'hidden',
+          rotateX: isHovered ? rotateX : 0,
+          rotateY: isHovered ? rotateY : 0,
+          transformStyle: 'preserve-3d',
+          boxShadow: isPulsing 
+            ? '0 0 35px rgba(43, 59, 229, 0.7), 0 0 20px rgba(245, 158, 11, 0.5)'
+            : isHovered 
+            ? '0 30px 60px rgba(0,0,0,0.9), 0 0 40px rgba(43, 59, 229, 0.35)' 
+            : '0 10px 30px rgba(0,0,0,0.5)',
+          border: isPulsing 
+            ? '1.5px solid var(--gold)' 
+            : isHovered 
+            ? '1px solid var(--cobalt)' 
+            : '1px solid rgba(255,255,255,0.05)',
+          transition: 'all 0.25s ease',
+          background: '#050507'
+        }}
+      >
+        {/* Audio Reactive Badge on Hover */}
+        {isHovered && (
+          <div style={{
+            position: 'absolute',
+            top: '12px',
+            right: '12px',
+            zIndex: 10,
+            padding: '4px 10px',
+            background: 'rgba(5, 5, 8, 0.85)',
+            backdropFilter: 'blur(10px)',
+            border: '1px solid rgba(141, 151, 255, 0.6)',
+            borderRadius: '20px',
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.6rem',
+            fontWeight: 900,
+            color: 'var(--cobalt-soft)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            boxShadow: '0 0 10px rgba(141, 151, 255, 0.4)'
+          }}>
+            <span style={{
+              display: 'inline-block',
+              width: '6px',
+              height: '6px',
+              borderRadius: '50%',
+              background: isPulsing ? 'var(--gold-hi)' : 'var(--cobalt-soft)',
+              boxShadow: isPulsing ? '0 0 8px #FFD700' : '0 0 6px #8D97FF',
+              transition: 'all 0.15s ease'
+            }} />
+            🎵 LATIDO SOTA
+          </div>
+        )}
+
+        <img
+          src={artwork.url}
+          alt={artwork.title}
+          loading={idx < 6 ? 'eager' : 'lazy'}
+          style={{
+            width: '100%',
+            height: 'auto',
+            display: 'block',
+            transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease',
+            transform: isPulsing ? 'scale(1.08)' : isHovered ? 'scale(1.05)' : 'scale(1.01)',
+            filter: isPulsing 
+              ? 'brightness(1.15) contrast(1.1) saturate(1.2)' 
+              : isHovered 
+              ? 'brightness(1.05) contrast(1.05) saturate(1.1)' 
+              : 'brightness(0.9) contrast(1.0) saturate(1.0)',
+          }}
+        />
+
+        {/* Dynamic Glare Layer */}
+        {isHovered && (
+          <motion.div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 60%)',
+              opacity: glareOpacity,
+              x: glareX,
+              y: glareY,
+              pointerEvents: 'none',
+              mixBlendMode: 'overlay',
+              transform: 'translateZ(1px)'
+            }}
+          />
+        )}
+
+        {/* Glassmorphic Info Badge */}
+        <div style={{
           position: 'absolute',
-          inset: 0,
-          background: 'radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 80%)',
-          opacity: 0,
-          zIndex: 2,
-          pointerEvents: 'none'
-        }}
-        animate={{
-          background: useTransform(
-            [glareX, glareY],
-            ([gx, gy]) => `radial-gradient(circle at ${gx} ${gy}, rgba(255,255,255,0.3) 0%, transparent 60%)`
-          )
-        }}
-        whileHover={{ opacity: 1 }}
-      />
-      {children}
+          bottom: 0,
+          left: 0,
+          right: 0,
+          padding: '28px 24px 24px 24px',
+          opacity: isHovered ? 1 : 0,
+          transform: isHovered ? 'translateY(0) translateZ(20px)' : 'translateY(12px) translateZ(0)',
+          transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+          pointerEvents: 'none',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
+          background: 'linear-gradient(to top, rgba(5,5,7,0.98) 0%, rgba(5,5,7,0.7) 60%, transparent 100%)',
+          backdropFilter: 'blur(16px)',
+          borderTop: '1px solid rgba(255,255,255,0.05)'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h3 style={{
+              margin: 0,
+              fontSize: columns === 1 ? '1.5rem' : '1.25rem',
+              fontWeight: 800,
+              color: '#fff',
+              letterSpacing: '-0.02em',
+              textShadow: '0 2px 10px rgba(0,0,0,0.9)',
+            }}>
+              {artwork.title}
+            </h3>
+            <span style={{
+              fontSize: '0.65rem',
+              padding: '4px 10px',
+              background: 'rgba(43, 59, 229, 0.18)',
+              border: '1px solid var(--cobalt)',
+              borderRadius: '20px',
+              color: 'var(--gold-hi)',
+              fontFamily: 'var(--font-mono)',
+              fontWeight: 700,
+              letterSpacing: '0.05em'
+            }}>
+              {artwork.year}
+            </span>
+          </div>
+          <span style={{
+            fontSize: '0.75rem',
+            color: 'rgba(255,255,255,0.75)',
+            fontFamily: 'var(--font-mono)',
+            letterSpacing: '0.04em',
+            lineHeight: 1.5,
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+          }}>
+            {artwork.medium}
+          </span>
+        </div>
+      </motion.div>
     </motion.div>
   )
 }
 
-export function GalleryGrid({ onOpenArtwork }) {
-  const [filter, setFilter] = useState('all')
-  const [search, setSearch] = useState('')
 
-  const categories = ['all', ...new Set(artworks.map(a => a.category))]
+export function GalleryGrid({ onInspect }: GalleryGridProps) {
+  const [hoveredId, setHoveredId] = useState<number | null>(null)
+  const [columns, setColumns] = useState(3)
+  const [filter, setFilter] = useState('TODAS')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [visibleCount, setVisibleCount] = useState(24)
 
-  const filteredArtworks = artworks.filter(art => {
-    const matchesFilter = filter === 'all' || art.category === filter
-    const matchesSearch = art.title.toLowerCase().includes(search.toLowerCase()) || 
-                          art.description.toLowerCase().includes(search.toLowerCase())
-    return matchesFilter && matchesSearch
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth
+      // ≤600px: columnas densas tipo minmax(160px, 1fr) (NOIR_SPEC §5); 176px = 160 + gap
+      if (w <= 600) setColumns(Math.max(1, Math.floor(w / 176)))
+      else if (w < 960) setColumns(2)
+      else if (w < 1500) setColumns(3)
+      else setColumns(4)
+    }
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
+
+  // Reset pagination count on filter/search change
+  useEffect(() => {
+    setVisibleCount(24)
+  }, [filter, searchQuery])
+
+  // Filter artworks by search query + curatorial series/medium
+  const filteredArtworks = ARTWORKS.filter(art => {
+    // Search query match
+    if (searchQuery.trim() !== '') {
+      const q = searchQuery.toLowerCase().trim()
+      const matchTitle = art.title.toLowerCase().includes(q)
+      const matchMedium = art.medium.toLowerCase().includes(q)
+      const matchYear = String(art.year).includes(q)
+      const matchCategory = art.category ? art.category.toLowerCase().includes(q) : false
+      if (!matchTitle && !matchMedium && !matchYear && !matchCategory) return false
+    }
+
+    // Category filter match
+    if (filter === 'TODAS') return true
+    if (filter === 'DIVINOS') return art.series === 'divinos' || art.title.toLowerCase().includes('marilyn') || art.title.toLowerCase().includes('amy') || art.title.toLowerCase().includes('james') || art.title.toLowerCase().includes('johnny') || art.title.toLowerCase().includes('divino')
+    if (filter === 'VAIVENES') return art.series === 'vaivenes' || art.title.toLowerCase().includes('celia') || art.title.toLowerCase().includes('baroque') || art.medium.toLowerCase().includes('vaivenes')
+    if (filter === 'ESPEJOS') return art.series === 'espejos' || art.title.toLowerCase().includes('dakari') || art.title.toLowerCase().includes('pensadora') || art.title.toLowerCase().includes('espejo')
+    if (filter === 'FACEFOOD') return art.series === 'facefood' || art.title.toLowerCase().includes('cantinflas') || art.title.toLowerCase().includes('audrey') || art.title.toLowerCase().includes('conserva') || art.title.toLowerCase().includes('lata')
+    if (filter === 'PIZARRA') return art.medium.toLowerCase().includes('pizarra')
+    return true
+  })
+
+  const visibleArtworks = filteredArtworks.slice(0, visibleCount)
+
+  // Masonry column distribution
+  const cols: typeof ARTWORKS[] = Array.from({ length: columns }, () => [])
+  const heights = new Array(columns).fill(0)
+
+  visibleArtworks.forEach((art) => {
+    const shortest = heights.indexOf(Math.min(...heights))
+    cols[shortest].push(art)
+    const h = art.sizeCategory === 'colossal' ? 4 : art.sizeCategory === 'large' ? 3 : art.sizeCategory === 'medium' ? 2.2 : 1.6
+    heights[shortest] += h
   })
 
   return (
     <div style={{
-      minHeight: '100vh',
-      padding: '120px 24px 80px',
-      maxWidth: '1600px',
+      width: '100%',
+      maxWidth: '2400px',
       margin: '0 auto',
-      pointerEvents: 'auto'
+      padding: '40px 20px 80px 20px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
     }}>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <span className="premium-badge premium-badge--gold">Colección Completa</span>
-        <h1 className="premium-title" style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', marginBottom: '16px' }}>
-          Universo <span className="highlight-gold">Artístico</span>
-        </h1>
-        <p className="premium-subtitle" style={{ maxWidth: '600px', marginBottom: '48px' }}>
-          Explora las series: Rocks, DiviNos, Tributos Musicales y En.Lata. Cada pieza es un fragmento de alma sobre pizarra.
-        </p>
-
-        {/* Controles */}
-        <div className="gallery-filter-bar" style={{ display: 'flex', gap: '16px', marginBottom: '32px', alignItems: 'center' }}>
+      {/* Search & Stats Header Bar */}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '16px',
+        marginBottom: '28px',
+        width: '100%',
+        maxWidth: '640px'
+      }}>
+        {/* Search Input Box */}
+        <div style={{
+          position: 'relative',
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center'
+        }}>
+          <span style={{
+            position: 'absolute',
+            left: '16px',
+            color: 'var(--cobalt-soft)',
+            fontSize: '1rem',
+            pointerEvents: 'none'
+          }}>
+            🔍
+          </span>
           <input
             type="text"
-            placeholder="Buscar obra..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Buscar por obra, icono, material (Pizarra, Mica, Amy, Marilyn...)..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             style={{
-              background: 'rgba(255,255,255,0.05)',
-              border: '1px solid rgba(255,255,255,0.1)',
+              width: '100%',
+              padding: '14px 44px 14px 46px',
               borderRadius: '30px',
-              padding: '12px 24px',
-              color: '#FFF',
-              fontFamily: 'Outfit, sans-serif',
+              background: 'rgba(255, 255, 255, 0.04)',
+              border: searchQuery ? '1px solid var(--cobalt-soft)' : '1px solid rgba(255, 255, 255, 0.12)',
+              color: '#fff',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.85rem',
               outline: 'none',
-              flex: 1,
-              minWidth: '200px'
+              transition: 'all 0.3s ease',
+              boxShadow: searchQuery ? '0 0 20px rgba(141, 151, 255, 0.25)' : 'none'
             }}
           />
-          <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '4px' }}>
-            {categories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setFilter(cat)}
-                className={`premium-btn ${filter === cat ? 'premium-btn--primary' : ''}`}
-                style={{ whiteSpace: 'nowrap', padding: '8px 20px', fontSize: '0.8rem' }}
-              >
-                {cat === 'all' ? 'Todas' : cat}
-              </button>
-            ))}
-          </div>
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery('')}
+              style={{
+                position: 'absolute',
+                right: '16px',
+                background: 'none',
+                border: 'none',
+                color: 'rgba(255,255,255,0.6)',
+                cursor: 'pointer',
+                fontSize: '0.9rem'
+              }}
+            >
+              ✕
+            </button>
+          )}
         </div>
 
-        {/* Grid */}
+        {/* Counter Badge */}
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-          gap: '24px'
+          fontFamily: 'var(--font-mono)',
+          fontSize: '0.75rem',
+          color: 'rgba(255, 255, 255, 0.6)',
+          letterSpacing: '0.08em'
         }}>
-          {filteredArtworks.map((art, index) => {
-            const realIndex = artworks.findIndex(a => a.id === art.id)
-            return (
-              <motion.div
-                key={art.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                layout
-              >
-                <TiltCard 
-                  className="premium-card" 
-                  style={{ padding: 0, overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column' }}
-                  onClick={() => onOpenArtwork(realIndex)}
-                >
-                  <div style={{ position: 'relative', aspectRatio: '4/5', overflow: 'hidden' }}>
-                    <img 
-                      src={art.src} 
-                      alt={art.title} 
-                      style={{ 
-                        width: '100%', 
-                        height: '100%', 
-                        objectFit: 'cover',
-                        transition: 'transform 0.5s ease'
-                      }}
-                      loading="lazy"
-                    />
-                    <div style={{
-                      position: 'absolute',
-                      inset: 0,
-                      background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%)',
-                      opacity: 0.8
-                    }} />
-                    <div style={{
-                      position: 'absolute',
-                      bottom: '16px',
-                      left: '16px',
-                      right: '16px'
-                    }}>
-                      <span className="premium-badge" style={{ marginBottom: '8px', background: 'rgba(0,0,0,0.6)' }}>
-                        {art.category}
-                      </span>
-                      <h3 style={{ margin: 0, fontSize: '1.4rem', color: '#FFF', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
-                        {art.title}
-                      </h3>
-                    </div>
-                  </div>
-                  <div style={{ padding: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontFamily: 'Share Tech Mono, monospace', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)' }}>
-                      {art.year}
-                    </span>
-                    <span style={{ color: '#F59E0B', fontSize: '0.9rem' }}>Ver →</span>
-                  </div>
-                </TiltCard>
-              </motion.div>
-            )
-          })}
+          MOSTRANDO <span style={{ color: 'var(--gold-hi)', fontWeight: 800 }}>{visibleArtworks.length}</span> DE <span style={{ color: 'var(--gold)', fontWeight: 800 }}>{filteredArtworks.length}</span> OBRAS CATALOGADAS
         </div>
-      </motion.div>
+      </div>
+
+      {/* Premium Category Filter Bar */}
+      <div className="gallery-filter-bar" style={{
+        display: 'flex',
+        gap: '12px',
+        marginBottom: '40px',
+        justifyContent: 'center'
+      }}>
+        {CATEGORIES.map(cat => (
+          <button
+            key={cat.key}
+            onClick={() => {
+              sound.playTick()
+              setFilter(cat.key)
+            }}
+            style={{
+              padding: '10px 22px',
+              borderRadius: '30px',
+              background: filter === cat.key ? 'rgba(43, 59, 229, 0.2)' : 'rgba(255,255,255,0.03)',
+              border: filter === cat.key ? '1px solid var(--cobalt)' : '1px solid rgba(255,255,255,0.12)',
+              color: filter === cat.key ? 'var(--gold-hi)' : 'rgba(255,255,255,0.7)',
+              fontSize: '0.75rem',
+              fontWeight: 800,
+              letterSpacing: '0.08em',
+              fontFamily: 'var(--font-mono)',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              outline: 'none',
+              boxShadow: filter === cat.key ? '0 0 20px rgba(43, 59, 229, 0.4), 0 0 10px rgba(245, 158, 11, 0.3)' : 'none'
+            }}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Masonry Grid */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: `repeat(${columns}, 1fr)`,
+        gap: '16px',
+        alignItems: 'start',
+        width: '100%'
+      }}>
+        <AnimatePresence mode="popLayout">
+          {cols.map((col, ci) => (
+            <motion.div 
+              key={`col-${ci}`}
+              layout
+              style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
+            >
+              <AnimatePresence mode="popLayout">
+                {col.map((artwork) => {
+                  const globalIdx = ARTWORKS.findIndex(a => a.id === artwork.id)
+                  return (
+                    <TiltCard
+                      key={artwork.id}
+                      artwork={artwork}
+                      isHovered={hoveredId === artwork.id}
+                      setHoveredId={setHoveredId}
+                      onInspect={onInspect}
+                      idx={globalIdx}
+                      columns={columns}
+                    />
+                  )
+                })}
+              </AnimatePresence>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+
+      {/* Progressive Load More Button */}
+      {visibleCount < filteredArtworks.length && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          style={{ marginTop: '50px' }}
+        >
+          <button
+            onClick={() => {
+              sound.playOpen()
+              setVisibleCount(prev => prev + 24)
+            }}
+            style={{
+              padding: '16px 36px',
+              borderRadius: '40px',
+              background: 'linear-gradient(135deg, rgba(43, 59, 229, 0.25) 0%, rgba(141, 151, 255, 0.25) 100%)',
+              border: '1px solid rgba(245, 158, 11, 0.6)',
+              color: 'var(--gold-hi)',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '0.85rem',
+              fontWeight: 800,
+              letterSpacing: '0.12em',
+              cursor: 'pointer',
+              boxShadow: '0 0 30px rgba(43, 59, 229, 0.3)',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            ⚡ CARGAR MÁS OBRAS ({filteredArtworks.length - visibleCount} RESTANTES)
+          </button>
+        </motion.div>
+      )}
     </div>
   )
 }
