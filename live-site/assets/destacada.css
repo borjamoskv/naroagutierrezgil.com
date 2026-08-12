@@ -454,19 +454,35 @@ body.nav-open { overflow: hidden; }
   50% { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 28px rgba(212, 175, 55, 0.45); }
 }
 
+/* CTAs del hero: secundario outline cobalt-soft; el primario lleva
+   gradiente cobalto→oro (clase --primary + inline en index.html) */
 .hero-immersive__cta {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(212, 175, 55, 0.4) !important;
-  background: rgba(10, 10, 10, 0.6) !important;
+  border: 1px solid var(--cobalt-soft, #8D97FF) !important;
+  background: rgba(43, 59, 229, 0.08) !important;
+  color: var(--cobalt-soft, #8D97FF) !important;
   backdrop-filter: blur(12px) !important;
   transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1) !important;
 }
 .hero-immersive__cta:hover {
-  border-color: rgba(212, 175, 55, 0.8) !important;
-  background: rgba(43, 59, 229, 0.25) !important;
-  box-shadow: 0 0 25px rgba(43, 59, 229, 0.5), 0 0 15px rgba(212, 175, 55, 0.4) !important;
-  transform: translateY(-2px) scale(1.03) !important;
+  border-color: var(--cobalt-soft, #8D97FF) !important;
+  background: rgba(43, 59, 229, 0.22) !important;
+  box-shadow: 0 0 25px rgba(43, 59, 229, 0.4) !important;
+  transform: translateY(-2px) !important;
+}
+.hero-immersive__cta--primary,
+.hero-immersive__cta--primary:hover {
+  border-color: transparent !important;
+  background: linear-gradient(135deg, #2B3BE5, #F59E0B) !important;
+  color: #FFFFFF !important;
+}
+.hero-immersive__cta--primary {
+  box-shadow: 0 10px 30px rgba(245, 158, 11, 0.35) !important;
+}
+.hero-immersive__cta--primary:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 14px 40px rgba(245, 158, 11, 0.5) !important;
 }
 
 .gallery-massive__item {
@@ -703,3 +719,154 @@ body.nav-open { overflow: hidden; }
   transform: scale(1.1) rotate(15deg);
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   17. NOIR SPEC — FASE 4/5 PORTAL (overrides finales, ganan al bundle)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── §7.2 Hero: fuera degradado lima/púrpura y el corte de texto ── */
+.hero-immersive__title, .hero-immersive__title span, .hero-immersive__title-accent {
+  background: none !important;
+  -webkit-text-fill-color: currentColor !important;
+  color: #FFFFFF !important;
+}
+.hero-immersive__title-accent { color: var(--gold, #F59E0B) !important; }
+.hero-immersive__title {
+  font-size: clamp(2.4rem, 8vw, 7rem) !important;
+  letter-spacing: -0.02em;
+  white-space: normal;
+  overflow-wrap: break-word;
+  line-height: 1.02;
+}
+
+/* ── §7.4 Nav: el CTA "Contacto" pasa de blanco a gradiente cobalto→oro ── */
+.nav__link--cta {
+  background: linear-gradient(135deg, #2B3BE5, #F59E0B) !important;
+  color: #FFFFFF !important;
+  border-radius: 50px !important;
+  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.35);
+}
+.nav__link--cta:hover { color: #FFFFFF !important; }
+
+/* ── §7.5 Menú móvil (hasta 900px): hamburguesa + panel desplegable ── */
+@media (max-width: 900px) {
+  .nav__toggle {
+    display: flex !important;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: 1px solid var(--line, rgba(255,255,255,.12));
+    border-radius: 10px;
+    padding: 8px 10px;
+  }
+  .nav__toggle span { display: block; width: 18px; height: 2px; background: #fff; }
+  .nav__links { display: none !important; }
+  .nav__links.nav-open,
+  .nav__links.nav__links--open {
+    display: flex !important;
+    position: fixed;
+    top: 70px;
+    left: 12px;
+    right: 12px;
+    width: auto !important;
+    height: auto !important;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    background: rgba(10, 10, 14, 0.97);
+    border: 1px solid var(--line, rgba(255,255,255,.12));
+    border-radius: 18px;
+    padding: 16px;
+    gap: 8px;
+    z-index: 9998;
+  }
+  .nav__links.nav-open .nav__link,
+  .nav__links.nav__links--open .nav__link {
+    font-size: 1rem;
+    padding: 10px 16px;
+  }
+}
+
+/* ── §7.6 Chatbot MICA: piel noir ── */
+.mica-panel {
+  background: #0A0A0D !important;
+  border: 1px solid var(--line, rgba(255,255,255,.12)) !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.85), 0 0 20px rgba(43, 59, 229, 0.18) !important;
+}
+.mica-header__avatar {
+  background: rgba(245, 158, 11, 0.15) !important;
+  border: 1px solid rgba(245, 158, 11, 0.4) !important;
+  color: var(--gold, #F59E0B) !important;
+}
+.mica-header__status { color: var(--mica, rgba(234,234,234,.85)) !important; }
+.mica-quick-actions button { border: 1px solid rgba(245, 158, 11, 0.25) !important; }
+.mica-send {
+  background: rgba(245, 158, 11, 0.25) !important;
+  border: 1px solid rgba(245, 158, 11, 0.6) !important;
+  color: var(--gold, #F59E0B) !important;
+}
+#mica-orb {
+  background: var(--void, #0A0A0A) !important;
+  border: 1px solid var(--gold, #F59E0B) !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7), 0 0 20px rgba(245, 158, 11, 0.3) !important;
+}
+#mica-orb:hover {
+  border-color: var(--gold-hi, #FFD700) !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.85), 0 0 30px rgba(245, 158, 11, 0.5) !important;
+}
+@keyframes orb-pulse {
+  0%, 100% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6), 0 0 15px rgba(245, 158, 11, 0.2); }
+  50% { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 28px rgba(245, 158, 11, 0.45); }
+}
+
+/* MICA en móvil: nunca pantalla completa */
+@media (max-width: 768px) {
+  .mica-panel {
+    width: calc(100vw - 24px) !important;
+    max-width: calc(100vw - 24px) !important;
+    max-height: 70vh !important;
+    right: 12px !important;
+    left: 12px !important;
+    bottom: 12px !important;
+  }
+}
+
+/* ── §7.7 Galería: overlays visibles con gradiente inferior ── */
+.gallery-massive__overlay {
+  opacity: 1 !important;
+  background: linear-gradient(transparent, rgba(5, 5, 5, 0.85)) !important;
+}
+.gallery-massive__title { color: #FFFFFF !important; transform: none; }
+
+/* ── §8 Accesibilidad transversal ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+:focus-visible {
+  outline: 2px solid var(--cobalt-soft, #8D97FF);
+  outline-offset: 2px;
+}
+.skip-to-content {
+  position: fixed;
+  top: -60px;
+  left: 16px;
+  transform: none;
+  z-index: 10000;
+  background: var(--cobalt, #2B3BE5);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: top .2s;
+}
+.skip-to-content:focus { top: 12px; }
+
+/* 18. Hover del bundle (lima #CCFF00) -> hover oro/cobalto en CTAs del hero */
+.hero-immersive__cta:hover {
+  border-color: var(--gold) !important;
+  box-shadow: 0 12px 32px rgba(245, 158, 11, 0.35) !important;
+}

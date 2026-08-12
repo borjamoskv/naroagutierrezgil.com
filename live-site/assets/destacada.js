@@ -157,6 +157,7 @@
 
     function setOpen(open) {
       links.classList.toggle('nav__links--open', open);
+      links.classList.toggle('nav-open', open);
       toggle.classList.toggle('nav__toggle--open', open);
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
@@ -252,7 +253,7 @@
       },
       {
         keys: ['quien es', 'naroa', 'artista', 'sobre ella', 'sobre ti', 'bilbao'],
-        answer: 'Naroa Gutiérrez Gil es artista visual en **Bilbao**: hiperrealismo POP sobre pizarra y mica mineral. Retratos de iconos (Amy, Marilyn, James Dean…) y retratos por encargo con alma. En «Sobre mí» tienes su historia. 🌙'
+        answer: 'Naroa Gutiérrez Gil es artista visual en **Bilbao**: hiperrealismo POP sobre pizarra natural, con mica mineral que hace «latir» los ojos de sus retratos. Retratos de iconos (Amy, Marilyn, James Dean…) y retratos por encargo con alma. En «Sobre mí» tienes su historia. 🌙'
       },
       {
         keys: ['hola', 'buenas', 'hey', 'kaixo', 'saludos'],
@@ -627,6 +628,7 @@
         var navToggle = document.getElementById('nav-toggle');
         if (navLinks && navLinks.classList.contains('nav__links--open')) {
           navLinks.classList.remove('nav__links--open');
+          navLinks.classList.remove('nav-open');
           if (navToggle) navToggle.classList.remove('nav__toggle--open');
           document.body.classList.remove('nav-open');
         }
@@ -822,30 +824,58 @@
     });
   }
 
-  /* ── Enforce MICA Coqueta & Discreta (UI compacta 250px, sin MICA SYSTEM v∞) ── */
+  /* ── MICA Noir (§7.6): cabecera profesional, estado neutro, saludo
+     profesional y SIEMPRE cerrado por defecto.
+     - El bundle pinta el estado como `En línea · ${state.mood.toLowerCase()}`
+       tras cada respuesta y el saludo inicial con L[state.mood]; el mood sale
+       de un horario interno (ENERGETIC/PLAYFUL/CREATIVE). La vía menos
+       invasiva es envolver `_updateStatus` para fijar «En línea» y sustituir
+       el texto del primer mensaje cuando termina de teclearse. ─────────── */
+  var MICA_GREETING = 'Hola, soy MICA, la asistente del estudio de Naroa. ¿Buscas un retrato por encargo o tienes alguna duda sobre las obras?';
+
+  function wireMicaNoir(mica) {
+    if (!mica || mica.__noir) return;
+    mica.__noir = true;
+
+    // Estado siempre «En línea» (se respeta el «Pensando...» mientras responde)
+    if (typeof mica._updateStatus === 'function') {
+      var origStatus = mica._updateStatus.bind(mica);
+      mica._updateStatus = function (txt) {
+        origStatus(txt && txt.indexOf('Pensando') === 0 ? txt : 'En línea');
+      };
+    }
+
+    // Nunca abierto por defecto (en producción el chat se auto-abría)
+    if (mica.state && mica.state.isOpen && typeof mica.close === 'function') {
+      mica.close();
+    }
+
+    // Saludo profesional: sustituir el primer mensaje cuando acabe de teclear
+    var attempts = 0;
+    (function fixGreeting() {
+      var first = mica.elements && mica.elements.messages &&
+        mica.elements.messages.querySelector('.mica-message--mica .mica-msg-text');
+      if (first && !first.querySelector('.mica-cursor')) {
+        first.textContent = MICA_GREETING;
+        return;
+      }
+      if (++attempts < 100) setTimeout(fixGreeting, 100);
+    })();
+  }
+
+  /* ── Cabecera MICA noir: el panel lo crea el bundle de forma asíncrona ── */
   function enforceMicaCoqueta() {
     var checkTimer = setInterval(function () {
       var panel = document.getElementById('mica-panel');
-      var orb = document.getElementById('mica-orb');
       if (panel) {
-        panel.style.setProperty('width', '250px', 'important');
-        panel.style.setProperty('max-width', '250px', 'important');
-        panel.style.setProperty('max-height', '310px', 'important');
-
         var nameEl = panel.querySelector('.mica-header__name');
         var statusEl = panel.querySelector('#mica-status');
-        var avatarEl = panel.querySelector('.mica-header__avatar');
-        if (nameEl) nameEl.textContent = '✨ Mica';
-        if (statusEl) statusEl.textContent = '✨ Curadora del estudio';
-        if (avatarEl) avatarEl.textContent = '✨';
+        if (nameEl) nameEl.textContent = 'MICA — Asistente del estudio';
+        if (statusEl && statusEl.textContent.indexOf('Pensando') !== 0) {
+          statusEl.textContent = 'En línea';
+        }
+        clearInterval(checkTimer);
       }
-      if (orb) {
-        orb.style.setProperty('width', '36px', 'important');
-        orb.style.setProperty('height', '36px', 'important');
-        orb.style.setProperty('min-width', '36px', 'important');
-        orb.style.setProperty('min-height', '36px', 'important');
-      }
-      if (panel && orb) clearInterval(checkTimer);
     }, 100);
   }
 
@@ -881,6 +911,7 @@
     wire3DTilt();
     enforceMicaCoqueta();
     whenMicaReady(function (mica) {
+      wireMicaNoir(mica);
       wireMicaPolitesse(mica);
       wireMicaBrain(mica);
     });
@@ -892,4 +923,3 @@
     init2();
   }
 })();
-
