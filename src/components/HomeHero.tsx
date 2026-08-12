@@ -88,7 +88,7 @@ export function HomeHero() {
       }}
     >
       {/* ⚡ High-Speed Kinetic POP Marquee Ticker */}
-      <div className="kinetic-marquee-container" style={{ position: 'relative', zIndex: 30, top: '70px' }}>
+      <div className="kinetic-marquee-container" style={{ zIndex: 30 }}>
         <div className="kinetic-marquee-track">
           <span>⚡ "TODOS SOMOS LO MISMO CON DISTINTAS APARIENCIAS" — NAROA GUTIÉRREZ GIL ⚡ HIPERREALISMO POP ⚡ PIZARRA NATURAL DE TEJADO VASCO & MICA MINERAL ⚡ BILBAO 2026 ⚡ BILDUMA ⚡ ESKAERAK ⚡ POP GUNEA ⚡</span>
           <span>⚡ "TODOS SOMOS LO MISMO CON DISTINTAS APARIENCIAS" — NAROA GUTIÉRREZ GIL ⚡ HIPERREALISMO POP ⚡ PIZARRA NATURAL DE TEJADO VASCO & MICA MINERAL ⚡ BILBAO 2026 ⚡ BILDUMA ⚡ ESKAERAK ⚡ POP GUNEA ⚡</span>
@@ -156,14 +156,14 @@ export function HomeHero() {
           {/* Curatorial Manifesto Highlight */}
           <div 
             style={{
-              background: 'rgba(255, 0, 122, 0.06)',
-              borderLeft: '4px solid #FF007A',
+              background: 'rgba(43, 59, 229, 0.06)',
+              borderLeft: '4px solid var(--cobalt)',
               padding: '16px 20px',
               borderRadius: '0 12px 12px 0',
               backdropFilter: 'blur(12px)',
-              borderTop: '1px solid rgba(255,0,122,0.2)',
-              borderRight: '1px solid rgba(255,0,122,0.2)',
-              borderBottom: '1px solid rgba(255,0,122,0.2)',
+              borderTop: '1px solid rgba(43, 59, 229,0.2)',
+              borderRight: '1px solid rgba(43, 59, 229,0.2)',
+              borderBottom: '1px solid rgba(43, 59, 229,0.2)',
               maxWidth: '560px'
             }}
           >
@@ -175,13 +175,13 @@ export function HomeHero() {
               lineHeight: 1.65,
               fontWeight: 500
             }}>
-              <strong style={{ color: '#FFE600' }}>«Todos somos lo mismo con distintas apariencias.»</strong> Naroa Gutiérrez Gil transforma la iconografía pop y los soportes primordiales —pizarra natural de derribos en Bizkaia y mica mineral— en máscaras emocionales del alma humana.
+              <strong style={{ color: 'var(--gold-hi)' }}>«Todos somos lo mismo con distintas apariencias.»</strong> Naroa Gutiérrez Gil transforma la iconografía pop y los soportes primordiales —pizarra natural de derribos en Bizkaia y mica mineral— en máscaras emocionales del alma humana.
             </p>
           </div>
 
           {/* SOTA Material Selector Switches */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%', maxWidth: '480px' }}>
-            <span style={{ fontSize: '0.7rem', color: '#00F0FF', fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '0.1em' }}>
+            <span style={{ fontSize: '0.7rem', color: 'var(--cobalt-soft)', fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '0.1em' }}>
               ✦ SELECCIONAR SOPORTE Y TÉCNICA MATÉRICA:
             </span>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -195,15 +195,15 @@ export function HomeHero() {
                   style={{
                     padding: '8px 16px',
                     borderRadius: '20px',
-                    background: selectedIdx === idx ? 'rgba(0, 240, 255, 0.2)' : 'rgba(255,255,255,0.04)',
-                    border: selectedIdx === idx ? '1px solid #00F0FF' : '1px solid rgba(255,255,255,0.12)',
-                    color: selectedIdx === idx ? '#00F0FF' : 'rgba(255,255,255,0.7)',
+                    background: selectedIdx === idx ? 'rgba(141, 151, 255, 0.2)' : 'rgba(255,255,255,0.04)',
+                    border: selectedIdx === idx ? '1px solid var(--cobalt-soft)' : '1px solid rgba(255,255,255,0.12)',
+                    color: selectedIdx === idx ? 'var(--cobalt-soft)' : 'rgba(255,255,255,0.7)',
                     fontFamily: 'var(--font-mono)',
                     fontSize: '0.72rem',
                     fontWeight: selectedIdx === idx ? 800 : 500,
                     cursor: 'pointer',
                     transition: 'all 0.3s ease',
-                    boxShadow: selectedIdx === idx ? '0 0 15px rgba(0, 240, 255, 0.3)' : 'none'
+                    boxShadow: selectedIdx === idx ? '0 0 15px rgba(141, 151, 255, 0.3)' : 'none'
                   }}
                 >
                   {item.tag}
@@ -214,63 +214,66 @@ export function HomeHero() {
 
           {/* Action Buttons */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '8px' }}>
-            <a 
-              href="#/gallery" 
+            <a
+              href="#/gallery"
               onClick={() => sound.playOpen()}
+              className="hero-cta"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '12px',
-                color: '#000',
+                color: '#FFFFFF',
                 textDecoration: 'none',
                 fontFamily: 'var(--font-sans)',
                 fontSize: '1rem',
                 fontWeight: 900,
                 letterSpacing: '0.08em',
                 padding: '16px 36px',
-                background: 'linear-gradient(135deg, #FFE600 0%, #FF007A 100%)',
+                background: 'linear-gradient(135deg, #2B3BE5 0%, #F59E0B 100%)',
                 border: 'none',
                 borderRadius: '40px',
-                boxShadow: '0 10px 30px rgba(255, 0, 122, 0.4), 0 0 20px rgba(255, 230, 0, 0.3)',
+                boxShadow: '0 10px 30px rgba(245, 158, 11, 0.35), 0 0 20px rgba(43, 59, 229, 0.3)',
                 transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-3px) scale(1.04)'
-                e.currentTarget.style.boxShadow = '0 15px 40px rgba(255, 0, 122, 0.6), 0 0 30px rgba(255, 230, 0, 0.6)'
+                e.currentTarget.style.boxShadow = '0 15px 40px rgba(245, 158, 11, 0.5), 0 0 30px rgba(43, 59, 229, 0.45)'
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                e.currentTarget.style.boxShadow = '0 10px 30px rgba(255, 0, 122, 0.4), 0 0 20px rgba(255, 230, 0, 0.3)'
+                e.currentTarget.style.boxShadow = '0 10px 30px rgba(245, 158, 11, 0.35), 0 0 20px rgba(43, 59, 229, 0.3)'
               }}
             >
               ⚡ BILDUMA (VER 140 OBRAS) <span>→</span>
             </a>
 
-            <a 
-              href="#/commissions" 
+            <a
+              href="#/commissions"
               onClick={() => sound.playTick()}
+              className="hero-cta"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '10px',
-                color: '#00F0FF',
+                color: 'var(--cobalt-soft)',
                 textDecoration: 'none',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.9rem',
                 fontWeight: 700,
                 padding: '14px 24px',
-                border: '1px solid rgba(0, 240, 255, 0.4)',
+                border: '1px solid var(--cobalt-soft)',
                 borderRadius: '30px',
-                background: 'rgba(0, 240, 255, 0.08)'
+                background: 'rgba(43, 59, 229, 0.08)'
               }}
             >
               ⚡ ESKAERAK / ENCARGOS ↗
             </a>
           </div>
 
-          <div style={{ 
-            display: 'flex', 
-            gap: '24px', 
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '12px 20px',
             marginTop: '8px',
             fontFamily: 'var(--font-mono)',
             fontSize: '0.75rem',
@@ -307,8 +310,8 @@ export function HomeHero() {
               scale: 1.03,
               rotateX: 3,
               rotateY: -3,
-              boxShadow: '0 40px 100px rgba(0,0,0,0.95), 0 0 80px rgba(255, 0, 122, 0.5)',
-              borderColor: '#FF007A'
+              boxShadow: '0 40px 100px rgba(0,0,0,0.95), 0 0 80px rgba(245, 158, 11, 0.4)',
+              borderColor: 'var(--gold)'
             }}
             whileTap={{ scale: 0.98 }}
             transition={{ type: 'spring', stiffness: 350, damping: 25 }}
@@ -317,8 +320,8 @@ export function HomeHero() {
               borderRadius: '24px', 
               padding: '16px',
               background: '#FFFFFF',
-              border: isHoveredCard ? '2px solid #FF007A' : '1px solid rgba(255, 0, 122, 0.4)',
-              boxShadow: isHoveredCard ? '0 30px 90px rgba(0,0,0,0.95), 0 0 50px rgba(255, 0, 122, 0.4)' : '0 25px 70px rgba(0,0,0,0.9)',
+              border: isHoveredCard ? '2px solid var(--gold)' : '1px solid var(--line)',
+              boxShadow: isHoveredCard ? '0 30px 90px rgba(0,0,0,0.95), 0 0 50px rgba(245, 158, 11, 0.3)' : '0 25px 70px rgba(0,0,0,0.9)',
               maxWidth: '480px',
               width: '100%',
               cursor: 'pointer',
@@ -339,11 +342,11 @@ export function HomeHero() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 1.05 }}
                 transition={{ duration: 0.4 }}
-                style={{ 
-                  width: '100%', 
-                  height: 'auto', 
-                  maxHeight: '58vh', 
-                  objectFit: 'contain', 
+                className="hero-featured-img"
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  objectFit: 'contain',
                   borderRadius: '12px',
                   display: 'block',
                   background: '#FFFFFF',
@@ -369,9 +372,9 @@ export function HomeHero() {
             }}>
               <div>
                 <h4 style={{ margin: 0, color: '#fff', fontSize: '1.1rem', fontWeight: 800 }}>{activeItem.title}</h4>
-                <p style={{ margin: '2px 0 0 0', color: '#00F0FF', fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>{activeItem.medium}</p>
+                <p style={{ margin: '2px 0 0 0', color: 'var(--cobalt-soft)', fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>{activeItem.medium}</p>
               </div>
-              <span style={{ fontSize: '0.7rem', padding: '4px 10px', background: 'rgba(255, 230, 0, 0.2)', color: '#FFE600', borderRadius: '20px', fontWeight: 800, fontFamily: 'var(--font-mono)' }}>
+              <span style={{ fontSize: '0.7rem', padding: '4px 10px', background: 'rgba(245, 158, 11, 0.2)', color: 'var(--gold-hi)', borderRadius: '20px', fontWeight: 800, fontFamily: 'var(--font-mono)' }}>
                 {activeItem.year}
               </span>
             </div>
@@ -404,10 +407,10 @@ export function HomeHero() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
           <motion.div
-            whileHover={{ y: -6, borderColor: '#FF007A' }}
+            whileHover={{ y: -6, borderColor: 'var(--gold)' }}
             style={{
               background: 'rgba(10, 10, 15, 0.7)',
-              border: '1px solid rgba(255, 0, 122, 0.3)',
+              border: '1px solid rgba(43, 59, 229, 0.3)',
               borderRadius: '20px',
               padding: '28px',
               backdropFilter: 'blur(16px)',
@@ -415,7 +418,7 @@ export function HomeHero() {
             }}
           >
             <div style={{ fontSize: '2.4rem', marginBottom: '12px' }}>🪨</div>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#FF007A', fontWeight: 800, letterSpacing: '0.1em' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--gold)', fontWeight: 800, letterSpacing: '0.1em' }}>
               PIZARRA VINTAGE DE BIZKAIA
             </span>
             <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff', margin: '8px 0' }}>Piedra de Derribo Vasco</h3>
@@ -425,10 +428,10 @@ export function HomeHero() {
           </motion.div>
 
           <motion.div
-            whileHover={{ y: -6, borderColor: '#FFE600' }}
+            whileHover={{ y: -6, borderColor: 'var(--gold-hi)' }}
             style={{
               background: 'rgba(10, 10, 15, 0.7)',
-              border: '1px solid rgba(255, 230, 0, 0.3)',
+              border: '1px solid rgba(245, 158, 11, 0.3)',
               borderRadius: '20px',
               padding: '28px',
               backdropFilter: 'blur(16px)',
@@ -436,7 +439,7 @@ export function HomeHero() {
             }}
           >
             <div style={{ fontSize: '2.4rem', marginBottom: '12px' }}>💎</div>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#FFE600', fontWeight: 800, letterSpacing: '0.1em' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--gold-hi)', fontWeight: 800, letterSpacing: '0.1em' }}>
               DESTELLOS DE LUZ REAL
             </span>
             <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff', margin: '8px 0' }}>Mica Mineral & Pan de Oro</h3>
@@ -446,10 +449,10 @@ export function HomeHero() {
           </motion.div>
 
           <motion.div
-            whileHover={{ y: -6, borderColor: '#00F0FF' }}
+            whileHover={{ y: -6, borderColor: 'var(--cobalt-soft)' }}
             style={{
               background: 'rgba(10, 10, 15, 0.7)',
-              border: '1px solid rgba(0, 240, 255, 0.3)',
+              border: '1px solid rgba(141, 151, 255, 0.3)',
               borderRadius: '20px',
               padding: '28px',
               backdropFilter: 'blur(16px)',
@@ -457,7 +460,7 @@ export function HomeHero() {
             }}
           >
             <div style={{ fontSize: '2.4rem', marginBottom: '12px' }}>✨</div>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#00F0FF', fontWeight: 800, letterSpacing: '0.1em' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--cobalt-soft)', fontWeight: 800, letterSpacing: '0.1em' }}>
               CICATRIZ DORADA
             </span>
             <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff', margin: '8px 0' }}>Técnica «Cantinflowers»</h3>
@@ -470,6 +473,3 @@ export function HomeHero() {
     </section>
   )
 }
-
-
-
