@@ -43,7 +43,7 @@ export const EspejoDelAlmaModal: React.FC<EspejoDelAlmaModalProps> = ({ isOpen, 
         <div style={{
           position: 'absolute',
           inset: 0,
-          backgroundImage: 'radial-gradient(circle at center, rgba(255, 0, 122, 0.18) 0%, rgba(0, 240, 255, 0.08) 50%, transparent 80%)',
+          backgroundImage: 'radial-gradient(circle at center, rgba(43, 59, 229, 0.18) 0%, rgba(141, 151, 255, 0.08) 50%, transparent 80%)',
           pointerEvents: 'none'
         }} />
 
@@ -62,8 +62,8 @@ export const EspejoDelAlmaModal: React.FC<EspejoDelAlmaModalProps> = ({ isOpen, 
             overflowY: 'auto',
             borderRadius: '24px',
             backgroundColor: '#0A0A14',
-            border: '2px solid #FF007A',
-            boxShadow: '0 0 60px rgba(255, 0, 122, 0.4), 0 0 40px rgba(0, 240, 255, 0.3)',
+            border: '2px solid var(--cobalt)',
+            boxShadow: '0 0 60px rgba(43, 59, 229, 0.4), 0 0 40px rgba(141, 151, 255, 0.3)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -90,7 +90,7 @@ export const EspejoDelAlmaModal: React.FC<EspejoDelAlmaModalProps> = ({ isOpen, 
           <p style={{
             fontFamily: 'var(--font-mono)',
             fontSize: '0.85rem',
-            color: '#FFE600',
+            color: 'var(--gold-hi)',
             marginTop: '8px',
             letterSpacing: '0.08em'
           }}>
@@ -121,8 +121,8 @@ export const EspejoDelAlmaModal: React.FC<EspejoDelAlmaModalProps> = ({ isOpen, 
                 position: 'relative',
                 transformStyle: 'preserve-3d',
                 borderRadius: '20px',
-                border: '1.5px solid rgba(255, 0, 122, 0.6)',
-                background: 'linear-gradient(135deg, rgba(255,0,122,0.15) 0%, rgba(0,240,255,0.15) 100%)',
+                border: '1.5px solid rgba(43, 59, 229, 0.6)',
+                background: 'linear-gradient(135deg, rgba(43, 59, 229,0.15) 0%, rgba(141, 151, 255,0.15) 100%)',
                 backdropFilter: 'blur(10px)',
                 boxShadow: '0 15px 35px rgba(0,0,0,0.8)',
                 display: 'flex',
@@ -142,7 +142,7 @@ export const EspejoDelAlmaModal: React.FC<EspejoDelAlmaModalProps> = ({ isOpen, 
                 <span style={{ fontSize: '2rem', fontWeight: 900, color: '#fff', letterSpacing: '0.2em' }}>
                   N A R O A
                 </span>
-                <span style={{ fontSize: '0.72rem', color: '#00F0FF', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
+                <span style={{ fontSize: '0.72rem', color: 'var(--cobalt-soft)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
                   ( HAZ CLIC PARA INVERTIR EN EL ESPEJO 🔄 )
                 </span>
               </div>
@@ -156,10 +156,10 @@ export const EspejoDelAlmaModal: React.FC<EspejoDelAlmaModalProps> = ({ isOpen, 
                 flexDirection: 'column',
                 alignItems: 'center'
               }}>
-                <span style={{ fontSize: '2rem', fontWeight: 900, color: '#FFE600', letterSpacing: '0.2em' }}>
+                <span style={{ fontSize: '2rem', fontWeight: 900, color: 'var(--gold-hi)', letterSpacing: '0.2em' }}>
                   A O R A N
                 </span>
-                <span style={{ fontSize: '0.72rem', color: '#FF007A', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
+                <span style={{ fontSize: '0.72rem', color: 'var(--gold)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
                   [ FIRMA ESPECULAR & ALTER-EGO LÍTICO ]
                 </span>
               </div>
@@ -176,15 +176,15 @@ export const EspejoDelAlmaModal: React.FC<EspejoDelAlmaModalProps> = ({ isOpen, 
             textAlign: 'left'
           }}>
             <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '18px' }}>
-              <div style={{ fontSize: '0.7rem', color: '#FF007A', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>01 · FIRMA ESPECULAR</div>
-              <h4 style={{ margin: '4px 0', color: '#FFE600', fontSize: '1.1rem' }}>AORAN ↔ NAROA</h4>
+              <div style={{ fontSize: '0.7rem', color: 'var(--gold)', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>01 · FIRMA ESPECULAR</div>
+              <h4 style={{ margin: '4px 0', color: 'var(--gold-hi)', fontSize: '1.1rem' }}>AORAN ↔ NAROA</h4>
               <p style={{ margin: 0, fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
                 Inversión exacta letra a letra. Naroa firma las obras en el reverso de la piedra de pizarra con <em>AORAN</em> como su espejo oculto.
               </p>
             </div>
 
             <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '18px' }}>
-              <div style={{ fontSize: '0.7rem', color: '#00F0FF', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>02 · MANIFIESTO REAL</div>
+              <div style={{ fontSize: '0.7rem', color: 'var(--cobalt-soft)', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>02 · MANIFIESTO REAL</div>
               <h4 style={{ margin: '4px 0', color: '#fff', fontSize: '1.1rem' }}>S O M O S</h4>
               <p style={{ margin: 0, fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
                 «Todos <strong>SOMOS</strong> lo mismo con distintas apariencias». La piedra de derribo vasco iguala la esencia de iconos y seres anónimos.
@@ -192,16 +192,16 @@ export const EspejoDelAlmaModal: React.FC<EspejoDelAlmaModalProps> = ({ isOpen, 
             </div>
 
             <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '18px' }}>
-              <div style={{ fontSize: '0.7rem', color: '#FFE600', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>03 · LA MIRADA</div>
-              <h4 style={{ margin: '4px 0', color: '#00F0FF', fontSize: '1.1rem' }}>R E C O N O C E R</h4>
+              <div style={{ fontSize: '0.7rem', color: 'var(--gold-hi)', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>03 · LA MIRADA</div>
+              <h4 style={{ margin: '4px 0', color: 'var(--cobalt-soft)', fontSize: '1.1rem' }}>R E C O N O C E R</h4>
               <p style={{ margin: 0, fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
                 «Contemplar el cuadro es <strong>RECONOCER</strong> en el lienzo hiperrealista lo imperecedero de nuestra propia memoria.»
               </p>
             </div>
 
             <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '18px' }}>
-              <div style={{ fontSize: '0.7rem', color: '#FF007A', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>04 · SIMETRÍA LÍTICA</div>
-              <h4 style={{ margin: '4px 0', color: '#FF007A', fontSize: '1.1rem' }}>OJO & RADAR</h4>
+              <div style={{ fontSize: '0.7rem', color: 'var(--gold)', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>04 · SIMETRÍA LÍTICA</div>
+              <h4 style={{ margin: '4px 0', color: 'var(--gold)', fontSize: '1.1rem' }}>OJO & RADAR</h4>
               <p style={{ margin: 0, fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
                 El <strong>OJO</strong> donde incrusta las escamas de mica mineral y el <strong>RADAR</strong> pop con el que rastrea la iconografía contemporánea.
               </p>
@@ -214,7 +214,7 @@ export const EspejoDelAlmaModal: React.FC<EspejoDelAlmaModalProps> = ({ isOpen, 
               style={{
                 padding: '14px 36px',
                 borderRadius: '30px',
-                background: 'linear-gradient(135deg, #FF007A 0%, #FFE600 100%)',
+                background: 'linear-gradient(135deg, #2B3BE5 0%, #F59E0B 100%)',
                 border: 'none',
                 color: '#000',
                 fontFamily: 'var(--font-sans)',
@@ -222,7 +222,7 @@ export const EspejoDelAlmaModal: React.FC<EspejoDelAlmaModalProps> = ({ isOpen, 
                 fontSize: '0.9rem',
                 cursor: 'pointer',
                 letterSpacing: '0.08em',
-                boxShadow: '0 0 20px rgba(255,0,122,0.4)'
+                boxShadow: '0 0 20px rgba(43, 59, 229,0.4)'
               }}
             >
               CERRAR ESPEJO ➔

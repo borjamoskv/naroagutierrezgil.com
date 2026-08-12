@@ -49,8 +49,8 @@ export const SecretEasterEggModal: React.FC<SecretEasterEggModalProps> = ({ isOp
             borderRadius: '24px',
             overflow: 'hidden',
             backgroundColor: '#07070D',
-            border: '2px solid #FFE600',
-            boxShadow: '0 0 50px rgba(255, 230, 0, 0.4), 0 0 30px rgba(255, 0, 122, 0.3)',
+            border: '2px solid var(--gold)',
+            boxShadow: '0 0 50px rgba(245, 158, 11, 0.4), 0 0 30px rgba(43, 59, 229, 0.3)',
             padding: '36px 32px',
             textAlign: 'center',
             display: 'flex',
@@ -82,22 +82,22 @@ export const SecretEasterEggModal: React.FC<SecretEasterEggModalProps> = ({ isOp
             lineHeight: 1.6,
             maxWidth: '520px'
           }}>
-            Has descubierto el reverso sagrado del lienzo. Detrás de cada pizarra habita la música electrónica y la alquimia sonora concebida por <strong style={{ color: '#FFE600' }}>Borja Moskv</strong> en simbiosis con <strong style={{ color: '#FF007A' }}>Naroa Gutiérrez Gil</strong>.
+            Has descubierto el reverso sagrado del lienzo. Detrás de cada pizarra habita la música electrónica y la alquimia sonora concebida por <strong style={{ color: 'var(--gold-hi)' }}>Borja Moskv</strong> en simbiosis con <strong style={{ color: 'var(--gold)' }}>Naroa Gutiérrez Gil</strong>.
           </p>
 
           <div style={{
             margin: '20px 0',
             padding: '16px 20px',
             borderRadius: '16px',
-            backgroundColor: 'rgba(255, 0, 122, 0.08)',
-            border: '1px solid rgba(255, 0, 122, 0.3)',
+            backgroundColor: 'rgba(43, 59, 229, 0.08)',
+            border: '1px solid rgba(43, 59, 229, 0.3)',
             display: 'flex',
             alignItems: 'center',
             gap: '12px'
           }}>
             <span style={{ fontSize: '1.8rem' }}>🎵</span>
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: '#00F0FF', fontWeight: 700 }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.75rem', color: 'var(--cobalt-soft)', fontWeight: 700 }}>
                 DISCOGRAFÍA & PROYECTOS SONOROS
               </div>
               <div style={{ fontFamily: 'var(--font-sans)', fontSize: '0.95rem', color: '#fff', fontWeight: 800 }}>
@@ -118,7 +118,7 @@ export const SecretEasterEggModal: React.FC<SecretEasterEggModalProps> = ({ isOp
                 gap: '10px',
                 padding: '14px 32px',
                 borderRadius: '30px',
-                background: 'linear-gradient(135deg, #FFE600 0%, #FF007A 100%)',
+                background: 'linear-gradient(135deg, #2B3BE5 0%, #F59E0B 100%)',
                 border: 'none',
                 color: '#000',
                 fontFamily: 'var(--font-sans)',
@@ -126,7 +126,7 @@ export const SecretEasterEggModal: React.FC<SecretEasterEggModalProps> = ({ isOp
                 fontSize: '0.92rem',
                 textDecoration: 'none',
                 letterSpacing: '0.08em',
-                boxShadow: '0 0 20px rgba(255, 230, 0, 0.5)'
+                boxShadow: '0 0 20px rgba(245, 158, 11, 0.5)'
               }}
             >
               🌐 EXPLORAR BORJAMOSKV.COM ↗

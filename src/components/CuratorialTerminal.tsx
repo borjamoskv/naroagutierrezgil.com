@@ -146,29 +146,29 @@ VERIFICACIÓN: Certificado con sello de mica mineral y firma hológrafa.
             maxWidth: '850px',
             height: '540px',
             backgroundColor: '#07070D',
-            border: '1px solid #FF007A',
+            border: '1px solid var(--cobalt)',
             borderRadius: '16px',
-            boxShadow: '0 0 40px rgba(255, 0, 122, 0.35), 0 0 20px rgba(0, 240, 255, 0.2)',
+            boxShadow: '0 0 40px rgba(43, 59, 229, 0.35), 0 0 20px rgba(141, 151, 255, 0.2)',
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
             fontFamily: 'var(--font-mono)',
-            color: '#00F0FF'
+            color: 'var(--cobalt-soft)'
           }}
         >
           {/* Header Terminal Bar */}
           <div style={{
             padding: '12px 20px',
             backgroundColor: '#0D0D18',
-            borderBottom: '1px solid rgba(255, 0, 122, 0.3)',
+            borderBottom: '1px solid rgba(43, 59, 229, 0.3)',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#FF007A', display: 'inline-block' }} />
-              <span style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#FFE600', display: 'inline-block' }} />
-              <span style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#00F0FF', display: 'inline-block' }} />
+              <span style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: 'var(--gold)', display: 'inline-block' }} />
+              <span style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: 'var(--gold-hi)', display: 'inline-block' }} />
+              <span style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: 'var(--cobalt-soft)', display: 'inline-block' }} />
               <span style={{ fontSize: '0.8rem', color: '#fff', marginLeft: '12px', fontWeight: 700 }}>
                 TERMINAL CURATORIAL // NAROA.ONLINE [Cmd + K]
               </span>
@@ -200,7 +200,7 @@ VERIFICACIÓN: Certificado con sello de mica mineral y firma hológrafa.
           }}>
             {history.map((line, idx) => (
               <div key={idx} style={{
-                color: line.startsWith('>') ? '#FFE600' : line.includes('MANIFIESTO') ? '#FF007A' : '#00F0FF'
+                color: line.startsWith('>') ? 'var(--gold-hi)' : line.includes('MANIFIESTO') ? 'var(--cobalt)' : 'var(--cobalt-soft)'
               }}>
                 {line}
               </div>
@@ -222,7 +222,7 @@ VERIFICACIÓN: Certificado con sello de mica mineral y firma hológrafa.
               borderTop: '1px solid rgba(255, 255, 255, 0.1)'
             }}
           >
-            <span style={{ color: '#FF007A', marginRight: '10px', fontWeight: 'bold' }}>&gt;</span>
+            <span style={{ color: 'var(--gold)', marginRight: '10px', fontWeight: 'bold' }}>&gt;</span>
             <input
               ref={inputRef}
               type="text"
