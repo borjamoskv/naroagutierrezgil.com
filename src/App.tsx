@@ -27,6 +27,7 @@ const CommissionCalculator = lazy(() => import('./components/CommissionCalculato
 const GamesHub = lazy(() => import('./components/GamesHub').then(module => ({ default: module.GamesHub })))
 const BlogSection = lazy(() => import('./components/BlogSection').then(module => ({ default: module.BlogSection })))
 const AboutSection = lazy(() => import('./components/AboutSection').then(module => ({ default: module.AboutSection })))
+const AcousticCube3D = lazy(() => import('./components/AcousticCube3D').then(module => ({ default: module.AcousticCube3D })))
 
 const toSlug = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 
@@ -317,6 +318,9 @@ export default function App() {
               style={{ width: '100%' }}
             >
               <HomeHero />
+              <Suspense fallback={<Loader />}>
+                <AcousticCube3D />
+              </Suspense>
               <PremiumFooter />
             </motion.div>
           )}
@@ -484,6 +488,20 @@ export default function App() {
         currentView={currentView}
         activeArtworkSlug={modalArtwork?.slug}
       />
+
+      {/* 💬 Botón Flotante WhatsApp Business (CRO & Conversión Directa) */}
+      {!isStarted && (
+        <a
+          href="https://wa.me/34636060609?text=Hola%20Naroa!%20Te%20contacto%20desde%20naroagutierrezgil.com%20para%20consultar%20un%20encargo..."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="whatsapp-float"
+          aria-label="Contactar por WhatsApp Business con la artista Naroa Gutiérrez Gil"
+          title="WhatsApp Directo con Naroa Gutiérrez Gil"
+        >
+          💬
+        </a>
+      )}
     </>
   )
 }
