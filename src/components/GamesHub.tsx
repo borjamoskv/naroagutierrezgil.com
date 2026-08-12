@@ -116,11 +116,11 @@ export function GamesHub() {
   }
 
   return (
-    <div style={{ width: '100%', maxWidth: '1400px', margin: '100px auto 80px', padding: '0 24px' }}>
+    <div style={{ width: '100%', maxWidth: '1400px', margin: '100px auto 80px', padding: '0 5vw' }}>
       {/* Ticker Banner */}
       <div style={{
-        background: 'rgba(0, 240, 255, 0.12)',
-        border: '1px solid rgba(0, 240, 255, 0.3)',
+        background: 'rgba(141, 151, 255, 0.12)',
+        border: '1px solid rgba(141, 151, 255, 0.3)',
         borderRadius: '30px',
         padding: '10px 24px',
         marginBottom: '40px',
@@ -130,11 +130,11 @@ export function GamesHub() {
         flexWrap: 'wrap',
         gap: '12px'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: '#00F0FF', fontWeight: 800 }}>
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#00F0FF', boxShadow: '0 0 10px #00F0FF' }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--cobalt-soft)', fontWeight: 800 }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--cobalt-soft)', boxShadow: '0 0 10px #8D97FF' }} />
           POP GUNEA // LABORATORIO INTERACTIVO & MINIJUEGOS ARTÍSTICOS
         </div>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#FFE600', fontWeight: 700 }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--gold-hi)', fontWeight: 700 }}>
           🎮 EXPERIENCIAS MATÉRICAS 2026 · BILBAO
         </span>
       </div>
@@ -143,10 +143,10 @@ export function GamesHub() {
         <span style={{
           fontSize: '0.75rem',
           padding: '6px 16px',
-          background: 'rgba(255, 0, 122, 0.15)',
-          border: '1px solid rgba(255, 0, 122, 0.4)',
+          background: 'rgba(43, 59, 229, 0.15)',
+          border: '1px solid rgba(43, 59, 229, 0.4)',
           borderRadius: '30px',
-          color: '#FF007A',
+          color: 'var(--gold)',
           fontFamily: 'var(--font-mono)',
           fontWeight: 800,
           letterSpacing: '0.1em'

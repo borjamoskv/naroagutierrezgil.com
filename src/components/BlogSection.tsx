@@ -52,11 +52,11 @@ export function BlogSection() {
   }, [])
 
   return (
-    <div style={{ width: '100%', maxWidth: '1400px', margin: '100px auto 80px', padding: '0 24px' }}>
+    <div style={{ width: '100%', maxWidth: '1400px', margin: '100px auto 80px', padding: '0 5vw' }}>
       {/* Ticker Tape Header */}
       <div style={{
-        background: 'rgba(255, 0, 122, 0.12)',
-        border: '1px solid rgba(255, 0, 122, 0.3)',
+        background: 'rgba(43, 59, 229, 0.12)',
+        border: '1px solid rgba(43, 59, 229, 0.3)',
         borderRadius: '30px',
         padding: '10px 24px',
         marginBottom: '40px',
@@ -66,11 +66,11 @@ export function BlogSection() {
         flexWrap: 'wrap',
         gap: '12px'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: '#FF007A', fontWeight: 800 }}>
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#FF007A', boxShadow: '0 0 10px #FF007A' }} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontFamily: 'var(--font-mono)', fontSize: '0.78rem', color: 'var(--gold)', fontWeight: 800 }}>
+          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--cobalt)', boxShadow: '0 0 10px #2B3BE5' }} />
           BITÁCORA DE NARO // DIARIO DEL TALLER EN BOLUETA (BILBAO)
         </div>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: '#FFE600', fontWeight: 700 }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--gold-hi)', fontWeight: 700 }}>
           ⚡ WORDPRESS LIVE SYNC · NAROAGUTIERREZ.WORDPRESS.COM
         </span>
       </div>
@@ -79,10 +79,10 @@ export function BlogSection() {
         <span style={{
           fontSize: '0.75rem',
           padding: '6px 16px',
-          background: 'rgba(255, 230, 0, 0.15)',
-          border: '1px solid rgba(255, 230, 0, 0.5)',
+          background: 'rgba(245, 158, 11, 0.15)',
+          border: '1px solid rgba(245, 158, 11, 0.5)',
           borderRadius: '30px',
-          color: '#FFE600',
+          color: 'var(--gold-hi)',
           fontFamily: 'var(--font-mono)',
           fontWeight: 800,
           letterSpacing: '0.1em'
@@ -110,7 +110,7 @@ export function BlogSection() {
       </header>
 
       {loading && (
-        <div style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', color: '#00F0FF', fontSize: '0.85rem', margin: '40px 0' }}>
+        <div style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', color: 'var(--cobalt-soft)', fontSize: '0.85rem', margin: '40px 0' }}>
           ⏳ SINCRONIZANDO ANOTACIONES DE LA BITÁCORA CON NAROAGUTIERREZ.WORDPRESS.COM...
         </div>
       )}
@@ -138,10 +138,10 @@ export function BlogSection() {
           >
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                <span style={{ fontSize: '0.7rem', color: '#00F0FF', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
+                <span style={{ fontSize: '0.7rem', color: 'var(--cobalt-soft)', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>
                   📅 {new Date(post.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
                 </span>
-                <span style={{ fontSize: '0.65rem', padding: '2px 8px', background: 'rgba(255, 0, 122, 0.15)', color: '#FF007A', borderRadius: '12px', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>
+                <span style={{ fontSize: '0.65rem', padding: '2px 8px', background: 'rgba(43, 59, 229, 0.15)', color: 'var(--gold)', borderRadius: '12px', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>
                   BOLUETA #BITÁCORA
                 </span>
               </div>
@@ -169,7 +169,7 @@ export function BlogSection() {
                 borderRadius: '12px',
                 background: 'rgba(255, 255, 255, 0.06)',
                 border: '1px solid rgba(255, 255, 255, 0.18)',
-                color: '#FFE600',
+                color: 'var(--gold-hi)',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.78rem',
                 fontWeight: 800,

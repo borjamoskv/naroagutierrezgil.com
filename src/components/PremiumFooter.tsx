@@ -5,7 +5,7 @@ export function PremiumFooter() {
     <footer className="premium-footer-v2" style={{
       width: '100%',
       background: 'linear-gradient(180deg, rgba(5, 5, 8, 0.8) 0%, rgba(3, 3, 5, 0.98) 100%)',
-      borderTop: '1px solid rgba(255, 0, 122, 0.25)',
+      borderTop: '1px solid rgba(43, 59, 229, 0.25)',
       backdropFilter: 'blur(20px)',
       padding: '60px 5vw 30px 5vw',
       marginTop: '80px',
@@ -24,7 +24,7 @@ export function PremiumFooter() {
         {/* Col 1: Brand & Manifesto */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           <div style={{ fontFamily: 'var(--font-sans)', fontSize: '1.4rem', fontWeight: 900, letterSpacing: '0.12em' }}>
-            NAROA GUTIÉRREZ GIL<span style={{ color: '#FF007A' }}>.</span>
+            NAROA GUTIÉRREZ GIL<span style={{ color: 'var(--gold)' }}>.</span>
           </div>
           <p style={{
             fontSize: '0.88rem',
@@ -38,12 +38,12 @@ export function PremiumFooter() {
           <div style={{
             fontFamily: 'var(--font-mono)',
             fontSize: '0.75rem',
-            color: '#FFE600',
+            color: 'var(--gold-hi)',
             display: 'flex',
             alignItems: 'center',
             gap: '8px'
           }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#39FF14', boxShadow: '0 0 10px #39FF14' }} />
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--gold)', boxShadow: '0 0 10px #F59E0B' }} />
             TALLER ABIERTO EN BILBAO (BOLUETA)
           </div>
         </div>
@@ -54,7 +54,7 @@ export function PremiumFooter() {
             fontFamily: 'var(--font-mono)',
             fontSize: '0.8rem',
             letterSpacing: '0.15em',
-            color: '#00F0FF',
+            color: 'var(--cobalt-soft)',
             margin: 0,
             textTransform: 'uppercase'
           }}>
@@ -77,17 +77,17 @@ export function PremiumFooter() {
               </a>
             </li>
             <li>
-              <a href="https://www.instagram.com/naroa_art/" target="_blank" rel="noopener noreferrer" style={{ color: '#FF007A', textDecoration: 'none', fontSize: '0.88rem', fontWeight: 600 }}>
+              <a href="https://www.instagram.com/naroa_art/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold)', textDecoration: 'none', fontSize: '0.88rem', fontWeight: 600 }}>
                 📸 Instagram Official (@naroa_art) ↗
               </a>
             </li>
             <li>
-              <a href="https://www.facebook.com/naroa.artista.plastica" target="_blank" rel="noopener noreferrer" style={{ color: '#00F0FF', textDecoration: 'none', fontSize: '0.88rem', fontWeight: 600 }}>
+              <a href="https://www.facebook.com/naroa.artista.plastica" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--cobalt-soft)', textDecoration: 'none', fontSize: '0.88rem', fontWeight: 600 }}>
                 📘 Facebook Artista (12K+ Seguidores) ↗
               </a>
             </li>
             <li>
-              <a href="https://naroagutierrez.wordpress.com/" target="_blank" rel="noopener noreferrer" style={{ color: '#FFE600', textDecoration: 'none', fontSize: '0.88rem', fontWeight: 600 }}>
+              <a href="https://naroagutierrez.wordpress.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold-hi)', textDecoration: 'none', fontSize: '0.88rem', fontWeight: 600 }}>
                 📝 Blog Oficial en WordPress ↗
               </a>
             </li>
@@ -100,7 +100,7 @@ export function PremiumFooter() {
             fontFamily: 'var(--font-mono)',
             fontSize: '0.8rem',
             letterSpacing: '0.15em',
-            color: '#FFE600',
+            color: 'var(--gold-hi)',
             margin: 0,
             textTransform: 'uppercase'
           }}>
@@ -121,20 +121,20 @@ export function PremiumFooter() {
                 justifyContent: 'center',
                 gap: '8px',
                 padding: '12px 20px',
-                background: '#39FF14',
+                background: 'var(--gold)',
                 color: '#000000',
                 borderRadius: '30px',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.8rem',
                 fontWeight: 900,
                 textDecoration: 'none',
-                boxShadow: '0 0 15px rgba(57, 255, 20, 0.4)'
+                boxShadow: '0 0 15px rgba(245, 158, 11, 0.4)'
               }}
             >
               💬 WHATSAPP DIRECTO CON NAROA
             </a>
             <a
-              href="mailto:naroarte@hotmail.com"
+              href="mailto:naroa@naroa.eu"
               onClick={() => sound.playTick()}
               style={{
                 display: 'inline-flex',
@@ -142,9 +142,9 @@ export function PremiumFooter() {
                 justifyContent: 'center',
                 gap: '8px',
                 padding: '12px 20px',
-                background: 'rgba(255, 0, 122, 0.15)',
-                border: '1px solid #FF007A',
-                color: '#FF007A',
+                background: 'rgba(43, 59, 229, 0.15)',
+                border: '1px solid var(--cobalt)',
+                color: 'var(--gold)',
                 borderRadius: '30px',
                 fontFamily: 'var(--font-mono)',
                 fontSize: '0.8rem',
@@ -152,7 +152,7 @@ export function PremiumFooter() {
                 textDecoration: 'none'
               }}
             >
-              ✉️ NAROARTE@HOTMAIL.COM
+              ✉️ NAROA@NAROA.EU
             </a>
           </div>
         </div>
@@ -174,9 +174,9 @@ export function PremiumFooter() {
         color: 'rgba(255, 255, 255, 0.4)'
       }}>
         <div>
-          © 2026 NAROA GUTIÉRREZ GIL · TODOS LOS DERECHOS RESERVADOS
+          © 2026 Naroa Gutiérrez Gil · naroa@naroa.eu · Instagram @naroa_art · Facebook · Bilbao
         </div>
-        <div style={{ color: '#D4AF37' }}>
+        <div style={{ color: 'var(--gold)' }}>
           🎵 BSO SOTA: Boards of Burgos (Borja Moskv)
         </div>
         <div style={{ color: 'rgba(255, 255, 255, 0.5)' }}>
@@ -186,4 +186,3 @@ export function PremiumFooter() {
     </footer>
   )
 }
-
