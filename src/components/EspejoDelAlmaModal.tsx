@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { sound } from '../utils/audio'
 
@@ -7,64 +7,8 @@ interface EspejoDelAlmaModalProps {
   onClose: () => void
 }
 
-export function EspejoDelAlmaModal({ isOpen, onClose }: EspejoDelAlmaModalProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-
-  useEffect(() => {
-    if (!isOpen || !canvasRef.current) return
-
-    const canvas = canvasRef.current
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
-    let animationFrameId: number
-    let time = 0
-
-    const render = () => {
-      time += 0.01
-      const width = canvas.width
-      const height = canvas.height
-      
-      ctx.fillStyle = '#050508'
-      ctx.fillRect(0, 0, width, height)
-
-      // Draw rippling "soul mirror" effect
-      ctx.strokeStyle = 'rgba(43, 59, 229, 0.3)'
-      ctx.lineWidth = 1
-      
-      const centerX = width / 2
-      const centerY = height / 2
-      
-      for (let i = 0; i < 10; i++) {
-        ctx.beginPath()
-        const radius = 50 + i * 20 + Math.sin(time * 2 + i) * 10
-        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2)
-        ctx.strokeStyle = `rgba(${43 + i * 10}, ${59 + i * 5}, ${229 - i * 10}, ${0.4 - i * 0.03})`
-        ctx.stroke()
-      }
-
-      // Draw golden particles
-      for (let i = 0; i < 20; i++) {
-        const angle = time * 0.5 + i * 0.314
-        const dist = 100 + Math.sin(time + i) * 50
-        const x = centerX + Math.cos(angle) * dist
-        const y = centerY + Math.sin(angle) * dist
-        
-        ctx.fillStyle = `rgba(245, 158, 11, ${0.3 + Math.sin(time * 3 + i) * 0.2})`
-        ctx.beginPath()
-        ctx.arc(x, y, 2 + Math.sin(time * 2 + i), 0, Math.PI * 2)
-        ctx.fill()
-      }
-
-      animationFrameId = requestAnimationFrame(render)
-    }
-
-    render()
-
-    return () => {
-      cancelAnimationFrame(animationFrameId)
-    }
-  }, [isOpen])
+export const EspejoDelAlmaModal: React.FC<EspejoDelAlmaModalProps> = ({ isOpen, onClose }) => {
+  const [isFlipped, setIsFlipped] = useState(false)
 
   useEffect(() => {
     if (isOpen) {
@@ -72,84 +16,220 @@ export function EspejoDelAlmaModal({ isOpen, onClose }: EspejoDelAlmaModalProps)
     }
   }, [isOpen])
 
+  if (!isOpen) return null
+
   return (
     <AnimatePresence>
-      {isOpen && (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        style={{
+          position: 'fixed',
+          inset: 0,
+          backgroundColor: 'rgba(4, 4, 7, 0.95)',
+          backdropFilter: 'blur(16px)',
+          zIndex: 10000,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '24px',
+          overflowY: 'auto'
+        }}
+      >
+        {/* Mica particle background overlay */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'radial-gradient(circle at center, rgba(43, 59, 229, 0.18) 0%, rgba(141, 151, 255, 0.08) 50%, transparent 80%)',
+          pointerEvents: 'none'
+        }} />
+
+        {/* Modal Window Container */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.9, opacity: 0 }}
+          transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+          onClick={(e) => e.stopPropagation()}
           style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 10000,
-            background: 'rgba(5, 5, 8, 0.9)',
-            backdropFilter: 'blur(20px)',
+            position: 'relative',
+            width: '100%',
+            maxWidth: '860px',
+            maxHeight: '90vh',
+            overflowY: 'auto',
+            borderRadius: '24px',
+            backgroundColor: '#0A0A14',
+            border: '2px solid var(--cobalt)',
+            boxShadow: '0 0 60px rgba(43, 59, 229, 0.4), 0 0 40px rgba(141, 151, 255, 0.3)',
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center',
-            padding: '20px'
+            padding: '40px 32px',
+            textAlign: 'center'
           }}
-          onClick={onClose}
         >
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            style={{
-              background: '#0A0A10',
-              border: '1px solid var(--cobalt)',
-              borderRadius: '24px',
-              padding: '40px',
-              maxWidth: '600px',
-              width: '100%',
-              textAlign: 'center',
-              boxShadow: '0 0 60px rgba(43, 59, 229, 0.3)'
+          {/* Header */}
+          <span className="pop-badge pop-badge--pink pop-glow-pulse" style={{ marginBottom: '14px' }}>
+            🪞 A NAROA LA ORAN // PALÍNDROMOS & MANIFIESTO ESPECULAR
+          </span>
+
+          <h2 style={{
+            margin: 0,
+            fontFamily: 'var(--font-sans)',
+            fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)',
+            fontWeight: 900,
+            color: '#fff',
+            lineHeight: 1.15
+          }}>
+            A NAROA <span className="text-pop-gradient">LA ORAN</span>
+          </h2>
+
+          <p style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: '0.85rem',
+            color: 'var(--gold-hi)',
+            marginTop: '8px',
+            letterSpacing: '0.08em'
+          }}>
+            [ LA FIRMA ESPECULAR & LA SIMETRÍA MATÉRICA EN BILBAO ]
+          </p>
+
+          {/* Interactive 3D Specular Flip Card (NAROA ↔ AORAN) */}
+          <div
+            onClick={() => {
+              sound.playHeartbeat(0.1)
+              setIsFlipped(!isFlipped)
             }}
-            onClick={(e) => e.stopPropagation()}
+            style={{
+              perspective: '1000px',
+              width: '100%',
+              maxWidth: '480px',
+              height: '140px',
+              margin: '24px 0',
+              cursor: 'pointer'
+            }}
           >
-            <h2 style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: '2rem',
-              fontWeight: 800,
-              color: '#fff',
-              marginBottom: '16px'
-            }}>
-              ESPEJO DEL <span style={{ color: 'var(--gold)' }}>ALMA</span>
-            </h2>
-            
-            <canvas
-              ref={canvasRef}
-              width={400}
-              height={300}
+            <motion.div
+              animate={{ rotateY: isFlipped ? 180 : 0 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               style={{
                 width: '100%',
-                borderRadius: '12px',
-                marginBottom: '24px',
-                border: '1px solid rgba(255,255,255,0.1)'
+                height: '100%',
+                position: 'relative',
+                transformStyle: 'preserve-3d',
+                borderRadius: '20px',
+                border: '1.5px solid rgba(43, 59, 229, 0.6)',
+                background: 'linear-gradient(135deg, rgba(43, 59, 229,0.15) 0%, rgba(141, 151, 255,0.15) 100%)',
+                backdropFilter: 'blur(10px)',
+                boxShadow: '0 15px 35px rgba(0,0,0,0.8)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'column'
               }}
-            />
-            
-            <p style={{
-              color: 'rgba(255,255,255,0.8)',
-              fontSize: '1rem',
-              lineHeight: 1.6,
-              marginBottom: '24px'
-            }}>
-              "Cada piedra que uso tiene millones de años. Cada retrato que pinto tiene la edad de quien lo mira."
-            </p>
-            
-            <div style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '0.8rem',
-              color: 'var(--cobalt-soft)',
-              letterSpacing: '0.1em'
-            }}>
-              A O R A N · N A R O A · A O R A N
+            >
+              {/* Front Face: NAROA */}
+              <div style={{
+                position: 'absolute',
+                backfaceVisibility: 'hidden',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+              }}>
+                <span style={{ fontSize: '2rem', fontWeight: 900, color: '#fff', letterSpacing: '0.2em' }}>
+                  N A R O A
+                </span>
+                <span style={{ fontSize: '0.72rem', color: 'var(--cobalt-soft)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
+                  ( HAZ CLIC PARA INVERTIR EN EL ESPEJO 🔄 )
+                </span>
+              </div>
+
+              {/* Back Face: AORAN */}
+              <div style={{
+                position: 'absolute',
+                backfaceVisibility: 'hidden',
+                transform: 'rotateY(180deg)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+              }}>
+                <span style={{ fontSize: '2rem', fontWeight: 900, color: 'var(--gold-hi)', letterSpacing: '0.2em' }}>
+                  A O R A N
+                </span>
+                <span style={{ fontSize: '0.72rem', color: 'var(--gold)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
+                  [ FIRMA ESPECULAR & ALTER-EGO LÍTICO ]
+                </span>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Breakdown Grid of Palindromes */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gap: '16px',
+            width: '100%',
+            marginBottom: '24px',
+            textAlign: 'left'
+          }}>
+            <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '18px' }}>
+              <div style={{ fontSize: '0.7rem', color: 'var(--gold)', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>01 · FIRMA ESPECULAR</div>
+              <h4 style={{ margin: '4px 0', color: 'var(--gold-hi)', fontSize: '1.1rem' }}>AORAN ↔ NAROA</h4>
+              <p style={{ margin: 0, fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
+                Inversión exacta letra a letra. Naroa firma las obras en el reverso de la piedra de pizarra con <em>AORAN</em> como su espejo oculto.
+              </p>
             </div>
-          </motion.div>
+
+            <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '18px' }}>
+              <div style={{ fontSize: '0.7rem', color: 'var(--cobalt-soft)', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>02 · MANIFIESTO REAL</div>
+              <h4 style={{ margin: '4px 0', color: '#fff', fontSize: '1.1rem' }}>S O M O S</h4>
+              <p style={{ margin: 0, fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
+                «Todos <strong>SOMOS</strong> lo mismo con distintas apariencias». La piedra de derribo vasco iguala la esencia de iconos y seres anónimos.
+              </p>
+            </div>
+
+            <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '18px' }}>
+              <div style={{ fontSize: '0.7rem', color: 'var(--gold-hi)', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>03 · LA MIRADA</div>
+              <h4 style={{ margin: '4px 0', color: 'var(--cobalt-soft)', fontSize: '1.1rem' }}>R E C O N O C E R</h4>
+              <p style={{ margin: 0, fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
+                «Contemplar el cuadro es <strong>RECONOCER</strong> en el lienzo hiperrealista lo imperecedero de nuestra propia memoria.»
+              </p>
+            </div>
+
+            <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '16px', padding: '18px' }}>
+              <div style={{ fontSize: '0.7rem', color: 'var(--gold)', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>04 · SIMETRÍA LÍTICA</div>
+              <h4 style={{ margin: '4px 0', color: 'var(--gold)', fontSize: '1.1rem' }}>OJO & RADAR</h4>
+              <p style={{ margin: 0, fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
+                El <strong>OJO</strong> donde incrusta las escamas de mica mineral y el <strong>RADAR</strong> pop con el que rastrea la iconografía contemporánea.
+              </p>
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', gap: '16px' }}>
+            <button
+              onClick={onClose}
+              style={{
+                padding: '14px 36px',
+                borderRadius: '30px',
+                background: 'linear-gradient(135deg, #2B3BE5 0%, #F59E0B 100%)',
+                border: 'none',
+                color: '#000',
+                fontFamily: 'var(--font-sans)',
+                fontWeight: 900,
+                fontSize: '0.9rem',
+                cursor: 'pointer',
+                letterSpacing: '0.08em',
+                boxShadow: '0 0 20px rgba(43, 59, 229,0.4)'
+              }}
+            >
+              CERRAR ESPEJO ➔
+            </button>
+          </div>
         </motion.div>
-      )}
+      </motion.div>
     </AnimatePresence>
   )
 }
