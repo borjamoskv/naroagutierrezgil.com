@@ -105,8 +105,8 @@ fi
 DEPLOY_SIZE=$(du -sh "$BUILD_DIR" | cut -f1)
 log "Desplegando ${BOLD}${DEPLOY_SIZE}${NC} → CF Pages..."
 
-CF_AUTH_TOKEN="cfoat_vlpbWoKxgduWtnbA3E5wQJIQ0byH-T8F26h-5NWNup8.rr9-axQCG1KAU4OglUgoULsh-tKSh4GreRQosQAgVpU"
-export CLOUDFLARE_API_TOKEN="${CLOUDFLARE_API_TOKEN:-$CF_AUTH_TOKEN}"
+# Usar OAuth de Wrangler (borjamoskv@gmail.com) por defecto salvo que se pase CLOUDFLARE_API_TOKEN explícito
+unset CLOUDFLARE_API_TOKEN
 
 if [ "$BRANCH" = "--preview" ]; then
   cp -R "$BUILD_DIR" ".deploy_bak"
@@ -116,8 +116,8 @@ if [ "$BRANCH" = "--preview" ]; then
   ok "Deploy PREVIEW completado"
 else
   cp -R "$BUILD_DIR" ".deploy_bak"
-  wrangler pages deploy "$BUILD_DIR" --project-name "naroagutierrezgil-com" --branch master --commit-dirty=true || true
-  wrangler pages deploy ".deploy_bak" --project-name "naroaonline" --branch master --commit-dirty=true || true
+  wrangler pages deploy "$BUILD_DIR" --project-name "naroagutierrezgil-com" --branch master --commit-dirty=true
+  wrangler pages deploy ".deploy_bak" --project-name "naroaonline" --branch master --commit-dirty=true
   rm -rf ".deploy_bak"
   ok "Deploy PRODUCCIÓN completado → https://naroagutierrezgil.com/ & https://naroa.online/"
 fi
@@ -125,11 +125,12 @@ fi
 # --- 8. Purga de Caché Global en Cloudflare Edge --------------
 log "Purgando caché global en Cloudflare Edge (Zone: naroagutierrezgil.com)..."
 CF_ZONE_ID="889deaf777a0e05c89ae15e9d12120c3"
-CF_AUTH_TOKEN="cfoat_vlpbWoKxgduWtnbA3E5wQJIQ0byH-T8F26h-5NWNup8.rr9-axQCG1KAU4OglUgoULsh-tKSh4GreRQosQAgVpU"
-curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
-  -H "Authorization: Bearer ${CF_AUTH_TOKEN}" \
-  -H "Content-Type: application/json" \
-  -d '{"purge_everything":true}' > /dev/null 2>&1 || true
+if [ -n "${CLOUDFLARE_API_TOKEN:-}" ]; then
+  curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
+    -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+    -H "Content-Type: application/json" \
+    -d '{"purge_everything":true}' > /dev/null 2>&1 || true
+fi
 ok "Caché global de Cloudflare purgada"
 
 # --- 9. Despliegue Paralelo a Vercel --------------------------
