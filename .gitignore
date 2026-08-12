@@ -55,3 +55,7 @@ Cargo.lock
 .deploy
 dist
 
+__pycache__/
+*.pyc
+*.db-wal
+*.db-shm
