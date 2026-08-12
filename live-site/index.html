@@ -169,20 +169,36 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/assets/favicon-Inu7iesc.png">
 
-  <!-- Critical CSS (inline for FCP) -->
+  <!-- Critical CSS (inline for FCP) — Industrial Noir 2026: tokens §1 + críticos recoloreados -->
   <style>
+    :root {
+      --void: #0A0A0A;
+      --void-deep: #050505;
+      --cobalt: #2B3BE5;
+      --cobalt-soft: #8D97FF;
+      --gold: #F59E0B;
+      --gold-hi: #FFD700;
+      --amber: #FF9F1C;
+      --mica: rgba(234,234,234,.85);
+      --line: rgba(255,255,255,.12);
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --font-mono: 'Share Tech Mono', monospace;
+      --radius-card: 20px;
+      --ease-out: cubic-bezier(.16,1,.3,1);
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { font-size: 16px; scroll-behavior: smooth; }
-    body { min-height: 100vh; line-height: 1.5; -webkit-font-smoothing: antialiased; background: #050505; color: #ededed; overflow-x: hidden; font-family: 'Inter', sans-serif; }
+    body { min-height: 100vh; line-height: 1.5; -webkit-font-smoothing: antialiased; background: var(--void); color: #ededed; overflow-x: hidden; font-family: 'Inter', sans-serif; }
     img, picture, video, canvas, svg { display: block; max-width: 100%; height: auto; }
     .svg-filters-hidden { position: absolute; width: 0; height: 0; overflow: hidden; }
-    
+
     /* ── CRITICAL PREMIUM NAV ── */
     .nav { position: fixed; top: 1.5rem; left: 0; right: 0; width: 100%; display: flex; justify-content: center; z-index: 9999; pointer-events: none; }
-    .nav__inner { pointer-events: auto; display: flex; align-items: center; padding: 0.6rem 2rem; background: rgba(15, 15, 15, 0.7); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); border-radius: 100px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); gap: 2rem; transition: background 0.3s; }
-    .nav__inner:hover { background: rgba(20, 20, 20, 0.82); }
+    .nav__inner { pointer-events: auto; display: flex; align-items: center; padding: 0.6rem 2rem; background: rgba(10, 10, 14, 0.85); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); border-radius: 100px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(0,0,0,0.5); gap: 2rem; transition: background 0.3s; }
+    .nav__inner:hover { background: rgba(14, 14, 20, 0.92); }
     .nav__logo { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.2rem; color: #fff; text-decoration: none; transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1); }
-    .nav__logo:hover { transform: scale(1.1) rotate(-5deg); color: #d4af37; }
+    .nav__logo:hover { transform: scale(1.1) rotate(-5deg); color: var(--gold); }
     .nav__links { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
     .nav__link { text-decoration: none; color: rgba(255,255,255,0.6); font-size: 0.9rem; font-weight: 500; transition: color 0.3s; }
     .nav__link:hover, .nav__link.active { color: #fff; }
@@ -190,7 +206,7 @@
     .nav__toggle { display: none; }
 
     /* ── CRITICAL HERO ── */
-    .hero { position: relative; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; background: #000; }
+    .hero { position: relative; width: 100%; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--void-deep); }
     .hero__media { position: absolute; inset: 0; width: 100%; height: 100%; }
     #liquid-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 10; cursor: none; }
     .hero__content { position: relative; z-index: 20; text-align: center; pointer-events: none; }
@@ -215,7 +231,7 @@
       <button class="nav__toggle" id="nav-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span></button>
       <ul class="nav__links" id="nav-links">
         <li><a href="#/" class="nav__link active">Home</a></li>
-        <li><a href="#/juegos" class="nav__link" style="color: #FFD700; font-weight: 700;">🎮 Videojuego</a></li>
+        <li><a href="#/juegos" class="nav__link" style="color: var(--gold-hi); font-weight: 700;">🎮 Videojuego</a></li>
         <li><a href="#/destacada" class="nav__link">Obra</a></li>
         <li><a href="#/about" class="nav__link">Sobre mí</a></li>
         <li><a href="#/blog" class="nav__link">Blog</a></li>
@@ -224,7 +240,7 @@
     </div>
   </nav>
 
-  <a href="#content" class="skip-to-content">Ir al contenido</a>
+  <a href="#main-content" class="skip-to-content">Ir al contenido</a>
   <!-- ═══ SCROLL PROGRESS ════════════════════ -->
   <div class="scroll-progress-container">
     <div class="scroll-progress-bar" id="scroll-thread">
@@ -272,7 +288,7 @@
           <div class="hero-immersive__divider"></div>
           
           <div style="display: flex; gap: 1rem; align-items: center; justify-content: center; flex-wrap: wrap; margin-top: 1rem;">
-            <a href="#/juegos" class="hero-immersive__cta" style="background: linear-gradient(135deg, #2B3BE5, #FF007A); border-color: #D4AF37; box-shadow: 0 0 25px rgba(43,59,229,0.6);">
+            <a href="#/juegos" class="hero-immersive__cta hero-immersive__cta--primary" style="background: linear-gradient(135deg, #2B3BE5, #F59E0B); border-color: transparent; box-shadow: 0 10px 30px rgba(245,158,11,0.35);">
               <span>🎮 INICIAR VIDEOJUEGO 3D</span>
               <span class="hero-immersive__cta-arrow">🕹️</span>
             </a>
@@ -540,6 +556,13 @@
           <span>📘</span> Explorar Álbum Completo en Facebook (12k+ seguidores) ↗
         </a>
       </div>
+
+      <!-- CTA primario: encargos -->
+      <div style="margin-top: 2.5rem; text-align: center;">
+        <a href="#/contacto" class="hero-immersive__cta hero-immersive__cta--primary" style="background: linear-gradient(135deg, #2B3BE5, #F59E0B); border-color: transparent; box-shadow: 0 10px 30px rgba(245,158,11,0.35);">
+          <span>⚡ ENCARGAR TU RETRATO →</span>
+        </a>
+      </div>
     </section>
 
     <!-- ═══ SECTION 3: ABOUT ══════════════════ -->
@@ -576,7 +599,7 @@
       <div style="max-width: 1300px; margin: 0 auto;">
         <div class="gallery-section-header">
           <span class="gallery-section-header__eyebrow">
-            <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#d4af37; box-shadow:0 0 8px #d4af37; margin-right:6px;"></span>
+            <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--gold); box-shadow:0 0 8px var(--gold); margin-right:6px;"></span>
             Atelier Bolueta · Alquimia Matérica SOTA
           </span>
           <h2 class="gallery-section-header__title">El Refugio de la Pizarra<br><em>& el Kintsugi Cantinflowers</em></h2>
@@ -586,10 +609,10 @@
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-top: 3rem;">
           <!-- Card 1: Obra Kintsugi -->
-          <div style="position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(212,175,55,0.3); background: #0a0a0c; box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
+          <div style="position: relative; border-radius: 16px; overflow: hidden; border: 1px solid rgba(245,158,11,0.3); background: #0a0a0c; box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
             <img src="/images/artworks/obra-kintsugi-gold-slate.jpg" alt="Pizarra Kintsugi Oro — Naroa Gutiérrez Gil" style="width: 100%; aspect-ratio: 1; object-fit: cover; filter: brightness(0.95); transition: transform 0.8s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1.0)'" loading="lazy">
             <div style="padding: 1.5rem; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); border-t: 1px solid rgba(255,255,255,0.1);">
-              <span style="font-family: monospace; font-size: 0.7rem; color: #d4af37; letter-spacing: 0.2em; text-transform: uppercase;">Pizarra Lítica & Pan de Oro</span>
+              <span style="font-family: monospace; font-size: 0.7rem; color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase;">Pizarra Lítica & Pan de Oro</span>
               <h3 style="font-family: serif; font-size: 1.4rem; color: #fff; margin: 0.4rem 0;">Cicatriz Dorada (Cantinflowers)</h3>
               <p style="font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.6;">Acrílico denso sobre pizarra natural de derribo vasco con grietas intencionadas rellenas de resina y pigmentos iridiscentes.</p>
             </div>
@@ -613,7 +636,7 @@
       <div class="blog">
         <div class="gallery-section-header">
           <span class="gallery-section-header__eyebrow">
-            <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#39FF14; box-shadow:0 0 8px #39FF14; margin-right:6px;"></span>
+            <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--gold); box-shadow:0 0 8px var(--gold); margin-right:6px;"></span>
             WordPress Live Sync · naroagutierrez.wordpress.com
           </span>
           <h2 class="gallery-section-header__title">Diario de Arte<br><em>& Reflexiones</em></h2>
@@ -821,10 +844,9 @@
       <p class="footer__text">
         © 2026 Naroa Gutiérrez Gil ·
         <a href="mailto:naroa@naroa.eu">naroa@naroa.eu</a> ·
-        <a href="https://www.instagram.com/naroa_art/" target="_blank" rel="noopener">@naroa_art</a>
-      </p>
-      <p class="footer__dev">
-        <small>🔧 Esta web está en continuo desarrollo 24/7/365 — siempre mejorando ✨</small>
+        Instagram <a href="https://www.instagram.com/naroa_art/" target="_blank" rel="noopener">@naroa_art</a> ·
+        <a href="https://www.facebook.com/naroa.artista.plastica" target="_blank" rel="noopener noreferrer">Facebook</a> ·
+        Bilbao
       </p>
     </div>
   </footer>
