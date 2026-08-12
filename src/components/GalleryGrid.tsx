@@ -154,7 +154,7 @@ function TiltCard({ artwork, isHovered, setHoveredId, onInspect, idx, columns }:
 
         <img
           src={artwork.url}
-          alt={artwork.title}
+          alt={`${artwork.title} — Retrato hiperrealista POP ${artwork.medium || 'acrílico sobre pizarra'} por Naroa Gutiérrez Gil, Bilbao`}
           loading={idx < 6 ? 'eager' : 'lazy'}
           style={{
             width: '100%',

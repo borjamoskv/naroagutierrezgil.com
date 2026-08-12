@@ -11,11 +11,12 @@ interface NavigationPillProps {
 }
 
 const NAV_ITEMS = [
-  { key: 'destacada', label: 'OBRA / BILDUMA', hash: '#/destacada' },
-  { key: '3d', label: 'SALA 3D', hash: '#/3d' },
+  { key: 'home', label: 'INICIO', hash: '#/' },
+  { key: 'galeria', label: 'GALERÍA', hash: '#/galeria' },
+  { key: 'materia-litica', label: 'MATERIA LÍTICA', hash: '#/materia-litica' },
   { key: 'encargos', label: 'ENCARGOS ⚡', hash: '#/encargos' },
   { key: 'about', label: 'SOBRE NAROA', hash: '#/sobre-mi' },
-  { key: 'blog', label: 'DIARIO POP', hash: '#/blog' },
+  { key: 'contacto', label: 'CONTACTO', hash: '#/contacto' },
 ] as const
 
 export function NavigationPill({ currentView, audioActive, toggleAudio, onOpenTerminal, onOpenEspejo }: NavigationPillProps) {
@@ -80,9 +81,10 @@ export function NavigationPill({ currentView, audioActive, toggleAudio, onOpenTe
           <ul className="nav-desktop-links" style={{ display: 'flex', gap: '14px', listStyle: 'none', margin: 0, padding: 0, alignItems: 'center' }}>
             {NAV_ITEMS.map(item => {
               const isActive = currentView === item.key || 
-                (item.key === 'destacada' && (currentView === 'gallery' || currentView === 'destacada')) ||
+                (item.key === 'galeria' && (currentView === 'gallery' || currentView === 'destacada')) ||
                 (item.key === 'encargos' && (currentView === 'commissions' || currentView === 'encargos')) ||
-                (item.key === 'about' && (currentView === 'about' || currentView === 'sobre-mi'))
+                (item.key === 'about' && (currentView === 'about' || currentView === 'sobre-mi')) ||
+                (item.key === 'contacto' && (currentView === 'commissions' || currentView === 'contacto'))
 
               return (
                 <li key={item.key}>

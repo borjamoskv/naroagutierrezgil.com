@@ -97,7 +97,7 @@ export function CommissionCalculator() {
       </div>
 
       {/* Header */}
-      <header style={{ textAlign: 'center', marginBottom: '50px' }}>
+      <header style={{ textAlign: 'center', marginBottom: '40px' }}>
         <span style={{
           fontSize: '0.75rem',
           padding: '6px 16px',
@@ -109,7 +109,7 @@ export function CommissionCalculator() {
           fontWeight: 800,
           letterSpacing: '0.1em'
         }}>
-          💎 FILTRO DE ADMISIÓN DE ENCARGOS ÚNICOS
+          💎 ENCARGOS PRIVADOS & RETRATOS DE AUTOR
         </span>
         <h1 style={{
           fontSize: 'clamp(2.4rem, 5vw, 4rem)',
@@ -127,9 +127,94 @@ export function CommissionCalculator() {
           margin: '0 auto',
           lineHeight: 1.6
         }}>
-          «Cada retrato empieza con una conversación». Selecciona las características de tu proyecto y coordina directamente con Naroa en su taller de Bilbao.
+          «Cada retrato empieza con una conversación». Precios transparentes y sin sorpresas. Selecciona el formato ideal o personaliza tu encargo a medida desde el taller en Bilbao.
         </p>
+
+        {/* Guarantee & Urgency Badges */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap', marginTop: '24px' }}>
+          <div style={{ padding: '8px 16px', borderRadius: '100px', background: 'rgba(37, 211, 102, 0.12)', border: '1px solid rgba(37, 211, 102, 0.4)', color: '#25D366', fontSize: '0.78rem', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>
+            🛡️ GARANTÍA: 100% Devolución del anticipo previo al boceto
+          </div>
+          <div style={{ padding: '8px 16px', borderRadius: '100px', background: 'rgba(255, 230, 0, 0.12)', border: '1px solid rgba(255, 230, 0, 0.4)', color: '#FFE600', fontSize: '0.78rem', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>
+            ⏳ CUPO LIMITADO: 3 Encargos al mes (Plazo actual: 3-4 semanas)
+          </div>
+        </div>
       </header>
+
+      {/* 💳 PRICING TIERS SECTION (CRO OPTIMIZED) */}
+      <section style={{ marginBottom: '60px' }}>
+        <h2 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#fff', textAlign: 'center', marginBottom: '24px', fontFamily: 'var(--font-mono)' }}>
+          FORMATOS Y TARIFAS DE REFERENCIA
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+          {/* BÁSICO */}
+          <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backdropFilter: 'blur(12px)' }}>
+            <div>
+              <span style={{ fontSize: '0.7rem', color: '#00F0FF', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>FORMATO ÍNTIMO</span>
+              <h3 style={{ fontSize: '1.5rem', fontWeight: 900, color: '#fff', margin: '8px 0' }}>BÁSICO</h3>
+              <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#FFE600', margin: '12px 0' }}>350 €</div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '16px 0', fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.8)', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <li>📐 Busto (30 × 40 cm)</li>
+                <li>🪨 Acrílico sobre pizarra natural o lienzo</li>
+                <li>👤 1 Persona / Rostro</li>
+                <li>⏱️ Plazo: 2 semanas</li>
+                <li>✏️ 1 Revisión de boceto incluida</li>
+              </ul>
+            </div>
+            <button
+              onClick={() => { sound.playOpen(); setSize('small'); setSubject('individual') }}
+              style={{ padding: '12px', borderRadius: '12px', background: 'rgba(0, 240, 255, 0.15)', border: '1px solid #00F0FF', color: '#00F0FF', fontWeight: 800, cursor: 'pointer', width: '100%' }}
+            >
+              SELECCIONAR BÁSICO
+            </button>
+          </div>
+
+          {/* ESTÁNDAR (MÁS POPULAR) */}
+          <div style={{ background: 'rgba(255, 0, 122, 0.08)', border: '2px solid #FF007A', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', position: 'relative', boxShadow: '0 0 30px rgba(255,0,122,0.25)', backdropFilter: 'blur(12px)' }}>
+            <span style={{ position: 'absolute', top: '-14px', right: '20px', background: '#FF007A', color: '#fff', padding: '4px 12px', borderRadius: '20px', fontSize: '0.68rem', fontWeight: 900, fontFamily: 'var(--font-mono)' }}>MÁS POPULAR</span>
+            <div>
+              <span style={{ fontSize: '0.7rem', color: '#FF007A', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>FORMATO ESTUDIO</span>
+              <h3 style={{ fontSize: '1.5rem', fontWeight: 900, color: '#fff', margin: '8px 0' }}>ESTÁNDAR</h3>
+              <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#FFE600', margin: '12px 0' }}>550 €</div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '16px 0', fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.85)', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <li>📐 Cuerpo entero / Busto amplio (50 × 70 cm)</li>
+                <li>💎 Pizarra vasca + Mica Mineral & Resina Epoxi</li>
+                <li>👥 1 o 2 Personas</li>
+                <li>⏱️ Plazo: 3 semanas</li>
+                <li>✏️ 2 Revisiones de boceto incluidas</li>
+              </ul>
+            </div>
+            <button
+              onClick={() => { sound.playOpen(); setSize('medium'); setMedium('slate_mica') }}
+              style={{ padding: '14px', borderRadius: '12px', background: '#FF007A', border: 'none', color: '#fff', fontWeight: 900, cursor: 'pointer', width: '100%', boxShadow: '0 0 15px rgba(255, 0, 122, 0.5)' }}
+            >
+              SELECCIONAR ESTÁNDAR
+            </button>
+          </div>
+
+          {/* PREMIUM */}
+          <div style={{ background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '20px', padding: '28px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backdropFilter: 'blur(12px)' }}>
+            <div>
+              <span style={{ fontSize: '0.7rem', color: '#FFE600', fontFamily: 'var(--font-mono)', fontWeight: 800 }}>FORMATO MONUMENTAL</span>
+              <h3 style={{ fontSize: '1.5rem', fontWeight: 900, color: '#fff', margin: '8px 0' }}>PREMIUM</h3>
+              <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#FFE600', margin: '12px 0' }}>850 €</div>
+              <ul style={{ listStyle: 'none', padding: 0, margin: '16px 0', fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.8)', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <li>📐 Gran formato (70 × 100 cm)</li>
+                <li>🏛️ Mixed Media completo (Pizarra, Mica, Kintsugi Oro)</li>
+                <li>✨ Hasta 3 Personas / Composición compleja</li>
+                <li>⏱️ Plazo: 4 semanas</li>
+                <li>✏️ Revisiones de boceto ilimitadas + Marco artesanal</li>
+              </ul>
+            </div>
+            <button
+              onClick={() => { sound.playOpen(); setSize('large'); setSubject('family') }}
+              style={{ padding: '12px', borderRadius: '12px', background: 'rgba(255, 230, 0, 0.15)', border: '1px solid #FFE600', color: '#FFE600', fontWeight: 800, cursor: 'pointer', width: '100%' }}
+            >
+              SELECCIONAR PREMIUM
+            </button>
+          </div>
+        </div>
+      </section>
 
       {/* Main Commission Selector Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '32px', alignItems: 'start' }}>

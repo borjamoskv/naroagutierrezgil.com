@@ -156,7 +156,7 @@ export default function App() {
 
 
 
-  // Hash Navigation Handler
+  // Hash Navigation Handler (6 Secciones Canónicas)
   useEffect(() => {
     const handleHashChange = () => {
       const rawHash = window.location.hash
@@ -167,6 +167,9 @@ export default function App() {
         setModalArtwork(null)
       } else if (cleanHash === 'home' || cleanHash === 'inicio' || cleanHash === '') {
         setCurrentView('home')
+        setModalArtwork(null)
+      } else if (cleanHash === 'materia-litica' || cleanHash === 'materia' || cleanHash === 'litica') {
+        setCurrentView('about')
         setModalArtwork(null)
       } else if (cleanHash === 'commissions' || cleanHash === 'encargos' || cleanHash === 'contacto') {
         setCurrentView('commissions')
@@ -294,6 +297,9 @@ export default function App() {
 
   return (
     <>
+      <a href="#main-content" className="skip-link">
+        Saltar al contenido principal
+      </a>
       <CustomCursor />
       {/* Background SoundCloud Player: Boards Of Burgos (Borja Moskv) */}
       {audioActive && (
@@ -499,6 +505,20 @@ export default function App() {
         currentView={currentView}
         activeArtworkSlug={modalArtwork?.slug}
       />
+
+      {/* 💬 Botón Flotante WhatsApp Business (CRO & Conversión Directa) */}
+      {!isStarted && (
+        <a
+          href="https://wa.me/34636060609?text=Hola%20Naroa!%20Te%20contacto%20desde%20naroagutierrezgil.com%20para%20consultar%20un%20encargo..."
+          target="_blank"
+          rel="noopener noreferrer"
+          className="whatsapp-float"
+          aria-label="Contactar por WhatsApp Business con la artista Naroa Gutiérrez Gil"
+          title="WhatsApp Directo con Naroa Gutiérrez Gil"
+        >
+          💬
+        </a>
+      )}
     </>
   )
 }
