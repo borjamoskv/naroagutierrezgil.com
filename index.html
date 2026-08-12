@@ -17,10 +17,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
-    <meta name="description" content="Catálogo oficial de obras y retratos de Naroa Gutiérrez Gil. A NAROA LA ORAN · Hiperrealismo POP sobre pizarra, mica mineral y lienzo." />
+    <meta name="description" content="Colección canónica de obras maestras de Naroa Gutiérrez Gil. A NAROA LA ORAN · Hiperrealismo POP sobre pizarra, mica mineral y lienzo." />
     <meta name="author" content="Naroa Gutiérrez Gil" />
 
-    <title>Naroa Gutiérrez Gil — Artista Visual | A NAROA LA ORAN (61 Obras)</title>
+    <title>Naroa Gutiérrez Gil — Artista Visual | A NAROA LA ORAN (27 Obras Maestras)</title>
 
     <style>
       :root {
@@ -119,19 +119,18 @@
 
       /* MASONRY GALLERY */
       .gallery-grid {
-        column-count: 4;
-        column-gap: 1.25rem;
+        column-count: 3;
+        column-gap: 1.5rem;
         padding-bottom: 5rem;
       }
-      @media (max-width: 1200px) { .gallery-grid { column-count: 3; } }
-      @media (max-width: 800px) { .gallery-grid { column-count: 2; } }
-      @media (max-width: 480px) { .gallery-grid { column-count: 1; } }
+      @media (max-width: 1000px) { .gallery-grid { column-count: 2; } }
+      @media (max-width: 550px) { .gallery-grid { column-count: 1; } }
 
       .art-item {
         break-inside: avoid;
-        margin-bottom: 1.25rem;
+        margin-bottom: 1.5rem;
         position: relative;
-        border-radius: 14px;
+        border-radius: 16px;
         overflow: hidden;
         background: var(--surface);
         cursor: pointer;
@@ -149,13 +148,13 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        padding: 1.25rem;
+        padding: 1.4rem;
         opacity: 0;
         transition: opacity 0.3s;
       }
       .art-item:hover .art-caption { opacity: 1; }
-      .art-name { font-family: var(--font-title); font-size: 1.1rem; font-weight: 700; color: #fff; }
-      .art-tech { font-size: 0.78rem; color: var(--text-sub); margin-top: 0.2rem; }
+      .art-name { font-family: var(--font-title); font-size: 1.15rem; font-weight: 700; color: #fff; }
+      .art-tech { font-size: 0.8rem; color: var(--text-sub); margin-top: 0.25rem; }
 
       /* LIGHTBOX MODAL */
       .lightbox {
@@ -240,7 +239,7 @@
     <header>
       <div class="container">
         <a href="#" class="brand">NAROA <span>GUTIÉRREZ GIL</span></a>
-        <div class="header-count">61 OBRAS AUTÉNTICAS · BILBAO</div>
+        <div class="header-count">27 OBRAS MAESTRAS · BILBAO</div>
         <a href="https://wa.me/34636060609?text=Hola%20Naroa!%20Te%20contacto%20desde%20tu%20galeria..." class="header-cta" target="_blank" rel="noopener noreferrer">💬 WhatsApp Directo</a>
       </div>
     </header>
@@ -257,417 +256,130 @@
     <!-- GALLERY -->
     <main class="container">
       <div class="gallery-grid">
-        <div class="art-item" onclick="openLightbox('/assets/hq-johnny-5ueL8eU0.webp', 'Johnny Rocks', 'Óleo y Grafito Compreso sobre Pizarra')">
-          <img src="/assets/hq-johnny-5ueL8eU0.webp" alt="Johnny Rocks" loading="eager" />
+        <div class="art-item" onclick="openLightbox('/assets/marilyn-rocks--qPeLHxE.webp', 'Marilyn Rocks', 'Óleo y Acrílico sobre Lienzo')">
+          <img src="/assets/marilyn-rocks--qPeLHxE.webp" alt="Marilyn Rocks" loading="eager" />
           <div class="art-caption">
-            <div class="art-name">Johnny Rocks</div>
+            <div class="art-name">Marilyn Rocks</div>
+            <div class="art-tech">Óleo y Acrílico sobre Lienzo</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/hq-amy-BRTriASV.webp', 'Amy Rocks', 'Acrílico y Posca sobre Pizarra Natural con Mica Mineral')">
+          <img src="/assets/hq-amy-BRTriASV.webp" alt="Amy Rocks" loading="eager" />
+          <div class="art-caption">
+            <div class="art-name">Amy Rocks</div>
+            <div class="art-tech">Acrílico y Posca sobre Pizarra Natural con Mica Mineral</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/baroque-farrokh-mjg4ClA9.webp', 'Baroque Farrokh (Freddie Mercury)', 'Técnica Mixta Barroca Contemporánea')">
+          <img src="/assets/baroque-farrokh-mjg4ClA9.webp" alt="Baroque Farrokh (Freddie Mercury)" loading="eager" />
+          <div class="art-caption">
+            <div class="art-name">Baroque Farrokh (Freddie Mercury)</div>
+            <div class="art-tech">Técnica Mixta Barroca Contemporánea</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/obra-frida-kintsugi-slate.webp', 'Frida Kintsugi', 'Pan de Oro y Mica Mineral sobre Pizarra Natural')">
+          <img src="/assets/obra-frida-kintsugi-slate.webp" alt="Frida Kintsugi" loading="eager" />
+          <div class="art-caption">
+            <div class="art-name">Frida Kintsugi</div>
+            <div class="art-tech">Pan de Oro y Mica Mineral sobre Pizarra Natural</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/audrey-hepburn-DbIBTtIp.webp', 'Audrey Hepburn', 'Técnica Mixta y Mica Mineral sobre Pizarra')">
+          <img src="/assets/audrey-hepburn-DbIBTtIp.webp" alt="Audrey Hepburn" loading="eager" />
+          <div class="art-caption">
+            <div class="art-name">Audrey Hepburn</div>
+            <div class="art-tech">Técnica Mixta y Mica Mineral sobre Pizarra</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/bowie-space-oddity.webp', 'Space Oddity (David Bowie)', 'Acrílico y Posca sobre Lienzo')">
+          <img src="/assets/bowie-space-oddity.webp" alt="Space Oddity (David Bowie)" loading="eager" />
+          <div class="art-caption">
+            <div class="art-name">Space Oddity (David Bowie)</div>
+            <div class="art-tech">Acrílico y Posca sobre Lienzo</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/camaron.webp', 'Camarón de la Isla', 'Acrílico sobre Lienzo')">
+          <img src="/assets/camaron.webp" alt="Camarón de la Isla" loading="lazy" />
+          <div class="art-caption">
+            <div class="art-name">Camarón de la Isla</div>
+            <div class="art-tech">Acrílico sobre Lienzo</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/obra-el-beso-de-mica.webp', 'El Beso de Mica', 'Técnica Mica Viva sobre Piedra Natural')">
+          <img src="/assets/obra-el-beso-de-mica.webp" alt="El Beso de Mica" loading="lazy" />
+          <div class="art-caption">
+            <div class="art-name">El Beso de Mica</div>
+            <div class="art-tech">Técnica Mica Viva sobre Piedra Natural</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/hq-james-CjsTrO7r.webp', 'James Rocks (James Dean)', 'Óleo sobre Lienzo de Gran Formato')">
+          <img src="/assets/hq-james-CjsTrO7r.webp" alt="James Rocks (James Dean)" loading="lazy" />
+          <div class="art-caption">
+            <div class="art-name">James Rocks (James Dean)</div>
+            <div class="art-tech">Óleo sobre Lienzo de Gran Formato</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/hq-johnny-5ueL8eU0.webp', 'Johnny Rocks (Johnny Depp)', 'Óleo y Grafito Compreso sobre Pizarra')">
+          <img src="/assets/hq-johnny-5ueL8eU0.webp" alt="Johnny Rocks (Johnny Depp)" loading="lazy" />
+          <div class="art-caption">
+            <div class="art-name">Johnny Rocks (Johnny Depp)</div>
             <div class="art-tech">Óleo y Grafito Compreso sobre Pizarra</div>
           </div>
         </div>
+        <div class="art-item" onclick="openLightbox('/assets/cantinflas-kintsugi.webp', 'Cantinflas Kintsugi', 'Acrílico y Oro sobre Pizarra Natural')">
+          <img src="/assets/cantinflas-kintsugi.webp" alt="Cantinflas Kintsugi" loading="lazy" />
+          <div class="art-caption">
+            <div class="art-name">Cantinflas Kintsugi</div>
+            <div class="art-tech">Acrílico y Oro sobre Pizarra Natural</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/celia-cruz-cantinflowers-DO-SRKMB.webp', 'Asúcar (Celia Cruz)', 'Acrílico y Collage sobre Lienzo 3D')">
+          <img src="/assets/celia-cruz-cantinflowers-DO-SRKMB.webp" alt="Asúcar (Celia Cruz)" loading="lazy" />
+          <div class="art-caption">
+            <div class="art-name">Asúcar (Celia Cruz)</div>
+            <div class="art-tech">Acrílico y Collage sobre Lienzo 3D</div>
+          </div>
+        </div>
         <div class="art-item" onclick="openLightbox('/assets/el-gran-dakari-C1tAWAhR.webp', 'El Gran Dakari', 'Acrílico sobre Pizarra Natural')">
-          <img src="/assets/el-gran-dakari-C1tAWAhR.webp" alt="El Gran Dakari" loading="eager" />
+          <img src="/assets/el-gran-dakari-C1tAWAhR.webp" alt="El Gran Dakari" loading="lazy" />
           <div class="art-caption">
             <div class="art-name">El Gran Dakari</div>
             <div class="art-tech">Acrílico sobre Pizarra Natural</div>
           </div>
         </div>
-        <div class="art-item" onclick="openLightbox('/assets/audrey-hepburn-DbIBTtIp.webp', 'Audrey Hepburn', 'Técnica Mixta y Mica Mineral')">
-          <img src="/assets/audrey-hepburn-DbIBTtIp.webp" alt="Audrey Hepburn" loading="eager" />
+        <div class="art-item" onclick="openLightbox('/assets/geisha-MfRtKWdu.webp', 'Geisha', 'Óleo y Pan de Oro sobre Pizarra')">
+          <img src="/assets/geisha-MfRtKWdu.webp" alt="Geisha" loading="lazy" />
           <div class="art-caption">
-            <div class="art-name">Audrey Hepburn</div>
-            <div class="art-tech">Técnica Mixta y Mica Mineral</div>
+            <div class="art-name">Geisha</div>
+            <div class="art-tech">Óleo y Pan de Oro sobre Pizarra</div>
           </div>
         </div>
-        <div class="art-item" onclick="openLightbox('/assets/love-DA7L_L5F.webp', 'Love', 'Collage &amp; Acrílico Pop')">
-          <img src="/assets/love-DA7L_L5F.webp" alt="Love" loading="eager" />
+        <div class="art-item" onclick="openLightbox('/assets/lagrimas-de-oro-DikHc-Tk.webp', 'Lágrimas de Oro', 'Pan de Oro de 24k y Acrílico sobre Pizarra')">
+          <img src="/assets/lagrimas-de-oro-DikHc-Tk.webp" alt="Lágrimas de Oro" loading="lazy" />
           <div class="art-caption">
-            <div class="art-name">Love</div>
-            <div class="art-tech">Collage &amp; Acrílico Pop</div>
+            <div class="art-name">Lágrimas de Oro</div>
+            <div class="art-tech">Pan de Oro de 24k y Acrílico sobre Pizarra</div>
           </div>
         </div>
-        <div class="art-item" onclick="openLightbox('/assets/cantinflas-0-D712oJYO.webp', 'Cantinflas I', 'Acrílico y Collage Humorístico')">
-          <img src="/assets/cantinflas-0-D712oJYO.webp" alt="Cantinflas I" loading="eager" />
+        <div class="art-item" onclick="openLightbox('/assets/la-pensadora-CFHSnMA0.webp', 'La Pensadora', 'Óleo sobre Lienzo')">
+          <img src="/assets/la-pensadora-CFHSnMA0.webp" alt="La Pensadora" loading="lazy" />
           <div class="art-caption">
-            <div class="art-name">Cantinflas I</div>
-            <div class="art-tech">Acrílico y Collage Humorístico</div>
+            <div class="art-name">La Pensadora</div>
+            <div class="art-tech">Óleo sobre Lienzo</div>
           </div>
         </div>
-        <div class="art-item" onclick="openLightbox('/assets/dar-la-lata-DxWlKgS-.webp', 'Dar la Lata', 'Serie En.lata — Escultura Mixta')">
-          <img src="/assets/dar-la-lata-DxWlKgS-.webp" alt="Dar la Lata" loading="eager" />
+        <div class="art-item" onclick="openLightbox('/assets/robe-mica-viva.webp', 'Robe · Mica Viva', 'Acrílico y Mica Mineral Iridiscente sobre Pizarra')">
+          <img src="/assets/robe-mica-viva.webp" alt="Robe · Mica Viva" loading="lazy" />
           <div class="art-caption">
-            <div class="art-name">Dar la Lata</div>
-            <div class="art-tech">Serie En.lata — Escultura Mixta</div>
+            <div class="art-name">Robe · Mica Viva</div>
+            <div class="art-tech">Acrílico y Mica Mineral Iridiscente sobre Pizarra</div>
           </div>
         </div>
-        <div class="art-item" onclick="openLightbox('/assets/tedas-queen-GT9W8egT.webp', 'Tedás Queen', 'Serie Divinos — Mixta Pop')">
-          <img src="/assets/tedas-queen-GT9W8egT.webp" alt="Tedás Queen" loading="lazy" />
+        <div class="art-item" onclick="openLightbox('/assets/roisin-full.webp', 'Róisín Murphy · Tartan Noir', 'Grafito y Collage Textil (Tartán) sobre Papel')">
+          <img src="/assets/roisin-full.webp" alt="Róisín Murphy · Tartan Noir" loading="lazy" />
           <div class="art-caption">
-            <div class="art-name">Tedás Queen</div>
-            <div class="art-tech">Serie Divinos — Mixta Pop</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/sardine-tin-collage-Bo41LZ-o.webp', 'Sardine Tin Collage', 'Ensamblaje &amp; Pigmentos')">
-          <img src="/assets/sardine-tin-collage-Bo41LZ-o.webp" alt="Sardine Tin Collage" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Sardine Tin Collage</div>
-            <div class="art-tech">Ensamblaje &amp; Pigmentos</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/the-golden-couple-C9C95N75.webp', 'The Golden Couple', 'Pareja por Encargo — Pan de Oro &amp; Pizarra')">
-          <img src="/assets/the-golden-couple-C9C95N75.webp" alt="The Golden Couple" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">The Golden Couple</div>
-            <div class="art-tech">Pareja por Encargo — Pan de Oro &amp; Pizarra</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/pink-and-sparkles-c4K6RUzC.webp', 'Pink and Sparkles', 'Acrílico Neón &amp; Destellos Minerales')">
-          <img src="/assets/pink-and-sparkles-c4K6RUzC.webp" alt="Pink and Sparkles" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Pink and Sparkles</div>
-            <div class="art-tech">Acrílico Neón &amp; Destellos Minerales</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/agassi-out.webp', 'Agassi Out', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/agassi-out.webp" alt="Agassi Out" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Agassi Out</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/audrey-frutas.webp', 'Audrey Frutas', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/audrey-frutas.webp" alt="Audrey Frutas" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Audrey Frutas</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/bebe-cochecitos.webp', 'Bebe Cochecitos', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/bebe-cochecitos.webp" alt="Bebe Cochecitos" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Bebe Cochecitos</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/bowie-space-oddity.webp', 'Bowie Space Oddity', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/bowie-space-oddity.webp" alt="Bowie Space Oddity" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Bowie Space Oddity</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/cajita-roja-cerrada.webp', 'Cajita Roja Cerrada', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/cajita-roja-cerrada.webp" alt="Cajita Roja Cerrada" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Cajita Roja Cerrada</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/cantinflas-barroco.webp', 'Cantinflas Barroco', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/cantinflas-barroco.webp" alt="Cantinflas Barroco" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Cantinflas Barroco</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/diva-tartan.webp', 'Diva Tartan', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/diva-tartan.webp" alt="Diva Tartan" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Diva Tartan</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/guerrero-bandana.webp', 'Guerrero Bandana', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/guerrero-bandana.webp" alt="Guerrero Bandana" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Guerrero Bandana</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/pareja-bn.webp', 'Pareja Bn', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/pareja-bn.webp" alt="Pareja Bn" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Pareja Bn</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/retrato-dorado.webp', 'Retrato Dorado', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/retrato-dorado.webp" alt="Retrato Dorado" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Retrato Dorado</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/retrato-nina-explosivo.webp', 'Retrato Nina Explosivo', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/retrato-nina-explosivo.webp" alt="Retrato Nina Explosivo" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Retrato Nina Explosivo</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/retrato-piedra.webp', 'Retrato Piedra', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/retrato-piedra.webp" alt="Retrato Piedra" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Retrato Piedra</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/retrato-pink.webp', 'Retrato Pink', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/retrato-pink.webp" alt="Retrato Pink" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Retrato Pink</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/retrato-rizos-pulseras.webp', 'Retrato Rizos Pulseras', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/retrato-rizos-pulseras.webp" alt="Retrato Rizos Pulseras" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Retrato Rizos Pulseras</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/retrato-splash.webp', 'Retrato Splash', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/retrato-splash.webp" alt="Retrato Splash" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Retrato Splash</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/rosetta-tharpe.webp', 'Rosetta Tharpe', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/rosetta-tharpe.webp" alt="Rosetta Tharpe" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Rosetta Tharpe</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/retrato-icono-naroa.webp', 'Retrato Icono Naroa', 'Acrílico y óleo sobre lienzo')">
-          <img src="/assets/retrato-icono-naroa.webp" alt="Retrato Icono Naroa" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Retrato Icono Naroa</div>
-            <div class="art-tech">Acrílico y óleo sobre lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/vintage-pop-portrait.webp', 'Vintage Pop Portrait', 'Acrílico y óleo sobre lienzo')">
-          <img src="/assets/vintage-pop-portrait.webp" alt="Vintage Pop Portrait" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Vintage Pop Portrait</div>
-            <div class="art-tech">Acrílico y óleo sobre lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/icono-cine-clasico.webp', 'Icono Cine Clásico', 'Acrílico y óleo sobre lienzo')">
-          <img src="/assets/icono-cine-clasico.webp" alt="Icono Cine Clásico" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Icono Cine Clásico</div>
-            <div class="art-tech">Acrílico y óleo sobre lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/one-love.webp', 'One Love', 'Acrílico sobre pizarra natural y mica mineral')">
-          <img src="/assets/one-love.webp" alt="One Love" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">One Love</div>
-            <div class="art-tech">Acrílico sobre pizarra natural y mica mineral</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/denis.webp', 'Denis', 'Acrílico y óleo sobre lienzo')">
-          <img src="/assets/denis.webp" alt="Denis" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Denis</div>
-            <div class="art-tech">Acrílico y óleo sobre lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/rattler.webp', 'Rattler', 'Acrílico sobre pizarra natural y mica mineral')">
-          <img src="/assets/rattler.webp" alt="Rattler" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Rattler</div>
-            <div class="art-tech">Acrílico sobre pizarra natural y mica mineral</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/audrey-sparkle.webp', 'Audrey Sparkle', 'Acrílico sobre pizarra natural y mica mineral')">
-          <img src="/assets/audrey-sparkle.webp" alt="Audrey Sparkle" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Audrey Sparkle</div>
-            <div class="art-tech">Acrílico sobre pizarra natural y mica mineral</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/papitxulo.webp', 'Papitxulo', 'Acrílico y óleo sobre lienzo')">
-          <img src="/assets/papitxulo.webp" alt="Papitxulo" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Papitxulo</div>
-            <div class="art-tech">Acrílico y óleo sobre lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/he-creado-un-angel-verde-y-gris.webp', 'He Creado un Ángel Verde y Gris', 'Acrílico sobre pizarra natural y mica mineral')">
-          <img src="/assets/he-creado-un-angel-verde-y-gris.webp" alt="He Creado un Ángel Verde y Gris" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">He Creado un Ángel Verde y Gris</div>
-            <div class="art-tech">Acrílico sobre pizarra natural y mica mineral</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/es-l-a-hora.webp', 'Es (l)a hora', 'Acrílico sobre pizarra natural y mica mineral')">
-          <img src="/assets/es-l-a-hora.webp" alt="Es (l)a hora" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Es (l)a hora</div>
-            <div class="art-tech">Acrílico sobre pizarra natural y mica mineral</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/cotton-girl.webp', 'Cotton Girl', 'Acrílico y óleo sobre lienzo')">
-          <img src="/assets/cotton-girl.webp" alt="Cotton Girl" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Cotton Girl</div>
-            <div class="art-tech">Acrílico y óleo sobre lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/el-gordo.webp', 'El Gordo', 'Acrílico sobre pizarra natural y mica mineral')">
-          <img src="/assets/el-gordo.webp" alt="El Gordo" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">El Gordo</div>
-            <div class="art-tech">Acrílico sobre pizarra natural y mica mineral</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/sigirinspired.webp', 'Sigirinspired', 'Acrílico y óleo sobre lienzo')">
-          <img src="/assets/sigirinspired.webp" alt="Sigirinspired" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Sigirinspired</div>
-            <div class="art-tech">Acrílico y óleo sobre lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/la-pensadora-eu-26.webp', 'La pensadora', 'Acrílico sobre pizarra natural y mica mineral')">
-          <img src="/assets/la-pensadora-eu-26.webp" alt="La pensadora" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">La pensadora</div>
-            <div class="art-tech">Acrílico sobre pizarra natural y mica mineral</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/peter-rowan.webp', 'Peter Rowan', 'Acrílico sobre pizarra natural y mica mineral')">
-          <img src="/assets/peter-rowan.webp" alt="Peter Rowan" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Peter Rowan</div>
-            <div class="art-tech">Acrílico sobre pizarra natural y mica mineral</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/saioa.webp', 'Saioa', 'Acrílico y óleo sobre lienzo')">
-          <img src="/assets/saioa.webp" alt="Saioa" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Saioa</div>
-            <div class="art-tech">Acrílico y óleo sobre lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/the-great-escape.webp', 'The Great Escape', 'Acrílico sobre pizarra natural y mica mineral')">
-          <img src="/assets/the-great-escape.webp" alt="The Great Escape" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">The Great Escape</div>
-            <div class="art-tech">Acrílico sobre pizarra natural y mica mineral</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/sonia.webp', 'Sonia', 'Acrílico sobre pizarra natural y mica mineral')">
-          <img src="/assets/sonia.webp" alt="Sonia" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Sonia</div>
-            <div class="art-tech">Acrílico sobre pizarra natural y mica mineral</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/wetever.webp', 'Wetever', 'Acrílico sobre pizarra natural y mica mineral')">
-          <img src="/assets/wetever.webp" alt="Wetever" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Wetever</div>
-            <div class="art-tech">Acrílico sobre pizarra natural y mica mineral</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/chenk.webp', 'Chenk', 'Acrílico sobre pizarra natural y mica mineral')">
-          <img src="/assets/chenk.webp" alt="Chenk" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Chenk</div>
-            <div class="art-tech">Acrílico sobre pizarra natural y mica mineral</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/por-los-pelos.webp', 'Por los pelos', 'Acrílico y óleo sobre lienzo')">
-          <img src="/assets/por-los-pelos.webp" alt="Por los pelos" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Por los pelos</div>
-            <div class="art-tech">Acrílico y óleo sobre lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/lo-que-el-ojo-no-ve.webp', 'Lo que el Ojo no Ve', 'Acrílico sobre pizarra natural y mica mineral')">
-          <img src="/assets/lo-que-el-ojo-no-ve.webp" alt="Lo que el Ojo no Ve" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Lo que el Ojo no Ve</div>
-            <div class="art-tech">Acrílico sobre pizarra natural y mica mineral</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/poesje.webp', 'Poesje', 'Acrílico y óleo sobre lienzo')">
-          <img src="/assets/poesje.webp" alt="Poesje" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Poesje</div>
-            <div class="art-tech">Acrílico y óleo sobre lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/cantinflas-kintsugi.webp', 'Cantinflas Kintsugi', 'Acrílico y óleo sobre lienzo de gran formato')">
-          <img src="/assets/cantinflas-kintsugi.webp" alt="Cantinflas Kintsugi" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Cantinflas Kintsugi</div>
-            <div class="art-tech">Acrílico y óleo sobre lienzo de gran formato</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/cantinflowers-new.webp', 'Cantinflowers', 'Acrílico y óleo sobre lienzo de gran formato')">
-          <img src="/assets/cantinflowers-new.webp" alt="Cantinflowers" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Cantinflowers</div>
-            <div class="art-tech">Acrílico y óleo sobre lienzo de gran formato</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/exposicion-politena.webp', 'Exposicion Politena', 'Acrílico y óleo sobre lienzo de gran formato')">
-          <img src="/assets/exposicion-politena.webp" alt="Exposicion Politena" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Exposicion Politena</div>
-            <div class="art-tech">Acrílico y óleo sobre lienzo de gran formato</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/obra-david-bowie-stardust.webp', 'Ziggy Stardust', 'Técnica Mixta, Pan de Oro y Mica sobre Pizarra Natural de Bizkaia')">
-          <img src="/assets/obra-david-bowie-stardust.webp" alt="Ziggy Stardust" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Ziggy Stardust</div>
-            <div class="art-tech">Técnica Mixta, Pan de Oro y Mica sobre Pizarra Natural de Bizkaia</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/obra-frida-kintsugi-slate.webp', 'Frida Kahle (Kintsugi Slate Portrait)', 'Técnica Mixta, Cerámica, Pan de Oro y Mica sobre Pizarra Natural')">
-          <img src="/assets/obra-frida-kintsugi-slate.webp" alt="Frida Kahle (Kintsugi Slate Portrait)" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Frida Kahle (Kintsugi Slate Portrait)</div>
-            <div class="art-tech">Técnica Mixta, Cerámica, Pan de Oro y Mica sobre Pizarra Natural</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/obra-kintsugi-gold-slate.webp', 'Kintsugi Gold — Retrato sobre Pizarra', 'Acrílico, Pan de Oro y Mica Mineral sobre Pizarra Natural')">
-          <img src="/assets/obra-kintsugi-gold-slate.webp" alt="Kintsugi Gold — Retrato sobre Pizarra" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Kintsugi Gold — Retrato sobre Pizarra</div>
-            <div class="art-tech">Acrílico, Pan de Oro y Mica Mineral sobre Pizarra Natural</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/obra-pajarraca-de-luz.webp', 'Pajarraca de Luz', 'Técnica Mixta sobre Latas de Conserva Vintage Recicladas, Pan de Oro y Mica')">
-          <img src="/assets/obra-pajarraca-de-luz.webp" alt="Pajarraca de Luz" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Pajarraca de Luz</div>
-            <div class="art-tech">Técnica Mixta sobre Latas de Conserva Vintage Recicladas, Pan de Oro y Mica</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/obra-sardine-tin.webp', 'Sardina N.G. Gil', 'Acrílico POP sobre Lata de Sardinas Vintage Reciclada')">
-          <img src="/assets/obra-sardine-tin.webp" alt="Sardina N.G. Gil" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Sardina N.G. Gil</div>
-            <div class="art-tech">Acrílico POP sobre Lata de Sardinas Vintage Reciclada</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/chico-pez.webp', 'Chico Pez', 'Grafito y Lápiz sobre Papel')">
-          <img src="/assets/chico-pez.webp" alt="Chico Pez" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Chico Pez</div>
-            <div class="art-tech">Grafito y Lápiz sobre Papel</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/guitarrista.webp', 'Sister Rosetta Tharpe', 'Grafito y Carboncillo sobre Papel de Alto Gramaje')">
-          <img src="/assets/guitarrista.webp" alt="Sister Rosetta Tharpe" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Sister Rosetta Tharpe</div>
-            <div class="art-tech">Grafito y Carboncillo sobre Papel de Alto Gramaje</div>
+            <div class="art-name">Róisín Murphy · Tartan Noir</div>
+            <div class="art-tech">Grafito y Collage Textil (Tartán) sobre Papel</div>
           </div>
         </div>
         <div class="art-item" onclick="openLightbox('/assets/pippi.webp', 'Pippi Calzaslargas', 'Grafito, Lápiz de Color y Acuarela sobre Papel')">
@@ -677,11 +389,60 @@
             <div class="art-tech">Grafito, Lápiz de Color y Acuarela sobre Papel</div>
           </div>
         </div>
-        <div class="art-item" onclick="openLightbox('/assets/pippi-cartas.webp', 'Pippi — Cartas desde Villa Kunterbunt', 'Grafito y Lápiz sobre Papel')">
-          <img src="/assets/pippi-cartas.webp" alt="Pippi — Cartas desde Villa Kunterbunt" loading="lazy" />
+        <div class="art-item" onclick="openLightbox('/assets/guitarrista.webp', 'Sister Rosetta Tharpe', 'Grafito y Carboncillo sobre Papel')">
+          <img src="/assets/guitarrista.webp" alt="Sister Rosetta Tharpe" loading="lazy" />
           <div class="art-caption">
-            <div class="art-name">Pippi — Cartas desde Villa Kunterbunt</div>
+            <div class="art-name">Sister Rosetta Tharpe</div>
+            <div class="art-tech">Grafito y Carboncillo sobre Papel</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/the-golden-couple-C9C95N75.webp', 'The Golden Couple', 'Pan de Oro &amp; Pizarra Natural')">
+          <img src="/assets/the-golden-couple-C9C95N75.webp" alt="The Golden Couple" loading="lazy" />
+          <div class="art-caption">
+            <div class="art-name">The Golden Couple</div>
+            <div class="art-tech">Pan de Oro &amp; Pizarra Natural</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/agassi-out.webp', 'Agassi Out', 'Acrílico y Óleo sobre Lienzo')">
+          <img src="/assets/agassi-out.webp" alt="Agassi Out" loading="lazy" />
+          <div class="art-caption">
+            <div class="art-name">Agassi Out</div>
+            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/tedas-queen-GT9W8egT.webp', 'Tedás Queen', 'Serie Divinos — Mixta Pop')">
+          <img src="/assets/tedas-queen-GT9W8egT.webp" alt="Tedás Queen" loading="lazy" />
+          <div class="art-caption">
+            <div class="art-name">Tedás Queen</div>
+            <div class="art-tech">Serie Divinos — Mixta Pop</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/obra-sardine-tin.webp', 'Sardina N.G. Gil', 'Acrílico POP sobre Lata de Sardinas Reciclada')">
+          <img src="/assets/obra-sardine-tin.webp" alt="Sardina N.G. Gil" loading="lazy" />
+          <div class="art-caption">
+            <div class="art-name">Sardina N.G. Gil</div>
+            <div class="art-tech">Acrílico POP sobre Lata de Sardinas Reciclada</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/obra-pajarraca-de-luz.webp', 'Pajarraca de Luz', 'Técnica Mixta sobre Lata Vintage &amp; Pan de Oro')">
+          <img src="/assets/obra-pajarraca-de-luz.webp" alt="Pajarraca de Luz" loading="lazy" />
+          <div class="art-caption">
+            <div class="art-name">Pajarraca de Luz</div>
+            <div class="art-tech">Técnica Mixta sobre Lata Vintage &amp; Pan de Oro</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/chico-pez.webp', 'Chico Pez', 'Grafito y Lápiz sobre Papel')">
+          <img src="/assets/chico-pez.webp" alt="Chico Pez" loading="lazy" />
+          <div class="art-caption">
+            <div class="art-name">Chico Pez</div>
             <div class="art-tech">Grafito y Lápiz sobre Papel</div>
+          </div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/autorretrato-de-maxime.webp', 'Autorretrato Maxime', 'Estudio y Técnica Mixta')">
+          <img src="/assets/autorretrato-de-maxime.webp" alt="Autorretrato Maxime" loading="lazy" />
+          <div class="art-caption">
+            <div class="art-name">Autorretrato Maxime</div>
+            <div class="art-tech">Estudio y Técnica Mixta</div>
           </div>
         </div>
       </div>

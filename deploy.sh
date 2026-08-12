@@ -109,18 +109,12 @@ log "Desplegando ${BOLD}${DEPLOY_SIZE}${NC} → CF Pages..."
 unset CLOUDFLARE_API_TOKEN
 
 if [ "$BRANCH" = "--preview" ]; then
-  cp -R "$BUILD_DIR" ".deploy_cf1"
-  cp -R "$BUILD_DIR" ".deploy_cf2"
-  wrangler pages deploy ".deploy_cf1" --project-name "naroagutierrezgil-com" --branch preview --commit-dirty=true
-  wrangler pages deploy ".deploy_cf2" --project-name "naroaonline" --branch preview --commit-dirty=true
-  rm -rf ".deploy_cf1" ".deploy_cf2"
+  wrangler pages deploy dist --project-name "naroagutierrezgil-com" --branch preview --commit-dirty=true
+  wrangler pages deploy dist --project-name "naroaonline" --branch preview --commit-dirty=true
   ok "Deploy PREVIEW completado"
 else
-  cp -R "$BUILD_DIR" ".deploy_cf1"
-  cp -R "$BUILD_DIR" ".deploy_cf2"
-  wrangler pages deploy ".deploy_cf1" --project-name "naroagutierrezgil-com" --branch master --commit-dirty=true
-  wrangler pages deploy ".deploy_cf2" --project-name "naroaonline" --branch master --commit-dirty=true
-  rm -rf ".deploy_cf1" ".deploy_cf2"
+  wrangler pages deploy dist --project-name "naroagutierrezgil-com" --branch master --commit-dirty=true
+  wrangler pages deploy dist --project-name "naroaonline" --branch master --commit-dirty=true
   ok "Deploy PRODUCCIÓN completado → https://naroagutierrezgil.com/ & https://naroa.online/"
 fi
 
