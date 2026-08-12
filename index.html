@@ -1,510 +1,223 @@
 <!doctype html>
-<html lang="es" dir="ltr">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
+    <!-- Favicons — Marilyn Rocks Icon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="image_src" href="https://naroagutierrezgil.com/favicon.png" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#070709" />
+    <!-- Core SEO & Fullscreen Web App Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Naroa Art" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#07070a" />
     <link rel="canonical" href="https://naroagutierrezgil.com/" />
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-
-    <meta name="description" content="Catálogo oficial de obras reales de Naroa Gutiérrez Gil. A NAROA LA ORAN · Hiperrealismo POP sobre pizarra, mica mineral y lienzo." />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+    <meta name="description" content="Portfolio oficial de Naroa Gutiérrez Gil. Retratos por encargo e hiperrealismo POP sobre pizarra natural, mica mineral y lienzo desde Bilbao. Explora la sala 3D." />
+    <meta name="keywords" content="Naroa Gutiérrez Gil, Artista Visual, Retratos por encargo Bilbao, Hiperrealismo POP, Pizarra Natural, Mica Mineral, Arte Contemporáneo, Encargos Personalizados, Galería 3D" />
     <meta name="author" content="Naroa Gutiérrez Gil" />
+    <!-- GEO & Local Targeting (Bilbao, Bizkaia, Euskadi) -->
+    <meta name="geo.region" content="ES-PV" />
+    <meta name="geo.placename" content="Bilbao" />
+    <meta name="geo.position" content="43.2630;-2.9350" />
+    <meta name="ICBM" content="43.2630, -2.9350" />
 
-    <title>Naroa Gutiérrez Gil — Artista Visual | A NAROA LA ORAN (30 Obras Reales)</title>
+    <!-- Open Graph / Social Media -->
+    <meta property="og:site_name" content="Naroa Gutiérrez Gil · Hiperrealismo POP & Arte Lítico" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://naroagutierrezgil.com/" />
+    <meta property="og:title" content="Naroa Gutiérrez Gil — Artista Visual Bilbao | Retratos por Encargo e Hiperrealismo POP" />
+    <meta property="og:description" content="Artista plástica en Bilbao. Retratos por encargo e hiperrealismo POP sobre pizarra natural de tejado vasco, mica mineral y lienzo. Descubre la colección y la experiencia 3D." />
+    <meta property="og:image" content="https://naroagutierrezgil.com/assets/marilyn-rocks--qPeLHxE.webp" />
+    <meta property="og:image:secure_url" content="https://naroagutierrezgil.com/assets/marilyn-rocks--qPeLHxE.webp" />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Marilyn Rocks — Hiperrealismo POP sobre pizarra por Naroa Gutiérrez Gil" />
+    <meta property="og:locale" content="es_ES" />
 
-    <style>
-      :root {
-        --bg: #070709;
-        --surface: #0e0e12;
-        --text: #f5f5f7;
-        --text-sub: rgba(245, 245, 247, 0.55);
-        --accent: #e5c158;
-        --wa: #25d366;
-        --font-title: 'Outfit', sans-serif;
-        --font-body: 'Inter', sans-serif;
-      }
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@naroa_art" />
+    <meta name="twitter:creator" content="@naroa_art" />
+    <meta name="twitter:url" content="https://naroagutierrezgil.com/" />
+    <meta name="twitter:title" content="Naroa Gutiérrez Gil — Artista Visual Bilbao | Hiperrealismo POP" />
+    <meta name="twitter:description" content="Retratos por encargo y arte contemporáneo sobre pizarra natural y mica mineral en Bilbao. Explora la galería 3D." />
+    <meta name="twitter:image" content="https://naroagutierrezgil.com/assets/marilyn-rocks--qPeLHxE.webp" />
 
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-      html { scroll-behavior: smooth; background: var(--bg); color: var(--text); font-family: var(--font-body); }
-      body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-      img { max-width: 100%; height: auto; display: block; }
-      a { color: inherit; text-decoration: none; }
+    <!-- Schema.org JSON-LD (Rich GEO & E-E-A-T Entity Graph) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "VisualArtist",
+            "@id": "https://naroagutierrezgil.com/#artist",
+            "name": "Naroa Gutiérrez Gil",
+            "alternateName": ["Naroa Art", "Naroart", "Aaron"],
+            "url": "https://naroagutierrezgil.com/",
+            "birthDate": "1978",
+            "birthPlace": {
+              "@type": "Place",
+              "name": "Bilbao, País Vasco, España"
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Bilbao",
+              "addressRegion": "Bizkaia",
+              "addressCountry": "ES"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 43.2630,
+              "longitude": -2.9350
+            },
+            "knowsAbout": [
+              "Hiperrealismo POP",
+              "Retratos por encargo",
+              "Pizarra Natural",
+              "Mica Mineral",
+              "Arte Contemporáneo",
+              "Pintura en Acrílico y Óleo",
+              "Iconos del Cine y la Música"
+            ],
+            "genre": [
+              "Hiperrealismo",
+              "Pop Art",
+              "Arte Contemporáneo",
+              "Retrato"
+            ],
+            "knowsLanguage": ["es", "en", "eu"],
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "contactType": "encargos y ventas de arte",
+              "email": "naroa@naroa.eu",
+              "availableLanguage": ["Spanish", "English", "Basque"]
+            },
+            "sameAs": [
+              "https://www.facebook.com/naroa.artista.plastica",
+              "https://www.instagram.com/naroagutierrezgil"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://naroagutierrezgil.com/#website",
+            "url": "https://naroagutierrezgil.com/",
+            "name": "Naroa Gutiérrez Gil — Hiperrealismo POP",
+            "description": "Galería oficial de la artista Naroa Gutiérrez Gil. Obras originales, retratos por encargo y sala de exposición 3D.",
+            "publisher": {
+              "@id": "https://naroagutierrezgil.com/#artist"
+            },
+            "inLanguage": "es-ES"
+          },
+          {
+            "@type": "ArtGallery",
+            "@id": "https://naroagutierrezgil.com/#gallery",
+            "name": "Estudio y Galería Naroa Gutiérrez Gil",
+            "description": "Estudio de arte contemporáneo e hiperrealismo en Bilbao (Bolueta). Exposición de obras sobre pizarra natural y mica mineral.",
+            "url": "https://naroagutierrezgil.com/",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Bolueta",
+              "addressLocality": "Bilbao",
+              "addressRegion": "Bizkaia",
+              "postalCode": "48004",
+              "addressCountry": "ES"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 43.2497,
+              "longitude": -2.9067
+            },
+            "telephone": "+34-600000000",
+            "priceRange": "€€€"
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://naroagutierrezgil.com/#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "¿Cuánto cuesta un retrato personalizado?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "El precio de un retrato personalizado en España oscila entre €350 y €850 dependiendo del tamaño (Busto 30x40cm €350, Cuerpo entero 50x70cm €550, Gran formato 70x100cm €850), técnica y soporte (pizarra de tejado vasco recuperada o lienzo)."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Qué es el hiperrealismo POP?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "El hiperrealismo POP es un movimiento artístico que fusiona la precisión fotográfica del hiperrealismo con la estética vibrante de la cultura pop, utilizando soportes inusuales como la pizarra natural de tejado vasco, pigmentos de mica y contrastes cromáticos audaces."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Cómo encargar un retrato personalizado a Naroa Gutiérrez Gil?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Puedes solicitar un retrato por encargo enviando una fotografía de alta calidad y la idea del proyecto a naroa@naroa.eu o a través del formulario de contacto en naroagutierrezgil.com. Naroa trabaja retratos hiperrealistas sobre lienzo, pizarra natural y mica mineral."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Qué técnica artística utiliza Naroa Gutiérrez Gil?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Naroa está especializada en el hiperrealismo POP, combinando acrílico, óleo, posca y pigmentos sobre pizarra natural tallada y la técnica propia 'Mica Viva', que integra la textura mineral cristalina dentro del retrato."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "¿Dónde expone y trabaja la artista Naroa Gutiérrez Gil?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Naroa tiene su estudio en Bilbao (Bolueta), Bizkaia, España. Expone habitualmente en galerías de arte contemporáneo, mercados de arte en el País Vasco y dispone de una sala de exposición 3D interactiva en naroagutierrezgil.com."
+                }
+              }
+            ]
+          },
+          {
+            "@type": "VisualArtwork",
+            "@id": "https://naroagutierrezgil.com/#obra-marilyn-rocks",
+            "name": "Marilyn Rocks",
+            "image": "https://naroagutierrezgil.com/assets/marilyn-rocks--qPeLHxE.webp",
+            "description": "Reinterpretación hiperrealista POP con textura gestual y capas de fricción sobre la iconografía de Marilyn Monroe.",
+            "artMedium": "Óleo y Acrílico sobre Lienzo",
+            "artForm": "Pintura",
+            "creator": { "@id": "https://naroagutierrezgil.com/#artist" },
+            "dateCreated": "2024"
+          },
+          {
+            "@type": "VisualArtwork",
+            "@id": "https://naroagutierrezgil.com/#obra-amy-rocks",
+            "name": "Amy Rocks",
+            "image": "https://naroagutierrezgil.com/assets/hq-amy-BRTriASV.webp",
+            "description": "Retrato de Amy Winehouse en acrílico y Posca sobre pizarra natural con mica mineral.",
+            "artMedium": "Acrílico y Posca sobre Pizarra Natural con Mica Mineral",
+            "artForm": "Pintura sobre Pizarra",
+            "creator": { "@id": "https://naroagutierrezgil.com/#artist" },
+            "dateCreated": "2024"
+          }
+        ]
+      }
+    </script>
 
-      .container { width: 94%; max-width: 1600px; margin: 0 auto; }
-
-      /* HEADER */
-      header {
-        position: fixed;
-        top: 0; left: 0; right: 0;
-        z-index: 100;
-        padding: 1.25rem 0;
-        background: rgba(7, 7, 9, 0.88);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-bottom: 1px solid rgba(255,255,255,0.06);
-      }
-      header .container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .brand {
-        font-family: var(--font-title);
-        font-size: 1.15rem;
-        font-weight: 800;
-        letter-spacing: -0.02em;
-        text-transform: uppercase;
-      }
-      .brand span { color: var(--accent); }
-      .header-count {
-        font-size: 0.8rem;
-        color: var(--text-sub);
-        font-weight: 600;
-        letter-spacing: 0.05em;
-      }
-      .header-cta {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.55rem 1.2rem;
-        border-radius: 100px;
-        background: var(--accent);
-        color: #000;
-        font-weight: 700;
-        font-size: 0.8rem;
-        transition: transform 0.2s, box-shadow 0.2s;
-      }
-      .header-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(229,193,88,0.3); }
-
-      /* HERO TITLE WITH NAROA PALINDROMES */
-      .page-hero {
-        padding-top: 7.5rem;
-        padding-bottom: 2.5rem;
-        text-align: center;
-      }
-      .palindrome-badge {
-        display: inline-block;
-        font-size: 0.78rem;
-        font-weight: 700;
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
-        color: var(--accent);
-        margin-bottom: 0.75rem;
-      }
-      .page-hero h1 {
-        font-family: var(--font-title);
-        font-size: clamp(2rem, 5.5vw, 4rem);
-        font-weight: 800;
-        letter-spacing: -0.03em;
-        line-height: 1.05;
-      }
-      .page-hero .quote {
-        color: var(--text-sub);
-        font-size: 1.05rem;
-        margin-top: 0.75rem;
-        font-weight: 500;
-        letter-spacing: 0.04em;
-      }
-
-      /* MASONRY GALLERY */
-      .gallery-grid {
-        column-count: 3;
-        column-gap: 1.5rem;
-        padding-bottom: 5rem;
-      }
-      @media (max-width: 1000px) { .gallery-grid { column-count: 2; } }
-      @media (max-width: 550px) { .gallery-grid { column-count: 1; } }
-
-      .art-item {
-        break-inside: avoid;
-        margin-bottom: 1.5rem;
-        position: relative;
-        border-radius: 16px;
-        overflow: hidden;
-        background: var(--surface);
-        cursor: pointer;
-      }
-      .art-item img {
-        width: 100%;
-        display: block;
-        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .art-item:hover img { transform: scale(1.03); }
-      .art-caption {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(0deg, rgba(7,7,9,0.92) 0%, rgba(7,7,9,0) 50%);
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: 1.4rem;
-        opacity: 0;
-        transition: opacity 0.3s;
-      }
-      .art-item:hover .art-caption { opacity: 1; }
-      .art-name { font-family: var(--font-title); font-size: 1.15rem; font-weight: 700; color: #fff; }
-      .art-tech { font-size: 0.8rem; color: var(--text-sub); margin-top: 0.25rem; }
-
-      /* LIGHTBOX MODAL */
-      .lightbox {
-        position: fixed;
-        inset: 0;
-        z-index: 2000;
-        background: rgba(7,7,9,0.96);
-        backdrop-filter: blur(20px);
-        display: none;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 2rem;
-      }
-      .lightbox.active { display: flex; }
-      .lightbox img {
-        max-width: 92vw;
-        max-height: 82vh;
-        border-radius: 12px;
-        box-shadow: 0 25px 80px rgba(0,0,0,0.9);
-      }
-      .lightbox-info {
-        margin-top: 1rem;
-        text-align: center;
-      }
-      .lightbox-title {
-        font-family: var(--font-title);
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: var(--accent);
-      }
-      .lightbox-tech {
-        font-size: 0.85rem;
-        color: var(--text-sub);
-        margin-top: 0.25rem;
-      }
-      .lightbox-close {
-        position: absolute;
-        top: 1.5rem;
-        right: 2rem;
-        font-size: 2.2rem;
-        color: #fff;
-        cursor: pointer;
-        background: none;
-        border: none;
-        line-height: 1;
-      }
-
-      /* FLOATING WHATSAPP */
-      .wa-btn {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        z-index: 1000;
-        width: 58px;
-        height: 58px;
-        border-radius: 50%;
-        background: var(--wa);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.7rem;
-        box-shadow: 0 6px 30px rgba(37,211,102,0.45);
-        transition: transform 0.25s;
-      }
-      .wa-btn:hover { transform: scale(1.1); }
-
-      /* FOOTER */
-      footer {
-        padding: 3rem 0;
-        border-top: 1px solid rgba(255,255,255,0.06);
-        text-align: center;
-        font-size: 0.82rem;
-        color: var(--text-sub);
-      }
-      footer a { color: var(--accent); }
-    </style>
+    <title>Naroa Gutiérrez Gil — Artista Visual | Hiperrealismo POP</title>
   </head>
   <body>
-
-    <!-- HEADER -->
-    <header>
-      <div class="container">
-        <a href="#" class="brand">NAROA <span>GUTIÉRREZ GIL</span></a>
-        <div class="header-count">30 OBRAS REALES · BILBAO</div>
-        <a href="https://wa.me/34636060609?text=Hola%20Naroa!%20Te%20contacto%20desde%20tu%20galeria..." class="header-cta" target="_blank" rel="noopener noreferrer">💬 WhatsApp Directo</a>
-      </div>
-    </header>
-
-    <!-- HERO TITLE WITH NAROA PALINDROMES -->
-    <div class="page-hero">
-      <div class="container">
-        <div class="palindrome-badge">A NAROA LA ORAN ↔ AORAN</div>
-        <h1>SOMOS · RECONOCER · OJO</h1>
-        <p class="quote">«Todos SOMOS lo mismo con distintas apariencias — RECONOCER en el lienzo lo imperecedero»</p>
-      </div>
-    </div>
-
-    <!-- GALLERY -->
-    <main class="container">
-      <div class="gallery-grid">
-        <div class="art-item" onclick="openLightbox('/assets/marilyn-rocks--qPeLHxE.webp', 'Marilyn Rocks', 'Óleo y Acrílico sobre Lienzo')">
-          <img src="/assets/marilyn-rocks--qPeLHxE.webp" alt="Marilyn Rocks" loading="eager" />
-          <div class="art-caption">
-            <div class="art-name">Marilyn Rocks</div>
-            <div class="art-tech">Óleo y Acrílico sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/hq-amy-BRTriASV.webp', 'Amy Rocks', 'Acrílico y Posca sobre Pizarra Natural con Mica Mineral')">
-          <img src="/assets/hq-amy-BRTriASV.webp" alt="Amy Rocks" loading="eager" />
-          <div class="art-caption">
-            <div class="art-name">Amy Rocks</div>
-            <div class="art-tech">Acrílico y Posca sobre Pizarra Natural con Mica Mineral</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/baroque-farrokh-mjg4ClA9.webp', 'Baroque Farrokh (Freddie Mercury)', 'Técnica Mixta Barroca Contemporánea')">
-          <img src="/assets/baroque-farrokh-mjg4ClA9.webp" alt="Baroque Farrokh (Freddie Mercury)" loading="eager" />
-          <div class="art-caption">
-            <div class="art-name">Baroque Farrokh (Freddie Mercury)</div>
-            <div class="art-tech">Técnica Mixta Barroca Contemporánea</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/obra-frida-kintsugi-slate.webp', 'Frida Kintsugi', 'Pan de Oro y Mica Mineral sobre Pizarra Natural')">
-          <img src="/assets/obra-frida-kintsugi-slate.webp" alt="Frida Kintsugi" loading="eager" />
-          <div class="art-caption">
-            <div class="art-name">Frida Kintsugi</div>
-            <div class="art-tech">Pan de Oro y Mica Mineral sobre Pizarra Natural</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/audrey-hepburn-DbIBTtIp.webp', 'Audrey Hepburn', 'Técnica Mixta y Mica Mineral sobre Pizarra')">
-          <img src="/assets/audrey-hepburn-DbIBTtIp.webp" alt="Audrey Hepburn" loading="eager" />
-          <div class="art-caption">
-            <div class="art-name">Audrey Hepburn</div>
-            <div class="art-tech">Técnica Mixta y Mica Mineral sobre Pizarra</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/bowie-space-oddity.webp', 'Space Oddity (David Bowie)', 'Acrílico y Posca sobre Lienzo')">
-          <img src="/assets/bowie-space-oddity.webp" alt="Space Oddity (David Bowie)" loading="eager" />
-          <div class="art-caption">
-            <div class="art-name">Space Oddity (David Bowie)</div>
-            <div class="art-tech">Acrílico y Posca sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/camaron.webp', 'Camarón de la Isla', 'Acrílico sobre Lienzo')">
-          <img src="/assets/camaron.webp" alt="Camarón de la Isla" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Camarón de la Isla</div>
-            <div class="art-tech">Acrílico sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/hq-james-CjsTrO7r.webp', 'James Rocks (James Dean)', 'Óleo sobre Lienzo de Gran Formato')">
-          <img src="/assets/hq-james-CjsTrO7r.webp" alt="James Rocks (James Dean)" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">James Rocks (James Dean)</div>
-            <div class="art-tech">Óleo sobre Lienzo de Gran Formato</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/hq-johnny-5ueL8eU0.webp', 'Johnny Rocks (Johnny Depp)', 'Óleo y Grafito Compreso sobre Pizarra')">
-          <img src="/assets/hq-johnny-5ueL8eU0.webp" alt="Johnny Rocks (Johnny Depp)" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Johnny Rocks (Johnny Depp)</div>
-            <div class="art-tech">Óleo y Grafito Compreso sobre Pizarra</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/cantinflas-kintsugi.webp', 'Cantinflas Kintsugi', 'Acrílico y Oro sobre Pizarra Natural')">
-          <img src="/assets/cantinflas-kintsugi.webp" alt="Cantinflas Kintsugi" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Cantinflas Kintsugi</div>
-            <div class="art-tech">Acrílico y Oro sobre Pizarra Natural</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/celia-cruz-cantinflowers-DO-SRKMB.webp', 'Asúcar (Celia Cruz)', 'Acrílico y Collage sobre Lienzo 3D')">
-          <img src="/assets/celia-cruz-cantinflowers-DO-SRKMB.webp" alt="Asúcar (Celia Cruz)" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Asúcar (Celia Cruz)</div>
-            <div class="art-tech">Acrílico y Collage sobre Lienzo 3D</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/el-gran-dakari-C1tAWAhR.webp', 'El Gran Dakari', 'Acrílico sobre Pizarra Natural')">
-          <img src="/assets/el-gran-dakari-C1tAWAhR.webp" alt="El Gran Dakari" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">El Gran Dakari</div>
-            <div class="art-tech">Acrílico sobre Pizarra Natural</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/geisha-MfRtKWdu.webp', 'Geisha', 'Óleo y Pan de Oro sobre Pizarra')">
-          <img src="/assets/geisha-MfRtKWdu.webp" alt="Geisha" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Geisha</div>
-            <div class="art-tech">Óleo y Pan de Oro sobre Pizarra</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/lagrimas-de-oro-DikHc-Tk.webp', 'Lágrimas de Oro', 'Pan de Oro de 24k y Acrílico sobre Pizarra')">
-          <img src="/assets/lagrimas-de-oro-DikHc-Tk.webp" alt="Lágrimas de Oro" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Lágrimas de Oro</div>
-            <div class="art-tech">Pan de Oro de 24k y Acrílico sobre Pizarra</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/la-pensadora-CFHSnMA0.webp', 'La Pensadora', 'Óleo sobre Lienzo')">
-          <img src="/assets/la-pensadora-CFHSnMA0.webp" alt="La Pensadora" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">La Pensadora</div>
-            <div class="art-tech">Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/pippi.webp', 'Pippi Calzaslargas', 'Grafito, Lápiz de Color y Acuarela sobre Papel')">
-          <img src="/assets/pippi.webp" alt="Pippi Calzaslargas" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Pippi Calzaslargas</div>
-            <div class="art-tech">Grafito, Lápiz de Color y Acuarela sobre Papel</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/guitarrista.webp', 'Sister Rosetta Tharpe', 'Grafito y Carboncillo sobre Papel')">
-          <img src="/assets/guitarrista.webp" alt="Sister Rosetta Tharpe" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Sister Rosetta Tharpe</div>
-            <div class="art-tech">Grafito y Carboncillo sobre Papel</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/the-golden-couple-C9C95N75.webp', 'The Golden Couple', 'Pan de Oro &amp; Pizarra Natural')">
-          <img src="/assets/the-golden-couple-C9C95N75.webp" alt="The Golden Couple" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">The Golden Couple</div>
-            <div class="art-tech">Pan de Oro &amp; Pizarra Natural</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/agassi-out.webp', 'Agassi Out', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/agassi-out.webp" alt="Agassi Out" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Agassi Out</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/obra-sardine-tin.webp', 'Sardina N.G. Gil', 'Acrílico POP sobre Lata de Sardinas Reciclada')">
-          <img src="/assets/obra-sardine-tin.webp" alt="Sardina N.G. Gil" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Sardina N.G. Gil</div>
-            <div class="art-tech">Acrílico POP sobre Lata de Sardinas Reciclada</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/obra-pajarraca-de-luz.webp', 'Pajarraca de Luz', 'Técnica Mixta sobre Lata Vintage &amp; Pan de Oro')">
-          <img src="/assets/obra-pajarraca-de-luz.webp" alt="Pajarraca de Luz" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Pajarraca de Luz</div>
-            <div class="art-tech">Técnica Mixta sobre Lata Vintage &amp; Pan de Oro</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/chico-pez.webp', 'Chico Pez', 'Grafito y Lápiz sobre Papel')">
-          <img src="/assets/chico-pez.webp" alt="Chico Pez" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Chico Pez</div>
-            <div class="art-tech">Grafito y Lápiz sobre Papel</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/autorretrato-de-maxime.webp', 'Autorretrato Maxime', 'Estudio y Técnica Mixta')">
-          <img src="/assets/autorretrato-de-maxime.webp" alt="Autorretrato Maxime" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Autorretrato Maxime</div>
-            <div class="art-tech">Estudio y Técnica Mixta</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/audrey-frutas.webp', 'Audrey Frutas', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/audrey-frutas.webp" alt="Audrey Frutas" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Audrey Frutas</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/cantinflas-barroco.webp', 'Cantinflas Barroco', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/cantinflas-barroco.webp" alt="Cantinflas Barroco" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Cantinflas Barroco</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/retrato-dorado.webp', 'Retrato Dorado', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/retrato-dorado.webp" alt="Retrato Dorado" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Retrato Dorado</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/retrato-piedra.webp', 'Retrato Piedra', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/retrato-piedra.webp" alt="Retrato Piedra" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Retrato Piedra</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/retrato-pink.webp', 'Retrato Pink', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/retrato-pink.webp" alt="Retrato Pink" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Retrato Pink</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/retrato-splash.webp', 'Retrato Splash', 'Acrílico y Óleo sobre Lienzo')">
-          <img src="/assets/retrato-splash.webp" alt="Retrato Splash" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Retrato Splash</div>
-            <div class="art-tech">Acrílico y Óleo sobre Lienzo</div>
-          </div>
-        </div>
-        <div class="art-item" onclick="openLightbox('/assets/obra-david-bowie-stardust.webp', 'Ziggy Stardust', 'Técnica Mixta y Pan de Oro sobre Pizarra')">
-          <img src="/assets/obra-david-bowie-stardust.webp" alt="Ziggy Stardust" loading="lazy" />
-          <div class="art-caption">
-            <div class="art-name">Ziggy Stardust</div>
-            <div class="art-tech">Técnica Mixta y Pan de Oro sobre Pizarra</div>
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <!-- LIGHTBOX -->
-    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-      <button class="lightbox-close">&times;</button>
-      <img id="lightbox-img" src="" alt="Obra de arte ampliada" />
-      <div class="lightbox-info">
-        <div class="lightbox-title" id="lightbox-title"></div>
-        <div class="lightbox-tech" id="lightbox-tech"></div>
-      </div>
-    </div>
-
-    <!-- FLOATING WHATSAPP -->
-    <a href="https://wa.me/34636060609?text=Hola%20Naroa!%20Te%20contacto%20desde%20tu%20galeria..." class="wa-btn" target="_blank" rel="noopener noreferrer" title="WhatsApp Directo">💬</a>
-
-    <!-- FOOTER -->
-    <footer>
-      <div class="container">
-        <p>A NAROA LA ORAN · © 2024–2026 Naroa Gutiérrez Gil · Bilbao, España</p>
-        <p style="margin-top: 0.4rem;">
-          <a href="https://www.instagram.com/naroa_art/" target="_blank" rel="noopener noreferrer">Instagram @naroa_art</a> · naroa@naroa.eu
-        </p>
-      </div>
-    </footer>
-
-    <script>
-      function openLightbox(src, title, tech) {
-        document.getElementById('lightbox-img').src = src;
-        document.getElementById('lightbox-title').textContent = title || '';
-        document.getElementById('lightbox-tech').textContent = tech || '';
-        document.getElementById('lightbox').classList.add('active');
-      }
-      function closeLightbox() {
-        document.getElementById('lightbox').classList.remove('active');
-      }
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeLightbox();
-      });
-    </script>
+    <a href="#root" class="skip-to-content">Ir al contenido</a>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
