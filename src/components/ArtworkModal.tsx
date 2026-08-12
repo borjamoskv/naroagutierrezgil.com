@@ -151,7 +151,7 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                     width: '100%',
                     objectFit: 'contain',
                     imageRendering: 'high-quality' as any,
-                    filter: 'drop-shadow(0 20px 50px rgba(0,0,0,0.95)) drop-shadow(0 0 30px rgba(255, 0, 122, 0.3))'
+                    filter: 'drop-shadow(0 20px 50px rgba(0,0,0,0.95)) drop-shadow(0 0 30px rgba(43, 59, 229, 0.3))'
                   }}
                 />
               </AnimatePresence>
@@ -187,10 +187,10 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                   <span style={{
                     fontSize: '0.7rem',
                     padding: '4px 12px',
-                    background: 'rgba(255, 0, 122, 0.15)',
-                    border: '1px solid rgba(255, 0, 122, 0.4)',
+                    background: 'rgba(43, 59, 229, 0.15)',
+                    border: '1px solid rgba(43, 59, 229, 0.4)',
                     borderRadius: '20px',
-                    color: '#FF007A',
+                    color: 'var(--gold)',
                     fontFamily: 'var(--font-mono)',
                     fontWeight: 800,
                     letterSpacing: '0.08em'
@@ -224,7 +224,7 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                 </h2>
 
                 <div className="modal-medium" style={{
-                  color: '#00F0FF',
+                  color: 'var(--cobalt-soft)',
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.82rem',
                   fontWeight: 600,
@@ -247,8 +247,8 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                 <div style={{
                   marginBottom: '24px',
                   padding: '14px 18px',
-                  background: 'rgba(255, 0, 122, 0.06)',
-                  borderLeft: '3px solid #FF007A',
+                  background: 'rgba(43, 59, 229, 0.06)',
+                  borderLeft: '3px solid var(--cobalt)',
                   borderRadius: '0 12px 12px 0',
                   fontSize: '0.82rem',
                   color: 'rgba(255, 255, 255, 0.85)',
@@ -271,9 +271,9 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                     style={{
                       padding: '14px',
                       borderRadius: '12px',
-                      background: 'rgba(0, 240, 255, 0.1)',
-                      border: '1px solid rgba(0, 240, 255, 0.4)',
-                      color: '#00F0FF',
+                      background: 'rgba(141, 151, 255, 0.1)',
+                      border: '1px solid rgba(141, 151, 255, 0.4)',
+                      color: 'var(--cobalt-soft)',
                       fontFamily: 'var(--font-mono)',
                       fontSize: '0.75rem',
                       fontWeight: 800,
@@ -325,15 +325,15 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                     style={{
                       padding: '14px',
                       borderRadius: '12px',
-                      background: 'linear-gradient(135deg, rgba(0, 240, 255, 0.2) 0%, rgba(112, 0, 255, 0.2) 100%)',
-                      border: '1px solid #00F0FF',
-                      color: '#00F0FF',
+                      background: 'linear-gradient(135deg, rgba(141, 151, 255, 0.2) 0%, rgba(112, 0, 255, 0.2) 100%)',
+                      border: '1px solid var(--cobalt-soft)',
+                      color: 'var(--cobalt-soft)',
                       fontFamily: 'var(--font-mono)',
                       fontSize: '0.78rem',
                       fontWeight: 800,
                       letterSpacing: '0.08em',
                       cursor: 'pointer',
-                      boxShadow: '0 0 20px rgba(0, 240, 255, 0.25)'
+                      boxShadow: '0 0 20px rgba(141, 151, 255, 0.25)'
                     }}
                   >
                     ✨ EXPLORAR 3D GAUSSIAN SPLAT 360°
@@ -352,14 +352,14 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                     textAlign: 'center',
                     padding: '16px',
                     borderRadius: '14px',
-                    background: 'linear-gradient(135deg, #FF007A 0%, #FFE600 100%)',
+                    background: 'linear-gradient(135deg, #2B3BE5 0%, #F59E0B 100%)',
                     color: '#000',
                     fontFamily: 'var(--font-mono)',
                     fontSize: '0.82rem',
                     fontWeight: 900,
                     letterSpacing: '0.12em',
                     textDecoration: 'none',
-                    boxShadow: '0 0 30px rgba(255, 0, 122, 0.45)',
+                    boxShadow: '0 0 30px rgba(43, 59, 229, 0.45)',
                     transition: 'transform 0.3s ease, box-shadow 0.3s ease'
                   }}
                 >
@@ -424,4 +424,3 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
     </AnimatePresence>
   )
 }
-

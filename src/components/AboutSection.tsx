@@ -78,8 +78,8 @@ export function AboutSection() {
             style={{
               width: '100%',
               borderRadius: '16px',
-              border: '1px solid rgba(255, 0, 122, 0.3)',
-              boxShadow: '0 25px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255, 0, 122, 0.2)'
+              border: '1px solid rgba(43, 59, 229, 0.3)',
+              boxShadow: '0 25px 50px rgba(0, 0, 0, 0.9), 0 0 30px rgba(43, 59, 229, 0.2)'
             }}
           />
           <div style={{
@@ -91,10 +91,10 @@ export function AboutSection() {
             backdropFilter: 'blur(12px)',
             borderRadius: '12px',
             padding: '12px 16px',
-            border: '1px solid rgba(255, 230, 0, 0.4)',
+            border: '1px solid rgba(245, 158, 11, 0.4)',
             fontFamily: 'var(--font-mono)',
             fontSize: '0.75rem',
-            color: '#FFE600',
+            color: 'var(--gold-hi)',
             fontWeight: 700
           }}>
             📍 TALLER DE BOLUETA (BILBAO) · 1978
@@ -114,10 +114,10 @@ export function AboutSection() {
           </div>
 
           <h1 className="premium-title" style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', margin: 0, lineHeight: 1.1 }}>
-            A O R A N / <span style={{ color: '#FFE600' }}>N A R O A</span>
+            A O R A N / <span style={{ color: 'var(--gold-hi)' }}>N A R O A</span>
           </h1>
 
-          <p style={{ color: '#FF007A', fontFamily: 'var(--font-mono)', fontSize: '0.9rem', fontWeight: 700, margin: 0 }}>
+          <p style={{ color: 'var(--gold)', fontFamily: 'var(--font-mono)', fontSize: '0.9rem', fontWeight: 700, margin: 0 }}>
             «A NAROA LA ORAN A» — PALÍNDROMO Y MIRADA ESPECULAR
           </p>
 
@@ -127,7 +127,7 @@ export function AboutSection() {
 
           <div style={{
             background: 'rgba(255, 255, 255, 0.04)',
-            borderLeft: '3px solid #00F0FF',
+            borderLeft: '3px solid var(--cobalt-soft)',
             padding: '12px 16px',
             borderRadius: '0 8px 8px 0',
             fontSize: '0.88rem',
@@ -152,7 +152,7 @@ export function AboutSection() {
               href="#/encargos"
               onClick={() => sound.playOpen()}
               className="premium-btn"
-              style={{ fontSize: '0.78rem', borderColor: '#FF007A', color: '#FF007A' }}
+              style={{ fontSize: '0.78rem', borderColor: 'var(--gold)', color: 'var(--gold)' }}
             >
               ⚡ ENCARGAR UN RETRATO
             </a>
@@ -181,7 +181,7 @@ export function AboutSection() {
               style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '12px' }}
             >
               <div style={{ fontSize: '2rem' }}>{mat.icon}</div>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: '#00F0FF', fontWeight: 700, letterSpacing: '0.1em' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', color: 'var(--cobalt-soft)', fontWeight: 700, letterSpacing: '0.1em' }}>
                 {mat.tag}
               </span>
               <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#fff', margin: 0 }}>
@@ -214,7 +214,7 @@ export function AboutSection() {
               viewport={{ once: true }}
               style={{
                 background: 'rgba(10, 10, 15, 0.6)',
-                border: '1px solid rgba(255, 0, 122, 0.2)',
+                border: '1px solid rgba(43, 59, 229, 0.2)',
                 borderRadius: '16px',
                 padding: '24px',
                 position: 'relative'
@@ -224,7 +224,7 @@ export function AboutSection() {
                 fontFamily: 'var(--font-mono)',
                 fontSize: '2rem',
                 fontWeight: 900,
-                color: '#FF007A',
+                color: 'var(--gold)',
                 opacity: 0.6,
                 marginBottom: '8px'
               }}>
@@ -263,8 +263,8 @@ export function AboutSection() {
                 setActiveExhibition(activeExhibition === idx ? null : idx)
               }}
               style={{
-                background: activeExhibition === idx ? 'rgba(255, 0, 122, 0.12)' : 'rgba(255, 255, 255, 0.03)',
-                border: activeExhibition === idx ? '1px solid #FF007A' : '1px solid rgba(255, 255, 255, 0.08)',
+                background: activeExhibition === idx ? 'rgba(43, 59, 229, 0.12)' : 'rgba(255, 255, 255, 0.03)',
+                border: activeExhibition === idx ? '1px solid var(--cobalt)' : '1px solid rgba(255, 255, 255, 0.08)',
                 borderRadius: '12px',
                 padding: '16px 24px',
                 cursor: 'pointer',
@@ -281,17 +281,17 @@ export function AboutSection() {
                   fontFamily: 'var(--font-mono)',
                   fontSize: '0.85rem',
                   fontWeight: 900,
-                  color: '#FFE600',
+                  color: 'var(--gold-hi)',
                   padding: '4px 10px',
-                  background: 'rgba(255, 230, 0, 0.15)',
+                  background: 'rgba(245, 158, 11, 0.15)',
                   borderRadius: '20px',
-                  border: '1px solid rgba(255, 230, 0, 0.4)'
+                  border: '1px solid rgba(245, 158, 11, 0.4)'
                 }}>
                   {expo.year}
                 </span>
                 <div>
                   <div style={{ fontWeight: 800, fontSize: '1.05rem', color: '#fff' }}>{expo.title}</div>
-                  <div style={{ fontSize: '0.82rem', color: '#00F0FF', fontFamily: 'var(--font-mono)' }}>{expo.venue}</div>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--cobalt-soft)', fontFamily: 'var(--font-mono)' }}>{expo.venue}</div>
                 </div>
               </div>
               <div style={{ fontSize: '0.84rem', color: 'rgba(255,255,255,0.7)', maxWidth: '400px' }}>
