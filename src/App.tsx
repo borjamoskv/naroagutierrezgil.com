@@ -17,6 +17,7 @@ import { CuratorialTerminal } from './components/CuratorialTerminal'
 import { EspejoDelAlmaModal } from './components/EspejoDelAlmaModal'
 import { SecretEasterEggModal } from './components/SecretEasterEggModal'
 import { TelemetryPixel } from './components/TelemetryPixel'
+import { TextureErrorBoundary } from './components/TextureErrorBoundary'
 
 
 // Vistas con Lazy Loading (Ultrathink Code-Splitting)
@@ -27,7 +28,7 @@ const GamesHub = lazy(() => import('./components/GamesHub').then(module => ({ de
 const BlogSection = lazy(() => import('./components/BlogSection').then(module => ({ default: module.BlogSection })))
 const AboutSection = lazy(() => import('./components/AboutSection').then(module => ({ default: module.AboutSection })))
 
-const toSlug = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+const toSlug = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 
 function Loader() {
   return (
@@ -66,8 +67,11 @@ export default function App() {
   const [isStarted, setIsStarted] = useState(false)
 
 
-  // Inicializar Lenis (Smooth Scrolling) SOTA
+  // Inicializar Lenis (Smooth Scrolling) SOTA — desactivado si el usuario prefiere movimiento reducido
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return
+    }
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
@@ -270,28 +274,6 @@ export default function App() {
     return () => document.removeEventListener('pointerlockchange', handlePointerLockChange)
   }, [])
 
-  // 🎵 Autoplay Unlocker: Activa la BSO de Boards of Burgos en el primer toque/scroll sin requerir clic en el botón
-  useEffect(() => {
-    const unlockAudio = () => {
-      if (!audioActive) {
-        setAudioActive(true)
-      }
-      window.removeEventListener('pointerdown', unlockAudio)
-      window.removeEventListener('scroll', unlockAudio)
-      window.removeEventListener('mousemove', unlockAudio)
-    }
-
-    window.addEventListener('pointerdown', unlockAudio, { once: true })
-    window.addEventListener('scroll', unlockAudio, { once: true })
-    window.addEventListener('mousemove', unlockAudio, { once: true })
-
-    return () => {
-      window.removeEventListener('pointerdown', unlockAudio)
-      window.removeEventListener('scroll', unlockAudio)
-      window.removeEventListener('mousemove', unlockAudio)
-    }
-  }, [audioActive])
-
   return (
     <>
       <CustomCursor />
@@ -335,6 +317,7 @@ export default function App() {
               style={{ width: '100%' }}
             >
               <HomeHero />
+              <PremiumFooter />
             </motion.div>
           )}
 
@@ -351,6 +334,7 @@ export default function App() {
               <Suspense fallback={<Loader />}>
                 <GalleryGrid onInspect={handleInspect} />
               </Suspense>
+              <PremiumFooter />
             </motion.div>
           )}
 
@@ -385,6 +369,7 @@ export default function App() {
               <Suspense fallback={<Loader />}>
                 <CommissionCalculator />
               </Suspense>
+              <PremiumFooter />
             </motion.div>
           )}
 
@@ -401,6 +386,7 @@ export default function App() {
               <Suspense fallback={<Loader />}>
                 <GamesHub />
               </Suspense>
+              <PremiumFooter />
             </motion.div>
           )}
 
@@ -417,6 +403,7 @@ export default function App() {
               <Suspense fallback={<Loader />}>
                 <BlogSection />
               </Suspense>
+              <PremiumFooter />
             </motion.div>
           )}
 
@@ -433,15 +420,11 @@ export default function App() {
               <Suspense fallback={<Loader />}>
                 <AboutSection />
               </Suspense>
+              <PremiumFooter />
             </motion.div>
           )}
         </AnimatePresence>
 
-        {!isStarted && (
-          <div style={{ pointerEvents: 'auto', width: '100%', marginTop: 'auto' }}>
-            <PremiumFooter />
-          </div>
-        )}
       </div>
 
       {/* Escena 3D - FPS Game Engine */}
@@ -455,16 +438,18 @@ export default function App() {
             pointerEvents: isSceneActive ? 'auto' : 'none',
             transition: 'opacity 0.5s ease-in-out'
           }}>
-            <Scene
-              onInspectArtwork={handleInspect}
-              active={isSceneActive}
-              setInteractionPrompt={setInteractionPrompt}
-              isStarted={isStarted}
-              onPlayerMove={(pos, rot) => {
-                setPlayerPos(pos)
-                setPlayerRotation(rot)
-              }}
-            />
+            <TextureErrorBoundary label="Scene" fallback={null}>
+              <Scene
+                onInspectArtwork={handleInspect}
+                active={isSceneActive}
+                setInteractionPrompt={setInteractionPrompt}
+                isStarted={isStarted}
+                onPlayerMove={(pos, rot) => {
+                  setPlayerPos(pos)
+                  setPlayerRotation(rot)
+                }}
+              />
+            </TextureErrorBoundary>
           </div>
         </Suspense>
       )}
@@ -502,5 +487,3 @@ export default function App() {
     </>
   )
 }
-
-

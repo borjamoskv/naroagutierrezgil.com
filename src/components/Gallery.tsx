@@ -5,6 +5,53 @@ import { Image, Sparkles, useTexture, Html } from '@react-three/drei'
 import { easing } from 'maath'
 import { ARTWORKS } from '../artworks'
 import { sound } from '../utils/audio'
+import { TextureErrorBoundary } from './TextureErrorBoundary'
+
+// Marco de cortesía cuando la textura de una obra no está disponible
+function FallbackFrame({
+  position,
+  rotation,
+  scale,
+  title
+}: {
+  position: [number, number, number]
+  rotation: [number, number, number]
+  scale: [number, number, number]
+  title: string
+}) {
+  return (
+    <group position={position} rotation={rotation}>
+      <mesh position={[0, 0, -0.04]} scale={[scale[0] + 0.16, scale[1] + 0.16, 0.04]}>
+        <boxGeometry />
+        <meshStandardMaterial color="#14151c" metalness={0.7} roughness={0.35} />
+      </mesh>
+      <mesh scale={[scale[0], scale[1], 0.02]}>
+        <boxGeometry />
+        <meshStandardMaterial color="#0A0A0A" metalness={0.4} roughness={0.6} />
+      </mesh>
+      <Html position={[0, 0, 0.06]} center distanceFactor={8}>
+        <div
+          style={{
+            padding: '6px 14px',
+            border: '1px solid rgba(43, 59, 229, 0.6)',
+            borderRadius: '10px',
+            background: 'rgba(10, 10, 10, 0.85)',
+            color: '#8D97FF',
+            fontSize: '11px',
+            fontWeight: 700,
+            fontFamily: 'monospace',
+            letterSpacing: '1px',
+            textTransform: 'uppercase',
+            whiteSpace: 'nowrap',
+            pointerEvents: 'none'
+          }}
+        >
+          {title}
+        </div>
+      </Html>
+    </group>
+  )
+}
 
 if (typeof window !== 'undefined') {
   ARTWORKS.forEach((a) => {
@@ -162,6 +209,7 @@ export function Gallery({
         position: [Math.sin(angle) * radius, 1.7, Math.cos(angle) * radius] as [number, number, number],
         rotation: [0, angle + Math.PI, 0] as [number, number, number], // Mirando hacia adentro del círculo
         url: artwork.url,
+        title: artwork.title,
         href: artwork.href,
         splatUrl: artwork.splatUrl,
         scale: [3.1, 4.1, 1] as [number, number, number],
@@ -257,13 +305,25 @@ export function Gallery({
       )}
 
       {items.map((item, i) => (
-        <GalleryItem
+        <TextureErrorBoundary
           key={i}
-          index={i}
-          isSelected={selectedIndex === i}
-          reducedMotion={reducedMotion}
-          {...item}
-        />
+          label={item.title}
+          fallback={
+            <FallbackFrame
+              position={item.position}
+              rotation={item.rotation}
+              scale={item.scale}
+              title={item.title}
+            />
+          }
+        >
+          <GalleryItem
+            index={i}
+            isSelected={selectedIndex === i}
+            reducedMotion={reducedMotion}
+            {...item}
+          />
+        </TextureErrorBoundary>
       ))}
     </group>
   )
