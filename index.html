@@ -17,10 +17,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
-    <meta name="description" content="Galería de arte y retratos por Naroa Gutiérrez Gil. Hiperrealismo POP sobre pizarra, mica y lienzo." />
+    <meta name="description" content="Catálogo completo de obras y retratos de Naroa Gutiérrez Gil. Hiperrealismo POP sobre pizarra, mica y lienzo desde Bilbao." />
     <meta name="author" content="Naroa Gutiérrez Gil" />
 
-    <title>Naroa Gutiérrez Gil — Artista Visual | Galería de Obras</title>
+    <title>Naroa Gutiérrez Gil — Colección Completa de Obras (155 Obras)</title>
 
     <style>
       :root {
@@ -41,7 +41,7 @@
       img { max-width: 100%; height: auto; display: block; }
       a { color: inherit; text-decoration: none; }
 
-      .container { width: 94%; max-width: 1400px; margin: 0 auto; }
+      .container { width: 94%; max-width: 1600px; margin: 0 auto; }
 
       /* HEADER */
       header {
@@ -49,7 +49,7 @@
         top: 0; left: 0; right: 0;
         z-index: 100;
         padding: 1.25rem 0;
-        background: rgba(7, 7, 9, 0.85);
+        background: rgba(7, 7, 9, 0.88);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -67,6 +67,12 @@
         text-transform: uppercase;
       }
       .brand span { color: var(--accent); }
+      .header-count {
+        font-size: 0.8rem;
+        color: var(--text-sub);
+        font-weight: 600;
+        letter-spacing: 0.05em;
+      }
       .header-cta {
         display: inline-flex;
         align-items: center;
@@ -103,12 +109,13 @@
 
       /* MASONRY GALLERY */
       .gallery-grid {
-        column-count: 3;
+        column-count: 4;
         column-gap: 1.25rem;
         padding-bottom: 5rem;
       }
-      @media (max-width: 900px) { .gallery-grid { column-count: 2; } }
-      @media (max-width: 550px) { .gallery-grid { column-count: 1; } }
+      @media (max-width: 1200px) { .gallery-grid { column-count: 3; } }
+      @media (max-width: 800px) { .gallery-grid { column-count: 2; } }
+      @media (max-width: 480px) { .gallery-grid { column-count: 1; } }
 
       .art-item {
         break-inside: avoid;
@@ -137,8 +144,7 @@
         transition: opacity 0.3s;
       }
       .art-item:hover .art-caption { opacity: 1; }
-      .art-name { font-family: var(--font-title); font-size: 1.15rem; font-weight: 700; }
-      .art-tech { font-size: 0.78rem; color: var(--text-sub); margin-top: 0.15rem; }
+      .art-name { font-family: var(--font-title); font-size: 1.05rem; font-weight: 700; }
 
       /* LIGHTBOX MODAL */
       .lightbox {
@@ -207,14 +213,15 @@
     <header>
       <div class="container">
         <a href="#" class="brand">NAROA <span>GUTIÉRREZ GIL</span></a>
-        <a href="https://wa.me/34636060609?text=Hola%20Naroa!%20Te%20contacto%20desde%20tu%20web..." class="header-cta" target="_blank" rel="noopener noreferrer">💬 WhatsApp Directo</a>
+        <div class="header-count">155 OBRAS EN CATÁLOGO</div>
+        <a href="https://wa.me/34636060609?text=Hola%20Naroa!%20Te%20contacto%20desde%20tu%20galeria..." class="header-cta" target="_blank" rel="noopener noreferrer">💬 WhatsApp Directo</a>
       </div>
     </header>
 
     <!-- HERO TITLE -->
     <div class="page-hero">
       <div class="container">
-        <h1>GALERÍA DE OBRAS</h1>
+        <h1>CATÁLOGO COMPLETO DE OBRAS</h1>
         <p>Hiperrealismo POP · Acrílico, Óleo, Pizarra y Mica Mineral · Bilbao</p>
       </div>
     </div>
@@ -222,94 +229,625 @@
     <!-- GALLERY -->
     <main class="container">
       <div class="gallery-grid">
-        <div class="art-item" onclick="openLightbox('/assets/marilyn-rocks--qPeLHxE.webp')">
-          <img src="/assets/marilyn-rocks--qPeLHxE.webp" alt="Marilyn Rocks" loading="eager" />
-          <div class="art-caption"><div class="art-name">Marilyn Rocks</div><div class="art-tech">Óleo y Acrílico sobre Lienzo</div></div>
+        <div class="art-item" onclick="openLightbox('/assets/292544889_3277546379149645_1460977192858455652_n.webp')">
+          <img src="/assets/292544889_3277546379149645_1460977192858455652_n.webp" alt="292544889 3277546379149645 1460977192858455652 N" loading="eager" />
+          <div class="art-caption"><div class="art-name">292544889 3277546379149645 1460977192858455652 N</div></div>
         </div>
-
-        <div class="art-item" onclick="openLightbox('/assets/hq-amy-BRTriASV.webp')">
-          <img src="/assets/hq-amy-BRTriASV.webp" alt="Amy Rocks" loading="eager" />
-          <div class="art-caption"><div class="art-name">Amy Rocks</div><div class="art-tech">Acrílico sobre Pizarra Natural</div></div>
+        <div class="art-item" onclick="openLightbox('/assets/594972277_1543116283834454_8672784625256696657_n.webp')">
+          <img src="/assets/594972277_1543116283834454_8672784625256696657_n.webp" alt="594972277 1543116283834454 8672784625256696657 N" loading="eager" />
+          <div class="art-caption"><div class="art-name">594972277 1543116283834454 8672784625256696657 N</div></div>
         </div>
-
-        <div class="art-item" onclick="openLightbox('/assets/freddie-mercury-queen.webp')">
-          <img src="/assets/freddie-mercury-queen.webp" alt="Freddie Mercury" loading="lazy" />
-          <div class="art-caption"><div class="art-name">Freddie Mercury</div><div class="art-tech">Óleo sobre Lienzo</div></div>
+        <div class="art-item" onclick="openLightbox('/assets/600258291_1552125946266821_6847049145049928090_n.webp')">
+          <img src="/assets/600258291_1552125946266821_6847049145049928090_n.webp" alt="600258291 1552125946266821 6847049145049928090 N" loading="eager" />
+          <div class="art-caption"><div class="art-name">600258291 1552125946266821 6847049145049928090 N</div></div>
         </div>
-
-        <div class="art-item" onclick="openLightbox('/assets/obra-frida-kintsugi-slate.webp')">
-          <img src="/assets/obra-frida-kintsugi-slate.webp" alt="Frida Kintsugi" loading="lazy" />
-          <div class="art-caption"><div class="art-name">Frida Kintsugi</div><div class="art-tech">Pan de Oro sobre Pizarra</div></div>
+        <div class="art-item" onclick="openLightbox('/assets/601340023_1552126202933462_7815927344957967258_n.webp')">
+          <img src="/assets/601340023_1552126202933462_7815927344957967258_n.webp" alt="601340023 1552126202933462 7815927344957967258 N" loading="eager" />
+          <div class="art-caption"><div class="art-name">601340023 1552126202933462 7815927344957967258 N</div></div>
         </div>
-
-        <div class="art-item" onclick="openLightbox('/assets/audrey-hepburn-DbIBTtIp.webp')">
-          <img src="/assets/audrey-hepburn-DbIBTtIp.webp" alt="Audrey Hepburn" loading="lazy" />
-          <div class="art-caption"><div class="art-name">Audrey Hepburn</div><div class="art-tech">Acrílico sobre Pizarra</div></div>
+        <div class="art-item" onclick="openLightbox('/assets/608211438_1562089535270462_2827127275272133326_n.webp')">
+          <img src="/assets/608211438_1562089535270462_2827127275272133326_n.webp" alt="608211438 1562089535270462 2827127275272133326 N" loading="eager" />
+          <div class="art-caption"><div class="art-name">608211438 1562089535270462 2827127275272133326 N</div></div>
         </div>
-
-        <div class="art-item" onclick="openLightbox('/assets/bowie-space-oddity.webp')">
-          <img src="/assets/bowie-space-oddity.webp" alt="David Bowie Space Oddity" loading="lazy" />
-          <div class="art-caption"><div class="art-name">Space Oddity · Bowie</div><div class="art-tech">Acrílico y Posca</div></div>
+        <div class="art-item" onclick="openLightbox('/assets/612329591_1571120784367337_8798688892093004057_n.webp')">
+          <img src="/assets/612329591_1571120784367337_8798688892093004057_n.webp" alt="612329591 1571120784367337 8798688892093004057 N" loading="eager" />
+          <div class="art-caption"><div class="art-name">612329591 1571120784367337 8798688892093004057 N</div></div>
         </div>
-
-        <div class="art-item" onclick="openLightbox('/assets/camaron.webp')">
-          <img src="/assets/camaron.webp" alt="Camarón de la Isla" loading="lazy" />
-          <div class="art-caption"><div class="art-name">Camarón de la Isla</div><div class="art-tech">Acrílico sobre Lienzo</div></div>
+        <div class="art-item" onclick="openLightbox('/assets/615438426_1577822580363824_2923463327956560352_n.webp')">
+          <img src="/assets/615438426_1577822580363824_2923463327956560352_n.webp" alt="615438426 1577822580363824 2923463327956560352 N" loading="lazy" />
+          <div class="art-caption"><div class="art-name">615438426 1577822580363824 2923463327956560352 N</div></div>
         </div>
-
-        <div class="art-item" onclick="openLightbox('/assets/obra-el-beso-de-mica.webp')">
-          <img src="/assets/obra-el-beso-de-mica.webp" alt="El Beso de Mica" loading="lazy" />
-          <div class="art-caption"><div class="art-name">El Beso de Mica</div><div class="art-tech">Mica Mineral y Acrílico</div></div>
+        <div class="art-item" onclick="openLightbox('/assets/615443765_1577822577030491_9008867371114744175_n.webp')">
+          <img src="/assets/615443765_1577822577030491_9008867371114744175_n.webp" alt="615443765 1577822577030491 9008867371114744175 N" loading="lazy" />
+          <div class="art-caption"><div class="art-name">615443765 1577822577030491 9008867371114744175 N</div></div>
         </div>
-
-        <div class="art-item" onclick="openLightbox('/assets/james-dean-slate.webp')">
-          <img src="/assets/james-dean-slate.webp" alt="James Dean" loading="lazy" />
-          <div class="art-caption"><div class="art-name">James Dean</div><div class="art-tech">Acrílico sobre Pizarra</div></div>
+        <div class="art-item" onclick="openLightbox('/assets/615932964_1577822457030503_2110397705300850911_n.webp')">
+          <img src="/assets/615932964_1577822457030503_2110397705300850911_n.webp" alt="615932964 1577822457030503 2110397705300850911 N" loading="lazy" />
+          <div class="art-caption"><div class="art-name">615932964 1577822457030503 2110397705300850911 N</div></div>
         </div>
-
-        <div class="art-item" onclick="openLightbox('/assets/marilyn-pop-gold.webp')">
-          <img src="/assets/marilyn-pop-gold.webp" alt="Marilyn POP Gold" loading="lazy" />
-          <div class="art-caption"><div class="art-name">Marilyn POP Gold</div><div class="art-tech">Acrílico y Oro sobre Lienzo</div></div>
+        <div class="art-item" onclick="openLightbox('/assets/615955827_1577822687030480_2386611372471959463_n.webp')">
+          <img src="/assets/615955827_1577822687030480_2386611372471959463_n.webp" alt="615955827 1577822687030480 2386611372471959463 N" loading="lazy" />
+          <div class="art-caption"><div class="art-name">615955827 1577822687030480 2386611372471959463 N</div></div>
         </div>
-
-        <div class="art-item" onclick="openLightbox('/assets/cantinflas-kintsugi.webp')">
-          <img src="/assets/cantinflas-kintsugi.webp" alt="Cantinflas Kintsugi" loading="lazy" />
-          <div class="art-caption"><div class="art-name">Cantinflas Kintsugi</div><div class="art-tech">Acrílico y Oro sobre Pizarra</div></div>
+        <div class="art-item" onclick="openLightbox('/assets/616035859_1577822453697170_3937842745320602184_n.webp')">
+          <img src="/assets/616035859_1577822453697170_3937842745320602184_n.webp" alt="616035859 1577822453697170 3937842745320602184 N" loading="lazy" />
+          <div class="art-caption"><div class="art-name">616035859 1577822453697170 3937842745320602184 N</div></div>
         </div>
-
-        <div class="art-item" onclick="openLightbox('/assets/divinos-marilyn-By8KYPMI.webp')">
-          <img src="/assets/divinos-marilyn-By8KYPMI.webp" alt="Divinos Marilyn" loading="lazy" />
-          <div class="art-caption"><div class="art-name">Divinos · Marilyn</div><div class="art-tech">Serie Exposición</div></div>
+        <div class="art-item" onclick="openLightbox('/assets/616115287_1577822747030474_1432330062205548806_n.webp')">
+          <img src="/assets/616115287_1577822747030474_1432330062205548806_n.webp" alt="616115287 1577822747030474 1432330062205548806 N" loading="lazy" />
+          <div class="art-caption"><div class="art-name">616115287 1577822747030474 1432330062205548806 N</div></div>
         </div>
-
-        <div class="art-item" onclick="openLightbox('/assets/amy-rocks-new.webp')">
-          <img src="/assets/amy-rocks-new.webp" alt="Amy Winehouse II" loading="lazy" />
-          <div class="art-caption"><div class="art-name">Amy Winehouse II</div><div class="art-tech">Acrílico sobre Pizarra</div></div>
+        <div class="art-item" onclick="openLightbox('/assets/616198291_1577822413697174_3337151405885426240_n.webp')">
+          <img src="/assets/616198291_1577822413697174_3337151405885426240_n.webp" alt="616198291 1577822413697174 3337151405885426240 N" loading="lazy" />
+          <div class="art-caption"><div class="art-name">616198291 1577822413697174 3337151405885426240 N</div></div>
         </div>
-
+        <div class="art-item" onclick="openLightbox('/assets/616822144_1580323063447109_589182952237233174_n.webp')">
+          <img src="/assets/616822144_1580323063447109_589182952237233174_n.webp" alt="616822144 1580323063447109 589182952237233174 N" loading="lazy" />
+          <div class="art-caption"><div class="art-name">616822144 1580323063447109 589182952237233174 N</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/616994481_1577822437030505_8337096648607967605_n.webp')">
+          <img src="/assets/616994481_1577822437030505_8337096648607967605_n.webp" alt="616994481 1577822437030505 8337096648607967605 N" loading="lazy" />
+          <div class="art-caption"><div class="art-name">616994481 1577822437030505 8337096648607967605 N</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/622453257_1583899099756172_4197872465466826396_n.webp')">
+          <img src="/assets/622453257_1583899099756172_4197872465466826396_n.webp" alt="622453257 1583899099756172 4197872465466826396 N" loading="lazy" />
+          <div class="art-caption"><div class="art-name">622453257 1583899099756172 4197872465466826396 N</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/648843106_1623950012417747_2278290628706124542_n.webp')">
+          <img src="/assets/648843106_1623950012417747_2278290628706124542_n.webp" alt="648843106 1623950012417747 2278290628706124542 N" loading="lazy" />
+          <div class="art-caption"><div class="art-name">648843106 1623950012417747 2278290628706124542 N</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/Naroa x16.webp')">
+          <img src="/assets/Naroa x16.webp" alt="Naroa X16" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Naroa X16</div></div>
+        </div>
         <div class="art-item" onclick="openLightbox('/assets/agassi-out.webp')">
           <img src="/assets/agassi-out.webp" alt="Agassi Out" loading="lazy" />
-          <div class="art-caption"><div class="art-name">Agassi Out</div><div class="art-tech">Hiperrealismo POP</div></div>
+          <div class="art-caption"><div class="art-name">Agassi Out</div></div>
         </div>
-
+        <div class="art-item" onclick="openLightbox('/assets/amor-en-conserva-CMHRIKXx.webp')">
+          <img src="/assets/amor-en-conserva-CMHRIKXx.webp" alt="Amor En Conserva" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Amor En Conserva</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/amy-new.webp')">
+          <img src="/assets/amy-new.webp" alt="Amy New" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Amy New</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/amy-rocks-new.webp')">
+          <img src="/assets/amy-rocks-new.webp" alt="Amy Rocks New" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Amy Rocks New</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/amy-winehouse-soul.webp')">
+          <img src="/assets/amy-winehouse-soul.webp" alt="Amy Winehouse Soul" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Amy Winehouse Soul</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/amy.webp')">
+          <img src="/assets/amy.webp" alt="Amy" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Amy</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/audrey-frutas.webp')">
+          <img src="/assets/audrey-frutas.webp" alt="Audrey Frutas" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Audrey Frutas</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/audrey-hepburn-DbIBTtIp.webp')">
+          <img src="/assets/audrey-hepburn-DbIBTtIp.webp" alt="Audrey Hepburn" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Audrey Hepburn</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/audrey-sparkle.webp')">
+          <img src="/assets/audrey-sparkle.webp" alt="Audrey Sparkle" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Audrey Sparkle</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/autorretrato-de-maxime.webp')">
+          <img src="/assets/autorretrato-de-maxime.webp" alt="Autorretrato De Maxime" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Autorretrato De Maxime</div></div>
+        </div>
         <div class="art-item" onclick="openLightbox('/assets/baroque-farrokh-mjg4ClA9.webp')">
           <img src="/assets/baroque-farrokh-mjg4ClA9.webp" alt="Baroque Farrokh" loading="lazy" />
-          <div class="art-caption"><div class="art-name">Baroque Farrokh</div><div class="art-tech">Óleo y Acrílico</div></div>
+          <div class="art-caption"><div class="art-name">Baroque Farrokh</div></div>
         </div>
-
+        <div class="art-item" onclick="openLightbox('/assets/bebe-cochecitos.webp')">
+          <img src="/assets/bebe-cochecitos.webp" alt="Bebe Cochecitos" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Bebe Cochecitos</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/blue-james.webp')">
+          <img src="/assets/blue-james.webp" alt="Blue James" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Blue James</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/bowie-space-oddity.webp')">
+          <img src="/assets/bowie-space-oddity.webp" alt="Bowie Space Oddity" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Bowie Space Oddity</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/cajita-mujer-sombrero-2.webp')">
+          <img src="/assets/cajita-mujer-sombrero-2.webp" alt="Cajita Mujer Sombrero 2" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Cajita Mujer Sombrero 2</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/cajita-mujer-sombrero.webp')">
+          <img src="/assets/cajita-mujer-sombrero.webp" alt="Cajita Mujer" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Cajita Mujer</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/cajita-roja-cerrada.webp')">
+          <img src="/assets/cajita-roja-cerrada.webp" alt="Cajita Roja Cerrada" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Cajita Roja Cerrada</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/camaron.webp')">
+          <img src="/assets/camaron.webp" alt="Camaron" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Camaron</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/cantinflas-0-D712oJYO.webp')">
+          <img src="/assets/cantinflas-0-D712oJYO.webp" alt="Cantinflas 0" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Cantinflas 0</div></div>
+        </div>
         <div class="art-item" onclick="openLightbox('/assets/cantinflas-barroco.webp')">
           <img src="/assets/cantinflas-barroco.webp" alt="Cantinflas Barroco" loading="lazy" />
-          <div class="art-caption"><div class="art-name">Cantinflas Barroco</div><div class="art-tech">Acrílico sobre Lienzo</div></div>
+          <div class="art-caption"><div class="art-name">Cantinflas Barroco</div></div>
         </div>
-
-        <div class="art-item" onclick="openLightbox('/assets/autorretrato-de-maxime.webp')">
-          <img src="/assets/autorretrato-de-maxime.webp" alt="Autorretrato Maxime" loading="lazy" />
-          <div class="art-caption"><div class="art-name">Autorretrato Maxime</div><div class="art-tech">Estudio y Técnica Mixta</div></div>
+        <div class="art-item" onclick="openLightbox('/assets/cantinflas-kintsugi.webp')">
+          <img src="/assets/cantinflas-kintsugi.webp" alt="Cantinflas" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Cantinflas</div></div>
         </div>
-
+        <div class="art-item" onclick="openLightbox('/assets/cantinflas-mexicano.webp')">
+          <img src="/assets/cantinflas-mexicano.webp" alt="Cantinflas" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Cantinflas</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/cantinflowers-new.webp')">
+          <img src="/assets/cantinflowers-new.webp" alt="Cantinflowers New" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Cantinflowers New</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/carole-lombard.webp')">
+          <img src="/assets/carole-lombard.webp" alt="Carole Lombard" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Carole Lombard</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/celia-cruz-cantinflowers-DO-SRKMB.webp')">
+          <img src="/assets/celia-cruz-cantinflowers-DO-SRKMB.webp" alt="Celia Cruz Cantinflowers" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Celia Cruz Cantinflowers</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/chenk.webp')">
+          <img src="/assets/chenk.webp" alt="Chenk" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Chenk</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/chico-pez.webp')">
+          <img src="/assets/chico-pez.webp" alt="Chico Pez" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Chico Pez</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/comic-life.webp')">
+          <img src="/assets/comic-life.webp" alt="Comic Life" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Comic Life</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/como-caer-bien-c-mon.webp')">
+          <img src="/assets/como-caer-bien-c-mon.webp" alt="Como Caer Bien C Mon" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Como Caer Bien C Mon</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/como-no-tenerlo.webp')">
+          <img src="/assets/como-no-tenerlo.webp" alt="Como No Tenerlo" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Como No Tenerlo</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/concurso-con-mi-torso-al-dorso.webp')">
+          <img src="/assets/concurso-con-mi-torso-al-dorso.webp" alt="Concurso Con Mi Torso" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Concurso Con Mi Torso</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/cotton-girl.webp')">
+          <img src="/assets/cotton-girl.webp" alt="Cotton Girl" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Cotton Girl</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/dar-la-lata-DxWlKgS-.webp')">
+          <img src="/assets/dar-la-lata-DxWlKgS-.webp" alt="Dar La Lata" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Dar La Lata</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/denis.webp')">
+          <img src="/assets/denis.webp" alt="Denis" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Denis</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/diva-tartan.webp')">
+          <img src="/assets/diva-tartan.webp" alt="Diva Tartan" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Diva Tartan</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/divinos-amy-Celol3XJ.webp')">
+          <img src="/assets/divinos-amy-Celol3XJ.webp" alt="Divinos Amy" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Divinos Amy</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/divinos-johnny-gl9M1ZKj.webp')">
+          <img src="/assets/divinos-johnny-gl9M1ZKj.webp" alt="Divinos Johnny" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Divinos Johnny</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/divinos-marilyn-By8KYPMI.webp')">
+          <img src="/assets/divinos-marilyn-By8KYPMI.webp" alt="Divinos Marilyn" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Divinos Marilyn</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/do-they-match.webp')">
+          <img src="/assets/do-they-match.webp" alt="Do They Match" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Do They Match</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/dreaming-a-life.webp')">
+          <img src="/assets/dreaming-a-life.webp" alt="Dreaming A Life" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Dreaming A Life</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/el-gordo.webp')">
+          <img src="/assets/el-gordo.webp" alt="El Gordo" loading="lazy" />
+          <div class="art-caption"><div class="art-name">El Gordo</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/el-gran-dakari-C1tAWAhR.webp')">
+          <img src="/assets/el-gran-dakari-C1tAWAhR.webp" alt="El Gran Dakari" loading="lazy" />
+          <div class="art-caption"><div class="art-name">El Gran Dakari</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/el-luisma.webp')">
+          <img src="/assets/el-luisma.webp" alt="El Luisma" loading="lazy" />
+          <div class="art-caption"><div class="art-name">El Luisma</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/en-caja-CDdrJMsP.webp')">
+          <img src="/assets/en-caja-CDdrJMsP.webp" alt="En Caja" loading="lazy" />
+          <div class="art-caption"><div class="art-name">En Caja</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/es-l-a-hora.webp')">
+          <img src="/assets/es-l-a-hora.webp" alt="Es" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Es</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/espejo-alma-piensa.webp')">
+          <img src="/assets/espejo-alma-piensa.webp" alt="Espejo Alma Piensa" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Espejo Alma Piensa</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/expo-artistas-emergentes.webp')">
+          <img src="/assets/expo-artistas-emergentes.webp" alt="Expo Artistas Emergentes" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Expo Artistas Emergentes</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/expo-bilbao-art-market.webp')">
+          <img src="/assets/expo-bilbao-art-market.webp" alt="Expo Bilbao Art Market" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Expo Bilbao Art Market</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/expo-divinos-vaivenes.webp')">
+          <img src="/assets/expo-divinos-vaivenes.webp" alt="Expo Divinos" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Expo Divinos</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/expo-espejos-alma.webp')">
+          <img src="/assets/expo-espejos-alma.webp" alt="Expo Espejos Alma" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Expo Espejos Alma</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/expo-facefood-plentzia.webp')">
+          <img src="/assets/expo-facefood-plentzia.webp" alt="Expo Facefood" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Expo Facefood</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/expo-identity-fragments.webp')">
+          <img src="/assets/expo-identity-fragments.webp" alt="Expo Identity Fragments" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Expo Identity Fragments</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/expo-mujeres-creadoras.webp')">
+          <img src="/assets/expo-mujeres-creadoras.webp" alt="Expo Mujeres Creadoras" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Expo Mujeres Creadoras</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/expo-repoker-reinas.webp')">
+          <img src="/assets/expo-repoker-reinas.webp" alt="Expo Repoker Reinas" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Expo Repoker Reinas</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/exposicion-politena.webp')">
+          <img src="/assets/exposicion-politena.webp" alt="Exposicion" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Exposicion</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/freddie-mercury-queen.webp')">
+          <img src="/assets/freddie-mercury-queen.webp" alt="Freddie Mercury Queen" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Freddie Mercury Queen</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/geisha-MfRtKWdu.webp')">
+          <img src="/assets/geisha-MfRtKWdu.webp" alt="Geisha" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Geisha</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/guerrero-bandana.webp')">
+          <img src="/assets/guerrero-bandana.webp" alt="Guerrero Bandana" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Guerrero Bandana</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/guitarrista.webp')">
+          <img src="/assets/guitarrista.webp" alt="Guitarrista" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Guitarrista</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/hacer_el_indio_1783824336337.webp')">
+          <img src="/assets/hacer_el_indio_1783824336337.webp" alt="Hacer El Indio" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Hacer El Indio</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/hammock-in-tin-XD5nAoyg.webp')">
+          <img src="/assets/hammock-in-tin-XD5nAoyg.webp" alt="Hammock In Tin" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Hammock In Tin</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/he-creado-un-angel-verde-y-gris.webp')">
+          <img src="/assets/he-creado-un-angel-verde-y-gris.webp" alt="He Creado Un Angel Verde Y Gris" loading="lazy" />
+          <div class="art-caption"><div class="art-name">He Creado Un Angel Verde Y Gris</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/hq-amy-BRTriASV.webp')">
+          <img src="/assets/hq-amy-BRTriASV.webp" alt="Hq Amy" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Hq Amy</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/hq-james-CjsTrO7r.webp')">
+          <img src="/assets/hq-james-CjsTrO7r.webp" alt="Hq James" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Hq James</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/hq-johnny-5ueL8eU0.webp')">
+          <img src="/assets/hq-johnny-5ueL8eU0.webp" alt="Hq Johnny" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Hq Johnny</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/hq-portrait-1-bV-_WHlX.webp')">
+          <img src="/assets/hq-portrait-1-bV-_WHlX.webp" alt="Hq Portrait 1" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Hq Portrait 1</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/icono-cine-clasico.webp')">
+          <img src="/assets/icono-cine-clasico.webp" alt="Icono Cine Clasico" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Icono Cine Clasico</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/it-s-a-men-s-world.webp')">
+          <img src="/assets/it-s-a-men-s-world.webp" alt="It S A Men S World" loading="lazy" />
+          <div class="art-caption"><div class="art-name">It S A Men S World</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/james-dean-slate.webp')">
+          <img src="/assets/james-dean-slate.webp" alt="James Dean Slate" loading="lazy" />
+          <div class="art-caption"><div class="art-name">James Dean Slate</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/james-new.webp')">
+          <img src="/assets/james-new.webp" alt="James New" loading="lazy" />
+          <div class="art-caption"><div class="art-name">James New</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/james-rocks-new.webp')">
+          <img src="/assets/james-rocks-new.webp" alt="James Rocks New" loading="lazy" />
+          <div class="art-caption"><div class="art-name">James Rocks New</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/james.webp')">
+          <img src="/assets/james.webp" alt="James" loading="lazy" />
+          <div class="art-caption"><div class="art-name">James</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/johnny-new.webp')">
+          <img src="/assets/johnny-new.webp" alt="Johnny New" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Johnny New</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/la-pensadora-CFHSnMA0.webp')">
+          <img src="/assets/la-pensadora-CFHSnMA0.webp" alt="La Pensadora" loading="lazy" />
+          <div class="art-caption"><div class="art-name">La Pensadora</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/la-pensadora-eu-26.webp')">
+          <img src="/assets/la-pensadora-eu-26.webp" alt="La Pensadora Eu 26" loading="lazy" />
+          <div class="art-caption"><div class="art-name">La Pensadora Eu 26</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/la_famiglia_1783824320607.webp')">
+          <img src="/assets/la_famiglia_1783824320607.webp" alt="La Famiglia" loading="lazy" />
+          <div class="art-caption"><div class="art-name">La Famiglia</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/lagrimas-de-oro-DikHc-Tk.webp')">
+          <img src="/assets/lagrimas-de-oro-DikHc-Tk.webp" alt="Lagrimas De Oro" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Lagrimas De Oro</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/lagrimas.webp')">
+          <img src="/assets/lagrimas.webp" alt="Lagrimas" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Lagrimas</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/lip-balm.webp')">
+          <img src="/assets/lip-balm.webp" alt="Lip Balm" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Lip Balm</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/lo-que-el-ojo-no-ve.webp')">
+          <img src="/assets/lo-que-el-ojo-no-ve.webp" alt="Lo Que El Ojo No Ve" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Lo Que El Ojo No Ve</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/love-DA7L_L5F.webp')">
+          <img src="/assets/love-DA7L_L5F.webp" alt="Love" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Love</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/m-s.webp')">
+          <img src="/assets/m-s.webp" alt="M S" loading="lazy" />
+          <div class="art-caption"><div class="art-name">M S</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/m.webp')">
+          <img src="/assets/m.webp" alt="M" loading="lazy" />
+          <div class="art-caption"><div class="art-name">M</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/marilyn-new.webp')">
+          <img src="/assets/marilyn-new.webp" alt="Marilyn New" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Marilyn New</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/marilyn-pop-gold.webp')">
+          <img src="/assets/marilyn-pop-gold.webp" alt="Marilyn" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Marilyn</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/marilyn-rocks--qPeLHxE.webp')">
+          <img src="/assets/marilyn-rocks--qPeLHxE.webp" alt="Marilyn Rocks" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Marilyn Rocks</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/monster-dragon-QQiqdImO.webp')">
+          <img src="/assets/monster-dragon-QQiqdImO.webp" alt="Monster Dragon" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Monster Dragon</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/mr-fahrenheit-BzcoVisa.webp')">
+          <img src="/assets/mr-fahrenheit-BzcoVisa.webp" alt="Mr Fahrenheit" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Mr Fahrenheit</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/naroa-facepaint-cuadro.webp')">
+          <img src="/assets/naroa-facepaint-cuadro.webp" alt="Naroa Facepaint Cuadro" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Naroa Facepaint Cuadro</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/naroa-portrait-DW8XfHYG.webp')">
+          <img src="/assets/naroa-portrait-DW8XfHYG.webp" alt="Naroa Portrait" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Naroa Portrait</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/naroa-portrait-new.webp')">
+          <img src="/assets/naroa-portrait-new.webp" alt="Naroa Portrait New" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Naroa Portrait New</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/obra-david-bowie-stardust.webp')">
+          <img src="/assets/obra-david-bowie-stardust.webp" alt="Obra David Bowie" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Obra David Bowie</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/obra-el-beso-de-mica.webp')">
+          <img src="/assets/obra-el-beso-de-mica.webp" alt="Obra El Beso De Mica" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Obra El Beso De Mica</div></div>
+        </div>
         <div class="art-item" onclick="openLightbox('/assets/obra-el-recreo-taller.webp')">
-          <img src="/assets/obra-el-recreo-taller.webp" alt="El Recreo Taller" loading="lazy" />
-          <div class="art-caption"><div class="art-name">El Recreo Taller</div><div class="art-tech">Obra de Taller</div></div>
+          <img src="/assets/obra-el-recreo-taller.webp" alt="Obra El Recreo Taller" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Obra El Recreo Taller</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/obra-frida-kintsugi-slate.webp')">
+          <img src="/assets/obra-frida-kintsugi-slate.webp" alt="Obra Frida Kintsugi Slate" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Obra Frida Kintsugi Slate</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/obra-kintsugi-gold-slate.webp')">
+          <img src="/assets/obra-kintsugi-gold-slate.webp" alt="Obra Kintsugi Gold Slate" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Obra Kintsugi Gold Slate</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/obra-lagrimas-de-oro.webp')">
+          <img src="/assets/obra-lagrimas-de-oro.webp" alt="Obra Lagrimas De Oro" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Obra Lagrimas De Oro</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/obra-pajarraca-de-luz.webp')">
+          <img src="/assets/obra-pajarraca-de-luz.webp" alt="Obra Pajarraca De Luz" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Obra Pajarraca De Luz</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/obra-sardine-tin.webp')">
+          <img src="/assets/obra-sardine-tin.webp" alt="Obra Sardine Tin" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Obra Sardine Tin</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/ojo-magico.webp')">
+          <img src="/assets/ojo-magico.webp" alt="Ojo Magico" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Ojo Magico</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/one-love.webp')">
+          <img src="/assets/one-love.webp" alt="One Love" loading="lazy" />
+          <div class="art-caption"><div class="art-name">One Love</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/ozielos-sigue-el-camino-de-baldosas-bilbainas.webp')">
+          <img src="/assets/ozielos-sigue-el-camino-de-baldosas-bilbainas.webp" alt="Ozielos Sigue El Camino De Baldosas Bilbainas" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Ozielos Sigue El Camino De Baldosas Bilbainas</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/papitxulo.webp')">
+          <img src="/assets/papitxulo.webp" alt="Papitxulo" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Papitxulo</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/pareja-bn.webp')">
+          <img src="/assets/pareja-bn.webp" alt="Pareja Bn" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Pareja Bn</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/paul_newmum_1783824262669.webp')">
+          <img src="/assets/paul_newmum_1783824262669.webp" alt="Paul Newmum" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Paul Newmum</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/peter-rowan.webp')">
+          <img src="/assets/peter-rowan.webp" alt="Peter Rowan" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Peter Rowan</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/pink-and-sparkles-c4K6RUzC.webp')">
+          <img src="/assets/pink-and-sparkles-c4K6RUzC.webp" alt="Pink And Sparkles" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Pink And Sparkles</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/pippi-cartas.webp')">
+          <img src="/assets/pippi-cartas.webp" alt="Pippi Cartas" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Pippi Cartas</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/pippi.webp')">
+          <img src="/assets/pippi.webp" alt="Pippi" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Pippi</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/pizarra-mineral-viva.webp')">
+          <img src="/assets/pizarra-mineral-viva.webp" alt="Pizarra Mineral Viva" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Pizarra Mineral Viva</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/poesje.webp')">
+          <img src="/assets/poesje.webp" alt="Poesje" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Poesje</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/por-los-pelos.webp')">
+          <img src="/assets/por-los-pelos.webp" alt="Por Los Pelos" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Por Los Pelos</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/rattler.webp')">
+          <img src="/assets/rattler.webp" alt="Rattler" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Rattler</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/retrato-dorado.webp')">
+          <img src="/assets/retrato-dorado.webp" alt="Retrato Dorado" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Retrato Dorado</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/retrato-icono-naroa.webp')">
+          <img src="/assets/retrato-icono-naroa.webp" alt="Retrato Icono Naroa" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Retrato Icono Naroa</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/retrato-nina-explosivo.webp')">
+          <img src="/assets/retrato-nina-explosivo.webp" alt="Retrato Nina Explosivo" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Retrato Nina Explosivo</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/retrato-piedra.webp')">
+          <img src="/assets/retrato-piedra.webp" alt="Retrato Piedra" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Retrato Piedra</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/retrato-pink.webp')">
+          <img src="/assets/retrato-pink.webp" alt="Retrato Pink" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Retrato Pink</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/retrato-rizos-pulseras.webp')">
+          <img src="/assets/retrato-rizos-pulseras.webp" alt="Retrato Rizos" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Retrato Rizos</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/retrato-splash.webp')">
+          <img src="/assets/retrato-splash.webp" alt="Retrato Splash" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Retrato Splash</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/robe-mica-viva.webp')">
+          <img src="/assets/robe-mica-viva.webp" alt="Robe Mica Viva" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Robe Mica Viva</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/roisin-detalle.webp')">
+          <img src="/assets/roisin-detalle.webp" alt="Roisin Detalle" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Roisin Detalle</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/roisin-full.webp')">
+          <img src="/assets/roisin-full.webp" alt="Roisin Full" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Roisin Full</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/roisin-lapiz.webp')">
+          <img src="/assets/roisin-lapiz.webp" alt="Roisin Lapiz" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Roisin Lapiz</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/rosetta-tharpe.webp')">
+          <img src="/assets/rosetta-tharpe.webp" alt="Rosetta Tharpe" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Rosetta Tharpe</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/saioa.webp')">
+          <img src="/assets/saioa.webp" alt="Saioa" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Saioa</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/sardine-tin-collage-Bo41LZ-o.webp')">
+          <img src="/assets/sardine-tin-collage-Bo41LZ-o.webp" alt="Sardine Tin Collage" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Sardine Tin Collage</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/serie-miradas.webp')">
+          <img src="/assets/serie-miradas.webp" alt="Serie Miradas" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Serie Miradas</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/sigirinspired.webp')">
+          <img src="/assets/sigirinspired.webp" alt="Sigirinspired" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Sigirinspired</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/sonia.webp')">
+          <img src="/assets/sonia.webp" alt="Sonia" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Sonia</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/soy-un-amor-y-tengo-alas-ItTo7aOd.webp')">
+          <img src="/assets/soy-un-amor-y-tengo-alas-ItTo7aOd.webp" alt="Soy Un Amor Y Tengo Alas" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Soy Un Amor Y Tengo Alas</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/summer_monroe_1783824308258.webp')">
+          <img src="/assets/summer_monroe_1783824308258.webp" alt="Summer Monroe" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Summer Monroe</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/tedas-queen-GT9W8egT.webp')">
+          <img src="/assets/tedas-queen-GT9W8egT.webp" alt="Tedas Queen" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Tedas Queen</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/the-golden-couple-C9C95N75.webp')">
+          <img src="/assets/the-golden-couple-C9C95N75.webp" alt="The Golden Couple" loading="lazy" />
+          <div class="art-caption"><div class="art-name">The Golden Couple</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/the-great-escape.webp')">
+          <img src="/assets/the-great-escape.webp" alt="The Great Escape" loading="lazy" />
+          <div class="art-caption"><div class="art-name">The Great Escape</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/vintage-pop-portrait.webp')">
+          <img src="/assets/vintage-pop-portrait.webp" alt="Vintage Pop" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Vintage Pop</div></div>
+        </div>
+        <div class="art-item" onclick="openLightbox('/assets/wetever.webp')">
+          <img src="/assets/wetever.webp" alt="Wetever" loading="lazy" />
+          <div class="art-caption"><div class="art-name">Wetever</div></div>
         </div>
       </div>
     </main>
