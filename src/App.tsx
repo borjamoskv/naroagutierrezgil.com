@@ -26,6 +26,7 @@ const CommissionCalculator = lazy(() => import('./components/CommissionCalculato
 const GamesHub = lazy(() => import('./components/GamesHub').then(module => ({ default: module.GamesHub })))
 const BlogSection = lazy(() => import('./components/BlogSection').then(module => ({ default: module.BlogSection })))
 const AboutSection = lazy(() => import('./components/AboutSection').then(module => ({ default: module.AboutSection })))
+const AcousticCube3D = lazy(() => import('./components/AcousticCube3D').then(module => ({ default: module.AcousticCube3D })))
 
 const toSlug = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
 
@@ -341,6 +342,9 @@ export default function App() {
               style={{ width: '100%' }}
             >
               <HomeHero />
+              <Suspense fallback={<Loader />}>
+                <AcousticCube3D />
+              </Suspense>
             </motion.div>
           )}
 
