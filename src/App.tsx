@@ -1,530 +1,282 @@
-import { Suspense, lazy, useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ARTWORKS, type Artwork } from './artworks'
-import { ArtworkModal } from './components/ArtworkModal'
-
-
-import { sound } from './utils/audio'
-
-// Componentes estáticos
-import Lenis from 'lenis'
-import { CustomCursor } from './components/CustomCursor'
+import { TextureErrorBoundary } from './components/TextureErrorBoundary'
+import { Gallery } from './components/Gallery'
 import { NavigationPill } from './components/NavigationPill'
+import { ArtworkModal } from './components/ArtworkModal'
+import { AboutSection } from './components/AboutSection'
 import { HomeHero } from './components/HomeHero'
+import { BlogSection } from './components/BlogSection'
+import { GalleryGrid } from './components/GalleryGrid'
+import { CommissionCalculator } from './components/CommissionCalculator'
+import { CustomCursor } from './components/CustomCursor'
+import { GamesHub } from './components/GamesHub'
 import { PremiumFooter } from './components/PremiumFooter'
-import { VideogameHUD } from './components/VideogameHUD'
-import { CuratorialTerminal } from './components/CuratorialTerminal'
-import { EspejoDelAlmaModal } from './components/EspejoDelAlmaModal'
 import { SecretEasterEggModal } from './components/SecretEasterEggModal'
-import { TelemetryPixel } from './components/TelemetryPixel'
+import { SplatViewerModal } from './components/SplatViewerModal'
+import { SuperzoomModal } from './components/SuperzoomModal'
+import { EspejoDelAlmaModal } from './components/EspejoDelAlmaModal'
+import { CuratorialTerminal } from './components/CuratorialTerminal'
+import { artworks } from './data/artworks'
+import { audioFX } from './utils/AudioFX'
 
-
-// Vistas con Lazy Loading (Ultrathink Code-Splitting)
-const Scene = lazy(() => import('./components/Scene'))
-const GalleryGrid = lazy(() => import('./components/GalleryGrid').then(module => ({ default: module.GalleryGrid })))
-const CommissionCalculator = lazy(() => import('./components/CommissionCalculator').then(module => ({ default: module.CommissionCalculator })))
-const GamesHub = lazy(() => import('./components/GamesHub').then(module => ({ default: module.GamesHub })))
-const BlogSection = lazy(() => import('./components/BlogSection').then(module => ({ default: module.BlogSection })))
-const AboutSection = lazy(() => import('./components/AboutSection').then(module => ({ default: module.AboutSection })))
-const AcousticCube3D = lazy(() => import('./components/AcousticCube3D').then(module => ({ default: module.AcousticCube3D })))
-
-const toSlug = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
-
-function Loader() {
-  return (
-    <div className="loader">
-      <div className="spinner"></div>
-      <div className="loader-text">MATERIALIZANDO...</div>
-    </div>
-  )
-}
-
-const getInitialView = () => {
-  if (typeof window !== 'undefined') {
-    const host = window.location.hostname.toLowerCase()
-    const hash = window.location.hash.toLowerCase()
-    if (host.includes('naroa.online') || hash.includes('3d') || hash.includes('juegos') || hash.includes('game') || hash.includes('play')) {
-      return '3d'
-    }
-  }
-  return 'home'
-}
-
-export default function App() {
-  const [currentView, setCurrentView] = useState<string>(getInitialView)
-
-  const [modalArtwork, setModalArtwork] = useState<Artwork | null>(null)
-  const [audioActive, setAudioActive] = useState<boolean>(sound.isEnabled())
+function App() {
+  const [loading, setLoading] = useState(true)
+  const [activeArtwork, setActiveArtwork] = useState(null)
+  const [activeArtworkIndex, setActiveArtworkIndex] = useState(null)
+  const [view, setView] = useState('home')
   const [isWebGLMounted, setIsWebGLMounted] = useState(false)
   
   // ⚡ Capa Sota WOW Modals State
-  const [isTerminalOpen, setIsTerminalOpen] = useState(false)
-  const [isEspejoOpen, setIsEspejoOpen] = useState(false)
-  const [isEasterEggOpen, setIsEasterEggOpen] = useState(false)
-  const typedBufferRef = useRef('')
+  const [splatOpen, setSplatOpen] = useState(false)
+  const [superzoomOpen, setSuperzoomOpen] = useState(false)
+  const [easterEggOpen, setEasterEggOpen] = useState(false)
+  const [espejoOpen, setEspejoOpen] = useState(false)
+  const [terminalOpen, setTerminalOpen] = useState(false)
 
-  // Estados del Videojuego FPS
-  const [isStarted, setIsStarted] = useState(false)
+  const navigate = useCallback((newView) => {
+    if (view === newView) return
+    audioFX.playClick()
+    setView(newView)
+    window.scrollTo({ top: 0, behavior: 'instant' })
+  }, [view])
 
+  const scrollToGallery = useCallback(() => {
+    navigate('gallery')
+  }, [navigate])
 
-  // Inicializar Lenis (Smooth Scrolling) SOTA
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
-    })
-
-    function raf(time: number) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
+    const handleHash = () => {
+      const raw = window.location.hash.replace(/^#/, '').replace(/^\//, '').toLowerCase()
+      const seg = (raw || 'home').split('?')[0].split('/')[0] || 'home'
+      const hashMap = {
+        'home': 'home', 'obra': 'obra', 'destacada': 'obra',
+        'galeria': 'gallery', 'gallery': 'gallery',
+        'sala3d': 'sala', 'sala': 'sala', 'studio': 'sala',
+        'blog': 'blog', 'bitacora': 'blog', 'journal': 'blog',
+        'sobre-mi': 'about', 'about': 'about', 'bio': 'about',
+        'juegos': 'games', 'games': 'games',
+        'encargos': 'encargos', 'commission': 'encargos', 'retratos': 'encargos', 'calculadora': 'encargos'
+      }
+      const newView = hashMap[seg] || 'home'
+      if (view !== newView) {
+        setView(newView)
+      }
     }
+    
+    window.addEventListener('hashchange', handleHash)
+    handleHash() // init on load
+    return () => window.removeEventListener('hashchange', handleHash)
+  }, [view])
 
-    requestAnimationFrame(raf)
+  // ⚡ Superzoom state for external trigger
+  const [externalZoomArtwork, setExternalZoomArtwork] = useState(null)
+  
+  useEffect(() => {
+    const handleOpenSuperzoom = (e) => {
+      if (e.detail && e.detail.artwork) {
+        setExternalZoomArtwork(e.detail.artwork)
+        setSuperzoomOpen(true)
+      }
+    }
+    window.addEventListener('open-superzoom', handleOpenSuperzoom)
+    return () => window.removeEventListener('open-superzoom', handleOpenSuperzoom)
+  }, [])
 
+  useEffect(() => {
+    document.title = view === 'sala' 
+      ? 'Sala 3D — Naroa Gutiérrez Gil' 
+      : 'Naroa Gutiérrez Gil — Hiperrealismo POP'
+    
+    // Audio Context Resume on first interaction
+    const resumeAudio = () => {
+      audioFX.unlock()
+    }
+    window.addEventListener('click', resumeAudio, { once: true })
+    window.addEventListener('touchstart', resumeAudio, { once: true })
     return () => {
-      lenis.destroy()
+      window.removeEventListener('click', resumeAudio)
+      window.removeEventListener('touchstart', resumeAudio)
     }
-  }, [])
-  const [interactionPrompt, setInteractionPrompt] = useState<string | null>(null)
-  const [playerPos, setPlayerPos] = useState({ x: 0, z: 0 })
-  const [playerRotation, setPlayerRotation] = useState(0)
+  }, [view])
 
-  // Desactivar isStarted si salimos de la vista 3D
   useEffect(() => {
-    if (currentView !== '3d') {
-      setIsStarted(false)
-    }
-  }, [currentView])
-
-  // Deferred WebGL Mounting: 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsWebGLMounted(true), 800)
-    return () => clearTimeout(timer)
-  }, [])
-
-  // ⚡ Capa Sota Global Key Listeners: Cmd+K, Secret Naroa/Borja Typing, Spacebar ASMR
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't intercept when typing in inputs/textareas
-      if (['input', 'textarea', 'select'].includes((e.target as HTMLElement)?.tagName?.toLowerCase())) {
-        return
-      }
-
-      // 1. Cmd+K / Ctrl+K Curatorial Terminal
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault()
-        sound.playTick()
-        setIsTerminalOpen(prev => !prev)
-        return
-      }
-
-      // 2. Spacebar Studio ASMR Audio Hold
-      if (e.code === 'Space' && !e.repeat && !isStarted) {
-        sound.startStudioASMR()
-      }
-
-      // 3. Secret Typing Buffer Listener for "naroa", "borja", "moskv"
-      if (e.key.length === 1) {
-        typedBufferRef.current = (typedBufferRef.current + e.key.toLowerCase()).slice(-12)
-        if (
-          typedBufferRef.current.includes('naroa') || 
-          typedBufferRef.current.includes('borja') || 
-          typedBufferRef.current.includes('moskv')
-        ) {
-          setIsEasterEggOpen(true)
-          typedBufferRef.current = ''
-        }
+    const handleKeyDown = (e) => {
+      if (view !== 'sala' || activeArtwork) return
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        if (activeArtworkIndex === null) setActiveArtworkIndex(0)
+        else setActiveArtworkIndex((activeArtworkIndex + 1) % artworks.length)
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        if (activeArtworkIndex === null) setActiveArtworkIndex(artworks.length - 1)
+        else setActiveArtworkIndex((activeArtworkIndex - 1 + artworks.length) % artworks.length)
       }
     }
-
-    const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.code === 'Space') {
-        sound.stopStudioASMR()
-      }
-    }
-
     window.addEventListener('keydown', handleKeyDown)
-    window.addEventListener('keyup', handleKeyUp)
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-      window.removeEventListener('keyup', handleKeyUp)
-    }
-  }, [isStarted])
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [view, activeArtwork, activeArtworkIndex])
 
-
-
-  // Hash Navigation Handler (6 Secciones Canónicas)
-  useEffect(() => {
-    const handleHashChange = () => {
-      const rawHash = window.location.hash
-      const cleanHash = rawHash.replace(/^#\/?/, '')
-
-      if (cleanHash === 'gallery' || cleanHash === 'destacada' || cleanHash === 'galeria' || cleanHash === 'archivo' || cleanHash === 'obra' || cleanHash === 'obras') {
-        setCurrentView('gallery')
-        setModalArtwork(null)
-      } else if (cleanHash === 'home' || cleanHash === 'inicio' || cleanHash === '') {
-        setCurrentView('home')
-        setModalArtwork(null)
-      } else if (cleanHash === 'materia-litica' || cleanHash === 'materia' || cleanHash === 'litica') {
-        setCurrentView('about')
-        setModalArtwork(null)
-      } else if (cleanHash === 'commissions' || cleanHash === 'encargos' || cleanHash === 'contacto') {
-        setCurrentView('commissions')
-        setModalArtwork(null)
-      } else if (cleanHash === 'pop-lab' || cleanHash === 'juegos') {
-        setCurrentView('pop-lab')
-        setModalArtwork(null)
-      } else if (cleanHash === 'blog') {
-        setCurrentView('blog')
-        setModalArtwork(null)
-      } else if (cleanHash === 'sobre-mi' || cleanHash === 'about') {
-        setCurrentView('about')
-        setModalArtwork(null)
-      } else if (cleanHash === '3d') {
-        setCurrentView('3d')
-        setModalArtwork(null)
-      } else if (cleanHash.startsWith('obra-') || cleanHash.startsWith('obra/')) {
-        const slug = cleanHash.replace(/^obra[-/]/, '')
-        const match = ARTWORKS.find(a => a.slug === slug || toSlug(a.title) === slug)
-        if (match) {
-          setModalArtwork(match)
-          setCurrentView('destacada')
-        }
-      } else {
-        const match = ARTWORKS.find(a => a.slug === cleanHash || toSlug(a.title) === cleanHash)
-        if (match) {
-          setModalArtwork(match)
-          setCurrentView('gallery')
-        } else {
-          setCurrentView('home')
-        }
-      }
-    }
-
-    handleHashChange()
-    window.addEventListener('hashchange', handleHashChange)
-    return () => window.removeEventListener('hashchange', handleHashChange)
-  }, [])
-
-  useEffect(() => {
-    if (modalArtwork) {
-      const slug = modalArtwork.slug || toSlug(modalArtwork.title)
-      window.location.hash = `obra-${slug}`
-      document.title = `${modalArtwork.title} (${modalArtwork.year}) — Naroa Gutiérrez Gil | Arte en Bilbao`
-    } else {
-      switch (currentView) {
-        case 'gallery':
-          document.title = 'The Gallery — Naroa Gutiérrez Gil | Fine Art'
-          break
-        case '3d':
-          document.title = '3D Room — Naroa Gutiérrez Gil'
-          break
-        case 'about':
-          document.title = 'Sobre Naroa Gutiérrez Gil — Manifiesto & Biografía'
-          break
-        case 'commissions':
-          document.title = 'Private Commissions — Naroa Gutiérrez Gil'
-          break
-        case 'blog':
-          document.title = 'Blog & Noticias — Naroa Gutiérrez Gil'
-          break
-        case 'pop-lab':
-          document.title = 'The POP Lab — Naroa Gutiérrez Gil'
-          break
-        default:
-          document.title = 'Naroa Gutiérrez Gil — Artista Visual | Hiperrealismo POP'
-      }
-    }
-  }, [modalArtwork, currentView])
-
-  const handleCloseModal = () => {
-    setModalArtwork(null)
-    setCurrentView('gallery')
-    window.location.hash = '#/gallery'
+  const openArtwork = (index) => {
+    audioFX.playWhoosh()
+    setActiveArtwork(artworks[index])
+    setActiveArtworkIndex(index)
   }
 
-  const handleInspect = (index: number) => {
-    sound.playOpen()
-    setModalArtwork(ARTWORKS[index])
-    setCurrentView('gallery')
-    if (document.pointerLockElement) {
-      document.exitPointerLock()
-    }
+  const closeArtwork = () => {
+    audioFX.playClick()
+    setActiveArtwork(null)
   }
 
-  const toggleAudio = () => {
-    const newState = sound.toggleSound()
-    setAudioActive(newState)
-  }
+  const nextArtwork = useCallback(() => {
+    if (activeArtworkIndex === null) return
+    const nextIdx = (activeArtworkIndex + 1) % artworks.length
+    setActiveArtwork(artworks[nextIdx])
+    setActiveArtworkIndex(nextIdx)
+  }, [activeArtworkIndex])
 
-  const isSceneActive = currentView === '3d' || currentView === 'gallery'
-
-  // Escuchar cuando el usuario presiona ESC para salir del PointerLock
-  useEffect(() => {
-    const handlePointerLockChange = () => {
-      if (!document.pointerLockElement) {
-        setIsStarted(false)
-      }
-    }
-    document.addEventListener('pointerlockchange', handlePointerLockChange)
-    return () => document.removeEventListener('pointerlockchange', handlePointerLockChange)
-  }, [])
-
-  // 🎵 Autoplay Unlocker: Activa la BSO de Boards of Burgos en el primer toque/scroll sin requerir clic en el botón
-  useEffect(() => {
-    const unlockAudio = () => {
-      if (!audioActive) {
-        setAudioActive(true)
-      }
-      window.removeEventListener('pointerdown', unlockAudio)
-      window.removeEventListener('scroll', unlockAudio)
-      window.removeEventListener('mousemove', unlockAudio)
-    }
-
-    window.addEventListener('pointerdown', unlockAudio, { once: true })
-    window.addEventListener('scroll', unlockAudio, { once: true })
-    window.addEventListener('mousemove', unlockAudio, { once: true })
-
-    return () => {
-      window.removeEventListener('pointerdown', unlockAudio)
-      window.removeEventListener('scroll', unlockAudio)
-      window.removeEventListener('mousemove', unlockAudio)
-    }
-  }, [audioActive])
+  const prevArtwork = useCallback(() => {
+    if (activeArtworkIndex === null) return
+    const prevIdx = (activeArtworkIndex - 1 + artworks.length) % artworks.length
+    setActiveArtwork(artworks[prevIdx])
+    setActiveArtworkIndex(prevIdx)
+  }, [activeArtworkIndex])
 
   return (
     <>
-      <a href="#main-content" className="skip-link">
-        Saltar al contenido principal
-      </a>
       <CustomCursor />
-      {/* Background SoundCloud Player: Boards Of Burgos (Borja Moskv) */}
-      {audioActive && (
-        <iframe
-          id="soundcloud-bg-player"
-          width="1"
-          height="1"
-          scrolling="no"
-          frameBorder="no"
-          allow="autoplay"
-          src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1927936712&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false"
-          style={{ position: 'fixed', top: -9999, left: -9999, width: 1, height: 1, opacity: 0, pointerEvents: 'none', zIndex: -1 }}
-        />
-      )}
+      <NavigationPill 
+        currentView={view} 
+        setView={navigate} 
+        onOpenTerminal={() => setTerminalOpen(true)}
+      />
 
-      <div className="ui-layer" style={{ pointerEvents: 'none' }}>
-        
-        {/* Mostrar Navbar SIEMPRE que NO hayamos iniciado el modo FPS inmersivo */}
-        {!isStarted && (
-          <div style={{ pointerEvents: 'auto', width: '100%', zIndex: 50 }}>
-            <NavigationPill
-              currentView={currentView}
-              audioActive={audioActive}
-              toggleAudio={toggleAudio}
-              onOpenTerminal={() => setIsTerminalOpen(true)}
-              onOpenEspejo={() => setIsEspejoOpen(true)}
-            />
-          </div>
-        )}
-
-        <AnimatePresence mode="wait">
-          {currentView === 'home' && (
-            <motion.div
-              key="home"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4 }}
-              style={{ width: '100%' }}
-            >
-              <HomeHero />
-              <Suspense fallback={<Loader />}>
-                <AcousticCube3D />
-              </Suspense>
-            </motion.div>
-          )}
-
-          {currentView === 'gallery' && (
-            <motion.div
-              key="gallery"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4 }}
-              className="view-container"
-              style={{ pointerEvents: 'auto' }}
-            >
-              <Suspense fallback={<Loader />}>
-                <GalleryGrid onInspect={handleInspect} />
-              </Suspense>
-            </motion.div>
-          )}
-
-          {currentView === '3d' && (
-            <motion.div
-              key="3d"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              <VideogameHUD 
-                isStarted={isStarted} 
-                onStart={() => setIsStarted(true)} 
-                interactionPrompt={interactionPrompt} 
-                playerPos={playerPos}
-                playerRotation={playerRotation}
-              />
-            </motion.div>
-          )}
-
-          {currentView === 'commissions' && (
-            <motion.div
-              key="commissions"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4 }}
-              className="view-container"
-              style={{ pointerEvents: 'auto' }}
-            >
-              <Suspense fallback={<Loader />}>
-                <CommissionCalculator />
-              </Suspense>
-            </motion.div>
-          )}
-
-          {currentView === 'pop-lab' && (
-            <motion.div
-              key="pop-lab"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4 }}
-              className="view-container"
-              style={{ pointerEvents: 'auto' }}
-            >
-              <Suspense fallback={<Loader />}>
-                <GamesHub />
-              </Suspense>
-            </motion.div>
-          )}
-
-          {currentView === 'blog' && (
-            <motion.div
-              key="blog"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4 }}
-              className="view-container"
-              style={{ pointerEvents: 'auto' }}
-            >
-              <Suspense fallback={<Loader />}>
-                <BlogSection />
-              </Suspense>
-            </motion.div>
-          )}
-
-          {currentView === 'about' && (
-            <motion.div
-              key="about"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4 }}
-              className="view-container"
-              style={{ pointerEvents: 'auto' }}
-            >
-              <Suspense fallback={<Loader />}>
-                <AboutSection />
-              </Suspense>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {!isStarted && (
-          <div style={{ pointerEvents: 'auto', width: '100%', marginTop: 'auto' }}>
-            <PremiumFooter />
-          </div>
-        )}
+      {/* Lienzo 3D: permanece montado siempre para no destruir el contexto WebGL */}
+      <div style={{ position: 'fixed', inset: 0, zIndex: 1, opacity: view === 'sala' ? 1 : 0, pointerEvents: view === 'sala' ? 'auto' : 'none', transition: 'opacity 0.5s ease' }}>
+        <TextureErrorBoundary>
+          <Gallery 
+            setLoading={setLoading}
+            setActiveArtworkIndex={openArtwork}
+            activeArtworkIndex={activeArtworkIndex}
+            isMounted={isWebGLMounted}
+            setIsMounted={setIsWebGLMounted}
+          />
+        </TextureErrorBoundary>
       </div>
 
-      {/* Escena 3D - FPS Game Engine */}
-      {isWebGLMounted && (
-        <Suspense fallback={null}>
-          <div style={{ 
-            position: 'absolute', 
-            inset: 0, 
-            zIndex: 1,
-            opacity: isSceneActive ? 1 : 0, 
-            pointerEvents: isSceneActive ? 'auto' : 'none',
-            transition: 'opacity 0.5s ease-in-out'
-          }}>
-            <Scene
-              onInspectArtwork={handleInspect}
-              active={isSceneActive}
-              setInteractionPrompt={setInteractionPrompt}
-              isStarted={isStarted}
-              onPlayerMove={(pos, rot) => {
-                setPlayerPos(pos)
-                setPlayerRotation(rot)
-              }}
-            />
-          </div>
-        </Suspense>
+      {loading && view === 'sala' && (
+        <div className="loader">
+          <div className="spinner"></div>
+          <div className="loader-text">Cargando Sala 3D...</div>
+        </div>
       )}
 
-      <ArtworkModal
-        artwork={modalArtwork}
-        currentIndex={modalArtwork ? ARTWORKS.findIndex((a) => a.id === modalArtwork.id) : 0}
-        onClose={handleCloseModal}
-        onNavigate={(idx) => {
-          setModalArtwork(ARTWORKS[idx])
-        }}
-      />
-
-      {/* ⚡ Capa Sota WOW Modals */}
-      <CuratorialTerminal
-        isOpen={isTerminalOpen}
-        onClose={() => setIsTerminalOpen(false)}
-      />
-
-      <EspejoDelAlmaModal
-        isOpen={isEspejoOpen}
-        onClose={() => setIsEspejoOpen(false)}
-      />
-
-      <SecretEasterEggModal
-        isOpen={isEasterEggOpen}
-        onClose={() => setIsEasterEggOpen(false)}
-      />
-
-      {/* 👁️ Oculto Pixel de Telemetría */}
-      <TelemetryPixel
-        currentView={currentView}
-        activeArtworkSlug={modalArtwork?.slug}
-      />
-
-      {/* 💬 Botón Flotante WhatsApp Business (CRO & Conversión Directa) */}
-      {!isStarted && (
-        <a
-          href="https://wa.me/34636060609?text=Hola%20Naroa!%20Te%20contacto%20desde%20naroagutierrezgil.com%20para%20consultar%20un%20encargo..."
-          target="_blank"
-          rel="noopener noreferrer"
-          className="whatsapp-float"
-          aria-label="Contactar por WhatsApp Business con la artista Naroa Gutiérrez Gil"
-          title="WhatsApp Directo con Naroa Gutiérrez Gil"
+      <AnimatePresence mode="wait">
+        <motion.main
+          key={view}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+          style={{ position: 'relative', zIndex: 10, width: '100%', minHeight: '100vh', background: view === 'sala' ? 'transparent' : 'rgba(5,5,8,0.4)', pointerEvents: 'none' }}
         >
-          💬
-        </a>
+          {view === 'home' && <HomeHero onNavigate={navigate} />}
+          {view === 'gallery' && <GalleryGrid onOpenArtwork={openArtwork} />}
+          {view === 'obra' && <GalleryGrid onOpenArtwork={openArtwork} />}
+          {view === 'blog' && <BlogSection />}
+          {view === 'about' && <AboutSection onNavigate={navigate} />}
+          {view === 'encargos' && <CommissionCalculator />}
+          {view === 'games' && <GamesHub onNavigate={navigate} />}
+        </motion.main>
+      </AnimatePresence>
+
+      {view === 'sala' && (
+        <div className="artwork-caption-wrapper" style={{ pointerEvents: 'auto' }}>
+          <button className="caption-arrow" onClick={() => openArtwork((activeArtworkIndex === null ? artworks.length - 1 : (activeArtworkIndex - 1 + artworks.length) % artworks.length))} aria-label="Anterior obra">
+            ‹
+          </button>
+          <div className="artwork-caption">
+            <div className="artwork-clickable" onClick={() => openArtwork(activeArtworkIndex === null ? 0 : activeArtworkIndex)}>
+              <span className="artwork-index">{((activeArtworkIndex === null ? 0 : activeArtworkIndex) + 1).toString().padStart(2, '0')} / {artworks.length.toString().padStart(2, '0')}</span>
+              <span className="artwork-title">{activeArtworkIndex === null ? 'Selecciona Obra' : artworks[activeArtworkIndex].title}</span>
+            </div>
+            <button className="artwork-cta-btn" onClick={() => setSplatOpen(true)}>
+              Splat 3D
+            </button>
+          </div>
+          <button className="caption-arrow" onClick={() => openArtwork(activeArtworkIndex === null ? 0 : (activeArtworkIndex + 1) % artworks.length)} aria-label="Siguiente obra">
+            ›
+          </button>
+        </div>
       )}
+
+      {view === 'sala' && (
+        <div className="gallery-dots-bar" style={{ pointerEvents: 'auto' }}>
+          {artworks.map((art, idx) => (
+            <button
+              key={art.id}
+              className={`dot-item ${activeArtworkIndex === idx ? 'active' : ''}`}
+              onClick={() => openArtwork(idx)}
+              aria-label={`Ir a la obra ${art.title}`}
+            />
+          ))}
+        </div>
+      )}
+
+      {view === 'sala' && <div className="scroll-hint"><span></span></div>}
+
+      {/* Modal Principal */}
+      <AnimatePresence>
+        {activeArtwork && (
+          <ArtworkModal 
+            artwork={activeArtwork} 
+            onClose={closeArtwork} 
+            onNext={nextArtwork}
+            onPrev={prevArtwork}
+            onOpenSuperzoom={(art) => {
+              setExternalZoomArtwork(art)
+              setSuperzoomOpen(true)
+              setActiveArtwork(null)
+            }}
+            onOpenSplat={(art) => {
+              setSplatOpen(true)
+              setActiveArtwork(null)
+            }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Modales Sota WOW */}
+      <SplatViewerModal 
+        isOpen={splatOpen} 
+        onClose={() => setSplatOpen(false)} 
+        artwork={activeArtwork || artworks[activeArtworkIndex || 0]} 
+      />
+      <SuperzoomModal 
+        isOpen={superzoomOpen} 
+        onClose={() => {
+          setSuperzoomOpen(false)
+          setExternalZoomArtwork(null)
+        }} 
+        artwork={externalZoomArtwork || activeArtwork} 
+      />
+      <SecretEasterEggModal isOpen={easterEggOpen} onClose={() => setEasterEggOpen(false)} />
+      <EspejoDelAlmaModal isOpen={espejoOpen} onClose={() => setEspejoOpen(false)} />
+      <CuratorialTerminal isOpen={terminalOpen} onClose={() => setTerminalOpen(false)} />
+
+      <PremiumFooter onOpenEasterEgg={() => setEasterEggOpen(true)} onOpenEspejo={() => setEspejoOpen(true)} />
+
+      {/* Botón flotante WhatsApp (integrado desde master 2026-08-12) */}
+      <a
+        className="whatsapp-float"
+        href="https://wa.me/34644430834?text=Hola%20Naroa%2C%20me%20gustar%C3%ADa%20hablar%20sobre%20un%20posible%20encargo."
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Contactar por WhatsApp"
+        title="Escríbeme por WhatsApp"
+      >
+        <span aria-hidden="true">💬</span>
+      </a>
     </>
   )
 }
 
-
+export default App
