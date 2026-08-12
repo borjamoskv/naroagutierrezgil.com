@@ -1,6 +1,6 @@
 import { useState, useRef, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Sparkles, Float, Html } from '@react-three/drei'
+import { Sparkles, Float } from '@react-three/drei'
 import { motion, AnimatePresence } from 'framer-motion'
 import * as THREE from 'three'
 import { sound } from '../utils/audio'
@@ -67,7 +67,6 @@ const CUBE_FACES = [
 // Single Monolith Cube Mesh
 function MonolithMesh({ activeFace, setActiveFace }: { activeFace: number; setActiveFace: (idx: number) => void }) {
   const meshRef = useRef<THREE.Group>(null)
-  const targetRotation = useRef<THREE.Euler>(new THREE.Euler(...CUBE_FACES[activeFace].rot))
 
   // Load textures for all 6 faces
   const textures = useMemo(() => {
@@ -91,7 +90,7 @@ function MonolithMesh({ activeFace, setActiveFace }: { activeFace: number; setAc
       <mesh
         onClick={(e) => {
           e.stopPropagation()
-          sound.playClick()
+          sound.playTick()
           setActiveFace((activeFace + 1) % 6)
         }}
       >
@@ -189,7 +188,7 @@ export function AcousticCube3D() {
           <button
             key={face.id}
             onClick={() => {
-              sound.playClick()
+              sound.playTick()
               setActiveFace(idx)
             }}
             className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all border ${
