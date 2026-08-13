@@ -1,0 +1,267 @@
+const fs = require('fs');
+const path = require('path');
+
+const artworksFile = path.join(__dirname, '../src/artworks.ts');
+let content = fs.readFileSync(artworksFile, 'utf8');
+
+const missingArtworks = [
+  {
+    id: 550,
+    slug: 'carole-lombard',
+    url: '/assets/carole-lombard.webp',
+    title: 'Carole Lombard',
+    medium: 'Técnica Mixta y Grafito sobre Pizarra Natural con Mica Mineral',
+    year: '2023',
+    category: 'PIZARRA',
+    series: 'divinos',
+    sizeCategory: 'large',
+    dimensions: '60 x 80 cm',
+    description: 'La elegancia del Hollywood clásico reinterpretada sobre la crudeza de la pizarra vasca, con brillo de mica mineral y trazos expresionistas.',
+    price: 'Consultar Colección'
+  },
+  {
+    id: 551,
+    slug: 'cotton-girl',
+    url: '/assets/cotton-girl.webp',
+    title: 'Cotton Girl',
+    medium: 'Acrílico y Algodón Textil sobre Lienzo 3D',
+    year: '2022',
+    category: 'LIENZO',
+    series: 'espejos',
+    sizeCategory: 'medium',
+    dimensions: '50 x 70 cm',
+    description: 'Retrato de dulzura textil con aplicación de fibras de algodón suave y pigmentos pastel sobre fondo azul profundo.',
+    price: 'Colección Privada'
+  },
+  {
+    id: 552,
+    slug: 'dreaming-a-life',
+    url: '/assets/dreaming-a-life.webp',
+    title: 'Dreaming a Life',
+    medium: 'Acrílico, Posca y Resina Epoxi sobre Pizarra Natural',
+    year: '2024',
+    category: 'PIZARRA',
+    series: 'espejos',
+    sizeCategory: 'colossal',
+    dimensions: '80 x 100 cm',
+    description: 'Composición onírica sobre la introspección del ser: un rostro flotante entre constelaciones de mica mineral y destellos de pan de oro.',
+    price: 'Consultar Colección'
+  },
+  {
+    id: 553,
+    slug: 'el-gordo',
+    url: '/assets/el-gordo.webp',
+    title: 'El Gordo',
+    medium: 'Acrílico y Óleo sobre Lienzo',
+    year: '2021',
+    category: 'LIENZO',
+    series: 'espejos',
+    sizeCategory: 'large',
+    dimensions: '70 x 90 cm',
+    description: 'Retrato de presencia rotunda y carácter entrañable, con aplicación de espátula y veladuras al óleo.',
+    price: 'Colección Privada'
+  },
+  {
+    id: 554,
+    slug: 'el-luisma',
+    url: '/assets/el-luisma.webp',
+    title: 'El Luisma (Paco León)',
+    medium: 'Acrílico POP y Posca sobre Pizarra Natural',
+    year: '2023',
+    category: 'PIZARRA',
+    series: 'divinos',
+    sizeCategory: 'large',
+    dimensions: '60 x 80 cm',
+    description: 'Homenaje POP al personaje icónico de la televisión. Humor, afecto y expresionismo urbano sobre soporte lítico de Bizkaia.',
+    price: 'Colección Privada'
+  },
+  {
+    id: 555,
+    slug: 'es-la-hora',
+    url: '/assets/es-l-a-hora.webp',
+    title: '¡Es la Hora!',
+    medium: 'Acrílico Neón sobre Pizarra y Latas Recicladas',
+    year: '2024',
+    category: 'RECICLAJE',
+    series: 'facefood',
+    sizeCategory: 'colossal',
+    dimensions: '90 x 110 cm',
+    description: 'Explosión temporal y grito de vitalidad en una estructura mixta de latas de conserva vintage e incrustaciones de mica.',
+    price: 'Consultar Colección'
+  },
+  {
+    id: 556,
+    slug: 'he-creado-un-angel',
+    url: '/assets/he-creado-un-angel-verde-y-gris.webp',
+    title: 'He Creado un Ángel Verde y Gris',
+    medium: 'Acrílico, Pigmentos Minerales y Resina sobre Pizarra',
+    year: '2024',
+    category: 'PIZARRA',
+    series: 'espejos',
+    sizeCategory: 'colossal',
+    dimensions: '100 x 120 cm',
+    description: 'Figura angélica proteica emergiendo de la piedra vasca entre tonos verde esmeralda y grises ceniza, acabada con resina de alto brillo.',
+    price: 'Consultar Colección'
+  },
+  {
+    id: 557,
+    slug: 'lo-que-el-ojo-no-ve',
+    url: '/assets/lo-que-el-ojo-no-ve.webp',
+    title: 'Lo Que el Ojo No Ve',
+    medium: 'Técnica Mixta, Ojos de Cristal 3D y Mica sobre Pizarra',
+    year: '2025',
+    category: 'PIZARRA',
+    series: 'espejos',
+    sizeCategory: 'colossal',
+    dimensions: '90 x 120 cm',
+    description: 'Investigación sobre el reverso emocional de la mirada: pupilas cerámicas 3D hiperrealistas que reflejan el entorno físico de la sala.',
+    price: 'Consultar Colección'
+  },
+  {
+    id: 558,
+    slug: 'ozielos-baldosas-bilbainas',
+    url: '/assets/ozielos-sigue-el-camino-de-baldosas-bilbainas.webp',
+    title: 'Ozielos — Sigue el Camino de Baldosas Bilbaínas',
+    medium: 'Acrílico y Baldosa Típica de Bilbao sobre Pizarra',
+    year: '2024',
+    category: 'PIZARRA',
+    series: 'divinos',
+    sizeCategory: 'colossal',
+    dimensions: '80 x 120 cm',
+    description: 'Guiño místico a «El Mago de Oz» fusionado con la iconografía urbana de las baldosas de Bilbao y pan de oro.',
+    price: 'Consultar Colección'
+  },
+  {
+    id: 559,
+    slug: 'papitxulo',
+    url: '/assets/papitxulo.webp',
+    title: 'Papitxulo',
+    medium: 'Acrílico POP y Tinta sobre Lienzo',
+    year: '2023',
+    category: 'LIENZO',
+    series: 'divinos',
+    sizeCategory: 'medium',
+    dimensions: '60 x 80 cm',
+    description: 'Ironía y ternura masculinas en una pieza de color saturado y trazo expresivo.',
+    price: 'Colección Privada'
+  },
+  {
+    id: 560,
+    slug: 'peter-rowan',
+    url: '/assets/peter-rowan.webp',
+    title: 'Peter Rowan',
+    medium: 'Grafito y Acrílico sobre Papel de Alto Gramaje',
+    year: '2022',
+    category: 'GRAFITO',
+    series: 'espejos',
+    sizeCategory: 'large',
+    dimensions: '50 x 70 cm',
+    description: 'Retrato hiperrealista de la leyenda del bluegrass Peter Rowan, capturando la sonoridad acústica en trazos de grafito.',
+    price: 'Colección Privada'
+  },
+  {
+    id: 561,
+    slug: 'poesje',
+    url: '/assets/poesje.webp',
+    title: 'Poesje (El Gato del Alma)',
+    medium: 'Acrílico sobre Pizarra Natural con Mica Mineral',
+    year: '2023',
+    category: 'PIZARRA',
+    series: 'espejos',
+    sizeCategory: 'small',
+    dimensions: '30 x 40 cm',
+    description: 'Mirada felina hipnótica esculpida en piedra vasca con brillos iridiscentes.',
+    price: 'Colección Privada'
+  },
+  {
+    id: 562,
+    slug: 'por-los-pelos',
+    url: '/assets/por-los-pelos.webp',
+    title: 'Por Los Pelos',
+    medium: 'Acrílico y Fibras Textiles sobre Pizarra',
+    year: '2024',
+    category: 'PIZARRA',
+    series: 'espejos',
+    sizeCategory: 'medium',
+    dimensions: '50 x 70 cm',
+    description: 'Exploración de la prisa y la catarsis emocional mediante hilos textiles y trazos Posca rápidos.',
+    price: 'Consultar Colección'
+  },
+  {
+    id: 563,
+    slug: 'saioa',
+    url: '/assets/saioa.webp',
+    title: 'Saioa',
+    medium: 'Retrato por Encargo — Acrílico y Pan de Oro sobre Pizarra',
+    year: '2024',
+    category: 'ENCARGO',
+    series: 'espejos',
+    sizeCategory: 'large',
+    dimensions: '60 x 80 cm',
+    description: 'Retrato co-creativo por encargo: captura de la esencia vital de Saioa con pan de oro y mica sobre piedra natural.',
+    price: 'Colección Privada'
+  },
+  {
+    id: 564,
+    slug: 'sigirinspired',
+    url: '/assets/sigirinspired.webp',
+    title: 'Sigirinspired',
+    medium: 'Acrílico y Acuarela sobre Papel Poliéster Translúcido',
+    year: '2023',
+    category: 'PAPEL',
+    series: 'espejos',
+    sizeCategory: 'medium',
+    dimensions: '50 x 70 cm',
+    description: 'Transparencias radiográficas generadas disolviendo tintas con agua de colonia sobre película poliéster.',
+    price: 'Consultar Colección'
+  },
+  {
+    id: 565,
+    slug: 'sonia',
+    url: '/assets/sonia.webp',
+    title: 'Sonia',
+    medium: 'Retrato por Encargo — Acrílico sobre Pizarra Natural',
+    year: '2024',
+    category: 'ENCARGO',
+    series: 'espejos',
+    sizeCategory: 'large',
+    dimensions: '60 x 80 cm',
+    description: 'Retrato co-creativo capturado tras entrevista psicológica personal. La mirada viva de Sonia sobre soporte lítico de Bizkaia.',
+    price: 'Colección Privada'
+  },
+  {
+    id: 566,
+    slug: 'the-great-escape',
+    url: '/assets/the-great-escape.webp',
+    title: 'The Great Escape',
+    medium: 'Técnica Mixta sobre Madera de Deriva y Pizarra',
+    year: '2024',
+    category: 'MADERA',
+    series: 'espejos',
+    sizeCategory: 'colossal',
+    dimensions: '90 x 120 cm',
+    description: 'Ensamble de madera erogada por el Mar Cantábrico y pizarra natural. La búsqueda de libertad representada en vuelo matérico.',
+    price: 'Consultar Colección'
+  },
+  {
+    id: 567,
+    slug: 'wetever',
+    url: '/assets/wetever.webp',
+    title: 'Wetever',
+    medium: 'Acrílico y Resina Epoxi de Alto Brillo sobre Pizarra',
+    year: '2024',
+    category: 'PIZARRA',
+    series: 'espejos',
+    sizeCategory: 'medium',
+    dimensions: '50 x 70 cm',
+    description: 'Efecto de superficie permanentemente húmeda sobre la piedra negra de Bizkaia.',
+    price: 'Consultar Colección'
+  }
+];
+
+// Reemplazar la llave final `]` de ARTWORKS por las nuevas obras
+const insertStr = missingArtworks.map(item => `  ${JSON.stringify(item, null, 2)}`).join(',\n') + '\n]';
+content = content.replace(/\n\]\s*$/, ',\n' + insertStr);
+
+fs.writeFileSync(artworksFile, content, 'utf8');
+console.log(`¡Añadidas ${missingArtworks.length} obras originales nuevas a ARTWORKS!`);
