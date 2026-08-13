@@ -440,6 +440,41 @@ class SoundEngine {
       // Ignore audio errors
     }
   }
+
+  public playFrameFlip() {
+    if (!this.enabled) return
+    try {
+      this.initCtx()
+      if (!this.ctx) return
+
+      const now = this.ctx.currentTime
+      const osc1 = this.ctx.createOscillator()
+      const osc2 = this.ctx.createOscillator()
+      const gain = this.ctx.createGain()
+
+      osc1.type = 'sawtooth'
+      osc1.frequency.setValueAtTime(180, now)
+      osc1.frequency.exponentialRampToValueAtTime(80, now + 0.18)
+
+      osc2.type = 'sine'
+      osc2.frequency.setValueAtTime(320, now)
+      osc2.frequency.exponentialRampToValueAtTime(640, now + 0.18)
+
+      gain.gain.setValueAtTime(0.06, now)
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2)
+
+      osc1.connect(gain)
+      osc2.connect(gain)
+      gain.connect(this.ctx.destination)
+
+      osc1.start(now)
+      osc2.start(now)
+      osc1.stop(now + 0.2)
+      osc2.stop(now + 0.2)
+    } catch {
+      // Ignore audio errors
+    }
+  }
 }
 
 export const sound = new SoundEngine()
