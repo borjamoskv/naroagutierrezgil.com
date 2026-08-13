@@ -66,6 +66,7 @@ export default function App() {
 
   // Estados del Videojuego FPS
   const [isStarted, setIsStarted] = useState(false)
+  const [cameraMode, setCameraMode] = useState<'fps' | 'orbit'>('fps')
 
 
   // Inicializar Lenis (Smooth Scrolling) SOTA — desactivado si el usuario prefiere movimiento reducido
@@ -126,6 +127,12 @@ export default function App() {
         return
       }
 
+      // Key C for Camera Mode Toggle in 3D
+      if (e.code === 'KeyC' && currentView === '3d' && isStarted) {
+        sound.playTick()
+        setCameraMode(prev => prev === 'fps' ? 'orbit' : 'fps')
+      }
+
       // 2. Spacebar Studio ASMR Audio Hold
       if (e.code === 'Space' && !e.repeat && !isStarted) {
         sound.startStudioASMR()
@@ -157,7 +164,7 @@ export default function App() {
       window.removeEventListener('keydown', handleKeyDown)
       window.removeEventListener('keyup', handleKeyUp)
     }
-  }, [isStarted])
+  }, [isStarted, currentView])
 
 
 
@@ -317,7 +324,7 @@ export default function App() {
               transition={{ duration: 0.4 }}
               style={{ width: '100%' }}
             >
-              <HomeHero />
+              <HomeHero onNavigate={(v) => setCurrentView(v)} />
               <Suspense fallback={<Loader />}>
                 <AcousticCube3D />
               </Suspense>
@@ -356,6 +363,8 @@ export default function App() {
                 interactionPrompt={interactionPrompt} 
                 playerPos={playerPos}
                 playerRotation={playerRotation}
+                cameraMode={cameraMode}
+                onToggleCameraMode={() => setCameraMode(prev => prev === 'fps' ? 'orbit' : 'fps')}
               />
             </motion.div>
           )}
@@ -448,6 +457,7 @@ export default function App() {
                 active={isSceneActive}
                 setInteractionPrompt={setInteractionPrompt}
                 isStarted={isStarted}
+                cameraMode={cameraMode}
                 onPlayerMove={(pos, rot) => {
                   setPlayerPos(pos)
                   setPlayerRotation(rot)
