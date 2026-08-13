@@ -249,22 +249,22 @@ export function Gallery({ onInspectArtwork, isStarted, setInteractionPrompt }: G
 
             {/* Sub-grupo que rota 180° para el Reverso Acústico */}
             <group ref={(el) => (frameGroupRefs.current[i] = el)}>
-              {/* Marco Esculpido de Pizarra & Madera de Deriva */}
+              {/* Marco Esculpido Monumental de Pizarra & Madera de Deriva */}
               <mesh position={[0, 0, 0]}>
-                <boxGeometry args={[3.4, 4.4, 0.12]} />
-                <meshStandardMaterial color="#181820" roughness={0.3} metalness={0.8} />
+                <boxGeometry args={[5.5, 7.3, 0.15]} />
+                <meshStandardMaterial color="#14141c" roughness={0.3} metalness={0.8} />
               </mesh>
 
               {/* Borde Biselado Dorado POP / Kintsugi */}
-              <mesh position={[0, 0, 0.065]}>
-                <boxGeometry args={[3.45, 4.45, 0.01]} />
+              <mesh position={[0, 0, 0.08]}>
+                <boxGeometry args={[5.58, 7.38, 0.015]} />
                 <meshStandardMaterial color="#FFD700" metalness={0.9} roughness={0.1} />
               </mesh>
 
-              {/* Cara Frontal: Lienzo de la Obra (PBR con Resina & Clearcoat) */}
+              {/* Cara Frontal: Lienzo Inmenso de la Obra (PBR con Resina & Clearcoat) */}
               <mesh
                 ref={(el) => (wallRefs.current[i] = el)}
-                position={[0, 0, 0.07]}
+                position={[0, 0, 0.09]}
                 userData={{ isArtwork: true, index: i, title: art.title }}
                 onClick={() => {
                   if (!isStarted) {
@@ -277,7 +277,7 @@ export function Gallery({ onInspectArtwork, isStarted, setInteractionPrompt }: G
                 onPointerOver={() => (document.body.style.cursor = 'pointer')}
                 onPointerOut={() => (document.body.style.cursor = 'auto')}
               >
-                <planeGeometry args={[3.2, 4.2]} />
+                <planeGeometry args={[5.2, 7.0]} />
                 <meshPhysicalMaterial
                   map={textures[i]}
                   roughness={0.35}
@@ -289,18 +289,18 @@ export function Gallery({ onInspectArtwork, isStarted, setInteractionPrompt }: G
               </mesh>
 
               {/* Ojos de Cristal 3D (Pupilas Cerámicas Hiperrealistas en Relieve) */}
-              <mesh position={[-0.45, 0.45, 0.08]}>
-                <sphereGeometry args={[0.06, 16, 16]} />
-                <meshPhysicalMaterial color="#FFFFFF" clearcoat={1.0} clearcoatRoughness={0.0} roughness={0.1} emissive="#FFD700" emissiveIntensity={0.25} />
+              <mesh position={[-0.75, 0.75, 0.11]}>
+                <sphereGeometry args={[0.1, 16, 16]} />
+                <meshPhysicalMaterial color="#FFFFFF" clearcoat={1.0} clearcoatRoughness={0.0} roughness={0.1} emissive="#FFD700" emissiveIntensity={0.3} />
               </mesh>
-              <mesh position={[0.45, 0.45, 0.08]}>
-                <sphereGeometry args={[0.06, 16, 16]} />
-                <meshPhysicalMaterial color="#FFFFFF" clearcoat={1.0} clearcoatRoughness={0.0} roughness={0.1} emissive="#FFD700" emissiveIntensity={0.25} />
+              <mesh position={[0.75, 0.75, 0.11]}>
+                <sphereGeometry args={[0.1, 16, 16]} />
+                <meshPhysicalMaterial color="#FFFFFF" clearcoat={1.0} clearcoatRoughness={0.0} roughness={0.1} emissive="#FFD700" emissiveIntensity={0.3} />
               </mesh>
 
               {/* Cara Trasera: "El Reverso Acústico" (Rotada 180° en Z/Y) */}
               <mesh
-                position={[0, 0, -0.07]}
+                position={[0, 0, -0.09]}
                 rotation={[0, Math.PI, 0]}
                 userData={{ isArtwork: true, index: i, title: `${art.title} (Reverso Acústico)` }}
                 onClick={() => {
@@ -308,7 +308,7 @@ export function Gallery({ onInspectArtwork, isStarted, setInteractionPrompt }: G
                   setFlippedStates((prev) => ({ ...prev, [i]: !prev[i] }))
                 }}
               >
-                <planeGeometry args={[3.2, 4.2]} />
+                <planeGeometry args={[5.2, 7.0]} />
                 <meshStandardMaterial map={reversoTexture} roughness={0.65} metalness={0.35} />
               </mesh>
             </group>

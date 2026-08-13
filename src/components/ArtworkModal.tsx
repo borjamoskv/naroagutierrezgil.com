@@ -147,11 +147,11 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
                   exit={{ opacity: 0, scale: 1.02 }}
                   transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   style={{
-                    maxHeight: '75vh',
+                    maxHeight: '84vh',
                     width: '100%',
                     objectFit: 'contain',
                     imageRendering: 'high-quality' as any,
-                    filter: 'drop-shadow(0 20px 50px rgba(0,0,0,0.95)) drop-shadow(0 0 30px rgba(43, 59, 229, 0.3))'
+                    filter: 'drop-shadow(0 25px 60px rgba(0,0,0,0.98)) drop-shadow(0 0 35px rgba(255, 215, 0, 0.35))'
                   }}
                 />
               </AnimatePresence>
