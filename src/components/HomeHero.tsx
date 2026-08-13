@@ -1,17 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { artworks } from '../data/artworks'
+import { ARTWORKS } from '../artworks'
 
-export function HomeHero({ onNavigate }) {
+interface HomeHeroProps {
+  onNavigate?: (view: string) => void
+}
+
+export function HomeHero({ onNavigate }: HomeHeroProps) {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const featuredArtworks = artworks.slice(0, 3)
+  const featuredArtworks = ARTWORKS.slice(0, 5)
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % featuredArtworks.length)
     }, 5000)
     return () => clearInterval(interval)
-  }, [])
+  }, [featuredArtworks.length])
 
   return (
     <div style={{
@@ -37,7 +41,7 @@ export function HomeHero({ onNavigate }) {
           }}
         >
           <img 
-            src={featuredArtworks[currentSlide].src} 
+            src={featuredArtworks[currentSlide].url} 
             alt={featuredArtworks[currentSlide].title}
             style={{
               width: '100%',
@@ -127,14 +131,14 @@ export function HomeHero({ onNavigate }) {
           style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}
         >
           <button 
-            onClick={() => onNavigate('gallery')}
+            onClick={() => onNavigate?.('gallery')}
             className="premium-btn premium-btn--primary"
             style={{ padding: '16px 32px', fontSize: '1rem' }}
           >
             Explorar Colección
           </button>
           <button 
-            onClick={() => onNavigate('encargos')}
+            onClick={() => onNavigate?.('commissions')}
             className="premium-btn"
             style={{ padding: '16px 32px', fontSize: '1rem' }}
           >

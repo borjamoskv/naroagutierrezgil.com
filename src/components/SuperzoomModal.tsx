@@ -1,10 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import type { Artwork } from '../artworks'
 
-export function SuperzoomModal({ isOpen, onClose, artwork }) {
+interface SuperzoomModalProps {
+  isOpen: boolean
+  onClose: () => void
+  artwork: Artwork | null
+}
+
+export function SuperzoomModal({ isOpen, onClose, artwork }: SuperzoomModalProps) {
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(2)
-  const containerRef = useRef(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (isOpen) {
@@ -15,7 +22,7 @@ export function SuperzoomModal({ isOpen, onClose, artwork }) {
 
   if (!artwork) return null
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return
     const { left, top, width, height } = containerRef.current.getBoundingClientRect()
     const x = (e.clientX - left) / width
@@ -45,7 +52,7 @@ export function SuperzoomModal({ isOpen, onClose, artwork }) {
             onWheel={(e) => setZoom(Math.min(Math.max(1, zoom - e.deltaY * 0.01), 10))}
           >
             <img 
-              src={artwork.src} 
+              src={artwork.url} 
               alt={artwork.title}
               style={{
                 width: '100%',

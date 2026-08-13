@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
-import { artworks } from '../data/artworks'
+import { ARTWORKS } from '../artworks'
+
+interface TiltCardProps {
+  children: React.ReactNode
+  onClick?: () => void
+  className?: string
+  style?: React.CSSProperties
+}
 
 // Componente de Tarjeta con Efecto Tilt 3D
-function TiltCard({ children, onClick, className }) {
+function TiltCard({ children, onClick, className, style }: TiltCardProps) {
   const x = useMotionValue(0)
   const y = useMotionValue(0)
 
@@ -16,7 +23,7 @@ function TiltCard({ children, onClick, className }) {
   const glareX = useTransform(mouseXSpring, [-0.5, 0.5], ['100%', '0%'])
   const glareY = useTransform(mouseYSpring, [-0.5, 0.5], ['100%', '0%'])
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect()
     const width = rect.width
     const height = rect.height
@@ -31,6 +38,11 @@ function TiltCard({ children, onClick, className }) {
     y.set(0)
   }
 
+  const backgroundGradient = useTransform(
+    [glareX, glareY],
+    ([gx, gy]) => `radial-gradient(circle at ${gx} ${gy}, rgba(255,255,255,0.3) 0%, transparent 60%)`
+  )
+
   return (
     <motion.div
       className={className}
@@ -42,7 +54,8 @@ function TiltCard({ children, onClick, className }) {
         rotateY,
         transformStyle: 'preserve-3d',
         perspective: 1000,
-        cursor: 'pointer'
+        cursor: 'pointer',
+        ...style
       }}
       whileHover={{ scale: 1.02, zIndex: 10 }}
       transition={{ duration: 0.3 }}
@@ -51,16 +64,10 @@ function TiltCard({ children, onClick, className }) {
         style={{
           position: 'absolute',
           inset: 0,
-          background: 'radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 80%)',
+          background: backgroundGradient,
           opacity: 0,
           zIndex: 2,
           pointerEvents: 'none'
-        }}
-        animate={{
-          background: useTransform(
-            [glareX, glareY],
-            ([gx, gy]) => `radial-gradient(circle at ${gx} ${gy}, rgba(255,255,255,0.3) 0%, transparent 60%)`
-          )
         }}
         whileHover={{ opacity: 1 }}
       />
@@ -69,16 +76,29 @@ function TiltCard({ children, onClick, className }) {
   )
 }
 
-export function GalleryGrid({ onOpenArtwork }) {
+interface GalleryGridProps {
+  onInspect?: (index: number) => void
+  onOpenArtwork?: (index: number) => void
+}
+
+export function GalleryGrid({ onInspect, onOpenArtwork }: GalleryGridProps) {
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
 
-  const categories = ['all', ...new Set(artworks.map(a => a.category))]
+  const handleSelect = (index: number) => {
+    if (onInspect) onInspect(index)
+    else if (onOpenArtwork) onOpenArtwork(index)
+  }
 
-  const filteredArtworks = artworks.filter(art => {
-    const matchesFilter = filter === 'all' || art.category === filter
+  const rawCategories = ARTWORKS.map(a => a.category || a.series || 'Pizarra Natural')
+  const categories = ['all', ...Array.from(new Set(rawCategories))]
+
+  const filteredArtworks = ARTWORKS.filter(art => {
+    const artCat = art.category || art.series || 'Pizarra Natural'
+    const matchesFilter = filter === 'all' || artCat === filter
     const matchesSearch = art.title.toLowerCase().includes(search.toLowerCase()) || 
-                          art.description.toLowerCase().includes(search.toLowerCase())
+                          (art.description && art.description.toLowerCase().includes(search.toLowerCase())) ||
+                          art.medium.toLowerCase().includes(search.toLowerCase())
     return matchesFilter && matchesSearch
   })
 
@@ -104,10 +124,10 @@ export function GalleryGrid({ onOpenArtwork }) {
         </p>
 
         {/* Controles */}
-        <div className="gallery-filter-bar" style={{ display: 'flex', gap: '16px', marginBottom: '32px', alignItems: 'center' }}>
+        <div className="gallery-filter-bar" style={{ display: 'flex', gap: '16px', marginBottom: '32px', alignItems: 'center', flexWrap: 'wrap' }}>
           <input
             type="text"
-            placeholder="Buscar obra..."
+            placeholder="Buscar obra por título, soporte o técnica..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={{
@@ -119,7 +139,7 @@ export function GalleryGrid({ onOpenArtwork }) {
               fontFamily: 'Outfit, sans-serif',
               outline: 'none',
               flex: 1,
-              minWidth: '200px'
+              minWidth: '220px'
             }}
           />
           <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '4px' }}>
@@ -143,23 +163,24 @@ export function GalleryGrid({ onOpenArtwork }) {
           gap: '24px'
         }}>
           {filteredArtworks.map((art, index) => {
-            const realIndex = artworks.findIndex(a => a.id === art.id)
+            const realIndex = ARTWORKS.findIndex(a => a.id === art.id)
+            const catDisplay = art.category || art.series || 'Pizarra Natural'
             return (
               <motion.div
                 key={art.id}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
+                transition={{ duration: 0.4, delay: index * 0.03 }}
                 layout
               >
                 <TiltCard 
                   className="premium-card" 
                   style={{ padding: 0, overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column' }}
-                  onClick={() => onOpenArtwork(realIndex)}
+                  onClick={() => handleSelect(realIndex)}
                 >
                   <div style={{ position: 'relative', aspectRatio: '4/5', overflow: 'hidden' }}>
                     <img 
-                      src={art.src} 
+                      src={art.url} 
                       alt={art.title} 
                       style={{ 
                         width: '100%', 
@@ -172,8 +193,8 @@ export function GalleryGrid({ onOpenArtwork }) {
                     <div style={{
                       position: 'absolute',
                       inset: 0,
-                      background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%)',
-                      opacity: 0.8
+                      background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 50%)',
+                      opacity: 0.85
                     }} />
                     <div style={{
                       position: 'absolute',
@@ -182,9 +203,9 @@ export function GalleryGrid({ onOpenArtwork }) {
                       right: '16px'
                     }}>
                       <span className="premium-badge" style={{ marginBottom: '8px', background: 'rgba(0,0,0,0.6)' }}>
-                        {art.category}
+                        {catDisplay}
                       </span>
-                      <h3 style={{ margin: 0, fontSize: '1.4rem', color: '#FFF', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
+                      <h3 style={{ margin: 0, fontSize: '1.3rem', color: '#FFF', textShadow: '0 2px 4px rgba(0,0,0,0.8)' }}>
                         {art.title}
                       </h3>
                     </div>
@@ -193,7 +214,7 @@ export function GalleryGrid({ onOpenArtwork }) {
                     <span style={{ fontFamily: 'Share Tech Mono, monospace', fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)' }}>
                       {art.year}
                     </span>
-                    <span style={{ color: '#F59E0B', fontSize: '0.9rem' }}>Ver →</span>
+                    <span style={{ color: '#F59E0B', fontSize: '0.85rem', fontWeight: 600 }}>Ver Detalle →</span>
                   </div>
                 </TiltCard>
               </motion.div>

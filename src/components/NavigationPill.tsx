@@ -1,9 +1,22 @@
-import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 
-export function NavigationPill({ currentView, setView, onOpenTerminal }) {
+interface NavigationPillProps {
+  currentView: string
+  audioActive?: boolean
+  toggleAudio?: () => void
+  onOpenTerminal?: () => void
+  onOpenEspejo?: () => void
+}
+
+export function NavigationPill({
+  currentView,
+  audioActive = false,
+  toggleAudio,
+  onOpenTerminal,
+  onOpenEspejo
+}: NavigationPillProps) {
   const [scrolled, setScrolled] = useState(false)
-  const [audioActive, setAudioActive] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,13 +27,17 @@ export function NavigationPill({ currentView, setView, onOpenTerminal }) {
   }, [])
 
   const navItems = [
-    { id: 'home', label: 'Inicio' },
-    { id: 'gallery', label: 'Colección' },
-    { id: 'sala', label: 'Sala 3D' },
-    { id: 'encargos', label: 'Encargos' },
-    { id: 'blog', label: 'Bitácora' },
-    { id: 'about', label: 'Sobre Mí' }
+    { id: 'home', label: 'Inicio', hash: '#home' },
+    { id: 'gallery', label: 'Colección', hash: '#gallery' },
+    { id: '3d', label: 'Sala 3D', hash: '#3d' },
+    { id: 'commissions', label: 'Encargos', hash: '#commissions' },
+    { id: 'blog', label: 'Bitácora', hash: '#blog' },
+    { id: 'about', label: 'Sobre Mí', hash: '#sobre-mi' }
   ]
+
+  const handleNavigate = (hash: string) => {
+    window.location.hash = hash
+  }
 
   return (
     <motion.div
@@ -41,16 +58,16 @@ export function NavigationPill({ currentView, setView, onOpenTerminal }) {
         alignItems: 'center',
         gap: '8px',
         padding: '8px 16px',
-        background: scrolled ? 'rgba(10, 10, 14, 0.85)' : 'rgba(20, 20, 26, 0.6)',
+        background: scrolled ? 'rgba(7, 7, 9, 0.92)' : 'rgba(14, 14, 18, 0.75)',
         backdropFilter: 'blur(24px)',
         WebkitBackdropFilter: 'blur(24px)',
         borderRadius: '100px',
         border: '1px solid rgba(255, 255, 255, 0.1)',
-        boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
+        boxShadow: '0 10px 40px rgba(0,0,0,0.6)',
         transition: 'all 0.3s ease'
       }}>
         <button
-          onClick={() => setView('home')}
+          onClick={() => handleNavigate('#home')}
           style={{
             background: 'none',
             border: 'none',
@@ -58,8 +75,9 @@ export function NavigationPill({ currentView, setView, onOpenTerminal }) {
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            marginRight: '8px'
+            marginRight: '4px'
           }}
+          title="Naroa Gutiérrez Gil — Artista Visual"
         >
           <div style={{
             width: '32px',
@@ -72,76 +90,106 @@ export function NavigationPill({ currentView, setView, onOpenTerminal }) {
             color: '#000',
             fontWeight: 900,
             fontFamily: 'Outfit, sans-serif',
-            fontSize: '1.2rem'
+            fontSize: '1.1rem'
           }}>
             N
           </div>
         </button>
 
-        <div style={{ display: 'flex', gap: '4px' }}>
-          {navItems.map(item => (
-            <button
-              key={item.id}
-              onClick={() => setView(item.id)}
-              style={{
-                background: currentView === item.id ? 'rgba(245, 158, 11, 0.15)' : 'transparent',
-                border: 'none',
-                borderRadius: '50px',
-                padding: '8px 16px',
-                color: currentView === item.id ? '#F59E0B' : 'rgba(255,255,255,0.7)',
-                fontSize: '0.85rem',
-                fontWeight: currentView === item.id ? 600 : 400,
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                fontFamily: 'Outfit, sans-serif'
-              }}
-            >
-              {item.label}
-            </button>
-          ))}
+        <div style={{ display: 'flex', gap: '4px', flexWrap: 'nowrap' }}>
+          {navItems.map(item => {
+            const isActive = currentView === item.id || (currentView === 'destacada' && item.id === 'gallery')
+            return (
+              <button
+                key={item.id}
+                onClick={() => handleNavigate(item.hash)}
+                style={{
+                  background: isActive ? 'rgba(245, 158, 11, 0.18)' : 'transparent',
+                  border: 'none',
+                  borderRadius: '50px',
+                  padding: '8px 16px',
+                  color: isActive ? '#F59E0B' : 'rgba(255,255,255,0.75)',
+                  fontSize: '0.82rem',
+                  fontWeight: isActive ? 700 : 500,
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  fontFamily: 'Outfit, sans-serif',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                {item.label}
+              </button>
+            )
+          })}
         </div>
 
-        <div style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.1)', margin: '0 8px' }} />
+        <div style={{ width: '1px', height: '24px', background: 'rgba(255,255,255,0.12)', margin: '0 4px' }} />
 
-        <button
-          onClick={() => setAudioActive(!audioActive)}
-          style={{
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: '50%',
-            width: '36px',
-            height: '36px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            color: audioActive ? '#F59E0B' : 'rgba(255,255,255,0.6)',
-            transition: 'all 0.2s ease'
-          }}
-          title="Audio FX"
-        >
-          {audioActive ? '🔊' : '🔇'}
-        </button>
+        {toggleAudio && (
+          <button
+            onClick={toggleAudio}
+            style={{
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '50%',
+              width: '36px',
+              height: '36px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              color: audioActive ? '#F59E0B' : 'rgba(255,255,255,0.6)',
+              transition: 'all 0.2s ease'
+            }}
+            title={audioActive ? 'Silenciar Audio' : 'Activar Ambient Audio'}
+          >
+            {audioActive ? '🔊' : '🔇'}
+          </button>
+        )}
 
-        <button
-          onClick={onOpenTerminal}
-          style={{
-            background: 'rgba(43, 59, 229, 0.15)',
-            border: '1px solid rgba(43, 59, 229, 0.3)',
-            borderRadius: '50%',
-            width: '36px',
-            height: '36px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            color: '#8D97FF',
-            transition: 'all 0.2s ease'
-          }}
-          title="Terminal Curatorial"
-        >
-          ⌨️
-        </button>
+        {onOpenEspejo && (
+          <button
+            onClick={onOpenEspejo}
+            style={{
+              background: 'rgba(245, 158, 11, 0.1)',
+              border: '1px solid rgba(245, 158, 11, 0.3)',
+              borderRadius: '50%',
+              width: '36px',
+              height: '36px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              color: '#F59E0B',
+              transition: 'all 0.2s ease'
+            }}
+            title="Espejo del Alma — Test Interactivo"
+          >
+            🪞
+          </button>
+        )}
+
+        {onOpenTerminal && (
+          <button
+            onClick={onOpenTerminal}
+            style={{
+              background: 'rgba(43, 59, 229, 0.15)',
+              border: '1px solid rgba(43, 59, 229, 0.3)',
+              borderRadius: '50%',
+              width: '36px',
+              height: '36px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              color: '#8D97FF',
+              transition: 'all 0.2s ease'
+            }}
+            title="Terminal Curatorial (Cmd+K)"
+          >
+            ⌨️
+          </button>
+        )}
       </div>
     </motion.div>
   )

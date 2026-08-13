@@ -1,8 +1,71 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" width="100%" height="100%">
-  <clipPath id="circle-clip">
-    <circle cx="256" cy="256" r="256" />
-  </clipPath>
-  <g clip-path="url(#circle-clip)">
-    <image href="/favicon.png" x="0" y="0" width="512" height="512" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="75%" fx="30%" fy="30%">
+      <stop offset="0%" stop-color="#14141c" />
+      <stop offset="60%" stop-color="#09090d" />
+      <stop offset="100%" stop-color="#040406" />
+    </radialGradient>
+
+    <!-- Gold Foil Gradient -->
+    <linearGradient id="goldLinear" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF1B0" />
+      <stop offset="25%" stop-color="#F3C34F" />
+      <stop offset="50%" stop-color="#E5C158" />
+      <stop offset="75%" stop-color="#B88A22" />
+      <stop offset="100%" stop-color="#F5DF88" />
+    </linearGradient>
+
+    <!-- Kintsugi Accent Glow -->
+    <linearGradient id="kintsugiGlow" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E5C158" />
+      <stop offset="50%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#D4AF37" />
+    </linearGradient>
+
+    <!-- Golden Ring Gradient -->
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E5C158" stop-opacity="0.8" />
+      <stop offset="50%" stop-color="#4A3B12" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#E5C158" stop-opacity="0.6" />
+    </linearGradient>
+
+    <!-- Subtle Drop Shadow -->
+    <filter id="goldShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#E5C158" flood-opacity="0.25" />
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000000" flood-opacity="0.8" />
+    </filter>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGlow)" />
+  <rect width="504" height="504" x="4" y="4" rx="108" fill="none" stroke="url(#ringGrad)" stroke-width="2.5" />
+
+  <!-- Sparkling Mica / Gold Dust Particles -->
+  <g opacity="0.65">
+    <circle cx="120" cy="140" r="2.5" fill="#FFF1B0" />
+    <circle cx="390" cy="110" r="3" fill="#E5C158" />
+    <circle cx="410" cy="370" r="2" fill="#FFF1B0" />
+    <circle cx="100" cy="380" r="2.5" fill="#E5C158" />
+    <circle cx="360" cy="240" r="1.8" fill="#FFFFFF" />
+    <polygon points="135,125 137,130 142,132 137,134 135,139 133,134 128,132 133,130" fill="#FFF1B0" opacity="0.8" />
+    <polygon points="385,350 387,354 391,356 387,358 385,362 383,358 379,356 383,354" fill="#E5C158" opacity="0.8" />
+  </g>
+
+  <!-- Monogram 'N' with Kintsugi Aesthetic -->
+  <g filter="url(#goldShadow)">
+    <!-- Left Vertical Stem -->
+    <path d="M 145 120 L 195 120 L 195 392 L 145 392 Z" fill="url(#goldLinear)" />
+
+    <!-- Right Vertical Stem -->
+    <path d="M 317 120 L 367 120 L 367 392 L 317 392 Z" fill="url(#goldLinear)" />
+
+    <!-- Diagonal Stroke with Kintsugi Cuts -->
+    <path d="M 185 120 L 235 120 L 330 365 L 330 392 L 280 392 L 185 147 Z" fill="url(#goldLinear)" />
+
+    <!-- Kintsugi Veins (Golden Cracks) -->
+    <path d="M 160 210 Q 180 225 190 220 T 215 240" fill="none" stroke="url(#kintsugiGlow)" stroke-width="3" stroke-linecap="round" />
+    <path d="M 230 210 Q 250 245 270 235 T 300 290" fill="none" stroke="url(#kintsugiGlow)" stroke-width="3.5" stroke-linecap="round" />
+    <path d="M 330 270 Q 345 285 355 310" fill="none" stroke="url(#kintsugiGlow)" stroke-width="2.5" stroke-linecap="round" />
   </g>
 </svg>

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useMemo } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
-import { useTexture, Html } from '@react-three/drei'
+import { useTexture } from '@react-three/drei'
 import * as THREE from 'three'
 import { ARTWORKS } from '../artworks'
 
@@ -8,6 +8,7 @@ interface GalleryProps {
   onInspectArtwork: (index: number) => void
   isStarted: boolean
   setInteractionPrompt: (prompt: string | null) => void
+  reducedMotion?: boolean
 }
 
 export function Gallery({ onInspectArtwork, isStarted, setInteractionPrompt }: GalleryProps) {
@@ -155,8 +156,8 @@ export function Gallery({ onInspectArtwork, isStarted, setInteractionPrompt }: G
               ref={el => (wallRefs.current[i] = el)}
               userData={{ isArtwork: true, index: i, title: art.title }}
               onClick={() => !isStarted && onInspectArtwork(i)}
-              onPointerOver={e => (document.body.style.cursor = 'pointer')}
-              onPointerOut={e => (document.body.style.cursor = 'auto')}
+              onPointerOver={() => (document.body.style.cursor = 'pointer')}
+              onPointerOut={() => (document.body.style.cursor = 'auto')}
             >
               <planeGeometry args={[3, 4]} />
               <meshStandardMaterial 

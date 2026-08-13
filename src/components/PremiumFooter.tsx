@@ -1,6 +1,11 @@
 import React from 'react'
 
-export function PremiumFooter({ onOpenEasterEgg, onOpenEspejo }) {
+interface PremiumFooterProps {
+  onOpenEasterEgg?: () => void
+  onOpenEspejo?: () => void
+}
+
+export function PremiumFooter({ onOpenEasterEgg, onOpenEspejo }: PremiumFooterProps) {
   const currentYear = new Date().getFullYear()
 
   return (
@@ -46,19 +51,21 @@ export function PremiumFooter({ onOpenEasterEgg, onOpenEspejo }) {
         </div>
 
         {/* Links */}
-        <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap' }}>
-          <a href="mailto:naroa@naroa.eu" className="premium-footer-link" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.3s' }}>
-            Email
+        <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap', alignItems: 'center' }}>
+          <a href="https://wa.me/34636060609?text=Hola%20Naroa!%20Te%20contacto%20desde%20tu%20web..." target="_blank" rel="noopener noreferrer" className="premium-footer-link" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.3s' }}>
+            💬 WhatsApp Directo
           </a>
           <a href="https://www.instagram.com/naroa_art/" target="_blank" rel="noopener noreferrer" className="premium-footer-link" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.3s' }}>
-            Instagram
+            Instagram (@naroa_art)
           </a>
-          <a href="https://www.facebook.com/naroa.artista.plastica" target="_blank" rel="noopener noreferrer" className="premium-footer-link" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.3s' }}>
+          <a href="https://www.facebook.com/naroagutierrezgil" target="_blank" rel="noopener noreferrer" className="premium-footer-link" style={{ color: 'rgba(255,255,255,0.6)', textDecoration: 'none', fontSize: '0.9rem', transition: 'color 0.3s' }}>
             Facebook
           </a>
-          <button onClick={onOpenEspejo} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', cursor: 'pointer', fontFamily: 'Outfit, sans-serif', padding: 0 }}>
-            Espejo del Alma ✨
-          </button>
+          {onOpenEspejo && (
+            <button onClick={onOpenEspejo} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', cursor: 'pointer', fontFamily: 'Outfit, sans-serif', padding: 0 }}>
+              Espejo del Alma ✨
+            </button>
+          )}
         </div>
 
         {/* Copyright */}
@@ -74,23 +81,25 @@ export function PremiumFooter({ onOpenEasterEgg, onOpenEspejo }) {
           color: 'rgba(255,255,255,0.3)',
           fontFamily: 'Share Tech Mono, monospace'
         }}>
-          <span>© {currentYear} Naroa Gutiérrez Gil</span>
-          <button 
-            onClick={onOpenEasterEgg}
-            style={{ 
-              background: 'none', 
-              border: 'none', 
-              color: 'rgba(255,255,255,0.2)', 
-              fontSize: '0.75rem', 
-              cursor: 'pointer',
-              fontFamily: 'Share Tech Mono, monospace',
-              transition: 'color 0.3s'
-            }}
-            onMouseEnter={(e) => e.target.style.color = '#F59E0B'}
-            onMouseLeave={(e) => e.target.style.color = 'rgba(255,255,255,0.2)'}
-          >
-            A O R A N
-          </button>
+          <span>© {currentYear} Naroa Gutiérrez Gil · Bolueta, Bilbao</span>
+          {onOpenEasterEgg && (
+            <button 
+              onClick={onOpenEasterEgg}
+              style={{ 
+                background: 'none', 
+                border: 'none', 
+                color: 'rgba(255,255,255,0.2)', 
+                fontSize: '0.75rem', 
+                cursor: 'pointer',
+                fontFamily: 'Share Tech Mono, monospace',
+                transition: 'color 0.3s'
+              }}
+              onMouseEnter={(e: React.MouseEvent<HTMLButtonElement>) => (e.currentTarget.style.color = '#F59E0B')}
+              onMouseLeave={(e: React.MouseEvent<HTMLButtonElement>) => (e.currentTarget.style.color = 'rgba(255,255,255,0.2)')}
+            >
+              A O R A N ↔ A NAROA LA ORAN
+            </button>
+          )}
         </div>
       </div>
     </footer>

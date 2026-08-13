@@ -1,13 +1,18 @@
-import React, { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { useTexture, OrbitControls, Environment } from '@react-three/drei'
+import { useTexture, OrbitControls, Environment, Float } from '@react-three/drei'
 import * as THREE from 'three'
+import type { Artwork } from '../artworks'
 
-function SplatModel({ artwork }) {
-  const texture = useTexture(artwork.src)
-  const meshRef = useRef()
-  const groupRef = useRef()
+interface SplatModelProps {
+  artwork: Artwork
+}
+
+function SplatModel({ artwork }: SplatModelProps) {
+  const texture = useTexture(artwork.url)
+  const meshRef = useRef<THREE.Mesh>(null)
+  const groupRef = useRef<THREE.Group>(null)
   
   useFrame((state) => {
     if (groupRef.current) {
@@ -29,15 +34,18 @@ function SplatModel({ artwork }) {
           />
         </mesh>
       </Float>
-      {/* Splat particles effect */}
       <pointLight position={[2, 2, 2]} intensity={2} color="#F59E0B" />
     </group>
   )
 }
 
-import { Float } from '@react-three/drei'
+interface SplatViewerModalProps {
+  isOpen: boolean
+  onClose: () => void
+  artwork: Artwork | null
+}
 
-export function SplatViewerModal({ isOpen, onClose, artwork }) {
+export function SplatViewerModal({ isOpen, onClose, artwork }: SplatViewerModalProps) {
   if (!artwork) return null
 
   return (

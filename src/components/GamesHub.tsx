@@ -1,4 +1,3 @@
-import React from 'react'
 import { motion } from 'framer-motion'
 
 const games = [
@@ -13,7 +12,11 @@ const games = [
   { id: 'kintsugi', name: 'Kintsugi Emocional', icon: '🥇', desc: 'Repara grietas con oro', status: 'spectacular' }
 ]
 
-export function GamesHub({ onNavigate }) {
+interface GamesHubProps {
+  onNavigate?: (view: string) => void
+}
+
+export function GamesHub({ onNavigate }: GamesHubProps) {
   return (
     <div style={{
       minHeight: '100vh',
@@ -32,7 +35,7 @@ export function GamesHub({ onNavigate }) {
           Arte <span className="highlight-gold">Jugable</span>
         </h1>
         <p className="premium-subtitle" style={{ maxWidth: '600px', marginBottom: '48px' }}>
-          21 minijuegos creados con las obras de Naroa. El arte no solo se mira, se juega.
+          Minijuegos interactivos creados con el universo matérico de Naroa. El arte no solo se contempla, se experimenta.
         </p>
 
         <div style={{
@@ -55,7 +58,7 @@ export function GamesHub({ onNavigate }) {
                 textAlign: 'center',
                 border: game.status === 'spectacular' ? '1px solid rgba(245, 158, 11, 0.5)' : '1px solid rgba(255,255,255,0.08)'
               }}
-              onClick={() => onNavigate(`game-${game.id}`)}
+              onClick={() => onNavigate?.(`game-${game.id}`)}
             >
               <div style={{ fontSize: '3rem', marginBottom: '16px' }}>{game.icon}</div>
               <h3 style={{ fontSize: '1.3rem', marginBottom: '8px', color: '#FFF' }}>{game.name}</h3>

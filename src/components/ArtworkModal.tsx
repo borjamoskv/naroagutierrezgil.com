@@ -407,17 +407,16 @@ export function ArtworkModal({ artwork, currentIndex, onClose, onNavigate }: Art
 
       {showSplat && artwork.splatUrl && (
         <SplatViewerModal
-          splatUrl={artwork.splatUrl}
-          title={artwork.title}
+          isOpen={showSplat}
+          artwork={artwork}
           onClose={() => setShowSplat(false)}
         />
       )}
 
       {showSuperzoom && (
         <SuperzoomModal
-          imageSrc={artwork.url}
-          title={artwork.title}
-          medium={artwork.medium}
+          isOpen={showSuperzoom}
+          artwork={artwork}
           onClose={() => setShowSuperzoom(false)}
         />
       )}

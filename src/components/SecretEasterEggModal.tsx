@@ -1,7 +1,12 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-export function SecretEasterEggModal({ isOpen, onClose }) {
+interface SecretEasterEggModalProps {
+  isOpen: boolean
+  onClose: () => void
+}
+
+export function SecretEasterEggModal({ isOpen, onClose }: SecretEasterEggModalProps) {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -36,17 +41,17 @@ export function SecretEasterEggModal({ isOpen, onClose }) {
               textAlign: 'center',
               boxShadow: '0 0 60px rgba(245, 158, 11, 0.3)'
             }}
-            onClick={(e) => e.stopPropagation()}
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
           >
             <div style={{ fontSize: '4rem', marginBottom: '24px' }}>🎨</div>
             <h2 style={{ fontFamily: 'Outfit, sans-serif', color: '#F59E0B', marginBottom: '16px' }}>
-              ¡Has encontrado el secreto!
+              ¡Has descubierto el palíndromo!
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.8)', lineHeight: '1.6', marginBottom: '24px' }}>
-              "A O R A N" no es solo mi nombre al revés. Es un recordatorio de que el arte se puede mirar desde cualquier ángulo, y siempre revela algo nuevo.
+              «A NAROA LA ORAN ↔ AORAN» es un recordatorio de que el arte se contempla desde todos los ángulos y siempre proyecta lo imperecedero.
             </p>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.9rem', fontFamily: 'Share Tech Mono, monospace', marginBottom: '32px' }}>
-              Gracias por explorar hasta el final.
+              Naroa Gutiérrez Gil · Bilbao
             </p>
             <button onClick={onClose} className="premium-btn premium-btn--primary" style={{ width: '100%', justifyContent: 'center' }}>
               Cerrar
