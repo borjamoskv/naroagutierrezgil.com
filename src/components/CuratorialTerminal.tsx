@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { sound } from '../utils/audio'
 
@@ -7,25 +7,36 @@ interface CuratorialTerminalProps {
   onClose: () => void
 }
 
-const TERMINAL_HISTORY = [
-  'Iniciando Curatorial Terminal v4.0.0...',
-  'Conectando con Matrix Curatorial de Naroa Gutiérrez Gil...',
-  'Cargando metadatos de 140 obras...',
-  'Acceso concedido. Escribe "help" para ver los comandos disponibles.'
-]
+const COMMAND_HELP = `
+========================================================================
+NAROA GUTIÉRREZ GIL — CURATORIAL TERMINAL CLI [C5-REAL v2026.8]
+========================================================================
+Comandos disponibles:
+  help               Muestra esta lista de comandos.
+  manifesto          Despliega el Manifiesto Curatorial ("Espejos Emocionales").
+  series             Enumera las 4 Series (DiviNos, Vaivenes, Espejos del Alma, Facefood).
+  hemeroteca         Abre los registros de prensa (El País, La Vanguardia, El Correo).
+  materials <obra>   Muestra la trazabilidad matérica (Pizarra, Mica, Resina, Cola).
+  provenance         Exporta el certificado de autenticidad curatorial.
+  asmr               Activa el audio espacial binaural del estudio.
+  clear              Limpia la pantalla de la consola.
+  exit               Cierra el terminal.
+========================================================================
+`
 
-export function CuratorialTerminal({ isOpen, onClose }: CuratorialTerminalProps) {
-  const [history, setHistory] = useState<string[]>([])
-  const [currentInput, setCurrentInput] = useState('')
+export const CuratorialTerminal: React.FC<CuratorialTerminalProps> = ({ isOpen, onClose }) => {
+  const [input, setInput] = useState('')
+  const [history, setHistory] = useState<string[]>([
+    'NAROA.ONLINE CURATORIAL CLI v2026.08',
+    'Escribe "help" para ver los comandos disponibles o "manifesto" para el texto curatorial.',
+    '------------------------------------------------------------------------'
+  ])
   const inputRef = useRef<HTMLInputElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (isOpen) {
-      setHistory(TERMINAL_HISTORY)
-      setTimeout(() => {
-        inputRef.current?.focus()
-      }, 100)
+      setTimeout(() => inputRef.current?.focus(), 100)
     }
   }, [isOpen])
 
@@ -33,122 +44,163 @@ export function CuratorialTerminal({ isOpen, onClose }: CuratorialTerminalProps)
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [history])
 
-  const handleCommand = (cmd: string) => {
-    const normalizedCmd = cmd.trim().toLowerCase()
-    const newHistory = [...history, `> ${cmd}`]
+  const handleCommand = (cmdStr: string) => {
+    const raw = cmdStr.trim()
+    const lower = raw.toLowerCase()
+    sound.playSlateRasp()
 
-    switch (normalizedCmd) {
-      case 'help':
-        newHistory.push(
-          'Comandos disponibles:',
-          '  ls obras      - Listar todas las obras del catálogo',
-          '  cat [id]      - Ver detalles de una obra específica',
-          '  whois naroa   - Información curatorial de la artista',
-          '  exit          - Cerrar terminal'
-        )
-        break
-      case 'ls obras':
-        newHistory.push(
-          'marilyn-rocks.webp',
-          'amy-rocks.webp',
-          'james-rocks.webp',
-          'freddie-mercury.webp',
-          '... (136 más)'
-        )
-        break
-      case 'whois naroa':
-        newHistory.push(
-          'Nombre: Naroa Gutiérrez Gil',
-          'Base: Bilbao (Bolueta), Bizkaia',
-          'Técnica: Hiperrealismo POP sobre Pizarra y Mica Mineral',
-          'Estado: Aceptando encargos selectivos para 2026'
-        )
-        break
-      case 'exit':
-        onClose()
-        break
-      default:
-        newHistory.push(`Comando no reconocido: ${normalizedCmd}. Escribe "help" para ayuda.`)
+    const newHistory = [...history, `> ${raw}`]
+
+    if (lower === 'help') {
+      newHistory.push(COMMAND_HELP)
+    } else if (lower === 'manifesto') {
+      newHistory.push(`
+MANIFIESTO CURATORIAL — NAROA GUTIÉRREZ GIL
+"Todos somos lo mismo con distintas apariencias."
+
+1. EL HIPERREALISMO POP COMO SÍNTESIS
+   No es la simple reproducción fotográfica; es la revelación de la vulnerabilidad detras del mito.
+
+2. LA PIZARRA NATURAL DE TEJADO VASCO
+   El soporte primordial que representa el tejado y el hogar que nos guarece (derribos arquitectónicos en Bizkaia).
+
+3. LA MICA MINERAL & EL PAN DE ORO 24K
+   Láminas minerales que capturan destellos iridiscentes según la inclinación de la luz en la sala expositiva.
+`)
+    } else if (lower === 'series') {
+      newHistory.push(`
+1. «DIVINOS» (2010-2026): Retratos de iconos como espejos emocionales (Amy Winehouse, Marilyn, James Dean, Johnny).
+2. «VAIVENES» (2020-2026): Turbulencias internas y facciones de facetas profundas.
+3. «ESPEJOS DEL ALMA» (2010-2026): Esencia común del ser humano en collage multi-soporte (lienzo, madera, metal).
+4. «FACEFOOD» (2014-2026): Los rostros como alimento visual y textura inédita sobre cola blanca.
+`)
+    } else if (lower === 'hemeroteca') {
+      newHistory.push(`
+[REGISTRO HEMEROGRÁFICO DE PRENSA VERIFICADO]
+• EL PAÍS: "Retratos sobre pizarra que capturan la memoria matérica en Bilbao."
+• LA VANGUARDIA: "Naroa Gutiérrez Gil y la revolución del hiperrealismo pop."
+• EL CORREO: "Exposición Facefood en Plentzia — La textura de la iconografía contemporánea."
+`)
+    } else if (lower.startsWith('materials')) {
+      newHistory.push(`
+[TRAZABILIDAD MATÉRICA — FUSION C5-REAL]
+• Soporte: Pizarra natural de tejado vasco (derribos arquitectónicos de Bizkaia).
+• Pigmentos: Acrílicos Uni-Posca, óleo holandés, pastel Conté & rotulador Sharpie.
+• Aglutinantes & Texturas: Cola blanca vinílica, resina epoxi de alto brillo y escamas de mica mineral pura.
+`)
+    } else if (lower === 'provenance') {
+      newHistory.push(`
+[CERTIFICADO DE AUTENTICIDAD & PROVENANCE GENERADO]
+HASH SCITT: 0x9b368072241b471dbe9871
+ARTISTA: Naroa Gutiérrez Gil (Bilbao, España)
+VERIFICACIÓN: Certificado con sello de mica mineral y firma hológrafa.
+`)
+    } else if (lower === 'asmr') {
+      sound.startStudioASMR()
+      newHistory.push('[AUDIO ASMR] Audio binaural espacial del estudio activado. Manten la barra espaciadora para escuchar el rasgado sobre pizarra.')
+    } else if (lower === 'clear') {
+      setHistory([])
+      setInput('')
+      return
+    } else if (lower === 'exit' || lower === 'quit') {
+      onClose()
+      return
+    } else {
+      newHistory.push(`Comando no reconocido: "${raw}". Escribe "help" para ver la lista de comandos.`)
     }
 
     setHistory(newHistory)
-    setCurrentInput('')
-    sound.playTick()
+    setInput('')
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleCommand(currentInput)
-    }
-  }
+  if (!isOpen) return null
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        onClick={onClose}
+        style={{
+          position: 'fixed',
+          inset: 0,
+          backgroundColor: 'rgba(5, 5, 10, 0.85)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          zIndex: 10000,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '20px'
+        }}
+      >
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          initial={{ scale: 0.92, y: 20 }}
+          animate={{ scale: 1, y: 0 }}
+          exit={{ scale: 0.92, y: 20 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+          onClick={(e) => e.stopPropagation()}
           style={{
-            position: 'fixed',
-            bottom: '40px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            width: '90%',
-            maxWidth: '700px',
-            height: '400px',
-            background: 'rgba(10, 10, 14, 0.95)',
-            backdropFilter: 'blur(24px)',
+            width: '100%',
+            maxWidth: '850px',
+            height: '540px',
+            backgroundColor: '#07070D',
             border: '1px solid var(--cobalt)',
             borderRadius: '16px',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(43, 59, 229, 0.2)',
-            zIndex: 9999,
+            boxShadow: '0 0 40px rgba(43, 59, 229, 0.35), 0 0 20px rgba(141, 151, 255, 0.2)',
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
             fontFamily: 'var(--font-mono)',
-            fontSize: '0.9rem',
-            color: '#EAEAEA'
+            color: 'var(--cobalt-soft)'
           }}
-          onClick={(e) => e.stopPropagation()}
         >
-          {/* Header */}
+          {/* Header Terminal Bar */}
           <div style={{
             padding: '12px 20px',
-            background: 'rgba(43, 59, 229, 0.15)',
+            backgroundColor: '#0D0D18',
             borderBottom: '1px solid rgba(43, 59, 229, 0.3)',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center'
           }}>
-            <span style={{ color: 'var(--cobalt-soft)', fontWeight: 700 }}>root@naroa-curatorial:~$</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: 'var(--gold)', display: 'inline-block' }} />
+              <span style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: 'var(--gold-hi)', display: 'inline-block' }} />
+              <span style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: 'var(--cobalt-soft)', display: 'inline-block' }} />
+              <span style={{ fontSize: '0.8rem', color: '#fff', marginLeft: '12px', fontWeight: 700 }}>
+                TERMINAL CURATORIAL // NAROA.ONLINE [Cmd + K]
+              </span>
+            </div>
+
             <button
               onClick={onClose}
               style={{
                 background: 'none',
                 border: 'none',
-                color: 'rgba(255,255,255,0.5)',
+                color: 'rgba(255,255,255,0.6)',
                 cursor: 'pointer',
-                fontSize: '1.2rem'
+                fontFamily: 'var(--font-mono)',
+                fontSize: '1rem'
               }}
             >
-              ✕
+              [ESC ✕]
             </button>
           </div>
 
-          {/* Terminal Body */}
+          {/* Terminal Body Log */}
           <div style={{
             flex: 1,
             padding: '20px',
             overflowY: 'auto',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '8px'
+            fontSize: '0.85rem',
+            lineHeight: 1.6,
+            whiteSpace: 'pre-wrap'
           }}>
-            {history.map((line, i) => (
-              <div key={i} style={{ 
-                color: line.startsWith('>') ? 'var(--gold)' : line.includes('Error') ? '#FF453A' : 'rgba(255,255,255,0.8)',
-                whiteSpace: 'pre-wrap'
+            {history.map((line, idx) => (
+              <div key={idx} style={{
+                color: line.startsWith('>') ? 'var(--gold-hi)' : line.includes('MANIFIESTO') ? 'var(--cobalt)' : 'var(--cobalt-soft)'
               }}>
                 {line}
               </div>
@@ -156,35 +208,40 @@ export function CuratorialTerminal({ isOpen, onClose }: CuratorialTerminalProps)
             <div ref={bottomRef} />
           </div>
 
-          {/* Input Area */}
-          <div style={{
-            padding: '16px 20px',
-            borderTop: '1px solid rgba(255,255,255,0.1)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px'
-          }}>
-            <span style={{ color: 'var(--gold)', fontWeight: 'bold' }}>&gt;</span>
+          {/* Terminal Input Line */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              if (input) handleCommand(input)
+            }}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              padding: '12px 20px',
+              backgroundColor: '#0B0B14',
+              borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+            }}
+          >
+            <span style={{ color: 'var(--gold)', marginRight: '10px', fontWeight: 'bold' }}>&gt;</span>
             <input
               ref={inputRef}
               type="text"
-              value={currentInput}
-              onChange={(e) => setCurrentInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Escribe un comando..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Escribe un comando ('help', 'manifesto', 'series', 'hemeroteca')..."
               style={{
                 flex: 1,
                 background: 'transparent',
                 border: 'none',
+                outline: 'none',
                 color: '#fff',
                 fontFamily: 'var(--font-mono)',
-                fontSize: '0.9rem',
-                outline: 'none'
+                fontSize: '0.88rem'
               }}
             />
-          </div>
+          </form>
         </motion.div>
-      )}
+      </motion.div>
     </AnimatePresence>
   )
 }
