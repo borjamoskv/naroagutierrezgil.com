@@ -1,17 +1,9 @@
-<<<<<<< HEAD
 import { useEffect, useRef, useState, useMemo } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useTexture } from '@react-three/drei'
-=======
->>>>>>> 62bbc4c3a127513cf434ac2303bb49841caf3450
 import * as THREE from 'three'
-import { useRef, useState, useEffect, useMemo } from 'react'
-import { useFrame, useThree } from '@react-three/fiber'
-import { Image, Sparkles, useTexture, Html } from '@react-three/drei'
-import { easing } from 'maath'
 import { ARTWORKS } from '../artworks'
 import { sound } from '../utils/audio'
-<<<<<<< HEAD
 
 interface GalleryProps {
   onInspectArtwork: (index: number) => void
@@ -46,44 +38,49 @@ export function Gallery({ onInspectArtwork, isStarted, setInteractionPrompt }: G
     const ctx = canvas.getContext('2d')
     if (ctx) {
       // Pizarra vasca cruda
-      ctx.fillStyle = '#0f0f15'
+      ctx.fillStyle = '#0f0f18'
       ctx.fillRect(0, 0, 512, 680)
 
       // Grietas y relieve lítico
-      for (let i = 0; i < 4000; i++) {
+      for (let i = 0; i < 4500; i++) {
         const x = Math.random() * 512
         const y = Math.random() * 680
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.04)'
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.05)'
         ctx.fillRect(x, y, 2, 2)
       }
 
-      // Manuscrito en la traseras
-      ctx.strokeStyle = '#D4AF37'
-      ctx.lineWidth = 2
-      ctx.strokeRect(30, 30, 452, 620)
+      // Manuscrito en la trasera Naroa & Aaron Spirit
+      ctx.strokeStyle = '#FFD700'
+      ctx.lineWidth = 2.5
+      ctx.strokeRect(24, 24, 464, 632)
 
-      ctx.fillStyle = '#D4AF37'
-      ctx.font = '22px monospace'
-      ctx.fillText('REVERSO ACÚSTICO', 140, 80)
+      ctx.fillStyle = '#FFD700'
+      ctx.font = 'bold 22px monospace'
+      ctx.fillText('REVERSO ACÚSTICO', 140, 75)
 
-      ctx.font = '14px monospace'
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.75)'
-      ctx.fillText('«Pizarra de Tejado Vasco de Bizkaia»', 100, 120)
-      ctx.fillText('Soporte Lítico Recuperado · Resina & Mica', 80, 150)
-      ctx.fillText('Audio: Borja Moskv — Soundscape QR', 90, 180)
+      ctx.font = '15px monospace'
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)'
+      ctx.fillText('«Pizarra de Tejado Vasco de Bizkaia»', 90, 115)
+      ctx.fillText('Soporte Lítico Recuperado · Resina & Mica', 70, 145)
+      ctx.fillText('Audio: Borja Moskv — Soundscape QR', 85, 175)
 
-      // Dibujo de QR / Cinta Acústica Retro
+      // Frase poética manuscrita
+      ctx.fillStyle = '#FF1493'
+      ctx.font = 'italic 16px sans-serif'
+      ctx.fillText('«Retratos con alma, mimo y calma · Yo Pinto Mucho»', 60, 215)
+
+      // Dibujo de QR / Cinta Acústica Retro POP
       ctx.strokeStyle = '#2B3BE5'
       ctx.lineWidth = 3
-      ctx.strokeRect(186, 240, 140, 140)
+      ctx.strokeRect(186, 250, 140, 140)
       ctx.fillStyle = '#2B3BE5'
-      ctx.fillRect(206, 260, 40, 40)
-      ctx.fillRect(266, 320, 40, 40)
+      ctx.fillRect(206, 270, 40, 40)
+      ctx.fillRect(266, 330, 40, 40)
 
-      ctx.font = '12px monospace'
-      ctx.fillStyle = '#D4AF37'
-      ctx.fillText('[ REVOLUCIÓN SONORA RADIAL ]', 130, 430)
-      ctx.fillText('Retrato Co-creativo — Alter Ego Aaron', 110, 460)
+      ctx.font = '13px monospace'
+      ctx.fillStyle = '#FFD700'
+      ctx.fillText('[ REVOLUCIÓN SONORA RADIAL ]', 125, 430)
+      ctx.fillText('Retrato Co-creativo — Alter Ego Aaron', 105, 460)
     }
     const texture = new THREE.CanvasTexture(canvas)
     return texture
@@ -117,6 +114,7 @@ export function Gallery({ onInspectArtwork, isStarted, setInteractionPrompt }: G
     let foundIndex: number | null = null
     for (let i = 0; i < intersects.length; i++) {
       const obj = intersects[i].object
+      if (obj.userData.isArtwork && intersects[i].distance < 4.5) {
         const idx = obj.userData.index as number
         foundIndex = idx
         targetedIndexRef.current = idx
@@ -128,8 +126,8 @@ export function Gallery({ onInspectArtwork, isStarted, setInteractionPrompt }: G
         // Brillo directo
         const mesh = obj as THREE.Mesh
         if (mesh.material instanceof THREE.MeshStandardMaterial) {
-          mesh.material.emissive.set('#2B3BE5')
-          mesh.material.emissiveIntensity = 0.3
+          mesh.material.emissive.set('#FFD700')
+          mesh.material.emissiveIntensity = 0.35
         }
         break
       }
@@ -222,308 +220,8 @@ export function Gallery({ onInspectArtwork, isStarted, setInteractionPrompt }: G
             position = [-14.8, 3.2, offset]
             rotation = [0, Math.PI / 2, 0]
             break
-=======
-import { TextureErrorBoundary } from './TextureErrorBoundary'
-
-// Marco de cortesía cuando la textura de una obra no está disponible
-function FallbackFrame({
-  position,
-  rotation,
-  scale,
-  title
-}: {
-  position: [number, number, number]
-  rotation: [number, number, number]
-  scale: [number, number, number]
-  title: string
-}) {
-  return (
-    <group position={position} rotation={rotation}>
-      <mesh position={[0, 0, -0.04]} scale={[scale[0] + 0.16, scale[1] + 0.16, 0.04]}>
-        <boxGeometry />
-        <meshStandardMaterial color="#14151c" metalness={0.7} roughness={0.35} />
-      </mesh>
-      <mesh scale={[scale[0], scale[1], 0.02]}>
-        <boxGeometry />
-        <meshStandardMaterial color="#0A0A0A" metalness={0.4} roughness={0.6} />
-      </mesh>
-      <Html position={[0, 0, 0.06]} center distanceFactor={8}>
-        <div
-          style={{
-            padding: '6px 14px',
-            border: '1px solid rgba(43, 59, 229, 0.6)',
-            borderRadius: '10px',
-            background: 'rgba(10, 10, 10, 0.85)',
-            color: '#8D97FF',
-            fontSize: '11px',
-            fontWeight: 700,
-            fontFamily: 'monospace',
-            letterSpacing: '1px',
-            textTransform: 'uppercase',
-            whiteSpace: 'nowrap',
-            pointerEvents: 'none'
-          }}
-        >
-          {title}
-        </div>
-      </Html>
-    </group>
-  )
-}
-
-if (typeof window !== 'undefined') {
-  ARTWORKS.forEach((a) => {
-    try {
-      useTexture.preload(a.url)
-    } catch {
-      // Ignore preloader fail
-    }
-  })
-}
-
-interface GalleryItemProps {
-  position: [number, number, number]
-  rotation: [number, number, number]
-  url: string
-  scale: [number, number, number]
-  index: number
-  reducedMotion: boolean
-  isSelected: boolean
-  splatUrl?: string
-}
-
-function GalleryItem({
-  position,
-  scale,
-  url,
-  index,
-  rotation,
-  reducedMotion,
-  isSelected,
-  splatUrl
-}: GalleryItemProps) {
-  const meshRef = useRef<THREE.Mesh>(null)
-  const groupRef = useRef<THREE.Group>(null)
-
-  useFrame((state, delta) => {
-    if (meshRef.current && groupRef.current) {
-      const floatY = reducedMotion
-        ? position[1]
-        : position[1] + Math.sin(state.clock.elapsedTime * 1.5 + index * 0.8) * 0.09
-
-      groupRef.current.position.y = floatY
-
-      const targetScale: [number, number, number] = isSelected
-        ? [scale[0] * 1.05, scale[1] * 1.05, 1]
-        : scale
-
-      easing.damp3(meshRef.current.scale, targetScale, 0.2, delta)
-      const material = meshRef.current.material as any
-      easing.damp(material, 'grayscale', isSelected ? 0 : 0.4, 0.2, delta)
-      easing.dampC(
-        material.color,
-        isSelected ? '#ffffff' : '#aaaaaa',
-        0.2,
-        delta
-      )
-    }
-  })
-
-  return (
-    <group ref={groupRef} position={position} rotation={rotation} userData={{ isArtwork: true, index }}>
-      {splatUrl && (
-        <Html position={[0, scale[1] / 2 + 0.35, 0.1]} center distanceFactor={8}>
-          <div
-            style={{
-              padding: '3px 10px',
-              background: 'linear-gradient(135deg, rgba(212,175,55,0.9) 0%, rgba(43,59,229,0.9) 100%)',
-              color: '#ffffff',
-              fontSize: '10px',
-              fontWeight: 900,
-              fontFamily: 'monospace',
-              letterSpacing: '1px',
-              borderRadius: '12px',
-              border: '1px solid #D4AF37',
-              boxShadow: '0 0 12px rgba(212, 175, 55, 0.6)',
-              pointerEvents: 'none', // Desactivado para no interferir con FPS
-            }}
-          >
-            ✨ 3DGS 360°
-          </div>
-        </Html>
-      )}
-
-      <mesh position={[0, 0, -0.08]} scale={[scale[0] + 0.35, scale[1] + 0.35, 0.06]}>
-        <boxGeometry />
-        <meshStandardMaterial
-          color={isSelected ? '#D4AF37' : '#1c1b18'}
-          metalness={0.9}
-          roughness={0.25}
-          emissive={isSelected ? '#D4AF37' : '#000000'}
-          emissiveIntensity={isSelected ? 0.5 : 0}
-        />
-      </mesh>
-
-      <mesh position={[0, 0, -0.04]} scale={[scale[0] + 0.16, scale[1] + 0.16, 0.04]}>
-        <boxGeometry />
-        <meshPhysicalMaterial
-          color={isSelected ? '#2B3BE5' : '#0a0a0d'}
-          emissive={isSelected ? '#2B3BE5' : '#000000'}
-          emissiveIntensity={isSelected ? 0.7 : 0}
-          roughness={0.15}
-          metalness={0.85}
-          clearcoat={0.8}
-          transmission={0.25}
-          transparent
-          opacity={isSelected ? 0.85 : 0.6}
-        />
-      </mesh>
-
-      {isSelected && (
-        <pointLight
-          position={[0, scale[1] * 0.6, 0.8]}
-          intensity={4.5}
-          distance={6}
-          color="#D4AF37"
-        />
-      )}
-
-      <Image
-        ref={meshRef}
-        url={url}
-        transparent
-        side={THREE.DoubleSide}
-        toneMapped={false}
-      />
-    </group>
-  )
-}
-
-interface GalleryProps {
-  onInspectArtwork: (index: number) => void
-  reducedMotion: boolean
-  setInteractionPrompt: (prompt: string | null) => void
-  isStarted: boolean
-}
-
-export function Gallery({
-  onInspectArtwork,
-  reducedMotion,
-  setInteractionPrompt,
-  isStarted
-}: GalleryProps) {
-  const group = useRef<THREE.Group>(null)
-  const { camera, scene } = useThree()
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
-  
-  const numItems = ARTWORKS.length
-  const radius = 10 // Radio más grande para poder caminar dentro
-  
-  const items = useMemo(() => {
-    return ARTWORKS.map((artwork, i) => {
-      const angle = (i / numItems) * Math.PI * 2
-      return {
-        // Elevamos las obras para que estén a la altura de los ojos (1.7)
-        position: [Math.sin(angle) * radius, 1.7, Math.cos(angle) * radius] as [number, number, number],
-        rotation: [0, angle + Math.PI, 0] as [number, number, number], // Mirando hacia adentro del círculo
-        url: artwork.url,
-        title: artwork.title,
-        href: artwork.href,
-        splatUrl: artwork.splatUrl,
-        scale: [3.1, 4.1, 1] as [number, number, number],
-      }
-    })
-  }, [numItems, radius])
-
-  // Raycaster logic for FPS interaction
-  useEffect(() => {
-    if (!isStarted) return;
-    
-    const raycaster = new THREE.Raycaster()
-    const center = new THREE.Vector2(0, 0)
-    
-    let currentHoveredIndex: number | null = null
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.code === 'KeyE' && currentHoveredIndex !== null) {
-        sound.playOpen()
-        onInspectArtwork(currentHoveredIndex)
-      }
-    }
-    
-    window.addEventListener('keydown', handleKeyDown)
-
-    // Poll raycaster every frame would be heavy, but we can do it in a fast interval or useFrame
-    const interval = setInterval(() => {
-      raycaster.setFromCamera(center, camera)
-      // Buscar intersecciones solo en los grupos de obras
-      const intersects = raycaster.intersectObjects(scene.children, true)
-      
-      let foundIndex: number | null = null
-      
-      for (let i = 0; i < intersects.length; i++) {
-        const obj = intersects[i].object
-        // Subir en la jerarquía hasta encontrar userData.isArtwork
-        let parent: THREE.Object3D | null = obj
-        while (parent && parent.userData) {
-          if (parent.userData.isArtwork) {
-            // Check distance (interaction range)
-            if (intersects[i].distance < 6.0) {
-              foundIndex = parent.userData.index
-            }
-            break
-          }
-          parent = parent.parent
         }
-        if (foundIndex !== null) break
-      }
-      
-      if (foundIndex !== currentHoveredIndex) {
-        currentHoveredIndex = foundIndex
-        setSelectedIndex(foundIndex)
-        if (foundIndex !== null) {
-          setInteractionPrompt(`[E] INSPECCIONAR: ${ARTWORKS[foundIndex].title.toUpperCase()}`)
-          sound.playHover()
-        } else {
-          setInteractionPrompt(null)
->>>>>>> 62bbc4c3a127513cf434ac2303bb49841caf3450
-        }
-      }
-      
-    }, 100) // 10 ticks per second is enough for UI prompts
 
-    return () => {
-      clearInterval(interval)
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [camera, scene, onInspectArtwork, isStarted])
-
-  return (
-    <group ref={group} position={[0, 0, 0]}>
-      <ambientLight intensity={0.6} />
-
-      {!reducedMotion && (
-        <>
-          <Sparkles
-            count={200}
-            scale={[30, 10, 30]}
-            size={2.2}
-            speed={0.35}
-            opacity={0.4}
-            color="#2B3BE5"
-          />
-          <Sparkles
-            count={100}
-            scale={[25, 8, 25]}
-            size={2.8}
-            speed={0.25}
-            opacity={0.45}
-            color="#D4AF37"
-          />
-        </>
-      )}
-
-<<<<<<< HEAD
         const wallSpotColors = ['#FFD700', '#FF1493', '#8D97FF', '#FF9F1C']
         const spotColor = wallSpotColors[wallIndex]
 
@@ -548,10 +246,10 @@ export function Gallery({
                 <meshStandardMaterial color="#181820" roughness={0.3} metalness={0.8} />
               </mesh>
 
-              {/* Borde Biselado Dorado / Kintsugi */}
+              {/* Borde Biselado Dorado POP / Kintsugi */}
               <mesh position={[0, 0, 0.065]}>
                 <boxGeometry args={[3.45, 4.45, 0.01]} />
-                <meshStandardMaterial color="#D4AF37" metalness={0.9} roughness={0.1} />
+                <meshStandardMaterial color="#FFD700" metalness={0.9} roughness={0.1} />
               </mesh>
 
               {/* Cara Frontal: Lienzo de la Obra (PBR con Resina & Clearcoat) */}
@@ -575,9 +273,9 @@ export function Gallery({
                   map={textures[i]}
                   roughness={0.35}
                   metalness={0.15}
-                  clearcoat={0.7}
-                  clearcoatRoughness={0.15}
-                  reflectivity={0.8}
+                  clearcoat={0.75}
+                  clearcoatRoughness={0.12}
+                  reflectivity={0.85}
                 />
               </mesh>
 
@@ -592,41 +290,18 @@ export function Gallery({
                 }}
               >
                 <planeGeometry args={[3.2, 4.2]} />
-                <meshStandardMaterial map={reversoTexture} roughness={0.7} metalness={0.3} />
+                <meshStandardMaterial map={reversoTexture} roughness={0.65} metalness={0.35} />
               </mesh>
             </group>
 
             {/* Placa Informativa de Bronce Iluminada debajo del Cuadro */}
             <mesh position={[0, -2.5, 0.08]}>
               <planeGeometry args={[2.2, 0.35]} />
-              <meshStandardMaterial color="#D4AF37" emissive="#D4AF37" emissiveIntensity={0.25} />
+              <meshStandardMaterial color="#FFD700" emissive="#FFD700" emissiveIntensity={0.3} />
             </mesh>
           </group>
         )
       })}
-=======
-      {items.map((item, i) => (
-        <TextureErrorBoundary
-          key={i}
-          label={item.title}
-          fallback={
-            <FallbackFrame
-              position={item.position}
-              rotation={item.rotation}
-              scale={item.scale}
-              title={item.title}
-            />
-          }
-        >
-          <GalleryItem
-            index={i}
-            isSelected={selectedIndex === i}
-            reducedMotion={reducedMotion}
-            {...item}
-          />
-        </TextureErrorBoundary>
-      ))}
->>>>>>> 62bbc4c3a127513cf434ac2303bb49841caf3450
     </group>
   )
 }

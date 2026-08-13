@@ -325,9 +325,6 @@ export default function App() {
               style={{ width: '100%' }}
             >
               <HomeHero onNavigate={(v) => setCurrentView(v)} />
-              <Suspense fallback={<Loader />}>
-                <AcousticCube3D />
-              </Suspense>
               <PremiumFooter />
             </motion.div>
           )}
