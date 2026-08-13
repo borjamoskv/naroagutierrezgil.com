@@ -180,10 +180,12 @@ export function Gallery({ onInspectArtwork, isStarted, setInteractionPrompt }: G
         <meshStandardMaterial color="#0b0b0f" roughness={0.8} />
       </mesh>
 
-      {/* Iluminación Dramática de Galería */}
-      <ambientLight intensity={0.25} />
-      <directionalLight position={[10, 15, 10]} intensity={1.2} castShadow />
-      <spotLight position={[0, 6.5, 0]} angle={0.6} penumbra={0.8} intensity={2.2} color="#D4AF37" castShadow />
+      {/* Iluminación Dramática POP & Museística */}
+      <ambientLight intensity={0.4} />
+      <directionalLight position={[10, 18, 10]} intensity={1.5} castShadow />
+      <spotLight position={[0, 7, 0]} angle={0.7} penumbra={0.8} intensity={3.0} color="#FFD700" castShadow />
+      <pointLight position={[-10, 4, -10]} intensity={2.2} color="#FF1493" />
+      <pointLight position={[10, 4, 10]} intensity={2.2} color="#2B3BE5" />
 
       {/* Distribución de Obras 3D en las Paredes de la Sala */}
       {artworks.map((art, i) => {
@@ -214,17 +216,20 @@ export function Gallery({ onInspectArtwork, isStarted, setInteractionPrompt }: G
             break
         }
 
+        const wallSpotColors = ['#FFD700', '#FF1493', '#8D97FF', '#FF9F1C']
+        const spotColor = wallSpotColors[wallIndex]
+
         return (
           <group key={art.id} position={position} rotation={rotation}>
-            {/* Foco de Luz Específico sobre cada Cuadro */}
+            {/* Foco de Luz Específico POP sobre cada Cuadro */}
             <spotLight
               position={[0, 2.5, 1.5]}
               target-position={[0, 0, 0]}
-              angle={0.45}
-              penumbra={0.5}
-              intensity={2.5}
-              color="#FFF5DB"
-              distance={6}
+              angle={0.48}
+              penumbra={0.6}
+              intensity={2.8}
+              color={spotColor}
+              distance={7}
             />
 
             {/* Sub-grupo que rota 180° para el Reverso Acústico */}
