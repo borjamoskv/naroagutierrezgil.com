@@ -168,6 +168,15 @@ export function Gallery({ onInspectArtwork, isStarted, setInteractionPrompt }: G
 
   return (
     <group>
+      {/* Arco Secreto «El ReCreo — Arqueología Matérica & Latas Vintage» */}
+      <group position={[0, 2.8, -14.9]}>
+        <mesh position={[0, 0, 0]}>
+          <ringGeometry args={[1.8, 2.1, 32]} />
+          <meshStandardMaterial color="#FF1493" emissive="#FF1493" emissiveIntensity={0.6} />
+        </mesh>
+        <pointLight position={[0, 0, 0.5]} intensity={3.5} color="#FF1493" distance={6} />
+      </group>
+
       {/* Paredes de la Galería en Basalto y Pizarra */}
       <mesh position={[0, 3, -15.1]} receiveShadow>
         <planeGeometry args={[32, 7]} />
@@ -277,6 +286,16 @@ export function Gallery({ onInspectArtwork, isStarted, setInteractionPrompt }: G
                   clearcoatRoughness={0.12}
                   reflectivity={0.85}
                 />
+              </mesh>
+
+              {/* Ojos de Cristal 3D (Pupilas Cerámicas Hiperrealistas en Relieve) */}
+              <mesh position={[-0.45, 0.45, 0.08]}>
+                <sphereGeometry args={[0.06, 16, 16]} />
+                <meshPhysicalMaterial color="#FFFFFF" clearcoat={1.0} clearcoatRoughness={0.0} roughness={0.1} emissive="#FFD700" emissiveIntensity={0.25} />
+              </mesh>
+              <mesh position={[0.45, 0.45, 0.08]}>
+                <sphereGeometry args={[0.06, 16, 16]} />
+                <meshPhysicalMaterial color="#FFFFFF" clearcoat={1.0} clearcoatRoughness={0.0} roughness={0.1} emissive="#FFD700" emissiveIntensity={0.25} />
               </mesh>
 
               {/* Cara Trasera: "El Reverso Acústico" (Rotada 180° en Z/Y) */}
