@@ -229,7 +229,7 @@ export function Gallery({
       clearInterval(interval)
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [camera, scene, onInspectArtwork, isStarted])
+  }, [camera, scene, onInspectArtwork, isStarted, setInteractionPrompt])
 
   return (
     <group ref={group} position={[0, 0, 0]}>
