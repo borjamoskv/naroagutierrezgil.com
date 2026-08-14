@@ -129,7 +129,8 @@ export function HomeHero({ onNavigate }: HomeHeroProps) {
             style={{
               position: 'absolute',
               bottom: 0,
-              insetX: 0,
+              left: 0,
+              right: 0,
               padding: '20px 30px',
               background: 'linear-gradient(to top, rgba(3,3,5,0.92) 0%, transparent 100%)',
               display: 'flex',
