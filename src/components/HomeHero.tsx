@@ -50,12 +50,12 @@ export function HomeHero({ onNavigate }: HomeHeroProps) {
         }}
       />
 
-      {/* 3. Hero Header & Headline Central */}
+      {/* 3. Hero Header & Headline Central — MENOS LETRAS, MÁS ARTE */}
       <div
         style={{
           position: 'relative',
           zIndex: 10,
-          maxWidth: '1200px',
+          maxWidth: '1400px',
           margin: '0 auto',
           width: '100%',
           textAlign: 'center',
@@ -64,117 +64,110 @@ export function HomeHero({ onNavigate }: HomeHeroProps) {
           alignItems: 'center'
         }}
       >
-        {/* Poética Badges Naroa Spirit */}
+        {/* Poética Badge Sutil */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.15 }}
-          style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '24px' }}
+          transition={{ duration: 0.6 }}
+          style={{ marginBottom: '16px' }}
         >
           <span
             className="premium-badge premium-badge--gold"
             style={{
-              padding: '8px 20px',
-              fontSize: '0.82rem',
+              padding: '6px 16px',
+              fontSize: '0.78rem',
               letterSpacing: '0.12em',
-              background: 'rgba(255, 212, 0, 0.14)',
-              border: '1px solid rgba(255, 215, 0, 0.5)',
+              background: 'rgba(255, 215, 0, 0.12)',
+              border: '1px solid rgba(255, 215, 0, 0.4)',
               color: '#FFD700',
-              boxShadow: '0 0 20px rgba(255, 215, 0, 0.25)',
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px'
+              backdropFilter: 'blur(10px)'
             }}
           >
-            🌸 RETRATOS CON ALMA, MIMO Y CALMA
+            NAROA GUTIÉRREZ GIL · RETRATOS CON ALMA Y MATERIA
           </span>
-
-          <a
-            href="https://politena.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => sound.playTick()}
-            style={{ textDecoration: 'none' }}
-          >
-            <span
-              className="premium-badge"
-              style={{
-                padding: '8px 20px',
-                fontSize: '0.82rem',
-                letterSpacing: '0.12em',
-                background: 'rgba(255, 20, 147, 0.15)',
-                border: '1px solid rgba(255, 20, 147, 0.5)',
-                color: '#FF2E93',
-                boxShadow: '0 0 20px rgba(255, 20, 147, 0.3)',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}
-            >
-              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#FF1493', boxShadow: '0 0 10px #FF1493' }} />
-              EXPOSICIÓN: «DIVINOS VAIVENES» · BILBAO
-            </span>
-          </a>
         </motion.div>
 
-        {/* Título Principal Tipográfico Monumental POP */}
-        <motion.h1
-          initial={{ opacity: 0, scale: 0.94 }}
+        {/* Muestra Visual Gigante de la Obra Destacada */}
+        <motion.div
+          key={`hero-art-${currentSlide}`}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          exit={{ opacity: 0, scale: 1.02 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          onClick={() => {
+            sound.playTick()
+            onNavigate?.('gallery')
+          }}
           style={{
-            fontFamily: 'Outfit, var(--font-heading), sans-serif',
-            fontSize: 'clamp(3.5rem, 10vw, 8rem)',
-            fontWeight: 900,
-            lineHeight: 0.9,
-            color: '#FFFFFF',
-            textTransform: 'uppercase',
-            marginBottom: '24px',
-            letterSpacing: '-0.03em',
-            textShadow: '0 10px 40px rgba(0,0,0,0.85), 0 0 30px rgba(255,20,147,0.3)'
+            position: 'relative',
+            maxWidth: '900px',
+            width: '90vw',
+            maxHeight: '62vh',
+            borderRadius: '24px',
+            overflow: 'hidden',
+            cursor: 'pointer',
+            border: '1px solid rgba(255, 215, 0, 0.4)',
+            boxShadow: '0 25px 80px rgba(0,0,0,0.9), 0 0 40px rgba(255,20,147,0.3)',
+            marginBottom: '24px'
           }}
         >
-          NAROA <br />
-          <span
+          <img
+            src={featuredArtworks[currentSlide].url}
+            alt={featuredArtworks[currentSlide].title}
             style={{
-              background: 'linear-gradient(135deg, #FFD700 0%, #FF2E93 45%, #2B3BE5 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontSize: '0.78em',
-              letterSpacing: '0.04em',
-              filter: 'drop-shadow(0 0 25px rgba(255,215,0,0.4))'
+              width: '100%',
+              height: '100%',
+              maxHeight: '62vh',
+              objectFit: 'cover',
+              filter: 'contrast(1.05) saturate(1.1)',
+              display: 'block'
+            }}
+          />
+
+          {/* Sutil Pie de Foto Flotante sobre la Obra */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              insetX: 0,
+              padding: '20px 30px',
+              background: 'linear-gradient(to top, rgba(3,3,5,0.92) 0%, transparent 100%)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-end'
             }}
           >
-            GUTIÉRREZ GIL
-          </span>
-        </motion.h1>
+            <div style={{ textAlign: 'left' }}>
+              <div style={{ fontSize: '1.6rem', fontWeight: 900, color: '#FFF', letterSpacing: '-0.02em' }}>
+                {featuredArtworks[currentSlide].title}
+              </div>
+              <div style={{ fontSize: '0.85rem', color: '#FFD700', fontFamily: 'Share Tech Mono, monospace' }}>
+                {featuredArtworks[currentSlide].medium} ({featuredArtworks[currentSlide].year})
+              </div>
+            </div>
 
-        {/* Subtítulo Conceptual Manifiesto Naroa */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.55 }}
-          style={{
-            fontSize: 'clamp(1.1rem, 2.2vw, 1.45rem)',
-            color: 'rgba(255, 255, 255, 0.88)',
-            maxWidth: '750px',
-            marginBottom: '40px',
-            fontWeight: 300,
-            lineHeight: 1.6,
-            letterSpacing: '0.03em'
-          }}
-        >
-          Hiperrealismo POP sobre <strong style={{ color: '#FFD700', fontWeight: 600 }}>Pizarra de Tejado Vasco</strong>, disolventes de agua de colonia y <strong style={{ color: '#FF2E93', fontWeight: 600 }}>Escamas de Mica Mineral</strong>.<br />
-          El retrato co-creativo capturado en materia viva con reverso acústico.
-        </motion.p>
+            <span
+              style={{
+                fontSize: '0.78rem',
+                color: '#FFF',
+                background: 'rgba(255,20,147,0.3)',
+                border: '1px solid #FF1493',
+                padding: '6px 14px',
+                borderRadius: '16px',
+                fontFamily: 'Share Tech Mono, monospace'
+              }}
+            >
+              VER OBRA COMPLETA →
+            </span>
+          </div>
+        </motion.div>
 
-        {/* Botones de Acción POP */}
+        {/* Botones de Acción Primarios */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.75 }}
-          style={{ display: 'flex', gap: '18px', flexWrap: 'wrap', justifyContent: 'center' }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}
         >
           <a
             href="#3d"
@@ -184,13 +177,13 @@ export function HomeHero({ onNavigate }: HomeHeroProps) {
             }}
             className="premium-btn premium-btn--primary"
             style={{
-              padding: '18px 40px',
-              fontSize: '1.08rem',
-              letterSpacing: '0.12em',
+              padding: '16px 36px',
+              fontSize: '1rem',
+              letterSpacing: '0.1em',
               background: 'linear-gradient(135deg, #FFD700 0%, #FF1493 50%, #2B3BE5 100%)',
               color: '#000',
               fontWeight: 900,
-              boxShadow: '0 0 35px rgba(255, 20, 147, 0.5), 0 0 15px rgba(255, 215, 0, 0.4)',
+              boxShadow: '0 0 30px rgba(255, 20, 147, 0.4)',
               textDecoration: 'none'
             }}
           >
@@ -205,17 +198,16 @@ export function HomeHero({ onNavigate }: HomeHeroProps) {
             }}
             className="premium-btn"
             style={{
-              padding: '18px 40px',
-              fontSize: '1.08rem',
-              letterSpacing: '0.12em',
+              padding: '16px 36px',
+              fontSize: '1rem',
+              letterSpacing: '0.1em',
               background: 'rgba(255, 255, 255, 0.08)',
               border: '1px solid rgba(255, 215, 0, 0.4)',
               color: '#FFF',
-              textDecoration: 'none',
-              boxShadow: '0 0 20px rgba(255,215,0,0.15)'
+              textDecoration: 'none'
             }}
           >
-            EXPLORAR GALERÍA
+            VER GALERÍA
           </a>
         </motion.div>
       </div>
